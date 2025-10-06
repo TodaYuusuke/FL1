@@ -13,7 +13,8 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
-# Mono auto generated filesmono_crash.*
+# Mono auto generated files
+mono_crash.*
 
 # Build results
 [Dd]ebug/
@@ -22,24 +23,23 @@
 [Rr]eleases/
 x64/
 x86/
+[Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
 [Bb]in/
-#[Oo]bj/
+[Oo]bj/
+[Oo]ut/
 [Ll]og/
 [Ll]ogs/
-!/Externals/DirectXMesh/lib/Debug/
-!/Externals/DirectXMesh/lib/Release/
-!/Externals/DirectXTex/lib/Debug/
-!/Externals/DirectXTex/lib/Release/
-!/Externals/assimp/lib/Debug/
-!/Externals/assimp/lib/Release/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
+
+# imgui.iniをgithubに送らないよう登録
+imgui.ini
 
 # Visual Studio 2017 auto generated files
 Generated\ Files/
@@ -66,22 +66,20 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
 # StyleCop
 StyleCopReport.xml
 
 # Files built by Visual Studio
-*.ini
 *_i.c
 *_p.c
 *_h.h
 *.ilk
 *.meta
-[Dd]bug/.obj
-[Dd]ebug/.obj
-[Dd]ebugPublic/.obj
-[Rr]elease/.obj
-[Rr]eleases/.obj
-# *.iobj
+*.obj
+*.iobj
 *.pch
 *.pdb
 *.ipdb
@@ -148,7 +146,9 @@ _TeamCity*
 !.axoCover/settings.json
 
 # Coverlet is a free, cross platform Code Coverage Tool
-coverage*[.json, .xml, .info]
+coverage*.json
+coverage*.xml
+coverage*.info
 
 # Visual Studio code coverage results
 *.coverage
@@ -361,8 +361,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-DirectXGame/DirectXGame.exe
-DirectXGame/imgui.ini
 
-# DirectXTex Compiled Shaders
-**/DirectXTex/Shaders/Compiled/
+# Fody - auto-generated XML schema
+FodyWeavers.xsd
