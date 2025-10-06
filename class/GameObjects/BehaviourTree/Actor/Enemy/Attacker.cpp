@@ -29,7 +29,7 @@ Attacker::Attacker(IWorld* world, LWP::Object::Camera* camera, std::string behav
 	Vector3 pos = p_player->GetPos();
 	blackBoard->SetValue<Vector3>("PlayerPos", pos);
 
-	behaviourTree = BehaviourTreeBuilder::BuildAttackerTree("Engine/resources/behavior_tree.json", blackBoard);
+	behaviourTree = BehaviourTreeBuilder::BuildAttackerTree(behavior_tree_file_path, blackBoard);
 	behaviourTree->Init();
 
 	Vector3 min = pos - Vector3{ 30.f, 30.f };
@@ -102,6 +102,7 @@ void Attacker::Attack() {
 
 void Attacker::Move(float delta_time)
 {
-	Vector3 velocity = velocity * delta_time;
+	Vector3 velocity;
+	velocity *= delta_time;
 	pos += velocity;
 }

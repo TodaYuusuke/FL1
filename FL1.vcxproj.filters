@@ -24,88 +24,82 @@
     <ClCompile Include="class\scene\Title.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\World\Field.cpp">
+    <ClCompile Include="class\GameObjects\World\Field.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\World\World.cpp">
+    <ClCompile Include="class\GameObjects\World\World.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\Actor\Enemy\Attacker.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\Actor\Enemy\Attacker.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\Actor\Actor.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\Actor\Actor.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\Actor\ActorHealth.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\Actor\ActorHealth.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\Actor\ActorManager.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\Actor\ActorManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\Actor\BlackBoard.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\Actor\BlackBoard.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\BranchNode\BranchNodeBase.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\BranchNode\BranchNodeBase.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\BranchNode\CheckFarPlayer.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\BranchNode\CheckFarPlayer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\BranchNode\CheckNearPlayer.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\BranchNode\CheckNearPlayer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\CompositeNode\CompositeNodeBase.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\CompositeNode\CompositeNodeBase.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\CompositeNode\Selector.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\CompositeNode\Selector.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\CompositeNode\Sequence.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\CompositeNode\Sequence.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\DecoratorNode\DecoratorNodeBase.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\DecoratorNode\DecoratorNodeBase.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\DecoratorNode\Inverter.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\DecoratorNode\Inverter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\LeafNode\ChasePlayerLeaf.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\LeafNode\ChasePlayerLeaf.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\LeafNode\CircleAttackLeaf.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\LeafNode\CircleAttackLeaf.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\LeafNode\DebugDrawLeaf.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\LeafNode\DebugDrawLeaf.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\LeafNode\EscapeFromPlayerLeaf.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\LeafNode\EscapeFromPlayerLeaf.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\LeafNode\WaitLeaf.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\LeafNode\WaitLeaf.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\Math\MyTimer.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\Math\MyTimer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\BehaviorTreeUtility.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\BehaviorTreeUtility.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\BehaviourTree\BehaviourTreeBulider.cpp">
+    <ClCompile Include="class\GameObjects\BehaviourTree\BehaviourTreeBulider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\Player\Player.cpp">
+    <ClCompile Include="class\GameObjects\Player\Player.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FL1\GameObjects\Skydome\Skydome.cpp">
+    <ClCompile Include="class\GameObjects\Skydome\Skydome.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="DirectXGame\Externals\imnodes\imnodes.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="FL1\scene\Title.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="FL1\scene\GameScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,127 +110,121 @@
     <ClInclude Include="class\scene\Title.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\World\Field.h">
+    <ClInclude Include="class\GameObjects\World\Field.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\World\IWorld.h">
+    <ClInclude Include="class\GameObjects\World\IWorld.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\World\World.h">
+    <ClInclude Include="class\GameObjects\World\World.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\Actor\Enemy\Attacker.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\Actor\Enemy\Attacker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\Actor\Actor.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\Actor\Actor.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\Actor\ActorHealth.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\Actor\ActorHealth.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\Actor\ActorManager.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\Actor\ActorManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\Actor\BlackBoard.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\Actor\BlackBoard.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\Actor\IAgent.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\Actor\IAgent.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\BranchNode\BranchNodeBase.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\BranchNode\BranchNodeBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\BranchNode\CheckFarPlayer.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\BranchNode\CheckFarPlayer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\BranchNode\CheckNearPlayer.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\BranchNode\CheckNearPlayer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\CompositeNode\CompositeNodeBase.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\CompositeNode\CompositeNodeBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\CompositeNode\Selector.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\CompositeNode\Selector.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\CompositeNode\Sequence.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\CompositeNode\Sequence.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\DecoratorNode\DecoratorNodeBase.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\DecoratorNode\DecoratorNodeBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\DecoratorNode\Inverter.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\DecoratorNode\Inverter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\LeafNode\AlwaysFailLeaf.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\LeafNode\AlwaysFailLeaf.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\LeafNode\AlwaysSuccessLeaf.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\LeafNode\AlwaysSuccessLeaf.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\LeafNode\ChasePlayerLeaf.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\LeafNode\ChasePlayerLeaf.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\LeafNode\CircleAttackLeaf.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\LeafNode\CircleAttackLeaf.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\LeafNode\DebugDrawLeaf.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\LeafNode\DebugDrawLeaf.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\LeafNode\EscapeFromPlayerLeaf.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\LeafNode\EscapeFromPlayerLeaf.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\LeafNode\LeafNodeBase.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\LeafNode\LeafNodeBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\LeafNode\WaitLeaf.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\LeafNode\WaitLeaf.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\Math\Mathf.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\Math\Mathf.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\Math\MySystemTimer.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\Math\MySystemTimer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\Math\MyTimer.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\Math\MyTimer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\Math\Screen.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\Math\Screen.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\Math\Singleton.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\Math\Singleton.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\BehaviorTreeUtility.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\BehaviorTreeUtility.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\BehaviourTreeBulider.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\BehaviourTreeBulider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\INode.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\INode.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\NodeBase.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\NodeBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\BehaviourTree\NodeResult.h">
+    <ClInclude Include="class\GameObjects\BehaviourTree\NodeResult.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\Player\Player.h">
+    <ClInclude Include="class\GameObjects\Player\Player.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FL1\GameObjects\Skydome\Skydome.h">
+    <ClInclude Include="class\GameObjects\Skydome\Skydome.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="DirectXGame\Externals\imnodes\imnodes_internal.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="DirectXGame\Externals\imnodes\imnodes.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="FL1\scene\Title.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="FL1\scene\GameScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -21,6 +21,9 @@ void World::Draw() const {
 	//mpField->draw();
 	//アクターの描画
 	actorManager.Draw();
+}
+
+void World::DebugGui() {
 	//GUIの描画
 	actorManager.DrawGui();
 }

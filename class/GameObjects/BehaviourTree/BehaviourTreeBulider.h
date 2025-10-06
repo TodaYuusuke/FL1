@@ -1,5 +1,5 @@
 #pragma once
-
+#include "../../../DirectXGame/Externals/nlohmann/json.hpp"
 #include <string>
 
 class INode;

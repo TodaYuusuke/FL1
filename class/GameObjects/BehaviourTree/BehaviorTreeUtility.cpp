@@ -1,6 +1,4 @@
 #include "BehaviorTreeUtility.h"
-#include "../Externals/ImGui/imgui.h"
-#include "../Externals/imnodes/imnodes.h"
 #include <set>
 #include <commdlg.h>
 #include <minwindef.h>
@@ -8,9 +6,8 @@
 using namespace LWP;
 using namespace LWP::Input;
 
-BehaviorTreeGraph::BehaviorTreeGraph(bool is_edit_mode)
-	: mIsEditMode{ is_edit_mode }
-{
+BehaviorTreeGraph::BehaviorTreeGraph(bool is_edit_mode) {
+	mIsEditMode = is_edit_mode;
 	Init();
 }
 

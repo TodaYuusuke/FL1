@@ -1,13 +1,12 @@
 #pragma once
-
 #include <string>
 #include <vector>
 #include <map>
 #include <unordered_map>
 #include <fstream>
-#include <../Externals/nlohmann/json.hpp>
-#include "../Externals/nameof/nameof.hpp"
-#include "../Externals/ImGui/imgui.h"
+#include "../../../DirectXGame/Externals/nlohmann/json.hpp"
+#include "../../../DirectXGame/Externals/nameof/nameof.hpp"
+#include "../../../DirectXGame/Externals/ImGui/imgui.h"
 #include "LWP.h"
 
 /// <summary>
@@ -87,12 +86,10 @@ struct BTNode {
 	}
 };
 
-
 /// <summary>
 /// ノードで構成された木の構造体
 /// </summary>
-class BehaviorTreeGraph
-{
+class BehaviorTreeGraph {
 	using json = nlohmann::json;
 
 private:

@@ -1,45 +1,44 @@
 #pragma once
-
 #include <list>
 #include <vector>
 #include <string>
 
-class Actor;	//ƒAƒNƒ^[ƒNƒ‰ƒX‚Ì‘O•ûéŒ¾
+class Actor;	//ã‚¢ã‚¯ã‚¿ãƒ¼ã‚¯ãƒ©ã‚¹ã®å‰æ–¹å®£è¨€
 
-//ƒAƒNƒ^[ƒ}ƒl[ƒWƒƒ[
+//ã‚¢ã‚¯ã‚¿ãƒ¼ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼
 class ActorManager {
 public:
-	//ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	ActorManager() = default;
-	//ƒfƒXƒgƒ‰ƒNƒ^
+	//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	~ActorManager();
-	//ƒAƒNƒ^[‚Ì’Ç‰Á
+	//ã‚¢ã‚¯ã‚¿ãƒ¼ã®è¿½åŠ 
 	void Add(Actor* actor);
-	//ƒAƒNƒ^[‚ÌXV
+	//ã‚¢ã‚¯ã‚¿ãƒ¼ã®æ›´æ–°
 	void Update(float delta_time);
-	//ƒAƒNƒ^[‚Ì•`‰æ
+	//ã‚¢ã‚¯ã‚¿ãƒ¼ã®æç”»
 	void Draw() const;
-	//ƒAƒNƒ^[‚ÌGUI•`‰æ
+	//ã‚¢ã‚¯ã‚¿ãƒ¼ã®GUIæç”»
 	void DrawGui() const;
-	//€–S‚µ‚Ä‚¢‚éƒAƒNƒ^[‚Ìíœ
+	//æ­»äº¡ã—ã¦ã„ã‚‹ã‚¢ã‚¯ã‚¿ãƒ¼ã®å‰Šé™¤
 	void Remove();
-	//ƒAƒNƒ^[‚ÌŒŸõ
+	//ã‚¢ã‚¯ã‚¿ãƒ¼ã®æ¤œç´¢
 	Actor* Find(const std::string& name) const;
-	//w’è‚µ‚½ƒ^ƒO–¼‚ğ‚ÂƒAƒNƒ^[‚ÌŒŸõ
+	//æŒ‡å®šã—ãŸã‚¿ã‚°åã‚’æŒã¤ã‚¢ã‚¯ã‚¿ãƒ¼ã®æ¤œç´¢
 	std::vector<Actor*> FindWithTag(const std::string& tag) const;
-	//ƒAƒNƒ^[”‚ğ•Ô‚·
+	//ã‚¢ã‚¯ã‚¿ãƒ¼æ•°ã‚’è¿”ã™
 	int Count() const;
-	//w’è‚µ‚½ƒ^ƒO–¼‚ğ‚ÂƒAƒNƒ^[”‚ğ•Ô‚·
+	//æŒ‡å®šã—ãŸã‚¿ã‚°åã‚’æŒã¤ã‚¢ã‚¯ã‚¿ãƒ¼æ•°ã‚’è¿”ã™
 	int CountWithTag(const std::string& tag) const;
-	//ƒƒbƒZ[ƒW‚Ì‘—M
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®é€ä¿¡
 	void Send_Message(const std::string& message, void* param);
-	//Á‹
+	//æ¶ˆå»
 	void Clear();
-	//ƒRƒs[‹Ö~
+	//ã‚³ãƒ”ãƒ¼ç¦æ­¢
 	ActorManager(const ActorManager& other) = delete;
 	ActorManager& operator = (const ActorManager& other) = delete;
 
 private:
-	//ƒAƒNƒ^[ƒŠƒXƒg
+	//ã‚¢ã‚¯ã‚¿ãƒ¼ãƒªã‚¹ãƒˆ
 	std::list<Actor*> pActors;
 };

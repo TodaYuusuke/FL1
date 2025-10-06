@@ -1,5 +1,4 @@
 #include "BehaviourTreeBulider.h"
-
 #include "Actor/BlackBoard.h"
 #include "INode.h"
 #include "CompositeNode/Selector.h"
@@ -15,7 +14,6 @@
 #include "LeafNode/AlwaysFailLeaf.h"
 #include "LeafNode/DebugDrawLeaf.h"
 
-#include "../externals/nlohmann/json.hpp"
 using json = nlohmann::json;
 
 #include <fstream>

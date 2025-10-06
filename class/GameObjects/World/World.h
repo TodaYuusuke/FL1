@@ -14,6 +14,7 @@ public:
 	void Update(float delta_time);
 	//描画
 	void Draw() const;
+	void DebugGui();
 	//消去
 	void Clear();
 
