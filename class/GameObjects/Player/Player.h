@@ -1,6 +1,6 @@
 #pragma once
 #include "../BehaviourTree/Actor/Actor.h"
-#include "LWP.h"
+#include <Adapter.h>
 
 class Player : public Actor{
 //const float cCoolTime = 60.f;
@@ -29,6 +29,8 @@ private:
 	//float mSpeed = 4.f;
 	// ゲームパッド
 	//XINPUT_STATE joyState_;
+
+	LWP::Resource::RigidModel model_;
 
 private:
 	float treadWidth = 2.5f;

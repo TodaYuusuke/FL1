@@ -12,7 +12,7 @@ Title::~Title() {
 // 初期化
 void Title::Initialize() {
 	// カメラ位置調整
-	mainCamera.worldTF.translation = { 0.0f,0.0f,-10.0f };
+	mainCamera.worldTF.translation = { 0.0f,20.0f,0.0f };
 
 	behaviorTree_ = std::make_unique<BehaviorTreeGraph>(true);
 	behaviorTree_->SelectLoadFile("resources/json/behavior_tree.json");
@@ -31,5 +31,7 @@ void Title::Update() {
 
 	behaviorTree_->Update();
 	behaviorTree_->Draw();
+
+	mainCamera.DebugGUI();
 #endif // DEBUG
 }

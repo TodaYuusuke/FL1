@@ -11,6 +11,8 @@ Player::Player(Camera* camera) {
 	tag = "PlayerTag";
 	name = "Player";
 	attackPower = 10;
+
+	model_.LoadCube();
 }
 
 Player::~Player() {
@@ -18,53 +20,8 @@ Player::~Player() {
 }
 
 void Player::Update(float delta_time) {
-	Vector2 lMove{};
-	Vector2 rMove{};
-
-	// ゲームパッド状態取得
-	//if (LWP::(0, joyState_)) {
-	//	// デッドゾーンの設定
-	//	SHORT lThumbX = Input::GetInstance()->ApplyDeadzone(joyState_.Gamepad.sThumbLX);
-	//	SHORT lThumbY = Input::GetInstance()->ApplyDeadzone(joyState_.Gamepad.sThumbLY);
-	//	SHORT rThumbX = Input::GetInstance()->ApplyDeadzone(joyState_.Gamepad.sThumbRX);
-	//	SHORT rThumbY = Input::GetInstance()->ApplyDeadzone(joyState_.Gamepad.sThumbRY);
-
-	//	lMove.x = (int)(lThumbX / SHRT_MAX);
-	//	lMove.y = (int)(lThumbY / SHRT_MAX);
-	//	rMove.x = (int)(rThumbX / SHRT_MAX);
-	//	rMove.y = (int)(rThumbY / SHRT_MAX);
-	//}
 	// 
-	DifferentialUpdate(lMove.y, rMove.y, delta_time);
-
-
-	
-	//if (!mIsEnableCollider) {
-	//	mCoolTimer.update(delta_time);
-
-	//	if (mCoolTimer.is_end()) {
-	//		mIsEnableCollider = true;
-	//	}
-	//}
-
-	//mVelocity = Vector2::zero();
-	//Vector2 velocity = Vector2::zero();
-
-	//// CheckHitKeyを数値化して移動方向を計算
-	//// trueは1、falseは0として返される
-	//velocity.y = static_cast<float>(CheckHitKey(KEY_INPUT_S) - CheckHitKey(KEY_INPUT_W));
-	//velocity.x = static_cast<float>(CheckHitKey(KEY_INPUT_D) - CheckHitKey(KEY_INPUT_A));
-
-	//// 入力がされているときのみ計算
-	//if (velocity.magnitude() > 0.f) {
-	//	mVelocity = velocity.normalized() * mSpeed;
-
-	//	mPosition += mVelocity * delta_time;
-	//}
-
-	//mCollider = mCollider.translate(mVelocity * delta_time);
-
-	//mHealthBar.update(delta_time, mHealth.GetHealth());
+	DifferentialUpdate(LWP::Input::Controller::GetLStick().y, LWP::Input::Controller::GetRStick().y, delta_time);
 }
 
 void Player::Draw() const {
@@ -80,7 +37,6 @@ void Player::DrawGui() {
 		ImGui::DragFloat("Angle", &angle);
 		ImGui::TreePop();
 	}
-	//mCollider.draw_debug();
 }
 
 void Player::InputHandle() {
@@ -108,10 +64,14 @@ void Player::DifferentialUpdate(float leftStickY, float rightStickY, float delta
 		v * sinf(angle) * deltaTime
 	};
 
-	//obj_->worldTransform.translate += vel;
+	model_.worldTF.translation += vel;
 
-	// yaw（ヨー角）: 水平回転
-	//obj_->worldTransform.rotate.y = atan2f(vel.x, vel.z);
-	// pitch（ピッチ角）: 上下の傾き
-	//obj_->worldTransform.rotate.x = atan2f(-vel.y, sqrtf(vel.x * vel.x + vel.z * vel.z));
+	// 回転
+	Vector3 radian = {
+		atan2f(-vel.y, sqrtf(vel.x * vel.x + vel.z * vel.z)),
+		atan2f(vel.x, vel.z),
+		0.0f
+	};
+	model_.worldTF.rotation = Math::Quaternion::CreateFromAxisAngle(Vector3{ 1,0,0 }, radian.x);
+	model_.worldTF.rotation = Math::Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, radian.y) * model_.worldTF.rotation;
 }
