@@ -26,21 +26,6 @@ public:
 	/// </summary>
 	void DebugGUI();
 
-private:
-	/// <summary>
-	/// 入力処理
-	/// </summary>
-	void InputHandle();
-
-	/// <summary>
-	/// 角度制限の処理
-	/// </summary>
-	/// <param name="target">制限対象</param>
-	/// <param name="distance">二点間の距離</param>
-	/// <param name="minLimitAngle">角度の下限値(単位:ラジアン)</param>
-	/// <param name="maxLimitAngle">角度の上限値(単位:ラジアン)</param>
-	void ClampAngle(float& target, LWP::Math::Vector3 distance, float minLimitAngle, float maxLimitAngle);
-
 public:// アクセサ
 	/// <summary>
 	/// 追従終了
@@ -53,12 +38,6 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	LWP::Object::Camera* GetCamera() { return camera_; }
-	/// <summary>
-	/// 線形補間をしていない純粋なカメラ座標を取得
-	/// </summary>
-	/// <returns></returns>
-	LWP::Math::Vector3 GetDefaultPos() { return defaultPos_; }
-	LWP::Math::Vector3 GetRadian() { return radian_; }
 #pragma endregion
 
 #pragma region Setter
@@ -77,11 +56,6 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	void SetCameraRotate(LWP::Math::Quaternion quat) { camera_->worldTF.rotation = quat; }
-	/// <summary>
-	/// ラジアンを設定
-	/// </summary>
-	/// <param name="radian"></param>
-	void SetRadian(LWP::Math::Vector3 radian) { radian_ = radian; }
 #pragma endregion
 
 public:// jsonで保存する値
@@ -127,8 +101,7 @@ private:
 	// 後追い座標
 	LWP::Math::Vector3 interTarget_;
 	// カメラの補間なし時の座標(自機の移動処理に使うために作成)
-	LWP::Math::Vector3 defaultPos_;
-	// 角度[ラジアン]
-	LWP::Math::Vector3 radian_;
+
+	LWP::Object::Camera* debugCamera_;
 };
 

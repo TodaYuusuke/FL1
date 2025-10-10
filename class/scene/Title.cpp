@@ -21,30 +21,19 @@ void Title::Initialize() {
 	// 追従カメラ
 	followCamera_ = std::make_unique<FollowCamera>(&mainCamera);
 
-	// カメラ位置調整
-	mainCamera.worldTF.translation = { 0.0f,200.0f,0.0f };
-	// 角度[ラジアン]
-	Vector3 rot = {
-		3.14f / 2.0f,
-		0.0f,
-		0.0f,
-	};
-	// 角度代入
-	mainCamera.worldTF.rotation = LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{ 1,0,0 }, rot.x);
-	mainCamera.worldTF.rotation = LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, rot.y) * mainCamera.worldTF.rotation;
+	// 世界
+	world_ = std::make_unique<World>();
+	world_->AddActor(player_);
+	world_->AddActor(new Attacker(world_.get(), followCamera_->GetCamera(), "resources/json/behavior_tree.json"));
 
+	// ビヘイビアツリー(試運転)
 	behaviorTree_ = std::make_unique<BehaviorTreeGraph>(true);
 	behaviorTree_->SelectLoadFile("resources/json/behavior_tree.json");
 
 	// 自機
 	player_ = new Player(followCamera_->GetCamera());
 
-	// 世界
-	world_ = std::make_unique<World>();
-	world_->AddActor(player_);
-	world_->AddActor(new Attacker(world_.get(), &mainCamera, "resources/json/behavior_tree.json"));
-
-	// 追従対象の設定
+	// 追従カメラの対象設定
 	followCamera_->SetTarget(player_);
 
 	// 地形情報読み込み
@@ -67,18 +56,14 @@ void Title::Update() {
 	behaviorTree_->Draw();
 
 	if (ImGui::TreeNode("Camera")) {
-		// デバッグ用カメラ
-		if (ImGui::TreeNode("Debug")) {
-			mainCamera.DebugGUI();
-			ImGui::TreePop();
-		}
 		// 追従カメラ
 		if (ImGui::TreeNode("Follow")) {
 			followCamera_->DebugGUI();
-
+			// 追従対象を設定
 			if (ImGui::Button("SetFollow")) {
 				followCamera_->SetTarget(player_);
 			}
+			// 追従をやめる
 			if (ImGui::Button("ResetFollow")) {
 				followCamera_->ResetTarget();
 			}

@@ -7,6 +7,7 @@ using namespace LWP::Utility::Interpolation;
 
 FollowCamera::FollowCamera(LWP::Object::Camera* camera) {
 	camera_ = camera;
+	debugCamera_ = camera;
 
 	Init();
 }
@@ -29,15 +30,7 @@ void FollowCamera::Update() {
 	// 追従対象がいなければ処理しない
 	if (!target_) { return; }
 
-	//// 入力
-	//InputHandle();
-
-	//// x軸回転
-	//SetCameraRotate(LWP::Math::Quaternion::CreateFromAxisAngle(LWP::Math::Vector3{ 0, 0, 1 }, radian_.z) * LWP::Math::Quaternion::CreateFromAxisAngle(LWP::Math::Vector3{ 1, 0, 0 }, radian_.x));
-	//// y軸は常に上を向くように固定
-	//SetCameraRotate(LWP::Math::Quaternion::CreateFromAxisAngle(LWP::Math::Vector3{ 0, 1, 0 }, radian_.y) * camera_->worldTF.rotation);
-
-
+	// 追従対象の角度を取得
 	camera_->worldTF.rotation = target_->GetWorldTF()->rotation;
 
 	// 座標の補間をしていない座標を算出
@@ -49,48 +42,15 @@ void FollowCamera::Update() {
 }
 
 void FollowCamera::DebugGUI() {
+	// 追従対象がいないときのみデバッグカメラ使用可能
+	if (!target_) {
+		if (ImGui::TreeNode("DebugCamera")) {
+			debugCamera_->DebugGUI();
+			ImGui::TreePop();
+		}
+	}
+
 	ImGui::DragFloat3("Translation", &camera_->worldTF.translation.x, 0.1f, -1000, 1000);
 	ImGui::DragFloat4("Quaternion", &camera_->worldTF.rotation.x, 0.1f, -1000, 1000);
-	ImGui::DragFloat3("Radian", &radian_.x, 0.1f, -1000, 1000);
 	ImGui::DragFloat3("Distance", &kTargetDist.x, 0.1f, -100, 100);
-}
-
-void FollowCamera::InputHandle() {
-	Vector2 dir{};
-
-	// コントローラーでの回転
-	dir.x -= LWP::Input::Pad::GetRStick().y * sensitivity;
-	dir.y += LWP::Input::Pad::GetRStick().x * sensitivity;
-
-	// スティックの入力をイージング
-	LWP::Math::Vector3 goal = { dir.x, dir.y, 0 };
-	stickDir_ = LWP::Utility::Interpolation::Exponential(stickDir_, goal, rotateRate);
-
-	// 角度制限
-	ClampAngle(stickDir_.x, (target_->GetWorldTF()->GetWorldPosition() - camera_->worldTF.translation).Normalize(), LWP::Utility::DegreeToRadian(kOriginRotateX + kMinRotateX), LWP::Utility::DegreeToRadian(kOriginRotateX + kMaxRotateX));
-
-	radian_.x += 0.03f * stickDir_.x;
-	radian_.y += 0.03f * stickDir_.y;
-
-	if (radian_.y >= 2 * (float)std::numbers::pi) {
-		radian_.y -= 2 * (float)std::numbers::pi;
-	}
-	if (radian_.y <= -2 * (float)std::numbers::pi) {
-		radian_.y += 2 * (float)std::numbers::pi;
-	}
-	// Z軸を0に戻す
-	radian_ = LWP::Utility::Interpolation::Exponential(radian_, LWP::Math::Vector3{ radian_.x, radian_.y, 0.0f }, 0.1f);
-}
-
-void FollowCamera::ClampAngle(float& target, LWP::Math::Vector3 distance, float minLimitAngle, float maxLimitAngle) {
-	// ターゲットとカメラの角度を求める
-	float limitX = std::acos(LWP::Math::Vector3::Dot({ 0,1,0 }, distance));
-	// 下
-	if (limitX < minLimitAngle && target <= 0.0f) {
-		target = 0;
-	}
-	// 上
-	if (limitX > maxLimitAngle && target >= 0.0f) {
-		target = 0;
-	}
 }
