@@ -148,6 +148,18 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="class\GameObjects\Bullets\BulletManager.cpp" />
+    <ClCompile Include="class\GameObjects\Bullets\Bullet\Bullet.cpp" />
+    <ClCompile Include="class\GameObjects\Bullets\BulletBase.cpp" />
+    <ClCompile Include="class\Componets\Math.cpp" />
+    <ClCompile Include="class\Componets\Timer.cpp" />
+    <ClCompile Include="class\GameObjects\Player\Actions\Action\Evasion\Evasion.cpp" />
+    <ClCompile Include="class\GameObjects\Player\Actions\Action\Move\Move.cpp" />
+    <ClCompile Include="class\GameObjects\Player\Actions\Action\None\NoneAction.cpp" />
+    <ClCompile Include="class\GameObjects\Player\Actions\MoveController.cpp" />
+    <ClCompile Include="class\GameObjects\Player\Actions\WeaponController.cpp" />
+    <ClCompile Include="class\GameObjects\Weapon\Gun\Components\Magazine.cpp" />
+    <ClCompile Include="class\GameObjects\Weapon\Gun\Gun.cpp" />
     <ClCompile Include="class\scene\TestScene.cpp" />
     <ClCompile Include="class\scene\Title.cpp" />
     <ClCompile Include="DirectXGame\Externals\imnodes\imnodes.cpp" />
@@ -176,9 +188,28 @@
     <ClCompile Include="class\GameObjects\Skydome\Skydome.cpp" />
     <ClCompile Include="class\GameObjects\World\Field.cpp" />
     <ClCompile Include="class\GameObjects\World\World.cpp" />
+    <ClCompile Include="class\GameObjects\Camera\FollowCamera\FollowCamera.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="class\GameObjects\Bullets\BulletManager.h" />
+    <ClInclude Include="class\GameObjects\Bullets\Bullet\Bullet.h" />
+    <ClInclude Include="class\GameObjects\Bullets\BulletBase.h" />
+    <ClInclude Include="class\Componets\Math.h" />
+    <ClInclude Include="class\Componets\Timer.h" />
+    <ClInclude Include="class\GameObjects\ICharacter.h" />
+    <ClInclude Include="class\GameObjects\Player\Actions\ActionConfig.h" />
+    <ClInclude Include="class\GameObjects\Player\Actions\Action\Evasion\Evasion.h" />
+    <ClInclude Include="class\GameObjects\Player\Actions\Action\IAction.h" />
+    <ClInclude Include="class\GameObjects\Player\Actions\Action\Move\Move.h" />
+    <ClInclude Include="class\GameObjects\Player\Actions\Action\None\NoneAction.h" />
+    <ClInclude Include="class\GameObjects\Player\Actions\IActions.h" />
+    <ClInclude Include="class\GameObjects\Player\Actions\MoveController.h" />
+    <ClInclude Include="class\GameObjects\Player\Actions\WeaponController.h" />
+    <ClInclude Include="class\GameObjects\Weapon\Gun\Components\Magazine.h" />
+    <ClInclude Include="class\GameObjects\Weapon\Gun\Gun.h" />
+    <ClInclude Include="class\GameObjects\Weapon\IWeapon.h" />
+    <ClInclude Include="class\GameObjects\Weapon\WeaponConfig.h" />
     <ClInclude Include="class\scene\TestScene.h" />
     <ClInclude Include="class\scene\Title.h" />
     <ClInclude Include="DirectXGame\Externals\imnodes\imnodes.h" />
@@ -220,6 +251,7 @@
     <ClInclude Include="class\GameObjects\World\Field.h" />
     <ClInclude Include="class\GameObjects\World\IWorld.h" />
     <ClInclude Include="class\GameObjects\World\World.h" />
+    <ClInclude Include="class\GameObjects\Camera\FollowCamera\FollowCamera.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

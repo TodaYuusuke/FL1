@@ -5,7 +5,6 @@
 #include <vector>
 
 class Actor;
-class IScene;
 
 //ワールド抽象インターフェース
 class IWorld {
@@ -23,8 +22,6 @@ public:
 	virtual int CountActor() const = 0;
 	//指定したタグ名を持つアクター数を返す
 	virtual int CountActorWithTag(const std::string& tag) const = 0;
-	//メッセージの送信
-	virtual void Send_Message(const std::string& message, void* param = nullptr) = 0;
 };
 
 #endif // !IWORLD_H_

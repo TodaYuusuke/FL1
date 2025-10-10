@@ -11,9 +11,7 @@ public:
 	//デストラクタ
 	~World();
 	//更新
-	void Update(float delta_time);
-	//描画
-	void Draw() const;
+	void Update();
 	void DebugGui();
 	//消去
 	void Clear();
@@ -29,8 +27,6 @@ public:// アクセサ
 	virtual int CountActor() const override;
 	//指定したタグ名を持つアクター数を返す
 	virtual int CountActorWithTag(const std::string& tag) const override;
-	//メッセージの送信
-	virtual void Send_Message(const std::string& message, void* param = nullptr) override;
 
 public:
 	//コピー禁止

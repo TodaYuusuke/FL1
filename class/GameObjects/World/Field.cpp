@@ -5,9 +5,5 @@ Field::Field() {
 }
 
 Field::~Field() {
-}
-
-void Field::Draw()
-{
 
 }

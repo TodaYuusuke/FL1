@@ -1,40 +1,51 @@
 #pragma once
-#include "../BehaviourTree/Actor/Actor.h"
+#include "../ICharacter.h"
+#include "Actions/MoveController.h"
+#include "Actions/WeaponController.h"
 #include <Adapter.h>
 
-class Player : public Actor{
-//const float cCoolTime = 60.f;
-
+class Player : public ICharacter {
 public:
 	// コンストラクタ
 	Player(LWP::Object::Camera* camera);
-
 	// デストラクタ
 	~Player();
 
-	// 更新
-	void Update(float delta_time) override;
-
-	// 描画
-	void Draw() const override;
-
-	//GUIの描画
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void Init();
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="delta_time"></param>
+	void Update() override;
+	/// <summary>
+	/// 調整項目
+	/// </summary>
 	void DrawGui() override;
 
-	void InputHandle();
+public:// アクセサ
+#pragma region Getter
 
-	void DifferentialUpdate(float leftStickY, float rightStickY, float deltaTime);
+#pragma endregion
+
+#pragma region Setter
+	/// <summary>
+	/// 左側の武器を設定する
+	/// </summary>
+	/// <param name="weapon"></param>
+	void SetLeftWeapon(IWeapon* weapon) { weaponController_->SetLeftWeapon(weapon); }
+	/// <summary>
+	/// 右側の武器を設定する
+	/// </summary>
+	/// <param name="weapon"></param>
+	void SetRightWeapon(IWeapon* weapon) { weaponController_->SetRightWeapon(weapon); }
+#pragma endregion
 
 private:
-	//float mSpeed = 4.f;
-	// ゲームパッド
-	//XINPUT_STATE joyState_;
-
-	LWP::Resource::RigidModel model_;
-
-private:
-	float treadWidth = 2.5f;
-	float maxSpeed = 0.5f;
-	float x = 0.0f, z = 0.0f, angle = 0.0f, omega;
-	float vL = 0.0f, vR = 0.0f;
+	// 移動行動系の処理
+	std::unique_ptr<MoveController> moveController_;
+	// 武器の処理
+	std::unique_ptr<WeaponController> weaponController_;
 };

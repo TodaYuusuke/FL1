@@ -1,12 +1,10 @@
 #include "Actor.h"
 
-void Actor::Update(float delta_time){}
+void Actor::Init() {}
 
-void Actor::Draw() const{}
+void Actor::Update(){}
 
 void Actor::DrawGui() {}
-
-void Actor::HandleMessage(const std::string& message, void* param){}
 
 void Actor::Die(){
     isDead = true;

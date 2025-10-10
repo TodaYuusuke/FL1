@@ -2,15 +2,10 @@
 
 class Field {
 public:
-	// デストラクタ
+	// 繝�繧ｹ繝医Λ繧ｯ繧ｿ
 	Field();
-	// コンストラクタ
+	// 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
 	~Field();
-
-	/// <summary>
-	/// 描画
-	/// </summary>
-	void Draw();
 
 private:
 };

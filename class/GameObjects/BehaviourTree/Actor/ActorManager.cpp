@@ -15,16 +15,9 @@ void ActorManager::Add(Actor* actor){
 }
 
 //アクターの更新
-void ActorManager::Update(float delta_time){
+void ActorManager::Update(){
     for (auto actor : pActors) {
-        actor->Update(delta_time);
-    }
-}
-
-//アクターの描画
-void ActorManager::Draw() const{
-    for (auto actor : pActors) {
-        actor->Draw();
+        actor->Update();
     }
 }
 
@@ -82,13 +75,6 @@ int ActorManager::CountWithTag(const std::string& tag) const{
     );
 
     return static_cast<int>(result);
-}
-
-//メッセージの送信
-void ActorManager::Send_Message(const std::string& message, void* param){
-    for (auto actor : pActors) {
-        actor->HandleMessage(message, param);
-    }
 }
 
 //消去

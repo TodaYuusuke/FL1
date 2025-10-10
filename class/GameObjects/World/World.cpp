@@ -8,19 +8,11 @@ World::~World() {
 }
 
 //更新
-void World::Update(float delta_time) {
+void World::Update() {
 	//アクターの更新
-	actorManager.Update(delta_time);
+	actorManager.Update();
 	//アクターの消去
 	actorManager.Remove();
-}
-
-//描画
-void World::Draw() const {
-	//フィールド描画
-	//mpField->draw();
-	//アクターの描画
-	actorManager.Draw();
 }
 
 void World::DebugGui() {
@@ -57,9 +49,4 @@ int World::CountActor() const {
 //指定したタグ名を持つアクター数を返す
 int World::CountActorWithTag(const std::string& tag) const {
 	return actorManager.CountWithTag(tag);
-}
-
-//メッセージ送信
-void World::Send_Message(const std::string& message, void* param) {
-	actorManager.Send_Message(message, param);
 }

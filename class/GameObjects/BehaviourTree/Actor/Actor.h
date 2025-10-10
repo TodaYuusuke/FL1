@@ -16,14 +16,14 @@ public:
 	Actor() = default;
 	//仮想デストラクタ
 	virtual ~Actor() = default;
+	//初期化
+	virtual void Init();
 	//更新
-	virtual void Update(float delta_time);
-	//描画
-	virtual void Draw() const;
-	//GUIの描画
+	virtual void Update();
+	/// <summary>
+	/// 調整項目
+	/// </summary>
 	virtual void DrawGui();
-	//メッセージ処理
-	virtual void HandleMessage(const std::string& message, void* param);
 	//死亡する
 	void Die();
 

@@ -15,9 +15,7 @@ public:
 	//アクターの追加
 	void Add(Actor* actor);
 	//アクターの更新
-	void Update(float delta_time);
-	//アクターの描画
-	void Draw() const;
+	void Update();
 	//アクターのGUI描画
 	void DrawGui() const;
 	//死亡しているアクターの削除
@@ -30,8 +28,6 @@ public:
 	int Count() const;
 	//指定したタグ名を持つアクター数を返す
 	int CountWithTag(const std::string& tag) const;
-	//メッセージの送信
-	void Send_Message(const std::string& message, void* param);
 	//消去
 	void Clear();
 	//コピー禁止

@@ -7,7 +7,7 @@
 #include "../../../DirectXGame/Externals/nlohmann/json.hpp"
 #include "../../../DirectXGame/Externals/nameof/nameof.hpp"
 #include "../../../DirectXGame/Externals/ImGui/imgui.h"
-#include "LWP.h"
+#include <Adapter.h>
 
 /// <summary>
 /// ノードの種類

@@ -268,7 +268,7 @@ bool BehaviorTreeGraph::GetNodesRelatedAllNodes(const int node_id, std::vector<i
 
 bool BehaviorTreeGraph::IsRelatedLinks(const int node_id, const std::pair<int, std::tuple<int, int, int>>& node_link, bool contain_child) {
 	// リンクの要素番号
-	int link_id = node_link.first;
+	//int link_id = node_link.first;
 	// リンクの接続元ノードID
 	int parent_id = std::get<0>(node_link.second);
 	// リンクの接続先子ノードID
@@ -286,7 +286,7 @@ bool BehaviorTreeGraph::IsRelatedLinks(const int node_id, const std::pair<int, s
 }
 
 bool BehaviorTreeGraph::IsRelatedNodes(const int node_id, const std::pair<const int, const BTNode>& node) {
-	int id = node.first;
+	//int id = node.first;
 	const auto node_type = node.second.type;
 
 	// 葉ノードの場合は子ノードを持たないためfalse

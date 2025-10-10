@@ -1,12 +1,14 @@
 #pragma once
 #include "scene/IScene.h"
 #include "../GameObjects/World/World.h"
+#include "../GameObjects/Player/Player.h"
 #include "../GameObjects/BehaviourTree/BehaviorTreeUtility.h"
+#include "../GameObjects/Camera/FollowCamera/FollowCamera.h"
 
 class Title final
 	: public IScene {
 public:
-	Title() = default;
+	Title();
 	~Title();
 
 	//*** 純粋仮想関数の実体宣言 ***//
@@ -18,6 +20,9 @@ public:
 
 
 private: //*** これより先に必要な処理や変数を記述 ***//
+	std::unique_ptr<FollowCamera> followCamera_;
+	Player* player_;
+
 	std::unique_ptr<BehaviorTreeGraph> behaviorTree_;
 	std::unique_ptr<World> world_;
 };
