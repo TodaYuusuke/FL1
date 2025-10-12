@@ -1,0 +1,856 @@
+#include "BehaviorTreeUtility.h"
+#include <set>
+#include <commdlg.h>
+#include <minwindef.h>
+
+using namespace LWP;
+using namespace LWP::Input;
+
+BehaviorTreeGraph::BehaviorTreeGraph(bool is_edit_mode) {
+	mIsEditMode = is_edit_mode;
+	Init();
+}
+
+BehaviorTreeGraph::~BehaviorTreeGraph() {
+}
+
+void BehaviorTreeGraph::Init() {
+	mNodeNames = GetAllNodeNames();
+}
+
+void BehaviorTreeGraph::Update() {
+	if (!mIsEditMode) return;
+
+	// 選択している要素の更新
+	UpdateSelected();
+
+	// リンク作成
+	UpdateLinks();
+
+	// 選択されているノードの位置を更新
+	UpdateNodePos();
+
+	// キー入力を更新
+	UpdateInputKey();
+}
+
+void BehaviorTreeGraph::Draw() {
+	ImGui::Begin("Behavior Tree Editor");
+	{
+		// ツールバーの描画
+		DrawToolbar();
+
+		// ツリー描画
+		DrawEditor();
+	}
+	ImGui::End();
+}
+
+void BehaviorTreeGraph::ChangeMode(bool is_edit_mode) {
+	mIsEditMode = is_edit_mode;
+}
+
+void BehaviorTreeGraph::SelectLoadFile(const std::string& fullPath) {
+#if defined(_WIN32)
+	OPENFILENAMEA ofn = { 0 };
+	char szFile[MAX_PATH] = { 0 };	// ファイルパスのサイズはWindows既定のものに
+	ofn.lStructSize = sizeof(ofn);
+	ofn.lpstrFile = szFile;
+	ofn.nMaxFile = sizeof(szFile);
+	std::string name = fullPath;
+	ofn.lpstrFilter = name.c_str();
+	ofn.nFilterIndex = 1;
+	ofn.Flags = OFN_PATHMUSTEXIST;
+
+	mLoadFileName = name;
+	ImportJson(mLoadFileName);
+#endif
+}
+
+void BehaviorTreeGraph::DrawToolbar() {
+	if (!mIsEditMode) return;
+
+	// ノード追加ボタン
+	DrawAddButton();
+
+	// 削除ボタン
+	DrawDeleteButton();
+
+	ImGui::NewLine();
+	// ファイル書き出し
+	DrawExportButton();
+	ImGui::SameLine();
+
+	// ファイル読み込み
+	DrawImportButton();
+}
+
+void BehaviorTreeGraph::DrawEditor() {
+	ImNodes::BeginNodeEditor();
+	{
+		// ミニマップを描画
+		ImNodes::MiniMap(0.2f, ImNodesMiniMapLocation_TopRight);
+		// ノード描画
+		DrawNodes();
+		// リンクの描画
+		DrawLinks();
+	}
+	ImNodes::EndNodeEditor();
+}
+
+void BehaviorTreeGraph::SetRunnningNodeID(const int running_node_id) {
+	// 実行中のノード/リンクのリストを更新
+	mRunningLinks.clear();
+	mRunningNodes.clear();
+
+	GetNodesRelatedAllLinks(running_node_id, &mRunningLinks);
+	GetNodesRelatedAllNodes(running_node_id, &mRunningNodes);
+}
+
+int BehaviorTreeGraph::AddNode(NodeName name) {
+	// IDの重複を避ける
+	while (mNodes.find(mNextId) != mNodes.end()) { mNextId++; }
+	int id = mNextId;
+
+	// NodeNameからノードタイプを取得
+	NodeType type = NODE_MAP[name];
+
+	mNodes[id] = BTNode{ id, type, name, {} };
+	return id;
+}
+
+void BehaviorTreeGraph::RemoveNode(int id) {
+	auto it = mNodes.find(id);
+	if (it != mNodes.end()) {
+		// 子ノードの親を解除
+		for (int child_id : it->second.children) {
+			mNodes[child_id].parent = -1;
+		}
+		// 親ノードに接続されてる子ノードを削除
+		if (it->second.parent != -1) {
+			auto& parent_node = mNodes[it->second.parent];
+			auto it_child = std::find(parent_node.children.begin(), parent_node.children.end(), id);
+			if (it_child != parent_node.children.end()) {
+				parent_node.children.erase(it_child);
+			}
+		}
+		// 選択されてるノードの削除
+		mNodes.erase(it);
+	}
+}
+
+void BehaviorTreeGraph::RemoveNode(const std::vector<int>& delete_list) {
+	for (int node_id : delete_list) {
+		auto it = mNodes.find(node_id);
+		if (it != mNodes.end()) {
+			RemoveNode(node_id);
+		}
+	}
+}
+
+void BehaviorTreeGraph::AddLink(int start_attr, int end_attr) {
+	int parent_id = start_attr >> cInputBit;
+	int child_id = end_attr >> cInputBit;
+	int pin_type = start_attr & 0xFFFF; // 下位16ビット
+
+	// 下位16ビットが1ならTrueピン、2ならFalseピン
+	bool is_true_branch = (pin_type == cTruePinBit);
+
+	// リンクできる状態かを確認
+	if (IsLinkAddable(mNodes[parent_id], mNodes[child_id], is_true_branch)) {
+		// branchノードの場合
+		if (mNodes[parent_id].type == NodeType::Branch) {
+			// trueピンに子ノードを設定
+			if (is_true_branch) {
+				mNodes[parent_id].true_child = child_id;
+			}
+			// falseピンに子ノードを設定
+			else {
+				mNodes[parent_id].false_child = child_id;
+			}
+		}
+		// そのほかのノードの場合
+		else {
+			// 親ノードの子を設定
+			mNodes[parent_id].children.push_back(child_id);
+		}
+		// 子ノードの親を設定
+		mNodes[child_id].parent = parent_id;
+
+		// リンク追加
+		AddLinkTuple(parent_id, child_id, is_true_branch);
+	}
+}
+
+void BehaviorTreeGraph::AddLinkTuple(int parent_id, int child_id, bool is_true_branch) {
+	// branchノードのtrueピンかfalseピンにリンクがあるかを判別
+	// ちなみにbranchノードでないものは全てfalseとして判定されそう
+	int pin_type = is_true_branch ? cTruePinBit : cFalsePinBit;
+	mNodeLinks[mCreatedLinkId] = std::make_tuple(parent_id, child_id, pin_type);
+	mCreatedLinkId++;
+}
+
+std::vector<std::string> BehaviorTreeGraph::GetAllNodeNames() const {
+	std::vector<std::string> node_names;
+	// Enumを回す
+	for (int i = 0; i < static_cast<int>(NodeName::NameEnd); ++i)
+	{
+		NodeName node_name = static_cast<NodeName>(i);
+		std::string name = std::string(NAMEOF_ENUM(node_name));
+		node_names.push_back(name);
+	}
+
+	return node_names;
+}
+
+void BehaviorTreeGraph::ResetSelected() {
+	mSelectedNodes.clear();
+	mSelectedLinks.clear();
+
+	ImNodes::ClearNodeSelection();
+	ImNodes::ClearLinkSelection();
+}
+
+bool BehaviorTreeGraph::GetSelectedNodesRelatedLinks(std::vector<int>* links) {
+	for (int node_id : mSelectedNodes) {
+		// 選択中のノードに接続されているリンクを洗い出す
+		GetNodesRelatedLinks(node_id, links);
+	}
+
+	return links->size() > 0;
+}
+
+bool BehaviorTreeGraph::GetNodesRelatedLinks(const int node_id, std::vector<int>* links, bool contain_child) {
+	for (const auto& link_pair : mNodeLinks) {
+		// リンクの削除条件を満たしているかを判別
+		if (IsRelatedLinks(node_id, link_pair, contain_child)) {
+			// 消したいリンクの要素番号を指定
+			links->push_back(link_pair.first);
+		}
+	}
+
+	return links->size() > 0;
+}
+
+bool BehaviorTreeGraph::GetNodesRelatedAllLinks(const int node_id, std::vector<int>* links) {
+	int current_id = node_id;
+
+	// ルートノードに到達するまで続ける
+	while (current_id != -1) {
+		GetNodesRelatedLinks(current_id, links, false);
+
+		// 親ノードへさかのぼって再度探索
+		auto it = GetNode(current_id);
+		current_id = it.parent;
+	}
+	return !links->empty();
+}
+
+bool BehaviorTreeGraph::GetNodesRelatedAllNodes(const int node_id, std::vector<int>* nodes) {
+	int current_id = node_id;
+	nodes->push_back(current_id);
+
+	// ルートノードに到達するまで続ける
+	while (current_id != -1) {
+		for (const auto& node : mNodes) {
+			if (IsRelatedNodes(current_id, node)) {
+				nodes->push_back(node.first);
+			}
+		}
+
+		// 親ノードへさかのぼって探索
+		auto it = GetNode(current_id);
+		current_id = it.parent;
+	}
+
+	return !nodes->empty();
+}
+
+bool BehaviorTreeGraph::IsRelatedLinks(const int node_id, const std::pair<int, std::tuple<int, int, int>>& node_link, bool contain_child) {
+	// リンクの要素番号
+	//int link_id = node_link.first;
+	// リンクの接続元ノードID
+	int parent_id = std::get<0>(node_link.second);
+	// リンクの接続先子ノードID
+	int child_id = std::get<1>(node_link.second);
+
+	// リンク描画するためのノードIDリスト内の子ノードIDと、選択中のノードIDが一致したら削除
+	if (child_id == node_id) { return true; }
+
+	if (contain_child) {
+		// リンク描画するためのノードIDリスト内の接続元ノードIDと、選択中のノードIDが一致したら削除
+		if (parent_id == node_id) { return true; }
+	}
+
+	return false;
+}
+
+bool BehaviorTreeGraph::IsRelatedNodes(const int node_id, const std::pair<const int, const BTNode>& node) {
+	//int id = node.first;
+	const auto node_type = node.second.type;
+
+	// 葉ノードの場合は子ノードを持たないためfalse
+	if (node_type == NodeType::Leaf) return false;
+
+	// ブランチノードの場合
+	if (node_type == NodeType::Branch) {
+		// true, falseどちらもnode_idと一致しなければfalse
+		if (!(node.second.true_child == node_id || node.second.false_child == node_id)) {
+			return false;
+		}
+	}
+
+	// それ以外の子ノードを持つノードの場合(Composite, Decorator)
+	if (node_type == NodeType::Composite || node_type == NodeType::Decorator) {
+		const auto& children = node.second.children;
+		bool found = false;
+
+		for (const auto& child : children) {
+			if (child == node_id) { found = true; }
+		}
+
+		if (!found) return false;
+	}
+
+	return true;
+}
+
+bool BehaviorTreeGraph::IsLinkAddable(BTNode& parent_node, BTNode& child_node, bool is_true_branch) {
+	// すでに親ノードを持っていたらfalseを返す
+	if (child_node.parent != -1) return false;
+
+	if (parent_node.type == NodeType::Decorator) {
+		// Decoratorは持てる子ノードは一つだけ
+		// もしすでに子ノードを持っていたら追加できない
+		if (parent_node.children.size() > 0) { return false; }
+	}
+	else if (parent_node.type == NodeType::Branch) {
+		// Branchは持てる子ノードはTrue,Falseでそれぞれ一つだけ
+		// もし既に子ノードを持っていたら追加できない
+		if (is_true_branch) {
+			if (parent_node.true_child != -1) { return false; }
+		}
+		else {
+			if (parent_node.false_child != -1) { return false; }
+		}
+	}
+
+	return true;
+}
+
+void BehaviorTreeGraph::RemoveNodesLink(int parent_id, int child_id) {
+	// 接続元のノード
+	auto& parent_node = mNodes[parent_id];
+	// 接続先のノード
+	auto& child_node = mNodes[child_id];
+
+	// branchノードの場合
+	if (parent_node.type == NodeType::Branch) {
+		// trueピンからリンクを外す
+		if (parent_node.true_child == child_id) {
+			parent_node.true_child = -1;
+		}
+		// falseピンからリンクを外す
+		else if (parent_node.false_child == child_id) {
+			parent_node.false_child = -1;
+		}
+	}
+	// その他の場合
+	else {
+		auto it = std::find(parent_node.children.begin(), parent_node.children.end(), child_id);
+		if (it != parent_node.children.end()) {
+			// 親ノードに接続されている子ノードIDリスト削除
+			parent_node.children.erase(it);
+		}
+	}
+	// 子ノードはリンクしているIDを初期化
+	child_node.parent = -1;
+}
+
+void BehaviorTreeGraph::DeleteLink(int id) {
+	mNodeLinks.erase(id);
+}
+
+void BehaviorTreeGraph::DeleteLink(const std::vector<int>& delete_list) {
+	// 描画用リンクリストから削除
+	for (int link_id : delete_list) {
+		auto it = mNodeLinks.find(link_id);
+		if (it != mNodeLinks.end()) {
+			// 接続元のノードID
+			int parent_id = std::get<0>(it->second);
+			// 接続先のノードID
+			int child_id = std::get<1>(it->second);
+
+			// ノード同士のリンク解除
+			RemoveNodesLink(parent_id, child_id);
+			// リンクの解放
+			DeleteLink(it->first);
+		}
+	}
+}
+
+void BehaviorTreeGraph::ExportJson(const std::string& file_name) {
+	using std::swap;
+
+	const int cJsonIndent = 4;
+	json j;
+
+	for (const auto& pair : mNodes) {
+		const BTNode& node = pair.second;
+		json node_json;
+		node_json["id"] = node.id;
+		node_json["type"] = static_cast<int>(node.type);
+		node_json["name"] = NAMEOF_ENUM(node.name);
+		node_json["parent"] = node.parent;
+
+		if (node.type == NodeType::Branch) {
+			node_json["true_child"] = node.true_child;
+			node_json["false_child"] = node.false_child;
+		}
+		else {
+			// 書き出しする前に、y座標が小さい順に並び変える
+			auto children = node.children;
+
+			std::sort(children.begin(), children.end(),
+				[&](int a, int b) {
+					return mNodes[a].pos_y < mNodes[b].pos_y;
+				});
+
+			node_json["children"] = children;
+		}
+
+		// ノード固有の値
+		if (node.wait_time != -1.f) {
+			node_json["wait_time"] = node.wait_time;
+		}
+
+		if (node.limit_distance != -1.f) {
+			node_json["limit_distance"] = node.limit_distance;
+		}
+
+		if (node.speed != -1.f) {
+			node_json["speed"] = node.speed;
+		}
+
+		node_json["pos_x"] = node.pos_x;
+		node_json["pos_y"] = node.pos_y;
+
+		j.push_back(node_json);
+	}
+	std::ofstream file(file_name);
+	if (file.is_open()) {
+		file << j.dump(cJsonIndent);
+		file.close();
+	}
+}
+
+void BehaviorTreeGraph::ImportJson(const std::string& file_name) {
+	ResetSelected();
+
+	std::ifstream file(file_name);
+	if (!file.is_open()) return;
+
+	json j;
+	file >> j;
+	mNodes.clear();
+	mNodeLinks.clear();
+	mNextId = 1;
+	for (const auto& node_json : j) {
+		int id = node_json["id"];
+		NodeType type = static_cast<NodeType>(node_json["type"]);
+		NodeName name = GetMatchingNodeName(node_json["name"].get<std::string>());
+		int parent = node_json["parent"];
+		BTNode node{ id, type, name, {}, parent };
+		if (type == NodeType::Branch) {
+			node.true_child = node_json["true_child"];
+			node.false_child = node_json["false_child"];
+		}
+		else {
+			node.children = node_json["children"].get<std::vector<int>>();
+		}
+		if (node_json.contains("wait_time")) {
+			node.wait_time = node_json["wait_time"];
+		}
+		if (node_json.contains("limit_distance")) {
+			node.limit_distance = node_json["limit_distance"];
+		}
+		if (node_json.contains("speed")) {
+			node.speed = node_json["speed"];
+		}
+
+		node.pos_x = node_json["pos_x"];
+		node.pos_y = node_json["pos_y"];
+
+		mNodes[id] = node;
+
+		// リンク作成
+		// childrenが空でない場合はリンク
+		if (node.children.size() != 0) {
+			for (int i = 0; i < node.children.size(); ++i) {
+				AddLinkTuple(id, node.children[i], true);
+			}
+		}
+
+		// true_child, false_childが空でない場合はリンク
+		if (node.true_child != -1) {
+			AddLinkTuple(id, node.true_child, true);
+		}
+
+		if (node.false_child != -1) {
+			AddLinkTuple(id, node.false_child, false);
+		}
+	}
+	mNextId = static_cast<int>(mNodes.size()) + 1;
+	file.close();
+}
+
+void BehaviorTreeGraph::SetNodePos(int id, float x, float y) {
+	auto it = mNodes.find(id);
+	if (it != mNodes.end()) {
+		it->second.pos_x = x;
+		it->second.pos_y = y;
+	}
+}
+
+BTNode& BehaviorTreeGraph::GetNode(int id) {
+	auto it = mNodes.find(id);
+	if (it != mNodes.end()) { return it->second; }
+
+	throw std::runtime_error("Node not found");
+}
+
+NodeName BehaviorTreeGraph::GetMatchingNodeName(std::string name) {
+	for (int i = 0; i < static_cast<int>(NodeName::NameEnd); ++i) {
+		NodeName node_name = static_cast<NodeName>(i);
+		std::string node_name_string = std::string(NAMEOF_ENUM(node_name));
+		if (name == node_name_string) { return node_name; }
+	}
+	return NodeName::WaitLeaf;
+}
+
+const int BehaviorTreeGraph::GetSelectedNode(int index) {
+	return mSelectedNodes[index];
+}
+
+void BehaviorTreeGraph::UpdateSelected() {
+	// 選択しているノードを保持
+	int selected_node_num = ImNodes::NumSelectedNodes();
+	mSelectedNodes.resize(selected_node_num);
+	if (selected_node_num > 0) {
+		ImNodes::GetSelectedNodes(mSelectedNodes.data());
+	}
+
+	// 選択しているリンクを保持しておく
+	int selected_link_num = ImNodes::NumSelectedLinks();
+	mSelectedLinks.resize(selected_link_num);
+	if (selected_link_num > 0) {
+		ImNodes::GetSelectedLinks(mSelectedLinks.data());
+	}
+}
+
+void BehaviorTreeGraph::UpdateLinks() {
+	int start_attr, end_attr;
+	// リンクをピンからピンにつなげたか
+	// 仕様で親ピンから親ピンにつなぐことはできないようになってるらしい
+	if (ImNodes::IsLinkCreated(&start_attr, &end_attr)) {
+		// リンクの追加を試みる
+		AddLink(start_attr, end_attr);
+	}
+}
+
+void BehaviorTreeGraph::UpdateNodePos() {
+	// 選択されているノードすべての座標更新
+	for (int i = 0; i < mSelectedNodes.size(); ++i) {
+		int node_id = mSelectedNodes[i];
+		ImVec2 pos = ImNodes::GetNodeGridSpacePos(node_id);
+		SetNodePos(node_id, pos.x, pos.y);
+	}
+}
+
+void BehaviorTreeGraph::UpdateInputKey() {
+	// もしdeleteキーが押されたら選択している要素を削除
+	if (Input::Keyboard::GetTrigger(DIK_DELETE)) {
+		DeleteSelectedItems();
+	}
+}
+
+void BehaviorTreeGraph::DrawAddButton() {
+	// 追加するノードのプレビュー作成
+	if (!mNodeNames.empty()) {
+		const char* combo_preview_value = mNodeNames[mSelectedAddNode].c_str();
+		if (ImGui::BeginCombo((" "), combo_preview_value)) {
+			for (int n = 0; n < mNodeNames.size(); n++) {
+				const bool is_selected = (mSelectedAddNode == n);
+				if (ImGui::Selectable(mNodeNames[n].c_str(), is_selected)) {
+					mSelectedAddNode = n;
+				}
+
+				if (is_selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+	}
+	else {
+		ImGui::TextDisabled(("Not found add node"));
+	}
+
+	ImGui::SameLine();
+
+	// ノードの追加ボタン
+	if (ImGui::Button(("Add"))) {
+		// プレビューで選択したノードの名前を代入
+		NodeName node_name = GetMatchingNodeName(mNodeNames[mSelectedAddNode]);
+		AddNode(node_name);
+	}
+}
+
+void BehaviorTreeGraph::DrawExportButton() {
+	// ファイル保存ダイアログを使って保存先とファイル名を指定
+	if (ImGui::Button(("Json Export"))) {
+#if defined(_WIN32)
+		OPENFILENAMEA ofn = { 0 };
+		char szFile[MAX_PATH] = { 0 };	// ファイルパスのサイズはWindows既定のものに
+		ofn.lStructSize = sizeof(ofn);
+		ofn.lpstrFile = szFile;
+		ofn.nMaxFile = sizeof(szFile);
+		ofn.lpstrFilter = "JSON Files\0*.json\0All Files\0*.*\0";
+		ofn.nFilterIndex = 1;
+		ofn.lpstrDefExt = "json";
+		ofn.Flags = OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST;
+
+		if (GetSaveFileNameA(&ofn)) {
+			ExportJson(szFile);
+		}
+#endif
+	}
+}
+
+void BehaviorTreeGraph::DrawImportButton() {
+	//if (ImGui::Button(("Json Load"))) {
+	//	SelectLoadFile();
+	//}
+}
+
+void BehaviorTreeGraph::DrawDeleteButton() {
+	// 何も選択していなければ削除ボタンを無効化
+	const bool can_delete = (mSelectedLinks.size() > 0) || (mSelectedNodes.size() > 0);
+
+	ImGui::BeginDisabled(!can_delete);
+	// 削除ボタンを押したら選択されてるもの解放
+	if (ImGui::Button(("Select node Delete"))) {
+		DeleteSelectedItems();
+	}
+	ImGui::EndDisabled();
+}
+
+void BehaviorTreeGraph::DeleteSelectedItems() {
+	// 削除しようとしているノードに関わるリンクを洗い出す
+	std::vector<int> links_to_remove;
+	bool is_get_related_links = GetSelectedNodesRelatedLinks(&links_to_remove);
+	if (is_get_related_links) {
+		// 上で洗い出したリンクを削除
+		DeleteLink(links_to_remove);
+	}
+
+	// 選択しているノードを削除
+	RemoveNode(mSelectedNodes);
+
+	// 選択しているリンクを削除(まだ残っている場合)
+	DeleteLink(mSelectedLinks);
+
+	// 選択解除
+	ResetSelected();
+}
+
+void BehaviorTreeGraph::DrawNodes() {
+	// ノードの位置を更新
+	for (auto& [id, node] : mNodes) {
+		ImNodes::SetNodeGridSpacePos(id, ImVec2(node.pos_x, node.pos_y));
+	}
+
+	// 重複回避
+	std::set<int> selected_node_set(mSelectedNodes.begin(), mSelectedNodes.end());
+	for (auto& pair : mNodes) {
+		// ノードの情報を代入
+		auto& node = pair.second;
+		// 選択されているノードかを判別
+		bool is_selected = selected_node_set.count(node.id) > 0;
+
+		// ノード描画
+		DrawNode(node, pair.first, is_selected);
+	}
+}
+
+void BehaviorTreeGraph::DrawNode(const BTNode& node, int node_id, bool is_selected) {
+	// 
+	if (std::find(mRunningNodes.begin(), mRunningNodes.end(), node_id) != mRunningNodes.end()) {
+		ImNodes::PushColorStyle(ImNodesCol_TitleBar, cRunningColor);
+	}
+	else {
+		ImNodes::PushColorStyle(ImNodesCol_TitleBar, cNodeColors.at(node.type));
+	}
+
+	ImNodes::BeginNode(node.id);
+	{
+		// タイトル
+		DrawTitle(node);
+
+		// 入力ピン
+		DrawInputPin(node);
+
+		// 出力ピン
+		DrawOutputPin(node, is_selected);
+
+		// パラメータ表示
+		DrawParameter(node, node_id, is_selected);
+	}
+	ImNodes::EndNode();
+
+	ImNodes::PopColorStyle();
+}
+
+void BehaviorTreeGraph::DrawTitle(const BTNode& node) {
+	ImNodes::BeginNodeTitleBar();
+	ImGui::Text(node.GetString().c_str());
+	ImNodes::EndNodeTitleBar();
+}
+
+void BehaviorTreeGraph::DrawInputPin(const BTNode& node) {
+	ImNodes::BeginInputAttribute(node.id << cInputBit);
+	ImGui::Text("");
+	ImNodes::EndInputAttribute();
+}
+
+void BehaviorTreeGraph::DrawOutputPin(const BTNode& node, bool is_selected) {
+	// ノードの種類がbranchの場合
+	if (node.type == NodeType::Branch) {
+		// trueピンの作成
+		ImNodes::BeginOutputAttribute(node.id << cInputBit | cTruePinBit);
+		// ノードが選択されているときは文字を表示
+		if (is_selected) {
+			ImGui::Text("True");
+		}
+		else {
+			ImGui::Text("o");
+		}
+		ImNodes::EndOutputAttribute();
+
+		// falseピンの作成
+		ImNodes::BeginOutputAttribute(node.id << cInputBit | cFalsePinBit);
+		// ノードが選択されているときは文字を表示
+		if (is_selected) {
+			ImGui::Text("False");
+		}
+		else {
+			ImGui::Text("x");
+		}
+		ImNodes::EndOutputAttribute();
+	}
+	// 葉ノード以外の場合
+	else if (node.type != NodeType::Leaf) {
+		ImGui::SameLine();
+		ImNodes::BeginOutputAttribute(node.id << cInputBit | cTruePinBit);
+		ImGui::Text("");
+		ImNodes::EndOutputAttribute();
+	}
+}
+
+void BehaviorTreeGraph::DrawParameter(const BTNode& node, int node_id, bool is_selected) {
+	// 待機ノードの場合
+	if (node.name == NodeName::WaitLeaf) {
+		// 選択されているとき
+		if (is_selected && mIsEditMode) {
+			// 待機時間表示
+			ImGui::Text(("WaitTime[frame]"));
+			ImGui::SetNextItemWidth(200);
+
+			float wait_time = node.wait_time;
+			ImGui::InputFloat("", &wait_time);
+			SetWaitTime(node_id, wait_time);
+		}
+		else {
+			ImGui::Text("WaitTime: %.1f", node.wait_time);
+		}
+	}
+	// 近いか遠いかを判別するノードの場合
+	else if (node.name == NodeName::CheckFarPlayer ||
+		node.name == NodeName::CheckNearPlayer) {
+		// 選択されているとき
+		if (is_selected && mIsEditMode) {
+			// 最大最小範囲の表示
+			ImGui::Text(("Max/Min Range"));
+			ImGui::SetNextItemWidth(200);
+
+			float limit_distance = node.limit_distance;
+			ImGui::InputFloat("", &limit_distance);
+			SetLimitDistance(node_id, limit_distance);
+		}
+		else {
+			ImGui::Text(("Range: %.1f"), node.limit_distance);
+		}
+	}
+	// 追従と離脱ノードの場合
+	else if (node.name == NodeName::ChasePlayerLeaf || 
+			 node.name == NodeName::EscapeFromPlayerLeaf) {
+		// 選択されているとき
+		if (is_selected && mIsEditMode) {
+			// 最大最小範囲の表示
+			ImGui::Text(("Speed"));
+			ImGui::SetNextItemWidth(200);
+
+			float speed = node.speed;
+			ImGui::InputFloat("", &speed);
+			SetSpeed(node_id, speed);
+		}
+		else {
+			ImGui::Text(("Speed: %.1f"), node.speed);
+		}
+	}
+}
+
+void BehaviorTreeGraph::DrawLinks() {
+	for (auto& pair : mNodeLinks) {
+		// リンクの要素番号代入
+		int link_id = pair.first;
+
+		if (std::find(mRunningLinks.begin(), mRunningLinks.end(), link_id) != mRunningLinks.end()) {
+			ImNodes::PushColorStyle(ImNodesCol_Link, cRunningColor);
+		}
+		else {
+			ImNodes::PushColorStyle(ImNodesCol_Link, cLinkColor);
+		}
+
+		// 接続元のノードID
+		int parent_id = std::get<static_cast<int>(NodeTuple::Node_Id)>(pair.second);
+		// 接続先のノードID
+		int child_id = std::get<static_cast<int>(NodeTuple::Child_Id)>(pair.second);
+		// branchノードのtrue,falseピンのどちらに接続しているかを識別するビット(branchノードでないなら全てfalseになる設計になってる)
+		int pin_type = std::get<static_cast<int>(NodeTuple::PinType)>(pair.second);
+
+		// trueピンにつながっている場合
+		if (pin_type == cTruePinBit) {
+			ImNodes::Link(link_id, (parent_id << cInputBit | cTruePinBit), (child_id << cInputBit));
+
+		}
+		// falseピンにつながっている場合
+		else if (pin_type == cFalsePinBit) {
+			ImNodes::Link(link_id, (parent_id << cInputBit | cFalsePinBit), (child_id << cInputBit));
+		}
+
+		ImNodes::PopColorStyle();
+	}
+}
+
+void BehaviorTreeGraph::SetLimitDistance(int id, float limit_distance) {
+	mNodes.at(id).limit_distance = limit_distance;
+}
+
+void BehaviorTreeGraph::SetWaitTime(int id, float wait_time) {
+	mNodes.at(id).wait_time = wait_time;
+}
+
+void BehaviorTreeGraph::SetSpeed(int id, float speed) {
+	mNodes.at(id).speed = speed;
+}

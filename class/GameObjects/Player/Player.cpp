@@ -8,10 +8,9 @@ using namespace LWP::Object;
 Player::Player(Camera* camera) {
 	camera;
 	// 初期位置の設定
-	pos = { 0.0f, 0.0f };
-	tag = "PlayerTag";
-	name = "Player";
-	attackPower = 10;
+	tag_ = "PlayerTag";
+	name_ = "Player";
+	attackPower_ = 10;
 
 	model_.LoadCube();
 

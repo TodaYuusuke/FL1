@@ -2,7 +2,7 @@
 #include <Adapter.h>
 #include <numbers>
 
-class ICharacter;
+class Actor;
 /// <summary>
 /// 自機に追従するカメラ
 /// </summary>
@@ -50,7 +50,7 @@ public:// アクセサ
 	/// 追従対象の設定
 	/// </summary>
 	/// <param name="character"></param>
-	void SetTarget(ICharacter* character) { target_ = character; }
+	void SetTarget(Actor* actor) { target_ = actor; }
 	/// <summary>
 	/// カメラの角度を設定
 	/// </summary>
@@ -92,7 +92,7 @@ public:// 外部からポインタをもらう変数
 
 private:
 	// 追従対象
-	ICharacter* target_;
+	Actor* target_;
 
 private:
 	// スティックの入力を受け取る

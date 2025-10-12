@@ -1,15 +1,15 @@
 #pragma once
-#include "../ICharacter.h"
+#include "../../Componets/BehaviourTree/Actor/Actor.h"
 #include "Actions/MoveController.h"
 #include "Actions/WeaponController.h"
 #include <Adapter.h>
 
-class Player : public ICharacter {
+class Player : public Actor {
 public:
 	// コンストラクタ
 	Player(LWP::Object::Camera* camera);
 	// デストラクタ
-	~Player();
+	~Player() override;
 
 	/// <summary>
 	/// 初期化
@@ -18,7 +18,6 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	/// <param name="delta_time"></param>
 	void Update() override;
 	/// <summary>
 	/// 調整項目

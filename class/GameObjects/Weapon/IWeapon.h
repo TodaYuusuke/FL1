@@ -1,7 +1,7 @@
 #pragma once
 #include "WeaponConfig.h"
 #include "../../Componets/Math.h"
-#include "../ICharacter.h"
+#include "../../Componets/BehaviourTree/Actor/Actor.h"
 #include <Adapter.h>
 #include <string>
 
@@ -52,9 +52,9 @@ public:// アクセサ
 	/// 親子付けの設定
 	/// </summary>
 	/// <param name="parent"></param>
-	void SetParent(ICharacter* character) { 
-		character_ = character;
-		body_.worldTF.Parent(character_->GetWorldTF()); 
+	void SetParent(Actor* character) {
+		actor_ = character;
+		body_.worldTF.Parent(actor_->GetWorldTF());
 	}
 #pragma endregion
 
@@ -62,7 +62,7 @@ protected:
 	// モデル
 	LWP::Resource::RigidModel body_;
 
-	ICharacter* character_;
+	Actor* actor_;
 
 	// 名前
 	std::string name_;

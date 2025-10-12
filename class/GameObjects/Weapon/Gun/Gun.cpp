@@ -61,7 +61,7 @@ void Gun::Attack() {
 	if (!GetIsEnableShot()) { return; }
 
 	// 弾を撃つ
-	Bullet* bullet = new Bullet(body_.worldTF.GetWorldPosition(), GetDirVector({ 0,0,1 }, character_->GetModel().worldTF.rotation));
+	Bullet* bullet = new Bullet(body_.worldTF.GetWorldPosition(), GetDirVector({ 0,0,1 }, actor_->GetModel().worldTF.rotation));
 	pBulletManager_->CreateBullet(bullet);
 
 	// 弾数を減らす

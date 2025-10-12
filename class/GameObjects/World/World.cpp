@@ -1,6 +1,6 @@
 #include "World.h"
 #include "Scene/IScene.h"
-#include "../BehaviourTree/Actor/Actor.h"
+#include "../../Componets/BehaviourTree/Actor/Actor.h"
 
 //デストラクタ
 World::~World() {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IWorld.h"
-#include "../BehaviourTree/Actor/ActorManager.h"
+#include "../../Componets/BehaviourTree/Actor/ActorManager.h"
 
 //ワールドクラス
 class World : public IWorld {

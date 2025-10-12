@@ -1,5 +1,5 @@
 #include "FollowCamera.h"
-#include "../../ICharacter.h"
+#include "../../../Componets/BehaviourTree/Actor/Actor.h"
 
 using namespace LWP;
 using namespace LWP::Math;
@@ -15,11 +15,6 @@ FollowCamera::FollowCamera(LWP::Object::Camera* camera) {
 void FollowCamera::Init() {
 	kTargetDist = defaultTargetDist_;
 
-	radian_ = {
-		LWP::Utility::DegreeToRadian(kStartAngle.x),
-		LWP::Utility::DegreeToRadian(kStartAngle.y)
-	};
-
 	// x軸回転
 	camera_->worldTF.rotation = LWP::Math::Quaternion::CreateFromAxisAngle(LWP::Math::Vector3{ 1, 0, 0 }, LWP::Utility::DegreeToRadian(kStartAngle.x));
 	// y軸は常に上を向くように固定
@@ -33,8 +28,6 @@ void FollowCamera::Update() {
 	// 追従対象の角度を取得
 	camera_->worldTF.rotation = target_->GetWorldTF()->rotation;
 
-	// 座標の補間をしていない座標を算出
-	defaultPos_ = (target_->GetWorldTF()->GetWorldPosition()) + kTargetDist * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(camera_->worldTF.rotation);
 	// カメラの後追い
 	interTarget_ = LWP::Utility::Interpolation::Lerp(interTarget_, target_->GetWorldTF()->GetWorldPosition(), interTargetRate);
 	// カメラの座標を決定

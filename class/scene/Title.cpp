@@ -1,6 +1,5 @@
 #include "Title.h"
-#include "TestScene.h"
-#include "../GameObjects/BehaviourTree/Actor/Enemy/Attacker.h"
+#include "../GameObjects/Enemy/Melee/MeleeAttacker.h"
 #include "../GameObjects/Bullets/BulletManager.h"
 
 using namespace LWP;
@@ -13,7 +12,6 @@ Title::Title() {
 
 Title::~Title() {
 	BulletManager::Destroy();
-	//delete player_;
 }
 
 // 初期化
@@ -23,18 +21,14 @@ void Title::Initialize() {
 
 	// 世界
 	world_ = std::make_unique<World>();
-	world_->AddActor(player_);
-	world_->AddActor(new Attacker(world_.get(), followCamera_->GetCamera(), "resources/json/behavior_tree.json"));
-
-	// ビヘイビアツリー(試運転)
-	behaviorTree_ = std::make_unique<BehaviorTreeGraph>(true);
-	behaviorTree_->SelectLoadFile("resources/json/behavior_tree.json");
 
 	// 自機
 	player_ = new Player(followCamera_->GetCamera());
-
-	// 追従カメラの対象設定
+	// 追従カメラを自機対象に設定
 	followCamera_->SetTarget(player_);
+
+	world_->AddActor(player_);
+	world_->AddActor(new MeleeAttacker(world_.get(), followCamera_->GetCamera(), "resources/json/Attacker_tree.json"));
 
 	// 地形情報読み込み
 	levelData.LoadShortPath("gameScene.json");
@@ -44,6 +38,7 @@ void Title::Initialize() {
 void Title::Update() {
 	world_->Update();
 
+	// 弾の管理
 	BulletManager::GetInstance()->Update();
 
 	// 追従カメラ
@@ -51,9 +46,6 @@ void Title::Update() {
 
 #ifdef _DEBUG
 	world_->DebugGui();
-
-	behaviorTree_->Update();
-	behaviorTree_->Draw();
 
 	if (ImGui::TreeNode("Camera")) {
 		// 追従カメラ

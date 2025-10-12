@@ -56,7 +56,7 @@ public:// アクセサ
 	/// デバッグ用の武器の持ち主を設定
 	/// </summary>
 	/// <param name="player"></param>
-	void SetDebugWeaponOwner(ICharacter* owner) { debugOwner_ = owner; }
+	void SetDebugWeaponOwner(Actor* owner) { debugOwner_ = owner; }
 #pragma endregion
 
 private:
@@ -71,6 +71,6 @@ private:
 	std::map<WeaponSide, unsigned int> currentWeaponMask_;
 
 	// デバッグ用の武器の持ち主
-	ICharacter* debugOwner_;
+	Actor* debugOwner_;
 };
 
