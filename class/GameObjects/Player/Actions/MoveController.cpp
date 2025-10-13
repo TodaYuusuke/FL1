@@ -38,17 +38,6 @@ void MoveController::DebugGui() {
 	for (auto it = actions_.begin(); it != actions_.end(); ++it) {
 		if (it->second) it->second->DebugGui();
 	}
-
-	//Novice::ScreenPrintf((int)pos.x, (int)pos.y, "Move State:");
-
-	//if (actions_[ActionType::kMain]) {
-	//	// メイン
-	//	Novice::ScreenPrintf((int)pos.x, (int)pos.y + 20, actions_[ActionType::kMain]->GetStateName().c_str());
-	//}
-	//if (actions_[ActionType::kSub]) {
-	//	// サブ
-	//	Novice::ScreenPrintf((int)pos.x, (int)pos.y + 40, actions_[ActionType::kSub]->GetStateName().c_str());
-	//}
 }
 
 void MoveController::InputHandle() {

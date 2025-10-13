@@ -29,8 +29,6 @@ public:
 	// BehaviorTreeの中で現在動いているノードのIDを取得
 	const int GetBTRunningNodeID() const;
 
-	//void Attack() override;
-
 private:
 	void Move();
 

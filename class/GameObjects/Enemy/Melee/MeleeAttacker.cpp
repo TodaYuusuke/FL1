@@ -67,15 +67,6 @@ void MeleeAttacker::DrawGui() {
 const int MeleeAttacker::GetBTRunningNodeID() const {
 	return bt_->GetRunningNodeID();
 }
-//void MeleeAttacker::Attack() {
-	//Vector2 min, max;
-
-	//min = mPosition - Vector2{ 75.f, 75.f };
-	//max = mPosition + Vector2{ 75.f, 75.f };
-	//MyRectangle attack_collider{ min, max };
-
-	//mpWorld->add_actor(new AttackCollider{ mpWorld,attack_collider, mTag, 15.f , 10.f });
-//}
 
 void MeleeAttacker::Move() {
 	if(state_) velocity_ = state_->GetVel();

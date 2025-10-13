@@ -62,9 +62,6 @@ public:// アクセサ
 private:
 
 private:
-	// 行動処理をまとめたリスト
-	//std::map<WeaponSide, std::unique_ptr<IAction>> actions_;
-
 	// 武器リスト
 	std::map<WeaponSide, IWeapon*> weapons_;
 	// 現在所持している武器のマスク

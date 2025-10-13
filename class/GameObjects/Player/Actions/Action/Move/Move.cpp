@@ -34,10 +34,12 @@ void Move::DebugGui() {
 LWP::Math::Vector2 Move::AdjustmentStick(LWP::Math::Vector2 stick) {
 	Vector2 result = { 0.0f,0.0f };
 	if (std::fabsf(stick.x) >= 0.8f) {
-		result.x = stick.x;
+		if(std::signbit(stick.x)){ result.x = -1.0f; }
+		else{ result.x = 1.0f; }
 	}
 	if (std::fabsf(stick.y) >= 0.5f) {
-		result.y = stick.y;
+		if (std::signbit(stick.y)) { result.y = -1.0f; }
+		else { result.y = 1.0f; }
 	}
 
 	return result;
