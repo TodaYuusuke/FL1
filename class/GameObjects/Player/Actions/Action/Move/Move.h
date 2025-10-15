@@ -38,6 +38,8 @@ private:
 	/// <param name="deltaTime"></param>
 	void DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 rightStick, float deltaTime);
 
+	//void StickDiff(LWP::Math::Vector2& leftStick, LWP::Math::Vector2& rightStick);
+
 public:
 #pragma region Getter
 

@@ -3,6 +3,7 @@
 
 using namespace FLMath;
 using namespace LWP::Math;
+using namespace LWP::Input;
 
 Move::Move() {
 	stateName_ = "Move";
@@ -15,6 +16,9 @@ void Move::Init() {
 void Move::Update() {
 	Vector2 lStick = AdjustmentStick(LWP::Input::Controller::GetLStick());
 	Vector2 rStick = AdjustmentStick(LWP::Input::Controller::GetRStick());
+	//Vector2 lStick = LWP::Input::Controller::GetLStick();
+	//Vector2 rStick = LWP::Input::Controller::GetRStick();
+	//StickDiff(lStick, rStick);
 
 	// 戦車挙動
 	DifferentialUpdate(lStick, rStick, 1.0f);
@@ -34,10 +38,11 @@ void Move::DebugGui() {
 LWP::Math::Vector2 Move::AdjustmentStick(LWP::Math::Vector2 stick) {
 	Vector2 result = { 0.0f,0.0f };
 	if (std::fabsf(stick.x) >= 0.8f) {
-		if(std::signbit(stick.x)){ result.x = -1.0f; }
-		else{ result.x = 1.0f; }
+		if (std::signbit(stick.x)) { result.x = -1.0f; }
+		else { result.x = 1.0f; }
 	}
-	if (std::fabsf(stick.y) >= 0.5f) {
+	result.x = stick.x;
+	if (std::fabsf(stick.y) >= 0.01f) {
 		if (std::signbit(stick.y)) { result.y = -1.0f; }
 		else { result.y = 1.0f; }
 	}
@@ -47,8 +52,32 @@ LWP::Math::Vector2 Move::AdjustmentStick(LWP::Math::Vector2 stick) {
 
 void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 rightStick, float deltaTime) {
 	// 履帯の目標速度（入力を反転したい場合は符号調整）
-	float target_vL = leftStick.y* maxSpeed;
-	float target_vR = rightStick.y* maxSpeed;
+	float target_vL = leftStick.y * maxSpeed;
+	float target_vR = rightStick.y * maxSpeed;
+
+	// 片方の入力が無かったら0にする
+	if (target_vL == 0.0f) {
+		target_vR = 0.0f;
+	}
+	if (target_vR == 0.0f) {
+		target_vL = 0.0f;
+	}
+	Vector2 diff = {
+		leftStick.x - rightStick.x,
+		leftStick.y - rightStick.y
+	};
+	diff.x = std::sqrtf(diff.x * diff.x);
+	diff.y = std::sqrtf(diff.y * diff.y);
+
+	// スティック入力が互いに反対
+	if (target_vL * target_vR < 0.0f) {
+		// 値の修正される前のスティックの入力値で比較
+		float sqrtStick = (Controller::GetLStick().y - Controller::GetRStick().y);
+		if (std::sqrtf(sqrtStick * sqrtStick) <= 1.7f) {
+			target_vL = 0.0f;
+			target_vR = 0.0f;
+		}
+	}
 
 	// 補間（スムーズな操作）
 	vL += (target_vL - vL) * 0.1f;
@@ -86,3 +115,49 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 		vel_ += sideMove * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(rot);
 	}
 }
+
+//void Move::StickDiff(LWP::Math::Vector2& leftStick, LWP::Math::Vector2& rightStick) {
+	//Vector2 diff = {
+	//	leftStick.x - rightStick.x,
+	//	leftStick.y - rightStick.y
+	//};
+	//diff.x *= diff.x;
+	//diff.x = std::sqrtf(diff.x);
+	//diff.y *= diff.y;
+	//diff.y = std::sqrtf(diff.y);
+
+	//if (diff.x >= 0.2f) {
+	//	leftStick.x = 0.0f;
+	//	rightStick.x = 0.0f;
+	//}
+	//else {
+	//	leftStick.x =(leftStick.x + rightStick.x) * 0.5f;
+	//	rightStick.x =(leftStick.x + rightStick.x) * 0.5f;
+	//}
+
+	//// スティック入力が互いに反対
+	//if (leftStick.y * rightStick.y < 0.0f) {
+	//	float sqrtStick = (Controller::GetLStick().y - Controller::GetRStick().y);
+	//	if (std::sqrtf(sqrtStick * sqrtStick) <= 1.5f) {
+	//		leftStick.y = 0.0f;
+	//		rightStick.y = 0.0f;
+	//	}
+	//}
+	//else if (diff.y >= 0.4f) {
+	//	leftStick.y = 0.0f;
+	//	rightStick.y = 0.0f;
+	//}
+	//else {
+	//	leftStick.y = (leftStick.y + rightStick.y) * 0.5f;
+	//	rightStick.y = (leftStick.y + rightStick.y) * 0.5f;
+	//}
+
+	//leftStick = {
+	//	(leftStick.x + rightStick.x) * 0.5f,
+	//	(leftStick.y + rightStick.y) * 0.5f
+	//};
+	//rightStick = {
+	//(leftStick.x + rightStick.x) * 0.5f,
+	//(leftStick.y + rightStick.y) * 0.5f
+	//};
+//}

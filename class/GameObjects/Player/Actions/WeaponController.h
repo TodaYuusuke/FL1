@@ -2,6 +2,7 @@
 #include "IActions.h"
 #include "Action/IAction.h"
 #include "../../Weapon/IWeapon.h"
+#include "../../Weapon/WeaponSlot.h"
 #include <memory>
 #include <vector>
 
@@ -45,13 +46,17 @@ public:// アクセサ
 	/// 左側の武器を設定する
 	/// </summary>
 	/// <param name="weapon"></param>
-	void SetLeftWeapon(IWeapon* weapon) { weapons_[WeaponSide::kLeft] = weapon; }
+	void SetLeftWeapon(std::unique_ptr<IWeapon> weapon) {
+		weapons_[WeaponSide::kLeft]->AddWeapon(std::move(weapon));
+	}
 	/// <summary>
 	/// 右側の武器を設定する
 	/// </summary>
 	/// <param name="weapon"></param>
-	void SetRightWeapon(IWeapon* weapon) { weapons_[WeaponSide::kRight] = weapon; }
-	
+	void SetRightWeapon(std::unique_ptr<IWeapon> weapon) {
+		weapons_[WeaponSide::kRight]->AddWeapon(std::move(weapon));
+	}
+
 	/// <summary>
 	/// デバッグ用の武器の持ち主を設定
 	/// </summary>
@@ -63,7 +68,8 @@ private:
 
 private:
 	// 武器リスト
-	std::map<WeaponSide, IWeapon*> weapons_;
+	//std::map<WeaponSide, IWeapon*> weapons_;
+	std::map<WeaponSide, std::unique_ptr<WeaponSlot>> weapons_;
 	// 現在所持している武器のマスク
 	std::map<WeaponSide, unsigned int> currentWeaponMask_;
 

@@ -34,12 +34,12 @@ public:// アクセサ
 	/// 左側の武器を設定する
 	/// </summary>
 	/// <param name="weapon"></param>
-	void SetLeftWeapon(IWeapon* weapon) { weaponController_->SetLeftWeapon(weapon); }
+	void SetLeftWeapon(std::unique_ptr<IWeapon> weapon) { weaponController_->SetLeftWeapon(std::move(weapon)); }
 	/// <summary>
 	/// 右側の武器を設定する
 	/// </summary>
 	/// <param name="weapon"></param>
-	void SetRightWeapon(IWeapon* weapon) { weaponController_->SetRightWeapon(weapon); }
+	void SetRightWeapon(std::unique_ptr<IWeapon> weapon) { weaponController_->SetRightWeapon(std::move(weapon)); }
 #pragma endregion
 
 private:

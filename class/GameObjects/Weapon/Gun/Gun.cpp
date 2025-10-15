@@ -14,6 +14,7 @@ Gun::Gun(GunData gunData) {
 
 	// モデル生成
 	body_.LoadSphere();
+	body_.worldTF.scale = { 0.5f,0.5f,0.5f };
 
 	// マガジン作成
 	magazine_ = std::make_unique<Magazine>(gunData_.magazineModelName, gunData_.bulletNum);
@@ -24,7 +25,7 @@ Gun::Gun(GunData gunData) {
 void Gun::Init() {
 	body_.worldTF.translation = { 0.0f,0.0f,0.0f };
 	body_.worldTF.rotation = { 0.0f,0.0f,0.0f,1.0f };
-	body_.worldTF.scale = { 1.0f,1.0f,1.0f };
+	body_.worldTF.scale = { 0.5f,0.5f,0.5f };
 
 	// マガジン初期化
 	magazine_->Init(gunData_.bulletNum);
@@ -41,6 +42,7 @@ void Gun::Init() {
 void Gun::Update() {
 	// 弾がなくなれば強制リロード(クールタイム)
 	if (magazine_->GetEmpty()) {
+		isDestroy_ = true;
 		Reload();
 	}
 
@@ -51,12 +53,23 @@ void Gun::Update() {
 }
 
 void Gun::DebugGui() {
-
+	if (ImGui::TreeNode("Magazine")) {
+		magazine_->DebugGui();
+		ImGui::TreePop();
+	}
+	if (ImGui::TreeNode("CoolTime")) {
+		ImGui::DragFloat("ShotFrame", &shotFrame_);
+		ImGui::DragFloat("ReloadFrame", &reloadFrame_);
+		ImGui::TreePop();
+	}
 }
 
 void Gun::Attack() {
 	// 弾がない状態なら撃てない
-	if (magazine_->GetEmpty()) { return; }
+	if (magazine_->GetEmpty()) { 
+		isDestroy_ = true;
+		return; 
+	}
 	// 射撃できる状態か
 	if (!GetIsEnableShot()) { return; }
 

@@ -18,3 +18,7 @@ void Magazine::Update() {
 	// 弾数が0を下回らないようにする
 	bulletCount_ = std::min<float>(bulletCount_, 0.0f);
 }
+
+void Magazine::DebugGui() {
+	ImGui::DragFloat("BulletCount", &bulletCount_);
+}

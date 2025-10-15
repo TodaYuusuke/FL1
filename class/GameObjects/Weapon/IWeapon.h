@@ -40,14 +40,14 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	std::string GetName() { return name_; }
+	/// <summary>
+	/// 破壊するかを取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsDestroy() { return isDestroy_; }
 #pragma endregion
 
 #pragma region Setter
-	/// <summary>
-	/// 名前を設定
-	/// </summary>
-	/// <param name="name"></param>
-	void SetName(const std::string& name) { name_ = name; }
 	/// <summary>
 	/// 親子付けの設定
 	/// </summary>
@@ -56,6 +56,21 @@ public:// アクセサ
 		actor_ = character;
 		body_.worldTF.Parent(actor_->GetWorldTF());
 	}
+	/// <summary>
+	/// 座標の設定
+	/// </summary>
+	/// <param name="translation"></param>
+	void SetTranslation(const LWP::Math::Vector3& translation) { body_.worldTF.translation = translation; }
+	/// <summary>
+	/// 角度の設定
+	/// </summary>
+	/// <param name="q"></param>
+	void SetRotation(const LWP::Math::Quaternion& q) { body_.worldTF.rotation = q; }
+	/// <summary>
+	/// 名前を設定
+	/// </summary>
+	/// <param name="name"></param>
+	void SetName(const std::string& name) { name_ = name; }
 #pragma endregion
 
 protected:
@@ -66,5 +81,8 @@ protected:
 
 	// 名前
 	std::string name_;
+
+	// 破壊するか
+	bool isDestroy_;
 };
 
