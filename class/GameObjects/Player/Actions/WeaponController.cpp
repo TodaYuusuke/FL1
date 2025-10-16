@@ -53,7 +53,7 @@ void WeaponController::DebugGui() {
 		// 左の武器を装備
 		if (ImGui::Button("SetLeftWeapon")) {
 			GunData data = {
-				"",
+				"Gun/AR/AR.obj",
 				"",
 				0.1f,
 				0.0f,
@@ -70,7 +70,7 @@ void WeaponController::DebugGui() {
 		// 右の武器を装備
 		if (ImGui::Button("SetRightWeapon")) {
 			GunData data = {
-				"",
+				"Gun/ShotGun/Rifle.obj",
 				"",
 				0.1f,
 				0.0f,

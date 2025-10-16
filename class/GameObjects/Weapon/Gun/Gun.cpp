@@ -13,7 +13,7 @@ Gun::Gun(GunData gunData) {
 	name_ = gunData_.gunModelName;
 
 	// モデル生成
-	body_.LoadSphere();
+	body_.LoadFullPath("resources/model/" + gunData_.gunModelName);
 	body_.worldTF.scale = { 0.5f,0.5f,0.5f };
 
 	// マガジン作成
@@ -43,7 +43,7 @@ void Gun::Update() {
 	// 弾がなくなれば強制リロード(クールタイム)
 	if (magazine_->GetEmpty()) {
 		isDestroy_ = true;
-		Reload();
+		//Reload();
 	}
 
 	shotFrame_--;
