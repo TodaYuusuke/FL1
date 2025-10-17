@@ -32,6 +32,10 @@ public:
 	/// 攻撃
 	/// </summary>
 	virtual void Attack() = 0;
+	/// <summary>
+	/// 破壊処理
+	/// </summary>
+	virtual void Destroy() = 0;
 
 public:// アクセサ
 #pragma region Getter
@@ -74,6 +78,8 @@ public:// アクセサ
 #pragma endregion
 
 protected:
+	LWP::Utility::JsonIO json_;
+
 	// モデル
 	LWP::Resource::RigidModel body_;
 

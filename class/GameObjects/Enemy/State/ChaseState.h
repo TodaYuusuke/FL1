@@ -27,5 +27,5 @@ public:
 private:
 	float speed_;
 
-	float currentFrame_ = 60.0f;
+	float currentFrame_ = 0.0f;
 };

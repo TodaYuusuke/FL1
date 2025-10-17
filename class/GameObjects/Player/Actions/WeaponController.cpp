@@ -1,6 +1,7 @@
 #include "WeaponController.h"
 #include "Action/None/NoneAction.h"
-#include "../../Weapon/Gun/Gun.h"
+#include "../../Weapon/Gun/ShotGun/ShotGun.h"
+#include "../../Weapon/Gun/MachineGun/MachineGun.h"
 
 using namespace ActionConfig;
 using namespace ActionConfig::Mask;
@@ -62,7 +63,7 @@ void WeaponController::DebugGui() {
 				10.0f,
 				1.0f
 			};
-			std::unique_ptr<Gun> gun = std::make_unique<Gun>(data);
+			std::unique_ptr<ShotGun> gun = std::make_unique<ShotGun>(data);
 			gun->SetParent(debugOwner_);
 			gun->SetTranslation(LWP::Math::Vector3{ -1.0f, -0.5f,2.0f });
 			SetLeftWeapon(std::move(gun));
@@ -79,7 +80,7 @@ void WeaponController::DebugGui() {
 				10.0f,
 				1.0f
 			};
-			std::unique_ptr<Gun> gun = std::make_unique<Gun>(data);
+			std::unique_ptr<ShotGun> gun = std::make_unique<ShotGun>(data);
 			gun->SetParent(debugOwner_);
 			gun->SetTranslation(LWP::Math::Vector3{ 1.0f, -0.5f,2.0f });
 			SetRightWeapon(std::move(gun));

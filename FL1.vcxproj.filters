@@ -111,10 +111,10 @@
     <ClCompile Include="class\GameObjects\Player\Actions\WeaponController.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\Weapon\Gun\Components\Magazine.cpp">
+    <ClCompile Include="class\GameObjects\Weapon\Components\Magazine.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\Weapon\Gun\Gun.cpp">
+    <ClCompile Include="class\GameObjects\Weapon\Gun\IGun.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="class\Componets\Math.cpp">
@@ -150,10 +150,40 @@
     <ClCompile Include="class\GameObjects\Enemy\State\WaitState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\Weapon\Gun\Components\LockOn.cpp">
+    <ClCompile Include="class\GameObjects\Weapon\Components\LockOn.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="class\GameObjects\Weapon\WeaponSlot.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\GameObjects\UI\Weapon\WeaponUI.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\GameObjects\UI\UIManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\GameObjects\Player\System\LeadingSystem.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\GameObjects\Weapon\Gun\ShotGun\ShotGun.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\GameObjects\Weapon\Gun\MachineGun\MachineGun.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\GameObjects\Weapon\Melee\IMelee.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\GameObjects\Weapon\Gun\Rifle\Rifle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\GameObjects\Weapon\Gun\Launcher\Launcher.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\GameObjects\Weapon\Melee\Melee.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\GameObjects\Weapon\Gun\Missile\Missle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -284,10 +314,10 @@
     <ClInclude Include="class\GameObjects\Player\Actions\WeaponController.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Weapon\Gun\Components\Magazine.h">
+    <ClInclude Include="class\GameObjects\Weapon\Components\Magazine.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Weapon\Gun\Gun.h">
+    <ClInclude Include="class\GameObjects\Weapon\Gun\IGun.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\GameObjects\Weapon\IWeapon.h">
@@ -311,9 +341,6 @@
     <ClInclude Include="class\GameObjects\Bullets\BulletManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\ICharacter.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="class\GameObjects\Camera\FollowCamera\FollowCamera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -332,10 +359,40 @@
     <ClInclude Include="class\GameObjects\Enemy\State\WaitState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Weapon\Gun\Components\LockOn.h">
+    <ClInclude Include="class\GameObjects\Weapon\Components\LockOn.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\GameObjects\Weapon\WeaponSlot.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\UI\Weapon\WeaponUI.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\UI\UIManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\Player\System\LeadingSystem.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\Weapon\Gun\ShotGun\ShotGun.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\Weapon\Gun\MachineGun\MachineGun.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\Weapon\Melee\IMelee.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\Weapon\Gun\Rifle\Rifle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\Weapon\Gun\Launcher\Launcher.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\Weapon\Melee\Melee.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\Weapon\Gun\Missile\Missle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

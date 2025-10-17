@@ -1,18 +1,17 @@
 #pragma once
 #include "../IWeapon.h"
-#include "Components/Magazine.h"
-#include "../../Bullets/BulletManager.h"
+#include "../Components/Magazine.h"
 #include <memory>
 
 /// <summary>
-/// 銃クラス
+/// 近距離クラス
 /// </summary>
-class Gun : public IWeapon {
+class IMelee : public IWeapon {
 public:
 	// コンストラクタ
-	Gun(GunData gunData);
+	IMelee(GunData gunData);
 	// デストラクタ
-	~Gun() override = default;
+	~IMelee() override = default;
 
 	/// <summary>
 	/// 初期化
@@ -35,6 +34,10 @@ public:
 	/// リロード
 	/// </summary>
 	void Reload();
+	/// <summary>
+	/// 破壊処理
+	/// </summary>
+	void Destroy() override;
 
 public:// アクセサ
 #pragma region Getter
@@ -53,10 +56,6 @@ public:// アクセサ
 #pragma region Setter
 
 #pragma endregion
-
-private:
-	// 
-	BulletManager* pBulletManager_;
 
 private:// 調整項目
 	GunData gunData_;

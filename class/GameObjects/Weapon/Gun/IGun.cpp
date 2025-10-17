@@ -1,10 +1,10 @@
-#include "Gun.h"
+#include "IGun.h"
 #include "../../Bullets/BulletManager.h"
 #include "../../Bullets/Bullet/Bullet.h"
 
 using namespace FLMath;
 
-Gun::Gun(GunData gunData) {
+IGun::IGun(GunData gunData) {
 	// 弾管理クラスのアドレス取得
 	pBulletManager_ = BulletManager::GetInstance();
 
@@ -22,7 +22,7 @@ Gun::Gun(GunData gunData) {
 	Init();
 }
 
-void Gun::Init() {
+void IGun::Init() {
 	body_.worldTF.translation = { 0.0f,0.0f,0.0f };
 	body_.worldTF.rotation = { 0.0f,0.0f,0.0f,1.0f };
 	body_.worldTF.scale = { 0.5f,0.5f,0.5f };
@@ -39,11 +39,10 @@ void Gun::Init() {
 	reloadFrame_ = gunData_.reloadTime * 60.0f;
 }
 
-void Gun::Update() {
+void IGun::Update() {
 	// 弾がなくなれば強制リロード(クールタイム)
 	if (magazine_->GetEmpty()) {
 		isDestroy_ = true;
-		//Reload();
 	}
 
 	shotFrame_--;
@@ -52,7 +51,7 @@ void Gun::Update() {
 	reloadFrame_ = std::max<float>(reloadFrame_, 0.0f);
 }
 
-void Gun::DebugGui() {
+void IGun::DebugGui() {
 	if (ImGui::TreeNode("Magazine")) {
 		magazine_->DebugGui();
 		ImGui::TreePop();
@@ -64,7 +63,7 @@ void Gun::DebugGui() {
 	}
 }
 
-void Gun::Attack() {
+void IGun::Attack() {
 	// 弾がない状態なら撃てない
 	if (magazine_->GetEmpty()) { 
 		isDestroy_ = true;
@@ -84,7 +83,7 @@ void Gun::Attack() {
 	shotFrame_ = gunData_.shotIntervalTime * 60.0f;
 }
 
-void Gun::Reload() {
+void IGun::Reload() {
 	reloadFrame_--;
 
 	// リロード完了
@@ -94,4 +93,8 @@ void Gun::Reload() {
 		// 弾数を初期化
 		magazine_->Init(gunData_.bulletNum);
 	}
+}
+
+void IGun::Destroy() {
+
 }

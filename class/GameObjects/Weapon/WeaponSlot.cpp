@@ -35,10 +35,16 @@ void WeaponSlot::Attack() {
 }
 
 void WeaponSlot::Compact() {
+	// 武器
 	weapons_.erase(
 		std::remove(weapons_.begin(), weapons_.end(), nullptr),
 		weapons_.end()
 	);
+	//// 武器UI
+	//weaponUI_.erase(
+	//	std::remove(weaponUI_.begin(), weaponUI_.end(), nullptr),
+	//	weaponUI_.end()
+	//);
 }
 
 void WeaponSlot::AddWeapon(std::unique_ptr<IWeapon> weapon) {

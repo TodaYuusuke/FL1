@@ -40,6 +40,7 @@ public:// アクセサ
     void AddWeapon(std::unique_ptr<IWeapon> weapon);
 
 private:
+    // 武器
     std::vector<std::unique_ptr<IWeapon>> weapons_;
     // 最大3個まで保持
     static constexpr size_t kMaxWeapons = 3; 

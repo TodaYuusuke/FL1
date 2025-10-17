@@ -20,7 +20,6 @@ void ChaseState::Init() {
 void ChaseState::Update() {
 	if (currentFrame_ <= 0.0f) {
 		isEnableChangeState_ = true;
-		return;
 	}
 
 	// 自機アドレスを取得
