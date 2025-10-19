@@ -50,9 +50,20 @@ void Player::Update() {
 
 void Player::DrawGui() {
 	if (ImGui::TreeNode("Player")) {
-		leadingSystem_->DebugGui();
-		moveController_->DebugGui();
+		// 行動
+		if (ImGui::TreeNode("Actions")) {
+			moveController_->DebugGui();
+			ImGui::TreePop();
+		}
+
+		// 武器
 		weaponController_->DebugGui();
+
+		// 機能
+		if (ImGui::TreeNode("Systems")) {
+			leadingSystem_->DebugGui();
+			ImGui::TreePop();
+		}
 		ImGui::TreePop();
 	}
 }

@@ -8,6 +8,7 @@ using namespace LWP::Input;
 
 BehaviorTreeGraph::BehaviorTreeGraph(bool is_edit_mode) {
 	mIsEditMode = is_edit_mode;
+	editorContext_ = ImNodes::EditorContextCreate();
 	Init();
 }
 
@@ -68,6 +69,14 @@ void BehaviorTreeGraph::SelectLoadFile(const std::string& fullPath) {
 }
 
 void BehaviorTreeGraph::DrawToolbar() {
+	if (ImGui::Button("Start Editor")) {
+		mIsEditMode = true;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Finish Editor")) {
+		mIsEditMode = false;
+	}
+
 	if (!mIsEditMode) return;
 
 	// ノード追加ボタン
@@ -99,6 +108,8 @@ void BehaviorTreeGraph::DrawEditor() {
 }
 
 void BehaviorTreeGraph::SetRunnningNodeID(const int running_node_id) {
+	if (!mIsEditMode) { return; }
+
 	// 実行中のノード/リンクのリストを更新
 	mRunningLinks.clear();
 	mRunningNodes.clear();

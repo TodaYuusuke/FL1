@@ -1,14 +1,17 @@
 #pragma once
+#include "../../../Componets/BehaviourTree/Actor/ActorHealth.h"
+#include "../../../Componets/BehaviourTree/BehaviorTreeUtility.h"
 #include "../../../Componets/BehaviourTree/Actor/Actor.h"
+#include "../../../Componets/BehaviourTree/INode.h"
 #include <Adapter.h>
 
 class IWorld;
-class MeleeAttacker : public Actor {
+class Gunner : public Actor {
 public:
 	//コンストラクタ
-	MeleeAttacker(IWorld* world, int ID, const std::string& BTFilePath);
+	Gunner(IWorld* world, int ID, const std::string& BTFilePath);
 	//デストラクタ
-	~MeleeAttacker() override;
+	~Gunner() override;
 
 	/// <summary>
 	/// 初期化
@@ -27,6 +30,9 @@ public:
 	const int GetBTRunningNodeID() const;
 
 private:
+	/// <summary>
+	/// 移動処理
+	/// </summary>
 	void Move();
 
 private:

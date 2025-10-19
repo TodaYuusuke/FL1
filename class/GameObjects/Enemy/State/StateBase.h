@@ -1,5 +1,6 @@
 #pragma once
 #include "../../../Componets/BehaviourTree/Actor/BlackBoard.h"
+#include "../EnemyConfig.h"
 #include <Adapter.h>
 
 /// <summary>

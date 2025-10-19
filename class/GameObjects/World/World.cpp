@@ -16,8 +16,11 @@ void World::Update() {
 }
 
 void World::DebugGui() {
-	//GUIの描画
-	actorManager.DrawGui();
+	if (ImGui::BeginTabItem("World")) {
+		//GUIの描画
+		actorManager.DrawGui();
+		ImGui::EndTabItem();
+	}
 }
 
 //消去

@@ -148,6 +148,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="class\GameObjects\Enemy\Gunner\Gunner.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\ChaseState.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\AttackState.cpp" />
     <ClCompile Include="class\GameObjects\Bullets\BulletManager.cpp" />
@@ -210,6 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="class\GameObjects\Enemy\EnemyConfig.h" />
+    <ClInclude Include="class\GameObjects\Enemy\Gunner\Gunner.h" />
     <ClInclude Include="class\GameObjects\Enemy\State\ChaseState.h" />
     <ClInclude Include="class\GameObjects\Enemy\State\AttackState.h" />
     <ClInclude Include="class\GameObjects\Bullets\BulletManager.h" />

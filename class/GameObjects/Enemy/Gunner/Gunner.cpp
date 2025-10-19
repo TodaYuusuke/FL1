@@ -1,4 +1,4 @@
-#include "MeleeAttacker.h"
+#include "Gunner.h"
 #include "../../World/IWorld.h"
 #include "../../../Componets/BehaviourTree/Actor/BlackBoard.h"
 #include "../../../Componets/BehaviourTree/BehaviourTreeBulider.h"
@@ -7,7 +7,7 @@
 
 using namespace LWP::Math;
 
-MeleeAttacker::MeleeAttacker(IWorld* world, int ID, const std::string& BTFilePath) {
+Gunner::Gunner(IWorld* world, int ID, const std::string& BTFilePath) {
 	world_ = world;
 	ID_ = ID;
 	tag_ = EnemyConfig::tag;
@@ -35,16 +35,16 @@ MeleeAttacker::MeleeAttacker(IWorld* world, int ID, const std::string& BTFilePat
 	bt_->Init();
 }
 
-MeleeAttacker::~MeleeAttacker() {
+Gunner::~Gunner() {
 	delete blackBoard_;
 	delete bt_;
 }
 
-void MeleeAttacker::Init() {
+void Gunner::Init() {
 
 }
 
-void MeleeAttacker::Update() {
+void Gunner::Update() {
 	// ビヘイビアツリー更新
 	if (!state_ || state_->GetIsEnableChangeState()) {
 		bt_->Tick();
@@ -60,8 +60,8 @@ void MeleeAttacker::Update() {
 	velocity_ = { 0.0f, 0.0f, 0.0f };
 }
 
-void MeleeAttacker::DrawGui() {
-	if (ImGui::TreeNode("MeleeAttacker")) {
+void Gunner::DrawGui() {
+	if (ImGui::TreeNode("Gunner")) {
 		btEditor_->SetRunnningNodeID(bt_->GetRunningNodeID());
 		btEditor_->Update();
 		btEditor_->Draw();
@@ -69,14 +69,14 @@ void MeleeAttacker::DrawGui() {
 	}
 }
 
-const int MeleeAttacker::GetBTRunningNodeID() const {
+const int Gunner::GetBTRunningNodeID() const {
 	return bt_->GetRunningNodeID();
 }
 
-void MeleeAttacker::Move() {
+void Gunner::Move() {
 	if (state_) velocity_ = state_->GetVel();
 
 	model_.worldTF.translation += velocity_;
 	// 速度に応じて角度変更
-	if (Vector3::Dot(velocity_, velocity_) != 0.0f) model_.worldTF.rotation = Quaternion::LookRotation(velocity_);
+	//if (Vector3::Dot(velocity_, velocity_) != 0.0f) model_.worldTF.rotation = Quaternion::LookRotation(velocity_);
 }

@@ -1,0 +1,46 @@
+[
+    {
+        "false_child": 11,
+        "id": 6,
+        "limit_distance": 10.0,
+        "name": "CheckNearPlayer",
+        "parent": 13,
+        "pos_x": 394.0,
+        "pos_y": 160.0,
+        "speed": 0.0,
+        "true_child": 7,
+        "type": 2
+    },
+    {
+        "children": [],
+        "id": 7,
+        "name": "CircleAttackLeaf",
+        "parent": 6,
+        "pos_x": 691.0,
+        "pos_y": 116.0,
+        "speed": 0.0,
+        "type": 3
+    },
+    {
+        "children": [],
+        "id": 11,
+        "name": "ChasePlayerLeaf",
+        "parent": 6,
+        "pos_x": 694.0,
+        "pos_y": 254.0,
+        "speed": 0.05000000074505806,
+        "type": 3
+    },
+    {
+        "children": [
+            6
+        ],
+        "id": 13,
+        "name": "Sequence",
+        "parent": -1,
+        "pos_x": 210.0,
+        "pos_y": 163.0,
+        "speed": 0.0,
+        "type": 0
+    }
+]

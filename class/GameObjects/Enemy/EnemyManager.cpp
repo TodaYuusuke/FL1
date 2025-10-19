@@ -1,13 +1,37 @@
 #include "EnemyManager.h"
 #include "Melee/MeleeAttacker.h"
+#include "Gunner/Gunner.h"
 #include "Test/TestEnemy.h"
 #include "EnemyConfig.h"
 
+using namespace EnemyConfig;
+
 EnemyManager::EnemyManager(IWorld* world) {
 	pWorld_ = world;
+
+	// デバッグ用の情報を生成
+	CreateDebugData();
+
+#pragma region コピー元となる敵生成
+	// 近接敵
+	MeleeAttacker* melee = new MeleeAttacker(pWorld_, createID_, "resources/json/BT/BT_Melee.json");
+	melee->SetTranslation(createPos_);
+	sampleEnemies_[kMelee] = melee;
+	// 遠距離敵
+	Gunner* gunner = new Gunner(pWorld_, createID_, "resources/json/BT/BT_Gunner.json");
+	gunner->SetTranslation(createPos_);
+	sampleEnemies_[kGunner] = gunner;
+#pragma endregion
 }
 
 EnemyManager::~EnemyManager() {
+	for (Actor* actor : enemies_) {
+		delete actor;
+	}
+	// 調整されたオリジナル
+	for (auto it = sampleEnemies_.begin(); it != sampleEnemies_.end(); it++) {
+		delete it->second;
+	}
 	enemies_.clear();
 }
 
@@ -24,7 +48,6 @@ void EnemyManager::Update() {
 
 		actor->Update();
 	}
-
 	// 削除
 	for (Actor* actor : enemies_) {
 		if (actor->GetIsAlive()) continue;
@@ -33,28 +56,56 @@ void EnemyManager::Update() {
 		auto newEnd = std::remove(enemies_.begin(), enemies_.end(), actor);
 		enemies_.erase(newEnd, enemies_.end());
 	}
+
 }
 
 void EnemyManager::DebugGui() {
-	if (ImGui::TreeNode("Enemy")) {
+	if (ImGui::BeginTabItem("Enemy")) {
+		// 各敵のbehaviorTreeの調整
+		if (ImGui::TreeNode("Behavior-Tree edit")) {
+			SwitchNodeEditorCanvas(btEditor_->GetEditorContext());
+			SelectJsonFile();
+			btEditor_->Update();
+			btEditor_->Draw();
+			ImGui::TreePop();
+		}
+
+		// 敵作成
 		if (ImGui::TreeNode("Create")) {
+			// 作成する敵を選択
+			SelectCreateEnemy();
 			// 生成座標
-			ImGui::DragFloat3("Translation", &createPos_.x, 0.01f);
-			// 速度
-			ImGui::DragFloat3("Velocity", &createVel_.x, 0.01f);
+			ImGui::DragFloat3("CreateTranslation", &createPos_.x, 0.01f);
+			// テスト敵のみ調整可能
+			if (selectCreateEnemyType_ == kTest) {
+				// 速度
+				ImGui::DragFloat3("Velocity", &createVel_.x, 0.01f);
+			}
+
 			// 敵生成
 			if (ImGui::Button("Done")) {
-				CreateTestEnemy();
+				// プレビューで選択した敵を生成
+				CreateEnemy();
 			}
 			ImGui::TreePop();
 		}
-		ImGui::TreePop();
+
+		ImGui::EndTabItem();
 	}
 }
 
 void EnemyManager::CreateMeleeEnemy() {
 	// 近接敵
-	MeleeAttacker* actor = new MeleeAttacker(pWorld_, createID_, "resources/json/Attacker_tree.json");
+	MeleeAttacker* actor = new MeleeAttacker(pWorld_, createID_, enemyBTFileNamePreview_[kMelee]);
+	actor->SetTranslation(createPos_);
+	enemies_.push_back(actor);
+
+	createID_++;
+}
+
+void EnemyManager::CreateGunnerEnemy() {
+	// 遠距離敵
+	Gunner* actor = new Gunner(pWorld_, createID_, enemyBTFileNamePreview_[kGunner]);
 	actor->SetTranslation(createPos_);
 	enemies_.push_back(actor);
 
@@ -67,4 +118,92 @@ void EnemyManager::CreateTestEnemy() {
 	actor->SetTranslation(createPos_);
 	actor->SetVelocity(createVel_);
 	enemies_.push_back(actor);
+}
+
+void EnemyManager::CreateEnemy() {
+	switch (selectCreateEnemyType_) {
+		// 近接
+	case kMelee:
+		CreateMeleeEnemy();
+		break;
+		// 遠距離
+	case kGunner:
+		CreateGunnerEnemy();
+		break;
+		// テスト
+	case kTest:
+		CreateTestEnemy();
+		break;
+	}
+}
+
+// ------------ デバッグ用関数↓------------ //
+
+void EnemyManager::SelectCreateEnemy() {
+	ImGui::Text("Select create enemy");
+	// 追加する敵のプレビュー作成
+	if (!enemyTypePreview_.empty()) {
+		const char* combo_preview_value = enemyTypePreview_[selectCreateEnemyType_].c_str();
+		if (ImGui::BeginCombo((" "), combo_preview_value)) {
+			for (int n = 0; n < enemyTypePreview_.size(); n++) {
+				const bool is_selected = ((int)selectCreateEnemyType_ == n);
+				if (ImGui::Selectable(enemyTypePreview_[n].c_str(), is_selected)) {
+					selectCreateEnemyType_ = n;
+				}
+
+				if (is_selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+	}
+	else {
+		ImGui::TextDisabled(("Not found add enemy"));
+	}
+}
+
+void EnemyManager::SelectJsonFile() {
+	ImGui::Text("Select Behavior-Tree file");
+	// 読み込むbehaviorTreeのプレビュー作成
+	if (!enemyBTFileNamePreview_.empty()) {
+		const char* combo_preview_value = enemyBTFileNamePreview_[selectBTFileName_].c_str();
+		if (ImGui::BeginCombo((" "), combo_preview_value)) {
+			for (int n = 0; n < enemyBTFileNamePreview_.size(); n++) {
+				const bool is_selected = ((int)selectBTFileName_ == n);
+				if (ImGui::Selectable(enemyBTFileNamePreview_[n].c_str(), is_selected)) {
+					selectBTFileName_ = n;
+				}
+
+				if (is_selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+	}
+	else {
+		ImGui::TextDisabled(("Not found behavior-tree file"));
+	}
+
+	// 読み込み
+	if (ImGui::Button("Load")) {
+		btEditor_->SelectLoadFile(enemyBTFileNamePreview_[selectBTFileName_]);
+	}
+}
+
+void EnemyManager::CreateDebugData() {
+	// ビヘイビアツリーの編集クラス
+	btEditor_ = std::make_unique<BehaviorTreeGraph>(true);
+
+#pragma region プレビュー
+	// 敵生成
+	enemyTypePreview_.push_back("Melee");
+	enemyTypePreview_.push_back("Gunner");
+	enemyTypePreview_.push_back("Test");
+
+	// behaviorTreeファイル
+	enemyBTFileNamePreview_.push_back("resources/json/BT/BT_Melee.json");
+	enemyBTFileNamePreview_.push_back("resources/json/BT/BT_Gunner.json");
+#pragma endregion
 }

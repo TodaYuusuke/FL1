@@ -88,6 +88,15 @@ struct BTNode {
 };
 
 /// <summary>
+/// ノード編集のキャンバス切り替え
+/// (ノード編集のキャンバスは同時に複数起動できないのでそのための切り替え関数)
+/// </summary>
+/// <param name="editorContext"></param>
+static void SwitchNodeEditorCanvas(ImNodesEditorContext* editorContext) {
+	ImNodes::EditorContextSet(editorContext);
+}
+
+/// <summary>
 /// ノードで構成された木の構造体
 /// </summary>
 class BehaviorTreeGraph {
@@ -102,6 +111,7 @@ private:
 		{ NodeType::Leaf,      IM_COL32(32, 128, 32, 255)}
 	};
 
+	ImNodesEditorContext* editorContext_;
 	const ImU32 cRunningColor = IM_COL32(250, 50, 0, 255);
 	const ImU32 cLinkColor = IM_COL32(75, 75, 200, 200);
 
@@ -138,6 +148,9 @@ public:
 
 	// 現在ロードしているJsonファイルパスを取得
 	std::string GetLoadingFile() const { return mLoadFileName; }
+
+	// エディタコンテキスト取得
+	ImNodesEditorContext* GetEditorContext() { return editorContext_; }
 
 	// 現在動かしているノード番号を設定
 	void SetRunnningNodeID(const int running_node_id);

@@ -1,13 +1,15 @@
 #pragma once
-
 #include <string>
 #include <vector>
 #include <Adapter.h>
 #include "ActorHealth.h"
+#include "../BehaviorTreeUtility.h"
+#include "../INode.h"
 
 class IWorld;
 class BlackBoard;
 class StateBase;
+class IWeapon;
 
 /// <summary>
 /// アクタークラス
@@ -45,9 +47,11 @@ public:// アクセサ
 	/// <summary>
 	/// 状態の変更
 	/// </summary>
-	/// <param name="currentState"></param>
-	/// <param name="nextState"></param>
 	void ChangeState(StateBase* nextState);
+	/// <summary>
+	/// 武器の変更
+	/// </summary>
+	void ChangeWeapon(IWeapon* nextWeapon);
 
 #pragma region Getter
 	/// <summary>
@@ -66,10 +70,20 @@ public:// アクセサ
 	/// <returns></returns>
 	std::string GetTag() { return tag_; }
 	/// <summary>
+	/// ノード編集のキャンバス取得
+	/// </summary>
+	/// <returns></returns>
+	ImNodesEditorContext* GetEditorContext() { return btEditor_->GetEditorContext(); }
+	/// <summary>
 	/// 状態を取得
 	/// </summary>
 	/// <returns></returns>
 	StateBase* GetState() { return state_; }
+	/// <summary>
+	/// 持っている武器を取得
+	/// </summary>
+	/// <returns></returns>
+	IWeapon* GetWeapon() { return weapon_; }
 	/// <summary>
 	/// 現在位置を取得
 	/// </summary>
@@ -162,6 +176,13 @@ protected:
 	BlackBoard* blackBoard_ = nullptr;
 	// 状態
 	StateBase* state_;
+	// 持っている武器
+	IWeapon* weapon_;
+
+	// ビヘイビアツリー
+	INode* bt_ = nullptr;
+	// ビヘイビアツリーの編集
+	std::unique_ptr<BehaviorTreeGraph> btEditor_;
 
 	//タグ名
 	std::string tag_;
