@@ -8,14 +8,20 @@ using namespace LWP::Object;
 Player::Player(Camera* camera) {
 	camera;
 	// 初期位置の設定
-	tag_ = "PlayerTag";
+	tag_ = "Player";
 	name_ = "Player";
 	attackPower_ = 10;
 
+	// モデル生成
 	model_.LoadCube();
 
+	// 偏差射撃機能
+	leadingSystem_ = std::make_unique<LeadingSystem>(camera);
+
+	// 移動系統の管理
 	moveController_ = std::make_unique<MoveController>();
-	weaponController_ = std::make_unique<WeaponController>();
+	// 武器系統の管理
+	weaponController_ = std::make_unique<WeaponController>(leadingSystem_.get());
 	// デバッグ用の武器の持ち主を設定
 	weaponController_->SetDebugWeaponOwner(this);
 }
@@ -25,11 +31,14 @@ Player::~Player() {
 }
 
 void Player::Init() {
+	leadingSystem_->Init();
 	moveController_->Init();
 	weaponController_->Init();
 }
 
 void Player::Update() {
+	leadingSystem_->Update();
+
 	// 移動系統の行動
 	moveController_->Update();
 	// 武器由来の行動
@@ -41,6 +50,7 @@ void Player::Update() {
 
 void Player::DrawGui() {
 	if (ImGui::TreeNode("Player")) {
+		leadingSystem_->DebugGui();
 		moveController_->DebugGui();
 		weaponController_->DebugGui();
 		ImGui::TreePop();

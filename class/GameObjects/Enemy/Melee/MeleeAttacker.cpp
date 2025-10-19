@@ -3,32 +3,35 @@
 #include "../../../Componets/BehaviourTree/Actor/BlackBoard.h"
 #include "../../../Componets/BehaviourTree/BehaviourTreeBulider.h"
 #include "../State/StateBase.h"
+#include "../EnemyConfig.h"
 
 using namespace LWP::Math;
 
-MeleeAttacker::MeleeAttacker(IWorld* world, LWP::Object::Camera* camera, std::string behavior_tree_file_path) {
+MeleeAttacker::MeleeAttacker(IWorld* world, int ID, const std::string& BTFilePath) {
 	world_ = world;
-	tag_ = "EnemyTag";
-	name_ = "Actor";
+	ID_ = ID;
+	tag_ = EnemyConfig::tag;
+	name_ = EnemyConfig::name + std::to_string(ID_);
 	attackPower_ = 1;
 
+	// モデル生成
 	model_.LoadSphere();
-	model_.worldTF.translation = { 0,0,10 };
 
+	// 黒板生成
 	blackBoard_ = new BlackBoard();
-	blackBoard_->SetValue<Actor*>("Actor", this);
+	blackBoard_->SetValue<Actor*>(EnemyConfig::name, this);
 
 	// 自機のアドレスを設定
 	auto* player = world->FindActor("Player");
 	assert(player);
 	blackBoard_->SetValue<Actor*>("Player", player);
 
-	// ビヘイビアツリーの編集
+	// ビヘイビアツリーの編集クラス
 	btEditor_ = std::make_unique<BehaviorTreeGraph>(true);
-	btEditor_->SelectLoadFile("resources/json/Attacker_tree.json");
+	btEditor_->SelectLoadFile(BTFilePath);
 
 	// ビヘイビアツリー生成
-	bt_ = BehaviourTreeBuilder::BuildAttackerTree("resources/json/Attacker_tree.json", blackBoard_);
+	bt_ = BehaviourTreeBuilder::BuildAttackerTree(BTFilePath, blackBoard_);
 	bt_->Init();
 	bt_->Tick();
 }

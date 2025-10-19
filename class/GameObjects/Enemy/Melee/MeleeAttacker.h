@@ -9,7 +9,7 @@ class IWorld;
 class MeleeAttacker : public Actor {
 public:
 	//コンストラクタ
-	MeleeAttacker(IWorld* world, LWP::Object::Camera* camera, std::string behavior_tree_file_path);
+	MeleeAttacker(IWorld* world, int ID, const std::string& BTFilePath);
 	//デストラクタ
 	~MeleeAttacker() override;
 
@@ -37,4 +37,7 @@ private:
 	INode* bt_ = nullptr;
 	// ビヘイビアツリーの編集
 	std::unique_ptr<BehaviorTreeGraph> btEditor_;
+
+	// 識別番号
+	int ID_;
 };

@@ -3,7 +3,7 @@
 
 Magazine::Magazine(const std::string& modelFileName, const float& bulletNum) {
 	// モデル作成
-	body_.LoadCube();
+	//body_.LoadCube();
 	modelFileName;
 	// 残弾を代入
 	Init(bulletNum);

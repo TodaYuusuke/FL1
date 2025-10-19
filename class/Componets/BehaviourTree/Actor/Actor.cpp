@@ -12,7 +12,7 @@ void Actor::Attack() {}
 void Actor::Die() {}
 
 void Actor::ChangeState(StateBase* nextState) {
-	// ó‘Ô‚ª¶¬‚³‚ê‚Ä‚¢‚é‚Æ‚«‚¾‚¯‰ğ•ú
+	// çŠ¶æ…‹ãŒç”Ÿæˆã•ã‚Œã¦ã„ã‚‹ã¨ãã ã‘è§£æ”¾
 	if (state_) delete state_;
 	state_ = nextState;
 }

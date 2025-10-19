@@ -14,7 +14,7 @@ WaitLeaf::~WaitLeaf() {
 }
 
 void WaitLeaf::Tick() {
-	// “GƒAƒhƒŒƒX‚ðŽæ“¾
+	// æ•µã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å–å¾—
 	Actor* actor = blackBoard->GetValue<Actor*>("Actor");
 	actor->ChangeState(new WaitState(blackBoard, waitTime));
 }

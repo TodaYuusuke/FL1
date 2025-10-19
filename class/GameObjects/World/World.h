@@ -1,9 +1,11 @@
 #pragma once
-
 #include "IWorld.h"
 #include "../../Componets/BehaviourTree/Actor/ActorManager.h"
 
-//ワールドクラス
+/// <summary>
+/// ワールドクラス
+/// 今回は敵は別のManagerクラスで管理し、ここでは自機や地面等を登録して共通でほしくなるアクターを管理
+/// </summary>
 class World : public IWorld {
 public:
 	//コンストラクタ

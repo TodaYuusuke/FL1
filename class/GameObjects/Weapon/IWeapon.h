@@ -1,5 +1,6 @@
 #pragma once
 #include "WeaponConfig.h"
+#include "Components/Magazine.h"
 #include "../../Componets/Math.h"
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
 #include <Adapter.h>
@@ -40,15 +41,40 @@ public:
 public:// アクセサ
 #pragma region Getter
 	/// <summary>
+	/// 所持者の取得
+	/// </summary>
+	/// <returns></returns>
+	Actor* GetActor() { return actor_; }
+	/// <summary>
+	/// ワールドトランスフォームを取得
+	/// </summary>
+	/// <returns></returns>
+	LWP::Object::TransformQuat* GetWorldTF() { return &body_.worldTF; }
+	/// <summary>
 	/// 名前を取得
 	/// </summary>
 	/// <returns></returns>
 	std::string GetName() { return name_; }
 	/// <summary>
+	/// 攻撃不可時間中かを取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsCoolTime() { return coolFrame_ > 0.0f; }
+	/// <summary>
+	/// 射撃できるかを取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsEnableAttack() { return attackFrame_ <= 0.0f; }
+	/// <summary>
 	/// 破壊するかを取得
 	/// </summary>
 	/// <returns></returns>
 	bool GetIsDestroy() { return isDestroy_; }
+	/// <summary>
+	/// 弾切れかを取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsEmpty() { return magazine_->GetEmpty(); }
 #pragma endregion
 
 #pragma region Setter
@@ -60,6 +86,12 @@ public:// アクセサ
 		actor_ = character;
 		body_.worldTF.Parent(actor_->GetWorldTF());
 	}
+	/// <summary>
+	/// 弾発射時の方向ベクトルを設定
+	/// </summary>
+	/// <param name="dirVel"></param>
+	/// <returns></returns>
+	void SetShotDirVelocity(const LWP::Math::Vector3& dirVel) { shotDirVel_ = dirVel; }
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
@@ -79,14 +111,27 @@ public:// アクセサ
 
 protected:
 	LWP::Utility::JsonIO json_;
-
 	// モデル
 	LWP::Resource::RigidModel body_;
+
+	// 弾倉
+	std::unique_ptr<Magazine> magazine_;
 
 	Actor* actor_;
 
 	// 名前
 	std::string name_;
+
+	// 弾発射時の方向ベクトル
+	LWP::Math::Vector3 shotDirVel_;
+
+	// 攻撃力
+	float currentAttackValue_;
+
+	// 射撃時の経過時間
+	float attackFrame_;
+	// 使用不可の経過時間
+	float coolFrame_;
 
 	// 破壊するか
 	bool isDestroy_;

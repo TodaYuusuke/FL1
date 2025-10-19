@@ -2,6 +2,7 @@
 #include "scene/IScene.h"
 #include "../GameObjects/World/World.h"
 #include "../GameObjects/Player/Player.h"
+#include "../GameObjects/Enemy/EnemyManager.h"
 #include "../GameObjects/Camera/FollowCamera/FollowCamera.h"
 
 class Title final
@@ -20,6 +21,7 @@ public:
 
 private: //*** これより先に必要な処理や変数を記述 ***//
 	std::unique_ptr<FollowCamera> followCamera_;
+	std::unique_ptr<EnemyManager> enemyManager_;
 	Player* player_;
 
 	std::unique_ptr<World> world_;

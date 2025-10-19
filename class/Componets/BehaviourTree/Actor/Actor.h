@@ -86,6 +86,11 @@ public:// アクセサ
 	/// <returns></returns>
 	LWP::Math::Vector3 GetVelocity() { return velocity_; }
 	/// <summary>
+	/// 前回の座標を取得
+	/// </summary>
+	/// <returns></returns>
+	LWP::Math::Vector3 GetPreTranslation() { return preTranslation_; }
+	/// <summary>
 	/// 攻撃力を取得
 	/// </summary>
 	/// <returns></returns>
@@ -124,6 +129,11 @@ public:// アクセサ
 	/// <param name="translation"></param>
 	void SetTranslation(const LWP::Math::Vector3& translation) { model_.worldTF.translation = translation; }
 	/// <summary>
+	/// 前回の座標を設定
+	/// </summary>
+	/// <param name="translation"></param>
+	void SetPreTranslation(const LWP::Math::Vector3& translation) { preTranslation_ = translation; }
+	/// <summary>
 	/// 大きさを設定
 	/// </summary>
 	/// <param name="scale"></param>
@@ -160,8 +170,10 @@ protected:
 
 	// モデル
 	LWP::Resource::RigidModel model_;
-	//移動量
+	// 移動量
 	LWP::Math::Vector3 velocity_{ 0.0f,0.0f };
+	// 前回の座標
+	LWP::Math::Vector3 preTranslation_ = { 0.0f,0.0f,0.0f };
 
 	// 体力
 	ActorHealth health_{ 100 };

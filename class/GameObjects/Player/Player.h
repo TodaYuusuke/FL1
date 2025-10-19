@@ -1,9 +1,15 @@
 #pragma once
-#include "../../Componets/BehaviourTree/Actor/Actor.h"
+#include "System/LeadingSystem.h" 
 #include "Actions/MoveController.h"
 #include "Actions/WeaponController.h"
+#include "../../Componets/BehaviourTree/Actor/Actor.h"
+#include "System/LeadingSystem.h"
 #include <Adapter.h>
 
+class EnemyManager;
+/// <summary>
+/// 自機クラス
+/// </summary>
 class Player : public Actor {
 public:
 	// コンストラクタ
@@ -26,7 +32,7 @@ public:
 
 public:// アクセサ
 #pragma region Getter
-
+	
 #pragma endregion
 
 #pragma region Setter
@@ -40,9 +46,25 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="weapon"></param>
 	void SetRightWeapon(std::unique_ptr<IWeapon> weapon) { weaponController_->SetRightWeapon(std::move(weapon)); }
+	/// <summary>
+	/// 敵管理クラスのアドレスを設定
+	/// </summary>
+	/// <param name="enemyManager"></param>
+	void SetEnemyManager(EnemyManager* enemyManager) { 
+		pEnemyManager_ = enemyManager;
+		// 偏差射撃機能にも設定
+		leadingSystem_->SetEnemyManager(enemyManager);
+	}
 #pragma endregion
 
+private:// 外部から受け取る変数
+	// 敵管理クラス
+	EnemyManager* pEnemyManager_;
+
 private:
+	// 偏差射撃機能
+	std::unique_ptr<LeadingSystem> leadingSystem_;
+
 	// 移動行動系の処理
 	std::unique_ptr<MoveController> moveController_;
 	// 武器の処理

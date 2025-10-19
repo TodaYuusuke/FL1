@@ -1,10 +1,18 @@
 #include "WeaponSlot.h"
+#include "../Player/System/LeadingSystem.h"
+
+using namespace LWP::Math;
+using namespace FLMath;
+
+WeaponSlot::WeaponSlot(LeadingSystem* leadingSystem) {
+	pLeadingSystem_ = leadingSystem;
+}
 
 void WeaponSlot::Init() {}
 
 void WeaponSlot::Update() {
 	// 更新
-	if(!weapons_.empty()) weapons_.front()->Update();
+	if (!weapons_.empty()) weapons_.front()->Update();
 
 	// 弾切れの武器を削除
 	for (auto& w : weapons_) {
@@ -31,7 +39,24 @@ void WeaponSlot::DebugGui() {
 }
 
 void WeaponSlot::Attack() {
-	if (!weapons_.empty()) weapons_.front()->Attack();
+	if (!weapons_.empty()) {
+		// 弾がない状態なら撃てない
+		if (!weapons_.front()->GetIsEmpty()) {
+			// 射撃できる状態か
+			if (weapons_.front()->GetIsEnableAttack()) {
+				Vector3 shotVel = pLeadingSystem_->GetLeadingShotAngle(weapons_.front()->GetWorldTF()->GetWorldPosition(), 1.0f);
+				pLeadingSystem_->CalFutureTargetPos(weapons_.front()->GetWorldTF()->GetWorldPosition(), 1.0f);
+				if (Vector3::Dot(shotVel, shotVel) != 0.0f) {
+					weapons_.front()->SetShotDirVelocity(shotVel);
+				}
+				else {
+					weapons_.front()->SetShotDirVelocity(GetDirVector({ 0,0,1 }, weapons_.front()->GetActor()->GetModel().worldTF.rotation));
+				}
+			}
+		}
+
+		weapons_.front()->Attack();
+	}
 }
 
 void WeaponSlot::Compact() {

@@ -20,6 +20,23 @@ namespace FLMath {
 	LWP::Math::Vector3 GetDirVector(const LWP::Math::Vector3& dirVel, const LWP::Math::Quaternion& q);
 	LWP::Math::Vector3 GetDirVector(const LWP::Math::Vector3& dirVel, const LWP::Math::Vector3& radian);
 
+	LWP::Math::Vector3 Transform(const LWP::Math::Vector3& vector, const LWP::Math::Matrix4x4& matrix);
+
+	/// <summary>
+	/// ワールド座標からスクリーン座標に変換
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <param name="viewProjection"></param>
+	/// <returns></returns>
+	LWP::Math::Vector2 ConvertWorldToScreen(const LWP::Math::Vector3& worldPos, const LWP::Math::Matrix4x4& viewProjection);
+
+	/// <summary>
+	/// 対象がカメラの正面方向にいるか
+	/// </summary>
+	/// <param name="objectPos"></param>
+	/// <returns></returns>
+	bool IsObjectInFront(const LWP::Math::Vector3& objectPos, const LWP::Math::Vector3& cameraPos, const LWP::Math::Quaternion& cameraRotate);
+
 	/// <summary>
 	/// 絶対値に変換
 	/// </summary>

@@ -18,5 +18,5 @@ public:
 	void Update() override;
 
 private:
-	float currentFrame_ = 60.0f;
+	float currentFrame_ = 300.0f;
 };

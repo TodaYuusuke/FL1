@@ -7,13 +7,14 @@
 #include <vector>
 
 class Player;
+class LeadingSystem;
 /// <summary>
 /// メイン、サブ武器やリロード、ADS等の処理
 /// </summary>
 class WeaponController : public IActions {
 public:
 	// コンストラクタ
-	WeaponController();
+	WeaponController(LeadingSystem* leadingSystem);
 	// デストラクタ
 	~WeaponController() override;
 
@@ -65,6 +66,8 @@ public:// アクセサ
 #pragma endregion
 
 private:
+	// 偏差射撃計算機能
+	LeadingSystem* pLeadingSystem_;
 
 private:
 	// 武器リスト

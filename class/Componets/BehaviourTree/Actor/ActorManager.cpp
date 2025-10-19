@@ -1,6 +1,5 @@
 #include "ActorManager.h"
 #include "Actor.h"
-
 #include <algorithm>
 #include <iterator>
 
@@ -9,78 +8,67 @@ ActorManager::~ActorManager(){
     Clear();
 }
 
-//アクターの追加
-void ActorManager::Add(Actor* actor){
-    pActors.push_back(actor);
-}
-
-//アクターの更新
 void ActorManager::Update(){
-    for (auto actor : pActors) {
+    for (auto actor : pActors_) {
         actor->Update();
     }
 }
 
-//アクターのGUI描画
 void ActorManager::DrawGui() const{
-    for (auto actor : pActors) {
+    for (auto actor : pActors_) {
         actor->DrawGui();
     }
 }
 
-//死亡しているアクターの削除
+void ActorManager::Add(Actor* actor){
+    pActors_.push_back(actor);
+}
+
 void ActorManager::Remove(){
-    for (auto i = pActors.begin(); i != pActors.end();) {
+    for (auto i = pActors_.begin(); i != pActors_.end();) {
         if (!(*i)->GetIsAlive()) {
             delete* i;
-            i = pActors.erase(i);
+            i = pActors_.erase(i);
         }else {
             ++i;
         }
     }
 }
 
-//アクターの検索
+void ActorManager::Clear(){
+    for (auto actor : pActors_) {
+        delete actor;
+    }
+    pActors_.clear();
+}
+
 Actor* ActorManager::Find(const std::string& name) const{
-    auto result = std::find_if(
-        pActors.begin(), pActors.end(), 
+    auto result = std::find_if(pActors_.begin(), pActors_.end(), 
         [&](Actor* actor) { return actor->GetName() == name; }
     );
 
-    if (result == pActors.end()) return nullptr;
+    if (result == pActors_.end()) return nullptr;
 
     return *result;
 }
 
-//指定したタグ名を持つアクターの検索
 std::vector<Actor*> ActorManager::FindWithTag(const std::string& tag) const{
     std::vector<Actor*> result;
 
-    std::copy_if(pActors.begin(), pActors.end(), std::back_inserter(result),
+    std::copy_if(pActors_.begin(), pActors_.end(), std::back_inserter(result),
         [&](Actor* actor) { return actor->GetTag() == tag; });
 
     return result;
 }
 
-//アクター数を返す
 int ActorManager::Count() const{
-    return (int)pActors.size();
+    return (int)pActors_.size();
 }
 
-//指定したタグのアクター数を返す
 int ActorManager::CountWithTag(const std::string& tag) const{
-    auto result = std::count_if(
-        pActors.begin(), pActors.end(), 
+    auto result = std::count_if(pActors_.begin(), pActors_.end(), 
         [&](Actor* actor) { return actor->GetTag() == tag; }
     );
 
     return static_cast<int>(result);
-}
-
-//消去
-void ActorManager::Clear(){
-    for (auto actor : pActors) {
-        delete actor;
-    }
-    pActors.clear();
 }

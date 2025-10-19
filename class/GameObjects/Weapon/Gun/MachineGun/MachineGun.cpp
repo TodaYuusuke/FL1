@@ -18,7 +18,6 @@ void MachineGun::Update() {
 }
 
 void MachineGun::Attack() {
-
 	//// 弾がない状態なら撃てない
 	//if (magazine_->GetEmpty()) { 
 	//	isDestroy_ = true;

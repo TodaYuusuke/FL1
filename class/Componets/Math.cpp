@@ -60,6 +60,62 @@ namespace FLMath {
 		return result.Normalize();
 	}
 
+	Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix) {
+		Vector3 result{};
+		result.x = vector.x * matrix.m[0][0] + vector.y * matrix.m[1][0] + vector.z * matrix.m[2][0] +
+			1.0f * matrix.m[3][0];
+		result.y = vector.x * matrix.m[0][1] + vector.y * matrix.m[1][1] + vector.z * matrix.m[2][1] +
+			1.0f * matrix.m[3][1];
+		result.z = vector.x * matrix.m[0][2] + vector.y * matrix.m[1][2] + vector.z * matrix.m[2][2] +
+			1.0f * matrix.m[3][2];
+		float w = vector.x * matrix.m[0][3] + vector.y * matrix.m[1][3] + vector.z * matrix.m[2][3] +
+			1.0f * matrix.m[3][3];
+		assert(w != 0.0f);
+		result.x /= w;
+		result.y /= w;
+		result.z /= w;
+		return result;
+	}
+
+	Vector2 ConvertWorldToScreen(const Vector3& worldPos, const Matrix4x4& viewProjection) {
+		Vector3 result = worldPos;
+		if (result.x == 0 && result.y == 0 && result.z == 0) {
+			result = { 0.000001f,0.000001f ,0.0f };
+		}
+		// ビューポート行列
+		Matrix4x4 matViewport = Matrix4x4::CreateViewportMatrix(0, 0, LWP::Info::GetWindowWidthF(), LWP::Info::GetWindowHeightF(), 0, 1);
+		// ビュー行列とプロジェクション行列、ビューポート行列を合成する
+		Matrix4x4 matViewProjectionViewport = viewProjection * matViewport;
+		// ワールド→スクリーン座標変換
+		result = Transform(result, matViewProjectionViewport);
+
+		return Vector2(result.x, result.y);
+	}
+
+	bool IsObjectInFront(const Vector3& objectPos, const Vector3& cameraPos, const Quaternion& cameraRotate) {
+		// カメラの角度方向ベクトルに変換
+		Vector3 offset{ 0, 0, 1 };
+		// 回転行列を合成
+		Matrix4x4 rotateMatrix = Matrix4x4::CreateRotateXYZMatrix(cameraRotate);
+		// 自機のワールド行列の回転を反映する
+		offset = offset * rotateMatrix;
+
+		// 自機と敵の方向ベクトルを算出
+		Vector3 p2eDirVel = (objectPos - cameraPos).Normalize();
+
+		float dotXZ = Vector2::Dot(Vector2{ offset.x,offset.z }, Vector2{ p2eDirVel.x,p2eDirVel.z });
+		float magnitude1XZ = Vector2{ offset.x,offset.z }.Length();
+		float magnitude2XZ = Vector2{ p2eDirVel.x,p2eDirVel.z }.Length();
+		float angleXZ = std::acos(dotXZ / (magnitude1XZ * magnitude2XZ));
+		angleXZ = LWP::Utility::RadianToDegree(angleXZ);
+
+		if ((angleXZ) < (90.0f)) {
+			return true;
+		}
+		// カメラの映らないところにいる
+		return false;
+	}
+
 	LWP::Math::Vector3 Abs(LWP::Math::Vector3 value) {
 		LWP::Math::Vector3 result{
 			std::fabsf(value.x),

@@ -3,6 +3,7 @@
 #include "../../Bullets/Bullet/Bullet.h"
 
 using namespace FLMath;
+using namespace LWP::Math;
 
 IGun::IGun(GunData gunData) {
 	// 弾管理クラスのアドレス取得
@@ -34,9 +35,9 @@ void IGun::Init() {
 	currentAttackValue_ = gunData_.attackValue;
 
 	// 射撃時の経過時間
-	shotFrame_ = gunData_.shotIntervalTime * 60.0f;
+	attackFrame_ = gunData_.shotIntervalTime * 60.0f;
 	// リロードの経過時間
-	reloadFrame_ = gunData_.reloadTime * 60.0f;
+	coolFrame_ = gunData_.reloadTime * 60.0f;
 }
 
 void IGun::Update() {
@@ -45,10 +46,10 @@ void IGun::Update() {
 		isDestroy_ = true;
 	}
 
-	shotFrame_--;
+	attackFrame_--;
 
-	shotFrame_ = std::max<float>(shotFrame_, 0.0f);
-	reloadFrame_ = std::max<float>(reloadFrame_, 0.0f);
+	attackFrame_ = std::max<float>(attackFrame_, 0.0f);
+	coolFrame_ = std::max<float>(coolFrame_, 0.0f);
 }
 
 void IGun::DebugGui() {
@@ -57,8 +58,8 @@ void IGun::DebugGui() {
 		ImGui::TreePop();
 	}
 	if (ImGui::TreeNode("CoolTime")) {
-		ImGui::DragFloat("ShotFrame", &shotFrame_);
-		ImGui::DragFloat("ReloadFrame", &reloadFrame_);
+		ImGui::DragFloat("ShotFrame", &attackFrame_);
+		ImGui::DragFloat("ReloadFrame", &coolFrame_);
 		ImGui::TreePop();
 	}
 }
@@ -70,26 +71,27 @@ void IGun::Attack() {
 		return; 
 	}
 	// 射撃できる状態か
-	if (!GetIsEnableShot()) { return; }
+	if (!GetIsEnableAttack()) { return; }
 
 	// 弾を撃つ
-	Bullet* bullet = new Bullet(body_.worldTF.GetWorldPosition(), GetDirVector({ 0,0,1 }, actor_->GetModel().worldTF.rotation));
+	//Bullet* bullet = new Bullet(body_.worldTF.GetWorldPosition(), GetDirVector({ 0,0,1 }, actor_->GetModel().worldTF.rotation));
+	Bullet* bullet = new Bullet(body_.worldTF.GetWorldPosition(), shotDirVel_ * 1.0f);
 	pBulletManager_->CreateBullet(bullet);
 
 	// 弾数を減らす
 	magazine_->BulletDecrement();
 
 	// 射撃間隔を初期化
-	shotFrame_ = gunData_.shotIntervalTime * 60.0f;
+	attackFrame_ = gunData_.shotIntervalTime * 60.0f;
 }
 
 void IGun::Reload() {
-	reloadFrame_--;
+	coolFrame_--;
 
 	// リロード完了
-	if (!GetIsReloading()) {
+	if (!GetIsCoolTime()) {
 		// リロード時間を初期化
-		reloadFrame_ = gunData_.reloadTime * 60.0f;
+		coolFrame_ = gunData_.reloadTime * 60.0f;
 		// 弾数を初期化
 		magazine_->Init(gunData_.bulletNum);
 	}

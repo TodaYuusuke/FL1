@@ -2,15 +2,18 @@
 #include "Action/None/NoneAction.h"
 #include "../../Weapon/Gun/ShotGun/ShotGun.h"
 #include "../../Weapon/Gun/MachineGun/MachineGun.h"
+#include "../System/LeadingSystem.h"
 
 using namespace ActionConfig;
 using namespace ActionConfig::Mask;
 using namespace LWP::Input;
 
-WeaponController::WeaponController() {
+WeaponController::WeaponController(LeadingSystem* leadingSystem) {
+	pLeadingSystem_ = leadingSystem;
+
 	enableChangeState_ = Weapon::MainAction::reloading | Weapon::MainAction::attack;
-	weapons_[WeaponSide::kLeft] = std::make_unique<WeaponSlot>();
-	weapons_[WeaponSide::kRight] = std::make_unique<WeaponSlot>();
+	weapons_[WeaponSide::kLeft] = std::make_unique<WeaponSlot>(pLeadingSystem_);
+	weapons_[WeaponSide::kRight] = std::make_unique<WeaponSlot>(pLeadingSystem_);
 }
 
 WeaponController::~WeaponController() {
@@ -95,7 +98,9 @@ void WeaponController::InputHandle() {
 	if (Keyboard::GetPress(DIK_1) || Controller::GetPress(XBOX_LB)) {
 		// 他の武器や状態と並列しても問題ないかを判別
 		//if () {
-		if (weapons_[WeaponSide::kLeft]) weapons_[WeaponSide::kLeft]->Attack();
+		if (weapons_[WeaponSide::kLeft]) {
+			weapons_[WeaponSide::kLeft]->Attack();
+		}
 		//}
 	}
 	// 右
