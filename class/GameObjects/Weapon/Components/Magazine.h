@@ -8,7 +8,7 @@
 class Magazine {
 public:
 	// コンストラクタ
-	Magazine(const std::string& modelFileName, const float& bulletNum);
+	Magazine(const float& bulletNum);
 	// デストラクタ
 	~Magazine() = default;
 
@@ -47,8 +47,6 @@ public:// アクセサ
 #pragma endregion 
 
 private:
-	// モデル
-	LWP::Resource::RigidModel body_;
 	// 弾数
 	float bulletNum_;
 };

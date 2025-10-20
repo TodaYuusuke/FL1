@@ -2,7 +2,7 @@
 
 using namespace FLMath;
 
-Melee::Melee(GunData gunData)
+Melee::Melee(WeaponData gunData)
 	: IMelee(gunData)
 {
 }

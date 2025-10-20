@@ -7,7 +7,7 @@
 class ChaseState : public StateBase {
 public:
 	// コンストラクタ
-	ChaseState(BlackBoard* pBlackBoard, const float& speed);
+	ChaseState(BlackBoard* pBlackBoard, NodeResult* nodeResult, const float& speed);
 	// デストラクタ
 	~ChaseState() override;
 

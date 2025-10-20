@@ -5,12 +5,12 @@
 /// <summary>
 /// ミサイルクラス
 /// </summary>
-class Missle : public IGun {
+class Missile : public IGun {
 public:
 	// コンストラクタ
-	Missle(GunData gunData);
+	Missile(WeaponData gunData);
 	// デストラクタ
-	~Missle() override = default;
+	~Missile() override = default;
 
 	/// <summary>
 	/// 初期化

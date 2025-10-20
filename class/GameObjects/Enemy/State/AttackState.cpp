@@ -1,11 +1,9 @@
 #include "AttackState.h"
 #include "../../../Componets/BehaviourTree/Actor/Actor.h"
 
-AttackState::AttackState(BlackBoard* pBlackBoard) {
+AttackState::AttackState(BlackBoard* pBlackBoard, NodeResult* nodeResult) {
 	pBlackBoard_ = pBlackBoard;
-
-	//attackModel_.LoadCube();
-	//attackModel_.worldTF.Parent(pBlackBoard->GetValue<Actor*>(EnemyConfig::name)->GetWorldTF());
+	nodeResult_ = nodeResult;
 }
 
 AttackState::~AttackState() {
@@ -18,6 +16,7 @@ void AttackState::Init() {
 
 void AttackState::Update() {
 	if (currentFrame_ <= 0.0f) {
+		*nodeResult_ = (NodeResult::Success);
 		isEnableChangeState_ = true;
 		return;
 	}

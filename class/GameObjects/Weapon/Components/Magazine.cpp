@@ -1,10 +1,7 @@
 #include "Magazine.h"
 #include <algorithm>
 
-Magazine::Magazine(const std::string& modelFileName, const float& bulletNum) {
-	// モデル作成
-	//body_.LoadCube();
-	modelFileName;
+Magazine::Magazine(const float& bulletNum) {
 	// 残弾を代入
 	Init(bulletNum);
 }

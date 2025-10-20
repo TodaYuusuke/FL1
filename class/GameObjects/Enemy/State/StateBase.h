@@ -1,5 +1,6 @@
 #pragma once
 #include "../../../Componets/BehaviourTree/Actor/BlackBoard.h"
+#include "../../../Componets/BehaviourTree/NodeResult.h"
 #include "../EnemyConfig.h"
 #include <Adapter.h>
 
@@ -59,6 +60,7 @@ public:// アクセサ
 protected:
 	// 黒板(ビヘイビアツリーにて使用)
 	BlackBoard* pBlackBoard_;
+	NodeResult* nodeResult_;
 
 	// 速度
 	LWP::Math::Vector3 velocity_;

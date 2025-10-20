@@ -7,7 +7,7 @@
 class EscapeState : public StateBase {
 public:
 	// コンストラクタ
-	EscapeState(BlackBoard* pBlackBoard, const float& speed);
+	EscapeState(BlackBoard* pBlackBoard, NodeResult* nodeResult, const float& speed);
 	// デストラクタ
 	~EscapeState() override;
 

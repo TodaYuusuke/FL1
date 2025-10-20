@@ -9,7 +9,7 @@
 class IMelee : public IWeapon {
 public:
 	// コンストラクタ
-	IMelee(GunData gunData);
+	IMelee(WeaponData gunData);
 	// デストラクタ
 	~IMelee() override = default;
 
@@ -58,7 +58,7 @@ public:// アクセサ
 #pragma endregion
 
 private:// 調整項目
-	GunData gunData_;
+	WeaponData meleeData_;
 
 private:
 	// 弾倉

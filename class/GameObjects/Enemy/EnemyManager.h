@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
 #include "EnemyConfig.h"
+#include "../Weapon/WeaponConfig.h"
 #include <Adapter.h>
 
 class IWorld;
@@ -46,9 +47,17 @@ private:
 	/// </summary>
 	void CreateEnemy();
 	/// <summary>
+	/// 選ばれた武器生成(デバッグ用)
+	/// </summary>
+	void CreateWeapon();
+	/// <summary>
 	/// 作成する敵を選択(デバッグ用)
 	/// </summary>
 	void SelectCreateEnemy();
+	/// <summary>
+	/// 所持させる武器を選択(デバッグ用)
+	/// </summary>
+	void SelectCreateWeapon();
 	/// <summary>
 	/// 読み込むjsonファイル選択(デバッグ用)
 	/// </summary>
@@ -86,6 +95,9 @@ private:// デバッグ用変数
 	// 作成できる敵の名前一覧
 	std::vector<std::string> enemyTypePreview_;
 	int selectCreateEnemyType_;
+	// 作成できる武器の名前一覧
+	std::vector<std::string> weaponPreview_;
+	int selectWeapon_;
 	// behaviorTreeのファイル名一覧
 	std::vector<std::string> enemyBTFileNamePreview_;
 	int selectBTFileName_;

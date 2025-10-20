@@ -8,7 +8,7 @@
 class Melee : public IMelee {
 public:
 	// コンストラクタ
-	Melee(GunData gunData);
+	Melee(WeaponData gunData);
 	// デストラクタ
 	~Melee() override = default;
 

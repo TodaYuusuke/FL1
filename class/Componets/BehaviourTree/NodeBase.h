@@ -49,6 +49,11 @@ public:// パブリックなアクセサ
 	/// </summary>
 	/// <param name="id"></param>
 	void SetNodeID(const int id) override { nodeId = id; }
+	/// <summary>
+	/// ノード状態を設定
+	/// </summary>
+	/// <param name="nodeResult"></param>
+	void SetNodeResult(const NodeResult& nodeResult) { this->nodeResult = nodeResult; }
 
 protected:
 	NodeResult nodeResult = NodeResult::Idle; // ノードの状態

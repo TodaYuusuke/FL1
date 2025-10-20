@@ -4,8 +4,9 @@
 using namespace LWP;
 using namespace LWP::Math;
 
-EscapeState::EscapeState(BlackBoard* pBlackBoard, const float& speed) {
+EscapeState::EscapeState(BlackBoard* pBlackBoard, NodeResult* nodeResult, const float& speed) {
 	pBlackBoard_ = pBlackBoard;
+	nodeResult_ = nodeResult;
 	speed_ = speed;
 }
 
@@ -19,6 +20,7 @@ void EscapeState::Init() {
 
 void EscapeState::Update() {
 	if (currentFrame_ <= 0.0f) {
+		*nodeResult_ = (NodeResult::Success);
 		isEnableChangeState_ = true;
 		return;
 	}

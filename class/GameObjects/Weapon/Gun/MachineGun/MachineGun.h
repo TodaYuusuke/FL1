@@ -8,7 +8,7 @@
 class MachineGun : public IGun {
 public:
 	// コンストラクタ
-	MachineGun(GunData gunData);
+	MachineGun(WeaponData gunData);
 	// デストラクタ
 	~MachineGun() override = default;
 
@@ -23,7 +23,7 @@ public:
 	/// <summary>
 	/// 攻撃
 	/// </summary>
-	void Attack() override;
+	//void Attack() override;
 	/// <summary>
 	/// 破壊処理
 	/// </summary>

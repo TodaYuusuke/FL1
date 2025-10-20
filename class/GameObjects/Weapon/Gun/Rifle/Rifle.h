@@ -8,7 +8,7 @@
 class Rifle : public IGun {
 public:
 	// コンストラクタ
-	Rifle(GunData gunData);
+	Rifle(WeaponData gunData);
 	// デストラクタ
 	~Rifle() override = default;
 

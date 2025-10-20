@@ -56,14 +56,14 @@ void WeaponController::DebugGui() {
 
 		// 左の武器を装備
 		if (ImGui::Button("SetLeftWeapon")) {
-			GunData data = {
+			WeaponData data = {
 				"Gun/AR/AR.obj",
-				"",
 				0.1f,
 				0.0f,
 				0.0f,
 				60.0f,
 				10.0f,
+				1.0f,
 				1.0f
 			};
 			std::unique_ptr<ShotGun> gun = std::make_unique<ShotGun>(data);
@@ -73,14 +73,14 @@ void WeaponController::DebugGui() {
 		}
 		// 右の武器を装備
 		if (ImGui::Button("SetRightWeapon")) {
-			GunData data = {
+			WeaponData data = {
 				"Gun/ShotGun/Rifle.obj",
-				"",
 				0.1f,
 				0.0f,
 				0.0f,
 				60.0f,
 				10.0f,
+				1.0f,
 				1.0f
 			};
 			std::unique_ptr<ShotGun> gun = std::make_unique<ShotGun>(data);

@@ -2,22 +2,22 @@
     {
         "false_child": 11,
         "id": 6,
-        "limit_distance": 10.0,
+        "limit_distance": 20.0,
         "name": "CheckNearPlayer",
         "parent": 13,
-        "pos_x": 394.0,
-        "pos_y": 160.0,
+        "pos_x": 348.0,
+        "pos_y": 153.00003051757813,
         "speed": 0.0,
-        "true_child": 7,
+        "true_child": 5,
         "type": 2
     },
     {
         "children": [],
         "id": 7,
         "name": "CircleAttackLeaf",
-        "parent": 6,
-        "pos_x": 691.0,
-        "pos_y": 116.0,
+        "parent": 5,
+        "pos_x": 702.0000610351563,
+        "pos_y": -6.0,
         "speed": 0.0,
         "type": 3
     },
@@ -26,10 +26,24 @@
         "id": 11,
         "name": "ChasePlayerLeaf",
         "parent": 6,
-        "pos_x": 694.0,
-        "pos_y": 254.0,
+        "pos_x": 686.0,
+        "pos_y": 381.0,
         "speed": 0.05000000074505806,
         "type": 3
+    },
+    {
+        "children": [
+            7,
+            8,
+            9
+        ],
+        "id": 5,
+        "name": "Sequence",
+        "parent": 6,
+        "pos_x": 573.0000610351563,
+        "pos_y": 32.0,
+        "speed": 0.0,
+        "type": 0
     },
     {
         "children": [
@@ -42,5 +56,26 @@
         "pos_y": 163.0,
         "speed": 0.0,
         "type": 0
+    },
+    {
+        "children": [],
+        "id": 8,
+        "name": "WaitLeaf",
+        "parent": 5,
+        "pos_x": 700.4500122070313,
+        "pos_y": 79.41091918945313,
+        "speed": 0.0,
+        "type": 3,
+        "wait_time": 60.0
+    },
+    {
+        "children": [],
+        "id": 9,
+        "name": "AlwaysSuccessLeaf",
+        "parent": 5,
+        "pos_x": 695.0,
+        "pos_y": 184.0,
+        "speed": 0.0,
+        "type": 3
     }
 ]

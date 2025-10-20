@@ -2,7 +2,7 @@
 
 using namespace FLMath;
 
-ShotGun::ShotGun(GunData gunData)
+ShotGun::ShotGun(WeaponData gunData)
 	: IGun(gunData)
 {
 }

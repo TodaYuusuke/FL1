@@ -4,7 +4,7 @@
 
 using namespace FLMath;
 
-MachineGun::MachineGun(GunData gunData) 
+MachineGun::MachineGun(WeaponData gunData)
 	: IGun(gunData)
 {
 }
@@ -17,7 +17,7 @@ void MachineGun::Update() {
 	IGun::Update();
 }
 
-void MachineGun::Attack() {
+//void MachineGun::Attack() {
 	//// 弾がない状態なら撃てない
 	//if (magazine_->GetEmpty()) { 
 	//	isDestroy_ = true;
@@ -35,7 +35,7 @@ void MachineGun::Attack() {
 
 	//// 射撃間隔を初期化
 	//shotFrame_ = gunData_.shotIntervalTime * 60.0f;
-}
+//}
 
 
 void MachineGun::Destroy() {

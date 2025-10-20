@@ -16,7 +16,7 @@ WaitLeaf::~WaitLeaf() {
 void WaitLeaf::Tick() {
 	// 敵アドレスを取得
 	Actor* actor = blackBoard->GetValue<Actor*>("Actor");
-	actor->ChangeState(new WaitState(blackBoard, waitTime));
+	actor->ChangeState(new WaitState(blackBoard, &nodeResult, waitTime));
 }
 
 void WaitLeaf::Finalize() {

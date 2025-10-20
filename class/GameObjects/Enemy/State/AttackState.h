@@ -7,7 +7,7 @@
 class AttackState : public StateBase {
 public:
 	// コンストラクタ
-	AttackState(BlackBoard* pBlackBoard);
+	AttackState(BlackBoard* pBlackBoard, NodeResult* nodeResult);
 	// デストラクタ
 	~AttackState() override;
 
@@ -27,5 +27,5 @@ public:
 private:
 	LWP::Resource::RigidModel attackModel_;
 
-	float currentFrame_ = 120.0f;
+	float currentFrame_ = 30.0f;
 };

@@ -9,7 +9,7 @@
 class IGun : public IWeapon {
 public:
 	// コンストラクタ
-	IGun(GunData gunData);
+	IGun(WeaponData gunData);
 	// デストラクタ
 	~IGun() override = default;
 
@@ -53,7 +53,7 @@ private:
 	BulletManager* pBulletManager_;
 
 private:// 調整項目
-	GunData gunData_;
+	WeaponData gunData_;
 
 private:
 };

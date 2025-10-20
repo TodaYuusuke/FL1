@@ -2,10 +2,12 @@
 #include "../../World/IWorld.h"
 #include "../../../Componets/BehaviourTree/Actor/BlackBoard.h"
 #include "../../../Componets/BehaviourTree/BehaviourTreeBulider.h"
+#include "../../Weapon/IWeapon.h"
 #include "../State/StateBase.h"
 #include "../EnemyConfig.h"
 
 using namespace LWP::Math;
+using namespace FLMath;
 
 Gunner::Gunner(IWorld* world, int ID, const std::string& BTFilePath) {
 	world_ = world;
@@ -27,7 +29,7 @@ Gunner::Gunner(IWorld* world, int ID, const std::string& BTFilePath) {
 	blackBoard_->SetValue<Actor*>("Player", player);
 
 	// ビヘイビアツリーの編集クラス
-	btEditor_ = std::make_unique<BehaviorTreeGraph>(true);
+	btEditor_ = std::make_unique<BehaviorTreeGraph>(false);
 	btEditor_->SelectLoadFile(BTFilePath);
 
 	// ビヘイビアツリー生成
@@ -44,14 +46,9 @@ void Gunner::Init() {
 
 }
 
-void Gunner::Update() {
-	// ビヘイビアツリー更新
-	if (!state_ || state_->GetIsEnableChangeState()) {
-		bt_->Tick();
-	}
-
-	// 状態
-	state_->Update();
+void Gunner::Update() {	
+	// 基底クラス
+	Actor::Update();
 
 	// 移動処理
 	Move();
@@ -69,6 +66,13 @@ void Gunner::DrawGui() {
 	}
 }
 
+void Gunner::Attack() {
+	// 射撃方向
+	weapon_->SetShotDirVelocity(GetDirVector({ 0,0,1 }, weapon_->GetActor()->GetModel().worldTF.rotation));
+
+	Actor::Attack();
+}
+
 const int Gunner::GetBTRunningNodeID() const {
 	return bt_->GetRunningNodeID();
 }
@@ -78,5 +82,5 @@ void Gunner::Move() {
 
 	model_.worldTF.translation += velocity_;
 	// 速度に応じて角度変更
-	//if (Vector3::Dot(velocity_, velocity_) != 0.0f) model_.worldTF.rotation = Quaternion::LookRotation(velocity_);
+	if (Vector3::Dot(velocity_, velocity_) != 0.0f) model_.worldTF.rotation = Quaternion::LookRotation(velocity_);
 }

@@ -26,6 +26,11 @@ public:
 	/// </summary>
 	void DrawGui() override;
 
+	/// <summary>
+	/// 攻撃
+	/// </summary>
+	void Attack() override;
+
 	// BehaviorTreeの中で現在動いているノードのIDを取得
 	const int GetBTRunningNodeID() const;
 

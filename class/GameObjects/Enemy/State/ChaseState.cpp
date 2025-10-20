@@ -4,8 +4,9 @@
 using namespace LWP;
 using namespace LWP::Math;
 
-ChaseState::ChaseState(BlackBoard* pBlackBoard, const float& speed) {
+ChaseState::ChaseState(BlackBoard* pBlackBoard, NodeResult* nodeResult, const float& speed) {
 	pBlackBoard_ = pBlackBoard;
+	nodeResult_ = nodeResult;
 	speed_ = speed;
 }
 
@@ -19,6 +20,7 @@ void ChaseState::Init() {
 
 void ChaseState::Update() {
 	if (currentFrame_ <= 0.0f) {
+		*nodeResult_ = (NodeResult::Success);
 		isEnableChangeState_ = true;
 	}
 

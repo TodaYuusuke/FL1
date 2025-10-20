@@ -70,6 +70,11 @@ public:// アクセサ
 	/// <returns></returns>
 	std::string GetTag() { return tag_; }
 	/// <summary>
+	/// ビヘイビアツリーの取得
+	/// </summary>
+	/// <returns></returns>
+	INode* GetBhaviorTree() { return bt_; }
+	/// <summary>
 	/// ノード編集のキャンバス取得
 	/// </summary>
 	/// <returns></returns>

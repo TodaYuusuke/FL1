@@ -2,7 +2,7 @@
 
 using namespace FLMath;
 
-Rifle::Rifle(GunData gunData)
+Rifle::Rifle(WeaponData gunData)
 	: IGun(gunData)
 {
 }

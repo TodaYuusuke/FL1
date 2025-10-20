@@ -8,7 +8,7 @@
 class Launcher : public IGun {
 public:
 	// コンストラクタ
-	Launcher(GunData gunData);
+	Launcher(WeaponData gunData);
 	// デストラクタ
 	~Launcher() override = default;
 

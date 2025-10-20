@@ -2,7 +2,7 @@
 
 using namespace FLMath;
 
-Launcher::Launcher(GunData gunData)
+Launcher::Launcher(WeaponData gunData)
 	: IGun(gunData)
 {
 }

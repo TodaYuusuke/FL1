@@ -18,7 +18,7 @@ ChasePlayerLeaf::~ChasePlayerLeaf() {
 void ChasePlayerLeaf::Tick() {
 	// 敵アドレスを取得
 	Actor* actor = blackBoard->GetValue<Actor*>("Actor");
-	actor->ChangeState(new ChaseState(blackBoard, speed));
+	actor->ChangeState(new ChaseState(blackBoard, &nodeResult, speed));
 }
 
 NodeResult ChasePlayerLeaf::GetNodeResult() const {

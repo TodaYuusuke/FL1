@@ -1,23 +1,23 @@
-#include "Missle.h"
+#include "Missile.h"
 #include "../../../Bullets/BulletManager.h"
 #include "../../../Bullets/Bullet/Bullet.h"
 
 using namespace FLMath;
 
-Missle::Missle(GunData gunData) 
+Missile::Missile(WeaponData gunData)
 	: IGun(gunData)
 {
 }
 
-void Missle::Init() {
+void Missile::Init() {
 	IGun::Init();
 }
 
-void Missle::Update() {
+void Missile::Update() {
 	IGun::Update();
 }
 
-void Missle::Attack() {
+void Missile::Attack() {
 	//// 弾がない状態なら撃てない
 	//if (magazine_->GetEmpty()) { 
 	//	isDestroy_ = true;
@@ -38,6 +38,6 @@ void Missle::Attack() {
 }
 
 
-void Missle::Destroy() {
+void Missile::Destroy() {
 	
 }

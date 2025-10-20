@@ -2,17 +2,17 @@
 
 using namespace FLMath;
 
-IMelee::IMelee(GunData gunData) {
+IMelee::IMelee(WeaponData gunData) {
 	// 調整項目を代入
-	gunData_ = gunData;
-	name_ = gunData_.gunModelName;
+	meleeData_ = gunData;
+	name_ = meleeData_.modelName;
 
 	// モデル生成
-	body_.LoadFullPath("resources/model/" + gunData_.gunModelName);
+	body_.LoadFullPath("resources/model/" + meleeData_.modelName);
 	body_.worldTF.scale = { 0.5f,0.5f,0.5f };
 
 	// マガジン作成
-	magazine_ = std::make_unique<Magazine>(gunData_.magazineModelName, gunData_.bulletNum);
+	magazine_ = std::make_unique<Magazine>(meleeData_.bulletNum);
 
 	Init();
 }
@@ -23,15 +23,15 @@ void IMelee::Init() {
 	body_.worldTF.scale = { 0.5f,0.5f,0.5f };
 
 	// マガジン初期化
-	magazine_->Init(gunData_.bulletNum);
+	magazine_->Init(meleeData_.bulletNum);
 
 	// 攻撃力
-	currentAttackValue_ = gunData_.attackValue;
+	currentAttackValue_ = meleeData_.attackValue;
 
 	// 射撃時の経過時間
-	shotFrame_ = gunData_.shotIntervalTime * 60.0f;
+	shotFrame_ = meleeData_.shotIntervalTime * 60.0f;
 	// リロードの経過時間
-	reloadFrame_ = gunData_.reloadTime * 60.0f;
+	reloadFrame_ = meleeData_.coolTime * 60.0f;
 }
 
 void IMelee::Update() {
@@ -71,7 +71,7 @@ void IMelee::Attack() {
 	magazine_->BulletDecrement();
 
 	// 射撃間隔を初期化
-	shotFrame_ = gunData_.shotIntervalTime * 60.0f;
+	shotFrame_ = meleeData_.shotIntervalTime * 60.0f;
 }
 
 void IMelee::Reload() {
@@ -80,9 +80,9 @@ void IMelee::Reload() {
 	// リロード完了
 	if (!GetIsReloading()) {
 		// リロード時間を初期化
-		reloadFrame_ = gunData_.reloadTime * 60.0f;
+		reloadFrame_ = meleeData_.coolTime * 60.0f;
 		// 弾数を初期化
-		magazine_->Init(gunData_.bulletNum);
+		magazine_->Init(meleeData_.bulletNum);
 	}
 }
 

@@ -183,7 +183,7 @@
     <ClCompile Include="class\GameObjects\Weapon\Melee\Melee.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\Weapon\Gun\Missile\Missle.cpp">
+    <ClCompile Include="class\GameObjects\Weapon\Gun\Missile\Missile.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="class\GameObjects\Enemy\EnemyManager.cpp">
@@ -193,6 +193,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="class\GameObjects\Enemy\Gunner\Gunner.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\GameObjects\Weapon\WeaponUtility.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\GameObjects\Enemy\Gunner\State\GunnerAttack.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -401,7 +407,7 @@
     <ClInclude Include="class\GameObjects\Weapon\Melee\Melee.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Weapon\Gun\Missile\Missle.h">
+    <ClInclude Include="class\GameObjects\Weapon\Gun\Missile\Missile.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\GameObjects\Enemy\EnemyManager.h">
@@ -414,6 +420,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\GameObjects\Enemy\Gunner\Gunner.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\Weapon\WeaponUtility.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\Enemy\Gunner\State\GunnerAttack.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

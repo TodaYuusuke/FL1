@@ -7,7 +7,7 @@
 class WaitState : public StateBase {
 public:
 	// コンストラクタ
-	WaitState(BlackBoard* pBlackBoard, const float& waitTime);
+	WaitState(BlackBoard* pBlackBoard, NodeResult* nodeResult, const float& waitTime);
 	// デストラクタ
 	~WaitState() override;
 

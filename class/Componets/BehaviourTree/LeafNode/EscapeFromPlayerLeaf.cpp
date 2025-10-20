@@ -18,7 +18,7 @@ EscapeFromPlayerLeaf::~EscapeFromPlayerLeaf() {
 void EscapeFromPlayerLeaf::Tick() {
 	// 敵アドレスを取得
 	Actor* actor = blackBoard->GetValue<Actor*>("Actor");
-	actor->ChangeState(new EscapeState(blackBoard, speed));
+	actor->ChangeState(new EscapeState(blackBoard, &nodeResult, speed));
 }
 
 NodeResult EscapeFromPlayerLeaf::GetNodeResult() const {

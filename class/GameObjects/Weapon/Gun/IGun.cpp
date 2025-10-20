@@ -5,20 +5,20 @@
 using namespace FLMath;
 using namespace LWP::Math;
 
-IGun::IGun(GunData gunData) {
+IGun::IGun(WeaponData gunData) {
 	// 弾管理クラスのアドレス取得
 	pBulletManager_ = BulletManager::GetInstance();
 
 	// 調整項目を代入
 	gunData_ = gunData;
-	name_ = gunData_.gunModelName;
+	name_ = gunData_.modelName;
 
 	// モデル生成
-	body_.LoadFullPath("resources/model/" + gunData_.gunModelName);
+	body_.LoadFullPath("resources/model/" + gunData_.modelName);
 	body_.worldTF.scale = { 0.5f,0.5f,0.5f };
 
 	// マガジン作成
-	magazine_ = std::make_unique<Magazine>(gunData_.magazineModelName, gunData_.bulletNum);
+	magazine_ = std::make_unique<Magazine>(gunData_.bulletNum);
 
 	Init();
 }
@@ -37,13 +37,14 @@ void IGun::Init() {
 	// 射撃時の経過時間
 	attackFrame_ = gunData_.shotIntervalTime * 60.0f;
 	// リロードの経過時間
-	coolFrame_ = gunData_.reloadTime * 60.0f;
+	coolFrame_ = gunData_.coolTime * 60.0f;
 }
 
 void IGun::Update() {
 	// 弾がなくなれば強制リロード(クールタイム)
 	if (magazine_->GetEmpty()) {
 		isDestroy_ = true;
+		Reload();
 	}
 
 	attackFrame_--;
@@ -91,7 +92,7 @@ void IGun::Reload() {
 	// リロード完了
 	if (!GetIsCoolTime()) {
 		// リロード時間を初期化
-		coolFrame_ = gunData_.reloadTime * 60.0f;
+		coolFrame_ = gunData_.coolTime * 60.0f;
 		// 弾数を初期化
 		magazine_->Init(gunData_.bulletNum);
 	}

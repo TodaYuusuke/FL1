@@ -2,6 +2,7 @@
 #include "Melee/MeleeAttacker.h"
 #include "Gunner/Gunner.h"
 #include "Test/TestEnemy.h"
+#include "../Weapon/Gun/MachineGun/MachineGun.h"
 #include "EnemyConfig.h"
 
 using namespace EnemyConfig;
@@ -70,10 +71,20 @@ void EnemyManager::DebugGui() {
 			ImGui::TreePop();
 		}
 
+		if (ImGui::TreeNode("Current enemy BT")) {
+			for (Actor* actor : enemies_) {
+				SwitchNodeEditorCanvas(actor->GetEditorContext());
+				actor->DrawGui();
+			}
+			ImGui::TreePop();
+		}
+
 		// 敵作成
 		if (ImGui::TreeNode("Create")) {
 			// 作成する敵を選択
 			SelectCreateEnemy();
+			// 作成する武器を選択
+			//SelectCreateWeapon();
 			// 生成座標
 			ImGui::DragFloat3("CreateTranslation", &createPos_.x, 0.01f);
 			// テスト敵のみ調整可能
@@ -83,7 +94,7 @@ void EnemyManager::DebugGui() {
 			}
 
 			// 敵生成
-			if (ImGui::Button("Done")) {
+			if (ImGui::Button("Create")) {
 				// プレビューで選択した敵を生成
 				CreateEnemy();
 			}
@@ -107,6 +118,23 @@ void EnemyManager::CreateGunnerEnemy() {
 	// 遠距離敵
 	Gunner* actor = new Gunner(pWorld_, createID_, enemyBTFileNamePreview_[kGunner]);
 	actor->SetTranslation(createPos_);
+
+	WeaponData data = {
+		"Gun/ShotGun/Rifle.obj",
+		0.1f,
+		0.0f,
+		0.0f,
+		60.0f,
+		10.0f,
+		1.0f,
+		1.0f
+	};
+	MachineGun* gun = new MachineGun(data);
+	gun->SetParent(actor);
+	gun->SetTranslation(LWP::Math::Vector3{ 1.0f, -0.5f,2.0f });
+
+	actor->ChangeWeapon(gun);
+
 	enemies_.push_back(actor);
 
 	createID_++;
@@ -121,6 +149,23 @@ void EnemyManager::CreateTestEnemy() {
 }
 
 void EnemyManager::CreateEnemy() {
+	switch (selectCreateEnemyType_) {
+		// 近接
+	case kMelee:
+		CreateMeleeEnemy();
+		break;
+		// 遠距離
+	case kGunner:
+		CreateGunnerEnemy();
+		break;
+		// テスト
+	case kTest:
+		CreateTestEnemy();
+		break;
+	}
+}
+
+void EnemyManager::CreateWeapon() {
 	switch (selectCreateEnemyType_) {
 		// 近接
 	case kMelee:
@@ -163,6 +208,21 @@ void EnemyManager::SelectCreateEnemy() {
 	}
 }
 
+void EnemyManager::SelectCreateWeapon() {
+	ImGui::Text("Select create weapon");
+
+	for (int i = 0; i < weaponPreview_.size(); i++) {
+		ImGui::RadioButton(weaponPreview_[i].c_str(), &selectWeapon_, i);
+		i++;
+	}
+
+	// 武器生成
+	if (ImGui::Button("Create")) {
+		// プレビューで選択した敵を生成
+		//CreateEnemy();
+	}
+}
+
 void EnemyManager::SelectJsonFile() {
 	ImGui::Text("Select Behavior-Tree file");
 	// 読み込むbehaviorTreeのプレビュー作成
@@ -201,6 +261,14 @@ void EnemyManager::CreateDebugData() {
 	enemyTypePreview_.push_back("Melee");
 	enemyTypePreview_.push_back("Gunner");
 	enemyTypePreview_.push_back("Test");
+
+	// 武器生成
+	weaponPreview_.push_back("MachineGun");
+	weaponPreview_.push_back("ShotGun");
+	weaponPreview_.push_back("Rifle");
+	weaponPreview_.push_back("Launcher");
+	weaponPreview_.push_back("Missile");
+	weaponPreview_.push_back("Melee");
 
 	// behaviorTreeファイル
 	enemyBTFileNamePreview_.push_back("resources/json/BT/BT_Melee.json");

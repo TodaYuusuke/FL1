@@ -6,6 +6,7 @@
 CircleAttackLeaf::CircleAttackLeaf(BlackBoard* black_board)
 	: LeafNodeBase(black_board)
 {
+
 }
 
 CircleAttackLeaf::~CircleAttackLeaf() {
@@ -15,7 +16,7 @@ CircleAttackLeaf::~CircleAttackLeaf() {
 void CircleAttackLeaf::Tick() {
 	// 攻撃状態に変更
 	Actor* actor = blackBoard->GetValue<Actor*>("Actor");
-	actor->ChangeState(new AttackState(blackBoard));
+	actor->ChangeState(new AttackState(blackBoard, &nodeResult));
 }
 
 NodeResult CircleAttackLeaf::GetNodeResult() const {

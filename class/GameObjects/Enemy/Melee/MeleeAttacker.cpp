@@ -45,13 +45,8 @@ void MeleeAttacker::Init() {
 }
 
 void MeleeAttacker::Update() {
-	// ビヘイビアツリー更新
-	if (!state_ || state_->GetIsEnableChangeState()) {
-		bt_->Tick();
-	}
-
-	// 状態
-	state_->Update();
+	// 基底クラス
+	Actor::Update();
 
 	// 移動処理
 	Move();

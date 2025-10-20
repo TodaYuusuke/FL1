@@ -18,6 +18,7 @@ public:
 	virtual NodeResult GetNodeResult() const = 0;
 	// ノードのIDを保存
 	virtual void SetNodeID(const int id) = 0;
+	virtual void SetNodeResult(const NodeResult& nodeResult) = 0;
 	// 現在動作中のノードのIDを取得
 	virtual int GetRunningNodeID() const = 0;
 };
