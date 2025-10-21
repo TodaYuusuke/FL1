@@ -1,4 +1,4 @@
-#include "Gunner.h"
+#include "Drone.h"
 #include "../../World/IWorld.h"
 #include "../../../Componets/BehaviourTree/Actor/BlackBoard.h"
 #include "../../../Componets/BehaviourTree/BehaviourTreeBulider.h"
@@ -9,7 +9,7 @@
 using namespace LWP::Math;
 using namespace FLMath;
 
-Gunner::Gunner(IWorld* world, int ID, const std::string& BTFilePath) {
+Drone::Drone(IWorld* world, int ID, const std::string& BTFilePath) {
 	world_ = world;
 	ID_ = ID;
 	tag_ = EnemyConfig::tag;
@@ -37,16 +37,16 @@ Gunner::Gunner(IWorld* world, int ID, const std::string& BTFilePath) {
 	bt_->Init();
 }
 
-Gunner::~Gunner() {
+Drone::~Drone() {
 	delete blackBoard_;
 	delete bt_;
 }
 
-void Gunner::Init() {
+void Drone::Init() {
 
 }
 
-void Gunner::Update() {	
+void Drone::Update() {	
 	// 基底クラス
 	Actor::Update();
 
@@ -57,8 +57,8 @@ void Gunner::Update() {
 	velocity_ = { 0.0f, 0.0f, 0.0f };
 }
 
-void Gunner::DrawGui() {
-	if (ImGui::TreeNode("Gunner")) {
+void Drone::DrawGui() {
+	if (ImGui::TreeNode("Drone")) {
 		btEditor_->SetRunnningNodeID(bt_->GetRunningNodeID());
 		btEditor_->Update();
 		btEditor_->Draw();
@@ -66,18 +66,18 @@ void Gunner::DrawGui() {
 	}
 }
 
-void Gunner::Attack() {
+void Drone::Attack() {
 	// 射撃方向
 	weapon_->SetShotDirVelocity(GetDirVector({ 0,0,1 }, weapon_->GetActor()->GetModel().worldTF.rotation));
 
 	Actor::Attack();
 }
 
-const int Gunner::GetBTRunningNodeID() const {
+const int Drone::GetBTRunningNodeID() const {
 	return bt_->GetRunningNodeID();
 }
 
-void Gunner::Move() {
+void Drone::Move() {
 	if (state_) {
 		velocity_ = state_->GetVel();
 		quat_ = state_->GetRot();

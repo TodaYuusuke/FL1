@@ -69,9 +69,10 @@ const int MeleeAttacker::GetBTRunningNodeID() const {
 }
 
 void MeleeAttacker::Move() {
-	if (state_) velocity_ = state_->GetVel();
+	if (state_) {
+		velocity_ = state_->GetVel();
+		quat_ = state_->GetRot();
+	}
 
 	model_.worldTF.translation += velocity_;
-	// 速度に応じて角度変更
-	if (Vector3::Dot(velocity_, velocity_) != 0.0f) model_.worldTF.rotation = Quaternion::LookRotation(velocity_);
 }

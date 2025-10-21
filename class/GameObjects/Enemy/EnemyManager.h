@@ -37,9 +37,13 @@ private:
 	/// 遠距離敵生成
 	/// </summary>
 	void CreateGunnerEnemy();
+	/// <summary>
+	/// 浮遊敵生成
+	/// </summary>
+	void CreateDroneEnemy();
 
 	/// <summary>
-	/// テスト敵生成
+	/// テスト敵生成(デバッグ用)
 	/// </summary>
 	void CreateTestEnemy();
 	/// <summary>
@@ -107,6 +111,9 @@ private:// デバッグ用変数
 
 private:// 外部から受け取る変数
 	IWorld* pWorld_;
+
+private:// 調整項目
+	float dronefloatHeight_ = 4.0f;
 
 private:
 	// 敵リスト

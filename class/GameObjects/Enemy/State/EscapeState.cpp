@@ -32,9 +32,18 @@ void EscapeState::Update() {
 
 	// 方向ベクトル算出
 	Vector3 vector = player->GetWorldTF()->GetWorldPosition() - actor->GetWorldTF()->GetWorldPosition();
+	vector.y = 0.0f;
 
 	// 速度を設定
 	velocity_ = vector.Normalize() * speed_;
+	// 速度に応じて角度変更
+	if (Vector3::Dot(velocity_, velocity_) != 0.0f) {
+		quat_ = Quaternion::LookRotation(vector.Normalize());
+	}
+	else {
+		quat_ = player->GetWorldTF()->rotation;
+	}
+	pBlackBoard_->GetValue<Actor*>(EnemyConfig::name)->SetRotation(quat_);
 
 	currentFrame_--;
 }

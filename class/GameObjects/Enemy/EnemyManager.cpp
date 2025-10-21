@@ -1,6 +1,7 @@
 #include "EnemyManager.h"
 #include "Melee/MeleeAttacker.h"
 #include "Gunner/Gunner.h"
+#include "Drone/Drone.h"
 #include "Test/TestEnemy.h"
 #include "../Weapon/Gun/MachineGun/MachineGun.h"
 #include "EnemyConfig.h"
@@ -140,6 +141,33 @@ void EnemyManager::CreateGunnerEnemy() {
 	createID_++;
 }
 
+void EnemyManager::CreateDroneEnemy() {
+	// ドローン敵
+	Drone* actor = new Drone(pWorld_, createID_, enemyBTFileNamePreview_[kDrone]);
+	actor->SetTranslation(createPos_);
+	actor->SetFloatHeight(dronefloatHeight_);
+
+	WeaponData data = {
+		"Gun/ShotGun/Rifle.obj",
+		0.1f,
+		0.0f,
+		0.0f,
+		60.0f,
+		10.0f,
+		1.0f,
+		1.0f
+	};
+	MachineGun* gun = new MachineGun(data);
+	gun->SetParent(actor);
+	gun->SetTranslation(LWP::Math::Vector3{ 0.0f, -1.0f,2.0f });
+
+	actor->ChangeWeapon(gun);
+
+	enemies_.push_back(actor);
+
+	createID_++;
+}
+
 void EnemyManager::CreateTestEnemy() {
 	// テスト敵
 	TestEnemy* actor = new TestEnemy();
@@ -158,22 +186,8 @@ void EnemyManager::CreateEnemy() {
 	case kGunner:
 		CreateGunnerEnemy();
 		break;
-		// テスト
-	case kTest:
-		CreateTestEnemy();
-		break;
-	}
-}
-
-void EnemyManager::CreateWeapon() {
-	switch (selectCreateEnemyType_) {
-		// 近接
-	case kMelee:
-		CreateMeleeEnemy();
-		break;
-		// 遠距離
-	case kGunner:
-		CreateGunnerEnemy();
+	case kDrone:
+		CreateDroneEnemy();
 		break;
 		// テスト
 	case kTest:
@@ -260,6 +274,7 @@ void EnemyManager::CreateDebugData() {
 	// 敵生成
 	enemyTypePreview_.push_back("Melee");
 	enemyTypePreview_.push_back("Gunner");
+	enemyTypePreview_.push_back("Drone");
 	enemyTypePreview_.push_back("Test");
 
 	// 武器生成
@@ -273,5 +288,6 @@ void EnemyManager::CreateDebugData() {
 	// behaviorTreeファイル
 	enemyBTFileNamePreview_.push_back("resources/json/BT/BT_Melee.json");
 	enemyBTFileNamePreview_.push_back("resources/json/BT/BT_Gunner.json");
+	enemyBTFileNamePreview_.push_back("resources/json/BT/BT_Drone.json");
 #pragma endregion
 }

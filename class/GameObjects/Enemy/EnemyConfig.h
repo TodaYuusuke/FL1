@@ -6,6 +6,7 @@ namespace EnemyConfig {
 	enum EnemyType {
 		kMelee,
 		kGunner,
+		kDrone,
 		kTest,
 		kCount
 	};
