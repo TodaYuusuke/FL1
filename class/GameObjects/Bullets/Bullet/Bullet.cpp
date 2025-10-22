@@ -1,5 +1,7 @@
 #include "Bullet.h"
 
+using namespace FLMath;
+
 Bullet::Bullet(const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel) {
 	// モデルの読み込み
 	body_.LoadCube();
@@ -26,7 +28,7 @@ void Bullet::Update() {
 	body_.worldTF.translation += vel_;
 
 	// 角度変更
-	body_.worldTF.rotation = LWP::Math::Quaternion::LookRotation(vel_);
+	body_.worldTF.rotation = LookRotationZLock(vel_);
 
 	// 線損時間を過ぎているなら消す
 	if (currentFrame_ <= 0.0f) {

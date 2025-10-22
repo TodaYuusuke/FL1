@@ -26,6 +26,22 @@ namespace FLMath {
 		return q;
 	}
 
+	LWP::Math::Quaternion LookRotationZLock(const LWP::Math::Vector3& dirVec) {
+		Vector3 dir = dirVec.Normalize();
+
+		// --- Y軸回転（左右） ---
+		float yaw = std::atan2(dir.x, dir.z);
+		Quaternion yawQ = Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, yaw);
+
+		// --- X軸回転（上下） ---
+		float pitch = std::atan2(-dir.y, std::sqrt(dir.x * dir.x + dir.z * dir.z));
+		Quaternion pitchQ = Quaternion::CreateFromAxisAngle(Vector3{ 1,0,0 }, pitch);
+
+		// --- 結合 ---
+		Quaternion result = yawQ * pitchQ;
+		return result;
+	}
+
 	float LerpShortAngle(float a, float b, float t) {
 		// 角度差分を求める
 		float diff = b - a;

@@ -2,6 +2,9 @@
 #include "../../../GameObjects/Enemy/State/StateBase.h"
 #include "../../../GameObjects/Weapon/IWeapon.h"
 
+using namespace LWP;
+using namespace LWP::Math;
+
 void Actor::Init() {}
 
 void Actor::Update(){
@@ -19,7 +22,12 @@ void Actor::Update(){
 void Actor::DrawGui() {}
 
 void Actor::Attack() {
-	if(weapon_) weapon_->Attack();
+	if (weapon_) {
+		// 射撃方向
+		weapon_->SetShotDirVelocity(Vector3{ 0,0,1 } *(model_.worldTF.rotation * weapon_->GetWorldTF()->rotation));
+		// 攻撃
+		weapon_->Attack();
+	}
 }
 
 void Actor::Die() {}

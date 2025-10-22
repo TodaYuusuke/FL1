@@ -26,11 +26,6 @@ public:
 	/// </summary>
 	void DrawGui() override;
 
-	/// <summary>
-	/// 攻撃
-	/// </summary>
-	void Attack() override;
-
 public:
 #pragma region Getter
 	// BehaviorTreeの中で現在動いているノードのIDを取得

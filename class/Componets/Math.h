@@ -8,6 +8,13 @@ namespace FLMath {
 	/// <param name="dirVec"></param>
 	/// <returns></returns>
 	LWP::Math::Quaternion LookRotation(const LWP::Math::Vector3& dirVec);
+	/// <summary>
+	/// 方向ベクトルからクォータニオンを算出
+	/// Z軸のみ計算しない
+	/// </summary>
+	/// <param name="dirVec"></param>
+	/// <returns></returns>
+	LWP::Math::Quaternion LookRotationZLock(const LWP::Math::Vector3& dirVec);
 
 	float LerpShortAngle(float a, float b, float t);
 

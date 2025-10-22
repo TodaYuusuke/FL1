@@ -4,6 +4,7 @@
 
 using namespace LWP;
 using namespace LWP::Math;
+using namespace FLMath;
 
 AttackState::AttackState(BlackBoard* pBlackBoard, NodeResult* nodeResult) {
 	pBlackBoard_ = pBlackBoard;
@@ -29,14 +30,22 @@ void AttackState::Update() {
 	Actor* player = pBlackBoard_->GetValue<Actor*>("Player");
 	// 敵アドレスを取得
 	Actor* actor = pBlackBoard_->GetValue<Actor*>("Actor");
+	// 武器のアドレスを取得
+	IWeapon* weapon = pBlackBoard_->GetValue<Actor*>("Actor")->GetWeapon();
 
-	// 方向ベクトル算出
+	// 敵と自機との方向ベクトル算出
 	Vector3 vector = player->GetWorldTF()->GetWorldPosition() - actor->GetWorldTF()->GetWorldPosition();
 	// 方向ベクトルに応じて角度変更
-	quat_ = Quaternion::LookRotation(vector.Normalize());
-
+	quat_ = LookRotationZLock(Vector3{vector.x, 0.0f, vector.z }.Normalize());
 	// 体の向きを変更
 	pBlackBoard_->GetValue<Actor*>(EnemyConfig::name)->SetRotation(quat_);
+
+	// 武器と自機との方向ベクトル算出
+	Vector3 weaponVector = player->GetWorldTF()->GetWorldPosition() - weapon->GetWorldTF()->GetWorldPosition();
+	// X軸の回転角算出[pi]
+	float pitch = std::atan2(-weaponVector.y, std::sqrt(weaponVector.x * weaponVector.x + weaponVector.z * weaponVector.z));
+	// 武器の角度変更
+	weapon->SetRotation((Quaternion::CreateFromAxisAngle(Vector3{ 1,0,0 }, pitch)));
 
 	// 持っている武器で攻撃
 	pBlackBoard_->GetValue<Actor*>(EnemyConfig::name)->Attack();

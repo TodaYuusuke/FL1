@@ -3,6 +3,7 @@
 
 using namespace LWP;
 using namespace LWP::Math;
+using namespace FLMath;
 
 EscapeState::EscapeState(BlackBoard* pBlackBoard, NodeResult* nodeResult, const float& speed) {
 	pBlackBoard_ = pBlackBoard;
@@ -38,7 +39,7 @@ void EscapeState::Update() {
 	velocity_ = vector.Normalize() * speed_;
 	// 速度に応じて角度変更
 	if (Vector3::Dot(velocity_, velocity_) != 0.0f) {
-		quat_ = Quaternion::LookRotation(vector.Normalize());
+		quat_ = LookRotationZLock(vector.Normalize());
 	}
 	else {
 		quat_ = player->GetWorldTF()->rotation;

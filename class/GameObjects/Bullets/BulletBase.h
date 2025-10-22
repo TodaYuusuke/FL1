@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Componets/Math.h"
 #include <Adapter.h>
 
 /// <summary>

@@ -66,13 +66,6 @@ void Gunner::DrawGui() {
 	}
 }
 
-void Gunner::Attack() {
-	// 射撃方向
-	weapon_->SetShotDirVelocity(GetDirVector({ 0,0,1 }, weapon_->GetActor()->GetModel().worldTF.rotation));
-
-	Actor::Attack();
-}
-
 const int Gunner::GetBTRunningNodeID() const {
 	return bt_->GetRunningNodeID();
 }
