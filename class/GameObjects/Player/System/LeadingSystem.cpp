@@ -1,26 +1,66 @@
 #include "LeadingSystem.h"
 #include "../../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../../Enemy/EnemyManager.h"
+#include "../../Weapon/IWeapon.h"
 #include "../../../Componets/Math.h"
 
 using namespace FLMath;
 using namespace LWP::Math;
 
-LeadingSystem::LeadingSystem(LWP::Object::Camera* camera) {
+LeadingSystem::LeadingSystem(LWP::Object::Camera* camera, BlackBoard* blackBoard) {
 	pCamera_ = camera;
+	blackBoard_ = blackBoard;
+
+	reticle_.LoadTexture("lockOnReticle.png");
+	reticle_.anchorPoint = { 0.5f,0.5f };
+
+	// 画面中央のワールド座標算出
+	centerWorldPos_ = ConvertScreenToWorld(pCamera_->GetViewProjection(), Vector2{ LWP::Info::GetWindowWidthF() / 2.0f, LWP::Info::GetWindowHeightF() / 2.0f }, 10.0f);
+	targetFuture_ = centerWorldPos_;
+	leadingTargetPos_ = centerWorldPos_;
+
+	reticle_.worldTF.translation = {
+		ConvertWorldToScreen(leadingTargetPos_, pCamera_->GetViewProjection()).x,
+		ConvertWorldToScreen(leadingTargetPos_, pCamera_->GetViewProjection()).y,
+		0.0f
+	};
 }
 
 void LeadingSystem::Init() {
 	leadingTarget_ = nullptr;
 	leadingTargetScreenPos_ = { 0.0f,0.0f };
+	targetFuture_ = centerWorldPos_;
 }
 
 void LeadingSystem::Update() {
+	// 画面中央のワールド座標算出
+	centerWorldPos_ = ConvertScreenToWorld(pCamera_->GetViewProjection(), Vector2{ LWP::Info::GetWindowWidthF() / 2.0f, LWP::Info::GetWindowHeightF() / 2.0f }, 10.0f);
+
 	// 偏差対象の選択
 	SelectLeadingTarget();
 
 	// 偏差対象解除
 	ClearLeadingTarget();
+
+	// 偏差対象がいないなら未来の座標を真ん中に戻す
+	if (!leadingTarget_) {
+		targetFuture_ = centerWorldPos_;
+	}
+	else {
+		CalFutureTargetPos(bulletSpeed_);
+	}
+	// 敵がいないなら未来の座標を真ん中に戻す
+	if (pEnemyManager_->GetEnemyList().empty()) {
+		targetFuture_ = centerWorldPos_;
+	}
+
+	leadingTargetPos_ = LWP::Utility::Interp::Exponential(leadingTargetPos_, targetFuture_, leadingAccuracy_);
+
+	reticle_.worldTF.translation = {
+		ConvertWorldToScreen(leadingTargetPos_, pCamera_->GetViewProjection()).x,
+		ConvertWorldToScreen(leadingTargetPos_, pCamera_->GetViewProjection()).y,
+		0.0f
+	};
 }
 
 void LeadingSystem::DebugGui() {
@@ -28,12 +68,12 @@ void LeadingSystem::DebugGui() {
 		ImGui::DragFloat("LeadingWorldRange", &leadingWorldRange_, 0.1f);
 		ImGui::DragFloat("LeadingScreenRange", &leadingScreenRange_, 0.1f);
 		ImGui::DragFloat("LeadingAccuracy", &leadingAccuracy_, 0.01f);
-
-		ImGui::SameLine();
+		ImGui::DragFloat3("FutureTranslation", &targetFuture_.x);
+		ImGui::DragFloat3("OffsetPos", &leadingTargetPos_.x);
+		ImGui::DragFloat3("CenterWorldPos", &centerWorldPos_.x);
 		if (leadingTarget_) {
 			ImGui::Text("Leading!");
 			ImGui::DragFloat3("Translation", &leadingTarget_->GetWorldTF()->translation.x);
-			ImGui::DragFloat3("FutureTranslation", &targetFuture_.x);
 		}
 		else {
 			ImGui::Text("Not Target");
@@ -100,6 +140,7 @@ void LeadingSystem::ClearLeadingTarget() {
 	if (leadingWorldRange_ < distance.Length()) {
 		leadingTarget_ = nullptr;
 		leadingTargetScreenPos_ = { 0.0f,0.0f };
+		targetFuture_ = centerWorldPos_;
 		return;
 	}
 
@@ -110,6 +151,7 @@ void LeadingSystem::ClearLeadingTarget() {
 		screenPos.y < 0.0f && screenPos.y > LWP::Info::GetWindowHeightF()) {
 		leadingTarget_ = nullptr;
 		leadingTargetScreenPos_ = { 0.0f,0.0f };
+		targetFuture_ = centerWorldPos_;
 		return;
 	}
 
@@ -117,6 +159,7 @@ void LeadingSystem::ClearLeadingTarget() {
 	if (!IsObjectInFront(leadingTarget_->GetWorldTF()->GetWorldPosition(), pCamera_->worldTF.GetWorldPosition(), pCamera_->worldTF.rotation)) {
 		leadingTarget_ = nullptr;
 		leadingTargetScreenPos_ = { 0.0f,0.0f };
+		targetFuture_ = centerWorldPos_;
 		return;
 	}
 
@@ -128,6 +171,7 @@ void LeadingSystem::ClearLeadingTarget() {
 	if (leadingScreenRange_ < Vector2::Distance(screenCenterPos, screenPos)) {
 		leadingTarget_ = nullptr;
 		leadingTargetScreenPos_ = { 0.0f,0.0f };
+		targetFuture_ = centerWorldPos_;
 		return;
 	}
 }
@@ -139,16 +183,19 @@ float LeadingSystem::PlusMin(float a, float b) {
 	return a < b ? a : b;
 }
 
-void LeadingSystem::CalFutureTargetPos(const Vector3& shooterPos, float bulletSpeed) {
+void LeadingSystem::CalFutureTargetPos(float bulletSpeed) {
+	// 画面中央のワールド座標算出
+	centerWorldPos_ = ConvertScreenToWorld(pCamera_->GetViewProjection(), Vector2{ LWP::Info::GetWindowWidthF() / 2.0f, LWP::Info::GetWindowHeightF() / 2.0f }, 10.0f);
+
 	if (!leadingTarget_) {
-		targetFuture_ = { 0,0,0 };
+		targetFuture_ = centerWorldPos_;
 		return;
 	}
 
 	//目標の1フレームの移動速度
 	Vector3 v3_Mv = leadingTarget_->GetWorldTF()->GetWorldPosition() - leadingTarget_->GetPreTranslation();
 	//射撃する位置から見た目標位置
-	Vector3 v3_Pos = leadingTarget_->GetWorldTF()->GetWorldPosition() - shooterPos;
+	Vector3 v3_Pos = leadingTarget_->GetWorldTF()->GetWorldPosition() - shooterPos_;
 
 	//ピタゴラスの定理から２つのベクトルの長さが等しい場合の式を作り
 	//二次方程式の解の公式を使って弾が当たる予測時間を計算する
@@ -163,7 +210,7 @@ void LeadingSystem::CalFutureTargetPos(const Vector3& shooterPos, float bulletSp
 			return;
 		}
 		else {
-			leadingTarget_->GetWorldTF()->GetWorldPosition() + v3_Mv * (-C / B);
+			targetFuture_ = leadingTarget_->GetWorldTF()->GetWorldPosition() + v3_Mv * (-C / B);
 			return;
 		}
 	}
@@ -189,13 +236,15 @@ void LeadingSystem::CalFutureTargetPos(const Vector3& shooterPos, float bulletSp
 	targetFuture_ = leadingTarget_->GetWorldTF()->GetWorldPosition() + v3_Mv * flame1;
 }
 
-Vector3 LeadingSystem::GetLeadingShotAngle(const Vector3& shooterPos, float bulletSpeed) {
+Vector3 LeadingSystem::GetLeadingShotAngle(Vector3 shooterPos, float bulletSpeed) {
 	if (!leadingTarget_) { return Vector3{ 0,0,0 }; }
+
+	Start(shooterPos, bulletSpeed);
 
 	//目標の1フレームの移動速度
 	Vector3 v3_Mv = leadingTarget_->GetWorldTF()->GetWorldPosition() - leadingTarget_->GetPreTranslation();
 	//射撃する位置から見た目標位置
-	Vector3 v3_Pos = leadingTarget_->GetWorldTF()->GetWorldPosition() - shooterPos;
+	Vector3 v3_Pos = leadingTargetPos_ - shooterPos;
 
 	//ピタゴラスの定理から２つのベクトルの長さが等しい場合の式を作り
 	//二次方程式の解の公式を使って弾が当たる予測時間を計算する
@@ -206,10 +255,10 @@ Vector3 LeadingSystem::GetLeadingShotAngle(const Vector3& shooterPos, float bull
 	//0割り禁止処理
 	if (A == 0) {
 		if (B == 0) {
-			return leadingTarget_->GetWorldTF()->GetWorldPosition();
+			return leadingTargetPos_;
 		}
 		else {
-			return leadingTarget_->GetWorldTF()->GetWorldPosition() + v3_Mv * (-C / B);
+			return leadingTargetPos_ + v3_Mv * (-C / B);
 		}
 	}
 
@@ -231,7 +280,7 @@ Vector3 LeadingSystem::GetLeadingShotAngle(const Vector3& shooterPos, float bull
 	}
 
 	// 方向ベクトル
-	Vector3 result = (leadingTarget_->GetWorldTF()->GetWorldPosition() + v3_Mv * flame1) - shooterPos;
+	Vector3 result = (leadingTargetPos_ + v3_Mv * flame1) - shooterPos;
 
 	return result.Normalize();
 }

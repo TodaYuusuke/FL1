@@ -9,7 +9,7 @@
 class IMelee : public IWeapon {
 public:
 	// コンストラクタ
-	IMelee(WeaponData gunData);
+	IMelee(WeaponData data);
 	// デストラクタ
 	~IMelee() override = default;
 
@@ -25,6 +25,10 @@ public:
 	/// 調整項目
 	/// </summary>
 	void DebugGui() override;
+	/// <summary>
+	/// json情報作成(コピー元武器作成時以外呼び出し禁止)
+	/// </summary>
+	void CreateJsonData(const std::string& name) override;
 
 	/// <summary>
 	/// 攻撃
@@ -56,9 +60,6 @@ public:// アクセサ
 #pragma region Setter
 
 #pragma endregion
-
-private:// 調整項目
-	WeaponData meleeData_;
 
 private:
 	// 弾倉

@@ -1,6 +1,7 @@
 #include "Title.h"
 #include "../GameObjects/Enemy/Melee/MeleeAttacker.h"
 #include "../GameObjects/Bullets/BulletManager.h"
+#include "../GameObjects/Weapon/WeaponManager.h"
 
 using namespace LWP;
 using namespace LWP::Math;
@@ -8,9 +9,11 @@ using namespace LWP::Math;
 Title::Title() {
 	// 弾管理クラスを生成
 	BulletManager::Create();
+	WeaponManager::Create();
 }
 
 Title::~Title() {
+	WeaponManager::Destroy();
 	BulletManager::Destroy();
 }
 
@@ -26,9 +29,9 @@ void Title::Initialize() {
 	world_ = std::make_unique<World>();
 
 	// 自機
-	player_ = new Player(followCamera_->GetCamera());
+	player_ = std::make_unique<Player>(followCamera_->GetCamera());
 	// 自機をアクターとして追加
-	world_->AddActor(player_);
+	world_->AddActor(player_.get());
 
 	// 敵管理クラス
 	enemyManager_ = std::make_unique<EnemyManager>(world_.get());
@@ -36,7 +39,12 @@ void Title::Initialize() {
 	// 敵管理リストを設定
 	player_->SetEnemyManager(enemyManager_.get());
 	// 追従カメラを自機対象に設定
-	followCamera_->SetTarget(player_);
+	followCamera_->SetTarget(player_.get());
+
+	// 武器管理クラスに自機のアドレスを登録
+	WeaponManager::GetInstance()->SetPlayer(player_.get());
+	// 武器管理クラスにワールドのアドレスを登録
+	WeaponManager::GetInstance()->SetWorld(world_.get());
 }
 
 // 更新
@@ -45,17 +53,22 @@ void Title::Update() {
 	// 敵管理
 	enemyManager_->Update();
 
-	// 弾の管理
+	// 弾管理クラス
 	BulletManager::GetInstance()->Update();
+	// 武器管理クラス
+	WeaponManager::GetInstance()->Update();
 
 	// 追従カメラ
 	followCamera_->Update();
 
 #ifdef _DEBUG
-	ImGui::BeginTabBar("DebugGame");
+	ImGui::Begin("GameObjects");
+	ImGui::BeginTabBar("GameObject");
 
 	world_->DebugGui();
 
+	// 武器管理クラス
+	WeaponManager::GetInstance()->DebugGui();
 	// 敵管理
 	enemyManager_->DebugGui();
 
@@ -66,7 +79,7 @@ void Title::Update() {
 			followCamera_->DebugGUI();
 			// 追従対象を設定
 			if (ImGui::Button("SetFollow")) {
-				followCamera_->SetTarget(player_);
+				followCamera_->SetTarget(player_.get());
 			}
 			// 追従をやめる
 			if (ImGui::Button("ResetFollow")) {
@@ -78,5 +91,6 @@ void Title::Update() {
 	}
 
 	ImGui::EndTabBar();
+	ImGui::End();
 #endif // DEBUG
 }

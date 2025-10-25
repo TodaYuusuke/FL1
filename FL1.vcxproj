@@ -109,6 +109,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -149,7 +150,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="class\GameObjects\Enemy\Drone\Drone.cpp" />
-    <ClCompile Include="class\GameObjects\Enemy\Drone\State\GunnerAttack.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\Gunner\Gunner.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\ChaseState.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\AttackState.cpp" />
@@ -203,7 +203,6 @@
     <ClCompile Include="class\GameObjects\Weapon\Components\LockOn.cpp" />
     <ClCompile Include="class\GameObjects\Player\System\LeadingSystem.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\EnemyManager.cpp" />
-    <ClCompile Include="class\GameObjects\Enemy\Gunner\State\GunnerAttack.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\StateBase.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\WaitState.cpp" />
@@ -211,11 +210,10 @@
     <ClCompile Include="class\GameObjects\UI\Weapon\WeaponUI.cpp" />
     <ClCompile Include="class\GameObjects\UI\UIManager.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\Test\TestEnemy.cpp" />
-    <ClCompile Include="class\GameObjects\Weapon\WeaponUtility.cpp" />
+    <ClCompile Include="class\GameObjects\Weapon\WeaponManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="class\GameObjects\Enemy\Drone\Drone.h" />
-    <ClInclude Include="class\GameObjects\Enemy\Drone\State\GunnerAttack.h" />
     <ClInclude Include="class\GameObjects\Enemy\EnemyConfig.h" />
     <ClInclude Include="class\GameObjects\Enemy\Gunner\Gunner.h" />
     <ClInclude Include="class\GameObjects\Enemy\State\ChaseState.h" />
@@ -289,8 +287,7 @@
     <ClInclude Include="class\GameObjects\Player\System\LeadingSystem.h" />
     <ClInclude Include="class\GameObjects\Enemy\EnemyManager.h" />
     <ClInclude Include="class\GameObjects\Enemy\Test\TestEnemy.h" />
-    <ClInclude Include="class\GameObjects\Weapon\WeaponUtility.h" />
-    <ClInclude Include="class\GameObjects\Enemy\Gunner\State\GunnerAttack.h" />
+    <ClInclude Include="class\GameObjects\Weapon\WeaponManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

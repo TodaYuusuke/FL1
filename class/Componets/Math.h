@@ -36,6 +36,13 @@ namespace FLMath {
 	/// <param name="viewProjection"></param>
 	/// <returns></returns>
 	LWP::Math::Vector2 ConvertWorldToScreen(const LWP::Math::Vector3& worldPos, const LWP::Math::Matrix4x4& viewProjection);
+	/// <summary>
+	/// スクリーン座標からワールド座標に変換
+	/// </summary>
+	/// <param name="vpMatrix">viewProjectionMatrix</param>
+	/// <param name="screenPos">スクリーン座標</param>
+	/// <param name="cameraDistance">カメラとの距離</param>
+	LWP::Math::Vector3 ConvertScreenToWorld(const LWP::Math::Matrix4x4& vpMatrix, const LWP::Math::Vector2& screenPos, float cameraDistance);
 
 	/// <summary>
 	/// 対象がカメラの正面方向にいるか

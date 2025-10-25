@@ -6,17 +6,21 @@ using namespace LWP::Math;
 using namespace LWP::Object;
 
 Player::Player(Camera* camera) {
-	camera;
 	// 初期位置の設定
 	tag_ = "Player";
 	name_ = "Player";
 	attackPower_ = 10;
 
+	// 黒板生成
+	blackBoard_ = new BlackBoard();
+	blackBoard_->SetValue<Actor*>("Player", this);
+
 	// モデル生成
-	model_.LoadCube();
+	//model_.LoadCube();
+	model_.LoadShortPath("Player/Player.gltf");
 
 	// 偏差射撃機能
-	leadingSystem_ = std::make_unique<LeadingSystem>(camera);
+	leadingSystem_ = std::make_unique<LeadingSystem>(camera, blackBoard_);
 
 	// 移動系統の管理
 	moveController_ = std::make_unique<MoveController>();
@@ -27,7 +31,7 @@ Player::Player(Camera* camera) {
 }
 
 Player::~Player() {
-
+	delete blackBoard_;
 }
 
 void Player::Init() {
@@ -50,6 +54,12 @@ void Player::Update() {
 
 void Player::DrawGui() {
 	if (ImGui::TreeNode("Player")) {
+		// モデル
+		if (ImGui::TreeNode("Model")) {
+			model_.DebugGUI();
+			ImGui::TreePop();
+		}
+
 		// 行動
 		if (ImGui::TreeNode("Actions")) {
 			moveController_->DebugGui();

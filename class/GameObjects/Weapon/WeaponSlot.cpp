@@ -8,6 +8,12 @@ WeaponSlot::WeaponSlot(LeadingSystem* leadingSystem) {
 	pLeadingSystem_ = leadingSystem;
 }
 
+WeaponSlot::~WeaponSlot() {
+	for (IWeapon* w : weapons_) {
+		//delete w;
+	}
+}
+
 void WeaponSlot::Init() {}
 
 void WeaponSlot::Update() {
@@ -15,11 +21,21 @@ void WeaponSlot::Update() {
 	if (!weapons_.empty()) weapons_.front()->Update();
 
 	// 弾切れの武器を削除
-	for (auto& w : weapons_) {
+	for (IWeapon* w : weapons_) {
 		if (!w) continue;
 
 		// 削除コマンドがあるなら消す
-		if (w->GetIsDestroy()) { w.reset(); }
+		weapons_.erase(
+			std::remove_if(weapons_.begin(), weapons_.end(),
+				[](IWeapon* w) {
+					if (w->GetIsDestroy()) {
+						delete w; // 明示的に解放
+						return true; // vectorから削除対象
+					}
+					return false;
+				}),
+			weapons_.end()
+		);
 	}
 
 	// 前詰め
@@ -28,7 +44,7 @@ void WeaponSlot::Update() {
 
 void WeaponSlot::DebugGui() {
 	int i = 0;
-	for (auto& w : weapons_) {
+	for (IWeapon* w : weapons_) {
 		i++;
 		std::string label = "Slot" + std::to_string(i) + w->GetName();
 		if (ImGui::TreeNode(label.c_str())) {
@@ -44,8 +60,9 @@ void WeaponSlot::Attack() {
 		if (!weapons_.front()->GetIsEmpty()) {
 			// 射撃できる状態か
 			if (weapons_.front()->GetIsEnableAttack()) {
+				//pLeadingSystem_->CalFutureTargetPos(/*weapons_.front()->GetWorldTF()->GetWorldPosition(), */1.0f);
 				Vector3 shotVel = pLeadingSystem_->GetLeadingShotAngle(weapons_.front()->GetWorldTF()->GetWorldPosition(), 1.0f);
-				pLeadingSystem_->CalFutureTargetPos(weapons_.front()->GetWorldTF()->GetWorldPosition(), 1.0f);
+
 				if (Vector3::Dot(shotVel, shotVel) != 0.0f) {
 					weapons_.front()->SetShotDirVelocity(shotVel);
 				}
@@ -65,15 +82,10 @@ void WeaponSlot::Compact() {
 		std::remove(weapons_.begin(), weapons_.end(), nullptr),
 		weapons_.end()
 	);
-	//// 武器UI
-	//weaponUI_.erase(
-	//	std::remove(weaponUI_.begin(), weaponUI_.end(), nullptr),
-	//	weaponUI_.end()
-	//);
 }
 
-void WeaponSlot::AddWeapon(std::unique_ptr<IWeapon> weapon) {
+void WeaponSlot::AddWeapon(IWeapon* weapon) {
 	if (weapons_.size() < kMaxWeapons) {
-		weapons_.push_back(std::move(weapon));
+		weapons_.push_back(weapon);
 	}
 }

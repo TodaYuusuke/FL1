@@ -3,7 +3,7 @@
 #include "Actions/MoveController.h"
 #include "Actions/WeaponController.h"
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
-#include "System/LeadingSystem.h"
+//#include "../../Componets/BehaviourTree/Actor/BlackBoard.h"
 #include <Adapter.h>
 
 class EnemyManager;
@@ -37,15 +37,23 @@ public:// アクセサ
 
 #pragma region Setter
 	/// <summary>
+	/// 武器を設定
+	/// </summary>
+	/// <returns></returns>
+	void SetWeapon(IWeapon* weapon) override {
+		weapon->SetParent(this);
+		weaponController_->SetWeapon(weapon);
+	}
+	/// <summary>
 	/// 左側の武器を設定する
 	/// </summary>
 	/// <param name="weapon"></param>
-	void SetLeftWeapon(std::unique_ptr<IWeapon> weapon) { weaponController_->SetLeftWeapon(std::move(weapon)); }
+	void SetLeftWeapon(IWeapon* weapon) { weaponController_->SetLeftWeapon(weapon); }
 	/// <summary>
 	/// 右側の武器を設定する
 	/// </summary>
 	/// <param name="weapon"></param>
-	void SetRightWeapon(std::unique_ptr<IWeapon> weapon) { weaponController_->SetRightWeapon(std::move(weapon)); }
+	void SetRightWeapon(IWeapon* weapon) { weaponController_->SetRightWeapon(weapon); }
 	/// <summary>
 	/// 敵管理クラスのアドレスを設定
 	/// </summary>

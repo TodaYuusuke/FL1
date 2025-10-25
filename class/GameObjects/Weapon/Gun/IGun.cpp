@@ -5,20 +5,20 @@
 using namespace FLMath;
 using namespace LWP::Math;
 
-IGun::IGun(WeaponData gunData) {
+IGun::IGun(WeaponData data) {
 	// 弾管理クラスのアドレス取得
 	pBulletManager_ = BulletManager::GetInstance();
 
 	// 調整項目を代入
-	gunData_ = gunData;
-	name_ = gunData_.modelName;
+	data_ = data;
+	name_ = data_.modelName;
 
 	// モデル生成
-	body_.LoadFullPath("resources/model/" + gunData_.modelName);
+	body_.LoadFullPath("resources/model/Weapon/Gun/" + data_.modelName);
 	body_.worldTF.scale = { 0.5f,0.5f,0.5f };
 
 	// マガジン作成
-	magazine_ = std::make_unique<Magazine>(gunData_.bulletNum);
+	magazine_ = std::make_unique<Magazine>(data_.bulletNum);
 
 	Init();
 }
@@ -29,15 +29,15 @@ void IGun::Init() {
 	body_.worldTF.scale = { 0.5f,0.5f,0.5f };
 
 	// マガジン初期化
-	magazine_->Init(gunData_.bulletNum);
+	magazine_->Init(data_.bulletNum);
 
 	// 攻撃力
-	currentAttackValue_ = gunData_.attackValue;
+	currentAttackValue_ = data_.attackValue;
 
 	// 射撃時の経過時間
-	attackFrame_ = gunData_.shotIntervalTime * 60.0f;
+	attackFrame_ = data_.shotIntervalTime * 60.0f;
 	// リロードの経過時間
-	coolFrame_ = gunData_.coolTime * 60.0f;
+	coolFrame_ = data_.coolTime * 60.0f;
 }
 
 void IGun::Update() {
@@ -54,22 +54,87 @@ void IGun::Update() {
 }
 
 void IGun::DebugGui() {
-	if (ImGui::TreeNode("Magazine")) {
-		magazine_->DebugGui();
+	// 調整項目
+	if (ImGui::TreeNode("Json")) {
+		if (ImGui::Button("Save")) {
+			json_.Save();
+		}
+		if (ImGui::Button("Load")) {
+			json_.Load();
+		}
+
+		// 発射間隔
+		if (ImGui::TreeNode("Interval")) {
+			ImGui::DragFloat("Normal", &data_.shotIntervalTime);
+			ImGui::DragFloat("Burst", &data_.burstIntervalTime);
+			ImGui::TreePop();
+		}
+		// 弾
+		if (ImGui::TreeNode("Bullet")) {
+			ImGui::DragFloat("Num", &data_.bulletNum);
+			ImGui::DragFloat("Speed", &data_.bulletSpeed);
+			ImGui::TreePop();
+		}
+		// 溜め時間
+		ImGui::DragFloat("Store", &data_.storeTime);
+		// 攻撃力
+		ImGui::DragFloat("AttackPower", &data_.attackValue);
+		// 撃てない時間
+		ImGui::DragFloat("CoolTime", &data_.coolTime);
+		// レアリティ
+		ImGui::DragInt("Rarity", &data_.rarity);
+
 		ImGui::TreePop();
 	}
-	if (ImGui::TreeNode("CoolTime")) {
-		ImGui::DragFloat("ShotFrame", &attackFrame_);
-		ImGui::DragFloat("ReloadFrame", &coolFrame_);
+
+	// 現在の情報
+	if (ImGui::TreeNode("CurrentData")) {
+		if (ImGui::TreeNode("Magazine")) {
+			magazine_->DebugGui();
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("CoolTime")) {
+			ImGui::DragFloat("ShotFrame", &attackFrame_);
+			ImGui::DragFloat("ReloadFrame", &coolFrame_);
+			ImGui::TreePop();
+		}
 		ImGui::TreePop();
 	}
 }
 
+void IGun::CreateJsonData(const std::string& name) {
+	// モデル非表示
+	body_.isActive = false;
+
+	// ファイル名
+	std::string fileName = name + ".json";
+	json_.Init(fileName)
+		// 発射間隔
+		.BeginGroup("Interval")
+		.AddValue<float>("Normal", &data_.shotIntervalTime)
+		.AddValue<float>("Burst", &data_.burstIntervalTime)
+		.EndGroup()
+		// 弾
+		.BeginGroup("Bullet")
+		.AddValue<float>("Num", &data_.bulletNum)
+		.AddValue<float>("Speed", &data_.bulletSpeed)
+		.EndGroup()
+		// 溜め時間
+		.AddValue<float>("Store", &data_.storeTime)
+		// 攻撃力
+		.AddValue<float>("AttackPower", &data_.attackValue)
+		// 撃てない時間
+		.AddValue<float>("CoolTime", &data_.coolTime)
+		// レアリティ
+		.AddValue<int>("Rarity", &data_.rarity)
+		.CheckJsonFile();
+}
+
 void IGun::Attack() {
 	// 弾がない状態なら撃てない
-	if (magazine_->GetEmpty()) { 
+	if (magazine_->GetEmpty()) {
 		isDestroy_ = true;
-		return; 
+		return;
 	}
 	// 射撃できる状態か
 	if (!GetIsEnableAttack()) { return; }
@@ -83,7 +148,7 @@ void IGun::Attack() {
 	magazine_->BulletDecrement();
 
 	// 射撃間隔を初期化
-	attackFrame_ = gunData_.shotIntervalTime * 60.0f;
+	attackFrame_ = data_.shotIntervalTime * 60.0f;
 }
 
 void IGun::Reload() {
@@ -92,9 +157,9 @@ void IGun::Reload() {
 	// リロード完了
 	if (!GetIsCoolTime()) {
 		// リロード時間を初期化
-		coolFrame_ = gunData_.coolTime * 60.0f;
+		coolFrame_ = data_.coolTime * 60.0f;
 		// 弾数を初期化
-		magazine_->Init(gunData_.bulletNum);
+		magazine_->Init(data_.bulletNum);
 	}
 }
 

@@ -43,19 +43,20 @@ public:// アクセサ
 #pragma endregion
 
 #pragma region Setter
+	void SetWeapon(IWeapon* weapon) { SetLeftWeapon(weapon); }
 	/// <summary>
 	/// 左側の武器を設定する
 	/// </summary>
 	/// <param name="weapon"></param>
-	void SetLeftWeapon(std::unique_ptr<IWeapon> weapon) {
-		weapons_[WeaponSide::kLeft]->AddWeapon(std::move(weapon));
+	void SetLeftWeapon(IWeapon* weapon) {
+		weapons_[WeaponSide::kLeft]->AddWeapon(weapon);
 	}
 	/// <summary>
 	/// 右側の武器を設定する
 	/// </summary>
 	/// <param name="weapon"></param>
-	void SetRightWeapon(std::unique_ptr<IWeapon> weapon) {
-		weapons_[WeaponSide::kRight]->AddWeapon(std::move(weapon));
+	void SetRightWeapon(IWeapon* weapon) {
+		weapons_[WeaponSide::kRight]->AddWeapon(weapon);
 	}
 
 	/// <summary>

@@ -21,7 +21,7 @@ void BulletManager::Update() {
 	for (auto it = bullets_.begin(); it != bullets_.end(); it++) {
 		(*it)->Update();
 	}
-	// �폜
+	// 削除
 	bullets_.remove_if([](BulletBase* bullet) {
 		if (!bullet->GetIsAlive()) {
 			delete bullet;

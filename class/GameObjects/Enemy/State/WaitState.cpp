@@ -25,7 +25,7 @@ void WaitState::Update() {
 		return;
 	}
 
-	// “GƒAƒhƒŒƒX‚ðŽæ“¾
+	// æ•µã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å–å¾—
 	Actor* actor = pBlackBoard_->GetValue<Actor*>("Actor");
 	quat_ = actor->GetWorldTF()->rotation;
 	pBlackBoard_->GetValue<Actor*>(EnemyConfig::name)->SetRotation(quat_);

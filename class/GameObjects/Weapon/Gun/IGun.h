@@ -9,7 +9,7 @@
 class IGun : public IWeapon {
 public:
 	// コンストラクタ
-	IGun(WeaponData gunData);
+	IGun(WeaponData data);
 	// デストラクタ
 	~IGun() override = default;
 
@@ -24,7 +24,11 @@ public:
 	/// <summary>
 	/// 調整項目
 	/// </summary>
-	void DebugGui();
+	void DebugGui() override;
+	/// <summary>
+	/// json情報作成(コピー元武器作成時以外呼び出し禁止)
+	/// </summary>
+	void CreateJsonData(const std::string& name) override;
 
 	/// <summary>
 	/// 攻撃
@@ -49,11 +53,8 @@ public:// アクセサ
 #pragma endregion
 
 private:
-	// 
+	// 弾管理クラスのアドレス
 	BulletManager* pBulletManager_;
-
-private:// 調整項目
-	WeaponData gunData_;
 
 private:
 };

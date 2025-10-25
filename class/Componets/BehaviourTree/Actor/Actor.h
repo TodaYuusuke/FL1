@@ -123,10 +123,10 @@ public:// アクセサ
 
 #pragma region Setter
 	/// <summary>
-	/// 生きているか設定
+	/// 持っている武器を取得
 	/// </summary>
 	/// <returns></returns>
-	void SetIsAlive(const bool& isAlive) { isAlive_ = isAlive; }
+	virtual void SetWeapon(IWeapon* weapon);
 	/// <summary>
 	/// 名前を設定
 	/// </summary>
@@ -177,6 +177,11 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	void SetAttackPower(const float& attackPower) { attackPower_ = attackPower; }
+	/// <summary>
+	/// 生きているか設定
+	/// </summary>
+	/// <returns></returns>
+	void SetIsAlive(const bool& isAlive) { isAlive_ = isAlive; }
 #pragma endregion
 
 public:

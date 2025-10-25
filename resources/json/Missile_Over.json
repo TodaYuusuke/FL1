@@ -1,0 +1,14 @@
+{
+    "Group :Bullet": {
+        "float :Num": 0.0,
+        "float :Speed": 1.0
+    },
+    "Group :Interval": {
+        "float :Burst": 0.0,
+        "float :Normal": 0.0
+    },
+    "float :AttackPower": 0.0,
+    "float :CoolTime": 0.0,
+    "float :Store": 0.0,
+    "int32_t :Rarity": 5
+}

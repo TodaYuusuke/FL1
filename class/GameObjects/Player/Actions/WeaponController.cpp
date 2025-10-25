@@ -56,24 +56,26 @@ void WeaponController::DebugGui() {
 
 		// 左の武器を装備
 		if (ImGui::Button("SetLeftWeapon")) {
-			WeaponData data = {
-				"Gun/AR/AR.obj",
-				0.1f,
-				0.0f,
-				0.0f,
-				60.0f,
-				10.0f,
-				1.0f,
-				1.0f
-			};
-			std::unique_ptr<ShotGun> gun = std::make_unique<ShotGun>(data);
-			gun->SetParent(debugOwner_);
-			gun->SetTranslation(LWP::Math::Vector3{ -1.0f, -0.5f,2.0f });
-			SetLeftWeapon(std::move(gun));
+			//WeaponData data = {
+			//	WeaponConfig::Name::machineGun,
+			//	"Gun/AR/AR.obj",
+			//	0.1f,
+			//	0.0f,
+			//	0.0f,
+			//	60.0f,
+			//	10.0f,
+			//	1.0f,
+			//	1.0f
+			//};
+			//ShotGun* gun = new ShotGun(data);
+			//gun->SetParent(debugOwner_);
+			//gun->SetTranslation(LWP::Math::Vector3{ -1.0f, -0.5f,2.0f });
+			//SetLeftWeapon(gun);
 		}
 		// 右の武器を装備
 		if (ImGui::Button("SetRightWeapon")) {
-			WeaponData data = {
+			/*WeaponData data = {
+				WeaponConfig::Name::shotGun,
 				"Gun/ShotGun/Rifle.obj",
 				0.1f,
 				0.0f,
@@ -83,10 +85,10 @@ void WeaponController::DebugGui() {
 				1.0f,
 				1.0f
 			};
-			std::unique_ptr<ShotGun> gun = std::make_unique<ShotGun>(data);
+			ShotGun* gun = new ShotGun(data);
 			gun->SetParent(debugOwner_);
 			gun->SetTranslation(LWP::Math::Vector3{ 1.0f, -0.5f,2.0f });
-			SetRightWeapon(std::move(gun));
+			SetRightWeapon(gun);*/
 		}
 
 		ImGui::TreePop();

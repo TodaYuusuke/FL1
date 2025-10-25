@@ -2,27 +2,27 @@
 #include <Adapter.h>
 
 /// <summary>
-/// ƒƒbƒNƒIƒ“
+/// ãƒ­ãƒƒã‚¯ã‚ªãƒ³
 /// </summary>
 class LockOn {
 public:
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	LockOn();
-	// ƒfƒXƒgƒ‰ƒNƒ^
+	// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	~LockOn();
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Init();
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 
 private:
 
-public:// ƒAƒNƒZƒT
+public:// ã‚¢ã‚¯ã‚»ã‚µ
 
 private:
 };

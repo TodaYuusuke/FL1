@@ -53,7 +53,7 @@ public:// パブリックなアクセサ
 	/// ノード状態を設定
 	/// </summary>
 	/// <param name="nodeResult"></param>
-	void SetNodeResult(const NodeResult& nodeResult) { this->nodeResult = nodeResult; }
+	void SetNodeResult(const NodeResult& result) { this->nodeResult = result; }
 
 protected:
 	NodeResult nodeResult = NodeResult::Idle; // ノードの状態

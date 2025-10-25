@@ -44,3 +44,8 @@ void Actor::ChangeWeapon(IWeapon* nextWeapon) {
 	if (weapon_) delete weapon_;
 	weapon_ = nextWeapon;
 }
+
+void Actor::SetWeapon(IWeapon* weapon) {
+	weapon_ = weapon;
+	weapon_->SetParent(this);
+}

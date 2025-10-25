@@ -59,8 +59,6 @@ public:// アクセサ
 #pragma endregion
 
 public:// jsonで保存する値
-	// 追従対象との距離
-	LWP::Math::Vector3 kTargetDist = { 0.0f,0.0f,1.0f };
 	// 初期角度 
 	LWP::Math::Vector3 kStartAngle = { 0.3f, 0.0f, 0.0f };
 
@@ -84,7 +82,7 @@ public:// jsonで保存する値
 	const float kOriginRotateX = 90.0f;
 
 	// 追従対象との初期距離
-	LWP::Math::Vector3 defaultTargetDist_;
+	LWP::Math::Vector3 defaultTargetDist_ = { 0.0f,10.0f,3.0f };
 
 public:// 外部からポインタをもらう変数
 	// カメラ
@@ -100,8 +98,10 @@ private:
 
 	// 後追い座標
 	LWP::Math::Vector3 interTarget_;
-	// カメラの補間なし時の座標(自機の移動処理に使うために作成)
+	// 追従対象との距離
+	LWP::Math::Vector3 kTargetDist = { 0.0f,0.0f,1.0f };
 
+	// カメラの補間なし時の座標(自機の移動処理に使うために作成)
 	LWP::Object::Camera* debugCamera_;
 };
 

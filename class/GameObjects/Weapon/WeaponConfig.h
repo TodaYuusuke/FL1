@@ -9,19 +9,76 @@ enum class WeaponType {
 	kRifle,
 	kLauncher,
 	kMissile,
-	kMelee
+	kMelee,
+	kCount
+};
+// レアリティ
+enum class RarityType {
+	kCommon,
+	kUnCommon,
+	kRare,
+	kSuperRare,
+	kLegendary,
+	kOver,
+	kCount
 };
 
 /// <summary>
 /// 武器の調整項目
 /// </summary>
 struct WeaponData {
+	std::string name;				// 武器の名前
 	std::string modelName;			// 銃モデルのファイル名
 	float shotIntervalTime;			// 射撃間隔[秒]
 	float burstIntervalTime;		// バースト間隔[秒](バースト銃の場合に数値を入れる)
 	float storeTime;				// 溜め時間[秒](溜める銃の場合に数値を入れる)
 	float bulletNum;				// 弾数
-	float bulletSpeed;				// 弾速
+	float bulletSpeed = 1.0f;		// 弾速
 	float attackValue;				// 攻撃力
 	float coolTime;					// リロード時間[秒]
+	int rarity;						// レアリティ
 };
+
+namespace WeaponConfig {
+	// 名前
+	namespace Name {
+		// 識別名
+		// 順番はWeaponType準拠
+		inline std::array<std::string, 6> name = {
+			"MachineGun",	// マシンガン
+			"ShotGun",		// ショットガン
+			"Rifle",		// ライフル
+			"Launcher",		// ランチャー
+			"Missile",		// ミサイル
+			"Melee"			// 近接
+		};
+	}
+	// 名前
+	namespace ModelName {
+		// モデル名
+		// 順番はWeaponType準拠
+		// Gun系→	resources/model/Gun/からのパス含めた名前
+		// Melee系→resources/model/Melee/からのパス含めた名前
+		inline std::array<std::string, 6> modelName = {
+			"AR/AR.obj",			// マシンガン
+			"ShotGun/Rifle.obj",	// ショットガン
+			"AR/AR.obj",			// ライフル
+			"AR/AR.obj",			// ランチャー
+			"AR/AR.obj",			// ミサイル
+			"AR.obj"				// 近接
+		};
+	}
+	// レアリティ
+	namespace Rarity {
+		// モデル名
+		// 順番はRarityType準拠
+		inline std::array<std::string, 6> rarity = {
+			"Common",	
+			"UnCommon",	
+			"Rare",		
+			"SuperRare",
+			"Legendary",
+			"Over"			
+		};
+	}
+}

@@ -195,16 +195,10 @@
     <ClCompile Include="class\GameObjects\Enemy\Gunner\Gunner.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\Weapon\WeaponUtility.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="class\GameObjects\Enemy\Gunner\State\GunnerAttack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="class\GameObjects\Enemy\Drone\State\GunnerAttack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="class\GameObjects\Enemy\Drone\Drone.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\GameObjects\Weapon\WeaponManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -428,16 +422,10 @@
     <ClInclude Include="class\GameObjects\Enemy\Gunner\Gunner.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Weapon\WeaponUtility.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="class\GameObjects\Enemy\Gunner\State\GunnerAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="class\GameObjects\Enemy\Drone\Drone.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Enemy\Drone\State\GunnerAttack.h">
+    <ClInclude Include="class\GameObjects\Weapon\WeaponManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

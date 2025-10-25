@@ -108,6 +108,31 @@ namespace FLMath {
 		return Vector2(result.x, result.y);
 	}
 
+	Vector3 ConvertScreenToWorld(const Matrix4x4& vpMatrix, const Vector2& screenPos, float cameraDistance) {
+		// ビューポート行列
+		Matrix4x4 matViewport = Matrix4x4::CreateViewportMatrix(0, 0, LWP::Info::GetWindowWidthF(), LWP::Info::GetWindowHeightF(), 0, 1);
+		// ビュープロジェクションビューポート合成行列
+		Matrix4x4 matVPV = vpMatrix * matViewport;
+		// 合成行列の逆行列を計算する
+		Matrix4x4 matInverseVPV = matVPV.Inverse();
+
+		// スクリーン座標
+		Vector3 posNear = Vector3(screenPos.x, screenPos.y, 0);
+		Vector3 posFar = Vector3(screenPos.x, screenPos.y, 1);
+
+		// スクリーン座標系からワールド座標系へ
+		posNear = Transform(posNear, matInverseVPV);
+		posFar = Transform(posFar, matInverseVPV);
+		// マウスレイの方向
+		Vector3 mouseDirection = posFar - posNear;
+		mouseDirection = mouseDirection.Normalize();
+
+		// カメラから照準オブジェクトの距離
+		const float kDistanceTestObject = cameraDistance;
+		// 3Dレティクルを2Dカーソルに配置
+		return posNear - mouseDirection * kDistanceTestObject;
+	}
+
 	bool IsObjectInFront(const Vector3& objectPos, const Vector3& cameraPos, const Quaternion& cameraRotate) {
 		// カメラの角度方向ベクトルに変換
 		Vector3 offset{ 0, 0, 1 };

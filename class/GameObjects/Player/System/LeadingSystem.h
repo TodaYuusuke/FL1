@@ -1,4 +1,5 @@
 #pragma once
+#include "../../../Componets/BehaviourTree/Actor/BlackBoard.h"
 #include <Adapter.h>
 
 class EnemyManager;
@@ -9,7 +10,7 @@ class Actor;
 class LeadingSystem {
 public:
 	// コンストラクタ
-	LeadingSystem(LWP::Object::Camera* camera);
+	LeadingSystem(LWP::Object::Camera* camera, BlackBoard* blackBoard);
 	// デストラクタ
 	~LeadingSystem() = default;
 
@@ -26,7 +27,7 @@ public:
 	/// </summary>
 	void DebugGui();
 
-	void CalFutureTargetPos(const LWP::Math::Vector3& shooterPos, float bulletSpeed);
+	void CalFutureTargetPos(float bulletSpeed);
 
 private:
 	/// <summary>
@@ -41,12 +42,17 @@ private:
 	float PlusMin(float a, float b);
 
 public:// アクセサ
+	void Start(LWP::Math::Vector3 shooterPos, float bulletSpeed) {
+		shooterPos_ = shooterPos;
+		bulletSpeed_ = bulletSpeed;
+	}
+
 #pragma region Getter
 	/// <summary>
 	/// 偏差射撃の角度を取得
 	/// </summary>
 	/// <returns></returns>
-	LWP::Math::Vector3 GetLeadingShotAngle(const LWP::Math::Vector3& shooterPos, float bulletSpeed);
+	LWP::Math::Vector3 GetLeadingShotAngle(LWP::Math::Vector3 shooterPos, float bulletSpeed);
 #pragma endregion
 
 #pragma region Setter
@@ -63,6 +69,8 @@ private:// 外部から受け取る変数
 	// カメラ
 	LWP::Object::Camera* pCamera_;
 
+	BlackBoard* blackBoard_;
+
 private:// 調整項目
 	// 偏差射撃の対象になる範囲(スクリーン座標基準)
 	float leadingScreenRange_ = 700.0f;
@@ -77,7 +85,20 @@ private:
 	Actor* leadingTarget_;
 	LWP::Math::Vector2 leadingTargetScreenPos_;
 
+	// 偏差対象の座標(補間ありの座標)
+	LWP::Math::Vector3 leadingTargetPos_;
+	// 画面中心のワールド座標
+	LWP::Math::Vector3 centerWorldPos_;
+
 	LWP::Math::Vector3 targetFuture_;
 	// 算出した角度
 	LWP::Math::Quaternion leadingShotAngle_;
+
+
+
+	LWP::Math::Vector3 shooterPos_;
+	float bulletSpeed_;
+
+
+	LWP::Primitive::NormalSprite reticle_;
 };

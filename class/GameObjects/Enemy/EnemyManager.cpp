@@ -4,6 +4,7 @@
 #include "Drone/Drone.h"
 #include "Test/TestEnemy.h"
 #include "../Weapon/Gun/MachineGun/MachineGun.h"
+#include "../Weapon/WeaponManager.h"
 #include "EnemyConfig.h"
 
 using namespace EnemyConfig;
@@ -53,8 +54,11 @@ void EnemyManager::Update() {
 	// 削除
 	for (Actor* actor : enemies_) {
 		if (actor->GetIsAlive()) continue;
+		// 武器を落とす
+		WeaponManager::GetInstance()->DropWeapon(actor->GetWeapon());
 
 		delete actor;
+		actor = nullptr;
 		auto newEnd = std::remove(enemies_.begin(), enemies_.end(), actor);
 		enemies_.erase(newEnd, enemies_.end());
 	}
@@ -121,7 +125,8 @@ void EnemyManager::CreateGunnerEnemy() {
 	actor->SetTranslation(createPos_);
 
 	WeaponData data = {
-		"Gun/ShotGun/Rifle.obj",
+		WeaponConfig::Name::name[(int)WeaponType::kMachineGun],
+		WeaponConfig::ModelName::modelName[(int)WeaponType::kMachineGun],
 		0.1f,
 		0.0f,
 		0.0f,
@@ -148,7 +153,8 @@ void EnemyManager::CreateDroneEnemy() {
 	actor->SetFloatHeight(dronefloatHeight_);
 
 	WeaponData data = {
-		"Gun/ShotGun/Rifle.obj",
+		WeaponConfig::Name::name[(int)WeaponType::kMachineGun],
+		WeaponConfig::ModelName::modelName[(int)WeaponType::kMachineGun],
 		0.1f,
 		0.0f,
 		0.0f,

@@ -32,6 +32,8 @@ void AttackState::Update() {
 	Actor* actor = pBlackBoard_->GetValue<Actor*>("Actor");
 	// 武器のアドレスを取得
 	IWeapon* weapon = pBlackBoard_->GetValue<Actor*>("Actor")->GetWeapon();
+	Vector3 weaponPos{};
+	if (weapon) { weaponPos = weapon->GetWorldTF()->GetWorldPosition(); }
 
 	// 敵と自機との方向ベクトル算出
 	Vector3 vector = player->GetWorldTF()->GetWorldPosition() - actor->GetWorldTF()->GetWorldPosition();
@@ -41,11 +43,11 @@ void AttackState::Update() {
 	pBlackBoard_->GetValue<Actor*>(EnemyConfig::name)->SetRotation(quat_);
 
 	// 武器と自機との方向ベクトル算出
-	Vector3 weaponVector = player->GetWorldTF()->GetWorldPosition() - weapon->GetWorldTF()->GetWorldPosition();
+	Vector3 weaponVector = player->GetWorldTF()->GetWorldPosition() - weaponPos;
 	// X軸の回転角算出[pi]
 	float pitch = std::atan2(-weaponVector.y, std::sqrt(weaponVector.x * weaponVector.x + weaponVector.z * weaponVector.z));
 	// 武器の角度変更
-	weapon->SetRotation((Quaternion::CreateFromAxisAngle(Vector3{ 1,0,0 }, pitch)));
+	if(weapon) weapon->SetRotation((Quaternion::CreateFromAxisAngle(Vector3{ 1,0,0 }, pitch)));
 
 	// 持っている武器で攻撃
 	pBlackBoard_->GetValue<Actor*>(EnemyConfig::name)->Attack();

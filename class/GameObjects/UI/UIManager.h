@@ -3,21 +3,21 @@
 #include <Adapter.h>
 
 /// <summary>
-/// UIŠÇ—ƒNƒ‰ƒX
+/// UIç®¡ç†ã‚¯ãƒ©ã‚¹
 /// </summary>
 class UIManager {
 public:
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	UIManager() = default;
-	// ƒfƒXƒgƒ‰ƒNƒ^
+	// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	~UIManager() = default;
 
 	///// <summary>
-	///// ‰Šú‰»
+	///// åˆæœŸåŒ–
 	///// </summary>
 	//void Init();
 	///// <summary>
-	///// XV
+	///// æ›´æ–°
 	///// </summary>
 	//void Update();
 

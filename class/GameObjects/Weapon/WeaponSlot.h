@@ -11,7 +11,7 @@ public:
     // コンス虎歌
     WeaponSlot(LeadingSystem* leadingSystem);
     // デストラクタ
-    ~WeaponSlot() = default;
+    ~WeaponSlot();
 
     /// <summary>
     /// 初期化
@@ -42,7 +42,7 @@ public:// アクセサ
     /// 武器の追加
     /// </summary>
     /// <param name="weapon"></param>
-    void AddWeapon(std::unique_ptr<IWeapon> weapon);
+    void AddWeapon(IWeapon* weapon);
 
 private:// 外部から受け取る変数
     // 偏差射撃計算機能
@@ -50,7 +50,7 @@ private:// 外部から受け取る変数
 
 private:
     // 武器
-    std::vector<std::unique_ptr<IWeapon>> weapons_;
+    std::vector<IWeapon*> weapons_;
     // 最大3個まで保持
     static constexpr size_t kMaxWeapons = 3; 
 };

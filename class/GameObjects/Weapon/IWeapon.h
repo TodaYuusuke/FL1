@@ -28,6 +28,10 @@ public:
 	/// 調整項目
 	/// </summary>
 	virtual void DebugGui() = 0;
+	/// <summary>
+	/// json情報作成(コピー元武器作成時以外呼び出し禁止)
+	/// </summary>
+	virtual void CreateJsonData(const std::string& rarityName) = 0;
 
 	/// <summary>
 	/// 攻撃
@@ -45,6 +49,16 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	Actor* GetActor() { return actor_; }
+	/// <summary>
+	/// モデルを取得
+	/// </summary>
+	/// <returns></returns>
+	LWP::Resource::RigidModel GetModel() { return body_; }
+	/// <summary>
+	/// 武器情報を取得
+	/// </summary>
+	/// <returns></returns>
+	WeaponData GetWeaponData() { return data_; }
 	/// <summary>
 	/// ワールドトランスフォームを取得
 	/// </summary>
@@ -116,6 +130,9 @@ protected:
 
 	// 弾倉
 	std::unique_ptr<Magazine> magazine_;
+
+	// 武器情報
+	WeaponData data_;
 
 	Actor* actor_;
 
