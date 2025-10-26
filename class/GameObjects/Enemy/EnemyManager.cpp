@@ -155,6 +155,8 @@ void EnemyManager::GiveWeapon(Actor* actor) {
 	WeaponManager::GetInstance()->PickUpWeapon(weapon, actor);
 }
 
+// ------------ デバッグ用関数↓------------ //
+
 Actor* EnemyManager::CreateTestEnemy() {
 	// テスト敵
 	TestEnemy* actor = new TestEnemy();
@@ -186,8 +188,6 @@ Actor* EnemyManager::CreateEnemy() {
 		break;
 	}
 }
-
-// ------------ デバッグ用関数↓------------ //
 
 void EnemyManager::SelectCreateEnemy() {
 	ImGui::Text("Select create enemy");
