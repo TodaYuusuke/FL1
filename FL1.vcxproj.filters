@@ -428,5 +428,8 @@
     <ClInclude Include="class\GameObjects\Weapon\WeaponManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="class\GameObjects\Collision\CollisionMask.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

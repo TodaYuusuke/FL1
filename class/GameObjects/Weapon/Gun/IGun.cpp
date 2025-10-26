@@ -1,6 +1,7 @@
 #include "IGun.h"
 #include "../../Bullets/BulletManager.h"
 #include "../../Bullets/Bullet/Bullet.h"
+#include "../../Collision/CollisionMask.h"
 
 using namespace FLMath;
 using namespace LWP::Math;
@@ -130,7 +131,7 @@ void IGun::CreateJsonData(const std::string& name) {
 		.CheckJsonFile();
 }
 
-void IGun::Attack() {
+void IGun::Attack(int bulletHitFragBit) {
 	// 弾がない状態なら撃てない
 	if (magazine_->GetEmpty()) {
 		isDestroy_ = true;
@@ -140,8 +141,7 @@ void IGun::Attack() {
 	if (!GetIsEnableAttack()) { return; }
 
 	// 弾を撃つ
-	//Bullet* bullet = new Bullet(body_.worldTF.GetWorldPosition(), GetDirVector({ 0,0,1 }, actor_->GetModel().worldTF.rotation));
-	Bullet* bullet = new Bullet(body_.worldTF.GetWorldPosition(), shotDirVel_ * 1.0f);
+	Bullet* bullet = new Bullet(body_.worldTF.GetWorldPosition(), shotDirVel_ * 1.0f, bulletHitFragBit);
 	pBulletManager_->CreateBullet(bullet);
 
 	// 弾数を減らす

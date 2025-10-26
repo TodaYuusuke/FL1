@@ -1,8 +1,9 @@
 #include "Bullet.h"
+#include "../../Collision/CollisionMask.h"
 
 using namespace FLMath;
 
-Bullet::Bullet(const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel) {
+Bullet::Bullet(const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel, int hitFragBit) {
 	// モデルの読み込み
 	body_.LoadCube();
 
@@ -15,6 +16,19 @@ Bullet::Bullet(const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel) 
 
 	// 移動速度
 	vel_ = dirVel;
+
+	// 体の判定生成
+	bodyCollision_.SetFollow(&body_.worldTF);
+	bodyCollision_.isActive = true;
+	bodyCollision_.worldTF.translation = { 0.0f, 1.0f, 0.0f };
+	// 自機の所属しているマスクを設定
+	bodyCollision_.mask.SetBelongFrag(GameMask::attack);
+	// 当たり判定をとる対象のマスクを設定
+	bodyCollision_.mask.SetHitFrag(hitFragBit);
+	bodyCollision_.enterLambda = [this](LWP::Object::Collision* hitTarget) {
+		hitTarget;
+		};
+
 }
 
 void Bullet::Init() {

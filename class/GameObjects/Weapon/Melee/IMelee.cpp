@@ -123,7 +123,9 @@ void IMelee::CreateJsonData(const std::string& name) {
 		.CheckJsonFile();
 }
 
-void IMelee::Attack() {
+void IMelee::Attack(int bulletHitFragBit) {
+	bulletHitFragBit;
+
 	// 弾がない状態なら撃てない
 	if (magazine_->GetEmpty()) { 
 		isDestroy_ = true;

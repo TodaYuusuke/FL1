@@ -16,14 +16,12 @@ EnemyManager::EnemyManager(IWorld* world) {
 	CreateDebugData();
 
 #pragma region コピー元となる敵生成
-	// 近接敵
-	MeleeAttacker* melee = new MeleeAttacker(pWorld_, createID_, "resources/json/BT/BT_Melee.json");
-	melee->SetTranslation(createPos_);
-	sampleEnemies_[kMelee] = melee;
-	// 遠距離敵
-	Gunner* gunner = new Gunner(pWorld_, createID_, "resources/json/BT/BT_Gunner.json");
-	gunner->SetTranslation(createPos_);
-	sampleEnemies_[kGunner] = gunner;
+	for (int i = 0; i < EnemyConfig::Name::name.size(); i++) {
+		selectCreateEnemyType_ = i;
+		sampleEnemies_[i] = CreateEnemy();
+		// 調整データ作成
+		sampleEnemies_[i]->CreateJsonData();
+	}
 #pragma endregion
 }
 
@@ -52,17 +50,22 @@ void EnemyManager::Update() {
 		actor->Update();
 	}
 	// 削除
-	for (Actor* actor : enemies_) {
-		if (actor->GetIsAlive()) continue;
-		// 武器を落とす
-		WeaponManager::GetInstance()->DropWeapon(actor->GetWeapon());
+	enemies_.erase(
+		std::remove_if(enemies_.begin(), enemies_.end(),
+			[](Actor* actor) {
+				if (!actor->GetIsAlive()) {
+					// 武器を落とす
+					WeaponManager::GetInstance()->DropWeapon(actor->GetWeapon());
 
-		delete actor;
-		actor = nullptr;
-		auto newEnd = std::remove(enemies_.begin(), enemies_.end(), actor);
-		enemies_.erase(newEnd, enemies_.end());
-	}
-
+					// 敵の解放
+					delete actor;
+					actor = nullptr;
+					return true; // vectorから削除対象
+				}
+				return false;
+			}),
+		enemies_.end()
+	);
 }
 
 void EnemyManager::DebugGui() {
@@ -88,12 +91,10 @@ void EnemyManager::DebugGui() {
 		if (ImGui::TreeNode("Create")) {
 			// 作成する敵を選択
 			SelectCreateEnemy();
-			// 作成する武器を選択
-			//SelectCreateWeapon();
 			// 生成座標
 			ImGui::DragFloat3("CreateTranslation", &createPos_.x, 0.01f);
 			// テスト敵のみ調整可能
-			if (selectCreateEnemyType_ == kTest) {
+			if (selectCreateEnemyType_ == (int)EnemyType::kTest) {
 				// 速度
 				ImGui::DragFloat3("Velocity", &createVel_.x, 0.01f);
 			}
@@ -101,7 +102,7 @@ void EnemyManager::DebugGui() {
 			// 敵生成
 			if (ImGui::Button("Create")) {
 				// プレビューで選択した敵を生成
-				CreateEnemy();
+				enemies_.push_back(CreateEnemy());
 			}
 			ImGui::TreePop();
 		}
@@ -110,94 +111,78 @@ void EnemyManager::DebugGui() {
 	}
 }
 
-void EnemyManager::CreateMeleeEnemy() {
+Actor* EnemyManager::CreateMeleeEnemy() {
 	// 近接敵
-	MeleeAttacker* actor = new MeleeAttacker(pWorld_, createID_, enemyBTFileNamePreview_[kMelee]);
+	MeleeAttacker* actor = new MeleeAttacker(pWorld_, createID_, enemyBTFileNamePreview_[(int)EnemyType::kMelee]);
 	actor->SetTranslation(createPos_);
-	enemies_.push_back(actor);
 
+	// 武器を付与
+	GiveWeapon(actor);
 	createID_++;
+
+	return actor;
 }
 
-void EnemyManager::CreateGunnerEnemy() {
+Actor* EnemyManager::CreateGunnerEnemy() {
 	// 遠距離敵
-	Gunner* actor = new Gunner(pWorld_, createID_, enemyBTFileNamePreview_[kGunner]);
+	Gunner* actor = new Gunner(pWorld_, createID_, enemyBTFileNamePreview_[(int)EnemyType::kGunner]);
 	actor->SetTranslation(createPos_);
 
-	WeaponData data = {
-		WeaponConfig::Name::name[(int)WeaponType::kMachineGun],
-		WeaponConfig::ModelName::modelName[(int)WeaponType::kMachineGun],
-		0.1f,
-		0.0f,
-		0.0f,
-		60.0f,
-		10.0f,
-		1.0f,
-		1.0f
-	};
-	MachineGun* gun = new MachineGun(data);
-	gun->SetParent(actor);
-	gun->SetTranslation(LWP::Math::Vector3{ 1.0f, -0.5f,2.0f });
-
-	actor->ChangeWeapon(gun);
-
-	enemies_.push_back(actor);
-
+	// 武器を付与
+	GiveWeapon(actor);
 	createID_++;
+
+	return actor;
 }
 
-void EnemyManager::CreateDroneEnemy() {
+Actor* EnemyManager::CreateDroneEnemy() {
 	// ドローン敵
-	Drone* actor = new Drone(pWorld_, createID_, enemyBTFileNamePreview_[kDrone]);
+	Drone* actor = new Drone(pWorld_, createID_, enemyBTFileNamePreview_[(int)EnemyType::kDrone]);
 	actor->SetTranslation(createPos_);
 	actor->SetFloatHeight(dronefloatHeight_);
 
-	WeaponData data = {
-		WeaponConfig::Name::name[(int)WeaponType::kMachineGun],
-		WeaponConfig::ModelName::modelName[(int)WeaponType::kMachineGun],
-		0.1f,
-		0.0f,
-		0.0f,
-		60.0f,
-		10.0f,
-		1.0f,
-		1.0f
-	};
-	MachineGun* gun = new MachineGun(data);
-	gun->SetParent(actor);
-	gun->SetTranslation(LWP::Math::Vector3{ 0.0f, -1.0f,2.0f });
-
-	actor->ChangeWeapon(gun);
-
-	enemies_.push_back(actor);
-
+	// 武器を付与
+	GiveWeapon(actor);
 	createID_++;
+
+	return actor;
 }
 
-void EnemyManager::CreateTestEnemy() {
+void EnemyManager::GiveWeapon(Actor* actor) {
+	// 持たせる武器を作成
+	IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(0, 0);
+	// 武器の付与
+	WeaponManager::GetInstance()->PickUpWeapon(weapon, actor);
+}
+
+Actor* EnemyManager::CreateTestEnemy() {
 	// テスト敵
 	TestEnemy* actor = new TestEnemy();
 	actor->SetTranslation(createPos_);
 	actor->SetVelocity(createVel_);
-	enemies_.push_back(actor);
+
+	return actor;
 }
 
-void EnemyManager::CreateEnemy() {
+Actor* EnemyManager::CreateEnemy() {
 	switch (selectCreateEnemyType_) {
 		// 近接
-	case kMelee:
-		CreateMeleeEnemy();
+	case (int)EnemyType::kMelee:
+		return CreateMeleeEnemy();
 		break;
 		// 遠距離
-	case kGunner:
-		CreateGunnerEnemy();
+	case (int)EnemyType::kGunner:
+		return CreateGunnerEnemy();
 		break;
-	case kDrone:
-		CreateDroneEnemy();
+	case (int)EnemyType::kDrone:
+		return CreateDroneEnemy();
 		break;
 		// テスト
-	case kTest:
-		CreateTestEnemy();
+	case (int)EnemyType::kTest:
+		return CreateTestEnemy();
+		break;
+	default:
+		return nullptr;
 		break;
 	}
 }
@@ -225,21 +210,6 @@ void EnemyManager::SelectCreateEnemy() {
 	}
 	else {
 		ImGui::TextDisabled(("Not found add enemy"));
-	}
-}
-
-void EnemyManager::SelectCreateWeapon() {
-	ImGui::Text("Select create weapon");
-
-	for (int i = 0; i < weaponPreview_.size(); i++) {
-		ImGui::RadioButton(weaponPreview_[i].c_str(), &selectWeapon_, i);
-		i++;
-	}
-
-	// 武器生成
-	if (ImGui::Button("Create")) {
-		// プレビューで選択した敵を生成
-		//CreateEnemy();
 	}
 }
 
@@ -277,23 +247,13 @@ void EnemyManager::CreateDebugData() {
 	btEditor_ = std::make_unique<BehaviorTreeGraph>(true);
 
 #pragma region プレビュー
-	// 敵生成
-	enemyTypePreview_.push_back("Melee");
-	enemyTypePreview_.push_back("Gunner");
-	enemyTypePreview_.push_back("Drone");
-	enemyTypePreview_.push_back("Test");
-
-	// 武器生成
-	weaponPreview_.push_back("MachineGun");
-	weaponPreview_.push_back("ShotGun");
-	weaponPreview_.push_back("Rifle");
-	weaponPreview_.push_back("Launcher");
-	weaponPreview_.push_back("Missile");
-	weaponPreview_.push_back("Melee");
-
-	// behaviorTreeファイル
-	enemyBTFileNamePreview_.push_back("resources/json/BT/BT_Melee.json");
-	enemyBTFileNamePreview_.push_back("resources/json/BT/BT_Gunner.json");
-	enemyBTFileNamePreview_.push_back("resources/json/BT/BT_Drone.json");
+	// 武器種生成プレビュー
+	for (int i = 0; i < EnemyConfig::Name::name.size(); i++) {
+		enemyTypePreview_.push_back(EnemyConfig::Name::name[i]);
+	}
+	// 武器レアリティ生成プレビュー
+	for (int i = 0; i < EnemyConfig::BTFileName::fileName.size(); i++) {
+		enemyBTFileNamePreview_.push_back(EnemyConfig::BTFileName::fileName[i]);
+	}
 #pragma endregion
 }

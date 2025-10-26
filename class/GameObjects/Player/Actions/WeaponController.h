@@ -49,6 +49,8 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="weapon"></param>
 	void SetLeftWeapon(IWeapon* weapon) {
+		weapon->SetTranslation(LWP::Math::Vector3{ -1.0f, -0.5f, 2.0f });
+		weapon->SetRotation(LWP::Math::Quaternion{ 0.0f,0.0f,0.0f,1.0f });
 		weapons_[WeaponSide::kLeft]->AddWeapon(weapon);
 	}
 	/// <summary>
@@ -56,6 +58,8 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="weapon"></param>
 	void SetRightWeapon(IWeapon* weapon) {
+		weapon->SetTranslation(LWP::Math::Vector3{ 1.0f, -0.5f, 2.0f });
+		weapon->SetRotation(LWP::Math::Quaternion{ 0.0f,0.0f,0.0f,1.0f });
 		weapons_[WeaponSide::kRight]->AddWeapon(weapon);
 	}
 

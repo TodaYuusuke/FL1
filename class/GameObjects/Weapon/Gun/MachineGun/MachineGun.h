@@ -21,10 +21,6 @@ public:
 	/// </summary>
 	void Update() override;
 	/// <summary>
-	/// 攻撃
-	/// </summary>
-	//void Attack() override;
-	/// <summary>
 	/// 破壊処理
 	/// </summary>
 	void Destroy() override;

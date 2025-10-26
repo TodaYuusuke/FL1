@@ -21,7 +21,7 @@ public:
 	// コンストラクタ
 	WeaponManager();
 	// デストラクタ
-	~WeaponManager() = default;
+	~WeaponManager();
 
 	/// <summary>
 	/// 初期化
@@ -111,13 +111,15 @@ public:// アクセサ
 	/// <returns></returns>
 	void DropWeapon(IWeapon* weapon);
 	/// <summary>
-	/// 武器の付与
+	/// 落ちている武器を付与
 	/// </summary>
-	/// <param name="weapon"></param>
-	/// <returns></returns>
-	void GiveWeapon(IWeapon* weapon, Actor* target);
+	/// <param name="weapon">拾う武器</param>
+	/// <param name="target">付与対象</param>
+	/// <param name="localPos">付与対象と親子付けしたときの武器の座標</param>
+	/// <param name="localRot">付与対象と親子付けしたときの武器の角度</param>
+	void PickUpWeapon(IWeapon* weapon, Actor* target, LWP::Math::Vector3 localPos = { 0,0,0 }, LWP::Math::Quaternion localRot = { 0,0,0,1 });
 	/// <summary>
-	/// 特定の武器を与える(受け取った武器のアドレスは解放禁止)
+	/// 特定の武器を作成(受け取った武器のアドレスは解放禁止)
 	/// </summary>
 	/// <param name="weaponType"></param>
 	/// <param name="weaponRarity"></param>
@@ -130,6 +132,11 @@ public:// アクセサ
 	/// <param name="weaponRarity"></param>
 	/// <returns></returns>
 	IWeapon* CreateRandomWeapon(const std::vector<int>& weaponTypes, const std::vector<int>& weaponRarity);
+
+	/// <summary>
+	/// 指定の武器を解放
+	/// </summary>
+	void DeleteWeapon(IWeapon* weapon);
 
 public:// Getter,Setter
 #pragma region Getter

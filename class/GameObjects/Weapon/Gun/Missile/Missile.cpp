@@ -17,7 +17,8 @@ void Missile::Update() {
 	IGun::Update();
 }
 
-void Missile::Attack() {
+void Missile::Attack(int bulletHitFragBit) {
+	bulletHitFragBit;
 	//// 弾がない状態なら撃てない
 	//if (magazine_->GetEmpty()) { 
 	//	isDestroy_ = true;

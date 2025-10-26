@@ -1,5 +1,7 @@
 #include "WeaponSlot.h"
 #include "../Player/System/LeadingSystem.h"
+#include "../Weapon/WeaponManager.h"
+#include "../Collision/CollisionMask.h"
 
 using namespace LWP::Math;
 using namespace FLMath;
@@ -8,11 +10,7 @@ WeaponSlot::WeaponSlot(LeadingSystem* leadingSystem) {
 	pLeadingSystem_ = leadingSystem;
 }
 
-WeaponSlot::~WeaponSlot() {
-	for (IWeapon* w : weapons_) {
-		//delete w;
-	}
-}
+WeaponSlot::~WeaponSlot() {}
 
 void WeaponSlot::Init() {}
 
@@ -29,7 +27,8 @@ void WeaponSlot::Update() {
 			std::remove_if(weapons_.begin(), weapons_.end(),
 				[](IWeapon* w) {
 					if (w->GetIsDestroy()) {
-						delete w; // 明示的に解放
+						// 武器管理クラスに該当武器の解放依頼
+						WeaponManager::GetInstance()->DeleteWeapon(w);
 						return true; // vectorから削除対象
 					}
 					return false;
@@ -72,7 +71,7 @@ void WeaponSlot::Attack() {
 			}
 		}
 
-		weapons_.front()->Attack();
+		weapons_.front()->Attack(GameMask::enemy);
 	}
 }
 

@@ -4,7 +4,7 @@
 class Bullet : public BulletBase {
 public:
 	// コンストラクタ
-	Bullet(const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel);
+	Bullet(const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel, int hitFragBit);
 	// デストラクタ
 	~Bullet() = default;
 

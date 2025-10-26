@@ -33,6 +33,10 @@ public:
 	/// 調整項目
 	/// </summary>
 	virtual void DrawGui();
+	/// <summary>
+	/// json情報作成(コピー元武器作成時以外呼び出し禁止)
+	/// </summary>
+	virtual void CreateJsonData();
 
 	/// <summary>
 	/// 攻撃する
@@ -192,17 +196,21 @@ public:
 protected:
 	//ワールド
 	IWorld* world_ = nullptr;
+
 	//ブラックボード
 	BlackBoard* blackBoard_ = nullptr;
+	// ビヘイビアツリー
+	INode* bt_ = nullptr;
+	// ビヘイビアツリーの編集
+	std::unique_ptr<BehaviorTreeGraph> btEditor_;
+
 	// 状態
 	StateBase* state_;
 	// 持っている武器
 	IWeapon* weapon_;
 
-	// ビヘイビアツリー
-	INode* bt_ = nullptr;
-	// ビヘイビアツリーの編集
-	std::unique_ptr<BehaviorTreeGraph> btEditor_;
+	// 体の当たり判定
+	LWP::Object::Collision bodyCollision_;
 
 	//タグ名
 	std::string tag_;

@@ -33,7 +33,7 @@ public:
 	/// <summary>
 	/// 攻撃
 	/// </summary>
-	void Attack() override;
+	void Attack(int bulletHitFragBit) override;
 	/// <summary>
 	/// リロード
 	/// </summary>

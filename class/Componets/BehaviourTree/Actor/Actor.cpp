@@ -1,6 +1,7 @@
 #include "Actor.h"
 #include "../../../GameObjects/Enemy/State/StateBase.h"
 #include "../../../GameObjects/Weapon/IWeapon.h"
+#include "../../../GameObjects/Collision/CollisionMask.h"
 
 using namespace LWP;
 using namespace LWP::Math;
@@ -21,12 +22,19 @@ void Actor::Update(){
 
 void Actor::DrawGui() {}
 
+void Actor::CreateJsonData() {
+	// モデル非表示
+	model_.isActive = false;
+	// 当たり判定をとらない
+	bodyCollision_.isActive = false;
+}
+
 void Actor::Attack() {
 	if (weapon_) {
 		// 射撃方向
 		weapon_->SetShotDirVelocity(Vector3{ 0,0,1 } *(model_.worldTF.rotation * weapon_->GetWorldTF()->rotation));
 		// 攻撃
-		weapon_->Attack();
+		weapon_->Attack(GameMask::player);
 	}
 }
 

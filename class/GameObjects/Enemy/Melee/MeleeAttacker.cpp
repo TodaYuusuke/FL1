@@ -4,6 +4,7 @@
 #include "../../../Componets/BehaviourTree/BehaviourTreeBulider.h"
 #include "../State/StateBase.h"
 #include "../EnemyConfig.h"
+#include "../../Collision/CollisionMask.h"
 
 using namespace LWP::Math;
 
@@ -33,6 +34,18 @@ MeleeAttacker::MeleeAttacker(IWorld* world, int ID, const std::string& BTFilePat
 	// ビヘイビアツリー生成
 	bt_ = BehaviourTreeBuilder::BuildAttackerTree(BTFilePath, blackBoard_);
 	bt_->Init();
+
+	// 体の判定生成
+	bodyCollision_.SetFollow(&model_.worldTF);
+	bodyCollision_.isActive = true;
+	bodyCollision_.worldTF.translation = { 0.0f, 1.0f, 0.0f };
+	// 自機の所属しているマスクを設定
+	bodyCollision_.mask.SetBelongFrag(GameMask::enemy);
+	// 当たり判定をとる対象のマスクを設定
+	bodyCollision_.mask.SetHitFrag(GameMask::attack);
+	bodyCollision_.enterLambda = [this](LWP::Object::Collision* hitTarget) {
+		hitTarget;
+		};
 }
 
 MeleeAttacker::~MeleeAttacker() {

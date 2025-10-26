@@ -25,6 +25,19 @@ WeaponManager::WeaponManager() {
 	CreateOrizinWeapon();
 }
 
+WeaponManager::~WeaponManager() {
+	// 現在の武器
+	for (IWeapon* weapon : weapons_) {
+		delete weapon;
+	}
+	// コピー元の武器
+	for (int i = 0; i < weaponTypePreview_.size(); i++) {
+		for (int j = 0; j < weaponRarityPreview_.size(); j++) {
+			delete orizinWeaponData_[(WeaponType)i][(RarityType)j];
+		}
+	}
+}
+
 void WeaponManager::Init() {
 	for (IWeapon* weapon : weapons_) {
 		weapon->Init();
@@ -41,8 +54,6 @@ void WeaponManager::Update() {
 }
 
 void WeaponManager::DebugGui() {
-	static WeaponData data{};
-
 	if (ImGui::BeginTabItem("WeaponManager")) {
 		// 調整項目
 		if (ImGui::TreeNode("Json")) {
@@ -115,7 +126,7 @@ void WeaponManager::CheckPlayerToWeaponDistance() {
 		if (Vector3::Distance(player_->GetWorldTF()->GetWorldPosition(), weapon->GetWorldTF()->GetWorldPosition()) > 5.0f) { continue; }
 
 		// 自機に武器を付与
-		GiveWeapon(weapon, pWorld_->FindActor("Player"));
+		PickUpWeapon(weapon, pWorld_->FindActor("Player"));
 	}
 }
 
@@ -234,9 +245,9 @@ void WeaponManager::DropWeapon(IWeapon* weapon) {
 	}
 }
 
-void WeaponManager::GiveWeapon(IWeapon* weapon, Actor* target) {
-	weapon->SetTranslation(Vector3{ 0,0,0 });
-	weapon->SetRotation(Quaternion{ 0,0,0,1 });
+void WeaponManager::PickUpWeapon(IWeapon* weapon, Actor* target, Vector3 localPos, Quaternion localRot) {
+	weapon->SetTranslation(localPos);
+	weapon->SetRotation(localRot);
 	target->SetWeapon(weapon);
 }
 
@@ -292,4 +303,14 @@ IWeapon* WeaponManager::CreateRandomWeapon(const std::vector<int>& weaponTypes, 
 	weapons_.push_back(weapon);
 
 	return weapon;
+}
+
+void WeaponManager::DeleteWeapon(IWeapon* weapon) {
+	auto result = std::find(weapons_.begin(), weapons_.end(), weapon);
+	// 存在しているなら削除
+	if (result != weapons_.end()) {
+		delete weapon;
+		weapon = nullptr;
+		weapons_.erase(result);
+	}
 }

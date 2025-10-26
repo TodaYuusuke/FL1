@@ -29,20 +29,20 @@ void Title::Initialize() {
 	world_ = std::make_unique<World>();
 
 	// 自機
-	player_ = std::make_unique<Player>(followCamera_->GetCamera());
+	Player* player = new Player(followCamera_->GetCamera());
 	// 自機をアクターとして追加
-	world_->AddActor(player_.get());
+	world_->AddActor(player);
 
 	// 敵管理クラス
 	enemyManager_ = std::make_unique<EnemyManager>(world_.get());
 
 	// 敵管理リストを設定
-	player_->SetEnemyManager(enemyManager_.get());
+	player->SetEnemyManager(enemyManager_.get());
 	// 追従カメラを自機対象に設定
-	followCamera_->SetTarget(player_.get());
+	followCamera_->SetTarget(player);
 
 	// 武器管理クラスに自機のアドレスを登録
-	WeaponManager::GetInstance()->SetPlayer(player_.get());
+	WeaponManager::GetInstance()->SetPlayer(player);
 	// 武器管理クラスにワールドのアドレスを登録
 	WeaponManager::GetInstance()->SetWorld(world_.get());
 }
@@ -79,7 +79,7 @@ void Title::Update() {
 			followCamera_->DebugGUI();
 			// 追従対象を設定
 			if (ImGui::Button("SetFollow")) {
-				followCamera_->SetTarget(player_.get());
+				followCamera_->SetTarget(world_->FindActor("Player"));
 			}
 			// 追従をやめる
 			if (ImGui::Button("ResetFollow")) {

@@ -36,7 +36,8 @@ public:
 	/// <summary>
 	/// 攻撃
 	/// </summary>
-	virtual void Attack() = 0;
+	/// <param name="bulletHitFragBit">弾の当たり判定をとるビット</param>
+	virtual void Attack(int bulletHitFragBit) = 0;
 	/// <summary>
 	/// 破壊処理
 	/// </summary>

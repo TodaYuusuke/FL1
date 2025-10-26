@@ -38,6 +38,9 @@ protected:
 	// モデル
 	LWP::Resource::RigidModel body_;
 
+	// 体の当たり判定
+	LWP::Object::Collision bodyCollision_;
+
 	// 速度
 	LWP::Math::Vector3 vel_ = { 0.0f,0.0f,1.0f };
 

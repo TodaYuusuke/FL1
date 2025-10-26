@@ -20,9 +20,11 @@ public:
 
 
 private: //*** これより先に必要な処理や変数を記述 ***//
+	// 追従カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
+	// 敵管理クラス
 	std::unique_ptr<EnemyManager> enemyManager_;
-	std::unique_ptr<Player> player_;
 
+	// ワールド
 	std::unique_ptr<World> world_;
 };

@@ -41,6 +41,8 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	void SetWeapon(IWeapon* weapon) override {
+		// 親子付け
+		// 所有者を自機にする
 		weapon->SetParent(this);
 		weaponController_->SetWeapon(weapon);
 	}
