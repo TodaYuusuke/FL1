@@ -70,8 +70,19 @@ void EnemyManager::Update() {
 
 void EnemyManager::DebugGui() {
 	if (ImGui::BeginTabItem("Enemy")) {
+		// jsonによる調整データ
+		if (ImGui::TreeNode("Json")) {
+			// 作成する敵を選択
+			SelectCreateEnemy();
+
+			// 選択した敵を調整
+			sampleEnemies_[selectCreateEnemyType_]->DrawGui();
+
+			ImGui::TreePop();
+		}
+
 		// 各敵のbehaviorTreeの調整
-		if (ImGui::TreeNode("Behavior-Tree edit")) {
+		if (ImGui::TreeNode("BT edit")) {
 			SwitchNodeEditorCanvas(btEditor_->GetEditorContext());
 			SelectJsonFile();
 			btEditor_->Update();
@@ -79,20 +90,14 @@ void EnemyManager::DebugGui() {
 			ImGui::TreePop();
 		}
 
-		if (ImGui::TreeNode("Current enemy BT")) {
-			for (Actor* actor : enemies_) {
-				SwitchNodeEditorCanvas(actor->GetEditorContext());
-				actor->DrawGui();
-			}
-			ImGui::TreePop();
-		}
-
 		// 敵作成
 		if (ImGui::TreeNode("Create")) {
 			// 作成する敵を選択
 			SelectCreateEnemy();
+
 			// 生成座標
 			ImGui::DragFloat3("CreateTranslation", &createPos_.x, 0.01f);
+
 			// テスト敵のみ調整可能
 			if (selectCreateEnemyType_ == (int)EnemyType::kTest) {
 				// 速度

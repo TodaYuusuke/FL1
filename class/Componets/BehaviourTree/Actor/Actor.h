@@ -17,7 +17,7 @@ class IWeapon;
 class Actor {
 public:
 	// コンストラクタ
-	Actor() = default;
+	Actor();
 	// デストラクタ
 	virtual ~Actor() = default;
 
@@ -42,10 +42,12 @@ public:
 	/// 攻撃する
 	/// </summary>
 	virtual void Attack();
+
+protected:
 	/// <summary>
-	/// 死亡する
+	/// 衝突応答
 	/// </summary>
-	void Die();
+	virtual void OnCollision(LWP::Object::Collision* hitTarget);
 
 public:// アクセサ
 	/// <summary>
@@ -211,6 +213,7 @@ protected:
 
 	// 体の当たり判定
 	LWP::Object::Collision bodyCollision_;
+	LWP::Object::Collider::AABB& bodyAABB_;
 
 	//タグ名
 	std::string tag_;

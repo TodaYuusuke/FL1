@@ -45,12 +45,12 @@ void WeaponManager::Init() {
 }
 
 void WeaponManager::Update() {
-	// 自機が近いなら武器を渡す
-	CheckPlayerToWeaponDistance();
-
 	for (IWeapon* weapon : weapons_) {
 		weapon->Update();
 	}
+
+	// 自機が近いなら武器を渡す
+	CheckPlayerToWeaponDistance();
 }
 
 void WeaponManager::DebugGui() {
@@ -235,6 +235,7 @@ void WeaponManager::DropWeapon(IWeapon* weapon) {
 		Vector3 pos = weapon->GetActor()->GetWorldTF()->GetWorldPosition() + weapon->GetWorldTF()->translation;
 		// 親子付け解除
 		weapon->SetParent(nullptr);
+		
 		// 座標指定
 		weapon->SetTranslation(pos);
 	}

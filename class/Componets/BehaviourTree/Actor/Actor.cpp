@@ -6,6 +6,12 @@
 using namespace LWP;
 using namespace LWP::Math;
 
+Actor::Actor() : 
+	bodyAABB_(bodyCollision_.SetBroadShape(LWP::Object::Collider::AABB()))
+{
+
+}
+
 void Actor::Init() {}
 
 void Actor::Update(){
@@ -38,7 +44,10 @@ void Actor::Attack() {
 	}
 }
 
-void Actor::Die() {}
+void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
+	hitTarget;
+	isAlive_ = false;
+}
 
 void Actor::ChangeState(StateBase* nextState) {
 	if (state_ && typeid(*nextState) == typeid(*state_)) { return; }

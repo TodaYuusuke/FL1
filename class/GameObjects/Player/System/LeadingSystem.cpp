@@ -41,6 +41,10 @@ void LeadingSystem::Update() {
 
 	// 偏差対象解除
 	ClearLeadingTarget();
+	// 敵が死んでいたら偏差終了
+	if (leadingTarget_ && !pEnemyManager_->FindEnemy(leadingTarget_)) {
+		leadingTarget_ = nullptr;
+	}
 
 	// 偏差対象がいないなら未来の座標を真ん中に戻す
 	if (!leadingTarget_) {

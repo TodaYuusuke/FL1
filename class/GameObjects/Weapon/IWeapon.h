@@ -99,7 +99,12 @@ public:// アクセサ
 	/// <param name="parent"></param>
 	void SetParent(Actor* character) {
 		actor_ = character;
-		body_.worldTF.Parent(actor_->GetWorldTF());
+		if (!actor_) {
+			body_.worldTF.ClearParent();
+		}
+		else {
+			body_.worldTF.Parent(character->GetWorldTF());
+		}
 	}
 	/// <summary>
 	/// 弾発射時の方向ベクトルを設定

@@ -45,7 +45,7 @@ void WeaponSlot::DebugGui() {
 	int i = 0;
 	for (IWeapon* w : weapons_) {
 		i++;
-		std::string label = "Slot" + std::to_string(i) + w->GetName();
+		std::string label = "Slot" + std::to_string(i) + ": " + w->GetName();
 		if (ImGui::TreeNode(label.c_str())) {
 			w->DebugGui();
 			ImGui::TreePop();
@@ -59,7 +59,6 @@ void WeaponSlot::Attack() {
 		if (!weapons_.front()->GetIsEmpty()) {
 			// 射撃できる状態か
 			if (weapons_.front()->GetIsEnableAttack()) {
-				//pLeadingSystem_->CalFutureTargetPos(/*weapons_.front()->GetWorldTF()->GetWorldPosition(), */1.0f);
 				Vector3 shotVel = pLeadingSystem_->GetLeadingShotAngle(weapons_.front()->GetWorldTF()->GetWorldPosition(), 1.0f);
 
 				if (Vector3::Dot(shotVel, shotVel) != 0.0f) {

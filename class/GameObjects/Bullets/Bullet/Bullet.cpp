@@ -18,17 +18,18 @@ Bullet::Bullet(const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel, 
 	vel_ = dirVel;
 
 	// 体の判定生成
+	LWP::Math::Vector3 size = body_.worldTF.scale / 2.0f;
+	bodyAABB_.min = size * -1.0f;
+	bodyAABB_.max = size;
 	bodyCollision_.SetFollow(&body_.worldTF);
 	bodyCollision_.isActive = true;
-	bodyCollision_.worldTF.translation = { 0.0f, 1.0f, 0.0f };
 	// 自機の所属しているマスクを設定
 	bodyCollision_.mask.SetBelongFrag(GameMask::attack);
 	// 当たり判定をとる対象のマスクを設定
 	bodyCollision_.mask.SetHitFrag(hitFragBit);
-	bodyCollision_.enterLambda = [this](LWP::Object::Collision* hitTarget) {
-		hitTarget;
+	bodyCollision_.stayLambda = [this](LWP::Object::Collision* hitTarget) {
+		OnCollision(hitTarget);
 		};
-
 }
 
 void Bullet::Init() {

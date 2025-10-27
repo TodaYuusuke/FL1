@@ -77,6 +77,18 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	std::vector<Actor*> GetEnemyList() { return enemies_; }
+	/// <summary>
+	/// 特定の敵を探す
+	/// </summary>
+	/// <param name="actor"></param>
+	/// <returns></returns>
+	Actor* FindEnemy(Actor* actor) { 
+		auto result = std::find(enemies_.begin(), enemies_.end(), actor);
+		if (result == enemies_.end()) {
+			return nullptr;
+		}
+		return *result;
+	}
 #pragma endregion
 
 #pragma region Setter

@@ -21,6 +21,12 @@ public:
 	/// </summary>
 	virtual void Update() = 0;
 
+protected:
+	/// <summary>
+	/// 衝突応答
+	/// </summary>
+	virtual void OnCollision(LWP::Object::Collision* hitTarget);
+
 public:// アクセサ
 #pragma region Getter
 	/// <summary>
@@ -40,6 +46,7 @@ protected:
 
 	// 体の当たり判定
 	LWP::Object::Collision bodyCollision_;
+	LWP::Object::Collider::AABB& bodyAABB_;
 
 	// 速度
 	LWP::Math::Vector3 vel_ = { 0.0f,0.0f,1.0f };
