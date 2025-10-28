@@ -23,6 +23,15 @@ enum class RarityType {
 	kCount
 };
 
+// 武器の装着箇所
+enum class WeaponSide {
+	kLeft,			// 左手
+	kRight,			// 右手
+	kLeftShoulder,	// 左肩
+	kRightShoulder,	// 右肩
+	kCount
+};
+
 /// <summary>
 /// 武器の調整項目
 /// </summary>

@@ -246,9 +246,7 @@ void WeaponManager::DropWeapon(IWeapon* weapon) {
 	}
 }
 
-void WeaponManager::PickUpWeapon(IWeapon* weapon, Actor* target, Vector3 localPos, Quaternion localRot) {
-	weapon->SetTranslation(localPos);
-	weapon->SetRotation(localRot);
+void WeaponManager::PickUpWeapon(IWeapon* weapon, Actor* target) {
 	target->SetWeapon(weapon);
 }
 

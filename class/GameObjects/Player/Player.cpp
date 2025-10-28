@@ -37,7 +37,7 @@ Player::Player(Camera* camera) {
 	// 移動系統の管理
 	moveController_ = std::make_unique<MoveController>();
 	// 武器系統の管理
-	weaponController_ = std::make_unique<WeaponController>(leadingSystem_.get());
+	weaponController_ = std::make_unique<WeaponController>(leadingSystem_.get(), this);
 	// デバッグ用の武器の持ち主を設定
 	weaponController_->SetDebugWeaponOwner(this);
 }

@@ -44,6 +44,16 @@ public:// アクセサ
     /// <param name="weapon"></param>
     void AddWeapon(IWeapon* weapon);
 
+    /// <summary>
+    /// 武器を所持限界数まで持っているかを取得
+    /// </summary>
+    /// <returns></returns>
+    bool GetIsFullWeapon(){ 
+        // 武器を最大まで持っている
+        if (weapons_.size() == kMaxWeapons) return true;
+        return false;
+    }
+
 private:// 外部から受け取る変数
     // 偏差射撃計算機能
     LeadingSystem* pLeadingSystem_;
@@ -51,6 +61,6 @@ private:// 外部から受け取る変数
 private:
     // 武器
     std::vector<IWeapon*> weapons_;
-    // 最大3個まで保持
-    static constexpr size_t kMaxWeapons = 3; 
+    // 最大1個まで保持
+    static constexpr size_t kMaxWeapons = 1; 
 };

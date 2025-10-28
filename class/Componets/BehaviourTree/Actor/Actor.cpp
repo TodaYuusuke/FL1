@@ -64,5 +64,7 @@ void Actor::ChangeWeapon(IWeapon* nextWeapon) {
 
 void Actor::SetWeapon(IWeapon* weapon) {
 	weapon_ = weapon;
+	weapon_->SetTranslation(Vector3{ 0,0,0 });
+	weapon_->SetRotation(Quaternion{ 0,0,0,1 });
 	weapon_->SetParent(this);
 }

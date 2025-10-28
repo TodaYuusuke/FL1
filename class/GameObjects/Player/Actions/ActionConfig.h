@@ -23,12 +23,6 @@ enum class ActionType {
 	kCount
 };
 
-enum class WeaponSide {
-	kLeft,
-	kRight,
-	kCount
-};
-
 namespace ActionConfig {
 	namespace Mask {
 		// 移動状態
