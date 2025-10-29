@@ -54,10 +54,6 @@ public:// アクセサ
 	/// 状態の変更
 	/// </summary>
 	void ChangeState(StateBase* nextState);
-	/// <summary>
-	/// 武器の変更
-	/// </summary>
-	void ChangeWeapon(IWeapon* nextWeapon);
 
 #pragma region Getter
 	/// <summary>
@@ -94,7 +90,7 @@ public:// アクセサ
 	/// 持っている武器を取得
 	/// </summary>
 	/// <returns></returns>
-	IWeapon* GetWeapon() { return weapon_; }
+	std::map<int, IWeapon*> GetWeapon() { return weapons_; }
 	/// <summary>
 	/// 現在位置を取得
 	/// </summary>
@@ -132,7 +128,7 @@ public:// アクセサ
 	/// 持っている武器を取得
 	/// </summary>
 	/// <returns></returns>
-	virtual void SetWeapon(IWeapon* weapon);
+	virtual void SetWeapon(IWeapon* weapon, int weaponSide);
 	/// <summary>
 	/// 名前を設定
 	/// </summary>
@@ -208,8 +204,8 @@ protected:
 
 	// 状態
 	StateBase* state_;
-	// 持っている武器
-	IWeapon* weapon_;
+	// 持っている武器リスト
+	std::map<int, IWeapon*> weapons_;
 
 	// 体の当たり判定
 	LWP::Object::Collision bodyCollision_;

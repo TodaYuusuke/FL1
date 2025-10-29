@@ -29,11 +29,6 @@ public:
 	/// </summary>
 	virtual void DebugGui() = 0;
 	/// <summary>
-	/// json情報作成(コピー元武器作成時以外呼び出し禁止)
-	/// </summary>
-	virtual void CreateJsonData(const std::string& rarityName) = 0;
-
-	/// <summary>
 	/// 攻撃
 	/// </summary>
 	/// <param name="bulletHitFragBit">弾の当たり判定をとるビット</param>
@@ -130,7 +125,6 @@ public:// アクセサ
 #pragma endregion
 
 protected:
-	LWP::Utility::JsonIO json_;
 	// モデル
 	LWP::Resource::RigidModel body_;
 

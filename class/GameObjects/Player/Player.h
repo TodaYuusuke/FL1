@@ -3,7 +3,6 @@
 #include "Actions/MoveController.h"
 #include "Actions/WeaponController.h"
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
-//#include "../../Componets/BehaviourTree/Actor/BlackBoard.h"
 #include <Adapter.h>
 
 class EnemyManager;
@@ -40,7 +39,10 @@ public:// アクセサ
 	/// 武器を設定
 	/// </summary>
 	/// <returns></returns>
-	void SetWeapon(IWeapon* weapon) override { weaponController_->SetWeapon(weapon); }
+	void SetWeapon(IWeapon* weapon, int weaponSide) override {
+		weaponSide;
+		weaponController_->SetWeapon(weapon); 
+	}
 	/// <summary>
 	/// 左側の武器を設定する
 	/// </summary>

@@ -23,7 +23,9 @@ void Actor::Update(){
 		bt_->Tick();
 	}
 
-	if (weapon_) weapon_->Update();
+	for (int i = 0; i < weapons_.size(); i++) {
+		if (weapons_[i]) weapons_[i]->Update();
+	}
 }
 
 void Actor::DrawGui() {}
@@ -36,11 +38,13 @@ void Actor::CreateJsonData() {
 }
 
 void Actor::Attack() {
-	if (weapon_) {
-		// 射撃方向
-		weapon_->SetShotDirVelocity(Vector3{ 0,0,1 } *(model_.worldTF.rotation * weapon_->GetWorldTF()->rotation));
-		// 攻撃
-		weapon_->Attack(GameMask::player);
+	for (int i = 0; i < weapons_.size(); i++) {
+		if (weapons_[i]) {
+			// 射撃方向
+			weapons_[i]->SetShotDirVelocity(Vector3{0,0,1} *(model_.worldTF.rotation * weapons_[i]->GetWorldTF()->rotation));
+			// 攻撃
+			weapons_[i]->Attack(GameMask::player);
+		}
 	}
 }
 
@@ -56,15 +60,7 @@ void Actor::ChangeState(StateBase* nextState) {
 	state_ = nextState;
 }
 
-void Actor::ChangeWeapon(IWeapon* nextWeapon) {
-	// 武器がすでに生成されているときだけ解放
-	if (weapon_) delete weapon_;
-	weapon_ = nextWeapon;
-}
-
-void Actor::SetWeapon(IWeapon* weapon) {
-	weapon_ = weapon;
-	weapon_->SetTranslation(Vector3{ 0,0,0 });
-	weapon_->SetRotation(Quaternion{ 0,0,0,1 });
-	weapon_->SetParent(this);
+void Actor::SetWeapon(IWeapon* weapon, int weaponSide) {
+	weapons_[weaponSide] = weapon;
+	weapons_[weaponSide]->SetParent(this);
 }

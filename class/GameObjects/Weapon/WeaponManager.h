@@ -51,7 +51,7 @@ private:
 	/// </summary>
 	/// <param name="weaponType"></param>
 	/// <returns></returns>
-	std::string SelectWeaponModelName(int weaponType);
+	std::string ConvertWeaponModelName(int weaponType, int weaponRarity);
 
 	/// <summary>
 	/// 武器の種類を名前に変換
@@ -69,7 +69,7 @@ private:
 	/// <summary>
 	/// コピー元となる武器を作成
 	/// </summary>
-	void CreateOrizinWeapon();
+	void CreateOriginWeapon();
 
 private:
 	/// <summary>
@@ -102,6 +102,17 @@ private:
 	/// </summary>
 	/// <returns></returns>
 	Melee* CreateMelee();
+	/// <summary>
+	/// jsonファイル作成
+	/// </summary>
+	/// <param name="json"></param>
+	/// <param name="fileName"></param>
+	void CreateJsonData(LWP::Utility::JsonIO& json, WeaponData& data, const std::string& name);
+
+	/// <summary>
+	/// 選択された武器のguiの表示
+	/// </summary>
+	void SelectWeaponDataGui(LWP::Utility::JsonIO& json, WeaponData& data);
 
 public:// アクセサ
 	/// <summary>
@@ -115,7 +126,7 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="weapon">拾う武器</param>
 	/// <param name="target">付与対象</param>
-	void PickUpWeapon(IWeapon* weapon, Actor* target);
+	void PickUpWeapon(IWeapon* weapon, Actor* target, int weaponSide = 0);
 	/// <summary>
 	/// 特定の武器を作成(受け取った武器のアドレスは解放禁止)
 	/// </summary>
@@ -138,7 +149,16 @@ public:// アクセサ
 
 public:// Getter,Setter
 #pragma region Getter
-
+	/// <summary>
+	/// 作成できる武器種一覧を取得
+	/// </summary>
+	/// <returns></returns>
+	std::vector<std::string> GetWeaponTypePreview() { return weaponTypePreview_; }
+	/// <summary>
+	/// 作成できる武器のレアリティ一覧を取得
+	/// </summary>
+	/// <returns></returns>
+	std::vector<std::string> GetWeaponRarityPreview() { return weaponRarityPreview_; }
 #pragma endregion
 
 #pragma region Setter
@@ -172,7 +192,8 @@ private:
 
 	// --------- デバッグ用↓ --------- //
 	// 各武器のコピー元の武器
-	std::map<WeaponType, std::map<RarityType, IWeapon*>> orizinWeaponData_;
+	std::map<WeaponType, std::map<RarityType, WeaponData>> orizinWeaponData_;
+	std::map<WeaponType, std::map<RarityType, LWP::Utility::JsonIO>> jsonDatas_;
 	// 作成するコピー元の武器種
 	int selectedOrizinWeaponType_;
 	// 作成するコピー元のレアリティ

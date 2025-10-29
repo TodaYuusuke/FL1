@@ -25,10 +25,6 @@ public:
 	/// 調整項目
 	/// </summary>
 	void DebugGui() override;
-	/// <summary>
-	/// json情報作成(コピー元武器作成時以外呼び出し禁止)
-	/// </summary>
-	void CreateJsonData(const std::string& name) override;
 
 	/// <summary>
 	/// 攻撃

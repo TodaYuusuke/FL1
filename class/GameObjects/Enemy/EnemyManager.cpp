@@ -8,6 +8,8 @@
 #include "EnemyConfig.h"
 
 using namespace EnemyConfig;
+using namespace LWP;
+using namespace LWP::Math;
 
 EnemyManager::EnemyManager(IWorld* world) {
 	pWorld_ = world;
@@ -17,10 +19,8 @@ EnemyManager::EnemyManager(IWorld* world) {
 
 #pragma region コピー元となる敵生成
 	for (int i = 0; i < EnemyConfig::Name::name.size(); i++) {
-		selectCreateEnemyType_ = i;
-		sampleEnemies_[i] = CreateEnemy();
 		// 調整データ作成
-		sampleEnemies_[i]->CreateJsonData();
+		CreateJsonData(jsonDatas_[i], sampleEnemies_[i], EnemyConfig::Name::name[i]);
 	}
 #pragma endregion
 }
@@ -29,11 +29,8 @@ EnemyManager::~EnemyManager() {
 	for (Actor* actor : enemies_) {
 		delete actor;
 	}
-	// 調整されたオリジナル
-	for (auto it = sampleEnemies_.begin(); it != sampleEnemies_.end(); it++) {
-		delete it->second;
-	}
 	enemies_.clear();
+	sampleEnemies_.clear();
 }
 
 void EnemyManager::Init() {
@@ -55,7 +52,9 @@ void EnemyManager::Update() {
 			[](Actor* actor) {
 				if (!actor->GetIsAlive()) {
 					// 武器を落とす
-					WeaponManager::GetInstance()->DropWeapon(actor->GetWeapon());
+					for (int i = 0; i < actor->GetWeapon().size(); i++) {
+						WeaponManager::GetInstance()->DropWeapon(actor->GetWeapon()[i]);
+					}
 
 					// 敵の解放
 					delete actor;
@@ -76,15 +75,22 @@ void EnemyManager::DebugGui() {
 			SelectCreateEnemy();
 
 			// 選択した敵を調整
-			sampleEnemies_[selectCreateEnemyType_]->DrawGui();
+			SelectEnemyDataGui(jsonDatas_[selectCreateEnemyType_], sampleEnemies_[selectCreateEnemyType_]);
+			//sampleEnemies_[selectCreateEnemyType_]->DrawGui();
 
 			ImGui::TreePop();
 		}
 
 		// 各敵のbehaviorTreeの調整
 		if (ImGui::TreeNode("BT edit")) {
+			// 読み込むファイルを選択
 			SwitchNodeEditorCanvas(btEditor_->GetEditorContext());
 			SelectJsonFile();
+			// 読み込み
+			if (ImGui::Button("Load")) {
+				btEditor_->SelectLoadFile(enemyBTFileNamePreview_[selectBTFileName_]);
+			}
+
 			btEditor_->Update();
 			btEditor_->Draw();
 			ImGui::TreePop();
@@ -118,11 +124,11 @@ void EnemyManager::DebugGui() {
 
 Actor* EnemyManager::CreateMeleeEnemy() {
 	// 近接敵
-	MeleeAttacker* actor = new MeleeAttacker(pWorld_, createID_, enemyBTFileNamePreview_[(int)EnemyType::kMelee]);
+	MeleeAttacker* actor = new MeleeAttacker(pWorld_, createID_, sampleEnemies_[(int)EnemyType::kMelee]);
 	actor->SetTranslation(createPos_);
 
 	// 武器を付与
-	GiveWeapon(actor);
+	GiveWeapon(actor, sampleEnemies_[(int)EnemyType::kMelee]);
 	createID_++;
 
 	return actor;
@@ -130,11 +136,11 @@ Actor* EnemyManager::CreateMeleeEnemy() {
 
 Actor* EnemyManager::CreateGunnerEnemy() {
 	// 遠距離敵
-	Gunner* actor = new Gunner(pWorld_, createID_, enemyBTFileNamePreview_[(int)EnemyType::kGunner]);
+	Gunner* actor = new Gunner(pWorld_, createID_, sampleEnemies_[(int)EnemyType::kGunner]);
 	actor->SetTranslation(createPos_);
 
 	// 武器を付与
-	GiveWeapon(actor);
+	GiveWeapon(actor, sampleEnemies_[(int)EnemyType::kGunner]);
 	createID_++;
 
 	return actor;
@@ -142,22 +148,28 @@ Actor* EnemyManager::CreateGunnerEnemy() {
 
 Actor* EnemyManager::CreateDroneEnemy() {
 	// ドローン敵
-	Drone* actor = new Drone(pWorld_, createID_, enemyBTFileNamePreview_[(int)EnemyType::kDrone]);
+	Drone* actor = new Drone(pWorld_, createID_, sampleEnemies_[(int)EnemyType::kDrone]);
 	actor->SetTranslation(createPos_);
 	actor->SetFloatHeight(dronefloatHeight_);
 
 	// 武器を付与
-	GiveWeapon(actor);
+	GiveWeapon(actor, sampleEnemies_[(int)EnemyType::kDrone]);
 	createID_++;
 
 	return actor;
 }
 
-void EnemyManager::GiveWeapon(Actor* actor) {
-	// 持たせる武器を作成
-	IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(0, 0);
-	// 武器の付与
-	WeaponManager::GetInstance()->PickUpWeapon(weapon, actor);
+void EnemyManager::GiveWeapon(Actor* actor, const EnemyData& data) {
+	for (int i = 0; i < data.containWeaponTypes.size(); i++) {
+		if (data.containWeaponTypes[i] >= (int)WeaponType::kCount) { continue; }
+
+		// 持たせる武器を作成
+		IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(data.containWeaponTypes[i], 0);
+		// 武器の装着位置設定
+		SetWeaponPos(weapon, i);
+		// 武器の付与
+		WeaponManager::GetInstance()->PickUpWeapon(weapon, actor, i);
+	}
 }
 
 // ------------ デバッグ用関数↓------------ //
@@ -240,10 +252,52 @@ void EnemyManager::SelectJsonFile() {
 	else {
 		ImGui::TextDisabled(("Not found behavior-tree file"));
 	}
+}
 
-	// 読み込み
-	if (ImGui::Button("Load")) {
-		btEditor_->SelectLoadFile(enemyBTFileNamePreview_[selectBTFileName_]);
+void EnemyManager::SelectWeaponType(int& selectedWeaponType, std::string label) {
+	// 読み込むbehaviorTreeのプレビュー作成
+	if (!weaponTypePreview_.empty()) {
+		const char* combo_preview_value = weaponTypePreview_[selectedWeaponType].c_str();
+		if (ImGui::BeginCombo(label.c_str(), combo_preview_value)) {
+			for (int n = 0; n < weaponTypePreview_.size(); n++) {
+				const bool is_selected = ((int)selectedWeaponType == n);
+				std::string label = weaponTypePreview_[n];
+				if (ImGui::Selectable(label.c_str(), is_selected)) {
+					selectedWeaponType = n;
+				}
+
+				if (is_selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+	}
+	else {
+		ImGui::TextDisabled(("Not found weapon"));
+	}
+}
+
+void EnemyManager::SelectWeaponRarity() {
+	// 読み込むbehaviorTreeのプレビュー作成
+	if (!weaponRarityPreview_.empty()) {
+		const char* combo_preview_value = weaponRarityPreview_[selectedWeaponRarity_].c_str();
+		if (ImGui::BeginCombo(("##Weapon rarity"), combo_preview_value)) {
+			for (int n = 0; n < weaponRarityPreview_.size(); n++) {
+				const bool is_selected = ((int)selectedWeaponRarity_ == n);
+				if (ImGui::Selectable(weaponRarityPreview_[n].c_str(), is_selected)) {
+					selectedWeaponRarity_ = n;
+				}
+
+				if (is_selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+	}
+	else {
+		ImGui::TextDisabled(("Not found behavior-tree file"));
 	}
 }
 
@@ -261,4 +315,130 @@ void EnemyManager::CreateDebugData() {
 		enemyBTFileNamePreview_.push_back(EnemyConfig::BTFileName::fileName[i]);
 	}
 #pragma endregion
+}
+
+void EnemyManager::CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, const std::string& name) {
+	// ファイル名
+	std::string fileName = name + ".json";
+	json.Init(fileName)
+		// ビヘイビアツリーのファイル名
+		.AddValue<std::string>("BTFileName", &data.BTFileName)
+		// 武器設定
+		.BeginGroup("Weapon")
+		// 手
+		.BeginGroup("Hand")
+		.BeginGroup("Left")
+		.AddValue<int>("Type", &data.containWeaponTypes[(int)WeaponSide::kLeft])
+		.EndGroup()
+		.BeginGroup("Right")
+		.AddValue<int>("Type", &data.containWeaponTypes[(int)WeaponSide::kRight])
+		.EndGroup()
+		.EndGroup()
+
+		// 肩
+		.BeginGroup("Shoulder")
+		.BeginGroup("Left")
+		.AddValue<int>("Type", &data.containWeaponTypes[(int)WeaponSide::kLeftShoulder])
+		.EndGroup()
+		.BeginGroup("Right")
+		.AddValue<int>("Type", &data.containWeaponTypes[(int)WeaponSide::kRightShoulder])
+		.EndGroup()
+		.EndGroup()
+		// 武器の最低保証
+		.AddValue<int>("MinRarity", &data.minWeaponRarity)
+		.EndGroup()
+		// 攻撃パラメータ
+		.BeginGroup("Attack")
+		// 係数
+		.AddValue<float>("Multiply", &data.attackMultiply)
+		.EndGroup()
+		// 速度倍率
+		.AddValue<float>("SpeedMultiply", &data.speedMultiply)
+		// 体力
+		.AddValue<float>("HP", &data.hp)
+		// レベル
+		.AddValue<int>("Level", &data.level)
+
+		.CheckJsonFile();
+}
+
+void EnemyManager::SelectEnemyDataGui(LWP::Utility::JsonIO& json, EnemyData& data) {
+	// 調整項目
+	if (ImGui::TreeNode("Json")) {
+		if (ImGui::Button("Save")) {
+			json.Save();
+		}
+		if (ImGui::Button("Load")) {
+			json.Load();
+		}
+
+		// 調整する敵の種類
+		data.type = selectCreateEnemyType_;
+
+		// 使用するビヘイビアツリーを選択
+		SelectJsonFile();
+		data.BTFileName = enemyBTFileNamePreview_[selectBTFileName_];
+		// 武器
+		if (ImGui::TreeNode("Weapon")) {
+			weaponTypePreview_ = WeaponManager::GetInstance()->GetWeaponTypePreview();
+			weaponTypePreview_.push_back("None");
+			weaponRarityPreview_ = WeaponManager::GetInstance()->GetWeaponRarityPreview();
+			// 手武器を選択
+			if (ImGui::TreeNode("Select hand weapon")) {
+				SelectWeaponType(data.containWeaponTypes[(int)WeaponSide::kLeft], "Left");
+
+				SelectWeaponType(data.containWeaponTypes[(int)WeaponSide::kRight], "Right");
+
+				ImGui::TreePop();
+			}
+			// 肩武器を選択
+			if (ImGui::TreeNode("Select shoulder weapon")) {
+				SelectWeaponType(data.containWeaponTypes[(int)WeaponSide::kLeftShoulder], "Left");
+
+				SelectWeaponType(data.containWeaponTypes[(int)WeaponSide::kRightShoulder], "Right");
+
+				ImGui::TreePop();
+			}
+			// 最低保証のレアリティ
+			ImGui::Text("Select weapon min rarity");
+			SelectWeaponRarity();
+			data.minWeaponRarity = selectedWeaponRarity_;
+
+			ImGui::TreePop();
+		}
+		// 攻撃
+		if (ImGui::TreeNode("Attack")) {
+			// 倍率
+			ImGui::DragFloat("Multiply", &data.attackMultiply, 0.1f, 0.0f);
+			ImGui::TreePop();
+		}
+		// 速度倍率
+		ImGui::DragFloat("SpeedMultiply", &data.speedMultiply, 0.01f, 0.0f);
+		// HP
+		ImGui::DragFloat("HP", &data.hp, 0.1f);
+		// レアリティ
+		ImGui::DragInt("Level", &data.level, 1, -1);
+
+		ImGui::TreePop();
+	}
+}
+
+void EnemyManager::SetWeaponPos(IWeapon* weapon, int weaponSide) {
+	// 左手
+	if ((int)WeaponSide::kLeft == weaponSide) {
+		weapon->SetTranslation(Vector3{ -1.0f, -0.5f, 2.0f });
+	}
+	// 右手
+	if ((int)WeaponSide::kRight == weaponSide) {
+		weapon->SetTranslation(Vector3{ 1.0f, -0.5f, 2.0f });
+	}
+	// 左肩
+	if ((int)WeaponSide::kLeftShoulder == weaponSide) {
+		weapon->SetTranslation(Vector3{ -1.0f, 0.5f, 2.0f });
+	}
+	// 右肩
+	if ((int)WeaponSide::kRightShoulder == weaponSide) {
+		weapon->SetTranslation(Vector3{ 1.0f, 0.5f, 2.0f });
+	}
+	weapon->SetRotation(Quaternion{ 0,0,0,1 });
 }

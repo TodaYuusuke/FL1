@@ -53,7 +53,7 @@ namespace WeaponConfig {
 	namespace Name {
 		// 識別名
 		// 順番はWeaponType準拠
-		inline std::array<std::string, 6> name = {
+		inline std::array<std::string, (int)WeaponType::kCount> name = {
 			"MachineGun",	// マシンガン
 			"ShotGun",		// ショットガン
 			"Rifle",		// ライフル
@@ -62,32 +62,33 @@ namespace WeaponConfig {
 			"Melee"			// 近接
 		};
 	}
+	// レアリティ
+	namespace Rarity {
+		// モデル名
+		// 順番はRarityType準拠
+		inline std::array<std::string, (int)RarityType::kCount> rarity = {
+			"Common",
+			"UnCommon",
+			"Rare",
+			"SuperRare",
+			"Legendary",
+			"Over"
+		};
+	}
 	// 名前
 	namespace ModelName {
 		// モデル名
 		// 順番はWeaponType準拠
 		// Gun系→	resources/model/Gun/からのパス含めた名前
 		// Melee系→resources/model/Melee/からのパス含めた名前
-		inline std::array<std::string, 6> modelName = {
-			"AR/AR.obj",			// マシンガン
-			"ShotGun/Rifle.obj",	// ショットガン
-			"AR/AR.obj",			// ライフル
-			"AR/AR.obj",			// ランチャー
-			"AR/AR.obj",			// ミサイル
-			"AR.obj"				// 近接
-		};
-	}
-	// レアリティ
-	namespace Rarity {
-		// モデル名
-		// 順番はRarityType準拠
-		inline std::array<std::string, 6> rarity = {
-			"Common",	
-			"UnCommon",	
-			"Rare",		
-			"SuperRare",
-			"Legendary",
-			"Over"			
-		};
+		inline std::array<std::array<std::string, (int)WeaponType::kCount>, (int)RarityType::kCount> modelName = {{
+			// マシンガン	ショットガン		 ライフル	  ランチャー   ミサイル	    近接
+			{  "AR/AR.obj",	"ShotGun/Rifle.obj", "AR/AR.obj", "AR/AR.obj", "AR/AR.obj",	"AR.obj"  },	// Common
+			{  "AR/AR.obj",	"ShotGun/Rifle.obj", "AR/AR.obj", "AR/AR.obj", "AR/AR.obj",	"AR.obj"  },	// UnCommon
+			{  "AR/AR.obj",	"ShotGun/Rifle.obj", "AR/AR.obj", "AR/AR.obj", "AR/AR.obj",	"AR.obj"  },	// Rare
+			{  "AR/AR.obj",	"ShotGun/Rifle.obj", "AR/AR.obj", "AR/AR.obj", "AR/AR.obj",	"AR.obj"  },	// SuperRare
+			{  "AR/AR.obj",	"ShotGun/Rifle.obj", "AR/AR.obj", "AR/AR.obj", "AR/AR.obj",	"AR.obj"  },	// Legengary
+			{  "AR/AR.obj",	"ShotGun/Rifle.obj", "AR/AR.obj", "AR/AR.obj", "AR/AR.obj",	"AR.obj"  }		// Over
+		}};
 	}
 }

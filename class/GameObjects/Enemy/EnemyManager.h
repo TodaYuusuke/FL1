@@ -46,7 +46,7 @@ private:
 	/// 武器を付与
 	/// </summary>
 	/// <param name="actor"></param>
-	void GiveWeapon(Actor* actor);
+	void GiveWeapon(Actor* actor, const EnemyData& data);
 
 private:// デバッグ用の関数群
 	/// <summary>
@@ -66,9 +66,26 @@ private:// デバッグ用の関数群
 	/// </summary>
 	void SelectJsonFile();
 	/// <summary>
+	/// 作成したい武器の種類を選択(デバッグ用)
+	/// </summary>
+	void SelectWeaponType(int& selectedWeaponType, std::string label);
+	/// <summary>
+	/// 作成したい武器の種類を選択(デバッグ用)
+	/// </summary>
+	void SelectWeaponRarity();
+	/// <summary>
 	/// デバッグ用変数の情報作成
 	/// </summary>
 	void CreateDebugData();
+
+	/// <summary>
+	/// jsonファイル作成
+	/// </summary>
+	void CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, const std::string& name);
+	/// <summary>
+	/// 選択された武器のguiの表示
+	/// </summary>
+	void SelectEnemyDataGui(LWP::Utility::JsonIO& json, EnemyData& data);
 
 public:// アクセサ
 #pragma region Getter
@@ -92,7 +109,11 @@ public:// アクセサ
 #pragma endregion
 
 #pragma region Setter
-
+	/// <summary>
+	/// 武器の装着位置を設定
+	/// </summary>
+	/// <param name="weapon"></param>
+	void SetWeaponPos(IWeapon* weapon, int weaponSide);
 #pragma endregion
 
 private:// デバッグ用変数
@@ -105,7 +126,7 @@ private:// デバッグ用変数
 	LWP::Math::Vector3 createVel_;
 
 	// 作成する敵の名前
-	std::vector<int> createEnemyTypes_;
+	//std::vector<int> createEnemyTypes_;
 
 	// 作成できる敵の名前一覧
 	std::vector<std::string> enemyTypePreview_;
@@ -114,8 +135,17 @@ private:// デバッグ用変数
 	std::vector<std::string> enemyBTFileNamePreview_;
 	int selectBTFileName_;
 
+	// 作成できる武器種一覧
+	std::vector<std::string> weaponTypePreview_;
+	// 作成できる武器のレアリティ一覧
+	std::vector<std::string> weaponRarityPreview_;
+	// 作成したい武器のレアリティ
+	int selectedWeaponRarity_;
+
 	// 調整された敵のオリジナル(この敵の情報を参考にほかの敵を生成する)
-	std::map<int, Actor*> sampleEnemies_;
+	std::map<int, EnemyData> sampleEnemies_;
+	// jsonファイル作成
+	std::map<int, LWP::Utility::JsonIO> jsonDatas_;
 
 private:// 外部から受け取る変数
 	IWorld* pWorld_;

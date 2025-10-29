@@ -3,14 +3,14 @@
 #include "../../../Componets/BehaviourTree/Actor/BlackBoard.h"
 #include "../../../Componets/BehaviourTree/BehaviourTreeBulider.h"
 #include "../State/StateBase.h"
-#include "../EnemyConfig.h"
 #include "../../Collision/CollisionMask.h"
 
 using namespace LWP::Math;
 
-MeleeAttacker::MeleeAttacker(IWorld* world, int ID, const std::string& BTFilePath) {
+MeleeAttacker::MeleeAttacker(IWorld* world, int ID, const EnemyData& data) {
 	world_ = world;
 	ID_ = ID;
+	data_ = data;
 	tag_ = EnemyConfig::tag;
 	name_ = EnemyConfig::name + std::to_string(ID_);
 	attackPower_ = 1;
@@ -29,10 +29,10 @@ MeleeAttacker::MeleeAttacker(IWorld* world, int ID, const std::string& BTFilePat
 
 	// ビヘイビアツリーの編集クラス
 	btEditor_ = std::make_unique<BehaviorTreeGraph>(true);
-	btEditor_->SelectLoadFile(BTFilePath);
+	btEditor_->SelectLoadFile(data.BTFileName);
 
 	// ビヘイビアツリー生成
-	bt_ = BehaviourTreeBuilder::BuildAttackerTree(BTFilePath, blackBoard_);
+	bt_ = BehaviourTreeBuilder::BuildAttackerTree(data.BTFileName, blackBoard_);
 	bt_->Init();
 
 	// 体の判定生成

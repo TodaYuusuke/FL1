@@ -4,15 +4,15 @@
 #include "../../../Componets/BehaviourTree/BehaviourTreeBulider.h"
 #include "../../Weapon/IWeapon.h"
 #include "../State/StateBase.h"
-#include "../EnemyConfig.h"
 #include "../../Collision/CollisionMask.h"
 
 using namespace LWP::Math;
 using namespace FLMath;
 
-Drone::Drone(IWorld* world, int ID, const std::string& BTFilePath) {
+Drone::Drone(IWorld* world, int ID, const EnemyData& data) {
 	world_ = world;
 	ID_ = ID;
+	data_ = data;
 	tag_ = EnemyConfig::tag;
 	name_ = EnemyConfig::name + std::to_string(ID_);
 	attackPower_ = 1;
@@ -31,10 +31,10 @@ Drone::Drone(IWorld* world, int ID, const std::string& BTFilePath) {
 
 	// ビヘイビアツリーの編集クラス
 	btEditor_ = std::make_unique<BehaviorTreeGraph>(false);
-	btEditor_->SelectLoadFile(BTFilePath);
+	btEditor_->SelectLoadFile(data.BTFileName);
 
 	// ビヘイビアツリー生成
-	bt_ = BehaviourTreeBuilder::BuildAttackerTree(BTFilePath, blackBoard_);
+	bt_ = BehaviourTreeBuilder::BuildAttackerTree(data.BTFileName, blackBoard_);
 	bt_->Init();
 
 	// 体の判定生成

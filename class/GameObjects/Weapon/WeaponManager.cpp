@@ -22,19 +22,13 @@ WeaponManager::WeaponManager() {
 	}
 
 	// コピー元の武器作成
-	CreateOrizinWeapon();
+	CreateOriginWeapon();
 }
 
 WeaponManager::~WeaponManager() {
 	// 現在の武器
 	for (IWeapon* weapon : weapons_) {
 		delete weapon;
-	}
-	// コピー元の武器
-	for (int i = 0; i < weaponTypePreview_.size(); i++) {
-		for (int j = 0; j < weaponRarityPreview_.size(); j++) {
-			delete orizinWeaponData_[(WeaponType)i][(RarityType)j];
-		}
 	}
 }
 
@@ -73,22 +67,23 @@ void WeaponManager::DebugGui() {
 			}
 
 			// 選択した武器を調整
-			orizinWeaponData_[(WeaponType)selectedOrizinWeaponType_][(RarityType)selectedOrizinRarityType_]->DebugGui();
+			SelectWeaponDataGui(jsonDatas_[(WeaponType)selectedOrizinWeaponType_][(RarityType)selectedOrizinRarityType_],orizinWeaponData_[(WeaponType)selectedOrizinWeaponType_][(RarityType)selectedOrizinRarityType_]);
 
 			ImGui::TreePop();
 		}
 
+		int selectWeapon = 0;
+		int selectRarity = 0;
 		// 武器作成
 		if (ImGui::TreeNode("CreateWeapon")) {
 			ImGui::Text("Select create weapon");
 			// 武器種
 			if (ImGui::TreeNode("Type")) {
 				for (int i = 0; i < weaponTypePreview_.size(); i++) {
-					ImGui::RadioButton(weaponTypePreview_[i].c_str(), &selectWeapon_, i);
+					ImGui::RadioButton(weaponTypePreview_[i].c_str(), &selectWeapon, i);
 				}
 				ImGui::TreePop();
 			}
-			int selectRarity = 0;
 			// レアリティ
 			if (ImGui::TreeNode("Rarity")) {
 				for (int i = 0; i < weaponRarityPreview_.size(); i++) {
@@ -102,8 +97,8 @@ void WeaponManager::DebugGui() {
 			// 武器生成
 			if (ImGui::Button("Create")) {
 				// コピー元の武器情報
-				createWeaponData_ = orizinWeaponData_[(WeaponType)selectWeapon_][(RarityType)selectRarity]->GetWeaponData();
-				IWeapon* weapon = CreateSelectedWeapon(selectWeapon_);
+				createWeaponData_ = orizinWeaponData_[(WeaponType)selectWeapon][(RarityType)selectRarity];
+				IWeapon* weapon = CreateSelectedWeapon(selectWeapon);
 				weapons_.push_back(weapon);
 				// 武器を地面に出す
 				DropWeapon(weapon);
@@ -156,8 +151,8 @@ IWeapon* WeaponManager::CreateSelectedWeapon(int weaponType) {
 	}
 }
 
-std::string WeaponManager::SelectWeaponModelName(int weaponType) {
-	return WeaponConfig::ModelName::modelName[weaponType];
+std::string WeaponManager::ConvertWeaponModelName(int weaponType, int weaponRarity) {
+	return WeaponConfig::ModelName::modelName[weaponType][weaponRarity];
 }
 
 std::string WeaponManager::ConvertWeaponTypeName(int type) {
@@ -168,28 +163,19 @@ std::string WeaponManager::ConvertWeaponRarityName(int rarity) {
 	return WeaponConfig::Rarity::rarity[rarity];
 }
 
-void WeaponManager::CreateOrizinWeapon() {
+void WeaponManager::CreateOriginWeapon() {
 	for (int i = 0; i < weaponTypePreview_.size(); i++) {
+		// 武器種名
+		std::string weaponType = ConvertWeaponTypeName(i);
 		for (int j = 0; j < weaponRarityPreview_.size(); j++) {
-			createWeaponData_.name = ConvertWeaponTypeName(i);
-			createWeaponData_.modelName = SelectWeaponModelName(i);
-			createWeaponData_.rarity = j;
-			orizinWeaponData_[(WeaponType)i][(RarityType)j] = CreateSelectedWeapon(i);
-		}
-	}
-	// 初期化(デバッグ時に使用するから)
-	createWeaponData_ = {};
+			// レアリティ名
+			std::string rarityType = ConvertWeaponRarityName(j);
+			orizinWeaponData_[(WeaponType)i][(RarityType)j].name = weaponType;
+			orizinWeaponData_[(WeaponType)i][(RarityType)j].modelName = ConvertWeaponModelName(i, j);
+			orizinWeaponData_[(WeaponType)i][(RarityType)j].rarity = j;
 
-	// 武器種
-	for (auto& type : orizinWeaponData_) {
-		// 名前
-		std::string weaponType = ConvertWeaponTypeName((int)type.first);
-		// レアリティ
-		for (auto& rarity : type.second) {
-			// 名前
-			std::string rarityType = ConvertWeaponRarityName((int)rarity.first);
-			// コピー元になる武器作成
-			rarity.second->CreateJsonData(weaponType + "_" + rarityType);
+			// 調整データ作成
+			CreateJsonData(jsonDatas_[(WeaponType)i][(RarityType)j], orizinWeaponData_[(WeaponType)i][(RarityType)j], weaponType + "_" + rarityType);
 		}
 	}
 }
@@ -229,7 +215,69 @@ Melee* WeaponManager::CreateMelee() {
 	return gun;
 }
 
+void WeaponManager::CreateJsonData(LWP::Utility::JsonIO& json, WeaponData& data, const std::string& name) {
+	// ファイル名
+	std::string fileName = name + ".json";
+	json.Init(fileName)
+		// 発射間隔
+		.BeginGroup("Interval")
+		.AddValue<float>("Normal", &data.shotIntervalTime)
+		.AddValue<float>("Burst", &data.burstIntervalTime)
+		.EndGroup()
+		// 弾
+		.BeginGroup("Bullet")
+		.AddValue<float>("Num", &data.bulletNum)
+		.AddValue<float>("Speed", &data.bulletSpeed)
+		.EndGroup()
+		// 溜め時間
+		.AddValue<float>("Store", &data.storeTime)
+		// 攻撃力
+		.AddValue<float>("AttackPower", &data.attackValue)
+		// 撃てない時間
+		.AddValue<float>("CoolTime", &data.coolTime)
+		// レアリティ
+		.AddValue<int>("Rarity", &data.rarity)
+		.CheckJsonFile();
+}
+
+void WeaponManager::SelectWeaponDataGui(LWP::Utility::JsonIO& json, WeaponData& data) {
+	// 調整項目
+	if (ImGui::TreeNode("Json")) {
+		if (ImGui::Button("Save")) {
+			json.Save();
+		}
+		if (ImGui::Button("Load")) {
+			json.Load();
+		}
+
+		// 発射間隔
+		if (ImGui::TreeNode("Interval")) {
+			ImGui::DragFloat("Normal", &data.shotIntervalTime);
+			ImGui::DragFloat("Burst", &data.burstIntervalTime);
+			ImGui::TreePop();
+		}
+		// 弾
+		if (ImGui::TreeNode("Bullet")) {
+			ImGui::DragFloat("Num", &data.bulletNum);
+			ImGui::DragFloat("Speed", &data.bulletSpeed);
+			ImGui::TreePop();
+		}
+		// 溜め時間
+		ImGui::DragFloat("Store", &data.storeTime);
+		// 攻撃力
+		ImGui::DragFloat("AttackPower", &data.attackValue);
+		// 撃てない時間
+		ImGui::DragFloat("CoolTime", &data.coolTime);
+		// レアリティ
+		ImGui::DragInt("Rarity", &data.rarity);
+
+		ImGui::TreePop();
+	}
+}
+
 void WeaponManager::DropWeapon(IWeapon* weapon) {
+	if (!weapon) return;
+
 	// 武器の所持者がいる場合
 	if (weapon->GetActor()) {
 		Vector3 pos = weapon->GetActor()->GetWorldTF()->GetWorldPosition() + weapon->GetWorldTF()->translation;
@@ -246,13 +294,13 @@ void WeaponManager::DropWeapon(IWeapon* weapon) {
 	}
 }
 
-void WeaponManager::PickUpWeapon(IWeapon* weapon, Actor* target) {
-	target->SetWeapon(weapon);
+void WeaponManager::PickUpWeapon(IWeapon* weapon, Actor* target, int weaponSide) {
+	target->SetWeapon(weapon, weaponSide);
 }
 
 IWeapon* WeaponManager::CreateWeapon(int weaponType, int weaponRarity) {
 	// コピー元の武器情報を設定
-	createWeaponData_ = orizinWeaponData_[(WeaponType)weaponType][(RarityType)weaponRarity]->GetWeaponData();
+	createWeaponData_ = orizinWeaponData_[(WeaponType)weaponType][(RarityType)weaponRarity];
 
 	// 選ばれた武器種作成
 	IWeapon* weapon = CreateSelectedWeapon(weaponType);
@@ -294,7 +342,7 @@ IWeapon* WeaponManager::CreateRandomWeapon(const std::vector<int>& weaponTypes, 
 #pragma endregion
 
 	// コピー元の武器情報を決定
-	createWeaponData_ = orizinWeaponData_[(WeaponType)type][(RarityType)rarity]->GetWeaponData();
+	createWeaponData_ = orizinWeaponData_[(WeaponType)type][(RarityType)rarity];
 
 	// 選ばれた武器種作成
 	IWeapon* weapon = CreateSelectedWeapon(type);
