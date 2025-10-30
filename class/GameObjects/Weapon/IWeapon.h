@@ -71,6 +71,11 @@ public:// アクセサ
 	/// <returns></returns>
 	bool GetIsCoolTime() { return coolFrame_ > 0.0f; }
 	/// <summary>
+	/// リロード中かを取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsReloadTime() { return reloadFrame_ > 0.0f; }
+	/// <summary>
 	/// 射撃できるかを取得
 	/// </summary>
 	/// <returns></returns>
@@ -149,6 +154,8 @@ protected:
 	float attackFrame_;
 	// 使用不可の経過時間
 	float coolFrame_;
+	// リロード時間
+	float reloadFrame_;
 
 	// 破壊するか
 	bool isDestroy_;

@@ -39,6 +39,16 @@ public:
 	/// </summary>
 	void Destroy() override;
 
+private:
+	/// <summary>
+	/// バースト状態にする
+	/// </summary>
+	void BurstMode();
+	/// <summary>
+	/// フルオート状態にする
+	/// </summary>
+	void FullAutoMode();
+
 public:// アクセサ
 #pragma region Getter
 
@@ -53,4 +63,8 @@ private:
 	BulletManager* pBulletManager_;
 
 private:
+	// 射撃スタイル
+	ShotType shotType_;
+	// 現在のバースト数
+	int burstNum_;
 };

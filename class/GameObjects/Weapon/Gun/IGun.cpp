@@ -36,9 +36,16 @@ void IGun::Init() {
 	currentAttackValue_ = data_.attackValue;
 
 	// 射撃時の経過時間
-	attackFrame_ = data_.shotIntervalTime * 60.0f;
+	if (data_.burstNum > 0) {
+		BurstMode();
+		burstNum_ = data_.burstNum;
+	}
+	else {
+		FullAutoMode();
+	}
+
 	// リロードの経過時間
-	coolFrame_ = data_.coolTime * 60.0f;
+	reloadFrame_ = data_.reloadTime * 60.0f;
 }
 
 void IGun::Update() {
@@ -49,9 +56,11 @@ void IGun::Update() {
 	}
 
 	attackFrame_--;
+	coolFrame_--;
 
 	attackFrame_ = std::max<float>(attackFrame_, 0.0f);
 	coolFrame_ = std::max<float>(coolFrame_, 0.0f);
+	reloadFrame_ = std::max<float>(reloadFrame_, 0.0f);
 }
 
 void IGun::DebugGui() {
@@ -66,7 +75,7 @@ void IGun::DebugGui() {
 			}
 			// 弾
 			if (ImGui::TreeNode("Bullet")) {
-				ImGui::DragFloat("Num", &data_.bulletNum);
+				ImGui::DragInt("Num", &data_.bulletNum);
 				ImGui::DragFloat("Speed", &data_.bulletSpeed);
 				ImGui::TreePop();
 			}
@@ -88,7 +97,8 @@ void IGun::DebugGui() {
 		}
 		if (ImGui::TreeNode("CoolTime")) {
 			ImGui::DragFloat("ShotFrame", &attackFrame_);
-			ImGui::DragFloat("ReloadFrame", &coolFrame_);
+			ImGui::DragFloat("ReloadFrame", &reloadFrame_);
+			ImGui::DragFloat("CoolFrame", &coolFrame_);
 			ImGui::TreePop();
 		}
 		ImGui::TreePop();
@@ -103,6 +113,8 @@ void IGun::Attack(int bulletHitFragBit) {
 	}
 	// 射撃できる状態か
 	if (!GetIsEnableAttack()) { return; }
+	// 射撃不可時間なら終了
+	if (GetIsCoolTime()) { return; }
 
 	// 弾を撃つ
 	Bullet* bullet = new Bullet(body_.worldTF.GetWorldPosition(), shotDirVel_ * 1.0f, bulletHitFragBit);
@@ -112,16 +124,28 @@ void IGun::Attack(int bulletHitFragBit) {
 	magazine_->BulletDecrement();
 
 	// 射撃間隔を初期化
-	attackFrame_ = data_.shotIntervalTime * 60.0f;
+	if (shotType_ == ShotType::kBurst) {
+		BurstMode();
+		burstNum_--;
+		// バースト数を超えたら撃てなくする
+		if (burstNum_ <= 0) {
+			// 射撃不可時間開始
+			coolFrame_ = data_.coolTime * 60.0f;
+			burstNum_ = data_.burstNum;
+		}
+	}
+	else {
+		FullAutoMode();
+	}
 }
 
 void IGun::Reload() {
-	coolFrame_--;
+	reloadFrame_--;
 
 	// リロード完了
-	if (!GetIsCoolTime()) {
+	if (!GetIsReloadTime()) {
 		// リロード時間を初期化
-		coolFrame_ = data_.coolTime * 60.0f;
+		reloadFrame_ = data_.coolTime * 60.0f;
 		// 弾数を初期化
 		magazine_->Init(data_.bulletNum);
 	}
@@ -129,4 +153,14 @@ void IGun::Reload() {
 
 void IGun::Destroy() {
 
+}
+
+void IGun::BurstMode() {
+	shotType_ = ShotType::kBurst;
+	attackFrame_ = data_.burstIntervalTime * 60.0f;
+}
+
+void IGun::FullAutoMode() {
+	shotType_ = ShotType::kFullAuto;
+	attackFrame_ = data_.shotIntervalTime * 60.0f;
 }

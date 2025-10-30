@@ -32,6 +32,13 @@ enum class WeaponSide {
 	kCount
 };
 
+// 発射スタイル
+enum class ShotType {
+	kFullAuto,	// フルオート
+	kBurst,		// バースト
+	kCount
+};
+
 /// <summary>
 /// 武器の調整項目
 /// </summary>
@@ -41,10 +48,12 @@ struct WeaponData {
 	float shotIntervalTime;			// 射撃間隔[秒]
 	float burstIntervalTime;		// バースト間隔[秒](バースト銃の場合に数値を入れる)
 	float storeTime;				// 溜め時間[秒](溜める銃の場合に数値を入れる)
-	float bulletNum;				// 弾数
+	int burstNum;					// バースト数
+	int bulletNum;				// 弾数
 	float bulletSpeed = 1.0f;		// 弾速
 	float attackValue;				// 攻撃力
-	float coolTime;					// リロード時間[秒]
+	float coolTime;					// 撃てない時間[秒]
+	float reloadTime;				// リロード時間[秒]
 	int rarity;						// レアリティ
 };
 

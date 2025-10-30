@@ -58,7 +58,7 @@ void IMelee::DebugGui() {
 			}
 			// 弾
 			if (ImGui::TreeNode("Bullet")) {
-				ImGui::DragFloat("Num", &data_.bulletNum);
+				ImGui::DragInt("Num", &data_.bulletNum);
 				ImGui::DragFloat("Speed", &data_.bulletSpeed);
 				ImGui::TreePop();
 			}

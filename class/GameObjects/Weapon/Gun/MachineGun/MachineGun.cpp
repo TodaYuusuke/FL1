@@ -9,14 +9,6 @@ MachineGun::MachineGun(WeaponData gunData)
 {
 }
 
-void MachineGun::Init() {
-	IGun::Init();
-}
-
-void MachineGun::Update() {
-	IGun::Update();
-}
-
 void MachineGun::Destroy() {
 	
 }

@@ -67,7 +67,7 @@ void WeaponManager::DebugGui() {
 			}
 
 			// 選択した武器を調整
-			SelectWeaponDataGui(jsonDatas_[(WeaponType)selectedOrizinWeaponType_][(RarityType)selectedOrizinRarityType_],orizinWeaponData_[(WeaponType)selectedOrizinWeaponType_][(RarityType)selectedOrizinRarityType_]);
+			SelectWeaponDataGui(jsonDatas_[(WeaponType)selectedOrizinWeaponType_][(RarityType)selectedOrizinRarityType_], orizinWeaponData_[(WeaponType)selectedOrizinWeaponType_][(RarityType)selectedOrizinRarityType_]);
 
 			ImGui::TreePop();
 		}
@@ -187,31 +187,31 @@ MachineGun* WeaponManager::CreateMachineGun() {
 
 ShotGun* WeaponManager::CreateShotGun() {
 	ShotGun* gun = new ShotGun(createWeaponData_);
-	
+
 	return gun;
 }
 
 Rifle* WeaponManager::CreateRifle() {
 	Rifle* gun = new Rifle(createWeaponData_);
-	
+
 	return gun;
 }
 
 Launcher* WeaponManager::CreateLauncher() {
 	Launcher* gun = new Launcher(createWeaponData_);
-	
+
 	return gun;
 }
 
 Missile* WeaponManager::CreateMissile() {
 	Missile* gun = new Missile(createWeaponData_);
-	
+
 	return gun;
 }
 
 Melee* WeaponManager::CreateMelee() {
 	Melee* gun = new Melee(createWeaponData_);
-	
+
 	return gun;
 }
 
@@ -226,15 +226,21 @@ void WeaponManager::CreateJsonData(LWP::Utility::JsonIO& json, WeaponData& data,
 		.EndGroup()
 		// 弾
 		.BeginGroup("Bullet")
-		.AddValue<float>("Num", &data.bulletNum)
+		.AddValue<int>("Num", &data.bulletNum)
 		.AddValue<float>("Speed", &data.bulletSpeed)
 		.EndGroup()
-		// 溜め時間
-		.AddValue<float>("Store", &data.storeTime)
+		// バースト数
+		.AddValue<int>("BurstNum", &data.burstNum)
 		// 攻撃力
 		.AddValue<float>("AttackPower", &data.attackValue)
+
+		// 溜め時間
+		.AddValue<float>("StoreTime", &data.storeTime)
 		// 撃てない時間
 		.AddValue<float>("CoolTime", &data.coolTime)
+		// リロード時間
+		.AddValue<float>("ReloadTime", &data.reloadTime)
+
 		// レアリティ
 		.AddValue<int>("Rarity", &data.rarity)
 		.CheckJsonFile();
@@ -252,22 +258,26 @@ void WeaponManager::SelectWeaponDataGui(LWP::Utility::JsonIO& json, WeaponData& 
 
 		// 発射間隔
 		if (ImGui::TreeNode("Interval")) {
-			ImGui::DragFloat("Normal", &data.shotIntervalTime);
-			ImGui::DragFloat("Burst", &data.burstIntervalTime);
+			ImGui::DragFloat("Normal", &data.shotIntervalTime, 0.01f, 0.0f);
+			ImGui::DragFloat("Burst", &data.burstIntervalTime, 0.01f, 0.0f);
 			ImGui::TreePop();
 		}
 		// 弾
 		if (ImGui::TreeNode("Bullet")) {
-			ImGui::DragFloat("Num", &data.bulletNum);
+			ImGui::DragInt("Num", &data.bulletNum, 1, 0);
 			ImGui::DragFloat("Speed", &data.bulletSpeed);
 			ImGui::TreePop();
 		}
-		// 溜め時間
-		ImGui::DragFloat("Store", &data.storeTime);
+		// バースト数
+		ImGui::DragInt("BurstNum", &data.burstNum, 1, 0);
 		// 攻撃力
 		ImGui::DragFloat("AttackPower", &data.attackValue);
+		// 溜め時間
+		ImGui::DragFloat("StoreTime", &data.storeTime);
 		// 撃てない時間
 		ImGui::DragFloat("CoolTime", &data.coolTime);
+		// リロード時間
+		ImGui::DragFloat("ReloadTime", &data.reloadTime);
 		// レアリティ
 		ImGui::DragInt("Rarity", &data.rarity);
 
@@ -283,7 +293,7 @@ void WeaponManager::DropWeapon(IWeapon* weapon) {
 		Vector3 pos = weapon->GetActor()->GetWorldTF()->GetWorldPosition() + weapon->GetWorldTF()->translation;
 		// 親子付け解除
 		weapon->SetParent(nullptr);
-		
+
 		// 座標指定
 		weapon->SetTranslation(pos);
 	}
