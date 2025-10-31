@@ -52,8 +52,11 @@ void IGun::Update() {
 	// 弾がなくなれば強制リロード(クールタイム)
 	if (magazine_->GetEmpty()) {
 		isDestroy_ = true;
+		isAttack_ = false;
 		Reload();
 	}
+
+	AttackCommond();
 
 	attackFrame_--;
 	coolFrame_--;
@@ -116,8 +119,22 @@ void IGun::Attack(int bulletHitFragBit) {
 	// 射撃不可時間なら終了
 	if (GetIsCoolTime()) { return; }
 
+	isAttack_ = true;
+	bulletHitFragBit_ = bulletHitFragBit;
+}
+
+void IGun::AttackCommond() {
+	// 弾がない状態なら撃てない
+	if (magazine_->GetEmpty()) { return; }
+	// 射撃できる状態か
+	if (!GetIsEnableAttack()) { return; }
+	// 射撃不可時間なら終了
+	if (GetIsCoolTime()) { return; }
+	// 攻撃指示がない
+	if (!isAttack_) { return; }
+
 	// 弾を撃つ
-	Bullet* bullet = new Bullet(body_.worldTF.GetWorldPosition(), shotDirVel_ * 1.0f, bulletHitFragBit);
+	Bullet* bullet = new Bullet(body_.worldTF.GetWorldPosition(), shotDirVel_ * 1.0f, bulletHitFragBit_);
 	pBulletManager_->CreateBullet(bullet);
 
 	// 弾数を減らす
@@ -132,10 +149,12 @@ void IGun::Attack(int bulletHitFragBit) {
 			// 射撃不可時間開始
 			coolFrame_ = data_.coolTime * 60.0f;
 			burstNum_ = data_.burstNum;
+			isAttack_ = false;
 		}
 	}
 	else {
 		FullAutoMode();
+		isAttack_ = false;
 	}
 }
 

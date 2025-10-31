@@ -54,7 +54,7 @@ public:// アクセサ
 	void SetLeftWeapon(IWeapon* weapon) {
 		if (weapons_[WeaponSide::kLeft]->GetIsFullWeapon()) { return; }
 
-		weapon->SetTranslation(LWP::Math::Vector3{ -1.0f, -0.5f, 2.0f });
+		weapon->SetTranslation(LWP::Math::Vector3{ -1.0f, -0.5f, 3.0f });
 		weapon->SetRotation(LWP::Math::Quaternion{ 0.0f,0.0f,0.0f,1.0f });
 		weapon->SetParent(target_);
 		weapons_[WeaponSide::kLeft]->AddWeapon(weapon);
@@ -66,7 +66,7 @@ public:// アクセサ
 	void SetLeftShoulderWeapon(IWeapon* weapon) {
 		if (weapons_[WeaponSide::kLeftShoulder]->GetIsFullWeapon()) { return; }
 
-		weapon->SetTranslation(LWP::Math::Vector3{ -1.0f, 0.5f, 2.0f });
+		weapon->SetTranslation(LWP::Math::Vector3{ -1.0f, 0.5f, 3.0f });
 		weapon->SetRotation(LWP::Math::Quaternion{ 0.0f,0.0f,0.0f,1.0f });
 		weapon->SetParent(target_);
 		weapons_[WeaponSide::kLeftShoulder]->AddWeapon(weapon);
@@ -78,7 +78,7 @@ public:// アクセサ
 	void SetRightWeapon(IWeapon* weapon) {
 		if (weapons_[WeaponSide::kRight]->GetIsFullWeapon()) { return; }
 
-		weapon->SetTranslation(LWP::Math::Vector3{ 1.0f, -0.5f, 2.0f });
+		weapon->SetTranslation(LWP::Math::Vector3{ 1.0f, -0.5f, 3.0f });
 		weapon->SetRotation(LWP::Math::Quaternion{ 0.0f,0.0f,0.0f,1.0f });
 		weapon->SetParent(target_);
 		weapons_[WeaponSide::kRight]->AddWeapon(weapon);
@@ -90,7 +90,7 @@ public:// アクセサ
 	void SetRightShoulderWeapon(IWeapon* weapon) {
 		if (weapons_[WeaponSide::kRightShoulder]->GetIsFullWeapon()) { return; }
 
-		weapon->SetTranslation(LWP::Math::Vector3{ 1.0f, 0.5f, 2.0f });
+		weapon->SetTranslation(LWP::Math::Vector3{ 1.0f, 0.5f, 3.0f });
 		weapon->SetRotation(LWP::Math::Quaternion{ 0.0f,0.0f,0.0f,1.0f });
 		weapon->SetParent(target_);
 		weapons_[WeaponSide::kRightShoulder]->AddWeapon(weapon);

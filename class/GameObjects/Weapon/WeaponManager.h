@@ -113,6 +113,16 @@ private:
 	/// 選択された武器のguiの表示
 	/// </summary>
 	void SelectWeaponDataGui(LWP::Utility::JsonIO& json, WeaponData& data);
+	/// <summary>
+	/// 武器の種類を選択
+	/// </summary>
+	/// <param name="selectedWeaponType"></param>
+	/// <param name="label"></param>
+	void SelectWeaponType(int& selectedWeaponType, std::string label);
+	/// <summary>
+	/// 武器のレアリティを選択
+	/// </summary>
+	void SelectWeaponRarity(int& selectedWeaponRarity, std::string label);
 
 public:// アクセサ
 	/// <summary>

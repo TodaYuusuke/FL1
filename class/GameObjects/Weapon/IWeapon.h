@@ -86,6 +86,11 @@ public:// アクセサ
 	/// <returns></returns>
 	bool GetIsDestroy() { return isDestroy_; }
 	/// <summary>
+	/// 攻撃を行っているかを取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsAttack() { return isAttack_; }
+	/// <summary>
 	/// 弾切れかを取得
 	/// </summary>
 	/// <returns></returns>
@@ -159,5 +164,7 @@ protected:
 
 	// 破壊するか
 	bool isDestroy_;
+	// 攻撃するか
+	bool isAttack_;
 };
 

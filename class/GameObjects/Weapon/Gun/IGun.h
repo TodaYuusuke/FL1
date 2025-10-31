@@ -30,6 +30,7 @@ public:
 	/// 攻撃
 	/// </summary>
 	void Attack(int bulletHitFragBit) override;
+	void AttackCommond();
 	/// <summary>
 	/// リロード
 	/// </summary>
@@ -67,4 +68,6 @@ private:
 	ShotType shotType_;
 	// 現在のバースト数
 	int burstNum_;
+
+	int bulletHitFragBit_;
 };

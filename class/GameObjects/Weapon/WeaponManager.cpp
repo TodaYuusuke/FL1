@@ -51,20 +51,13 @@ void WeaponManager::DebugGui() {
 	if (ImGui::BeginTabItem("WeaponManager")) {
 		// 調整項目
 		if (ImGui::TreeNode("Json")) {
+			ImGui::Text("Select modify weapon");
+			static int selectWeapon = 0;
+			static int selectRarity = 0;
 			// 武器種
-			if (ImGui::TreeNode("Type")) {
-				for (int i = 0; i < weaponTypePreview_.size(); i++) {
-					ImGui::RadioButton(weaponTypePreview_[i].c_str(), &selectedOrizinWeaponType_, i);
-				}
-				ImGui::TreePop();
-			}
+			SelectWeaponType(selectWeapon, "Type");
 			// レアリティ
-			if (ImGui::TreeNode("Rarity")) {
-				for (int i = 0; i < weaponRarityPreview_.size(); i++) {
-					ImGui::RadioButton(weaponRarityPreview_[i].c_str(), &selectedOrizinRarityType_, i);
-				}
-				ImGui::TreePop();
-			}
+			SelectWeaponRarity(selectRarity, "Rarity");
 
 			// 選択した武器を調整
 			SelectWeaponDataGui(jsonDatas_[(WeaponType)selectedOrizinWeaponType_][(RarityType)selectedOrizinRarityType_], orizinWeaponData_[(WeaponType)selectedOrizinWeaponType_][(RarityType)selectedOrizinRarityType_]);
@@ -72,25 +65,17 @@ void WeaponManager::DebugGui() {
 			ImGui::TreePop();
 		}
 
-		int selectWeapon = 0;
-		int selectRarity = 0;
 		// 武器作成
 		if (ImGui::TreeNode("CreateWeapon")) {
 			ImGui::Text("Select create weapon");
+
+			static int selectWeapon = 0;
+			static int selectRarity = 0;
 			// 武器種
-			if (ImGui::TreeNode("Type")) {
-				for (int i = 0; i < weaponTypePreview_.size(); i++) {
-					ImGui::RadioButton(weaponTypePreview_[i].c_str(), &selectWeapon, i);
-				}
-				ImGui::TreePop();
-			}
+			SelectWeaponType(selectWeapon, "Type");
 			// レアリティ
-			if (ImGui::TreeNode("Rarity")) {
-				for (int i = 0; i < weaponRarityPreview_.size(); i++) {
-					ImGui::RadioButton(weaponRarityPreview_[i].c_str(), &selectRarity, i);
-				}
-				ImGui::TreePop();
-			}
+			SelectWeaponRarity(selectRarity, "Rarity");
+
 			// 生成座標
 			ImGui::DragFloat3("CreatePos", &createPos_.x, 0.01f);
 
@@ -282,6 +267,53 @@ void WeaponManager::SelectWeaponDataGui(LWP::Utility::JsonIO& json, WeaponData& 
 		ImGui::DragInt("Rarity", &data.rarity);
 
 		ImGui::TreePop();
+	}
+}
+
+void WeaponManager::SelectWeaponType(int& selectedWeaponType, std::string label) {
+	// 読み込むbehaviorTreeのプレビュー作成
+	if (!weaponTypePreview_.empty()) {
+		const char* combo_preview_value = weaponTypePreview_[selectedWeaponType].c_str();
+		if (ImGui::BeginCombo(label.c_str(), combo_preview_value)) {
+			for (int n = 0; n < weaponTypePreview_.size(); n++) {
+				const bool is_selected = ((int)selectedWeaponType == n);
+				std::string label = weaponTypePreview_[n];
+				if (ImGui::Selectable(label.c_str(), is_selected)) {
+					selectedWeaponType = n;
+				}
+
+				if (is_selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+	}
+	else {
+		ImGui::TextDisabled(("Not found weapon"));
+	}
+}
+
+void WeaponManager::SelectWeaponRarity(int& selectedWeaponRarity, std::string label) {
+	// 読み込むbehaviorTreeのプレビュー作成
+	if (!weaponRarityPreview_.empty()) {
+		const char* combo_preview_value = weaponRarityPreview_[selectedWeaponRarity].c_str();
+		if (ImGui::BeginCombo((label.c_str()), combo_preview_value)) {
+			for (int n = 0; n < weaponRarityPreview_.size(); n++) {
+				const bool is_selected = ((int)selectedWeaponRarity == n);
+				if (ImGui::Selectable(weaponRarityPreview_[n].c_str(), is_selected)) {
+					selectedWeaponRarity = n;
+				}
+
+				if (is_selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+	}
+	else {
+		ImGui::TextDisabled(("Not found behavior-tree file"));
 	}
 }
 
