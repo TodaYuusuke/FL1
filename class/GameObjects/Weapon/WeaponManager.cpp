@@ -60,15 +60,14 @@ void WeaponManager::DebugGui() {
 			SelectWeaponRarity(selectRarity, "Rarity");
 
 			// 選択した武器を調整
-			SelectWeaponDataGui(jsonDatas_[(WeaponType)selectedOrizinWeaponType_][(RarityType)selectedOrizinRarityType_], orizinWeaponData_[(WeaponType)selectedOrizinWeaponType_][(RarityType)selectedOrizinRarityType_]);
+			SelectWeaponDataGui(jsonDatas_[(WeaponType)selectWeapon][(RarityType)selectRarity], orizinWeaponData_[(WeaponType)selectWeapon][(RarityType)selectRarity]);
 
 			ImGui::TreePop();
 		}
 
 		// 武器作成
-		if (ImGui::TreeNode("CreateWeapon")) {
+		if (ImGui::TreeNode("Create Weapon")) {
 			ImGui::Text("Select create weapon");
-
 			static int selectWeapon = 0;
 			static int selectRarity = 0;
 			// 武器種
