@@ -8,14 +8,14 @@
 class Magazine {
 public:
 	// コンストラクタ
-	Magazine(const float& bulletNum);
+	Magazine(const int& bulletNum);
 	// デストラクタ
 	~Magazine() = default;
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Init(const float& bulletNum);
+	void Init(const int& bulletNum);
 	/// <summary>
 	/// 更新
 	/// </summary>
@@ -30,14 +30,14 @@ public:// アクセサ
 	/// 残弾を減らす
 	/// </summary>
 	/// <param name="value">減少量</param>
-	void BulletDecrement(const float& value = 1) { bulletNum_ -= value; }
+	void BulletDecrement(const int& value = 1) { bulletNum_ -= value; }
 
 #pragma region Getter
 	/// <summary>
 	/// 弾数を取得
 	/// </summary>
 	/// <returns></returns>
-	float GetBulletNum() { return bulletNum_; }
+	int GetBulletNum() { return bulletNum_; }
 
 	/// <summary>
 	/// 弾があるかを取得
@@ -48,6 +48,6 @@ public:// アクセサ
 
 private:
 	// 弾数
-	float bulletNum_;
+	int bulletNum_;
 };
 

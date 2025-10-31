@@ -46,6 +46,8 @@ void IGun::Init() {
 
 	// リロードの経過時間
 	reloadFrame_ = data_.reloadTime * 60.0f;
+	// 銃を撃つまでの時間
+	storeFrame_ = data_.storeTime * 60.0f;
 }
 
 void IGun::Update() {
@@ -56,6 +58,7 @@ void IGun::Update() {
 		Reload();
 	}
 
+	// 攻撃指示
 	AttackCommond();
 
 	attackFrame_--;
@@ -64,6 +67,7 @@ void IGun::Update() {
 	attackFrame_ = std::max<float>(attackFrame_, 0.0f);
 	coolFrame_ = std::max<float>(coolFrame_, 0.0f);
 	reloadFrame_ = std::max<float>(reloadFrame_, 0.0f);
+	storeFrame_ = std::clamp<float>(storeFrame_, 0.0f, data_.storeTime * 60.0f);
 }
 
 void IGun::DebugGui() {
@@ -123,19 +127,55 @@ void IGun::Attack(int bulletHitFragBit) {
 	bulletHitFragBit_ = bulletHitFragBit;
 }
 
+void IGun::Reload() {
+	reloadFrame_--;
+
+	// リロード完了
+	if (!GetIsReloadTime()) {
+		// リロード時間を初期化
+		reloadFrame_ = data_.coolTime * 60.0f;
+		// 弾数を初期化
+		magazine_->Init(data_.bulletNum);
+	}
+}
+
+void IGun::Destroy() {
+
+}
+
 void IGun::AttackCommond() {
-	// 弾がない状態なら撃てない
-	if (magazine_->GetEmpty()) { return; }
 	// 射撃できる状態か
 	if (!GetIsEnableAttack()) { return; }
+	// 攻撃指示がない
+	if (!isAttack_) { 
+		// 溜め時間をもとに戻していく
+		storeFrame_++;
+		return; 
+	}
+	storeFrame_--;
+	// 溜め時間中なら撃てない
+	if (GetIsStoreTime()) { return; }
+	// 弾がない状態なら撃てない
+	if (magazine_->GetEmpty()) { return; }
 	// 射撃不可時間なら終了
 	if (GetIsCoolTime()) { return; }
-	// 攻撃指示がない
-	if (!isAttack_) { return; }
 
 	// 弾を撃つ
-	Bullet* bullet = new Bullet(body_.worldTF.GetWorldPosition(), shotDirVel_ * 1.0f, bulletHitFragBit_);
-	pBulletManager_->CreateBullet(bullet);
+	int i = data_.sameBulletNum;
+	do {
+		Vector3 randomVec{};
+		// 単発で撃つならランダムにしない
+		if (data_.sameBulletNum > 1) {
+			Vector3 min = data_.diffusingBulletRange * -1.0f;
+			Vector3 max = data_.diffusingBulletRange;
+			randomVec = LWP::Utility::Random::GenerateVector3(min, max);
+		}
+		// 弾生成
+		Bullet* bullet = new Bullet(body_.worldTF.GetWorldPosition(), randomVec + shotDirVel_ * 1.0f, bulletHitFragBit_);
+		pBulletManager_->CreateBullet(bullet);
+
+		i--;
+	} while (i > 0);
 
 	// 弾数を減らす
 	magazine_->BulletDecrement();
@@ -156,22 +196,6 @@ void IGun::AttackCommond() {
 		FullAutoMode();
 		isAttack_ = false;
 	}
-}
-
-void IGun::Reload() {
-	reloadFrame_--;
-
-	// リロード完了
-	if (!GetIsReloadTime()) {
-		// リロード時間を初期化
-		reloadFrame_ = data_.coolTime * 60.0f;
-		// 弾数を初期化
-		magazine_->Init(data_.bulletNum);
-	}
-}
-
-void IGun::Destroy() {
-
 }
 
 void IGun::BurstMode() {

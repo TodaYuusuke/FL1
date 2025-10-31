@@ -76,6 +76,11 @@ public:// アクセサ
 	/// <returns></returns>
 	bool GetIsReloadTime() { return reloadFrame_ > 0.0f; }
 	/// <summary>
+	/// 銃を撃つまでの溜め時間中かを取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsStoreTime() { return storeFrame_ > 0.0f; }
+	/// <summary>
 	/// 射撃できるかを取得
 	/// </summary>
 	/// <returns></returns>
@@ -161,6 +166,8 @@ protected:
 	float coolFrame_;
 	// リロード時間
 	float reloadFrame_;
+	// 銃を撃つまでの溜め時間
+	float storeFrame_;
 
 	// 破壊するか
 	bool isDestroy_;

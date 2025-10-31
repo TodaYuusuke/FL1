@@ -1,14 +1,20 @@
 {
     "Group :Bullet": {
+        "Vector3 :DiffusingRange": [
+            0.0,
+            0.0,
+            0.0
+        ],
         "float :Speed": 1.0,
-        "int32_t :Num": 60
+        "int32_t :Num": 60,
+        "int32_t :SameBulletNum": 0
     },
     "Group :Interval": {
-        "float :Burst": 0.20000000298023224,
+        "float :Burst": 0.0,
         "float :Normal": 0.20000000298023224
     },
     "float :AttackPower": 1.0,
-    "float :CoolTime": 0.5,
+    "float :CoolTime": 0.0,
     "float :ReloadTime": 0.0,
     "float :StoreTime": 0.0,
     "int32_t :BurstNum": 0,

@@ -208,11 +208,19 @@ void WeaponManager::CreateJsonData(LWP::Utility::JsonIO& json, WeaponData& data,
 		.AddValue<float>("Normal", &data.shotIntervalTime)
 		.AddValue<float>("Burst", &data.burstIntervalTime)
 		.EndGroup()
+
 		// 弾
 		.BeginGroup("Bullet")
+		// 弾数
 		.AddValue<int>("Num", &data.bulletNum)
+		// 同時に出る弾数
+		.AddValue<int>("SameBulletNum", &data.sameBulletNum)
+		// 拡散範囲
+		.AddValue<Vector3>("DiffusingRange", &data.diffusingBulletRange)
+		// 弾速
 		.AddValue<float>("Speed", &data.bulletSpeed)
 		.EndGroup()
+
 		// バースト数
 		.AddValue<int>("BurstNum", &data.burstNum)
 		// 攻撃力
@@ -248,7 +256,13 @@ void WeaponManager::SelectWeaponDataGui(LWP::Utility::JsonIO& json, WeaponData& 
 		}
 		// 弾
 		if (ImGui::TreeNode("Bullet")) {
+			// 弾数
 			ImGui::DragInt("Num", &data.bulletNum, 1, 0);
+			// 同時に出る弾数
+			ImGui::DragInt("SameNum", &data.sameBulletNum, 1, 0);
+			// 弾の拡散範囲
+			ImGui::DragFloat3("DiffusingRange", &data.diffusingBulletRange.x, 0.01f, 0.0001f, 1.0f);
+			// 弾速
 			ImGui::DragFloat("Speed", &data.bulletSpeed);
 			ImGui::TreePop();
 		}
@@ -262,8 +276,6 @@ void WeaponManager::SelectWeaponDataGui(LWP::Utility::JsonIO& json, WeaponData& 
 		ImGui::DragFloat("CoolTime", &data.coolTime);
 		// リロード時間
 		ImGui::DragFloat("ReloadTime", &data.reloadTime);
-		// レアリティ
-		ImGui::DragInt("Rarity", &data.rarity);
 
 		ImGui::TreePop();
 	}
@@ -276,8 +288,8 @@ void WeaponManager::SelectWeaponType(int& selectedWeaponType, std::string label)
 		if (ImGui::BeginCombo(label.c_str(), combo_preview_value)) {
 			for (int n = 0; n < weaponTypePreview_.size(); n++) {
 				const bool is_selected = ((int)selectedWeaponType == n);
-				std::string label = weaponTypePreview_[n];
-				if (ImGui::Selectable(label.c_str(), is_selected)) {
+				std::string selectableLabel = weaponTypePreview_[n];
+				if (ImGui::Selectable(selectableLabel.c_str(), is_selected)) {
 					selectedWeaponType = n;
 				}
 

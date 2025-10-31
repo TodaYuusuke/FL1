@@ -261,8 +261,8 @@ void EnemyManager::SelectWeaponType(int& selectedWeaponType, std::string label) 
 		if (ImGui::BeginCombo(label.c_str(), combo_preview_value)) {
 			for (int n = 0; n < weaponTypePreview_.size(); n++) {
 				const bool is_selected = ((int)selectedWeaponType == n);
-				std::string label = weaponTypePreview_[n];
-				if (ImGui::Selectable(label.c_str(), is_selected)) {
+				std::string selectableLabel = weaponTypePreview_[n];
+				if (ImGui::Selectable(selectableLabel.c_str(), is_selected)) {
 					selectedWeaponType = n;
 				}
 

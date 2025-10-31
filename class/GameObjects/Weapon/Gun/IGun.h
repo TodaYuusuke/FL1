@@ -30,7 +30,6 @@ public:
 	/// 攻撃
 	/// </summary>
 	void Attack(int bulletHitFragBit) override;
-	void AttackCommond();
 	/// <summary>
 	/// リロード
 	/// </summary>
@@ -40,7 +39,12 @@ public:
 	/// </summary>
 	void Destroy() override;
 
-private:
+protected:
+	/// <summary>
+	/// 攻撃指示
+	/// </summary>
+	virtual void AttackCommond();
+
 	/// <summary>
 	/// バースト状態にする
 	/// </summary>
@@ -59,11 +63,11 @@ public:// アクセサ
 
 #pragma endregion
 
-private:
+protected:
 	// 弾管理クラスのアドレス
 	BulletManager* pBulletManager_;
 
-private:
+protected:
 	// 射撃スタイル
 	ShotType shotType_;
 	// 現在のバースト数

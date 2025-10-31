@@ -43,18 +43,20 @@ enum class ShotType {
 /// 武器の調整項目
 /// </summary>
 struct WeaponData {
-	std::string name;				// 武器の名前
-	std::string modelName;			// 銃モデルのファイル名
-	float shotIntervalTime;			// 射撃間隔[秒]
-	float burstIntervalTime;		// バースト間隔[秒](バースト銃の場合に数値を入れる)
-	float storeTime;				// 溜め時間[秒](溜める銃の場合に数値を入れる)
-	int burstNum;					// バースト数
-	int bulletNum;				// 弾数
-	float bulletSpeed = 1.0f;		// 弾速
-	float attackValue;				// 攻撃力
-	float coolTime;					// 撃てない時間[秒]
-	float reloadTime;				// リロード時間[秒]
-	int rarity;						// レアリティ
+	std::string name;							// 武器の名前
+	std::string modelName;						// 銃モデルのファイル名
+	float shotIntervalTime;						// 射撃間隔[秒]
+	float burstIntervalTime;					// バースト間隔[秒](バースト銃の場合に数値を入れる)
+	float storeTime;							// 溜め時間[秒](溜める銃の場合に数値を入れる)
+	int burstNum;								// バースト数
+	int sameBulletNum;							// 同時に出る弾数
+	LWP::Math::Vector3 diffusingBulletRange;	// 弾の拡散範囲[0～1]
+	int bulletNum;								// 弾数
+	float bulletSpeed = 1.0f;					// 弾速
+	float attackValue;							// 攻撃力
+	float coolTime;								// 撃てない時間[秒]
+	float reloadTime;							// リロード時間[秒]
+	int rarity;									// レアリティ
 };
 
 namespace WeaponConfig {
