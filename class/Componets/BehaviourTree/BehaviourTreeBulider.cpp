@@ -4,6 +4,7 @@
 #include "CompositeNode/Selector.h"
 #include "CompositeNode/Sequence.h"
 #include "DecoratorNode/Inverter.h"
+#include "DecoratorNode/RunOnce.h"
 #include "BranchNode/CheckNearPlayer.h"
 #include "BranchNode/CheckFarPlayer.h"
 #include "LeafNode/WaitLeaf.h"
@@ -74,6 +75,10 @@ INode* BehaviourTreeBuilder::BuildAttackerTree(std::string file_path, BlackBoard
 			else if (name == "Inverter") {
 				int childId = nodeJson["children"][0].get<int>();
 				node = new Inverter(blackboard, buildNode(childId));
+			}
+			else if (name == "RunOnce") {
+				int childId = nodeJson["children"][0].get<int>();
+				node = new RunOnce(blackboard, buildNode(childId));
 			}
 
 			// --- Branchノード ---

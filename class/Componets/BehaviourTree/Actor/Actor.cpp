@@ -54,7 +54,11 @@ void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
 }
 
 void Actor::ChangeState(StateBase* nextState) {
-	if (state_ && typeid(*nextState) == typeid(*state_)) { return; }
+	// 同じ方なら終了
+	if (state_ && typeid(*nextState) == typeid(*state_)) { 
+		delete nextState;
+		return;
+	}
 	// 状態が生成されているときだけ解放
 	if (state_) delete state_;
 	state_ = nextState;

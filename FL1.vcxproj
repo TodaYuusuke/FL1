@@ -149,6 +149,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="class\Componets\BehaviourTree\DecoratorNode\RunOnce.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\Drone\Drone.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\Gunner\Gunner.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\ChaseState.cpp" />
@@ -213,6 +214,7 @@
     <ClCompile Include="class\GameObjects\Weapon\WeaponManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="class\Componets\BehaviourTree\DecoratorNode\RunOnce.h" />
     <ClInclude Include="class\GameObjects\Collision\CollisionMask.h" />
     <ClInclude Include="class\GameObjects\Enemy\Drone\Drone.h" />
     <ClInclude Include="class\GameObjects\Enemy\EnemyConfig.h" />

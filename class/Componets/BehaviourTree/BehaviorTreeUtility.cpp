@@ -457,6 +457,9 @@ void BehaviorTreeGraph::ExportJson(const std::string& file_name) {
 
 void BehaviorTreeGraph::ImportJson(const std::string& file_name) {
 	ResetSelected();
+	mNodes.clear();
+	mNodeLinks.clear();
+	mNextId = 1;
 
 	std::ifstream file(file_name);
 	if (!file.is_open()) return;

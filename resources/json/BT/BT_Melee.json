@@ -8,16 +8,16 @@
         "pos_x": 421.0,
         "pos_y": 148.0,
         "speed": 0.0,
-        "true_child": 7,
+        "true_child": 10,
         "type": 2
     },
     {
         "children": [],
         "id": 7,
         "name": "CircleAttackLeaf",
-        "parent": 6,
-        "pos_x": 691.0,
-        "pos_y": 116.0,
+        "parent": 10,
+        "pos_x": 862.0,
+        "pos_y": 15.999992370605469,
         "speed": 0.0,
         "type": 3
     },
@@ -33,13 +33,61 @@
     },
     {
         "children": [
+            8
+        ],
+        "id": 5,
+        "name": "RunOnce",
+        "parent": 13,
+        "pos_x": 426.0,
+        "pos_y": -117.0,
+        "speed": 0.0,
+        "type": 1
+    },
+    {
+        "children": [
+            5,
             6
         ],
         "id": 13,
         "name": "Sequence",
         "parent": -1,
-        "pos_x": 210.0,
-        "pos_y": 163.0,
+        "pos_x": 132.99998474121094,
+        "pos_y": 22.0,
+        "speed": 0.0,
+        "type": 0
+    },
+    {
+        "children": [],
+        "id": 8,
+        "name": "WaitLeaf",
+        "parent": 5,
+        "pos_x": 581.0,
+        "pos_y": -116.0,
+        "speed": 0.0,
+        "type": 3,
+        "wait_time": 60.0
+    },
+    {
+        "children": [],
+        "id": 9,
+        "name": "WaitLeaf",
+        "parent": 10,
+        "pos_x": 858.525390625,
+        "pos_y": 120.22064208984375,
+        "speed": 0.0,
+        "type": 3,
+        "wait_time": 60.0
+    },
+    {
+        "children": [
+            7,
+            9
+        ],
+        "id": 10,
+        "name": "Sequence",
+        "parent": 6,
+        "pos_x": 699.525390625,
+        "pos_y": 64.22063446044922,
         "speed": 0.0,
         "type": 0
     }
