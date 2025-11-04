@@ -6,6 +6,8 @@ using namespace LWP::Math;
 using namespace FLMath;
 
 ChaseState::ChaseState(BlackBoard* pBlackBoard, NodeResult* nodeResult, const float& speed) {
+	stopController_ = HitStopController::GetInstance();
+
 	pBlackBoard_ = pBlackBoard;
 	nodeResult_ = nodeResult;
 	speed_ = speed;
@@ -45,7 +47,7 @@ void ChaseState::Update() {
 	}
 	pBlackBoard_->GetValue<Actor*>(EnemyConfig::name)->SetRotation(quat_);
 
-	currentFrame_--;
+	currentFrame_ -= stopController_->GetDeltaTime();
 }
 
 void ChaseState::DebugGui() {

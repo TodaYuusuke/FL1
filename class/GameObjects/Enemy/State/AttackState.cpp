@@ -7,6 +7,8 @@ using namespace LWP::Math;
 using namespace FLMath;
 
 AttackState::AttackState(BlackBoard* pBlackBoard, NodeResult* nodeResult) {
+	stopController_ = HitStopController::GetInstance();
+
 	pBlackBoard_ = pBlackBoard;
 	nodeResult_ = nodeResult;
 }
@@ -30,7 +32,6 @@ void AttackState::Update() {
 	Actor* player = pBlackBoard_->GetValue<Actor*>("Player");
 	// 敵アドレスを取得
 	Actor* actor = pBlackBoard_->GetValue<Actor*>("Actor");
-
 
 	// 武器のアドレスを取得
 	std::map<int, IWeapon*> weapons = pBlackBoard_->GetValue<Actor*>("Actor")->GetWeapon();
@@ -57,7 +58,7 @@ void AttackState::Update() {
 	// 持っている武器で攻撃
 	pBlackBoard_->GetValue<Actor*>(EnemyConfig::name)->Attack();
 
-	currentFrame_--;
+	currentFrame_ -= stopController_->GetDeltaTime();
 }
 
 void AttackState::DebugGui() {

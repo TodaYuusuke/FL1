@@ -3,6 +3,9 @@
 using namespace FLMath;
 
 IMelee::IMelee(WeaponData data) {
+	// ヒットストップ
+	stopController_ = HitStopController::GetInstance();
+
 	// 調整項目を代入
 	data_ = data;
 	name_ = data_.modelName;
@@ -40,7 +43,7 @@ void IMelee::Update() {
 		isDestroy_ = true;
 	}
 
-	shotFrame_--;
+	shotFrame_ -= stopController_->GetDeltaTime();
 
 	shotFrame_ = std::max<float>(shotFrame_, 0.0f);
 	reloadFrame_ = std::max<float>(reloadFrame_, 0.0f);
@@ -91,9 +94,9 @@ void IMelee::Attack(int bulletHitFragBit) {
 	bulletHitFragBit;
 
 	// 弾がない状態なら撃てない
-	if (magazine_->GetEmpty()) { 
+	if (magazine_->GetEmpty()) {
 		isDestroy_ = true;
-		return; 
+		return;
 	}
 	// 射撃できる状態か
 	if (!GetIsEnableShot()) { return; }
@@ -106,7 +109,7 @@ void IMelee::Attack(int bulletHitFragBit) {
 }
 
 void IMelee::Reload() {
-	reloadFrame_--;
+	reloadFrame_ -= stopController_->GetDeltaTime();
 
 	// リロード完了
 	if (!GetIsReloading()) {

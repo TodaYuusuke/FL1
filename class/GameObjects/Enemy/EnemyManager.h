@@ -81,7 +81,7 @@ private:// デバッグ用の関数群
 	/// <summary>
 	/// jsonファイル作成
 	/// </summary>
-	void CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, const std::string& name);
+	void CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, const std::string& jsonName);
 	/// <summary>
 	/// 選択された武器のguiの表示
 	/// </summary>

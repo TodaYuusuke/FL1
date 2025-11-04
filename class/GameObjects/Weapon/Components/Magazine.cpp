@@ -13,7 +13,7 @@ void Magazine::Init(const int& bulletNum) {
 
 void Magazine::Update() {
 	// 弾数が0を下回らないようにする
-	bulletNum_ = std::min<int>(bulletNum_, 0.0f);
+	bulletNum_ = std::min<int>(bulletNum_, 0);
 }
 
 void Magazine::DebugGui() {

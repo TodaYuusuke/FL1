@@ -6,6 +6,8 @@ using namespace LWP::Math;
 using namespace FLMath;
 
 EscapeState::EscapeState(BlackBoard* pBlackBoard, NodeResult* nodeResult, const float& speed) {
+	stopController_ = HitStopController::GetInstance();
+
 	pBlackBoard_ = pBlackBoard;
 	nodeResult_ = nodeResult;
 	speed_ = speed;
@@ -47,7 +49,7 @@ void EscapeState::Update() {
 	}
 	pBlackBoard_->GetValue<Actor*>(EnemyConfig::name)->SetRotation(quat_);
 
-	currentFrame_--;
+	currentFrame_ -= stopController_->GetDeltaTime();
 }
 
 void EscapeState::DebugGui() {

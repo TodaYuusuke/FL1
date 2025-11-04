@@ -5,6 +5,7 @@
 #include "ActorHealth.h"
 #include "../BehaviorTreeUtility.h"
 #include "../INode.h"
+#include "../../HitStopController.h"
 
 class IWorld;
 class BlackBoard;
@@ -192,6 +193,9 @@ public:
 	Actor& operator = (const Actor& other) = delete;
 
 protected:
+	// ヒットストップ
+	HitStopController* stopController_;
+
 	//ワールド
 	IWorld* world_ = nullptr;
 

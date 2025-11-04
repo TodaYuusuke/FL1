@@ -5,6 +5,8 @@ using namespace LWP;
 using namespace LWP::Math;
 
 ReadyToAttackState::ReadyToAttackState(BlackBoard* pBlackBoard, NodeResult* nodeResult, const float& waitTime) {
+	stopController_ = HitStopController::GetInstance();
+
 	pBlackBoard_ = pBlackBoard;
 	nodeResult_ = nodeResult;
 	waitTime_ = waitTime;
@@ -30,7 +32,7 @@ void ReadyToAttackState::Update() {
 	quat_ = actor->GetWorldTF()->rotation;
 	pBlackBoard_->GetValue<Actor*>(EnemyConfig::name)->SetRotation(quat_);
 
-	waitTime_--;
+	waitTime_ -= stopController_->GetDeltaTime();
 }
 
 void ReadyToAttackState::DebugGui() {

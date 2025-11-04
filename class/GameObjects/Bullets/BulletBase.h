@@ -1,5 +1,6 @@
 #pragma once
 #include "../../Componets/Math.h"
+#include "../../Componets/HitStopController.h"
 #include <Adapter.h>
 
 /// <summary>
@@ -41,6 +42,9 @@ public:// アクセサ
 #pragma endregion
 
 protected:
+	// ヒットストップ
+	HitStopController* stopController_;
+
 	// モデル
 	LWP::Resource::RigidModel body_;
 

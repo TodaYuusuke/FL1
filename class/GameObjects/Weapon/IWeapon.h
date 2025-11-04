@@ -2,6 +2,7 @@
 #include "WeaponConfig.h"
 #include "Components/Magazine.h"
 #include "../../Componets/Math.h"
+#include "../../Componets/HitStopController.h"
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
 #include <Adapter.h>
 #include <string>
@@ -140,6 +141,9 @@ public:// アクセサ
 #pragma endregion
 
 protected:
+	// ヒットストップ
+	HitStopController* stopController_;
+
 	// モデル
 	LWP::Resource::RigidModel body_;
 

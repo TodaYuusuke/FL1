@@ -23,9 +23,21 @@ void Actor::Update(){
 		bt_->Tick();
 	}
 
-	for (int i = 0; i < weapons_.size(); i++) {
-		if (weapons_[i]) weapons_[i]->Update();
+	//// 
+	//for (int i = 0; i < weapons_.size(); i++) {
+	//	if (weapons_[i]) weapons_[i]->Update();
+	//}
+
+	// 速度と角度代入
+	if (state_) {
+		velocity_ = state_->GetVel();
+		quat_ = state_->GetRot();
 	}
+
+	model_.worldTF.translation += velocity_;
+
+	// 速度を初期化
+	velocity_ = { 0.0f, 0.0f, 0.0f };
 }
 
 void Actor::DrawGui() {}

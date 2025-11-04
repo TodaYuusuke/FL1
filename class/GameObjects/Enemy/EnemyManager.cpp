@@ -317,9 +317,9 @@ void EnemyManager::CreateDebugData() {
 #pragma endregion
 }
 
-void EnemyManager::CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, const std::string& name) {
+void EnemyManager::CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, const std::string& jsonName) {
 	// ファイル名
-	std::string fileName = name + ".json";
+	std::string fileName = jsonName + ".json";
 	json.Init(fileName)
 		// ビヘイビアツリーのファイル名
 		.AddValue<std::string>("BTFileName", &data.BTFileName)

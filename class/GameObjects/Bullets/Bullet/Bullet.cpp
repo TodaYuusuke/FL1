@@ -4,6 +4,8 @@
 using namespace FLMath;
 
 Bullet::Bullet(const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel, int hitFragBit) {
+	stopController_ = HitStopController::GetInstance();
+
 	// モデルの読み込み
 	body_.LoadCube();
 
@@ -40,7 +42,7 @@ void Bullet::Init() {
 
 void Bullet::Update() {
 	// 座標変更
-	body_.worldTF.translation += vel_;
+	body_.worldTF.translation += vel_ * stopController_->GetDeltaTime();
 
 	// 角度変更
 	body_.worldTF.rotation = LookRotationZLock(vel_);
@@ -50,5 +52,5 @@ void Bullet::Update() {
 		isAlive_ = false;
 	}
 
-	currentFrame_--;
+	currentFrame_ -= stopController_->GetDeltaTime();
 }

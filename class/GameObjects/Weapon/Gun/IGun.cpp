@@ -7,6 +7,8 @@ using namespace FLMath;
 using namespace LWP::Math;
 
 IGun::IGun(WeaponData data) {
+	// ヒットストップ
+	stopController_ = HitStopController::GetInstance();
 	// 弾管理クラスのアドレス取得
 	pBulletManager_ = BulletManager::GetInstance();
 
@@ -61,8 +63,8 @@ void IGun::Update() {
 	// 攻撃指示
 	AttackCommond();
 
-	attackFrame_--;
-	coolFrame_--;
+	attackFrame_ -= stopController_->GetDeltaTime();
+	coolFrame_ -= stopController_->GetDeltaTime();
 
 	attackFrame_ = std::max<float>(attackFrame_, 0.0f);
 	coolFrame_ = std::max<float>(coolFrame_, 0.0f);
@@ -128,7 +130,7 @@ void IGun::Attack(int bulletHitFragBit) {
 }
 
 void IGun::Reload() {
-	reloadFrame_--;
+	reloadFrame_ -= stopController_->GetDeltaTime();
 
 	// リロード完了
 	if (!GetIsReloadTime()) {
@@ -147,12 +149,12 @@ void IGun::AttackCommond() {
 	// 射撃できる状態か
 	if (!GetIsEnableAttack()) { return; }
 	// 攻撃指示がない
-	if (!isAttack_) { 
+	if (!isAttack_) {
 		// 溜め時間をもとに戻していく
-		storeFrame_++;
-		return; 
+		storeFrame_ += stopController_->GetDeltaTime();
+		return;
 	}
-	storeFrame_--;
+	storeFrame_ -= stopController_->GetDeltaTime();
 	// 溜め時間中なら撃てない
 	if (GetIsStoreTime()) { return; }
 	// 弾がない状態なら撃てない

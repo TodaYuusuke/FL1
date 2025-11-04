@@ -6,6 +6,7 @@ using namespace LWP::Math;
 using namespace LWP::Input;
 
 Move::Move() {
+	stopController_ = HitStopController::GetInstance();
 	stateName_ = "Move";
 }
 
@@ -16,12 +17,12 @@ void Move::Init() {
 void Move::Update() {
 	Vector2 lStick = AdjustmentStick(LWP::Input::Controller::GetLStick());
 	Vector2 rStick = AdjustmentStick(LWP::Input::Controller::GetRStick());
-	//Vector2 lStick = LWP::Input::Controller::GetLStick();
-	//Vector2 rStick = LWP::Input::Controller::GetRStick();
-	//StickDiff(lStick, rStick);
 
 	// 戦車挙動
-	DifferentialUpdate(lStick, rStick, 1.0f);
+	DifferentialUpdate(lStick, rStick, stopController_->GetDeltaTime());
+
+	// タイムスケール適用
+	vel_ *= stopController_->GetDeltaTime();
 }
 
 void Move::DebugGui() {

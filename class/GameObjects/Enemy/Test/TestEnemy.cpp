@@ -23,7 +23,10 @@ void TestEnemy::Init() {
 }
 
 void TestEnemy::Update() {
-	model_.worldTF.translation += velocity_;
+	// ヒットストップ
+	HitStopController* stopController = HitStopController::GetInstance();
+
+	model_.worldTF.translation += velocity_ * stopController->GetDeltaTime();
 
 	// 速度に応じて角度変更
 	if (Vector3::Dot(velocity_, velocity_) != 0.0f) model_.worldTF.rotation = Quaternion::LookRotation(velocity_);

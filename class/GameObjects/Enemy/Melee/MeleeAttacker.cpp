@@ -8,6 +8,8 @@
 using namespace LWP::Math;
 
 MeleeAttacker::MeleeAttacker(IWorld* world, int ID, const EnemyData& data) {
+	stopController_ = HitStopController::GetInstance();
+
 	world_ = world;
 	ID_ = ID;
 	data_ = data;
@@ -57,17 +59,6 @@ MeleeAttacker::~MeleeAttacker() {
 
 void MeleeAttacker::Init() {
 
-}
-
-void MeleeAttacker::Update() {
-	// 基底クラス
-	Actor::Update();
-
-	// 移動処理
-	Move();
-
-	// 速度を初期化
-	velocity_ = { 0.0f, 0.0f, 0.0f };
 }
 
 void MeleeAttacker::DrawGui() {

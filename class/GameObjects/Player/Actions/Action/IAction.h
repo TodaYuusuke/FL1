@@ -1,5 +1,6 @@
 #pragma once
 #include "../../../../Componets/Math.h"
+#include "../../../../Componets/HitStopController.h"
 #include "../ActionConfig.h"
 #include <Adapter.h>
 #include <string>
@@ -66,6 +67,9 @@ public:// アクセサ
 #pragma endregion
 
 protected:
+	// ヒットストップ
+	HitStopController* stopController_;
+
 	// 変更可能な状態マスク
 	unsigned int enableChangeState_ = 0;
 	// 現在変更可能な状態マスク

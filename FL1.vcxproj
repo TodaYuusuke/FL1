@@ -135,6 +135,7 @@
       <Optimization>MinSpace</Optimization>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -151,6 +152,7 @@
   <ItemGroup>
     <ClCompile Include="class\Componets\BehaviourTree\DecoratorNode\RunOnce.cpp" />
     <ClCompile Include="class\Componets\BehaviourTree\LeafNode\ReadyToAttackLeaf.cpp" />
+    <ClCompile Include="class\Componets\HitStopController.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\Drone\Drone.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\Gunner\Gunner.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\ChaseState.cpp" />
@@ -218,6 +220,7 @@
   <ItemGroup>
     <ClInclude Include="class\Componets\BehaviourTree\DecoratorNode\RunOnce.h" />
     <ClInclude Include="class\Componets\BehaviourTree\LeafNode\ReadyToAttackLeaf.h" />
+    <ClInclude Include="class\Componets\HitStopController.h" />
     <ClInclude Include="class\GameObjects\Collision\CollisionMask.h" />
     <ClInclude Include="class\GameObjects\Enemy\Drone\Drone.h" />
     <ClInclude Include="class\GameObjects\Enemy\EnemyConfig.h" />

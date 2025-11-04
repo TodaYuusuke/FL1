@@ -2,6 +2,7 @@
 #include "../../../Componets/BehaviourTree/Actor/BlackBoard.h"
 #include "../../../Componets/BehaviourTree/NodeResult.h"
 #include "../../../Componets/Math.h"
+#include "../../../Componets/HitStopController.h"
 #include "../EnemyConfig.h"
 #include <Adapter.h>
 
@@ -59,6 +60,9 @@ public:// アクセサ
 #pragma endregion
 
 protected:
+	// ヒットストップ
+	HitStopController* stopController_;
+
 	// 黒板(ビヘイビアツリーにて使用)
 	BlackBoard* pBlackBoard_;
 	NodeResult* nodeResult_;

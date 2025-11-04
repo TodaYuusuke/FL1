@@ -10,6 +10,8 @@ using namespace LWP::Math;
 using namespace FLMath;
 
 Drone::Drone(IWorld* world, int ID, const EnemyData& data) {
+	stopController_ = HitStopController::GetInstance();
+
 	world_ = world;
 	ID_ = ID;
 	data_ = data;
@@ -59,17 +61,6 @@ Drone::~Drone() {
 
 void Drone::Init() {
 
-}
-
-void Drone::Update() {	
-	// 基底クラス
-	Actor::Update();
-
-	// 移動処理
-	Move();
-
-	// 速度を初期化
-	velocity_ = { 0.0f, 0.0f, 0.0f };
 }
 
 void Drone::DrawGui() {

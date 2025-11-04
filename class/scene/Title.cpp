@@ -1,20 +1,27 @@
 #include "Title.h"
-#include "../GameObjects/Enemy/Melee/MeleeAttacker.h"
 #include "../GameObjects/Bullets/BulletManager.h"
 #include "../GameObjects/Weapon/WeaponManager.h"
+#include "../Componets/HitStopController.h"
 
 using namespace LWP;
 using namespace LWP::Math;
 
 Title::Title() {
+	// ヒットストップクラス
+	HitStopController::Create();
 	// 弾管理クラスを生成
 	BulletManager::Create();
+	// 武器管理クラスを作成
 	WeaponManager::Create();
 }
 
 Title::~Title() {
-	WeaponManager::Destroy();
+	// 武器管理クラス
 	BulletManager::Destroy();
+	// 弾管理クラス
+	WeaponManager::Destroy();
+	// ヒットストップクラス
+	HitStopController::Destroy();
 }
 
 // 初期化
@@ -49,10 +56,13 @@ void Title::Initialize() {
 
 // 更新
 void Title::Update() {
+	// ヒットストップ
+	HitStopController::GetInstance()->Update();
+
+	// ワールドオブジェクト
 	world_->Update();
 	// 敵管理
 	enemyManager_->Update();
-
 	// 弾管理クラス
 	BulletManager::GetInstance()->Update();
 	// 武器管理クラス
@@ -65,6 +75,7 @@ void Title::Update() {
 	ImGui::Begin("GameObjects");
 	ImGui::BeginTabBar("GameObject");
 
+	// ワールド
 	world_->DebugGui();
 
 	// 武器管理クラス
@@ -89,6 +100,9 @@ void Title::Update() {
 		}
 		ImGui::EndTabItem();
 	}
+
+	// ヒットストップ
+	HitStopController::GetInstance()->DebugGui();
 
 	ImGui::EndTabBar();
 	ImGui::End();
