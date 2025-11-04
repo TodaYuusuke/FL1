@@ -16,8 +16,8 @@
         "id": 7,
         "name": "CircleAttackLeaf",
         "parent": 10,
-        "pos_x": 862.0,
-        "pos_y": 15.999992370605469,
+        "pos_x": 789.0,
+        "pos_y": -26.000015258789063,
         "speed": 0.0,
         "type": 3
     },
@@ -26,8 +26,8 @@
         "id": 11,
         "name": "ChasePlayerLeaf",
         "parent": 6,
-        "pos_x": 694.0,
-        "pos_y": 254.0,
+        "pos_x": 782.0,
+        "pos_y": 311.0,
         "speed": 0.10000000149011612,
         "type": 3
     },
@@ -72,8 +72,8 @@
         "id": 9,
         "name": "WaitLeaf",
         "parent": 10,
-        "pos_x": 858.525390625,
-        "pos_y": 120.22064208984375,
+        "pos_x": 786.525390625,
+        "pos_y": 51.22062683105469,
         "speed": 0.0,
         "type": 3,
         "wait_time": 60.0
@@ -81,14 +81,26 @@
     {
         "children": [
             7,
-            9
+            9,
+            12
         ],
         "id": 10,
         "name": "Sequence",
         "parent": 6,
-        "pos_x": 699.525390625,
-        "pos_y": 64.22063446044922,
+        "pos_x": 627.525390625,
+        "pos_y": 50.22064971923828,
         "speed": 0.0,
         "type": 0
+    },
+    {
+        "children": [],
+        "id": 12,
+        "name": "ReadyToAttackLeaf",
+        "parent": 10,
+        "pos_x": 784.8599853515625,
+        "pos_y": 146.5547332763672,
+        "readyToAttackTime": 60.0,
+        "speed": 0.0,
+        "type": 3
     }
 ]

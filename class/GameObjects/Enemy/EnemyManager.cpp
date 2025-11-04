@@ -76,7 +76,6 @@ void EnemyManager::DebugGui() {
 
 			// 選択した敵を調整
 			SelectEnemyDataGui(jsonDatas_[selectCreateEnemyType_], sampleEnemies_[selectCreateEnemyType_]);
-			//sampleEnemies_[selectCreateEnemyType_]->DrawGui();
 
 			ImGui::TreePop();
 		}

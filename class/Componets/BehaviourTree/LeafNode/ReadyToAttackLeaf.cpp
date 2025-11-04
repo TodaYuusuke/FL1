@@ -1,6 +1,6 @@
 #include "ReadyToAttackLeaf.h"
 #include "../Actor/Actor.h"
-#include "../../../GameObjects/Enemy/State/WaitState.h"
+#include "../../../GameObjects/Enemy/State/ReadyToAttackState.h"
 
 ReadyToAttackLeaf::ReadyToAttackLeaf(BlackBoard* black_board, const float wait_time)
 	: LeafNodeBase(black_board)
@@ -16,7 +16,7 @@ ReadyToAttackLeaf::~ReadyToAttackLeaf() {
 void ReadyToAttackLeaf::Tick() {
 	// 敵アドレスを取得
 	Actor* actor = blackBoard->GetValue<Actor*>("Actor");
-	actor->ChangeState(new WaitState(blackBoard, &nodeResult, waitTime));
+	actor->ChangeState(new ReadyToAttackState(blackBoard, &nodeResult, waitTime));
 }
 
 void ReadyToAttackLeaf::Finalize() {
