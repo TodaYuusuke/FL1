@@ -31,15 +31,16 @@ void EscapeState::Update() {
 	// 敵アドレスを取得
 	Actor* actor = pBlackBoard_->GetValue<Actor*>("Actor");
 
-	// 方向ベクトル算出
-	Vector3 vector = player->GetWorldTF()->GetWorldPosition() - actor->GetWorldTF()->GetWorldPosition();
+	// 方向ベクトル算出して反転
+	Vector3 vector = (player->GetWorldTF()->GetWorldPosition() - actor->GetWorldTF()->GetWorldPosition()) * -1.0f;
 	vector.y = 0.0f;
 
 	// 速度を設定
 	velocity_ = vector.Normalize() * speed_;
 	// 速度に応じて角度変更
 	if (Vector3::Dot(velocity_, velocity_) != 0.0f) {
-		quat_ = LookRotationZLock(vector.Normalize());
+		// 自機の方を常に向きたいのでベクトルを反転して自機に身体を向ける
+		quat_ = LookRotationZLock(vector.Normalize() * -1.0f);
 	}
 	else {
 		quat_ = player->GetWorldTF()->rotation;

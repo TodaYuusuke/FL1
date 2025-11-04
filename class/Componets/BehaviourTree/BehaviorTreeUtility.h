@@ -35,6 +35,7 @@ enum class NodeName {
 	AlwaysSuccessLeaf,
 	EscapeFromPlayerLeaf,
 	WaitLeaf,
+	ReadyToAttackLeaf,
 	NameEnd, // 要素数取得用
 };
 
@@ -54,6 +55,7 @@ static std::map<NodeName, NodeType> NODE_MAP = {
 	{NodeName::AlwaysSuccessLeaf, NodeType::Leaf},
 	{NodeName::EscapeFromPlayerLeaf, NodeType::Leaf},
 	{NodeName::WaitLeaf, NodeType::Leaf},
+	{NodeName::ReadyToAttackLeaf, NodeType::Leaf}
 };
 
 /// <summary>
@@ -72,6 +74,9 @@ struct BTNode {
 
 	// Wait用の変数
 	float wait_time = -1.f;
+
+	// 攻撃のタイミングをうかがう時間
+	float readyToAttackTime = -1.f;
 
 	// CheckFarPlayer, CheckNearPlayer用の変数
 	float limit_distance = -1.f;
@@ -291,6 +296,8 @@ private:
 	void SetLimitDistance(int id, float limit_distance);
 	// ノードのwait_timeを設定
 	void SetWaitTime(int id, float wait_time);
+	// ノードの攻撃のタイミングをうかがっている時間を設定
+	void SetReadyToAttackTime(int id, float readyToAttackTime);
 	// ノードのspeedを設定
 	void SetSpeed(int id, float speed);
 
@@ -327,6 +334,8 @@ private:
 	bool IsRelatedNodes(const int node_id, const std::pair<const int, const BTNode>& node);
 
 private:
+	LWP::Utility::JsonIO json_;
+
 	std::string mLoadFileName = "";
 
 	// エディターモードにするか

@@ -8,6 +8,7 @@
 #include "BranchNode/CheckNearPlayer.h"
 #include "BranchNode/CheckFarPlayer.h"
 #include "LeafNode/WaitLeaf.h"
+#include "LeafNode/ReadyToAttackLeaf.h"
 #include "LeafNode/ChasePlayerLeaf.h"
 #include "LeafNode/EscapeFromPlayerLeaf.h"
 #include "LeafNode/CircleAttackLeaf.h"
@@ -99,6 +100,10 @@ INode* BehaviourTreeBuilder::BuildAttackerTree(std::string file_path, BlackBoard
 			else if (name == "WaitLeaf") {
 				float waitTime = nodeJson["wait_time"].get<float>();
 				node = new WaitLeaf(blackboard, waitTime);
+			}
+			else if (name == "ReadyToAttackLeaf") {
+				float readyTime = nodeJson["readyToAttackTime"].get<float>();
+				node = new ReadyToAttackLeaf(blackboard, readyTime);
 			}
 			else if (name == "ChasePlayerLeaf") {
 				float speed = nodeJson["speed"].get<float>();

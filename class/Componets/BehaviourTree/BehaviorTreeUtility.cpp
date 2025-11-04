@@ -435,6 +435,10 @@ void BehaviorTreeGraph::ExportJson(const std::string& file_name) {
 			node_json["wait_time"] = node.wait_time;
 		}
 
+		if (node.readyToAttackTime != -1.f) {
+			node_json["readyToAttackTime"] = node.readyToAttackTime;
+		}
+
 		if (node.limit_distance != -1.f) {
 			node_json["limit_distance"] = node.limit_distance;
 		}
@@ -484,6 +488,9 @@ void BehaviorTreeGraph::ImportJson(const std::string& file_name) {
 		}
 		if (node_json.contains("wait_time")) {
 			node.wait_time = node_json["wait_time"];
+		}
+		if (node_json.contains("readyToAttackTime")) {
+			node.readyToAttackTime = node_json["readyToAttackTime"];
 		}
 		if (node_json.contains("limit_distance")) {
 			node.limit_distance = node_json["limit_distance"];
@@ -624,6 +631,9 @@ void BehaviorTreeGraph::DrawExportButton() {
 	// ファイル保存ダイアログを使って保存先とファイル名を指定
 	if (ImGui::Button(("Json Export"))) {
 #if defined(_WIN32)
+		char currentDir[MAX_PATH];
+		_getcwd(currentDir, MAX_PATH);
+
 		OPENFILENAMEA ofn = { 0 };
 		char szFile[MAX_PATH] = { 0 };	// ファイルパスのサイズはWindows既定のものに
 		ofn.lStructSize = sizeof(ofn);
@@ -637,6 +647,8 @@ void BehaviorTreeGraph::DrawExportButton() {
 		if (GetSaveFileNameA(&ofn)) {
 			ExportJson(szFile);
 		}
+
+		_chdir(currentDir);
 #endif
 	}
 }
@@ -788,6 +800,22 @@ void BehaviorTreeGraph::DrawParameter(const BTNode& node, int node_id, bool is_s
 			ImGui::Text("WaitTime: %.1f", node.wait_time);
 		}
 	}
+	// 攻撃タイミングを待つノードの場合
+	else if (node.name == NodeName::ReadyToAttackLeaf) {
+		// 選択されているとき
+		if (is_selected && mIsEditMode) {
+			// 待機時間表示
+			ImGui::Text(("ReadyTime[frame]"));
+			ImGui::SetNextItemWidth(200);
+
+			float readyTime = node.readyToAttackTime;
+			ImGui::InputFloat("", &readyTime);
+			SetReadyToAttackTime(node_id, readyTime);
+		}
+		else {
+			ImGui::Text("ReadyTime: %.1f", node.readyToAttackTime);
+		}
+	}
 	// 近いか遠いかを判別するノードの場合
 	else if (node.name == NodeName::CheckFarPlayer ||
 		node.name == NodeName::CheckNearPlayer) {
@@ -863,6 +891,10 @@ void BehaviorTreeGraph::SetLimitDistance(int id, float limit_distance) {
 
 void BehaviorTreeGraph::SetWaitTime(int id, float wait_time) {
 	mNodes.at(id).wait_time = wait_time;
+}
+
+void BehaviorTreeGraph::SetReadyToAttackTime(int id, float readyToAttackTime) {
+	mNodes.at(id).readyToAttackTime = readyToAttackTime;
 }
 
 void BehaviorTreeGraph::SetSpeed(int id, float speed) {

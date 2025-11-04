@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="class\Componets\BehaviourTree\DecoratorNode\RunOnce.cpp" />
+    <ClCompile Include="class\Componets\BehaviourTree\LeafNode\ReadyToAttackLeaf.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\Drone\Drone.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\Gunner\Gunner.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\ChaseState.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="class\GameObjects\Bullets\BulletBase.cpp" />
     <ClCompile Include="class\Componets\Math.cpp" />
     <ClCompile Include="class\Componets\Timer.cpp" />
+    <ClCompile Include="class\GameObjects\Enemy\State\ReadyToAttackState.cpp" />
     <ClCompile Include="class\GameObjects\Player\Actions\Action\Evasion\Evasion.cpp" />
     <ClCompile Include="class\GameObjects\Player\Actions\Action\Move\Move.cpp" />
     <ClCompile Include="class\GameObjects\Player\Actions\Action\None\NoneAction.cpp" />
@@ -215,6 +217,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="class\Componets\BehaviourTree\DecoratorNode\RunOnce.h" />
+    <ClInclude Include="class\Componets\BehaviourTree\LeafNode\ReadyToAttackLeaf.h" />
     <ClInclude Include="class\GameObjects\Collision\CollisionMask.h" />
     <ClInclude Include="class\GameObjects\Enemy\Drone\Drone.h" />
     <ClInclude Include="class\GameObjects\Enemy\EnemyConfig.h" />
@@ -226,6 +229,7 @@
     <ClInclude Include="class\GameObjects\Bullets\BulletBase.h" />
     <ClInclude Include="class\Componets\Math.h" />
     <ClInclude Include="class\Componets\Timer.h" />
+    <ClInclude Include="class\GameObjects\Enemy\State\ReadyToAttackState.h" />
     <ClInclude Include="class\GameObjects\Player\Actions\ActionConfig.h" />
     <ClInclude Include="class\GameObjects\Player\Actions\Action\Evasion\Evasion.h" />
     <ClInclude Include="class\GameObjects\Player\Actions\Action\IAction.h" />
