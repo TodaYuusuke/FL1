@@ -134,6 +134,16 @@ public:// アクセサ
 	/// <param name="q"></param>
 	void SetRotation(const LWP::Math::Quaternion& q) { body_.worldTF.rotation = q; }
 	/// <summary>
+	/// 攻撃倍率を設定
+	/// </summary>
+	/// <param name="multiply"></param>
+	void SetAttackMultiply(float multiply) { attackMultiply_ = multiply; }
+	/// <summary>
+	/// 速度倍率を設定
+	/// </summary>
+	/// <param name="multiply"></param>
+	void SetSpeedMultiply(float multiply) { speedMultiply_ = multiply; }
+	/// <summary>
 	/// 名前を設定
 	/// </summary>
 	/// <param name="name"></param>
@@ -163,6 +173,10 @@ protected:
 
 	// 攻撃力
 	float currentAttackValue_;
+	// 攻撃倍率
+	float attackMultiply_;
+	// 速度倍率
+	float speedMultiply_;
 
 	// 射撃時の経過時間
 	float attackFrame_;

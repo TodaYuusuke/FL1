@@ -65,11 +65,6 @@ public:// アクセサ
 
 #pragma region Getter
 	/// <summary>
-	/// 生きているか取得
-	/// </summary>
-	/// <returns></returns>
-	bool GetIsAlive() { return isAlive_; };
-	/// <summary>
 	/// 名前を取得
 	/// </summary>
 	/// <returns></returns>
@@ -79,6 +74,11 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	std::string GetTag() { return tag_; }
+	/// <summary>
+	/// 調整情報を取得
+	/// </summary>
+	/// <returns></returns>
+	EnemyData GetEnemyData() { return data_; }
 	/// <summary>
 	/// HPを取得
 	/// </summary>
@@ -134,6 +134,11 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	float GetAttackPower() { return attackPower_; }
+	/// <summary>
+	/// 生きているか取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsAlive() { return isAlive_; };
 #pragma endregion
 
 #pragma region Setter

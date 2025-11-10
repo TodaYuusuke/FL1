@@ -35,7 +35,7 @@ void IGun::Init() {
 	magazine_->Init(data_.bulletNum);
 
 	// 攻撃力
-	currentAttackValue_ = data_.attackValue;
+	currentAttackValue_ = data_.attackValue * attackMultiply_;
 
 	// 射撃時の経過時間
 	if (data_.burstNum > 0) {
@@ -53,6 +53,9 @@ void IGun::Init() {
 }
 
 void IGun::Update() {
+	// 攻撃力
+	currentAttackValue_ = data_.attackValue * attackMultiply_;
+
 	// 弾がなくなれば強制リロード(クールタイム)
 	if (magazine_->GetEmpty()) {
 		isDestroy_ = true;

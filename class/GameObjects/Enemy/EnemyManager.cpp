@@ -191,6 +191,9 @@ void EnemyManager::GiveWeapon(Actor* actor, const EnemyData& data) {
 
 		// 持たせる武器を作成
 		IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(data.containWeaponTypes[i], 0);
+		// 所持者の攻撃倍率を武器に反映
+		weapon->SetAttackMultiply(actor->GetEnemyData().attackMultiply);
+
 		// 武器の装着位置設定
 		SetWeaponPos(weapon, i);
 		// 武器の付与

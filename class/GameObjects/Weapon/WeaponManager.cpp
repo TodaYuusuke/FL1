@@ -331,6 +331,9 @@ void WeaponManager::SelectWeaponRarity(int& selectedWeaponRarity, std::string la
 void WeaponManager::DropWeapon(IWeapon* weapon) {
 	if (!weapon) return;
 
+	// 攻撃倍率を初期化
+	weapon->SetAttackMultiply(1.0f);
+
 	// 武器の所持者がいる場合
 	if (weapon->GetActor()) {
 		Vector3 pos = weapon->GetActor()->GetWorldTF()->GetWorldPosition() + weapon->GetWorldTF()->translation;

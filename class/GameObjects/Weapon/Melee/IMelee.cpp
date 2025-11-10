@@ -29,7 +29,7 @@ void IMelee::Init() {
 	magazine_->Init(data_.bulletNum);
 
 	// 攻撃力
-	currentAttackValue_ = data_.attackValue;
+	currentAttackValue_ = data_.attackValue * attackMultiply_;
 
 	// 射撃時の経過時間
 	shotFrame_ = data_.shotIntervalTime * 60.0f;
@@ -38,6 +38,9 @@ void IMelee::Init() {
 }
 
 void IMelee::Update() {
+	// 攻撃力
+	currentAttackValue_ = data_.attackValue * attackMultiply_;
+
 	// 弾がなくなれば強制リロード(クールタイム)
 	if (magazine_->GetEmpty()) {
 		isDestroy_ = true;
