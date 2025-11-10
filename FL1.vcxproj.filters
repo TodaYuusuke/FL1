@@ -36,7 +36,7 @@
     <ClCompile Include="class\Componets\BehaviourTree\Actor\Actor.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\Componets\BehaviourTree\Actor\ActorHealth.cpp">
+    <ClCompile Include="class\Componets\BehaviourTree\Actor\Health.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="class\Componets\BehaviourTree\Actor\ActorManager.cpp">
@@ -236,7 +236,7 @@
     <ClInclude Include="class\Componets\BehaviourTree\Actor\Actor.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\Componets\BehaviourTree\Actor\ActorHealth.h">
+    <ClInclude Include="class\Componets\BehaviourTree\Actor\Health.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\Componets\BehaviourTree\Actor\ActorManager.h">

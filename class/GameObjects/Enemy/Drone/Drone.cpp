@@ -13,19 +13,25 @@ Drone::Drone(IWorld* world, int ID, const EnemyData& data) {
 	stopController_ = HitStopController::GetInstance();
 
 	world_ = world;
+	// 製造番号
 	ID_ = ID;
+	// 調整情報
 	data_ = data;
+	// 識別タグ
 	tag_ = EnemyConfig::tag;
+	// 識別名
 	name_ = EnemyConfig::name + std::to_string(ID_);
+	// HP
+	hp_ = std::make_unique<Health>(data_.hp);
+	// 攻撃力
 	attackPower_ = 1;
 
 	// モデル生成
-	model_.LoadSphere();
+	model_.LoadFullPath(data.modelName);
 
 	// 黒板生成
 	blackBoard_ = new BlackBoard();
 	blackBoard_->SetValue<Actor*>(EnemyConfig::name, this);
-
 	// 自機のアドレスを設定
 	auto* player = world->FindActor("Player");
 	assert(player);
@@ -34,7 +40,6 @@ Drone::Drone(IWorld* world, int ID, const EnemyData& data) {
 	// ビヘイビアツリーの編集クラス
 	btEditor_ = std::make_unique<BehaviorTreeGraph>(false);
 	btEditor_->SelectLoadFile(data.BTFileName);
-
 	// ビヘイビアツリー生成
 	bt_ = BehaviourTreeBuilder::BuildAttackerTree(data.BTFileName, blackBoard_);
 	bt_->Init();
@@ -43,6 +48,7 @@ Drone::Drone(IWorld* world, int ID, const EnemyData& data) {
 	LWP::Math::Vector3 size = model_.worldTF.scale / 2.0f;
 	bodyAABB_.min = size * -1.0f;
 	bodyAABB_.max = size;
+	bodyCollision_.name = name_;
 	bodyCollision_.SetFollow(&model_.worldTF);
 	bodyCollision_.isActive = true;
 	// 自機の所属しているマスクを設定

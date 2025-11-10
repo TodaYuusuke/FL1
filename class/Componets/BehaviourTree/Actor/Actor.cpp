@@ -29,7 +29,7 @@ void Actor::Update(){
 		quat_ = state_->GetRot();
 	}
 
-	model_.worldTF.translation += velocity_;
+	model_.worldTF.translation += velocity_ * data_.speedMultiply;
 
 	// 速度を初期化
 	velocity_ = { 0.0f, 0.0f, 0.0f };

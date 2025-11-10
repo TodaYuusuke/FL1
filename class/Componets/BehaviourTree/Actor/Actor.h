@@ -2,10 +2,11 @@
 #include <string>
 #include <vector>
 #include <Adapter.h>
-#include "ActorHealth.h"
+#include "Health.h"
 #include "../BehaviorTreeUtility.h"
 #include "../INode.h"
 #include "../../HitStopController.h"
+#include "../../../GameObjects/Enemy/EnemyConfig.h"
 
 class IWorld;
 class BlackBoard;
@@ -56,6 +57,12 @@ public:// アクセサ
 	/// </summary>
 	void ChangeState(StateBase* nextState);
 
+	/// <summary>
+	/// ダメージ開始
+	/// </summary>
+	/// <param name="value">減少量</param>
+	void Damage(float value) { hp_->Damage(value); }
+
 #pragma region Getter
 	/// <summary>
 	/// 生きているか取得
@@ -72,6 +79,11 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	std::string GetTag() { return tag_; }
+	/// <summary>
+	/// HPを取得
+	/// </summary>
+	/// <returns></returns>
+	Health* GetHP() { return hp_.get(); }
 	/// <summary>
 	/// ビヘイビアツリーの取得
 	/// </summary>
@@ -215,6 +227,8 @@ protected:
 	LWP::Object::Collision bodyCollision_;
 	LWP::Object::Collider::AABB& bodyAABB_;
 
+	EnemyData data_;
+
 	//タグ名
 	std::string tag_;
 	//名前
@@ -230,8 +244,8 @@ protected:
 	LWP::Math::Vector3 preTranslation_ = { 0.0f,0.0f,0.0f };
 
 	// 体力
-	ActorHealth health_{ 100 };
-	//攻撃力
+	std::unique_ptr<Health> hp_;
+	// 攻撃力
 	float attackPower_ = 0.0f;
 
 	// 生存フラグ

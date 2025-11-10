@@ -38,7 +38,11 @@ public:// アクセサ
 #pragma endregion
 
 #pragma region Setter
-
+	/// <summary>
+	/// 名前を設定
+	/// </summary>
+	/// <param name="name"></param>
+	void SetName(const std::string& name) { bodyCollision_.name = name; }
 #pragma endregion
 
 protected:

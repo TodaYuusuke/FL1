@@ -32,4 +32,6 @@ public:// アクセサ
 private:
 	// 弾リスト
 	std::list<BulletBase*> bullets_;
+
+	int createID_;
 };

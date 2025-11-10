@@ -19,10 +19,16 @@ EnemyManager::EnemyManager(IWorld* world) {
 
 #pragma region コピー元となる敵生成
 	for (int i = 0; i < EnemyConfig::Name::name.size(); i++) {
+		// モデル名を決める
+		sampleEnemies_[i].modelName = EnemyConfig::ModelName::modelName[i];
 		// 調整データ作成
 		CreateJsonData(jsonDatas_[i], sampleEnemies_[i], EnemyConfig::Name::name[i]);
 	}
 #pragma endregion
+
+	for (int i = 0; i < maxLevel_; i++) {
+		CreateLevelJsonData(levelJsonDatas_[i], sampleLevels_[i], levelPreview_[i]);
+	}
 }
 
 EnemyManager::~EnemyManager() {
@@ -68,11 +74,12 @@ void EnemyManager::Update() {
 }
 
 void EnemyManager::DebugGui() {
-	if (ImGui::BeginTabItem("Enemy")) {
+	if (ImGui::BeginTabItem("Enemys")) {
 		// jsonによる調整データ
 		if (ImGui::TreeNode("Json")) {
-			// 作成する敵を選択
-			SelectCreateEnemy();
+
+			// 調整するレベル
+			SelectLevelGui(levelJsonDatas_[selectLevel_], sampleLevels_[selectLevel_]);
 
 			// 選択した敵を調整
 			SelectEnemyDataGui(jsonDatas_[selectCreateEnemyType_], sampleEnemies_[selectCreateEnemyType_]);
@@ -99,6 +106,8 @@ void EnemyManager::DebugGui() {
 		if (ImGui::TreeNode("Create")) {
 			// 作成する敵を選択
 			SelectCreateEnemy();
+			// 使用するレベルを選択
+			SelectLevel("Level");
 
 			// 生成座標
 			ImGui::DragFloat3("CreateTranslation", &createPos_.x, 0.01f);
@@ -122,8 +131,14 @@ void EnemyManager::DebugGui() {
 }
 
 Actor* EnemyManager::CreateMeleeEnemy() {
+	// 調整情報
+	EnemyData data = sampleEnemies_[(int)EnemyType::kMelee];
+	data.attackMultiply = sampleLevels_[selectLevel_].attackMultiply;
+	data.speedMultiply = sampleLevels_[selectLevel_].speedMultiply;
+	data.level = sampleLevels_[selectLevel_].value;
+
 	// 近接敵
-	MeleeAttacker* actor = new MeleeAttacker(pWorld_, createID_, sampleEnemies_[(int)EnemyType::kMelee]);
+	MeleeAttacker* actor = new MeleeAttacker(pWorld_, createID_, data);
 	actor->SetTranslation(createPos_);
 
 	// 武器を付与
@@ -134,8 +149,14 @@ Actor* EnemyManager::CreateMeleeEnemy() {
 }
 
 Actor* EnemyManager::CreateGunnerEnemy() {
+	// 調整情報
+	EnemyData data = sampleEnemies_[(int)EnemyType::kGunner];
+	data.attackMultiply = sampleLevels_[selectLevel_].attackMultiply;
+	data.speedMultiply = sampleLevels_[selectLevel_].speedMultiply;
+	data.level = sampleLevels_[selectLevel_].value;
+
 	// 遠距離敵
-	Gunner* actor = new Gunner(pWorld_, createID_, sampleEnemies_[(int)EnemyType::kGunner]);
+	Gunner* actor = new Gunner(pWorld_, createID_, data);
 	actor->SetTranslation(createPos_);
 
 	// 武器を付与
@@ -146,8 +167,14 @@ Actor* EnemyManager::CreateGunnerEnemy() {
 }
 
 Actor* EnemyManager::CreateDroneEnemy() {
+	// 調整情報
+	EnemyData data = sampleEnemies_[(int)EnemyType::kDrone];
+	data.attackMultiply = sampleLevels_[selectLevel_].attackMultiply;
+	data.speedMultiply = sampleLevels_[selectLevel_].speedMultiply;
+	data.level = sampleLevels_[selectLevel_].value;
+
 	// ドローン敵
-	Drone* actor = new Drone(pWorld_, createID_, sampleEnemies_[(int)EnemyType::kDrone]);
+	Drone* actor = new Drone(pWorld_, createID_, data);
 	actor->SetTranslation(createPos_);
 	actor->SetFloatHeight(dronefloatHeight_);
 
@@ -253,6 +280,30 @@ void EnemyManager::SelectJsonFile() {
 	}
 }
 
+void EnemyManager::SelectLevel(const std::string& label) {
+	ImGui::Text("Select level");
+	// 読み込むbehaviorTreeのプレビュー作成
+	if (!levelPreview_.empty()) {
+		const char* combo_preview_value = levelPreview_[selectLevel_].c_str();
+		if (ImGui::BeginCombo((label.c_str()), combo_preview_value)) {
+			for (int n = 0; n < levelPreview_.size(); n++) {
+				const bool is_selected = ((int)selectLevel_ == n);
+				if (ImGui::Selectable(levelPreview_[n].c_str(), is_selected)) {
+					selectLevel_ = n;
+				}
+
+				if (is_selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+	}
+	else {
+		ImGui::TextDisabled(("Not found level"));
+	}
+}
+
 void EnemyManager::SelectWeaponType(int& selectedWeaponType, std::string label) {
 	// 読み込むbehaviorTreeのプレビュー作成
 	if (!weaponTypePreview_.empty()) {
@@ -313,6 +364,10 @@ void EnemyManager::CreateDebugData() {
 	for (int i = 0; i < EnemyConfig::BTFileName::fileName.size(); i++) {
 		enemyBTFileNamePreview_.push_back(EnemyConfig::BTFileName::fileName[i]);
 	}
+	// レベルプレビュー
+	for (int i = 1; i <= maxLevel_; i++) {
+		levelPreview_.push_back("Level"+ std::to_string(i));
+	}
 #pragma endregion
 }
 
@@ -346,30 +401,39 @@ void EnemyManager::CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, c
 		// 武器の最低保証
 		.AddValue<int>("MinRarity", &data.minWeaponRarity)
 		.EndGroup()
-		// 攻撃パラメータ
-		.BeginGroup("Attack")
-		// 係数
-		.AddValue<float>("Multiply", &data.attackMultiply)
-		.EndGroup()
-		// 速度倍率
-		.AddValue<float>("SpeedMultiply", &data.speedMultiply)
 		// 体力
 		.AddValue<float>("HP", &data.hp)
+
+		.CheckJsonFile();
+}
+
+void EnemyManager::CreateLevelJsonData(LWP::Utility::JsonIO& json, LevelParameter& data, const std::string& jsonName) {
+	// ファイル名
+	std::string fileName = jsonName + ".json";
+	json.Init(fileName)
+		// 係数
+		.AddValue<float>("AttackMultiply", &data.attackMultiply)
+		// 速度倍率
+		.AddValue<float>("SpeedMultiply", &data.speedMultiply)
 		// レベル
-		.AddValue<int>("Level", &data.level)
+		.AddValue<int>("Level", &data.value)
 
 		.CheckJsonFile();
 }
 
 void EnemyManager::SelectEnemyDataGui(LWP::Utility::JsonIO& json, EnemyData& data) {
 	// 調整項目
-	if (ImGui::TreeNode("Json")) {
+	if (ImGui::TreeNode("Enemy")) {
 		if (ImGui::Button("Save")) {
 			json.Save();
 		}
+		ImGui::SameLine();
 		if (ImGui::Button("Load")) {
 			json.Load();
 		}
+
+		// 作成する敵を選択
+		SelectCreateEnemy();
 
 		// 調整する敵の種類
 		data.type = selectCreateEnemyType_;
@@ -377,6 +441,7 @@ void EnemyManager::SelectEnemyDataGui(LWP::Utility::JsonIO& json, EnemyData& dat
 		// 使用するビヘイビアツリーを選択
 		SelectJsonFile();
 		data.BTFileName = enemyBTFileNamePreview_[selectBTFileName_];
+
 		// 武器
 		if (ImGui::TreeNode("Weapon")) {
 			weaponTypePreview_ = WeaponManager::GetInstance()->GetWeaponTypePreview();
@@ -405,18 +470,33 @@ void EnemyManager::SelectEnemyDataGui(LWP::Utility::JsonIO& json, EnemyData& dat
 
 			ImGui::TreePop();
 		}
-		// 攻撃
-		if (ImGui::TreeNode("Attack")) {
-			// 倍率
-			ImGui::DragFloat("Multiply", &data.attackMultiply, 0.1f, 0.0f);
-			ImGui::TreePop();
-		}
-		// 速度倍率
-		ImGui::DragFloat("SpeedMultiply", &data.speedMultiply, 0.01f, 0.0f);
+
 		// HP
 		ImGui::DragFloat("HP", &data.hp, 0.1f);
-		// レアリティ
-		ImGui::DragInt("Level", &data.level, 1, -1);
+
+		ImGui::TreePop();
+	}
+}
+
+void EnemyManager::SelectLevelGui(LWP::Utility::JsonIO& json, LevelParameter& data) {
+	// 調整項目
+	if (ImGui::TreeNode("Level")) {
+		if (ImGui::Button("Save")) {
+			data.value = selectLevel_;
+			json.Save();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Load")) {
+			json.Load();
+		}
+
+		// 使用するレベルを選択
+		SelectLevel("Level");
+
+		// 攻撃倍率
+		ImGui::DragFloat("AttackMultiply", &data.attackMultiply, 0.1f, 0.0f);
+		// 速度倍率
+		ImGui::DragFloat("SpeedMultiply", &data.speedMultiply, 0.01f, 0.0f);
 
 		ImGui::TreePop();
 	}

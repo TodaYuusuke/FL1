@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../Componets/BehaviourTree/Actor/ActorHealth.h"
+#include "../../../Componets/BehaviourTree/Actor/Health.h"
 #include "../../../Componets/BehaviourTree/BehaviorTreeUtility.h"
 #include "../../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../../../Componets/BehaviourTree/INode.h"

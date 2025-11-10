@@ -1,7 +1,4 @@
 {
-    "Group :Attack": {
-        "float :Multiply": 1.0
-    },
     "Group :Weapon": {
         "Group :Hand": {
             "Group :Left": {
@@ -22,7 +19,5 @@
         "int32_t :MinRarity": 0
     },
     "float :HP": 100.0,
-    "float :SpeedMultiply": 1.0,
-    "int32_t :Level": 1,
     "string :BTFileName": ""
 }

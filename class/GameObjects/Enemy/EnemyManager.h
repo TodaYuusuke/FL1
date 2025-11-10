@@ -66,6 +66,10 @@ private:// デバッグ用の関数群
 	/// </summary>
 	void SelectJsonFile();
 	/// <summary>
+	/// 統制するレベル(デバッグ用)
+	/// </summary>
+	void SelectLevel(const std::string& label);
+	/// <summary>
 	/// 作成したい武器の種類を選択(デバッグ用)
 	/// </summary>
 	void SelectWeaponType(int& selectedWeaponType, std::string label);
@@ -83,9 +87,21 @@ private:// デバッグ用の関数群
 	/// </summary>
 	void CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, const std::string& jsonName);
 	/// <summary>
+	/// 敵レベルのjsonファイル作成
+	/// </summary>
+	/// <param name="json"></param>
+	/// <param name="data"></param>
+	/// <param name="jsonName"></param>
+	void CreateLevelJsonData(LWP::Utility::JsonIO& json, LevelParameter& data, const std::string& jsonName);
+	/// <summary>
 	/// 選択された武器のguiの表示
 	/// </summary>
 	void SelectEnemyDataGui(LWP::Utility::JsonIO& json, EnemyData& data);
+	/// <summary>
+	/// 選択されたレベルの表示
+	/// </summary>
+	/// <param name="json"></param>
+	void SelectLevelGui(LWP::Utility::JsonIO& json, LevelParameter& data);
 
 public:// アクセサ
 #pragma region Getter
@@ -134,6 +150,10 @@ private:// デバッグ用変数
 	// behaviorTreeのファイル名一覧
 	std::vector<std::string> enemyBTFileNamePreview_;
 	int selectBTFileName_;
+	// レベル一覧
+	std::vector<std::string> levelPreview_;
+	int maxLevel_ = 10;
+	int selectLevel_;
 
 	// 作成できる武器種一覧
 	std::vector<std::string> weaponTypePreview_;
@@ -146,6 +166,11 @@ private:// デバッグ用変数
 	std::map<int, EnemyData> sampleEnemies_;
 	// jsonファイル作成
 	std::map<int, LWP::Utility::JsonIO> jsonDatas_;
+
+	// 調整されたレベルのオリジナル
+	std::map<int, LevelParameter> sampleLevels_;
+	// レベルjsonファイル作成
+	std::map<int, LWP::Utility::JsonIO> levelJsonDatas_;
 
 private:// 外部から受け取る変数
 	IWorld* pWorld_;

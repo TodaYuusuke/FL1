@@ -32,5 +32,8 @@ void BulletManager::Update() {
 }
 
 void BulletManager::CreateBullet(BulletBase* bullet) {
+	// 名前
+	bullet->SetName("Bullet" + std::to_string(createID_));
 	bullets_.push_back(bullet);
+	createID_++;
 }

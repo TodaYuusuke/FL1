@@ -11,12 +11,23 @@ enum class EnemyType {
 	kCount
 };
 
+struct LevelParameter {
+	// レベル
+	int value = 1;
+	// 攻撃倍率
+	float attackMultiply = 1.0f;
+	// 移動速度倍率
+	float speedMultiply = 1.0f;
+};
+
 /// <summary>
 /// 敵の調整データ
 /// </summary>
 struct EnemyData {
 	// 使用する行動パターン(BehaviorTreeのファイル名)
 	std::string BTFileName;
+	// モデル名
+	std::string modelName;
 	// 種類
 	int type = 0;
 	// 所持する武器種と搭載位置
@@ -31,6 +42,7 @@ struct EnemyData {
 	float attackMultiply = 1.0f;
 	// 移動速度倍率
 	float speedMultiply = 1.0f;
+
 	// 体力
 	float hp = 100.0f;
 
@@ -62,6 +74,18 @@ namespace EnemyConfig {
 			"resources/json/BT/BT_Melee.json",
 			"resources/json/BT/BT_Gunner.json",
 			"resources/json/BT/BT_Drone.json"
+		};
+	}
+
+	// モデル名前
+	namespace ModelName {
+		// モデル名
+		// 順番はEnemyType準拠
+		inline std::array<std::string, (int)EnemyType::kCount> modelName = {
+			"resources/system/model/standard/sphere.gltf",		// 近距離
+			"resources/system/model/standard/sphere.gltf",		// 遠距離
+			"resources/model/Enemy/Drone/Drone.gltf",			// ドローン
+			"resources/system/model/standard/sphere.gltf"		// テスト敵
 		};
 	}
 
