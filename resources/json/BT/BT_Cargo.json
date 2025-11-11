@@ -1,0 +1,106 @@
+[
+    {
+        "children": [
+            9,
+            21
+        ],
+        "id": 13,
+        "name": "Sequence",
+        "parent": -1,
+        "pos_x": -5.999969482421875,
+        "pos_y": -118.0,
+        "speed": 0.0,
+        "type": 0
+    },
+    {
+        "children": [
+            10
+        ],
+        "id": 9,
+        "name": "RunOnce",
+        "parent": 13,
+        "pos_x": 119.0,
+        "pos_y": -217.0,
+        "speed": 0.0,
+        "type": 1
+    },
+    {
+        "children": [],
+        "id": 10,
+        "name": "WaitLeaf",
+        "parent": 9,
+        "pos_x": 212.00003051757813,
+        "pos_y": -216.0,
+        "speed": 0.0,
+        "type": 3,
+        "wait_time": 60.0
+    },
+    {
+        "children": [],
+        "id": 17,
+        "name": "EscapeFromPlayerLeaf",
+        "parent": 21,
+        "pos_x": 330.6007080078125,
+        "pos_y": 196.92465209960938,
+        "speed": 0.029999999329447746,
+        "type": 3
+    },
+    {
+        "children": [
+            19
+        ],
+        "id": 18,
+        "name": "Sequence",
+        "parent": 21,
+        "pos_x": 340.9999694824219,
+        "pos_y": -9.999984741210938,
+        "speed": 0.0,
+        "type": 0
+    },
+    {
+        "children": [
+            18,
+            17
+        ],
+        "id": 21,
+        "name": "Selector",
+        "parent": 13,
+        "pos_x": 152.0,
+        "pos_y": 104.00003051757813,
+        "speed": 0.0,
+        "type": 0
+    },
+    {
+        "children": [],
+        "id": 26,
+        "name": "AlwaysFailLeaf",
+        "parent": 19,
+        "pos_x": 680.0,
+        "pos_y": 69.00001525878906,
+        "speed": 0.0,
+        "type": 3
+    },
+    {
+        "false_child": 26,
+        "id": 19,
+        "limit_distance": 40.0,
+        "name": "CheckFarPlayer",
+        "parent": 18,
+        "pos_x": 436.2574768066406,
+        "pos_y": -21.090484619140625,
+        "speed": 0.0,
+        "true_child": 20,
+        "type": 2
+    },
+    {
+        "children": [],
+        "id": 20,
+        "name": "WaitLeaf",
+        "parent": 19,
+        "pos_x": 675.0,
+        "pos_y": -36.99999237060547,
+        "speed": 0.0,
+        "type": 3,
+        "wait_time": 60.0
+    }
+]

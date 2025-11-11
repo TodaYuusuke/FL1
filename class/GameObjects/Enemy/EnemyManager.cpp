@@ -2,6 +2,7 @@
 #include "Melee/MeleeAttacker.h"
 #include "Gunner/Gunner.h"
 #include "Drone/Drone.h"
+#include "Cargo/Cargo.h"
 #include "Test/TestEnemy.h"
 #include "../Weapon/Gun/MachineGun/MachineGun.h"
 #include "../Weapon/WeaponManager.h"
@@ -91,7 +92,7 @@ void EnemyManager::DebugGui() {
 		if (ImGui::TreeNode("BT edit")) {
 			// 読み込むファイルを選択
 			SwitchNodeEditorCanvas(btEditor_->GetEditorContext());
-			SelectJsonFile();
+			SelectJsonFile("JsonFile");
 			// 読み込み
 			if (ImGui::Button("Load")) {
 				btEditor_->SelectLoadFile(enemyBTFileNamePreview_[selectBTFileName_]);
@@ -105,7 +106,7 @@ void EnemyManager::DebugGui() {
 		// 敵作成
 		if (ImGui::TreeNode("Create")) {
 			// 作成する敵を選択
-			SelectCreateEnemy();
+			SelectCreateEnemy("EnemyType");
 			// 使用するレベルを選択
 			SelectLevel("Level");
 
@@ -185,6 +186,24 @@ Actor* EnemyManager::CreateDroneEnemy() {
 	return actor;
 }
 
+Actor* EnemyManager::CreateCargoEnemy() {
+	// 調整情報
+	EnemyData data = sampleEnemies_[(int)EnemyType::kCargo];
+	data.attackMultiply = sampleLevels_[selectLevel_].attackMultiply;
+	data.speedMultiply = sampleLevels_[selectLevel_].speedMultiply;
+	data.level = sampleLevels_[selectLevel_].value;
+
+	// 遠距離敵
+	Cargo* actor = new Cargo(pWorld_, createID_, data);
+	actor->SetTranslation(createPos_);
+
+	// 武器を付与
+	GiveWeapon(actor, sampleEnemies_[(int)EnemyType::kCargo]);
+	createID_++;
+
+	return actor;
+}
+
 void EnemyManager::GiveWeapon(Actor* actor, const EnemyData& data) {
 	for (int i = 0; i < data.containWeaponTypes.size(); i++) {
 		if (data.containWeaponTypes[i] >= (int)WeaponType::kCount) { continue; }
@@ -225,6 +244,9 @@ Actor* EnemyManager::CreateEnemy() {
 	case (int)EnemyType::kDrone:
 		return CreateDroneEnemy();
 		break;
+	case (int)EnemyType::kCargo:
+		return CreateCargoEnemy();
+		break;
 		// テスト
 	case (int)EnemyType::kTest:
 		return CreateTestEnemy();
@@ -235,12 +257,12 @@ Actor* EnemyManager::CreateEnemy() {
 	}
 }
 
-void EnemyManager::SelectCreateEnemy() {
+void EnemyManager::SelectCreateEnemy(const std::string& label) {
 	ImGui::Text("Select create enemy");
 	// 追加する敵のプレビュー作成
 	if (!enemyTypePreview_.empty()) {
 		const char* combo_preview_value = enemyTypePreview_[selectCreateEnemyType_].c_str();
-		if (ImGui::BeginCombo((" "), combo_preview_value)) {
+		if (ImGui::BeginCombo((label.c_str()), combo_preview_value)) {
 			for (int n = 0; n < enemyTypePreview_.size(); n++) {
 				const bool is_selected = ((int)selectCreateEnemyType_ == n);
 				if (ImGui::Selectable(enemyTypePreview_[n].c_str(), is_selected)) {
@@ -259,12 +281,12 @@ void EnemyManager::SelectCreateEnemy() {
 	}
 }
 
-void EnemyManager::SelectJsonFile() {
+void EnemyManager::SelectJsonFile(const std::string& label) {
 	ImGui::Text("Select Behavior-Tree file");
 	// 読み込むbehaviorTreeのプレビュー作成
 	if (!enemyBTFileNamePreview_.empty()) {
 		const char* combo_preview_value = enemyBTFileNamePreview_[selectBTFileName_].c_str();
-		if (ImGui::BeginCombo((" "), combo_preview_value)) {
+		if (ImGui::BeginCombo((label.c_str()), combo_preview_value)) {
 			for (int n = 0; n < enemyBTFileNamePreview_.size(); n++) {
 				const bool is_selected = ((int)selectBTFileName_ == n);
 				if (ImGui::Selectable(enemyBTFileNamePreview_[n].c_str(), is_selected)) {
@@ -436,13 +458,13 @@ void EnemyManager::SelectEnemyDataGui(LWP::Utility::JsonIO& json, EnemyData& dat
 		}
 
 		// 作成する敵を選択
-		SelectCreateEnemy();
+		SelectCreateEnemy("EnemyType");
 
 		// 調整する敵の種類
 		data.type = selectCreateEnemyType_;
 
 		// 使用するビヘイビアツリーを選択
-		SelectJsonFile();
+		SelectJsonFile("JsonFile");
 		data.BTFileName = enemyBTFileNamePreview_[selectBTFileName_];
 
 		// 武器

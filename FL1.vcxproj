@@ -150,6 +150,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="class\GameObjects\Enemy\Cargo\Cargo.cpp" />
     <ClCompile Include="class\Componets\BehaviourTree\DecoratorNode\RunOnce.cpp" />
     <ClCompile Include="class\Componets\BehaviourTree\LeafNode\ReadyToAttackLeaf.cpp" />
     <ClCompile Include="class\Componets\HitStopController.cpp" />
@@ -218,6 +219,7 @@
     <ClCompile Include="class\GameObjects\Weapon\WeaponManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="class\GameObjects\Enemy\Cargo\Cargo.h" />
     <ClInclude Include="class\Componets\BehaviourTree\DecoratorNode\RunOnce.h" />
     <ClInclude Include="class\Componets\BehaviourTree\LeafNode\ReadyToAttackLeaf.h" />
     <ClInclude Include="class\Componets\HitStopController.h" />

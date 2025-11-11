@@ -7,6 +7,7 @@ enum class EnemyType {
 	kMelee,
 	kGunner,
 	kDrone,
+	kCargo,
 	kTest,
 	kCount
 };
@@ -62,6 +63,7 @@ namespace EnemyConfig {
 			"Melee",
 			"Gunner",
 			"Drone",
+			"Cargo",
 			"Test"
 		};
 	}
@@ -70,10 +72,11 @@ namespace EnemyConfig {
 	namespace BTFileName {
 		// ビヘイビアツリーのファイル名
 		// 順番はEnemyType準拠
-		inline std::array<std::string, 3> fileName = {
+		inline std::array<std::string, (int)EnemyType::kCount - 1> fileName = {
 			"resources/json/BT/BT_Melee.json",
 			"resources/json/BT/BT_Gunner.json",
-			"resources/json/BT/BT_Drone.json"
+			"resources/json/BT/BT_Drone.json",
+			"resources/json/BT/BT_Cargo.json"
 		};
 	}
 
@@ -85,6 +88,7 @@ namespace EnemyConfig {
 			"resources/system/model/standard/sphere.gltf",		// 近距離
 			"resources/system/model/standard/sphere.gltf",		// 遠距離
 			"resources/model/Enemy/Drone/Drone.gltf",			// ドローン
+			"resources/system/model/standard/sphere.gltf",		// 輸送機
 			"resources/system/model/standard/sphere.gltf"		// テスト敵
 		};
 	}

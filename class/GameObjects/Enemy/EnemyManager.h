@@ -41,6 +41,11 @@ private:
 	/// 浮遊敵生成
 	/// </summary>
 	Actor* CreateDroneEnemy();
+	/// <summary>
+	/// 輸送機生成
+	/// </summary>
+	/// <returns></returns>
+	Actor* CreateCargoEnemy();
 
 	/// <summary>
 	/// 武器を付与
@@ -60,11 +65,11 @@ private:// デバッグ用の関数群
 	/// <summary>
 	/// 作成する敵を選択(デバッグ用)
 	/// </summary>
-	void SelectCreateEnemy();
+	void SelectCreateEnemy(const std::string& label);
 	/// <summary>
 	/// 読み込むjsonファイル選択(デバッグ用)
 	/// </summary>
-	void SelectJsonFile();
+	void SelectJsonFile(const std::string& label);
 	/// <summary>
 	/// 統制するレベル(デバッグ用)
 	/// </summary>
