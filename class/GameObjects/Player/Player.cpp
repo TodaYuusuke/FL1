@@ -11,6 +11,8 @@ Player::Player(Camera* camera) {
 	tag_ = "Player";
 	name_ = "Player";
 	attackPower_ = 10;
+	// HP
+	hp_ = std::make_unique<Health>(100.0f);
 
 	// 黒板生成
 	blackBoard_ = new BlackBoard();
@@ -53,6 +55,10 @@ void Player::Init() {
 }
 
 void Player::Update() {
+	// HP
+	hp_->Update();
+
+	// 偏差射撃
 	leadingSystem_->Update();
 
 	// 移動系統の行動

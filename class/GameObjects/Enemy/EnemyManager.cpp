@@ -75,10 +75,9 @@ void EnemyManager::Update() {
 }
 
 void EnemyManager::DebugGui() {
-	if (ImGui::BeginTabItem("Enemys")) {
+	if (ImGui::BeginTabItem("Enemies")) {
 		// jsonによる調整データ
 		if (ImGui::TreeNode("Json")) {
-
 			// 調整するレベル
 			SelectLevelGui(levelJsonDatas_[selectLevel_], sampleLevels_[selectLevel_]);
 
@@ -93,6 +92,7 @@ void EnemyManager::DebugGui() {
 			// 読み込むファイルを選択
 			SwitchNodeEditorCanvas(btEditor_->GetEditorContext());
 			SelectJsonFile("JsonFile");
+
 			// 読み込み
 			if (ImGui::Button("Load")) {
 				btEditor_->SelectLoadFile(enemyBTFileNamePreview_[selectBTFileName_]);

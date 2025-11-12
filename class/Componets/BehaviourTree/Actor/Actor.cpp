@@ -9,12 +9,18 @@ using namespace LWP::Math;
 Actor::Actor() : 
 	bodyAABB_(bodyCollision_.SetBroadShape(LWP::Object::Collider::AABB()))
 {
-
+	
 }
 
 void Actor::Init() {}
 
 void Actor::Update(){
+	// 体力がなければ死亡
+	if (hp_->GetIsDead()) isAlive_ = false;
+
+	// HP
+	hp_->Update();
+
 	// 状態
 	if(state_) state_->Update();
 
@@ -56,8 +62,21 @@ void Actor::Attack() {
 }
 
 void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
-	hitTarget;
-	isAlive_ = false;
+	// 被弾中
+	hp_->SetIsHit(true);
+
+	// 多重被弾回避
+	if(!hp_->GetDamageAttackerName().empty()){
+		auto result = std::find(hp_->GetDamageAttackerName().begin(), hp_->GetDamageAttackerName().end(), hitTarget->name);
+		if (result != hp_->GetDamageAttackerName().end()) {
+			return;
+		}
+	}
+
+	// 攻撃者の名前
+	hp_->SetAttackerName(hitTarget->name);
+	// ダメージを受ける
+	hp_->Damage(50.0f);
 }
 
 void Actor::ChangeState(StateBase* nextState) {

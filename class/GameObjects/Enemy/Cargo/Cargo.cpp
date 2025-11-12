@@ -13,47 +13,47 @@ Cargo::Cargo(IWorld* world, int ID, const EnemyData& data) {
 	stopController_ = HitStopController::GetInstance();
 
 	world_ = world;
-	// »‘¢”Ô†
+	// è£½é€ ç•ªå·
 	ID_ = ID;
-	// ’²®î•ñ
+	// èª¿æ•´æƒ…å ±
 	data_ = data;
-	// ¯•Êƒ^ƒO
+	// è­˜åˆ¥ã‚¿ã‚°
 	tag_ = EnemyConfig::tag;
-	// ¯•Ê–¼
+	// è­˜åˆ¥å
 	name_ = EnemyConfig::name + std::to_string(ID_);
 	// HP
 	hp_ = std::make_unique<Health>(data_.hp);
-	// UŒ‚—Í
+	// æ”»æ’ƒåŠ›
 	attackPower_ = 1;
 
-	// ƒ‚ƒfƒ‹¶¬
+	// ãƒ¢ãƒ‡ãƒ«ç”Ÿæˆ
 	model_.LoadFullPath(data.modelName);
 
-	// •”Â¶¬
+	// é»’æ¿ç”Ÿæˆ
 	blackBoard_ = new BlackBoard();
 	blackBoard_->SetValue<Actor*>(EnemyConfig::name, this);
-	// ©‹@‚ÌƒAƒhƒŒƒX‚ğİ’è
+	// è‡ªæ©Ÿã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¨­å®š
 	auto* player = world->FindActor("Player");
 	assert(player);
 	blackBoard_->SetValue<Actor*>("Player", player);
 
-	// ƒrƒwƒCƒrƒAƒcƒŠ[‚Ì•ÒWƒNƒ‰ƒX
+	// ãƒ“ãƒ˜ã‚¤ãƒ“ã‚¢ãƒ„ãƒªãƒ¼ã®ç·¨é›†ã‚¯ãƒ©ã‚¹
 	btEditor_ = std::make_unique<BehaviorTreeGraph>(false);
 	btEditor_->SelectLoadFile(data.BTFileName);
-	// ƒrƒwƒCƒrƒAƒcƒŠ[¶¬
+	// ãƒ“ãƒ˜ã‚¤ãƒ“ã‚¢ãƒ„ãƒªãƒ¼ç”Ÿæˆ
 	bt_ = BehaviourTreeBuilder::BuildAttackerTree(data.BTFileName, blackBoard_);
 	bt_->Init();
 
-	// ‘Ì‚Ì”»’è¶¬
+	// ä½“ã®åˆ¤å®šç”Ÿæˆ
 	LWP::Math::Vector3 size = model_.worldTF.scale / 2.0f;
 	bodyAABB_.min = size * -1.0f;
 	bodyAABB_.max = size;
 	bodyCollision_.name = name_;
 	bodyCollision_.SetFollow(&model_.worldTF);
 	bodyCollision_.isActive = true;
-	// ©‹@‚ÌŠ‘®‚µ‚Ä‚¢‚éƒ}ƒXƒN‚ğİ’è
+	// è‡ªæ©Ÿã®æ‰€å±ã—ã¦ã„ã‚‹ãƒã‚¹ã‚¯ã‚’è¨­å®š
 	bodyCollision_.mask.SetBelongFrag(GameMask::enemy);
-	// “–‚½‚è”»’è‚ğ‚Æ‚é‘ÎÛ‚Ìƒ}ƒXƒN‚ğİ’è
+	// å½“ãŸã‚Šåˆ¤å®šã‚’ã¨ã‚‹å¯¾è±¡ã®ãƒã‚¹ã‚¯ã‚’è¨­å®š
 	bodyCollision_.mask.SetHitFrag(GameMask::attack);
 	bodyCollision_.stayLambda = [this](LWP::Object::Collision* hitTarget) {
 		OnCollision(hitTarget);

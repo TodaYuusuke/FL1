@@ -9,22 +9,22 @@
 
 class IWorld;
 /// <summary>
-/// —A‘—‹@(í‚É“¦‚°‚é)
+/// è¼¸é€æ©Ÿ(å¸¸ã«é€ƒã’ã‚‹)
 /// </summary>
 class Cargo : public Actor {
 public:
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Cargo(IWorld* world, int ID, const EnemyData& data);
-	//ƒfƒXƒgƒ‰ƒNƒ^
+	//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	~Cargo() override;
 
-	// BehaviorTree‚Ì’†‚ÅŒ»İ“®‚¢‚Ä‚¢‚éƒm[ƒh‚ÌID‚ğæ“¾
+	// BehaviorTreeã®ä¸­ã§ç¾åœ¨å‹•ã„ã¦ã„ã‚‹ãƒãƒ¼ãƒ‰ã®IDã‚’å–å¾—
 	const int GetBTRunningNodeID() const;
 
 private:
-	// •ŠíƒŠƒXƒg
+	// æ­¦å™¨ãƒªã‚¹ãƒˆ
 	std::map<int, IWeapon*> weapons_;
 
-	// ¯•Ê”Ô†
+	// è­˜åˆ¥ç•ªå·
 	int ID_;
 };
