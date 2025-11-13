@@ -48,9 +48,6 @@ void EnemyManager::Init() {
 
 void EnemyManager::Update() {
 	for (Actor* actor : enemies_) {
-		// 前回の座標
-		actor->SetPreTranslation(actor->GetWorldTF()->GetWorldPosition());
-
 		actor->Update();
 	}
 	// 削除

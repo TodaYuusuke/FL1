@@ -176,7 +176,7 @@ void IGun::AttackCommond() {
 			randomVec = LWP::Utility::Random::GenerateVector3(min, max);
 		}
 		// 弾生成
-		Bullet* bullet = new Bullet(body_.worldTF.GetWorldPosition(), randomVec + shotDirVel_ * 1.0f, bulletHitFragBit_);
+		Bullet* bullet = new Bullet(body_.worldTF.GetWorldPosition(), randomVec + shotDirVel_ * 1.0f, bulletHitFragBit_, data_.attackValue, data_.bulletSpeed);
 		pBulletManager_->CreateBullet(bullet);
 
 		i--;

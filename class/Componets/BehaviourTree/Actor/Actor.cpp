@@ -1,4 +1,5 @@
 #include "Actor.h"
+#include "../../../GameObjects/World/World.h"
 #include "../../../GameObjects/Enemy/State/StateBase.h"
 #include "../../../GameObjects/Weapon/IWeapon.h"
 #include "../../../GameObjects/Collision/CollisionMask.h"
@@ -15,8 +16,11 @@ Actor::Actor() :
 void Actor::Init() {}
 
 void Actor::Update(){
+	// 前回の座標
+	SetPreTranslation(GetWorldTF()->GetWorldPosition());
+
 	// 体力がなければ死亡
-	if (hp_->GetIsDead()) isAlive_ = false;
+	if (hp_->GetIsDead()) { isAlive_ = false; }
 
 	// HP
 	hp_->Update();
@@ -76,7 +80,7 @@ void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
 	// 攻撃者の名前
 	hp_->SetAttackerName(hitTarget->name);
 	// ダメージを受ける
-	hp_->Damage(50.0f);
+	hp_->Damage(world_->FindAttackPower(hitTarget->name));
 }
 
 void Actor::ChangeState(StateBase* nextState) {

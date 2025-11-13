@@ -1,5 +1,7 @@
 #include "World.h"
 #include "Scene/IScene.h"
+#include "../../GameObjects/Bullets/BulletManager.h"
+#include "../../GameObjects/Weapon/WeaponManager.h"
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
 
 //デストラクタ
@@ -52,4 +54,13 @@ int World::CountActor() const {
 //指定したタグ名を持つアクター数を返す
 int World::CountActorWithTag(const std::string& tag) const {
 	return actorManager.CountWithTag(tag);
+}
+
+float World::FindAttackPower(const std::string& name) {
+	// 自機、障害物オブジェクト
+	if (actorManager.Find(name)) {
+		return actorManager.Find(name)->GetAttackPower();
+	}
+	
+	return BulletManager::GetInstance()->FindBullet(name)->GetAttackPower();
 }

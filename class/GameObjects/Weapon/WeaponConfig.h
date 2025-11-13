@@ -53,7 +53,7 @@ struct WeaponData {
 	LWP::Math::Vector3 diffusingBulletRange;	// 弾の拡散範囲[0～1]
 	int bulletNum;								// 弾数
 	float bulletSpeed = 1.0f;					// 弾速
-	float attackValue;							// 攻撃力
+	float attackValue = 50.0f;					// 攻撃力
 	float coolTime;								// 撃てない時間[秒]
 	float reloadTime;							// リロード時間[秒]
 	int rarity;									// レアリティ

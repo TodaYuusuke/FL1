@@ -30,6 +30,13 @@ public:// アクセサ
 	//指定したタグ名を持つアクター数を返す
 	virtual int CountActorWithTag(const std::string& tag) const override;
 
+	/// <summary>
+	/// 任意のオブジェクトの攻撃力を検索
+	/// </summary>
+	/// <param name="name"></param>
+	/// <returns></returns>
+	float FindAttackPower(const std::string& name) override;
+
 public:
 	//コピー禁止
 	World(const World& other) = delete;

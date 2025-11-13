@@ -29,6 +29,20 @@ public:// アクセサ
 	/// </summary>
 	void CreateBullet(BulletBase* bullet);
 
+	/// <summary>
+	/// 特定の弾を検索
+	/// </summary>
+	/// <param name="name"></param>
+	/// <returns></returns>
+	BulletBase* FindBullet(const std::string& name) {
+		auto result = std::find_if(bullets_.begin(), bullets_.end(),
+			[&](BulletBase* bullet) { return bullet->GetName() == name; }
+		);
+		if (result == bullets_.end()) return nullptr;
+
+		return *result;
+	}
+
 private:
 	// 弾リスト
 	std::list<BulletBase*> bullets_;

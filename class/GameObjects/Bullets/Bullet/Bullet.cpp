@@ -1,9 +1,12 @@
 #include "Bullet.h"
+#include "../BulletBase.h"
 #include "../../Collision/CollisionMask.h"
 
 using namespace FLMath;
 
-Bullet::Bullet(const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel, int hitFragBit) {
+Bullet::Bullet(const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel, int hitFragBit, float attackPower, float speed)
+	: BulletBase(attackPower, speed)
+{
 	stopController_ = HitStopController::GetInstance();
 
 	// モデルの読み込み
@@ -42,7 +45,7 @@ void Bullet::Init() {
 
 void Bullet::Update() {
 	// 座標変更
-	body_.worldTF.translation += vel_ * stopController_->GetDeltaTime();
+	body_.worldTF.translation += vel_ * moveSpeed_ * stopController_->GetDeltaTime();
 
 	// 角度変更
 	body_.worldTF.rotation = LookRotationZLock(vel_);

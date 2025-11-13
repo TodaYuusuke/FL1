@@ -9,7 +9,7 @@
 class BulletBase {
 public:
 	// コンストラクタ
-	BulletBase();
+	BulletBase(float attackPower, float speed);
 	// デストラクタ
 	virtual ~BulletBase() = default;
 
@@ -31,6 +31,16 @@ protected:
 public:// アクセサ
 #pragma region Getter
 	/// <summary>
+	/// 名前を取得
+	/// </summary>
+	/// <returns></returns>
+	std::string GetName() { return bodyCollision_.name; }
+	/// <summary>
+	/// 攻撃力を取得
+	/// </summary>
+	/// <returns></returns>
+	float GetAttackPower() { return attackPower_; }
+	/// <summary>
 	/// 生存しているかを取得
 	/// </summary>
 	/// <returns></returns>
@@ -43,6 +53,11 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="name"></param>
 	void SetName(const std::string& name) { bodyCollision_.name = name; }
+	/// <summary>
+	/// 攻撃力を設定
+	/// </summary>
+	/// <returns></returns>
+	void SetAttackPower(float value) { attackPower_ = value; }
 #pragma endregion
 
 protected:
@@ -58,6 +73,11 @@ protected:
 
 	// 速度
 	LWP::Math::Vector3 vel_ = { 0.0f,0.0f,1.0f };
+
+	// 攻撃力
+	float attackPower_;
+	// 移動速度
+	float moveSpeed_;
 
 	// 生存しているか
 	bool isAlive_ = true;

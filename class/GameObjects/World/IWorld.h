@@ -22,6 +22,12 @@ public:
 	virtual int CountActor() const = 0;
 	//指定したタグ名を持つアクター数を返す
 	virtual int CountActorWithTag(const std::string& tag) const = 0;
+	/// <summary>
+	/// 任意のオブジェクトの攻撃力を検索
+	/// </summary>
+	/// <param name="name"></param>
+	/// <returns></returns>
+	virtual float FindAttackPower(const std::string& name) = 0;
 };
 
 #endif // !IWORLD_H_
