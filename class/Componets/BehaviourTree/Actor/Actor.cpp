@@ -66,21 +66,8 @@ void Actor::Attack() {
 }
 
 void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
-	// 被弾中
-	hp_->SetIsHit(true);
-
-	// 多重被弾回避
-	if(!hp_->GetDamageAttackerName().empty()){
-		auto result = std::find(hp_->GetDamageAttackerName().begin(), hp_->GetDamageAttackerName().end(), hitTarget->name);
-		if (result != hp_->GetDamageAttackerName().end()) {
-			return;
-		}
-	}
-
-	// 攻撃者の名前
-	hp_->SetAttackerName(hitTarget->name);
 	// ダメージを受ける
-	hp_->Damage(world_->FindAttackPower(hitTarget->name));
+	hp_->Damage(world_->FindAttackPower(hitTarget->name), hitTarget->name);
 }
 
 void Actor::ChangeState(StateBase* nextState) {

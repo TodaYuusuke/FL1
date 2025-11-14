@@ -25,6 +25,7 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="value">減少量</param>
 	void Damage(float value);
+	void Damage(float value, const std::string& name);
 
 #pragma region Getter
 	/// <summary>

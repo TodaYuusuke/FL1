@@ -351,7 +351,6 @@ void WeaponManager::DropWeapon(IWeapon* weapon) {
 }
 
 void WeaponManager::PickUpWeapon(IWeapon* weapon, Actor* target, int weaponSide) {
-	weapon->Init();
 	target->SetWeapon(weapon, weaponSide);
 }
 
