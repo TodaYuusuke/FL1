@@ -423,6 +423,11 @@ void EnemyManager::CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, c
 		// 武器の最低保証
 		.AddValue<int>("MinRarity", &data.minWeaponRarity)
 		.EndGroup()
+		// 当たり判定
+		.BeginGroup("Collider")
+		.AddValue<Vector3>("Min", &data.colliderMin)
+		.AddValue<Vector3>("Max", &data.colliderMax)
+		.EndGroup()
 		// 体力
 		.AddValue<float>("HP", &data.hp)
 
@@ -490,6 +495,13 @@ void EnemyManager::SelectEnemyDataGui(LWP::Utility::JsonIO& json, EnemyData& dat
 			SelectWeaponRarity();
 			data.minWeaponRarity = selectedWeaponRarity_;
 
+			ImGui::TreePop();
+		}
+
+		// 当たり判定
+		if (ImGui::TreeNode("Collider")) {
+			ImGui::DragFloat3("Min", &data.colliderMin.x, 0.01f);
+			ImGui::DragFloat3("Max", &data.colliderMax.x, 0.01f);
 			ImGui::TreePop();
 		}
 

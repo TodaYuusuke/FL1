@@ -17,7 +17,7 @@ void Actor::Init() {}
 
 void Actor::Update(){
 	// 前回の座標
-	SetPreTranslation(GetWorldTF()->GetWorldPosition());
+	SetPreTranslation(model_.GetJointWorldPosition("LockOnAnchor"));
 
 	// 体力がなければ死亡
 	if (hp_->GetIsDead()) { isAlive_ = false; }

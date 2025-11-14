@@ -9,7 +9,7 @@ TestEnemy::TestEnemy() {
 	attackPower_ = 1;
 
 	// モデル生成
-	model_.LoadSphere();
+	model_.LoadFullPath(EnemyConfig::ModelName::modelName[(int)EnemyType::kTest]);
 
 	velocity_ = { 0.1f,0.0f,0.0f };
 }

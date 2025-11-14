@@ -108,7 +108,7 @@ public:// アクセサ
 	/// 現在位置を取得
 	/// </summary>
 	/// <returns></returns>
-	LWP::Resource::RigidModel GetModel() { return model_; }
+	LWP::Resource::SkinningModel GetModel() { return model_; }
 	/// <summary>
 	/// ワールドトランスフォームを取得
 	/// </summary>
@@ -240,7 +240,7 @@ protected:
 	std::string name_;
 
 	// モデル
-	LWP::Resource::RigidModel model_;
+	LWP::Resource::SkinningModel model_;
 	// 移動量
 	LWP::Math::Vector3 velocity_{ 0.0f,0.0f,0.0f };
 	// 角度

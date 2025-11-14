@@ -95,12 +95,12 @@ void LeadingSystem::SelectLeadingTarget() {
 	Actor* actorBuf = nullptr;
 	for (Actor* actor : pEnemyManager_->GetEnemyList()) {
 		// 自機と敵の距離
-		Vector3 distance = actor->GetWorldTF()->GetWorldPosition() - pCamera_->worldTF.GetWorldPosition();
+		Vector3 distance = actor->GetModel().GetJointWorldPosition("LockOnAnchor") - pCamera_->worldTF.GetWorldPosition();
 		// カメラと敵の距離が一定以上なら終了
 		if (leadingWorldRange_ < distance.Length()) { continue; }
 
 		// 敵がレティクルの一定範囲にいるならロックオン(判定はスクリーン座標で行う)
-		Vector2 screenPos = ConvertWorldToScreen(actor->GetWorldTF()->GetWorldPosition(), pCamera_->GetViewProjection());
+		Vector2 screenPos = ConvertWorldToScreen(actor->GetModel().GetJointWorldPosition("LockOnAnchor"), pCamera_->GetViewProjection());
 		// 画面外に敵がいるなら終了
 		if (screenPos.x < 0.0f && screenPos.x > LWP::Info::GetWindowWidthF() &&
 			screenPos.y < 0.0f && screenPos.y > LWP::Info::GetWindowHeightF()) {
@@ -108,7 +108,7 @@ void LeadingSystem::SelectLeadingTarget() {
 		}
 
 		// カメラの後ろ側なら終了
-		if (!IsObjectInFront(actor->GetWorldTF()->GetWorldPosition(), pCamera_->worldTF.GetWorldPosition(), pCamera_->worldTF.rotation)) {
+		if (!IsObjectInFront(actor->GetModel().GetJointWorldPosition("LockOnAnchor"), pCamera_->worldTF.GetWorldPosition(), pCamera_->worldTF.rotation)) {
 			continue;
 		}
 
@@ -139,7 +139,7 @@ void LeadingSystem::ClearLeadingTarget() {
 	if (pEnemyManager_->GetEnemyList().empty()) { return; }
 
 	// 自機と敵の距離
-	Vector3 distance = leadingTarget_->GetWorldTF()->GetWorldPosition() - pCamera_->worldTF.GetWorldPosition();
+	Vector3 distance = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") - pCamera_->worldTF.GetWorldPosition();
 	// カメラと敵の距離が一定以上なら偏差対象解除
 	if (leadingWorldRange_ < distance.Length()) {
 		leadingTarget_ = nullptr;
@@ -149,7 +149,7 @@ void LeadingSystem::ClearLeadingTarget() {
 	}
 
 	// 敵がレティクルの一定範囲にいるならロックオン(判定はスクリーン座標で行う)
-	Vector2 screenPos = ConvertWorldToScreen(leadingTarget_->GetWorldTF()->GetWorldPosition(), pCamera_->GetViewProjection());
+	Vector2 screenPos = ConvertWorldToScreen(leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor"), pCamera_->GetViewProjection());
 	// 画面外に敵がいるなら偏差対象解除
 	if (screenPos.x < 0.0f && screenPos.x > LWP::Info::GetWindowWidthF() &&
 		screenPos.y < 0.0f && screenPos.y > LWP::Info::GetWindowHeightF()) {
@@ -160,7 +160,7 @@ void LeadingSystem::ClearLeadingTarget() {
 	}
 
 	// カメラの後ろ側なら偏差対象解除
-	if (!IsObjectInFront(leadingTarget_->GetWorldTF()->GetWorldPosition(), pCamera_->worldTF.GetWorldPosition(), pCamera_->worldTF.rotation)) {
+	if (!IsObjectInFront(leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor"), pCamera_->worldTF.GetWorldPosition(), pCamera_->worldTF.rotation)) {
 		leadingTarget_ = nullptr;
 		leadingTargetScreenPos_ = { 0.0f,0.0f };
 		targetFuture_ = centerWorldPos_;
@@ -197,9 +197,9 @@ void LeadingSystem::CalFutureTargetPos(float bulletSpeed) {
 	}
 
 	//目標の1フレームの移動速度
-	Vector3 v3_Mv = leadingTarget_->GetWorldTF()->GetWorldPosition() - leadingTarget_->GetPreTranslation();
+	Vector3 v3_Mv = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") - leadingTarget_->GetPreTranslation();
 	//射撃する位置から見た目標位置
-	Vector3 v3_Pos = leadingTarget_->GetWorldTF()->GetWorldPosition() - shooterPos_;
+	Vector3 v3_Pos = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") - shooterPos_;
 
 	//ピタゴラスの定理から２つのベクトルの長さが等しい場合の式を作り
 	//二次方程式の解の公式を使って弾が当たる予測時間を計算する
@@ -210,11 +210,11 @@ void LeadingSystem::CalFutureTargetPos(float bulletSpeed) {
 	//0割り禁止処理
 	if (A == 0) {
 		if (B == 0) {
-			targetFuture_ = leadingTarget_->GetWorldTF()->GetWorldPosition();
+			targetFuture_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor");
 			return;
 		}
 		else {
-			targetFuture_ = leadingTarget_->GetWorldTF()->GetWorldPosition() + v3_Mv * (-C / B);
+			targetFuture_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") + v3_Mv * (-C / B);
 			return;
 		}
 	}
@@ -237,7 +237,7 @@ void LeadingSystem::CalFutureTargetPos(float bulletSpeed) {
 	}
 
 	// 的の未来位置
-	targetFuture_ = leadingTarget_->GetWorldTF()->GetWorldPosition() + v3_Mv * flame1;
+	targetFuture_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") + v3_Mv * flame1;
 }
 
 Vector3 LeadingSystem::GetLeadingShotAngle(Vector3 shooterPos, float bulletSpeed) {
@@ -246,7 +246,7 @@ Vector3 LeadingSystem::GetLeadingShotAngle(Vector3 shooterPos, float bulletSpeed
 	Start(shooterPos, bulletSpeed);
 
 	//目標の1フレームの移動速度
-	Vector3 v3_Mv = leadingTarget_->GetWorldTF()->GetWorldPosition() - leadingTarget_->GetPreTranslation();
+	Vector3 v3_Mv = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") - leadingTarget_->GetPreTranslation();
 	//射撃する位置から見た目標位置
 	Vector3 v3_Pos = leadingTargetPos_ - shooterPos;
 

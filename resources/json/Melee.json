@@ -1,4 +1,16 @@
 {
+    "Group :Collider": {
+        "Vector3 :Max": [
+            3.0,
+            9.5,
+            1.0
+        ],
+        "Vector3 :Min": [
+            -3.0,
+            -0.5,
+            -1.0
+        ]
+    },
     "Group :Weapon": {
         "Group :Hand": {
             "Group :Left": {
