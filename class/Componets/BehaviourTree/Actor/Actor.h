@@ -125,6 +125,11 @@ public:// アクセサ
 	/// <returns></returns>
 	LWP::Math::Quaternion GetRot() { return quat_; }
 	/// <summary>
+	/// 中心座標を取得
+	/// </summary>
+	/// <returns></returns>
+	virtual LWP::Math::Vector3 GetCenterPosition() { return model_.worldTF.GetWorldPosition(); }
+	/// <summary>
 	/// 前回の座標を取得
 	/// </summary>
 	/// <returns></returns>

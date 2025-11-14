@@ -134,7 +134,7 @@ public:// アクセサ
 	/// 武器の装着位置を設定
 	/// </summary>
 	/// <param name="weapon"></param>
-	void SetWeaponPos(IWeapon* weapon, int weaponSide);
+	void SetWeaponPos(Actor* actor, IWeapon* weapon, int weaponSide);
 #pragma endregion
 
 private:// デバッグ用変数

@@ -31,7 +31,11 @@ public:
 
 public:// アクセサ
 #pragma region Getter
-	
+	/// <summary>
+	/// ワールド座標を取得
+	/// </summary>
+	/// <returns></returns>
+	LWP::Math::Vector3 GetCenterPosition() override;
 #pragma endregion
 
 #pragma region Setter

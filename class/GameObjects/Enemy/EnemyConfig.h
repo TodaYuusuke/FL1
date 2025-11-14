@@ -53,6 +53,9 @@ struct EnemyData {
 	// 体力
 	float hp = 100.0f;
 
+	// 得点
+	float score;
+
 	EnemyData() {
 		// 所持している武器をなしにする
 		for (int i = 0; i < (int)WeaponSide::kCount; i++) {
@@ -91,11 +94,11 @@ namespace EnemyConfig {
 		// モデル名
 		// 順番はEnemyType準拠
 		inline std::array<std::string, (int)EnemyType::kCount> modelName = {
-			"resources/model/Enemy/Melee/Player.gltf",				// 近距離
-			"resources/model/Enemy/Gunner/Player.gltf",				// 遠距離
-			"resources/model/Enemy/Drone/EnemyTest.gltf",			// ドローン
-			"resources/model/Enemy/Cargo/EnemyTest.gltf",			// 輸送機
-			"resources/model/Enemy/Cargo/EnemyTest.gltf"			// テスト敵
+			"resources/model/Enemy/Melee/Player.gltf",			// 近距離
+			"resources/model/Enemy/Gunner/Player.gltf",			// 遠距離
+			"resources/model/Enemy/Drone/Player.gltf",			// ドローン
+			"resources/model/Enemy/Cargo/Player.gltf",			// 輸送機
+			"resources/model/Enemy/Cargo/Player.gltf"			// テスト敵
 		};
 	}
 

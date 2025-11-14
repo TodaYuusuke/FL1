@@ -22,6 +22,7 @@ Player::Player(Camera* camera, const LWP::Math::Vector3& centerPos) {
 
 	// モデル生成
 	model_.LoadShortPath("Player/Player.gltf");
+	model_.Update();
 
 	// 体の判定生成
 	bodyCollision_.SetFollow(&model_.worldTF);
@@ -105,4 +106,8 @@ void Player::DrawGui() {
 		}
 		ImGui::TreePop();
 	}
+}
+
+LWP::Math::Vector3 Player::GetCenterPosition() {
+	return model_.worldTF.GetWorldPosition() + centerPos_ * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(model_.worldTF.rotation);
 }

@@ -28,7 +28,8 @@ Gunner::Gunner(IWorld* world, int ID, const EnemyData& data) {
 
 	// モデル生成
 	model_.LoadFullPath(data.modelName);
-
+	model_.Update();
+	
 	// 黒板生成
 	blackBoard_ = new BlackBoard();
 	blackBoard_->SetValue<Actor*>(EnemyConfig::name, this);
