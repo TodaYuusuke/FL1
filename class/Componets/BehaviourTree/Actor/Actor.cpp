@@ -7,8 +7,8 @@
 using namespace LWP;
 using namespace LWP::Math;
 
-Actor::Actor() : 
-	bodyAABB_(bodyCollision_.SetBroadShape(LWP::Object::Collider::AABB()))
+Actor::Actor()
+	: bodyAABB_(bodyCollision_.SetBroadShape<LWP::Object::Collider::AABB>())
 {
 	
 }

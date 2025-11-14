@@ -1,7 +1,7 @@
 #include "BulletBase.h"
 
-BulletBase::BulletBase(float attackPower, float speed) :
-	bodyAABB_(bodyCollision_.SetBroadShape(LWP::Object::Collider::AABB()))
+BulletBase::BulletBase(float attackPower, float speed)
+	: bodyAABB_(bodyCollision_.SetBroadShape<LWP::Object::Collider::AABB>())
 {
 	attackPower_ = attackPower;
 	moveSpeed_ = speed;

@@ -55,7 +55,7 @@ public:// アクセサ
 		if (weapons_[WeaponSide::kLeft]->GetIsFullWeapon()) { return; }
 
 		weapon->Init();
-		weapon->SetTranslation(LWP::Math::Vector3{ -1.0f, -0.5f, 3.0f });
+		weapon->SetTranslation(centerPos_ + LWP::Math::Vector3{ -1.0f, -0.7f, 3.0f });
 		weapon->SetRotation(LWP::Math::Quaternion{ 0.0f,0.0f,0.0f,1.0f });
 		weapon->SetParent(target_);
 		weapons_[WeaponSide::kLeft]->AddWeapon(weapon);
@@ -68,7 +68,7 @@ public:// アクセサ
 		if (weapons_[WeaponSide::kLeftShoulder]->GetIsFullWeapon()) { return; }
 
 		weapon->Init();
-		weapon->SetTranslation(LWP::Math::Vector3{ -1.0f, 0.5f, 3.0f });
+		weapon->SetTranslation(centerPos_ + LWP::Math::Vector3{ -1.25f, 0.5f, 3.0f });
 		weapon->SetRotation(LWP::Math::Quaternion{ 0.0f,0.0f,0.0f,1.0f });
 		weapon->SetParent(target_);
 		weapons_[WeaponSide::kLeftShoulder]->AddWeapon(weapon);
@@ -81,7 +81,7 @@ public:// アクセサ
 		if (weapons_[WeaponSide::kRight]->GetIsFullWeapon()) { return; }
 
 		weapon->Init();
-		weapon->SetTranslation(LWP::Math::Vector3{ 1.0f, -0.5f, 3.0f });
+		weapon->SetTranslation(centerPos_ + LWP::Math::Vector3{ 1.0f, -0.7f, 3.0f });
 		weapon->SetRotation(LWP::Math::Quaternion{ 0.0f,0.0f,0.0f,1.0f });
 		weapon->SetParent(target_);
 		weapons_[WeaponSide::kRight]->AddWeapon(weapon);
@@ -94,7 +94,7 @@ public:// アクセサ
 		if (weapons_[WeaponSide::kRightShoulder]->GetIsFullWeapon()) { return; }
 
 		weapon->Init();
-		weapon->SetTranslation(LWP::Math::Vector3{ 1.0f, 0.5f, 3.0f });
+		weapon->SetTranslation(centerPos_ + LWP::Math::Vector3{ 1.25f, 0.5f, 3.0f });
 		weapon->SetRotation(LWP::Math::Quaternion{ 0.0f,0.0f,0.0f,1.0f });
 		weapon->SetParent(target_);
 		weapons_[WeaponSide::kRightShoulder]->AddWeapon(weapon);
@@ -105,6 +105,12 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="player"></param>
 	void SetDebugWeaponOwner(Actor* owner) { debugOwner_ = owner; }
+
+	/// <summary>
+	/// 中心座標を設定
+	/// </summary>
+	/// <param name="centerPos"></param>
+	void SetCenterDist(const LWP::Math::Vector3& centerPos) { centerPos_ = centerPos; }
 #pragma endregion
 
 private:
@@ -112,6 +118,8 @@ private:
 	LeadingSystem* pLeadingSystem_;
 	// 使用者のアドレス
 	Actor* target_;
+	// 中心座標
+	LWP::Math::Vector3 centerPos_;
 
 private:
 	// 武器リスト

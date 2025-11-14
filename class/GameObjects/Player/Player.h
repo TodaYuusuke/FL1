@@ -12,7 +12,7 @@ class EnemyManager;
 class Player : public Actor {
 public:
 	// コンストラクタ
-	Player(LWP::Object::Camera* camera);
+	Player(LWP::Object::Camera* camera, const LWP::Math::Vector3& centerPos);
 	// デストラクタ
 	~Player() override;
 
@@ -62,11 +62,18 @@ public:// アクセサ
 		// 偏差射撃機能にも設定
 		leadingSystem_->SetEnemyManager(enemyManager);
 	}
+	/// <summary>
+	/// 中心座標を設定
+	/// </summary>
+	/// <param name="centerPos"></param>
+	void SetCenterDist(const LWP::Math::Vector3& centerPos) { centerPos_ = centerPos; }
 #pragma endregion
 
 private:// 外部から受け取る変数
 	// 敵管理クラス
 	EnemyManager* pEnemyManager_;
+	// 中心座標
+	LWP::Math::Vector3 centerPos_;
 
 private:
 	// 偏差射撃機能

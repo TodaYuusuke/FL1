@@ -6,11 +6,13 @@ using namespace LWP;
 using namespace LWP::Math;
 using namespace LWP::Object;
 
-Player::Player(Camera* camera) {
+Player::Player(Camera* camera, const LWP::Math::Vector3& centerPos) {
 	// 初期位置の設定
 	tag_ = "Player";
 	name_ = "Player";
 	attackPower_ = 10;
+	centerPos_ = centerPos;
+
 	// HP
 	hp_ = std::make_unique<Health>(100.0f);
 
@@ -32,6 +34,8 @@ Player::Player(Camera* camera) {
 	bodyCollision_.enterLambda = [this](LWP::Object::Collision* hitTarget) {
 		hitTarget;
 		};
+	bodyAABB_.min = { -3.0f, -0.5f, -1.0f };
+	bodyAABB_.max = { 3.0f, 9.5f, 1.0f };
 
 	// 偏差射撃機能
 	leadingSystem_ = std::make_unique<LeadingSystem>(camera, blackBoard_);
@@ -40,6 +44,7 @@ Player::Player(Camera* camera) {
 	moveController_ = std::make_unique<MoveController>();
 	// 武器系統の管理
 	weaponController_ = std::make_unique<WeaponController>(leadingSystem_.get(), this);
+	weaponController_->SetCenterDist(centerPos_);
 	// デバッグ用の武器の持ち主を設定
 	weaponController_->SetDebugWeaponOwner(this);
 }
@@ -75,6 +80,12 @@ void Player::DrawGui() {
 		// モデル
 		if (ImGui::TreeNode("Model")) {
 			model_.DebugGUI();
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("Collider")) {
+			ImGui::DragFloat3("Min", &bodyAABB_.min.x, 0.01f);
+			ImGui::DragFloat3("Max", &bodyAABB_.max.x, 0.01f);
 			ImGui::TreePop();
 		}
 

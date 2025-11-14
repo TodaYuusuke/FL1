@@ -50,7 +50,7 @@ public:// アクセサ
 	/// モデルを取得
 	/// </summary>
 	/// <returns></returns>
-	LWP::Resource::RigidModel GetModel() { return body_; }
+	LWP::Resource::SkinningModel GetModel() { return body_; }
 	/// <summary>
 	/// 武器情報を取得
 	/// </summary>
@@ -155,7 +155,7 @@ protected:
 	HitStopController* stopController_;
 
 	// モデル
-	LWP::Resource::RigidModel body_;
+	LWP::Resource::SkinningModel body_;
 
 	// 弾倉
 	std::unique_ptr<Magazine> magazine_;

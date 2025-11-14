@@ -85,8 +85,8 @@ namespace EnemyConfig {
 		// モデル名
 		// 順番はEnemyType準拠
 		inline std::array<std::string, (int)EnemyType::kCount> modelName = {
-			"resources/system/model/standard/sphere.gltf",		// 近距離
-			"resources/system/model/standard/sphere.gltf",		// 遠距離
+			"resources/model/Enemy/Melee/Player.gltf",			// 近距離
+			"resources/model/Enemy/Melee/Player.gltf",			// 遠距離
 			"resources/model/Enemy/Drone/Drone.gltf",			// ドローン
 			"resources/system/model/standard/sphere.gltf",		// 輸送機
 			"resources/system/model/standard/sphere.gltf"		// テスト敵

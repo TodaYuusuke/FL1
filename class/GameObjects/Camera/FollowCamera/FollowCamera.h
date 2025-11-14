@@ -38,6 +38,11 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	LWP::Object::Camera* GetCamera() { return camera_; }
+	/// <summary>
+	/// 追従対象との初期距離を取得
+	/// </summary>
+	/// <returns></returns>
+	LWP::Math::Vector3 GetDefaultTargetDist() { return defaultTargetDist_; }
 #pragma endregion
 
 #pragma region Setter
@@ -82,7 +87,7 @@ public:// jsonで保存する値
 	const float kOriginRotateX = 90.0f;
 
 	// 追従対象との初期距離
-	LWP::Math::Vector3 defaultTargetDist_ = { 0.0f,10.0f,3.0f };
+	LWP::Math::Vector3 defaultTargetDist_ = { 0.0f,9.0f,0.0f };
 
 public:// 外部からポインタをもらう変数
 	// カメラ

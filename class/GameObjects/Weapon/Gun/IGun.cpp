@@ -168,15 +168,19 @@ void IGun::AttackCommond() {
 	// 弾を撃つ
 	int i = data_.sameBulletNum;
 	do {
-		Vector3 randomVec{};
+		Vector3 randomVec = shotDirVel_;
 		// 単発で撃つならランダムにしない
 		if (data_.sameBulletNum > 1) {
 			Vector3 min = data_.diffusingBulletRange * -1.0f;
 			Vector3 max = data_.diffusingBulletRange;
 			randomVec = LWP::Utility::Random::GenerateVector3(min, max);
+			randomVec.z = 1.0f;
+			
+			randomVec = Vector3{ 0,0,1 } * 
+			(Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, randomVec.Normalize()) * Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, shotDirVel_));
 		}
 		// 弾生成
-		Bullet* bullet = new Bullet(body_.worldTF.GetWorldPosition(), randomVec + shotDirVel_ * 1.0f, bulletHitFragBit_, data_.attackValue, data_.bulletSpeed);
+		Bullet* bullet = new Bullet(body_.GetJointWorldPosition("Muzzle")/*worldTF.GetWorldPosition()*/, randomVec.Normalize() * 1.0f, bulletHitFragBit_, data_.attackValue, data_.bulletSpeed);
 		pBulletManager_->CreateBullet(bullet);
 
 		i--;
