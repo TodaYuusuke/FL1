@@ -56,12 +56,13 @@ void IMelee::Update() {
 	if (magazine_->GetEmpty()) {
 		if (GetIsEnableAttack()) {
 			isDestroy_ = true;
+			Reload();
 		}
 	}
 	// 攻撃可能状態
 	if (GetIsEnableAttack()) {
 		assistPos_ = { 0.0f,0.0f,0.0f };
-		isAttack_ = false; 
+		isAttack_ = false;
 	}
 
 	// 攻撃のアシスト
@@ -140,12 +141,12 @@ void IMelee::Attack(int bulletHitFragBit, Actor* attackTarget) {
 		// 攻撃対象との距離
 		Vector3 dist = attackTarget->GetWorldTF()->GetWorldPosition() - actor_->GetWorldTF()->GetWorldPosition();
 		// アシスト後の座標
-		assistPos_ += Vector3{ 0.0f,0.0f,dist.Length()} * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(LWP::Math::Quaternion::ConvertDirection(dist));
+		assistPos_ += Vector3{ 0.0f,0.0f,dist.Length() } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(LWP::Math::Quaternion::ConvertDirection(dist));
 	}
 	// 攻撃対象なし
 	else {
 		// アシスト後の座標
-		assistPos_ += Vector3{ 0.0f,0.0f,0.3f } * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(actor_->GetRot());
+		assistPos_ += Vector3{ 0.0f,0.0f,0.3f } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(actor_->GetRot());
 	}
 }
 
