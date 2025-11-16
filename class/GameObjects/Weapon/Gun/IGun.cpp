@@ -117,7 +117,7 @@ void IGun::DebugGui() {
 	}
 }
 
-void IGun::Attack(int bulletHitFragBit) {
+void IGun::Attack(int bulletHitFragBit, Actor* attackTarget) {
 	// 弾がない状態なら撃てない
 	if (magazine_->GetEmpty()) {
 		isDestroy_ = true;
@@ -134,6 +134,7 @@ void IGun::Attack(int bulletHitFragBit) {
 
 void IGun::Reload() {
 	reloadFrame_ -= stopController_->GetDeltaTime();
+	isDestroy_ = false;
 
 	// リロード完了
 	if (!GetIsReloadTime()) {

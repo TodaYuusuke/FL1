@@ -11,7 +11,7 @@ public:
 	// コンストラクタ
 	IMelee(WeaponData data);
 	// デストラクタ
-	~IMelee() override = default;
+	~IMelee() override;
 
 	/// <summary>
 	/// 初期化
@@ -29,7 +29,7 @@ public:
 	/// <summary>
 	/// 攻撃
 	/// </summary>
-	void Attack(int bulletHitFragBit) override;
+	void Attack(int bulletHitFragBit, Actor* attackTarget = nullptr) override;
 	/// <summary>
 	/// リロード
 	/// </summary>
@@ -39,18 +39,15 @@ public:
 	/// </summary>
 	void Destroy() override;
 
+private:
+	/// <summary>
+	/// 位置アシスト
+	/// </summary>
+	void AttackAssist();
+
 public:// アクセサ
 #pragma region Getter
-	/// <summary>
-	/// リロード中かを取得
-	/// </summary>
-	/// <returns></returns>
-	bool GetIsReloading() { return reloadFrame_ > 0.0f; }
-	/// <summary>
-	/// 射撃できるかを取得
-	/// </summary>
-	/// <returns></returns>
-	bool GetIsEnableShot() { return shotFrame_ <= 0.0f; }
+
 #pragma endregion
 
 #pragma region Setter
@@ -58,14 +55,6 @@ public:// アクセサ
 #pragma endregion
 
 private:
-	// 弾倉
-	std::unique_ptr<Magazine> magazine_;
-
-	// 攻撃力
-	float currentAttackValue_;
-
-	// 射撃時の経過時間
-	float shotFrame_;
-	// リロードの経過時間
-	float reloadFrame_;
+	// 攻撃時のアシスト座標
+	LWP::Math::Vector3 assistPos_;
 };

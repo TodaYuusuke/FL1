@@ -10,12 +10,12 @@ using namespace LWP::Math;
 Actor::Actor()
 	: bodyAABB_(bodyCollision_.SetBroadShape<LWP::Object::Collider::AABB>())
 {
-	
+
 }
 
 void Actor::Init() {}
 
-void Actor::Update(){
+void Actor::Update() {
 	// 前回の座標
 	SetPreTranslation(model_.GetJointWorldPosition("LockOnAnchor"));
 
@@ -26,7 +26,7 @@ void Actor::Update(){
 	hp_->Update();
 
 	// 状態
-	if(state_) state_->Update();
+	if (state_) state_->Update();
 
 	// ビヘイビアツリー更新
 	if (!state_ || state_->GetIsEnableChangeState()) {
@@ -39,10 +39,11 @@ void Actor::Update(){
 		quat_ = state_->GetRot();
 	}
 
-	model_.worldTF.translation += velocity_ * data_.speedMultiply;
+	model_.worldTF.translation += (velocity_ + weaponVel_) * data_.speedMultiply;
 
 	// 速度を初期化
 	velocity_ = { 0.0f, 0.0f, 0.0f };
+	weaponVel_ = { 0.0f, 0.0f, 0.0f };
 }
 
 void Actor::DrawGui() {}
@@ -57,10 +58,19 @@ void Actor::CreateJsonData() {
 void Actor::Attack() {
 	for (int i = 0; i < weapons_.size(); i++) {
 		if (weapons_[i]) {
-			// 射撃方向
-			weapons_[i]->SetShotDirVelocity(Vector3{0,0,1} *(model_.worldTF.rotation * weapons_[i]->GetWorldTF()->rotation));
-			// 攻撃
-			weapons_[i]->Attack(GameMask::player);
+			// 近接武器なら自機を指定
+			if (weapons_[i]->GetWeaponData().name == WeaponConfig::Name::name[(int)WeaponType::kMelee]) {
+				// 攻撃
+				weapons_[i]->Attack(GameMask::player, blackBoard_->GetValue<Actor*>("Player"));
+				continue;
+			}
+			else {
+				// 射撃方向
+				weapons_[i]->SetShotDirVelocity(Vector3{ 0,0,1 } *(model_.worldTF.rotation * weapons_[i]->GetWorldTF()->rotation));
+				// 攻撃
+				weapons_[i]->Attack(GameMask::player);
+				continue;
+			}
 		}
 	}
 }
@@ -72,7 +82,7 @@ void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
 
 void Actor::ChangeState(StateBase* nextState) {
 	// 同じ方なら終了
-	if (state_ && typeid(*nextState) == typeid(*state_)) { 
+	if (state_ && typeid(*nextState) == typeid(*state_)) {
 		delete nextState;
 		return;
 	}

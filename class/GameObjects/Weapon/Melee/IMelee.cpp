@@ -1,5 +1,6 @@
 #include "IMelee.h"
 
+using namespace LWP::Math;
 using namespace FLMath;
 
 IMelee::IMelee(WeaponData data) {
@@ -20,10 +21,17 @@ IMelee::IMelee(WeaponData data) {
 	Init();
 }
 
+IMelee::~IMelee() {
+	// 所持者の速度
+	actor_->SetWeaponVelocity(Vector3{ 0.0f,0.0f,0.0f });
+}
+
 void IMelee::Init() {
 	body_.worldTF.translation = { 0.0f,0.0f,0.0f };
 	body_.worldTF.rotation = { 0.0f,0.0f,0.0f,1.0f };
 	body_.worldTF.scale = { 0.5f,0.5f,0.5f };
+
+	assistPos_ = { 0.0f,0.0f,0.0f };
 
 	// マガジン初期化
 	magazine_->Init(data_.bulletNum);
@@ -32,23 +40,36 @@ void IMelee::Init() {
 	currentAttackValue_ = data_.attackValue * attackMultiply_;
 
 	// 射撃時の経過時間
-	shotFrame_ = data_.shotIntervalTime * 60.0f;
+	attackFrame_ = data_.shotIntervalTime * 60.0f;
 	// リロードの経過時間
 	reloadFrame_ = data_.coolTime * 60.0f;
+
+	// 攻撃中か
+	isAttack_ = false;
 }
 
 void IMelee::Update() {
 	// 攻撃力
 	currentAttackValue_ = data_.attackValue * attackMultiply_;
 
-	// 弾がなくなれば強制リロード(クールタイム)
+	// 弾がなくなれば強制リロードor破壊(クールタイム)
 	if (magazine_->GetEmpty()) {
-		isDestroy_ = true;
+		if (GetIsEnableAttack()) {
+			isDestroy_ = true;
+		}
+	}
+	// 攻撃可能状態
+	if (GetIsEnableAttack()) {
+		assistPos_ = { 0.0f,0.0f,0.0f };
+		isAttack_ = false; 
 	}
 
-	shotFrame_ -= stopController_->GetDeltaTime();
+	// 攻撃のアシスト
+	AttackAssist();
 
-	shotFrame_ = std::max<float>(shotFrame_, 0.0f);
+	attackFrame_ -= stopController_->GetDeltaTime();
+
+	attackFrame_ = std::max<float>(attackFrame_, 0.0f);
 	reloadFrame_ = std::max<float>(reloadFrame_, 0.0f);
 }
 
@@ -93,7 +114,7 @@ void IMelee::DebugGui() {
 	}
 }
 
-void IMelee::Attack(int bulletHitFragBit) {
+void IMelee::Attack(int bulletHitFragBit, Actor* attackTarget) {
 	bulletHitFragBit;
 
 	// 弾がない状態なら撃てない
@@ -102,20 +123,39 @@ void IMelee::Attack(int bulletHitFragBit) {
 		return;
 	}
 	// 射撃できる状態か
-	if (!GetIsEnableShot()) { return; }
+	if (!GetIsEnableAttack()) { return; }
 
 	// 弾数を減らす
 	magazine_->BulletDecrement();
 
 	// 射撃間隔を初期化
-	shotFrame_ = data_.shotIntervalTime * 60.0f;
+	attackFrame_ = data_.shotIntervalTime * 60.0f;
+
+	// 攻撃中
+	isAttack_ = true;
+
+	assistPos_ = actor_->GetWorldTF()->GetWorldPosition();
+	// 攻撃対象あり
+	if (attackTarget) {
+		// 攻撃対象との距離
+		Vector3 dist = attackTarget->GetWorldTF()->GetWorldPosition() - actor_->GetWorldTF()->GetWorldPosition();
+		// アシスト後の座標
+		assistPos_ += Vector3{ 0.0f,0.0f,dist.Length()} * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(LWP::Math::Quaternion::ConvertDirection(dist));
+	}
+	// 攻撃対象なし
+	else {
+		// アシスト後の座標
+		assistPos_ += Vector3{ 0.0f,0.0f,0.3f } * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(actor_->GetRot());
+	}
 }
 
 void IMelee::Reload() {
 	reloadFrame_ -= stopController_->GetDeltaTime();
+	isAttack_ = false;
+	isDestroy_ = false;
 
 	// リロード完了
-	if (!GetIsReloading()) {
+	if (!GetIsReloadTime()) {
 		// リロード時間を初期化
 		reloadFrame_ = data_.coolTime * 60.0f;
 		// 弾数を初期化
@@ -125,4 +165,26 @@ void IMelee::Reload() {
 
 void IMelee::Destroy() {
 
+}
+
+void IMelee::AttackAssist() {
+	if (!GetIsAttack()) { return; }
+
+	// 速度
+	Vector3 vel{};
+	Vector3 radian{};
+	Quaternion quat = { 0,0,0,1 };
+
+	// 攻撃対象との距離
+	Vector3 dist = assistPos_ - actor_->GetWorldTF()->GetWorldPosition();
+
+	// 徐々に速度を上げる
+	vel = LWP::Utility::Interpolation::Exponential(actor_->GetWorldTF()->GetWorldPosition(), assistPos_, 1.0f) - actor_->GetWorldTF()->GetWorldPosition();
+	vel.y = 0.0f;
+	// 移動速度からラジアンを求める
+	radian.y = LWP::Utility::GetRadian(LWP::Math::Vector3{ 0.0f,0.0f,1.0f }, dist.Normalize(), LWP::Math::Vector3{ 0.0f,1.0f,0.0f });
+	quat = LWP::Math::Quaternion::CreateFromAxisAngle(LWP::Math::Vector3{ 0.0f,1.0f,0.0f }, radian.y);
+
+	// 所持者の速度
+	actor_->SetWeaponVelocity(vel);
 }

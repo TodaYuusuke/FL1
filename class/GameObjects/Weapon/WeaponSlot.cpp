@@ -25,7 +25,7 @@ void WeaponSlot::Update() {
 		// 削除コマンドがあるなら消す
 		weapons_.erase(
 			std::remove_if(weapons_.begin(), weapons_.end(),
-				[](IWeapon* w) {
+				[&](IWeapon* w) {
 					if (w->GetIsDestroy()) {
 						// 武器管理クラスに該当武器の解放依頼
 						WeaponManager::GetInstance()->DeleteWeapon(w);
@@ -70,7 +70,14 @@ void WeaponSlot::Attack() {
 			}
 		}
 
-		weapons_.front()->Attack(GameMask::enemy);
+		// 近接武器なら相手を指定
+		Actor* actor = nullptr;
+		if (weapons_.front()->GetWeaponData().name == WeaponConfig::Name::name[(int)WeaponType::kMelee]) {
+			pLeadingSystem_->Update();
+			actor = pLeadingSystem_->GetLeadingTarget();
+		}
+
+		weapons_.front()->Attack(GameMask::enemy, actor);
 	}
 }
 
@@ -80,6 +87,10 @@ void WeaponSlot::Compact() {
 		std::remove(weapons_.begin(), weapons_.end(), nullptr),
 		weapons_.end()
 	);
+}
+
+void WeaponSlot::WeaponVelUpdate() {
+
 }
 
 void WeaponSlot::AddWeapon(IWeapon* weapon) {

@@ -38,7 +38,11 @@ private:
 
 public:// アクセサ
 #pragma region Getter
-
+	/// <summary>
+	/// 武器由来の速度を取得
+	/// </summary>
+	/// <returns></returns>
+	LWP::Math::Vector3 GetWeaponVelocity() { return weaponVel_; }
 #pragma endregion
 
 #pragma region Setter
@@ -111,6 +115,11 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="centerPos"></param>
 	void SetCenterDist(const LWP::Math::Vector3& centerPos) { centerPos_ = centerPos; }
+	/// <summary>
+	/// 武器由来の速度を設定
+	/// </summary>
+	/// <param name="velocity"></param>
+	void SetWeaponVelocity(const LWP::Math::Vector3& velocity) { weaponVel_ = velocity; }
 #pragma endregion
 
 private:
@@ -129,6 +138,9 @@ private:
 
 	// 武器の回収したい部位
 	WeaponSide collectSide_;
+
+	// 武器由来の速度
+	LWP::Math::Vector3 weaponVel_{ 0.0f,0.0f,0.0f };
 
 	// デバッグ用の武器の持ち主
 	Actor* debugOwner_;

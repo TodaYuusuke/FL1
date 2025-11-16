@@ -33,7 +33,8 @@ public:
 	/// 攻撃
 	/// </summary>
 	/// <param name="bulletHitFragBit">弾の当たり判定をとるビット</param>
-	virtual void Attack(int bulletHitFragBit) = 0;
+	/// <param name="attackTarget">被攻撃対象(位置アシストをしたい場合代入)</param>
+	virtual void Attack(int bulletHitFragBit, Actor* attackTarget = nullptr) = 0;
 	/// <summary>
 	/// 破壊処理
 	/// </summary>
@@ -163,6 +164,7 @@ protected:
 	// 武器情報
 	WeaponData data_;
 
+	// 所有者
 	Actor* actor_;
 
 	// 名前

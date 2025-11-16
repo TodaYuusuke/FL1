@@ -72,7 +72,7 @@ void Player::Update() {
 	// 武器由来の行動
 	weaponController_->Update();
 
-	model_.worldTF.translation += moveController_->GetVel();
+	model_.worldTF.translation += moveController_->GetVel() + weaponVel_;
 	model_.worldTF.rotation = moveController_->GetRot();
 }
 

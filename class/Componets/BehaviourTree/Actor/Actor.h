@@ -120,6 +120,11 @@ public:// アクセサ
 	/// <returns></returns>
 	LWP::Math::Vector3 GetVelocity() { return velocity_; }
 	/// <summary>
+	/// 武器由来の速度を取得
+	/// </summary>
+	/// <returns></returns>
+	LWP::Math::Vector3 GetWeaponVelocity() { return weaponVel_; }
+	/// <summary>
 	/// 角度を取得
 	/// </summary>
 	/// <returns></returns>
@@ -167,6 +172,11 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="velocity"></param>
 	void SetVelocity(const LWP::Math::Vector3& velocity) { velocity_ = velocity; }
+	/// <summary>
+	/// 武器由来の速度を設定
+	/// </summary>
+	/// <param name="velocity"></param>
+	void SetWeaponVelocity(const LWP::Math::Vector3& velocity) { weaponVel_ = velocity; }
 	/// <summary>
 	/// 角度を設定
 	/// </summary>
@@ -248,6 +258,8 @@ protected:
 	LWP::Resource::SkinningModel model_;
 	// 移動量
 	LWP::Math::Vector3 velocity_{ 0.0f,0.0f,0.0f };
+	// 武器由来の速度
+	LWP::Math::Vector3 weaponVel_{ 0.0f,0.0f,0.0f };
 	// 角度
 	LWP::Math::Quaternion quat_{ 0.0f,0.0f,0.0f,1.0f };
 	// 前回の座標

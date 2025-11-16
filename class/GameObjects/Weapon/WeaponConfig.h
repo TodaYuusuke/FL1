@@ -93,13 +93,13 @@ namespace WeaponConfig {
 		// Gun系→	resources/model/Gun/からのパス含めた名前
 		// Melee系→resources/model/Melee/からのパス含めた名前
 		inline std::array<std::array<std::string, (int)WeaponType::kCount>, (int)RarityType::kCount> modelName = {{
-				  // Common						  UnCommon				   Rare				  SuperRare					 Legendary		Over
+				  // Common							UnCommon						Rare							SuperRare						Legendary						Over
 /* マシンガン	*/{  "MachineGun/MachineGun1.gltf"	, "MachineGun/MachineGun1.gltf"	, "MachineGun/MachineGun1.gltf"	,"MachineGun/MachineGun1.gltf"	, "MachineGun/MachineGun1.gltf"	,"MachineGun/MachineGun1.gltf"  },
 /* ショットガン	*/{  "ShotGun/ShotGun1.gltf"		, "ShotGun/ShotGun1.gltf"		, "ShotGun/ShotGun1.gltf"		,"ShotGun/ShotGun1.gltf"		, "ShotGun/ShotGun1.gltf"		,"ShotGun/ShotGun1.gltf"		},
 /* ライフル		*/{  "Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				},
 /* ランチャー	*/{  "Launcher/Launcher1.gltf"		, "Launcher/Launcher1.gltf"		, "Launcher/Launcher1.gltf"		,"Launcher/Launcher1.gltf"		, "Launcher/Launcher1.gltf"		,"Launcher/Launcher1.gltf"		},
 /* ミサイル		*/{  "AR/AR.obj"					, "AR/AR.obj"					, "AR/AR.obj"					,"AR/AR.obj"					,"AR/AR.obj"					,"AR/AR.obj"					},
-/* 近接			*/{  "AR.obj"						, "AR.obj"						, "AR.obj"						,"AR.obj"						,"AR.obj"						,"AR.obj"						}	
+/* 近接			*/{  "MachineGun1.gltf"				, "MachineGun1.gltf"			, "MachineGun1.gltf"			,"MachineGun1.gltf"				,"MachineGun1.gltf"		,"MachineGun1.gltf"						}	
 		}};
 	}
 }

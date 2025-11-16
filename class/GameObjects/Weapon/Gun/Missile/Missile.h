@@ -23,7 +23,7 @@ public:
 	/// <summary>
 	/// 攻撃
 	/// </summary>
-	void Attack(int bulletHitFragBit) override;
+	void Attack(int bulletHitFragBit, Actor* attackTarget = nullptr) override;
 	/// <summary>
 	/// 破壊処理
 	/// </summary>
