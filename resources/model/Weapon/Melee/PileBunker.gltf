@@ -14,7 +14,7 @@
 	],
 	"nodes":[
 		{
-			"name":"Pile",
+			"name":"Muzzle",
 			"rotation":[
 				0.7071067690849304,
 				-1.1520231879558196e-07,
@@ -190,7 +190,7 @@
 		{
 			"bufferView":7,
 			"componentType":5126,
-			"count":327,
+			"count":325,
 			"max":[
 				0.7500000596046448,
 				0.6499999761581421,
@@ -206,25 +206,25 @@
 		{
 			"bufferView":8,
 			"componentType":5126,
-			"count":327,
+			"count":325,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":9,
 			"componentType":5126,
-			"count":327,
+			"count":325,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":10,
 			"componentType":5121,
-			"count":327,
+			"count":325,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":11,
 			"componentType":5126,
-			"count":327,
+			"count":325,
 			"type":"VEC4"
 		},
 		{
@@ -324,80 +324,80 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":3924,
+			"byteLength":3900,
 			"byteOffset":107584,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":3924,
-			"byteOffset":111508,
+			"byteLength":3900,
+			"byteOffset":111484,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":2616,
-			"byteOffset":115432,
+			"byteLength":2600,
+			"byteOffset":115384,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1308,
-			"byteOffset":118048,
+			"byteLength":1300,
+			"byteOffset":117984,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":5232,
-			"byteOffset":119356,
+			"byteLength":5200,
+			"byteOffset":119284,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":1284,
-			"byteOffset":124588,
+			"byteOffset":124484,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":8652,
-			"byteOffset":125872,
+			"byteOffset":125768,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":8652,
-			"byteOffset":134524,
+			"byteOffset":134420,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":5768,
-			"byteOffset":143176,
+			"byteOffset":143072,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":2884,
-			"byteOffset":148944,
+			"byteOffset":148840,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":11536,
-			"byteOffset":151828,
+			"byteOffset":151724,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":4056,
-			"byteOffset":163364,
+			"byteOffset":163260,
 			"target":34963
 		}
 	],
 	"buffers":[
 		{
-			"byteLength":167420,
+			"byteLength":167316,
 			"uri":"PileBunker.bin"
 		}
 	]

@@ -217,8 +217,12 @@ void WeaponManager::CreateJsonData(LWP::Utility::JsonIO& json, WeaponData& data,
 		.AddValue<int>("SameBulletNum", &data.sameBulletNum)
 		// 拡散範囲
 		.AddValue<Vector3>("DiffusingRange", &data.diffusingBulletRange)
+		// 弾の大きさ(当たり判定)
+		.AddValue<Vector3>("ColliderSize", &data.bulletSize)
 		// 弾速
 		.AddValue<float>("Speed", &data.bulletSpeed)
+		// 弾の生存時間
+		.AddValue<float>("ElapsedTime", &data.bulletElapsedTime)
 		.EndGroup()
 
 		// バースト数
@@ -262,8 +266,12 @@ void WeaponManager::SelectWeaponDataGui(LWP::Utility::JsonIO& json, WeaponData& 
 			ImGui::DragInt("SameNum", &data.sameBulletNum, 1, 0);
 			// 弾の拡散範囲
 			ImGui::DragFloat3("DiffusingRange", &data.diffusingBulletRange.x, 0.01f, 0.0001f, 1.0f);
+			// 弾の大きさ(当たり判定)
+			ImGui::DragFloat3("ColliderSize", &data.bulletSize.x, 0.01f, 0.0001f, 1.0f);
 			// 弾速
 			ImGui::DragFloat("Speed", &data.bulletSpeed);
+			// 弾の生存時間
+			ImGui::DragFloat("ElapsedTime", &data.bulletElapsedTime);
 			ImGui::TreePop();
 		}
 		// バースト数
@@ -339,8 +347,6 @@ void WeaponManager::DropWeapon(IWeapon* weapon) {
 		Vector3 pos = weapon->GetActor()->GetWorldTF()->GetWorldPosition() + weapon->GetWorldTF()->translation;
 		// 親子付け解除
 		weapon->SetParent(nullptr);
-		// 武器による速度
-		weapon->GetActor()->SetWeaponVelocity(Vector3{ 0.0f,0.0f,0.0f });
 
 		// 座標指定
 		weapon->SetTranslation(pos);

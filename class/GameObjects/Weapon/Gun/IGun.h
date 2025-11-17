@@ -1,6 +1,5 @@
 #pragma once
 #include "../IWeapon.h"
-#include "../../Bullets/BulletManager.h"
 #include <memory>
 
 /// <summary>
@@ -62,10 +61,6 @@ public:// アクセサ
 #pragma region Setter
 
 #pragma endregion
-
-protected:
-	// 弾管理クラスのアドレス
-	BulletManager* pBulletManager_;
 
 protected:
 	// 射撃スタイル

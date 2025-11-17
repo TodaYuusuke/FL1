@@ -4,6 +4,7 @@
 #include "../../Componets/Math.h"
 #include "../../Componets/HitStopController.h"
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
+#include "../Bullets/BulletManager.h"
 #include <Adapter.h>
 #include <string>
 
@@ -154,6 +155,8 @@ public:// アクセサ
 protected:
 	// ヒットストップ
 	HitStopController* stopController_;
+	// 弾管理クラスのアドレス
+	BulletManager* pBulletManager_;
 
 	// モデル
 	LWP::Resource::SkinningModel body_;

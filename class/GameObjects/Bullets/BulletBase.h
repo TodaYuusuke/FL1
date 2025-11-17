@@ -9,7 +9,7 @@
 class BulletBase {
 public:
 	// コンストラクタ
-	BulletBase(float attackPower, float speed);
+	BulletBase(float attackPower, float speed, float elapsedTime);
 	// デストラクタ
 	virtual ~BulletBase() = default;
 
@@ -78,6 +78,8 @@ protected:
 	float attackPower_;
 	// 移動速度
 	float moveSpeed_;
+
+	float currentFrame_ = 60.0f;
 
 	// 生存しているか
 	bool isAlive_ = true;

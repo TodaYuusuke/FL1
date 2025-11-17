@@ -1,4 +1,7 @@
 #include "IMelee.h"
+#include "../../Bullets/BulletManager.h"
+#include "../../Bullets/Melee/MeleeAttack.h"
+#include "../../Collision/CollisionMask.h"
 
 using namespace LWP;
 using namespace LWP::Math;
@@ -8,6 +11,8 @@ using namespace FLMath;
 IMelee::IMelee(WeaponData data) {
 	// ヒットストップ
 	stopController_ = HitStopController::GetInstance();
+	// 弾管理クラスのアドレス取得
+	pBulletManager_ = BulletManager::GetInstance();
 
 	// 調整項目を代入
 	data_ = data;
@@ -126,12 +131,14 @@ void IMelee::Attack(int bulletHitFragBit, Actor* attackTarget) {
 	// 射撃できる状態か
 	if (!GetIsEnableAttack()) { return; }
 
+	// 攻撃判定生成
+	MeleeAttack* bullet = new MeleeAttack(data_.bulletSize, &body_.worldTF, bulletHitFragBit, data_.attackValue, data_.bulletElapsedTime);
+	pBulletManager_->CreateBullet(bullet);
+
 	// 弾数を減らす
 	magazine_->BulletDecrement();
-
 	// 射撃間隔を初期化
 	attackFrame_ = data_.shotIntervalTime * 60.0f;
-
 	// 攻撃中
 	isAttack_ = true;
 
@@ -180,6 +187,7 @@ void IMelee::Destroy() {
 
 void IMelee::AttackAssist() {
 	if (!GetIsAttack()) { return; }
+	if (!actor_) { return; }
 
 	// 速度
 	Vector3 vel{};
