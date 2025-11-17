@@ -339,6 +339,8 @@ void WeaponManager::DropWeapon(IWeapon* weapon) {
 		Vector3 pos = weapon->GetActor()->GetWorldTF()->GetWorldPosition() + weapon->GetWorldTF()->translation;
 		// 親子付け解除
 		weapon->SetParent(nullptr);
+		// 武器による速度
+		weapon->GetActor()->SetWeaponVelocity(Vector3{ 0.0f,0.0f,0.0f });
 
 		// 座標指定
 		weapon->SetTranslation(pos);
@@ -412,6 +414,8 @@ void WeaponManager::DeleteWeapon(IWeapon* weapon) {
 	auto result = std::find(weapons_.begin(), weapons_.end(), weapon);
 	// 存在しているなら削除
 	if (result != weapons_.end()) {
+		// 武器による速度
+		if(weapon->GetActor()) weapon->GetActor()->SetWeaponVelocity(Vector3{ 0.0f,0.0f,0.0f });
 		delete weapon;
 		weapon = nullptr;
 		weapons_.erase(result);

@@ -18,24 +18,19 @@ void WeaponSlot::Update() {
 	// 更新
 	if (!weapons_.empty()) weapons_.front()->Update();
 
-	// 弾切れの武器を削除
-	for (IWeapon* w : weapons_) {
-		if (!w) continue;
-
-		// 削除コマンドがあるなら消す
-		weapons_.erase(
-			std::remove_if(weapons_.begin(), weapons_.end(),
-				[&](IWeapon* w) {
-					if (w->GetIsDestroy()) {
-						// 武器管理クラスに該当武器の解放依頼
-						WeaponManager::GetInstance()->DeleteWeapon(w);
-						return true; // vectorから削除対象
-					}
-					return false;
-				}),
-			weapons_.end()
-		);
-	}
+	// 削除コマンドがあるなら消す
+	weapons_.erase(
+		std::remove_if(weapons_.begin(), weapons_.end(),
+			[&](IWeapon* w) {
+				if (w->GetIsDestroy()) {
+					// 武器管理クラスに該当武器の解放依頼
+					WeaponManager::GetInstance()->DeleteWeapon(w);
+					return true; // vectorから削除対象
+				}
+				return false;
+			}),
+		weapons_.end()
+	);
 
 	// 前詰め
 	Compact();

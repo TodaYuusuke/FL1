@@ -72,8 +72,14 @@ void Player::Update() {
 	// 武器由来の行動
 	weaponController_->Update();
 
+	weaponVel_.x = std::clamp<float>(weaponVel_.x, -5.0f, 5.0f);
+	weaponVel_.y = std::clamp<float>(weaponVel_.y, -5.0f, 5.0f);
+	weaponVel_.z = std::clamp<float>(weaponVel_.z, -5.0f, 5.0f);
+
 	model_.worldTF.translation += moveController_->GetVel() + weaponVel_;
 	model_.worldTF.rotation = moveController_->GetRot();
+
+	weaponVel_ = { 0.0f,0.0f,0.0f };
 }
 
 void Player::DrawGui() {

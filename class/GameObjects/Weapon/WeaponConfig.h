@@ -99,7 +99,7 @@ namespace WeaponConfig {
 /* ライフル		*/{  "Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				},
 /* ランチャー	*/{  "Launcher/Launcher1.gltf"		, "Launcher/Launcher1.gltf"		, "Launcher/Launcher1.gltf"		,"Launcher/Launcher1.gltf"		, "Launcher/Launcher1.gltf"		,"Launcher/Launcher1.gltf"		},
 /* ミサイル		*/{  "AR/AR.obj"					, "AR/AR.obj"					, "AR/AR.obj"					,"AR/AR.obj"					,"AR/AR.obj"					,"AR/AR.obj"					},
-/* 近接			*/{  "MachineGun1.gltf"				, "MachineGun1.gltf"			, "MachineGun1.gltf"			,"MachineGun1.gltf"				,"MachineGun1.gltf"		,"MachineGun1.gltf"						}	
+/* 近接			*/{  "PileBunker.gltf"				, "PileBunker.gltf"				, "PileBunker.gltf"				,"PileBunker.gltf"				,"PileBunker.gltf"				,"PileBunker.gltf"				}	
 		}};
 	}
 }

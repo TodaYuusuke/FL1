@@ -66,7 +66,7 @@ void Actor::Attack() {
 			}
 			else {
 				// 射撃方向
-				weapons_[i]->SetShotDirVelocity(Vector3{ 0,0,1 } *(model_.worldTF.rotation * weapons_[i]->GetWorldTF()->rotation));
+				weapons_[i]->SetShotDirVelocity(Vector3{ 0,0,1 } * (model_.worldTF.rotation * weapons_[i]->GetWorldTF()->rotation));
 				// 攻撃
 				weapons_[i]->Attack(GameMask::player);
 				continue;

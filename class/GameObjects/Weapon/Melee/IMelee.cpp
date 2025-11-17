@@ -1,6 +1,8 @@
 #include "IMelee.h"
 
+using namespace LWP;
 using namespace LWP::Math;
+using namespace LWP::Utility;
 using namespace FLMath;
 
 IMelee::IMelee(WeaponData data) {
@@ -22,8 +24,6 @@ IMelee::IMelee(WeaponData data) {
 }
 
 IMelee::~IMelee() {
-	// 所持者の速度
-	actor_->SetWeaponVelocity(Vector3{ 0.0f,0.0f,0.0f });
 }
 
 void IMelee::Init() {
@@ -140,13 +140,23 @@ void IMelee::Attack(int bulletHitFragBit, Actor* attackTarget) {
 	if (attackTarget) {
 		// 攻撃対象との距離
 		Vector3 dist = attackTarget->GetWorldTF()->GetWorldPosition() - actor_->GetWorldTF()->GetWorldPosition();
-		// アシスト後の座標
-		assistPos_ += Vector3{ 0.0f,0.0f,dist.Length() } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(LWP::Math::Quaternion::ConvertDirection(dist));
+		float length = dist.Length();
+		if (length >= 6.0f) length -= 6.0f;
+		else length = 0.0f;
+
+		if (length >= 20.0f) {
+			// アシスト後の座標
+			assistPos_ += Vector3{ 0.0f,0.0f,2.0f } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(actor_->GetWorldTF()->rotation);
+		}
+		else {
+			// アシスト後の座標
+			assistPos_ += Vector3{ 0.0f,0.0f,length } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(LWP::Math::Quaternion::ConvertDirection(dist));
+		}
 	}
 	// 攻撃対象なし
 	else {
 		// アシスト後の座標
-		assistPos_ += Vector3{ 0.0f,0.0f,0.3f } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(actor_->GetRot());
+		assistPos_ += Vector3{ 0.0f,0.0f,2.0f } * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(actor_->GetWorldTF()->rotation);
 	}
 }
 
@@ -174,17 +184,22 @@ void IMelee::AttackAssist() {
 	// 速度
 	Vector3 vel{};
 	Vector3 radian{};
-	Quaternion quat = { 0,0,0,1 };
+	Quaternion quat = { 0.0f,0.0f,0.0f,1.0f };
 
 	// 攻撃対象との距離
 	Vector3 dist = assistPos_ - actor_->GetWorldTF()->GetWorldPosition();
 
 	// 徐々に速度を上げる
-	vel = LWP::Utility::Interpolation::Exponential(actor_->GetWorldTF()->GetWorldPosition(), assistPos_, 1.0f) - actor_->GetWorldTF()->GetWorldPosition();
+	float frame = (data_.shotIntervalTime * 60.0f - attackFrame_) / (data_.shotIntervalTime * 60.0f);
+	// 座標をイージング
+	vel = Interpolation::Lerp(actor_->GetWorldTF()->GetWorldPosition(), assistPos_, frame);
+	// 所持者の前回の座標と求めた座標の差分を求める
+	vel -= actor_->GetWorldTF()->GetWorldPosition();
 	vel.y = 0.0f;
+
 	// 移動速度からラジアンを求める
-	radian.y = LWP::Utility::GetRadian(LWP::Math::Vector3{ 0.0f,0.0f,1.0f }, dist.Normalize(), LWP::Math::Vector3{ 0.0f,1.0f,0.0f });
-	quat = LWP::Math::Quaternion::CreateFromAxisAngle(LWP::Math::Vector3{ 0.0f,1.0f,0.0f }, radian.y);
+	radian.y = GetRadian(Vector3{ 0.0f,0.0f,1.0f }, dist.Normalize(), Vector3{ 0.0f,1.0f,0.0f });
+	quat = Quaternion::CreateFromAxisAngle(Vector3{ 0.0f,1.0f,0.0f }, radian.y);
 
 	// 所持者の速度
 	actor_->SetWeaponVelocity(vel);
