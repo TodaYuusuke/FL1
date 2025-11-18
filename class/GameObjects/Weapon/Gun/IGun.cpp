@@ -34,6 +34,9 @@ void IGun::Init() {
 	// マガジン初期化
 	magazine_->Init(data_.bulletNum);
 
+	attackMultiply_ = 1.0f;
+	speedMultiply_ = 1.0f;
+
 	// 攻撃力
 	currentAttackValue_ = data_.attackValue * attackMultiply_;
 
@@ -113,6 +116,9 @@ void IGun::DebugGui() {
 			ImGui::DragFloat("CoolFrame", &coolFrame_);
 			ImGui::TreePop();
 		}
+
+		ImGui::DragFloat("AtttackPower", &currentAttackValue_);
+
 		ImGui::TreePop();
 	}
 }

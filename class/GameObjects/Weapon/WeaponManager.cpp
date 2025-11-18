@@ -194,9 +194,9 @@ Missile* WeaponManager::CreateMissile() {
 }
 
 Melee* WeaponManager::CreateMelee() {
-	Melee* gun = new Melee(createWeaponData_);
+	Melee* melee = new Melee(createWeaponData_);
 
-	return gun;
+	return melee;
 }
 
 void WeaponManager::CreateJsonData(LWP::Utility::JsonIO& json, WeaponData& data, const std::string& name) {
@@ -227,8 +227,11 @@ void WeaponManager::CreateJsonData(LWP::Utility::JsonIO& json, WeaponData& data,
 
 		// バースト数
 		.AddValue<int>("BurstNum", &data.burstNum)
+
 		// 攻撃力
 		.AddValue<float>("AttackPower", &data.attackValue)
+		// 攻撃時の練度上昇量
+		.AddValue<float>("AttackSkillGain", &data.attackSkillGain)
 
 		// 溜め時間
 		.AddValue<float>("StoreTime", &data.storeTime)
@@ -278,6 +281,8 @@ void WeaponManager::SelectWeaponDataGui(LWP::Utility::JsonIO& json, WeaponData& 
 		ImGui::DragInt("BurstNum", &data.burstNum, 1, 0);
 		// 攻撃力
 		ImGui::DragFloat("AttackPower", &data.attackValue);
+		// 攻撃時の練度上昇量
+		ImGui::DragFloat("AttackSkillGain", &data.attackSkillGain);
 		// 溜め時間
 		ImGui::DragFloat("StoreTime", &data.storeTime);
 		// 撃てない時間

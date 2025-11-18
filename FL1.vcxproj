@@ -219,6 +219,7 @@
     <ClCompile Include="class\GameObjects\Enemy\Test\TestEnemy.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\WeaponManager.cpp" />
     <ClCompile Include="class\GameObjects\Bullets\Melee\MeleeAttack.cpp" />
+    <ClCompile Include="class\GameObjects\Player\System\WeaponSkill\WeaponSkill.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="class\GameObjects\Enemy\Cargo\Cargo.h" />
@@ -304,6 +305,7 @@
     <ClInclude Include="class\GameObjects\Enemy\Test\TestEnemy.h" />
     <ClInclude Include="class\GameObjects\Weapon\WeaponManager.h" />
     <ClInclude Include="class\GameObjects\Bullets\Melee\MeleeAttack.h" />
+    <ClInclude Include="class\GameObjects\Player\System\WeaponSkill\WeaponSkill.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

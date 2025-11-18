@@ -179,9 +179,9 @@ protected:
 	// 攻撃力
 	float currentAttackValue_;
 	// 攻撃倍率
-	float attackMultiply_;
+	float attackMultiply_ = 1.0f;
 	// 速度倍率
-	float speedMultiply_;
+	float speedMultiply_ = 1.0f;
 
 	// 射撃時の経過時間
 	float attackFrame_;

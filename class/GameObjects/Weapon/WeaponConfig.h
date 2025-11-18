@@ -1,6 +1,7 @@
 #pragma once
 #include <Adapter.h>
 #include <string>
+#include <array>
 
 // 武器種
 enum class WeaponType {
@@ -58,6 +59,7 @@ struct WeaponData {
 	float attackValue = 50.0f;						// 攻撃力
 	float coolTime;									// 撃てない時間[秒]
 	float reloadTime;								// リロード時間[秒]
+	float attackSkillGain = 100.0f;					// 攻撃時の練度上昇量
 	int rarity;										// レアリティ
 };
 
@@ -103,5 +105,20 @@ namespace WeaponConfig {
 /* ミサイル		*/{  "AR/AR.obj"					, "AR/AR.obj"					, "AR/AR.obj"					,"AR/AR.obj"					,"AR/AR.obj"					,"AR/AR.obj"					},
 /* 近接			*/{  "PileBunker.gltf"				, "PileBunker.gltf"				, "PileBunker.gltf"				,"PileBunker.gltf"				,"PileBunker.gltf"				,"PileBunker.gltf"				}	
 		}};
+	}
+
+	/// <summary>
+	/// 名前から武器の種類を検索
+	/// </summary>
+	/// <param name="name"></param>
+	/// <returns></returns>
+	inline int GetWeaponType(const std::string& name){
+		for (int i = 0; i < Name::name.size(); i++) {
+			if (Name::name[i] == name) {
+				return i;
+			}
+		}
+		// 該当なし
+		return -1;
 	}
 }

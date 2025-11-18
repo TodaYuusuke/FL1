@@ -1,0 +1,6 @@
+{
+    "Group :Level : 0": {
+        "float :AttackMultiply": 1.0,
+        "float :RequiredExp": 1000.0
+    }
+}

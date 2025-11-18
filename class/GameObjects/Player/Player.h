@@ -2,6 +2,7 @@
 #include "System/LeadingSystem.h" 
 #include "Actions/MoveController.h"
 #include "Actions/WeaponController.h"
+#include "System/WeaponSkill/WeaponSkill.h"
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
 #include <Adapter.h>
 

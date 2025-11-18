@@ -1,6 +1,7 @@
 #pragma once
 #include "IActions.h"
 #include "Action/IAction.h"
+#include "../System/WeaponSkill/WeaponSkill.h"
 #include "../../Weapon/IWeapon.h"
 #include "../../Weapon/WeaponSlot.h"
 #include <memory>
@@ -135,6 +136,9 @@ private:
 	std::map<WeaponSide, std::unique_ptr<WeaponSlot>> weapons_;
 	// 現在所持している武器のマスク
 	std::map<WeaponSide, unsigned int> currentWeaponMask_;
+
+	// 各武器の練度
+	std::unique_ptr<WeaponSkill> weaponSkills_;
 
 	// 武器の回収したい部位
 	WeaponSide collectSide_;

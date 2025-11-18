@@ -2,6 +2,7 @@
 #include <Adapter.h>
 #include "IWeapon.h"
 
+class WeaponSkill;
 class LeadingSystem;
 /// <summary>
 /// 片手の武器スロットを管理
@@ -9,7 +10,7 @@ class LeadingSystem;
 class WeaponSlot {
 public:
     // コンス虎歌
-    WeaponSlot(LeadingSystem* leadingSystem);
+    WeaponSlot(LeadingSystem* leadingSystem, WeaponSkill* weaponSkill);
     // デストラクタ
     ~WeaponSlot();
 
@@ -69,6 +70,11 @@ public:// アクセサ
 
 #pragma region Setter
     /// <summary>
+    /// 武器練度クラスを設定
+    /// </summary>
+    /// <param name="weaponSkill"></param>
+    void SetWeaponSkill(WeaponSkill* weaponSkill) { pWeaponSkill_ = weaponSkill; }
+    /// <summary>
     /// 武器由来の速度を設定
     /// </summary>
     /// <param name="velocity"></param>
@@ -78,12 +84,16 @@ public:// アクセサ
 private:// 外部から受け取る変数
     // 偏差射撃計算機能
     LeadingSystem* pLeadingSystem_;
+    // 武器練度
+    WeaponSkill* pWeaponSkill_;
+
+private:// 調整項目
+    // 最大1個まで保持
+    static constexpr size_t kMaxWeapons = 1;
 
 private:
     // 武器
     std::vector<IWeapon*> weapons_;
-    // 最大1個まで保持
-    static constexpr size_t kMaxWeapons = 1;
 
     // 武器由来の速度
     LWP::Math::Vector3 weaponVel_{ 0.0f,0.0f,0.0f };
