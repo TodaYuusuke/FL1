@@ -40,8 +40,10 @@ public:
 	/// 破壊処理
 	/// </summary>
 	virtual void Destroy() = 0;
-
-	void FallingUpdate();
+	/// <summary>
+	/// 落下処理
+	/// </summary>
+	virtual void FallingUpdate() = 0;
 
 public:// アクセサ
 #pragma region Getter

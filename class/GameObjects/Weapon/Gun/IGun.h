@@ -37,6 +37,10 @@ public:
 	/// 破壊処理
 	/// </summary>
 	void Destroy() override;
+	/// <summary>
+	/// 落下処理
+	/// </summary>
+	void FallingUpdate() override;
 
 protected:
 	/// <summary>
