@@ -225,6 +225,9 @@
     <ClCompile Include="class\GameObjects\Player\System\WeaponSkill\WeaponSkill.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="class\GameObjects\Weapon\IWeapon.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="class\scene\TestScene.h">

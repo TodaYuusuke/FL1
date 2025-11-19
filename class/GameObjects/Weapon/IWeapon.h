@@ -41,6 +41,8 @@ public:
 	/// </summary>
 	virtual void Destroy() = 0;
 
+	void FallingUpdate();
+
 public:// アクセサ
 #pragma region Getter
 	/// <summary>
@@ -63,6 +65,11 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	LWP::Object::TransformQuat* GetWorldTF() { return &body_.worldTF; }
+	/// <summary>
+	/// 速度を取得
+	/// </summary>
+	/// <returns></returns>
+	LWP::Math::Vector3 GetVelocity() { return velocity_; }
 	/// <summary>
 	/// 名前を取得
 	/// </summary>
@@ -126,6 +133,11 @@ public:// アクセサ
 	/// <returns></returns>
 	void SetShotDirVelocity(const LWP::Math::Vector3& dirVel) { shotDirVel_ = dirVel; }
 	/// <summary>
+	/// 速度を設定
+	/// </summary>
+	/// <param name="vel"></param>
+	void SetVelocity(const LWP::Math::Vector3& vel) { velocity_ = vel; }
+	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="translation"></param>
@@ -135,6 +147,11 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="q"></param>
 	void SetRotation(const LWP::Math::Quaternion& q) { body_.worldTF.rotation = q; }
+	/// <summary>
+	/// 大きさの設定
+	/// </summary>
+	/// <param name="scale"></param>
+	void SetScale(const LWP::Math::Vector3& scale) { body_.worldTF.scale = scale; }
 	/// <summary>
 	/// 攻撃倍率を設定
 	/// </summary>
@@ -175,6 +192,7 @@ protected:
 
 	// 弾発射時の方向ベクトル
 	LWP::Math::Vector3 shotDirVel_;
+	LWP::Math::Vector3 velocity_;
 
 	// 攻撃力
 	float currentAttackValue_;

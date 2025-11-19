@@ -56,6 +56,9 @@ void IGun::Init() {
 }
 
 void IGun::Update() {
+	// 持ち主がいないときのみ落下
+	FallingUpdate();
+
 	// 攻撃力
 	currentAttackValue_ = data_.attackValue * attackMultiply_;
 

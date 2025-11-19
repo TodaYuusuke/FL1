@@ -184,6 +184,10 @@ public:// Getter,Setter
 	void SetPlayer(Player* player) { player_ = player; }
 #pragma endregion
 
+private:
+	// 武器を落とすときの速度ベクトル
+	LWP::Math::Vector3 weaponDropVel = { 0.2f, 0.4f, 0.2f };
+
 private:// 外部から受け取る変数
 	IWorld* pWorld_;
 	Player* player_;

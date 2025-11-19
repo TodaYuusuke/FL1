@@ -176,6 +176,7 @@
     <ClCompile Include="class\GameObjects\Weapon\Gun\Missile\Missile.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Gun\Rifle\Rifle.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Gun\ShotGun\ShotGun.cpp" />
+    <ClCompile Include="class\GameObjects\Weapon\IWeapon.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Melee\IMelee.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Melee\Melee.cpp" />
     <ClCompile Include="class\scene\GameScene.cpp" />

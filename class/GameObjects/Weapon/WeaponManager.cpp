@@ -78,6 +78,9 @@ void WeaponManager::DebugGui() {
 			// 生成座標
 			ImGui::DragFloat3("CreatePos", &createPos_.x, 0.01f);
 
+			// 武器の四散範囲
+			ImGui::DragFloat3("WeaponDropRange", &weaponDropVel.x, 0.01f);
+
 			// 武器生成
 			if (ImGui::Button("Create")) {
 				// コピー元の武器情報
@@ -352,7 +355,6 @@ void WeaponManager::DropWeapon(IWeapon* weapon) {
 		Vector3 pos = weapon->GetActor()->GetWorldTF()->GetWorldPosition() + weapon->GetWorldTF()->translation;
 		// 親子付け解除
 		weapon->SetParent(nullptr);
-
 		// 座標指定
 		weapon->SetTranslation(pos);
 	}
@@ -361,6 +363,21 @@ void WeaponManager::DropWeapon(IWeapon* weapon) {
 		// 座標指定
 		weapon->SetTranslation(createPos_);
 	}
+
+	// 武器を四散させる
+	Vector3 min = weaponDropVel * -1;
+	min.y = 0.0f;
+	Vector3 max = weaponDropVel;
+	Vector3 randomVel = LWP::Utility::Random::GenerateVector3(min, max);
+	weapon->SetVelocity(randomVel);
+
+	// 地面に向かって武器を刺す
+	Vector3 randomDir = LWP::Utility::Random::GenerateVector3(Vector3{ -0.3f,-1.0f, -0.3f }, Vector3{ 0.3f,-0.8f, 0.3f });
+	Quaternion q = Quaternion::LookRotation(randomDir);
+	weapon->SetRotation(q);
+
+	// 大きくする
+	weapon->SetScale(Vector3{ 1.5f,1.5f,1.5f });
 }
 
 void WeaponManager::PickUpWeapon(IWeapon* weapon, Actor* target, int weaponSide) {
@@ -426,7 +443,7 @@ void WeaponManager::DeleteWeapon(IWeapon* weapon) {
 	// 存在しているなら削除
 	if (result != weapons_.end()) {
 		// 武器による速度
-		if(weapon->GetActor()) weapon->GetActor()->SetWeaponVelocity(Vector3{ 0.0f,0.0f,0.0f });
+		if (weapon->GetActor()) weapon->GetActor()->SetWeaponVelocity(Vector3{ 0.0f,0.0f,0.0f });
 		delete weapon;
 		weapon = nullptr;
 		weapons_.erase(result);
