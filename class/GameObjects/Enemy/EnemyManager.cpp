@@ -7,6 +7,8 @@
 #include "../Weapon/Gun/MachineGun/MachineGun.h"
 #include "../Weapon/WeaponManager.h"
 #include "EnemyConfig.h"
+#include "../UI/ScoreUI/ScoreManager.h"
+
 
 using namespace EnemyConfig;
 using namespace LWP;
@@ -59,6 +61,8 @@ void EnemyManager::Update() {
 					for (int i = 0; i < actor->GetWeapon().size(); i++) {
 						WeaponManager::GetInstance()->DropWeapon(actor->GetWeapon()[i]);
 					}
+					//スコアの増加
+					ScoreCounter::GetInstance()->AddScore(actor->GetScore());
 
 					// 敵の解放
 					delete actor;

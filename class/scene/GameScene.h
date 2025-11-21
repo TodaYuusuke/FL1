@@ -4,6 +4,9 @@
 #include "../GameObjects/Player/Player.h"
 #include "../GameObjects/Enemy/EnemyManager.h"
 #include "../GameObjects/Camera/FollowCamera/FollowCamera.h"
+
+#include "../GameObjects/UI/ScoreUI/ScoreUI.h"
+
 #include "Adapter.h"
 
 class GameScene final
@@ -25,4 +28,6 @@ private: // ** これより先に必要な処理や変数を記述 ** //
 
 	// ワールド
 	std::unique_ptr<World> world_;
+
+	std::unique_ptr<ScoreUI> score_;
 };

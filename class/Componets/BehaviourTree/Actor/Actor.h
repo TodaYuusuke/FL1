@@ -139,6 +139,11 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	bool GetIsAlive() { return isAlive_; };
+	/// <summary>
+	/// 撃墜スコア取得
+	/// </summary>
+	/// <returns></returns>
+	int32_t GetScore() { return score_; };
 #pragma endregion
 
 #pragma region Setter
@@ -255,4 +260,7 @@ protected:
 
 	// 生存フラグ
 	bool isAlive_ = true;
+
+	//スコア(仮値全オブジェクト100)
+	int32_t score_ = 12345;
 };

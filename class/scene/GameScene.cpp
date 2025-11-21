@@ -4,6 +4,7 @@
 #include "../GameObjects/Bullets/BulletManager.h"
 #include "../GameObjects/Weapon/WeaponManager.h"
 #include "../Componets/HitStopController.h"
+#include "../GameObjects/UI/ScoreUI/ScoreManager.h"
 
 using namespace LWP;
 using namespace LWP::Resource;
@@ -59,6 +60,10 @@ void GameScene::Initialize() {
 	WeaponManager::GetInstance()->SetPlayer(player);
 	// 武器管理クラスにワールドのアドレスを登録
 	WeaponManager::GetInstance()->SetWorld(world_.get());
+
+	//スコア表示テスト
+	score_ = std::make_unique<ScoreUI>();
+	score_->Initialize(9);
 }
 
 void GameScene::Update() {
@@ -76,6 +81,11 @@ void GameScene::Update() {
 
 	// 追従カメラ
 	followCamera_->Update();
+
+	//スコア表示(テスト)
+	score_->SetScore(ScoreCounter::GetInstance()->GetScore());
+	score_->Update();
+
 
 #ifdef _DEBUG
 	ImGui::Begin("GameObjects");
