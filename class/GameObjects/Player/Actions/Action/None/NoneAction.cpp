@@ -7,6 +7,8 @@ NoneAction::NoneAction() {
 	stateName_ = "None";
 	// 遷移可能な状態
 	enableChangeState_ = Mask::all;
+
+	currentFrame_ = 1.0f;
 }
 
 void NoneAction::Init() {

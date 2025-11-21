@@ -165,4 +165,7 @@ namespace FLMath {
 		};
 		return result;
 	}
+	float LengthSq(const LWP::Math::Vector3& value) {
+		return (value.x * value.x) + (value.y * value.y) + (value.z * value.z);
+	}
 }

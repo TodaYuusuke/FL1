@@ -7,9 +7,11 @@
 #include "Melee/Melee.h"
 #include "../World/World.h"
 #include "../Player/Player.h"
+#include <queue>
 
 using namespace LWP;
 using namespace LWP::Math;
+using namespace FLMath;
 
 WeaponManager::WeaponManager() {
 	// 武器種生成プレビュー
@@ -80,6 +82,8 @@ void WeaponManager::DebugGui() {
 
 			// 武器の四散範囲
 			ImGui::DragFloat3("WeaponDropRange", &weaponDropVel.x, 0.01f);
+			ImGui::DragFloat("PickUpWeaponAngle", &pickUpWeaponAngle, 0.01f);
+			ImGui::DragFloat("PickUpWeaponRange", &pickUpWeaponRange, 0.01f);
 
 			// 武器生成
 			if (ImGui::Button("Create")) {
@@ -91,6 +95,15 @@ void WeaponManager::DebugGui() {
 				DropWeapon(weapon);
 			}
 
+			// 武器解放
+			if (ImGui::Button("All Delete")) {
+				for (IWeapon* weapon : weapons_) {
+					// 所持者がいるなら解放しない
+					if (weapon->GetActor()) { continue; }
+					DeleteWeapon(weapon);
+				}
+			}
+
 			ImGui::TreePop();
 		}
 
@@ -99,17 +112,67 @@ void WeaponManager::DebugGui() {
 }
 
 void WeaponManager::CheckPlayerToWeaponDistance() {
+	// 回収キーを入力していなければ終了
+	if (!LWP::Input::Pad::GetPress(XBOX_X)) { return; }
+	// 武器が存在してないなら終了
+	if (weapons_.empty()) { return; }
+
+	// 最も近い武器を探す比較関数
+	auto compare = [&](IWeapon* w, IWeapon* nextW) {
+		Vector3 playerPos = pWorld_->FindActor("Player")->GetWorldTF()->GetWorldPosition();
+
+		Vector3 dir1 = w->GetWorldTF()->GetWorldPosition() - playerPos;
+		Vector3 dir2 = nextW->GetWorldTF()->GetWorldPosition() - playerPos;
+
+		// y を無視して2D距離計算
+		dir1.y = 0.0f;
+		dir2.y = 0.0f;
+
+		float dist1 = dir1.Length();
+		float dist2 = dir2.Length();
+
+		// 昇順
+		return dist1 > dist2;
+		};
+	// 自機から近い順に武器を整列
+	// カメラ内もしくは自機の方向ベクトルから一定の角度内にある武器対象
+	std::priority_queue<
+		IWeapon*,               // 要素の型
+		std::vector<IWeapon*>,  // 内部コンテナ
+		decltype(compare)       // コンパレータ
+	> que{ compare };
+
+	// 回収できる武器を判別
 	for (IWeapon* weapon : weapons_) {
 		// 所有者がいるなら終了
-		if (weapon->GetActor()) { continue; }
+		if (weapon->GetActor()) {continue;}
 		// 武器が可視化されていないなら終了
-		if (!weapon->GetModel().isActive) { continue; }
+		if (!weapon->GetModel().isActive) {	continue;}
 		// 一定距離内にいるなら回収
-		if (Vector3::Distance(player_->GetWorldTF()->GetWorldPosition(), weapon->GetWorldTF()->GetWorldPosition()) > 5.0f) { continue; }
+		Vector2 playerPos = {
+			player_->GetWorldTF()->GetWorldPosition().x,
+			player_->GetWorldTF()->GetWorldPosition().z
+		};
+		Vector2 weaponPos = {
+			weapon->GetWorldTF()->GetWorldPosition().x,
+			weapon->GetWorldTF()->GetWorldPosition().z
+		};
+		if (Vector2::Distance(playerPos, weaponPos) > std::powf(pickUpWeaponRange, 2.0f)) {	continue;}
+		// 自機の方向ベクトルと自機~武器の方向ベクトルの内積を求める
+		Vector3 wDir = (weapon->GetWorldTF()->GetWorldPosition() - pWorld_->FindActor("Player")->GetWorldTF()->GetWorldPosition()).Normalize();
+		Vector3 pDir = (Vector3{ 0.0f,0.0f,1.0f } *Matrix4x4::CreateRotateXYZMatrix(pWorld_->FindActor("Player")->GetWorldTF()->rotation)).Normalize();
+		float dot = Vector3::Dot(wDir, pDir);
+		if (dot <= pickUpWeaponAngle) {	continue;}
 
-		// 自機に武器を付与
-		PickUpWeapon(weapon, pWorld_->FindActor("Player"));
+		// 回収可能
+		que.push(weapon);
 	}
+
+
+	// ***** 回収可能武器がないなら終了 ***** //
+	if (que.empty()) { return; }
+	// 武器を拾う
+	PickUpWeapon(que.top(), pWorld_->FindActor("Player"));
 }
 
 IWeapon* WeaponManager::CreateSelectedWeapon(int weaponType) {

@@ -42,7 +42,7 @@ Player::Player(Camera* camera, const LWP::Math::Vector3& centerPos) {
 	leadingSystem_ = std::make_unique<LeadingSystem>(camera, blackBoard_);
 
 	// 移動系統の管理
-	moveController_ = std::make_unique<MoveController>();
+	moveController_ = std::make_unique<MoveController>(this);
 	// 武器系統の管理
 	weaponController_ = std::make_unique<WeaponController>(leadingSystem_.get(), this);
 	weaponController_->SetCenterDist(centerPos_);

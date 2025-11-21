@@ -57,4 +57,6 @@ namespace FLMath {
 	/// <param name="value"></param>
 	/// <returns></returns>
 	LWP::Math::Vector3 Abs(LWP::Math::Vector3 value);
+
+	float LengthSq(const LWP::Math::Vector3& value);
 }

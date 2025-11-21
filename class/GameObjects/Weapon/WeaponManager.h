@@ -187,6 +187,11 @@ public:// Getter,Setter
 private:
 	// 武器を落とすときの速度ベクトル
 	LWP::Math::Vector3 weaponDropVel = { 0.2f, 0.4f, 0.2f };
+	
+	// 武器回収範囲
+	float pickUpWeaponRange = 3.0f;
+	// 武器回収角度
+	float pickUpWeaponAngle = 0.2f;
 
 private:// 外部から受け取る変数
 	IWorld* pWorld_;
