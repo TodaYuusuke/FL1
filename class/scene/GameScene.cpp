@@ -5,6 +5,7 @@
 #include "../GameObjects/Weapon/WeaponManager.h"
 #include "../Componets/HitStopController.h"
 #include "../GameObjects/UI/ScoreUI/ScoreManager.h"
+#include "ResultScene.h"
 
 using namespace LWP;
 using namespace LWP::Resource;
@@ -63,7 +64,8 @@ void GameScene::Initialize() {
 
 	//スコア表示テスト
 	score_ = std::make_unique<ScoreUI>();
-	score_->Initialize(9);
+	score_->Initialize(7);
+	score_->SetCenter({1280.0f,100.0f});
 }
 
 void GameScene::Update() {
@@ -88,6 +90,12 @@ void GameScene::Update() {
 
 
 #ifdef _DEBUG
+
+	// 次のシーンへ以降
+	if (Input::Keyboard::GetTrigger(DIK_F)) {
+		nextSceneFunction = []() { return new ResultScene(); };
+	}
+
 	ImGui::Begin("GameObjects");
 	ImGui::BeginTabBar("GameObject");
 

@@ -181,6 +181,7 @@
     <ClCompile Include="class\GameObjects\Weapon\Melee\IMelee.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Melee\Melee.cpp" />
     <ClCompile Include="class\scene\GameScene.cpp" />
+    <ClCompile Include="class\scene\ResultScene.cpp" />
     <ClCompile Include="class\scene\TestScene.cpp" />
     <ClCompile Include="class\scene\Title.cpp" />
     <ClCompile Include="DirectXGame\Externals\imnodes\imnodes.cpp" />
@@ -260,6 +261,7 @@
     <ClInclude Include="class\GameObjects\Weapon\Melee\Melee.h" />
     <ClInclude Include="class\GameObjects\Weapon\WeaponConfig.h" />
     <ClInclude Include="class\scene\GameScene.h" />
+    <ClInclude Include="class\scene\ResultScene.h" />
     <ClInclude Include="class\scene\TestScene.h" />
     <ClInclude Include="class\scene\Title.h" />
     <ClInclude Include="DirectXGame\Externals\imnodes\imnodes.h" />
