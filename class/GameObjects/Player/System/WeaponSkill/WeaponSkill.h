@@ -13,6 +13,7 @@ public:
 		float requiredExp;			// 必要経験値数
 		int level;					// 練度
 		float attackMultiply = 1.0f;// 攻撃倍率
+		int weaponType;
 	};
 	// Guiのタブ情報
 	struct TabData {
@@ -20,6 +21,11 @@ public:
 		int level;
 		int weaponType;
 		bool isActive;
+	};
+
+	struct RaderChartData {
+		float value;
+		int level;
 	};
 
 public:
@@ -42,6 +48,8 @@ public:
 	void DebugGui();
 
 private:
+	void ApplyRadarEffect(std::array<WeaponSkillData, (int)WeaponType::kCount>& values, int index, float increase);
+
 	/// <summary>
 	/// 練度をあげるかを確認
 	/// </summary>
@@ -55,8 +63,16 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="weaponType"></param>
 	/// <param name="value"></param>
-	void SkillUp(int weaponType, float value) { currentSkills_[weaponType].value += value; }
-	void SkillUp(const std::string& weaponName, float value) { currentSkills_[WeaponConfig::GetWeaponType(weaponName)].value += value; }
+	void SkillUp(int weaponType, float value) {
+		int type = GetSkillData(weaponType).weaponType;
+		ApplyRadarEffect(radar_, type, value);
+		//radar_[type].value += value;
+	}
+	void SkillUp(const std::string& weaponName, float value) { 
+		int type = GetSkillData(weaponName).weaponType;
+		ApplyRadarEffect(radar_, type, value);
+		//radar_[type].value += value;
+	}
 
 #pragma region Getter
 	/// <summary>
@@ -64,8 +80,18 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="weaponType"></param>
 	/// <returns></returns>
-	WeaponSkillData GetSkillData(int weaponType) { return currentSkills_[weaponType]; }
-	WeaponSkillData GetSkillData(const std::string& weaponName) { return currentSkills_[WeaponConfig::GetWeaponType(weaponName)]; }
+	WeaponSkillData GetSkillData(int weaponType) { 
+		for (int i = 0; i < (int)WeaponType::kCount; i++) {
+			if (radar_[i].weaponType == weaponType) return radar_[i];
+		}
+		return WeaponSkillData();
+	}
+	WeaponSkillData GetSkillData(const std::string& weaponName) { 
+		for (int i = 0; i < (int)WeaponType::kCount; i++) {
+			if (radar_[i].weaponType == WeaponConfig::GetWeaponType(weaponName)) return radar_[i];
+		}
+		return WeaponSkillData();
+	}
 #pragma endregion
 
 #pragma region Setter
@@ -76,6 +102,13 @@ private:// 調整項目
 	// 最大練度
 	static const int maxLevel = 10;
 
+	float decay[4] = {
+		0.0f,    // d=0 自分
+		-0.3f,   // d=1 隣
+		-0.6f,   // d=2
+		-1.0f    // d=3 反対側
+	};
+
 	// 練度ごとのパラメータ
 	std::array<WeaponSkillData, maxLevel> sampleSkills_;
 
@@ -84,5 +117,7 @@ private:
 
 	// 武器別練度
 	// 順番はWeaponType準拠
-	std::array<WeaponSkillData, (int)WeaponType::kCount> currentSkills_;
+	//std::array<WeaponSkillData, (int)WeaponType::kCount> currentSkills_;
+
+	std::array<WeaponSkillData, (int)WeaponType::kCount> radar_;
 };

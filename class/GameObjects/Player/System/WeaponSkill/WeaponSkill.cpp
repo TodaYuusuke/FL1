@@ -1,10 +1,17 @@
 #include "WeaponSkill.h"
 #include <array> 
+#include <algorithm>
+#include <cmath>
 #include <set>
 
 WeaponSkill::WeaponSkill() {
 	// 練度の詳細設定作成
 	json_.Init("WeaponSkill.json");
+	json_.BeginGroup("Decay")
+		.AddValue<float>("Near", &decay[1])
+		.AddValue<float>("Middle", &decay[2])
+		.AddValue<float>("Far", &decay[3])
+		.EndGroup();
 	for (int i = 0; i < maxLevel; i++) {
 		// レベル
 		sampleSkills_[i].level = i;
@@ -14,6 +21,14 @@ WeaponSkill::WeaponSkill() {
 			.EndGroup();
 	}
 	json_.CheckJsonFile();
+
+
+	radar_[0].weaponType = (int)WeaponType::kRifle;
+	radar_[1].weaponType = (int)WeaponType::kMachineGun;
+	radar_[2].weaponType = (int)WeaponType::kShotGun;
+	radar_[3].weaponType = (int)WeaponType::kMelee;
+	radar_[4].weaponType = (int)WeaponType::kMissile;
+	radar_[5].weaponType = (int)WeaponType::kLauncher;
 
 	Init();
 }
@@ -25,12 +40,10 @@ WeaponSkill::~WeaponSkill() {
 void WeaponSkill::Init() {
 	// 初期化
 	for (int i = 0; i < (int)WeaponType::kCount; i++) {
-		currentSkills_[i] = {
-			.value = 0.0f,										// 経験値量
-			.requiredExp = sampleSkills_[0].requiredExp,		// 必要経験値量
-			.level = 0,											// 現在の練度
-			.attackMultiply = sampleSkills_[0].attackMultiply	// 攻撃倍率
-		};
+		radar_[i].value = 0.0f;										// 経験値量
+		radar_[i].requiredExp = sampleSkills_[0].requiredExp;		// 必要経験値量
+		radar_[i].level = 0;										// 現在の練度
+		radar_[i].attackMultiply = sampleSkills_[0].attackMultiply;	// 攻撃倍率
 	}
 }
 
@@ -41,7 +54,7 @@ void WeaponSkill::Update() {
 	// 経験値量が下限上限を越さないようにする
 	for (int i = 0; i < (int)WeaponType::kCount; i++) {
 		int index = sampleSkills_.size() - 1;
-		currentSkills_[i].value = std::clamp<float>(currentSkills_[i].value, 0.0f, sampleSkills_[index].requiredExp);
+		radar_[i].value = std::clamp<float>(radar_[i].value, 0.0f, sampleSkills_[index].requiredExp);
 	}
 }
 
@@ -120,10 +133,11 @@ void WeaponSkill::DebugGui() {
 		if (ImGui::BeginTabBar("MainTabs", ImGuiTabBarFlags_Reorderable | ImGuiTabBarFlags_FittingPolicyScroll)) {
 			for (int i = 0; i < tabs.size(); ++i) {
 				if (ImGui::BeginTabItem(tabs[i].name.c_str(), &tabs[i].isActive, ImGuiTabBarFlags_Reorderable)) {
-					ImGui::DragInt("Level", &currentSkills_[tabs[i].weaponType].level);
-					ImGui::DragFloat("Exp", &currentSkills_[tabs[i].weaponType].value);
-					ImGui::DragFloat("EequiredExp", &currentSkills_[tabs[i].weaponType].requiredExp);
-					ImGui::DragFloat("AttackMultiply", &currentSkills_[tabs[i].weaponType].attackMultiply);
+					int weaponType = GetSkillData(tabs[i].weaponType).weaponType;
+					ImGui::DragInt("Level", &radar_[weaponType].level);
+					ImGui::DragFloat("Exp", &radar_[weaponType].value);
+					ImGui::DragFloat("EequiredExp", &radar_[weaponType].requiredExp);
+					ImGui::DragFloat("AttackMultiply", &radar_[weaponType].attackMultiply);
 					ImGui::EndTabItem();
 				}
 			}
@@ -139,18 +153,37 @@ void WeaponSkill::DebugGui() {
 	}
 }
 
+void WeaponSkill::ApplyRadarEffect(std::array<WeaponSkillData, (int)WeaponType::kCount>& values, int index, float increase) {
+	// 中心項目を上げる
+	values[index].value += increase;
+
+	for (int j = 0; j < (int)WeaponType::kCount; j++) {
+		if (j == index) continue;
+
+		// 円環距離
+		int diff = std::abs(j - index);
+		int d = std::min(diff, (int)WeaponType::kCount - diff);  // 0~3
+		values[j].value += increase * decay[d];
+	}
+
+	// 値が0未満にならないようにする場合
+	for (auto& v : values) {
+		//v = std::max<float>(v, 0.0f);
+	}
+}
+
 void WeaponSkill::CheckSkillUp() {
 	for (int i = 0; i < (int)WeaponType::kCount; i++) {
 		// 最大練度なら処理しない
-		if (currentSkills_[i].level >= maxLevel - 1) { continue; }
+		if (radar_[i].level >= maxLevel - 1) { continue; }
 
 		// 現在の練度
-		float level = currentSkills_[i].level;
+		float level = radar_[i].level;
 		// 必要経験値を達しているか
-		if (sampleSkills_[level].requiredExp <= currentSkills_[i].value) {
-			currentSkills_[i].level++;
-			currentSkills_[i].attackMultiply = sampleSkills_[level + 1].attackMultiply;
-			currentSkills_[i].requiredExp = sampleSkills_[level + 1].requiredExp;
+		if (sampleSkills_[level].requiredExp <= radar_[i].value) {
+			radar_[i].level++;
+			radar_[i].attackMultiply = sampleSkills_[level + 1].attackMultiply;
+			radar_[i].requiredExp = sampleSkills_[level + 1].requiredExp;
 		}
 	}
 }
