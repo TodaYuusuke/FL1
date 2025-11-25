@@ -10,7 +10,7 @@ public:
 	// 武器練度情報
 	struct WeaponSkillData {
 		float value;
-		float requiredExp;			// 必要経験値数
+		//float requiredExp;		// 必要経験値数
 		int level;					// 練度
 		float attackMultiply = 1.0f;// 攻撃倍率
 		int weaponType;
@@ -50,13 +50,6 @@ public:
 private:
 	void ApplyRadarEffect(std::array<WeaponSkillData, (int)WeaponType::kCount>& values, int index, float increase);
 
-	/// <summary>
-	/// 練度をあげるかを確認
-	/// </summary>
-	void CheckSkillUp();
-
-	void SelectLevel(int& selectedLevel, std::string label);
-
 public:// アクセサ
 	/// <summary>
 	/// 武器の練度を上げる
@@ -92,6 +85,12 @@ public:// アクセサ
 		}
 		return WeaponSkillData();
 	}
+	int GetIndex(int weaponType) {
+		for (int i = 0; i < (int)WeaponType::kCount; i++) {
+			if (radar_[i].weaponType == weaponType) return i;
+		}
+		return -1;
+	}
 #pragma endregion
 
 #pragma region Setter
@@ -100,17 +99,20 @@ public:// アクセサ
 
 private:// 調整項目
 	// 最大練度
-	static const int maxLevel = 10;
-
+	//static const int maxLevel = 10;
+	// 最大練度(実数値)
+	float maxWeaponSkill = 3000.0f;
+	float maxAttackMultiply = 2.0f;
+	// 減衰割合
 	float decay[4] = {
 		0.0f,    // d=0 自分
-		-0.3f,   // d=1 隣
-		-0.6f,   // d=2
-		-1.0f    // d=3 反対側
+		-0.1f,   // d=1 隣
+		-0.2f,   // d=2
+		-0.4f    // d=3 反対側
 	};
 
 	// 練度ごとのパラメータ
-	std::array<WeaponSkillData, maxLevel> sampleSkills_;
+	//std::array<WeaponSkillData, maxLevel> sampleSkills_;
 
 private:
 	LWP::Utility::JsonIO json_;
