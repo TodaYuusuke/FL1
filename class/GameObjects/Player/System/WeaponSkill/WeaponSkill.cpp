@@ -5,6 +5,13 @@
 #include <set>
 
 WeaponSkill::WeaponSkill() {
+	radar_[0].weaponType = (int)WeaponType::kRifle;
+	radar_[1].weaponType = (int)WeaponType::kMachineGun;
+	radar_[2].weaponType = (int)WeaponType::kShotGun;
+	radar_[3].weaponType = (int)WeaponType::kMelee;
+	radar_[4].weaponType = (int)WeaponType::kMissile;
+	radar_[5].weaponType = (int)WeaponType::kLauncher;
+
 	// 練度の詳細設定作成
 	json_.Init("WeaponSkill.json");
 	// 減衰率
@@ -16,13 +23,6 @@ WeaponSkill::WeaponSkill() {
 		.AddValue<float>("MaxWeaponSkill", &maxWeaponSkill)
 		.AddValue<float>("MaxAttackMultiply", &maxAttackMultiply)
 		.CheckJsonFile();
-
-	radar_[0].weaponType = (int)WeaponType::kRifle;
-	radar_[1].weaponType = (int)WeaponType::kMachineGun;
-	radar_[2].weaponType = (int)WeaponType::kShotGun;
-	radar_[3].weaponType = (int)WeaponType::kMelee;
-	radar_[4].weaponType = (int)WeaponType::kMissile;
-	radar_[5].weaponType = (int)WeaponType::kLauncher;
 
 	Init();
 }
@@ -63,7 +63,14 @@ void WeaponSkill::DebugGui() {
 		if (ImGui::Button("Load")) {
 			json_.Load();
 		}
-		// 
+		// 減衰率
+		if (ImGui::TreeNode("Decay")) {
+			ImGui::DragFloat("Near", &decay[1], 0.01f);
+			ImGui::DragFloat("Middle", &decay[2], 0.01f);
+			ImGui::DragFloat("Far", &decay[3], 0.01f);
+			ImGui::TreePop();
+		}
+
 		ImGui::DragFloat("MaxWeaponSkill", &maxWeaponSkill, 0.01f);
 		ImGui::DragFloat("MaxAttackMultiply", &maxAttackMultiply, 0.01f);
 
@@ -124,10 +131,10 @@ void WeaponSkill::ApplyRadarEffect(std::array<WeaponSkillData, (int)WeaponType::
 		int diff = std::abs(j - target);
 		int d = std::min(diff, (int)WeaponType::kCount - diff);  // 0~3
 		// 経験値を減らす
-		values[j].value += increase * decay[d];
+		values[j].value += increase * -decay[d];
 
 		// 攻撃倍率
-		float attackMultiply = 1.0f + (values[j].value / maxWeaponSkill)* (maxAttackMultiply - 1.0f);
+		float attackMultiply = 1.0f + (values[j].value / maxWeaponSkill) * (maxAttackMultiply - 1.0f);
 		values[j].attackMultiply = attackMultiply;
 	}
 }

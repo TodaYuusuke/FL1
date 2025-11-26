@@ -145,9 +145,9 @@ void WeaponManager::CheckPlayerToWeaponDistance() {
 	// 回収できる武器を判別
 	for (IWeapon* weapon : weapons_) {
 		// 所有者がいるなら終了
-		if (weapon->GetActor()) {continue;}
+		if (weapon->GetActor()) { continue; }
 		// 武器が可視化されていないなら終了
-		if (!weapon->GetModel().isActive) {	continue;}
+		if (!weapon->GetModel().isActive) { continue; }
 		// 一定距離内にいるなら回収
 		Vector2 playerPos = {
 			player_->GetWorldTF()->GetWorldPosition().x,
@@ -157,12 +157,12 @@ void WeaponManager::CheckPlayerToWeaponDistance() {
 			weapon->GetWorldTF()->GetWorldPosition().x,
 			weapon->GetWorldTF()->GetWorldPosition().z
 		};
-		if (Vector2::Distance(playerPos, weaponPos) > std::powf(pickUpWeaponRange, 2.0f)) {	continue;}
+		if (Vector2::Distance(playerPos, weaponPos) > std::powf(pickUpWeaponRange, 2.0f)) { continue; }
 		// 自機の方向ベクトルと自機~武器の方向ベクトルの内積を求める
 		Vector3 wDir = (weapon->GetWorldTF()->GetWorldPosition() - pWorld_->FindActor("Player")->GetWorldTF()->GetWorldPosition()).Normalize();
 		Vector3 pDir = (Vector3{ 0.0f,0.0f,1.0f } *Matrix4x4::CreateRotateXYZMatrix(pWorld_->FindActor("Player")->GetWorldTF()->rotation)).Normalize();
 		float dot = Vector3::Dot(wDir, pDir);
-		if (dot <= pickUpWeaponAngle) {	continue;}
+		if (dot <= pickUpWeaponAngle) { continue; }
 
 		// 回収可能
 		que.push(weapon);
@@ -339,14 +339,14 @@ void WeaponManager::SelectWeaponDataGui(LWP::Utility::JsonIO& json, WeaponData& 
 			ImGui::DragFloat3("ColliderSize", &data.bulletSize.x, 0.01f, 0.0001f, 1.0f);
 			// 弾速
 			ImGui::DragFloat("Speed", &data.bulletSpeed);
+			// 攻撃力
+			ImGui::DragFloat("AttackPower", &data.attackValue);
 			// 弾の生存時間
 			ImGui::DragFloat("ElapsedTime", &data.bulletElapsedTime);
 			ImGui::TreePop();
 		}
 		// バースト数
 		ImGui::DragInt("BurstNum", &data.burstNum, 1, 0);
-		// 攻撃力
-		ImGui::DragFloat("AttackPower", &data.attackValue);
 		// 攻撃時の練度上昇量
 		ImGui::DragFloat("AttackSkillGain", &data.attackSkillGain);
 		// 溜め時間

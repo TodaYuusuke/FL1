@@ -98,17 +98,15 @@ public:// アクセサ
 #pragma endregion
 
 private:// 調整項目
-	// 最大練度
-	//static const int maxLevel = 10;
 	// 最大練度(実数値)
 	float maxWeaponSkill = 3000.0f;
 	float maxAttackMultiply = 2.0f;
 	// 減衰割合
 	float decay[4] = {
 		0.0f,    // d=0 自分
-		-0.1f,   // d=1 隣
-		-0.2f,   // d=2
-		-0.4f    // d=3 反対側
+		0.1f,   // d=1 隣
+		0.2f,   // d=2
+		0.4f    // d=3 反対側
 	};
 
 	// 練度ごとのパラメータ
