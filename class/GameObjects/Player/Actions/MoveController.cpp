@@ -3,6 +3,7 @@
 #include "Action/Evasion/Evasion.h"
 #include "Action/None/NoneAction.h"
 #include "../../../Componets/BehaviourTree/Actor/Actor.h"
+#include "../../../Componets/InputMyController/ControllerReceiver.h"
 
 using namespace ActionConfig;
 using namespace ActionConfig::Mask;
@@ -60,7 +61,11 @@ void MoveController::DebugGui() {
 
 void MoveController::InputHandle() {
 	// 回避
-	if (Keyboard::GetTrigger(DIK_LSHIFT) || Pad::GetTrigger(XBOX_A)) {
+	bool isEvasion = Keyboard::GetTrigger(DIK_LSHIFT) || Pad::GetTrigger(XBOX_A);
+	if (ControllerReceiver::GetInstance()->IsOpen()) {
+		isEvasion = Keyboard::GetTrigger(DIK_SPACE);
+	}
+	if (isEvasion) {
 		if (CheckEnableChangeState(Movement::SubAction::evasion, actions_[ActionType::kSub]->GetEnableChangeState())) {
 			if (CheckInabilityParallelState(Movement::SubAction::evasion, actions_[ActionType::kMain]->GetInabilityParallelState())) {
 				ChangeState(actions_[ActionType::kSub], std::make_unique<Evasion>(actions_[ActionType::kMain]->GetVel(), pActor_->GetWorldTF()->GetWorldPosition()));
