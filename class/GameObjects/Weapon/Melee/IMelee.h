@@ -49,6 +49,9 @@ private:
 	/// </summary>
 	void AttackAssist();
 
+private:// 調整項目
+	float assistOffset = 5.0f;
+
 public:// アクセサ
 #pragma region Getter
 

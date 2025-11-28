@@ -127,6 +127,11 @@ public:// アクセサ
 		}
 		return *result;
 	}
+	/// <summary>
+	/// 敵が解放された瞬間を取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetTriggerDeleteEnemy() { return isTriggerDelete_; }
 #pragma endregion
 
 #pragma region Setter
@@ -189,5 +194,8 @@ private:
 
 	// 生成時の識別番号
 	int createID_;
+
+	// 敵を解放した瞬間
+	bool isTriggerDelete_;
 };
 

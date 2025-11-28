@@ -47,14 +47,18 @@ void EnemyManager::Init() {
 }
 
 void EnemyManager::Update() {
+	isTriggerDelete_ = false;
+
 	for (Actor* actor : enemies_) {
 		actor->Update();
 	}
 	// 削除
 	enemies_.erase(
 		std::remove_if(enemies_.begin(), enemies_.end(),
-			[](Actor* actor) {
+			[&](Actor* actor) {
 				if (!actor->GetIsAlive()) {
+					isTriggerDelete_ = true;
+
 					// 武器を落とす
 					for (int i = 0; i < actor->GetWeapon().size(); i++) {
 						WeaponManager::GetInstance()->DropWeapon(actor->GetWeapon()[i]);

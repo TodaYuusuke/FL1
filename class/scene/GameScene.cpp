@@ -65,10 +65,10 @@ void GameScene::Update() {
 	// ヒットストップ
 	HitStopController::GetInstance()->Update();
 
-	// ワールドオブジェクト
-	world_->Update();
 	// 敵管理
 	enemyManager_->Update();
+	// ワールドオブジェクト
+	world_->Update();
 	// 弾管理クラス
 	BulletManager::GetInstance()->Update();
 	// 武器管理クラス
