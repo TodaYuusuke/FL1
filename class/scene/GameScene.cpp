@@ -135,5 +135,21 @@ void GameScene::Update() {
 
 	ImGui::EndTabBar();
 	ImGui::End();
+
+
+	ImGui::Begin("LeftStick");
+	//ImGui::Text("input  X: %.3f , Y: %.3f", ControllerReceiver::GetInstance()->GetData().GetRawData().x, microController_.GetRawData().y);
+	ImGui::Text("calced X: %.3f , Y: %.3f", ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.lever.x, ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.lever.y);
+	ImGui::Text("button0 %d", (int)ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.button0);
+	ImGui::Text("button1 %d", (int)ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.button1);
+	ImGui::End();
+
+	ImGui::Begin("RightStick");
+	//ImGui::Text("input  X: %.3f , Y: %.3f", ControllerReceiver::GetInstance()->GetData().GetRawData().x, microController_.GetRawData().y);
+	ImGui::Text("calced X: %.3f , Y: %.3f", ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.lever.x, ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.lever.y);
+	ImGui::Text("button0 %d", (int)ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.button0);
+	ImGui::Text("button1 %d", (int)ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.button1);
+	ImGui::End();
+
 #endif // DEBUG
 }

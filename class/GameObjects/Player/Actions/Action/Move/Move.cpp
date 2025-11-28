@@ -23,9 +23,6 @@ void Move::Update() {
 	if (ControllerReceiver::GetInstance()->IsOpen()) {
 		lStick = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.lever;
 		rStick = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.lever;
-		//右スティック入力反転
-		rStick.x = -rStick.x;
-		rStick.y = -rStick.y;
 	}
 
 	// 戦車挙動
@@ -83,7 +80,17 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 	// スティック入力が互いに反対
 	if (target_vL * target_vR < 0.0f) {
 		// 値の修正される前のスティックの入力値で比較
-		float sqrtStick = (Controller::GetLStick().y - Controller::GetRStick().y);
+
+		Vector2 lStick = AdjustmentStick(LWP::Input::Controller::GetLStick());
+		Vector2 rStick = AdjustmentStick(LWP::Input::Controller::GetRStick());
+
+		//マイコン入力が有効
+		if (ControllerReceiver::GetInstance()->IsOpen()) {
+			lStick = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.lever;
+			rStick = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.lever;
+		}
+
+		float sqrtStick = (lStick.y - rStick.y);
 		if (std::sqrtf(sqrtStick * sqrtStick) <= 1.7f) {
 			target_vL = 0.0f;
 			target_vR = 0.0f;

@@ -39,43 +39,6 @@ std::wstring multi_to_wide_capi(std::string const& src)
 	return std::wstring(dest.begin(), dest.end());
 }
 
-
-
-/*BOOL ConvSJistoUtf8(BYTE* pSource, BYTE* pDist, int* pSize)
-{
-	*pSize = 0;
-
-	//ShiftJISからUTF-16へ変換
-	const int nSize = ::MultiByteToWideChar(CP_ACP, 0, (LPCSTR)
-		pSource, -1, NULL, 0);
-
-	BYTE* buffUtf16 = new BYTE[nSize * 2 + 2];
-	::MultiByteToWideChar(CP_ACP, 0, (LPCSTR)pSource, -1, (LPWSTR)
-		buffUtf16, nSize);
-
-	//UTF-16からShift-JISへ変換
-	const int nSizeUtf8 = ::WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)
-		buffUtf16, -1, NULL, 0, NULL, NULL);
-	if (!pDist) {
-		*pSize = nSizeUtf8;
-		delete buffUtf16;
-		return TRUE;
-	}
-
-	BYTE* buffUtf8 = new BYTE[nSizeUtf8 * 2];
-	ZeroMemory(buffUtf8, nSizeUtf8 * 2);
-	::WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)buffUtf16, -1, (LPSTR)
-		buffUtf8, nSizeUtf8, NULL, NULL);
-
-	*pSize = lstrlen((LPCWSTR)buffUtf8);
-	memcpy(pDist, buffUtf8, *pSize);
-
-	delete buffUtf16;
-	delete buffUtf8;
-
-	return TRUE;
-}*/
-
 std::string convSJIStoUTF8(BYTE* pSource, int* pSize)
 {
 	*pSize = 0;
@@ -334,6 +297,10 @@ void ControllerReceiver::Loop() {
 				usedData_.stick.sticks[i].button1 = !data.button1;
 
 			}
+			//右スティックの入力反転
+			usedData_.stick.sticks[1].lever.x = -usedData_.stick.sticks[1].lever.x;
+			usedData_.stick.sticks[1].lever.y = -usedData_.stick.sticks[1].lever.y;
+
 			auto dt = std::chrono::duration_cast<std::chrono::milliseconds>(nowTime - preTime).count();
 			deltaTime_ = float(dt);
 			preTime = nowTime;
@@ -370,6 +337,26 @@ LWP::Math::Vector2 ControllerReceiver::CalcRotateFromJoyStick(RecvStickTest in) 
 	rotate.x = float(num)/ kInputStickRange_;
 	num = in.y - kInputStickCenter_;
 	rotate.y = float(num) / kInputStickRange_;
+	
+	//deadZone設定
+	if (std::abs(rotate.x) < deadZone_) {
+		rotate.x = 0;
+	}
+	else if(rotate.x >0){
+		rotate.x = 1.0f;
+	}
+	else {
+		rotate.x = -1.0f;
+	}
+	if (std::abs(rotate.y) < deadZone_) {
+		rotate.y = 0;
+	}
+	else if(rotate.y > 0){
+		rotate.y = 1.0f;
+	}
+	else {
+		rotate.y = -1.0f;
+	}
 
 	return rotate;
 }

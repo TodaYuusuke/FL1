@@ -81,6 +81,8 @@ public:
 	//ポートが開いてるか(入力が有効か)
 	bool IsOpen() { return isStartThread_ && !isEndThread_; };
 
+	void SetDeadZone(float deadZone) { deadZone_ = deadZone; };
+
 private:
 	ControllerReceiver() { Initialize(); };
 	~ControllerReceiver() {};
@@ -125,4 +127,6 @@ private:
 	//スティックの入力の変換につかうやつ
 	static const int16_t kInputStickCenter_ = 510;
 	static const float kInputStickRange_;
+
+	float deadZone_ = 0.1f;
 };
