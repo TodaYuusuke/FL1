@@ -6,6 +6,8 @@
 #include "../Componets/HitStopController.h"
 #include "../GameObjects/UI/ScoreUI/ScoreManager.h"
 #include "ResultScene.h"
+#include "../Componets/InputMyController/ControllerReceiver.h"
+
 
 using namespace LWP;
 using namespace LWP::Resource;
@@ -32,6 +34,9 @@ GameScene::~GameScene() {
 	WeaponManager::Destroy();
 	// ヒットストップクラス
 	HitStopController::Destroy();
+
+	//マイコン入力の停止
+	ControllerReceiver::GetInstance()->ClosePort();
 }
 
 void GameScene::Initialize() {

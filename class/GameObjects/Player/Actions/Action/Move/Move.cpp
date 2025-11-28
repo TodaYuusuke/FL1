@@ -1,4 +1,5 @@
 #include "Move.h"
+#include "../../../../../Componets/InputMyController/ControllerReceiver.h"
 #include <numbers>
 
 using namespace FLMath;
@@ -17,6 +18,15 @@ void Move::Init() {
 void Move::Update() {
 	Vector2 lStick = AdjustmentStick(LWP::Input::Controller::GetLStick());
 	Vector2 rStick = AdjustmentStick(LWP::Input::Controller::GetRStick());
+
+	//マイコン入力が有効
+	if (ControllerReceiver::GetInstance()->IsOpen()) {
+		lStick = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.lever;
+		rStick = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.lever;
+		//右スティック入力反転
+		rStick.x = -rStick.x;
+		rStick.y = -rStick.y;
+	}
 
 	// 戦車挙動
 	DifferentialUpdate(lStick, rStick, stopController_->GetDeltaTime());

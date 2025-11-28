@@ -4,6 +4,8 @@
 #include "../../Weapon/Gun/MachineGun/MachineGun.h"
 #include "../System/LeadingSystem.h"
 
+#include "../../../Componets/InputMyController/ControllerReceiver.h"
+
 using namespace ActionConfig;
 using namespace ActionConfig::Mask;
 using namespace LWP::Input;
@@ -74,9 +76,23 @@ void WeaponController::InputHandle() {
 	if (Keyboard::GetPress(DIK_0) || Controller::GetPress(XBOX_X)) {
 		isCollect = true;
 	}
+	isCollect = ControllerReceiver::GetInstance()->IsOpen() && Keyboard::GetPress(DIK_LSHIFT);
+	
+
+	//マイコン入力取得
+	bool lButton=false, lTrigger=false;
+	bool rButton=false, rTrigger=false;
+
+	if (ControllerReceiver::GetInstance()->IsOpen()) {
+		lTrigger = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.button0;
+		lButton = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.button1;
+
+		rTrigger = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.button0;
+		rButton = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.button1;
+	}
 
 	// 左手
-	if (Keyboard::GetPress(DIK_1) || Controller::GetPress(XBOX_LT)) {
+	if (Keyboard::GetPress(DIK_1) || Controller::GetPress(XBOX_LT) || lTrigger) {
 		// 回収中なら武器装着要求を出す
 		if (!weapons_[WeaponSide::kLeft]->GetIsFullWeapon() && isCollect) {
 			collectSide_ = WeaponSide::kLeft;
@@ -86,7 +102,7 @@ void WeaponController::InputHandle() {
 		}
 	}
 	// 右手
-	if (Keyboard::GetPress(DIK_2) || Controller::GetPress(XBOX_RT)) {
+	if (Keyboard::GetPress(DIK_2) || Controller::GetPress(XBOX_RT) || rTrigger) {
 		// 回収中なら武器装着
 		if (!weapons_[WeaponSide::kRight]->GetIsFullWeapon() && isCollect) {
 			collectSide_ = WeaponSide::kRight;
@@ -96,7 +112,7 @@ void WeaponController::InputHandle() {
 		}
 	}
 	// 左肩
-	if (Keyboard::GetPress(DIK_3) || Controller::GetPress(XBOX_LB)) {
+	if (Keyboard::GetPress(DIK_3) || Controller::GetPress(XBOX_LB) || lButton) {
 		// 回収中なら武器装着要求を出す
 		if (!weapons_[WeaponSide::kLeftShoulder]->GetIsFullWeapon() && isCollect) {
 			collectSide_ = WeaponSide::kLeftShoulder;
@@ -106,7 +122,7 @@ void WeaponController::InputHandle() {
 		}
 	}
 	// 右肩
-	if (Keyboard::GetPress(DIK_4) || Controller::GetPress(XBOX_RB)) {
+	if (Keyboard::GetPress(DIK_4) || Controller::GetPress(XBOX_RB) || rButton) {
 		// 回収中なら武器装着
 		if (!weapons_[WeaponSide::kRightShoulder]->GetIsFullWeapon() && isCollect) {
 			collectSide_ = WeaponSide::kRightShoulder;
