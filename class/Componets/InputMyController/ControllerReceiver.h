@@ -82,6 +82,7 @@ public:
 	bool IsOpen() { return isStartThread_ && !isEndThread_; };
 
 	void SetDeadZone(float deadZone) { deadZone_ = deadZone; };
+	float GetDeadZone() { return deadZone_; };
 
 private:
 	ControllerReceiver() { Initialize(); };
@@ -128,5 +129,5 @@ private:
 	static const int16_t kInputStickCenter_ = 510;
 	static const float kInputStickRange_;
 
-	float deadZone_ = 0.1f;
+	float deadZone_ = 0.02f;
 };

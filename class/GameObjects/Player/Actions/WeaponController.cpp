@@ -90,8 +90,9 @@ void WeaponController::InputHandle() {
 	if (Keyboard::GetPress(DIK_0) || Controller::GetPress(XBOX_X)) {
 		isCollect = true;
 	}
-	isCollect = ControllerReceiver::GetInstance()->IsOpen() && Keyboard::GetPress(DIK_LSHIFT);
-	
+	if (ControllerReceiver::GetInstance()->IsOpen() && Keyboard::GetPress(DIK_LSHIFT)) {
+		isCollect =  true;
+	}
 
 	//マイコン入力取得
 	bool lButton=false, lTrigger=false;

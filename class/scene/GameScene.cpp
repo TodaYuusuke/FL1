@@ -101,6 +101,11 @@ void GameScene::Update() {
 		nextSceneFunction = []() { return new ResultScene(); };
 	}
 
+	//マイコンの再接続
+	if (Input::Keyboard::GetTrigger(DIK_R)) {
+		ControllerReceiver::GetInstance()->ReOpenPort();
+	}
+
 	ImGui::Begin("GameObjects");
 	ImGui::BeginTabBar("GameObject");
 
@@ -150,6 +155,13 @@ void GameScene::Update() {
 	ImGui::Text("button0 %d", (int)ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.button0);
 	ImGui::Text("button1 %d", (int)ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.button1);
 	ImGui::End();
+
+	static float deadZone;
+
+	ImGui::Begin("Controller");
+	ImGui::DragFloat("DeadZone %d", &deadZone,0.01f);
+	ImGui::End();
+	ControllerReceiver::GetInstance()->SetDeadZone(deadZone);
 
 #endif // DEBUG
 }
