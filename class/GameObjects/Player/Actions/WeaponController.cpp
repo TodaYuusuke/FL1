@@ -14,11 +14,14 @@ WeaponController::WeaponController(LeadingSystem* leadingSystem, Actor* target) 
 	pLeadingSystem_ = leadingSystem;
 	target_ = target;
 
+	// 各武器練度
+	weaponSkills_ = std::make_unique<WeaponSkill>();
+
 	enableChangeState_ = Weapon::MainAction::reloading | Weapon::MainAction::attack;
-	weapons_[WeaponSide::kLeft] = std::make_unique<WeaponSlot>(pLeadingSystem_);
-	weapons_[WeaponSide::kRight] = std::make_unique<WeaponSlot>(pLeadingSystem_);
-	weapons_[WeaponSide::kLeftShoulder] = std::make_unique<WeaponSlot>(pLeadingSystem_);
-	weapons_[WeaponSide::kRightShoulder] = std::make_unique<WeaponSlot>(pLeadingSystem_);
+	weapons_[WeaponSide::kLeft] = std::make_unique<WeaponSlot>(pLeadingSystem_, weaponSkills_.get());
+	weapons_[WeaponSide::kRight] = std::make_unique<WeaponSlot>(pLeadingSystem_, weaponSkills_.get());
+	weapons_[WeaponSide::kLeftShoulder] = std::make_unique<WeaponSlot>(pLeadingSystem_, weaponSkills_.get());
+	weapons_[WeaponSide::kRightShoulder] = std::make_unique<WeaponSlot>(pLeadingSystem_, weaponSkills_.get());
 }
 
 WeaponController::~WeaponController() {}
@@ -34,36 +37,47 @@ void WeaponController::Update() {
 	// 入力
 	InputHandle();
 
-	// 武器
+	// 武器スロット
 	for (auto it = weapons_.begin(); it != weapons_.end(); it++) {
 		if (it->second) it->second->Update();
 	}
+
+	// 武器練度
+	weaponSkills_->Update();
 }
 
 void WeaponController::DebugGui() {
 	// 武器を装備
 	if (ImGui::TreeNode("Weapons")) {
-		// 左手
-		if (ImGui::TreeNode("Left")) {
-			weapons_[WeaponSide::kLeft]->DebugGui();
-			ImGui::TreePop();
-		}
-		// 右手
-		if (ImGui::TreeNode("Right")) {
-			weapons_[WeaponSide::kRight]->DebugGui();
-			ImGui::TreePop();
-		}
-		// 左肩
-		if (ImGui::TreeNode("LeftShoulder")) {
-			weapons_[WeaponSide::kLeftShoulder]->DebugGui();
-			ImGui::TreePop();
-		}
-		// 右肩
-		if (ImGui::TreeNode("RightShoulder")) {
-			weapons_[WeaponSide::kRightShoulder]->DebugGui();
+		if (ImGui::TreeNode("Inventory")) {
+			// 左手
+			if (ImGui::TreeNode("Left")) {
+				weapons_[WeaponSide::kLeft]->DebugGui();
+				ImGui::TreePop();
+			}
+			// 右手
+			if (ImGui::TreeNode("Right")) {
+				weapons_[WeaponSide::kRight]->DebugGui();
+				ImGui::TreePop();
+			}
+			// 左肩
+			if (ImGui::TreeNode("LeftShoulder")) {
+				weapons_[WeaponSide::kLeftShoulder]->DebugGui();
+				ImGui::TreePop();
+			}
+			// 右肩
+			if (ImGui::TreeNode("RightShoulder")) {
+				weapons_[WeaponSide::kRightShoulder]->DebugGui();
+				ImGui::TreePop();
+
+			}
 			ImGui::TreePop();
 		}
 
+		if (ImGui::TreeNode("Skill")) {
+			weaponSkills_->DebugGui();
+			ImGui::TreePop();
+		}
 		ImGui::TreePop();
 	}
 }
@@ -97,7 +111,7 @@ void WeaponController::InputHandle() {
 		if (!weapons_[WeaponSide::kLeft]->GetIsFullWeapon() && isCollect) {
 			collectSide_ = WeaponSide::kLeft;
 		}
-		else if(weapons_[WeaponSide::kLeft] && collectSide_ == WeaponSide::kCount){
+		else if (weapons_[WeaponSide::kLeft] && collectSide_ == WeaponSide::kCount) {
 			weapons_[WeaponSide::kLeft]->Attack();
 		}
 	}

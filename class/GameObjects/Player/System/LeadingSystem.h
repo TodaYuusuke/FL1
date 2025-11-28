@@ -49,6 +49,11 @@ public:// アクセサ
 
 #pragma region Getter
 	/// <summary>
+	/// 偏差対象を取得
+	/// </summary>
+	/// <returns></returns>
+	Actor* GetLeadingTarget() { return leadingTarget_; }
+	/// <summary>
 	/// 偏差射撃の角度を取得
 	/// </summary>
 	/// <returns></returns>

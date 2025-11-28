@@ -34,6 +34,9 @@ void IGun::Init() {
 	// マガジン初期化
 	magazine_->Init(data_.bulletNum);
 
+	attackMultiply_ = 1.0f;
+	speedMultiply_ = 1.0f;
+
 	// 攻撃力
 	currentAttackValue_ = data_.attackValue * attackMultiply_;
 
@@ -53,6 +56,9 @@ void IGun::Init() {
 }
 
 void IGun::Update() {
+	// 持ち主がいないときのみ落下
+	FallingUpdate();
+
 	// 攻撃力
 	currentAttackValue_ = data_.attackValue * attackMultiply_;
 
@@ -113,11 +119,14 @@ void IGun::DebugGui() {
 			ImGui::DragFloat("CoolFrame", &coolFrame_);
 			ImGui::TreePop();
 		}
+
+		ImGui::DragFloat("AtttackPower", &currentAttackValue_);
+
 		ImGui::TreePop();
 	}
 }
 
-void IGun::Attack(int bulletHitFragBit) {
+void IGun::Attack(int bulletHitFragBit, Actor* attackTarget) {
 	// 弾がない状態なら撃てない
 	if (magazine_->GetEmpty()) {
 		isDestroy_ = true;
@@ -134,6 +143,7 @@ void IGun::Attack(int bulletHitFragBit) {
 
 void IGun::Reload() {
 	reloadFrame_ -= stopController_->GetDeltaTime();
+	isDestroy_ = false;
 
 	// リロード完了
 	if (!GetIsReloadTime()) {
@@ -146,6 +156,21 @@ void IGun::Reload() {
 
 void IGun::Destroy() {
 
+}
+
+void IGun::FallingUpdate() {
+	// 持ち主がいるなら処理しない
+	if (actor_) { return; }
+	// 地面に到達したら処理しない
+	if (body_.GetJointWorldPosition("Muzzle").y <= 0.0f) { return; }
+
+	// 重力
+	velocity_.y -= 0.008f;
+	// 前後左右の動きを徐々に遅くする
+	velocity_.x *= 0.99f;
+	velocity_.z *= 0.99f;
+
+	body_.worldTF.translation += velocity_;
 }
 
 void IGun::AttackCommond() {
@@ -175,12 +200,12 @@ void IGun::AttackCommond() {
 			Vector3 max = data_.diffusingBulletRange;
 			randomVec = LWP::Utility::Random::GenerateVector3(min, max);
 			randomVec.z = 1.0f;
-			
-			randomVec = Vector3{ 0,0,1 } * 
-			(Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, randomVec.Normalize()) * Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, shotDirVel_));
+
+			randomVec = Vector3{ 0,0,1 } *
+				(Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, randomVec.Normalize()) * Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, shotDirVel_));
 		}
 		// 弾生成
-		Bullet* bullet = new Bullet(body_.GetJointWorldPosition("Muzzle")/*worldTF.GetWorldPosition()*/, randomVec.Normalize() * 1.0f, bulletHitFragBit_, data_.attackValue, data_.bulletSpeed);
+		Bullet* bullet = new Bullet(data_.bulletSize, body_.GetJointWorldPosition("Muzzle"), randomVec.Normalize() * 1.0f, bulletHitFragBit_, data_.attackValue, data_.bulletSpeed, data_.bulletElapsedTime);
 		pBulletManager_->CreateBullet(bullet);
 
 		i--;

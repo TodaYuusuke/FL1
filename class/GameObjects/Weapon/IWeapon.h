@@ -4,6 +4,7 @@
 #include "../../Componets/Math.h"
 #include "../../Componets/HitStopController.h"
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
+#include "../Bullets/BulletManager.h"
 #include <Adapter.h>
 #include <string>
 
@@ -33,11 +34,16 @@ public:
 	/// 攻撃
 	/// </summary>
 	/// <param name="bulletHitFragBit">弾の当たり判定をとるビット</param>
-	virtual void Attack(int bulletHitFragBit) = 0;
+	/// <param name="attackTarget">被攻撃対象(位置アシストをしたい場合代入)</param>
+	virtual void Attack(int bulletHitFragBit, Actor* attackTarget = nullptr) = 0;
 	/// <summary>
 	/// 破壊処理
 	/// </summary>
 	virtual void Destroy() = 0;
+	/// <summary>
+	/// 落下処理
+	/// </summary>
+	virtual void FallingUpdate() = 0;
 
 public:// アクセサ
 #pragma region Getter
@@ -61,6 +67,11 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	LWP::Object::TransformQuat* GetWorldTF() { return &body_.worldTF; }
+	/// <summary>
+	/// 速度を取得
+	/// </summary>
+	/// <returns></returns>
+	LWP::Math::Vector3 GetVelocity() { return velocity_; }
 	/// <summary>
 	/// 名前を取得
 	/// </summary>
@@ -124,6 +135,11 @@ public:// アクセサ
 	/// <returns></returns>
 	void SetShotDirVelocity(const LWP::Math::Vector3& dirVel) { shotDirVel_ = dirVel; }
 	/// <summary>
+	/// 速度を設定
+	/// </summary>
+	/// <param name="vel"></param>
+	void SetVelocity(const LWP::Math::Vector3& vel) { velocity_ = vel; }
+	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="translation"></param>
@@ -133,6 +149,11 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="q"></param>
 	void SetRotation(const LWP::Math::Quaternion& q) { body_.worldTF.rotation = q; }
+	/// <summary>
+	/// 大きさの設定
+	/// </summary>
+	/// <param name="scale"></param>
+	void SetScale(const LWP::Math::Vector3& scale) { body_.worldTF.scale = scale; }
 	/// <summary>
 	/// 攻撃倍率を設定
 	/// </summary>
@@ -153,6 +174,8 @@ public:// アクセサ
 protected:
 	// ヒットストップ
 	HitStopController* stopController_;
+	// 弾管理クラスのアドレス
+	BulletManager* pBulletManager_;
 
 	// モデル
 	LWP::Resource::SkinningModel body_;
@@ -163,6 +186,7 @@ protected:
 	// 武器情報
 	WeaponData data_;
 
+	// 所有者
 	Actor* actor_;
 
 	// 名前
@@ -170,13 +194,14 @@ protected:
 
 	// 弾発射時の方向ベクトル
 	LWP::Math::Vector3 shotDirVel_;
+	LWP::Math::Vector3 velocity_;
 
 	// 攻撃力
 	float currentAttackValue_;
 	// 攻撃倍率
-	float attackMultiply_;
+	float attackMultiply_ = 1.0f;
 	// 速度倍率
-	float speedMultiply_;
+	float speedMultiply_ = 1.0f;
 
 	// 射撃時の経過時間
 	float attackFrame_;

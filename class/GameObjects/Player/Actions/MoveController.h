@@ -4,13 +4,14 @@
 #include <memory>
 #include <vector>
 
+class Actor;
 /// <summary>
 /// 自機の移動に関する機能クラス
 /// </summary>
 class MoveController : public IActions {
 public:
 	// コンストラクタ
-	MoveController();
+	MoveController(Actor* actor);
 	// デストラクタ
 	~MoveController() override;
 
@@ -44,6 +45,7 @@ public:// アクセサ
 #pragma endregion
 
 private:
+	Actor* pActor_;
 
 private:
 	// 行動処理をまとめたリスト

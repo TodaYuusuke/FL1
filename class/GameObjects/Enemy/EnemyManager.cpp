@@ -214,10 +214,11 @@ void EnemyManager::GiveWeapon(Actor* actor, const EnemyData& data) {
 		// 所持者の攻撃倍率を武器に反映
 		weapon->SetAttackMultiply(actor->GetEnemyData().attackMultiply);
 
-		// 武器の装着位置設定
-		SetWeaponPos(weapon, i);
 		// 武器の付与
 		WeaponManager::GetInstance()->PickUpWeapon(weapon, actor, i);
+
+		// 武器の装着位置設定
+		SetWeaponPos(actor, weapon, i);
 	}
 }
 
@@ -427,8 +428,15 @@ void EnemyManager::CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, c
 		// 武器の最低保証
 		.AddValue<int>("MinRarity", &data.minWeaponRarity)
 		.EndGroup()
+		// 当たり判定
+		.BeginGroup("Collider")
+		.AddValue<Vector3>("Min", &data.colliderMin)
+		.AddValue<Vector3>("Max", &data.colliderMax)
+		.EndGroup()
 		// 体力
 		.AddValue<float>("HP", &data.hp)
+		// 得点
+		.AddValue<float>("Score", &data.score)
 
 		.CheckJsonFile();
 }
@@ -497,8 +505,18 @@ void EnemyManager::SelectEnemyDataGui(LWP::Utility::JsonIO& json, EnemyData& dat
 			ImGui::TreePop();
 		}
 
+		// 当たり判定
+		if (ImGui::TreeNode("Collider")) {
+			ImGui::DragFloat3("Min", &data.colliderMin.x, 0.01f);
+			ImGui::DragFloat3("Max", &data.colliderMax.x, 0.01f);
+			ImGui::TreePop();
+		}
+
 		// HP
 		ImGui::DragFloat("HP", &data.hp, 0.1f);
+		
+		// 得点
+		ImGui::DragFloat("Score", &data.score, 0.1f);
 
 		ImGui::TreePop();
 	}
@@ -528,22 +546,27 @@ void EnemyManager::SelectLevelGui(LWP::Utility::JsonIO& json, LevelParameter& da
 	}
 }
 
-void EnemyManager::SetWeaponPos(IWeapon* weapon, int weaponSide) {
+void EnemyManager::SetWeaponPos(Actor* actor, IWeapon* weapon, int weaponSide) {
+	Vector3 weaponPos{};
 	// 左手
 	if ((int)WeaponSide::kLeft == weaponSide) {
-		weapon->SetTranslation(Vector3{ -1.0f, -0.5f, 2.0f });
+		weaponPos = actor->GetModel().GetJointWorldPosition("WeaponAnchor.L");
+		weapon->SetTranslation(weaponPos);
 	}
 	// 右手
 	if ((int)WeaponSide::kRight == weaponSide) {
-		weapon->SetTranslation(Vector3{ 1.0f, -0.5f, 2.0f });
+		weaponPos = actor->GetModel().GetJointWorldPosition("WeaponAnchor.R");
+		weapon->SetTranslation(weaponPos);
 	}
 	// 左肩
 	if ((int)WeaponSide::kLeftShoulder == weaponSide) {
-		weapon->SetTranslation(Vector3{ -1.0f, 0.5f, 2.0f });
+		weaponPos = actor->GetModel().GetJointWorldPosition("ShoulderWeaponAnchor.L");
+		weapon->SetTranslation(weaponPos);
 	}
 	// 右肩
 	if ((int)WeaponSide::kRightShoulder == weaponSide) {
-		weapon->SetTranslation(Vector3{ 1.0f, 0.5f, 2.0f });
+		weaponPos = actor->GetModel().GetJointWorldPosition("ShoulderWeaponAnchor.R");
+		weapon->SetTranslation(weaponPos);
 	}
 	weapon->SetRotation(Quaternion{ 0,0,0,1 });
 }

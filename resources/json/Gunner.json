@@ -1,4 +1,16 @@
 {
+    "Group :Collider": {
+        "Vector3 :Max": [
+            3.0,
+            9.5,
+            1.0
+        ],
+        "Vector3 :Min": [
+            -3.0,
+            -0.5,
+            -1.0
+        ]
+    },
     "Group :Weapon": {
         "Group :Hand": {
             "Group :Left": {
@@ -19,5 +31,6 @@
         "int32_t :MinRarity": 0
     },
     "float :HP": 100.0,
+    "float :Score": 1000.0,
     "string :BTFileName": "resources/json/BT/BT_Gunner.json"
 }

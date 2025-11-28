@@ -4,8 +4,8 @@
 
 using namespace FLMath;
 
-Bullet::Bullet(const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel, int hitFragBit, float attackPower, float speed)
-	: BulletBase(attackPower, speed)
+Bullet::Bullet(const LWP::Math::Vector3& colliderSize, const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel, int hitFragBit, float attackPower, float speed, float elapsedTime)
+	: BulletBase(attackPower, speed, elapsedTime)
 {
 	stopController_ = HitStopController::GetInstance();
 
@@ -23,7 +23,7 @@ Bullet::Bullet(const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel, 
 	vel_ = dirVel;
 
 	// 体の判定生成
-	LWP::Math::Vector3 size = body_.worldTF.scale / 2.0f;
+	LWP::Math::Vector3 size = colliderSize / 2.0f;
 	bodyAABB_.min = size * -1.0f;
 	bodyAABB_.max = size;
 	bodyCollision_.SetFollow(&body_.worldTF);
@@ -39,8 +39,6 @@ Bullet::Bullet(const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel, 
 
 void Bullet::Init() {
 	vel_ = { 0.0f,0.0f,0.0f };
-
-	currentFrame_ = 60.0f;
 }
 
 void Bullet::Update() {

@@ -31,7 +31,7 @@ void FollowCamera::Update() {
 	// カメラの後追い
 	interTarget_ = LWP::Utility::Interpolation::Lerp(interTarget_, target_->GetWorldTF()->GetWorldPosition(), interTargetRate);
 	// カメラの座標を決定
-	camera_->worldTF.translation = interTarget_ + (kTargetDist * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(camera_->worldTF.rotation));
+	camera_->worldTF.translation = target_->GetWorldTF()->GetWorldPosition() + (kTargetDist * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(camera_->worldTF.rotation));
 }
 
 void FollowCamera::DebugGUI() {

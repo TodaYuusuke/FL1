@@ -4,7 +4,7 @@
 class Bullet : public BulletBase {
 public:
 	// コンストラクタ
-	Bullet(const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel, int hitFragBit, float attackPower, float speed);
+	Bullet(const LWP::Math::Vector3& colliderSize, const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel, int hitFragBit, float attackPower, float speed, float elapsedTime);
 	// デストラクタ
 	~Bullet() = default;
 
@@ -18,5 +18,4 @@ public:
 	void Update() override;
 
 private:
-	float currentFrame_ = 300.0f;
 };

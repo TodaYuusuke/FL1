@@ -1,6 +1,7 @@
 #pragma once
 #include <Adapter.h>
 #include <string>
+#include <array>
 
 // 武器種
 enum class WeaponType {
@@ -43,20 +44,23 @@ enum class ShotType {
 /// 武器の調整項目
 /// </summary>
 struct WeaponData {
-	std::string name;							// 武器の名前
-	std::string modelName;						// 銃モデルのファイル名
-	float shotIntervalTime;						// 射撃間隔[秒]
-	float burstIntervalTime;					// バースト間隔[秒](バースト銃の場合に数値を入れる)
-	float storeTime;							// 溜め時間[秒](溜める銃の場合に数値を入れる)
-	int burstNum;								// バースト数
-	int sameBulletNum;							// 同時に出る弾数
-	LWP::Math::Vector3 diffusingBulletRange;	// 弾の拡散範囲[0～1]
-	int bulletNum;								// 弾数
-	float bulletSpeed = 1.0f;					// 弾速
-	float attackValue = 50.0f;					// 攻撃力
-	float coolTime;								// 撃てない時間[秒]
-	float reloadTime;							// リロード時間[秒]
-	int rarity;									// レアリティ
+	std::string name;								// 武器の名前
+	std::string modelName;							// 銃モデルのファイル名
+	float shotIntervalTime;							// 射撃間隔[秒]
+	float burstIntervalTime;						// バースト間隔[秒](バースト銃の場合に数値を入れる)
+	float storeTime;								// 溜め時間[秒](溜める銃の場合に数値を入れる)
+	int burstNum;									// バースト数
+	int sameBulletNum;								// 同時に出る弾数
+	LWP::Math::Vector3 diffusingBulletRange;		// 弾の拡散範囲[0～1]
+	LWP::Math::Vector3 bulletSize{1.0f,1.0f,1.0f};	// 弾の大きさ(当たり判定)
+	int bulletNum;									// 弾数
+	float bulletSpeed = 1.0f;						// 弾速
+	float bulletElapsedTime = 1.0f;					// 弾の生存時間
+	float attackValue = 50.0f;						// 攻撃力
+	float coolTime;									// 撃てない時間[秒]
+	float reloadTime;								// リロード時間[秒]
+	float attackSkillGain = 100.0f;					// 攻撃時の練度上昇量
+	int rarity;										// レアリティ
 };
 
 namespace WeaponConfig {
@@ -93,13 +97,28 @@ namespace WeaponConfig {
 		// Gun系→	resources/model/Gun/からのパス含めた名前
 		// Melee系→resources/model/Melee/からのパス含めた名前
 		inline std::array<std::array<std::string, (int)WeaponType::kCount>, (int)RarityType::kCount> modelName = {{
-				  // Common						  UnCommon				   Rare				  SuperRare					 Legendary		Over
+				  // Common							UnCommon						Rare							SuperRare						Legendary						Over
 /* マシンガン	*/{  "MachineGun/MachineGun1.gltf"	, "MachineGun/MachineGun1.gltf"	, "MachineGun/MachineGun1.gltf"	,"MachineGun/MachineGun1.gltf"	, "MachineGun/MachineGun1.gltf"	,"MachineGun/MachineGun1.gltf"  },
 /* ショットガン	*/{  "ShotGun/ShotGun1.gltf"		, "ShotGun/ShotGun1.gltf"		, "ShotGun/ShotGun1.gltf"		,"ShotGun/ShotGun1.gltf"		, "ShotGun/ShotGun1.gltf"		,"ShotGun/ShotGun1.gltf"		},
 /* ライフル		*/{  "Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				},
 /* ランチャー	*/{  "Launcher/Launcher1.gltf"		, "Launcher/Launcher1.gltf"		, "Launcher/Launcher1.gltf"		,"Launcher/Launcher1.gltf"		, "Launcher/Launcher1.gltf"		,"Launcher/Launcher1.gltf"		},
 /* ミサイル		*/{  "AR/AR.obj"					, "AR/AR.obj"					, "AR/AR.obj"					,"AR/AR.obj"					,"AR/AR.obj"					,"AR/AR.obj"					},
-/* 近接			*/{  "AR.obj"						, "AR.obj"						, "AR.obj"						,"AR.obj"						,"AR.obj"						,"AR.obj"						}	
+/* 近接			*/{  "PileBunker.gltf"				, "PileBunker.gltf"				, "PileBunker.gltf"				,"PileBunker.gltf"				,"PileBunker.gltf"				,"PileBunker.gltf"				}	
 		}};
+	}
+
+	/// <summary>
+	/// 名前から武器の種類を検索
+	/// </summary>
+	/// <param name="name"></param>
+	/// <returns></returns>
+	inline int GetWeaponType(const std::string& name){
+		for (int i = 0; i < Name::name.size(); i++) {
+			if (Name::name[i] == name) {
+				return i;
+			}
+		}
+		// 該当なし
+		return -1;
 	}
 }

@@ -179,6 +179,7 @@
     <ClCompile Include="class\GameObjects\Weapon\Gun\Missile\Missile.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Gun\Rifle\Rifle.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Gun\ShotGun\ShotGun.cpp" />
+    <ClCompile Include="class\GameObjects\Weapon\IWeapon.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Melee\IMelee.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Melee\Melee.cpp" />
     <ClCompile Include="class\scene\GameScene.cpp" />
@@ -222,6 +223,8 @@
     <ClCompile Include="class\GameObjects\UI\UIManager.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\Test\TestEnemy.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\WeaponManager.cpp" />
+    <ClCompile Include="class\GameObjects\Bullets\Melee\MeleeAttack.cpp" />
+    <ClCompile Include="class\GameObjects\Player\System\WeaponSkill\WeaponSkill.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="class\Componets\InputMyController\ControllerReceiver.h" />
@@ -310,6 +313,8 @@
     <ClInclude Include="class\GameObjects\Enemy\EnemyManager.h" />
     <ClInclude Include="class\GameObjects\Enemy\Test\TestEnemy.h" />
     <ClInclude Include="class\GameObjects\Weapon\WeaponManager.h" />
+    <ClInclude Include="class\GameObjects\Bullets\Melee\MeleeAttack.h" />
+    <ClInclude Include="class\GameObjects\Player\System\WeaponSkill\WeaponSkill.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

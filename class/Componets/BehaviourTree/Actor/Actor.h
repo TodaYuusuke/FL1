@@ -108,7 +108,7 @@ public:// アクセサ
 	/// 現在位置を取得
 	/// </summary>
 	/// <returns></returns>
-	LWP::Resource::RigidModel GetModel() { return model_; }
+	LWP::Resource::SkinningModel GetModel() { return model_; }
 	/// <summary>
 	/// ワールドトランスフォームを取得
 	/// </summary>
@@ -120,10 +120,20 @@ public:// アクセサ
 	/// <returns></returns>
 	LWP::Math::Vector3 GetVelocity() { return velocity_; }
 	/// <summary>
+	/// 武器由来の速度を取得
+	/// </summary>
+	/// <returns></returns>
+	LWP::Math::Vector3 GetWeaponVelocity() { return weaponVel_; }
+	/// <summary>
 	/// 角度を取得
 	/// </summary>
 	/// <returns></returns>
 	LWP::Math::Quaternion GetRot() { return quat_; }
+	/// <summary>
+	/// 中心座標を取得
+	/// </summary>
+	/// <returns></returns>
+	virtual LWP::Math::Vector3 GetCenterPosition() { return model_.worldTF.GetWorldPosition(); }
 	/// <summary>
 	/// 前回の座標を取得
 	/// </summary>
@@ -167,6 +177,11 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="velocity"></param>
 	void SetVelocity(const LWP::Math::Vector3& velocity) { velocity_ = velocity; }
+	/// <summary>
+	/// 武器由来の速度を設定
+	/// </summary>
+	/// <param name="velocity"></param>
+	void SetWeaponVelocity(const LWP::Math::Vector3& velocity) { weaponVel_ = velocity; }
 	/// <summary>
 	/// 角度を設定
 	/// </summary>
@@ -245,9 +260,11 @@ protected:
 	std::string name_;
 
 	// モデル
-	LWP::Resource::RigidModel model_;
+	LWP::Resource::SkinningModel model_;
 	// 移動量
 	LWP::Math::Vector3 velocity_{ 0.0f,0.0f,0.0f };
+	// 武器由来の速度
+	LWP::Math::Vector3 weaponVel_{ 0.0f,0.0f,0.0f };
 	// 角度
 	LWP::Math::Quaternion quat_{ 0.0f,0.0f,0.0f,1.0f };
 	// 前回の座標

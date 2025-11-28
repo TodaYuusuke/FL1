@@ -1,6 +1,5 @@
 #pragma once
 #include "../IWeapon.h"
-#include "../../Bullets/BulletManager.h"
 #include <memory>
 
 /// <summary>
@@ -29,7 +28,7 @@ public:
 	/// <summary>
 	/// 攻撃
 	/// </summary>
-	void Attack(int bulletHitFragBit) override;
+	void Attack(int bulletHitFragBit, Actor* attackTarget = nullptr) override;
 	/// <summary>
 	/// リロード
 	/// </summary>
@@ -38,6 +37,10 @@ public:
 	/// 破壊処理
 	/// </summary>
 	void Destroy() override;
+	/// <summary>
+	/// 落下処理
+	/// </summary>
+	void FallingUpdate() override;
 
 protected:
 	/// <summary>
@@ -62,10 +65,6 @@ public:// アクセサ
 #pragma region Setter
 
 #pragma endregion
-
-protected:
-	// 弾管理クラスのアドレス
-	BulletManager* pBulletManager_;
 
 protected:
 	// 射撃スタイル

@@ -40,7 +40,7 @@ void AttackState::Update() {
 		if (weapons[i]) { weaponPos = weapons[i]->GetWorldTF()->GetWorldPosition(); }
 
 		// 敵と自機との方向ベクトル算出
-		Vector3 vector = player->GetWorldTF()->GetWorldPosition() - actor->GetWorldTF()->GetWorldPosition();
+		Vector3 vector = player->GetCenterPosition() - actor->GetWorldTF()->GetWorldPosition();
 
 		// 方向ベクトルに応じて角度変更
 		quat_ = LookRotationZLock(Vector3{ vector.x, 0.0f, vector.z }.Normalize());
@@ -48,7 +48,7 @@ void AttackState::Update() {
 		pBlackBoard_->GetValue<Actor*>(EnemyConfig::name)->SetRotation(quat_);
 
 		// 武器と自機との方向ベクトル算出
-		Vector3 weaponVector = player->GetWorldTF()->GetWorldPosition() - weaponPos;
+		Vector3 weaponVector = player->GetCenterPosition() - weaponPos;
 		// X軸の回転角算出[pi]
 		float pitch = std::atan2(-weaponVector.y, std::sqrt(weaponVector.x * weaponVector.x + weaponVector.z * weaponVector.z));
 		// 武器の角度変更

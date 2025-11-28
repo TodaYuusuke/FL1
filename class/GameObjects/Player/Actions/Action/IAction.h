@@ -31,6 +31,11 @@ public:
 public:// アクセサ
 #pragma region Getter
 	/// <summary>
+	/// 経過時間を取得
+	/// </summary>
+	/// <returns></returns>
+	float GetCurrentFrame() { return currentFrame_; }
+	/// <summary>
 	/// 変更可能な状態マスクを取得
 	/// </summary>
 	/// <returns></returns>
@@ -83,4 +88,7 @@ protected:
 	LWP::Math::Vector3 vel_;
 	// 角度
 	LWP::Math::Quaternion rot_;
+
+	// 経過時間
+	float currentFrame_;
 };

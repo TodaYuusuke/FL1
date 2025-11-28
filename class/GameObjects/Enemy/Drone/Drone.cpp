@@ -28,6 +28,7 @@ Drone::Drone(IWorld* world, int ID, const EnemyData& data) {
 
 	// モデル生成
 	model_.LoadFullPath(data.modelName);
+	model_.Update();
 
 	// 黒板生成
 	blackBoard_ = new BlackBoard();
@@ -45,9 +46,8 @@ Drone::Drone(IWorld* world, int ID, const EnemyData& data) {
 	bt_->Init();
 
 	// 体の判定生成
-	LWP::Math::Vector3 size = model_.worldTF.scale / 2.0f;
-	bodyAABB_.min = size * -1.0f;
-	bodyAABB_.max = size;
+	bodyAABB_.min = data_.colliderMin;
+	bodyAABB_.max = data_.colliderMax;
 	bodyCollision_.name = name_;
 	bodyCollision_.SetFollow(&model_.worldTF);
 	bodyCollision_.isActive = true;

@@ -1,13 +1,15 @@
 #include "WeaponSlot.h"
 #include "../Player/System/LeadingSystem.h"
+#include "../Player/System/WeaponSkill/WeaponSkill.h"
 #include "../Weapon/WeaponManager.h"
 #include "../Collision/CollisionMask.h"
 
 using namespace LWP::Math;
 using namespace FLMath;
 
-WeaponSlot::WeaponSlot(LeadingSystem* leadingSystem) {
+WeaponSlot::WeaponSlot(LeadingSystem* leadingSystem, WeaponSkill* weaponSkill) {
 	pLeadingSystem_ = leadingSystem;
+	pWeaponSkill_ = weaponSkill;
 }
 
 WeaponSlot::~WeaponSlot() {}
@@ -15,27 +17,22 @@ WeaponSlot::~WeaponSlot() {}
 void WeaponSlot::Init() {}
 
 void WeaponSlot::Update() {
-	// 更新
-	if (!weapons_.empty()) weapons_.front()->Update();
+	// 練度を踏まえて武器の攻撃倍率更新
+	if(!weapons_.empty()) weapons_.front()->SetAttackMultiply(pWeaponSkill_->GetSkillData(weapons_.front()->GetWeaponData().name).attackMultiply);
 
-	// 弾切れの武器を削除
-	for (IWeapon* w : weapons_) {
-		if (!w) continue;
-
-		// 削除コマンドがあるなら消す
-		weapons_.erase(
-			std::remove_if(weapons_.begin(), weapons_.end(),
-				[](IWeapon* w) {
-					if (w->GetIsDestroy()) {
-						// 武器管理クラスに該当武器の解放依頼
-						WeaponManager::GetInstance()->DeleteWeapon(w);
-						return true; // vectorから削除対象
-					}
-					return false;
-				}),
-			weapons_.end()
-		);
-	}
+	// 削除コマンドがあるなら消す
+	weapons_.erase(
+		std::remove_if(weapons_.begin(), weapons_.end(),
+			[&](IWeapon* w) {
+				if (w->GetIsDestroy()) {
+					// 武器管理クラスに該当武器の解放依頼
+					WeaponManager::GetInstance()->DeleteWeapon(w);
+					return true; // vectorから削除対象
+				}
+				return false;
+			}),
+		weapons_.end()
+	);
 
 	// 前詰め
 	Compact();
@@ -54,24 +51,38 @@ void WeaponSlot::DebugGui() {
 }
 
 void WeaponSlot::Attack() {
-	if (!weapons_.empty()) {
-		// 弾がない状態なら撃てない
-		if (!weapons_.front()->GetIsEmpty()) {
-			// 射撃できる状態か
-			if (weapons_.front()->GetIsEnableAttack()) {
-				Vector3 shotVel = pLeadingSystem_->GetLeadingShotAngle(weapons_.front()->GetWorldTF()->GetWorldPosition(), 1.0f);
+	// 武器がないなら処理しない
+	if (weapons_.empty()) { return; }
+	// 攻撃対象
+	Actor* actor = nullptr;
 
-				if (Vector3::Dot(shotVel, shotVel) != 0.0f) {
-					weapons_.front()->SetShotDirVelocity(shotVel);
-				}
-				else {
-					weapons_.front()->SetShotDirVelocity(GetDirVector({ 0,0,1 }, weapons_.front()->GetActor()->GetModel().worldTF.rotation));
-				}
+	// 弾がある状態か
+	if (!weapons_.front()->GetIsEmpty()) {
+		// 攻撃できる状態か
+		if (weapons_.front()->GetIsEnableAttack()) {
+			// 攻撃時に練度を上げる
+			pWeaponSkill_->SkillUp(weapons_.front()->GetWeaponData().name, weapons_.front()->GetWeaponData().attackSkillGain);
+
+			// 偏差射撃
+			Vector3 shotVel = pLeadingSystem_->GetLeadingShotAngle(weapons_.front()->GetWorldTF()->GetWorldPosition(), 1.0f);
+			if (Vector3::Dot(shotVel, shotVel) != 0.0f) {
+				weapons_.front()->SetShotDirVelocity(shotVel);
+			}
+			else {
+				weapons_.front()->SetShotDirVelocity(GetDirVector({ 0,0,1 }, weapons_.front()->GetActor()->GetModel().worldTF.rotation));
+			}
+
+			// 近接武器なら相手を指定
+			if (weapons_.front()->GetWeaponData().name == WeaponConfig::Name::name[(int)WeaponType::kMelee]) {
+				// 相手がだれかを指定するために更新処理一回呼ぶ
+				pLeadingSystem_->Update();
+				actor = pLeadingSystem_->GetLeadingTarget();
 			}
 		}
-
-		weapons_.front()->Attack(GameMask::enemy);
 	}
+
+	// 攻撃
+	weapons_.front()->Attack(GameMask::enemy, actor);
 }
 
 void WeaponSlot::Compact() {
@@ -80,6 +91,10 @@ void WeaponSlot::Compact() {
 		std::remove(weapons_.begin(), weapons_.end(), nullptr),
 		weapons_.end()
 	);
+}
+
+void WeaponSlot::WeaponVelUpdate() {
+
 }
 
 void WeaponSlot::AddWeapon(IWeapon* weapon) {

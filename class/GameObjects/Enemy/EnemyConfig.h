@@ -29,6 +29,12 @@ struct EnemyData {
 	std::string BTFileName;
 	// モデル名
 	std::string modelName;
+
+	// 当たり判定のmin
+	LWP::Math::Vector3 colliderMin = { -0.5f, -0.5f, -0.5f };
+	// 当たり判定のmax
+	LWP::Math::Vector3 colliderMax = { 0.5f, 0.5f, 0.5f };
+
 	// 種類
 	int type = 0;
 	// 所持する武器種と搭載位置
@@ -46,6 +52,9 @@ struct EnemyData {
 
 	// 体力
 	float hp = 100.0f;
+
+	// 得点
+	float score;
 
 	EnemyData() {
 		// 所持している武器をなしにする
@@ -86,10 +95,10 @@ namespace EnemyConfig {
 		// 順番はEnemyType準拠
 		inline std::array<std::string, (int)EnemyType::kCount> modelName = {
 			"resources/model/Enemy/Melee/Player.gltf",			// 近距離
-			"resources/model/Enemy/Melee/Player.gltf",			// 遠距離
-			"resources/model/Enemy/Drone/Drone.gltf",			// ドローン
-			"resources/system/model/standard/sphere.gltf",		// 輸送機
-			"resources/system/model/standard/sphere.gltf"		// テスト敵
+			"resources/model/Enemy/Gunner/Player.gltf",			// 遠距離
+			"resources/model/Enemy/Drone/Player.gltf",			// ドローン
+			"resources/model/Enemy/Cargo/Player.gltf",			// 輸送機
+			"resources/model/Enemy/Cargo/Player.gltf"			// テスト敵
 		};
 	}
 

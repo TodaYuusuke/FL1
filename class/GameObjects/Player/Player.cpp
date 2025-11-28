@@ -22,6 +22,7 @@ Player::Player(Camera* camera, const LWP::Math::Vector3& centerPos) {
 
 	// モデル生成
 	model_.LoadShortPath("Player/Player.gltf");
+	model_.Update();
 
 	// 体の判定生成
 	bodyCollision_.SetFollow(&model_.worldTF);
@@ -41,7 +42,7 @@ Player::Player(Camera* camera, const LWP::Math::Vector3& centerPos) {
 	leadingSystem_ = std::make_unique<LeadingSystem>(camera, blackBoard_);
 
 	// 移動系統の管理
-	moveController_ = std::make_unique<MoveController>();
+	moveController_ = std::make_unique<MoveController>(this);
 	// 武器系統の管理
 	weaponController_ = std::make_unique<WeaponController>(leadingSystem_.get(), this);
 	weaponController_->SetCenterDist(centerPos_);
@@ -71,8 +72,14 @@ void Player::Update() {
 	// 武器由来の行動
 	weaponController_->Update();
 
-	model_.worldTF.translation += moveController_->GetVel();
+	weaponVel_.x = std::clamp<float>(weaponVel_.x, -5.0f, 5.0f);
+	weaponVel_.y = std::clamp<float>(weaponVel_.y, -5.0f, 5.0f);
+	weaponVel_.z = std::clamp<float>(weaponVel_.z, -5.0f, 5.0f);
+
+	model_.worldTF.translation += moveController_->GetVel() + weaponVel_;
 	model_.worldTF.rotation = moveController_->GetRot();
+
+	weaponVel_ = { 0.0f,0.0f,0.0f };
 }
 
 void Player::DrawGui() {
@@ -105,4 +112,8 @@ void Player::DrawGui() {
 		}
 		ImGui::TreePop();
 	}
+}
+
+LWP::Math::Vector3 Player::GetCenterPosition() {
+	return model_.worldTF.GetWorldPosition() + centerPos_ * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(model_.worldTF.rotation);
 }
