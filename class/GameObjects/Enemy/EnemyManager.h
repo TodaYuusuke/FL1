@@ -10,6 +10,13 @@ class IWorld;
 /// </summary>
 class EnemyManager {
 public:
+	// 敵発生情報
+	struct SpawnData {
+		int spawnNum;				// 敵生成数
+		float nextSpawnTime = 6.0f;	// 次の敵が強制的に出るまでの時間
+	};
+
+public:
 	// コンストラクタ
 	EnemyManager(IWorld* world);
 	// デストラクタ
@@ -52,6 +59,15 @@ private:
 	/// </summary>
 	/// <param name="actor"></param>
 	void GiveWeapon(Actor* actor, const EnemyData& data);
+
+	/// <summary>
+	/// 敵出現
+	/// </summary>
+	void SpawnEnemy();
+	/// <summary>
+	/// 敵の出現位置をランダムで生成
+	/// </summary>
+	void CreateRandomSpawnPos();
 
 private:// デバッグ用の関数群
 	/// <summary>
@@ -188,15 +204,30 @@ private:// 外部から受け取る変数
 	IWorld* pWorld_;
 
 private:// 調整項目
+	// ドローンの浮遊標高
 	float dronefloatHeight_ = 4.0f;
+
+	// 一度に出現する敵の最小数
+	int minSameSpawnNum_ = 4;
+	// 一度に出現する敵の最大数
+	int maxSameSpawnNum_ = 8;
+	// 敵が一度に存在できる数
+	int limitSpawnNum_ = 10;
+	// 自機を中心とした生成禁止範囲
+	float invalidSpawnRange_ = 25.0f;
+
+	LWP::Utility::JsonIO json_;
 
 private:
 	// 敵リスト
 	std::vector<Actor*> enemies_;
 
+	SpawnData spawnData_;
+	float currentFrame_;
+	float spawnInterval_;
+
 	// 敵の死亡回数
 	int killCount_;
-
 	// 生成時の識別番号
 	int createID_;
 

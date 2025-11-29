@@ -94,5 +94,4 @@ void Actor::ChangeState(StateBase* nextState) {
 void Actor::SetWeapon(IWeapon* weapon, int weaponSide) {
 	weapon->SetParent(this);
 	weapons_[weaponSide] = weapon;
-	//weapons_[weaponSide]->SetParent(this);
 }
