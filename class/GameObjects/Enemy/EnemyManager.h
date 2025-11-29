@@ -200,6 +200,9 @@ private:// デバッグ用変数
 	// レベルjsonファイル作成
 	std::map<int, LWP::Utility::JsonIO> levelJsonDatas_;
 
+	// ランダム出現開始
+	bool isRandomSpawn_ = true;
+
 private:// 外部から受け取る変数
 	IWorld* pWorld_;
 

@@ -51,6 +51,10 @@ EnemyManager::EnemyManager(IWorld* world) {
 		.EndGroup()
 		.EndGroup()
 		.CheckJsonFile();
+
+#ifdef _DEBUG
+	isRandomSpawn_ = false;
+#endif // DEBUG
 }
 
 EnemyManager::~EnemyManager() {
@@ -71,7 +75,7 @@ void EnemyManager::Update() {
 	isTriggerDelete_ = false;
 
 	// 敵を生成
-	//SpawnEnemy();
+	if (isRandomSpawn_) SpawnEnemy();
 
 	// 更新
 	for (Actor* actor : enemies_) {
@@ -153,15 +157,8 @@ void EnemyManager::DebugGui() {
 
 			// 敵生成
 			if (ImGui::Button("Create")) {
-				spawnData_.spawnNum = LWP::Utility::Random::GenerateInt(minSameSpawnNum_, maxSameSpawnNum_);
-				// 生成開始
-				for (int i = 0; i < spawnData_.spawnNum; i++) {
-					selectCreateEnemyType_ = LWP::Utility::Random::GenerateInt(0, (int)EnemyType::kCount - 2);
-					CreateRandomSpawnPos();
-					enemies_.push_back(CreateEnemy());
-				}
 				// プレビューで選択した敵を生成
-				//enemies_.push_back(CreateEnemy());
+				enemies_.push_back(CreateEnemy());
 			}
 			ImGui::TreePop();
 		}
@@ -173,6 +170,9 @@ void EnemyManager::DebugGui() {
 		// キル数
 		ImGui::DragInt("KillCount", &killCount_);
 		ImGui::DragInt("LimitSpawnNum", &limitSpawnNum_);
+
+		// ランダム出現開始
+		ImGui::Checkbox("GameStart!", &isRandomSpawn_);
 
 		ImGui::EndTabItem();
 	}
