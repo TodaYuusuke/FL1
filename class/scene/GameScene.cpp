@@ -59,9 +59,19 @@ void GameScene::Initialize() {
 	WeaponManager::GetInstance()->SetPlayer(player);
 	// 武器管理クラスにワールドのアドレスを登録
 	WeaponManager::GetInstance()->SetWorld(world_.get());
+
+	// 調整項目
+	json_.Init("Game.json")
+		.AddValue<int>("ClearKillCount", &clearKillCount)
+		.CheckJsonFile();
 }
 
 void GameScene::Update() {
+	// 敵を一定数倒したら終了
+	if (enemyManager_->GetKillCount() >= clearKillCount) {
+		
+	}
+
 	// ヒットストップ
 	HitStopController::GetInstance()->Update();
 
@@ -80,6 +90,12 @@ void GameScene::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("GameObjects");
 	ImGui::BeginTabBar("GameObject");
+
+	// ゲーム自体の設定
+	if (ImGui::BeginTabItem("GameRule")) {
+		json_.DebugGUI();
+		ImGui::EndTabItem();
+	}
 
 	// ワールド
 	world_->DebugGui();

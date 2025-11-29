@@ -128,6 +128,11 @@ public:// アクセサ
 		return *result;
 	}
 	/// <summary>
+	/// 倒した敵の数を取得
+	/// </summary>
+	/// <returns></returns>
+	int GetKillCount() { return killCount_; }
+	/// <summary>
 	/// 敵が解放された瞬間を取得
 	/// </summary>
 	/// <returns></returns>
@@ -150,9 +155,6 @@ private:// デバッグ用変数
 	LWP::Math::Vector3 createPos_;
 	// 敵の速度(デバッグ用)
 	LWP::Math::Vector3 createVel_;
-
-	// 作成する敵の名前
-	//std::vector<int> createEnemyTypes_;
 
 	// 作成できる敵の名前一覧
 	std::vector<std::string> enemyTypePreview_;
@@ -191,6 +193,9 @@ private:// 調整項目
 private:
 	// 敵リスト
 	std::vector<Actor*> enemies_;
+
+	// 敵の死亡回数
+	int killCount_;
 
 	// 生成時の識別番号
 	int createID_;

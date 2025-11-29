@@ -58,6 +58,7 @@ void EnemyManager::Update() {
 			[&](Actor* actor) {
 				if (!actor->GetIsAlive()) {
 					isTriggerDelete_ = true;
+					killCount_++;
 
 					// 武器を落とす
 					for (int i = 0; i < actor->GetWeapon().size(); i++) {
