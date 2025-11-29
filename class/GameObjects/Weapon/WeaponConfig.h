@@ -106,6 +106,21 @@ namespace WeaponConfig {
 /* 近接			*/{  "PileBunker.gltf"				, "PileBunker.gltf"				, "PileBunker.gltf"				,"PileBunker.gltf"				,"PileBunker.gltf"				,"PileBunker.gltf"				}	
 		}};
 	}
+	// テクスチャ名
+	namespace TextureName {
+		// 武器のUI
+		// 順序はWeaponType準拠
+		namespace UI {
+			inline std::array<std::string, (int)WeaponType::kCount> uiName = {
+				"Weapon/MachineGun.png",	// マシンガン
+				"Weapon/ShotGun.png",		// ショットガン
+				"Weapon/MachineGun.png",	// ライフル
+				"Weapon/Launcher.png",		// ランチャー
+				"Weapon/MissilePod.png",	// ミサイル
+				"Weapon/PileBunker.png"		// 近接
+			};
+		}
+	}
 
 	/// <summary>
 	/// 名前から武器の種類を検索

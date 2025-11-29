@@ -25,6 +25,15 @@ WeaponManager::WeaponManager() {
 
 	// コピー元の武器作成
 	CreateOriginWeapon();
+
+	// 拾える武器画像
+	for (int i = 0; i < pickUpWeaponSprite_.size(); i++) {
+		pickUpWeaponSprite_[i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
+	}
+	samplePickUpWeaponSprite_.isActive = false;
+	samplePickUpWeaponSprite_.anchorPoint = { 0.5f, 0.5f };
+	samplePickUpWeaponSprite_.worldTF.translation = { 400.0f, 200.0f,0.0f };
+	samplePickUpWeaponSprite_.worldTF.scale = { 0.3f, 0.3f,1.0f };
 }
 
 WeaponManager::~WeaponManager() {
@@ -43,6 +52,13 @@ void WeaponManager::Init() {
 void WeaponManager::Update() {
 	for (IWeapon* weapon : weapons_) {
 		weapon->Update();
+	}
+
+	for (int i = 0; i < pickUpWeaponSprite_.size(); i++) {
+		pickUpWeaponSprite_[i].isActive = false;
+		pickUpWeaponSprite_[i].worldTF.translation = samplePickUpWeaponSprite_.worldTF.translation;
+		pickUpWeaponSprite_[i].worldTF.scale = samplePickUpWeaponSprite_.worldTF.scale;
+		pickUpWeaponSprite_[i].anchorPoint = samplePickUpWeaponSprite_.anchorPoint;
 	}
 
 	// 自機が近いなら武器を渡す
@@ -64,6 +80,11 @@ void WeaponManager::DebugGui() {
 			// 選択した武器を調整
 			SelectWeaponDataGui(jsonDatas_[(WeaponType)selectWeapon][(RarityType)selectRarity], orizinWeaponData_[(WeaponType)selectWeapon][(RarityType)selectRarity]);
 
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("PickUpSprite")) {
+			samplePickUpWeaponSprite_.DebugGUI();
+			//ImGui::DragFloat3("Translation", &pickUpWeaponSprite_.worldTF.translation.x, 0.1f);
 			ImGui::TreePop();
 		}
 
@@ -168,9 +189,11 @@ void WeaponManager::CheckPlayerToWeaponDistance() {
 		que.push(weapon);
 	}
 
-
 	// ***** 回収可能武器がないなら終了 ***** //
 	if (que.empty()) { return; }
+	// 拾える武器表示
+	pickUpWeaponSprite_[WeaponConfig::GetWeaponType(que.top()->GetName())].isActive = true;
+
 	// 武器を拾う
 	PickUpWeapon(que.top(), pWorld_->FindActor("Player"));
 }

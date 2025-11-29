@@ -1,0 +1,24 @@
+{
+    "Group :Collider": {
+        "float :Max": 3.0,
+        "float :Min": -3.0
+    },
+    "Group :Weapon": {
+        "Group :Hand": {
+            "Group :Left": {
+                "int32_t :Type": 0
+            },
+            "Group :Right": {
+                "int32_t :Type": 5
+            }
+        },
+        "Group :Shoulder": {
+            "Group :Left": {
+                "int32_t :Type": 6
+            },
+            "Group :Right": {
+                "int32_t :Type": 6
+            }
+        }
+    }
+}
