@@ -102,6 +102,8 @@ void GameScene::Update() {
 
 	// 武器管理クラス
 	WeaponManager::GetInstance()->DebugGui();
+	// 弾管理クラス
+	BulletManager::GetInstance()->DebugGui();
 	// 敵管理
 	enemyManager_->DebugGui();
 

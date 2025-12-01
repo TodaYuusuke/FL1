@@ -2,17 +2,13 @@
 #include "../../Collision/CollisionMask.h"
 
 using namespace FLMath;
+using namespace LWP;
+using namespace LWP::Math;
 
-MeleeAttack::MeleeAttack(const LWP::Math::Vector3& colliderSize, LWP::Object::TransformQuat* target, int hitFragBit, float attackPower, float elapsedTime)
-	: BulletBase(attackPower, 0.0f, elapsedTime)
+MeleeAttack::MeleeAttack(const BulletData& data, LWP::Object::TransformQuat* target, int hitFragBit)
+	: BulletBase(data, Vector3{0,0,0}, hitFragBit)
 {
-	stopController_ = HitStopController::GetInstance();
 	target_ = target;
-
-	// 体の判定生成
-	LWP::Math::Vector3 size = colliderSize / 2.0f;
-	bodyAABB_.min = size * -1.0f;
-	bodyAABB_.max = size;
 
 	bodyCollision_.SetFollow(target_);
 	bodyCollision_.worldTF.translation = { 0.0f,0.0f,1.0f };

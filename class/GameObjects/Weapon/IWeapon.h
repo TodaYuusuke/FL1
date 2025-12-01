@@ -169,6 +169,11 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="name"></param>
 	void SetName(const std::string& name) { name_ = name; }
+	/// <summary>
+	/// 武器の向きを指定
+	/// </summary>
+	/// <param name="weaponSide"></param>
+	virtual void SetWeaponSide(int weaponSide = -1) { weaponSide; }
 #pragma endregion
 
 protected:
@@ -197,7 +202,7 @@ protected:
 	LWP::Math::Vector3 velocity_;
 
 	// 攻撃力
-	float currentAttackValue_;
+	float currentAttackValue_ = 1.0f;
 	// 攻撃倍率
 	float attackMultiply_ = 1.0f;
 	// 速度倍率

@@ -3,55 +3,10 @@
 #include "../../Collision/CollisionMask.h"
 
 using namespace FLMath;
+using namespace LWP;
+using namespace LWP::Math;
 
-Bullet::Bullet(const LWP::Math::Vector3& colliderSize, const LWP::Math::Vector3& pos, const LWP::Math::Vector3& dirVel, int hitFragBit, float attackPower, float speed, float elapsedTime)
-	: BulletBase(attackPower, speed, elapsedTime)
+Bullet::Bullet(const BulletData& data, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dirVel)
+	: BulletBase(data, pos, hitFragBit, dirVel)
 {
-	stopController_ = HitStopController::GetInstance();
-
-	// モデルの読み込み
-	body_.LoadCube();
-
-	// 座標
-	body_.worldTF.translation = pos;
-	// 大きさ
-	body_.worldTF.scale = { 0.3f, 0.3f, 1.5f };
-	// 角度
-	body_.worldTF.rotation = LWP::Math::Quaternion::LookRotation(dirVel);
-
-	// 移動速度
-	vel_ = dirVel;
-
-	// 体の判定生成
-	LWP::Math::Vector3 size = colliderSize / 2.0f;
-	bodyAABB_.min = size * -1.0f;
-	bodyAABB_.max = size;
-	bodyCollision_.SetFollow(&body_.worldTF);
-	bodyCollision_.isActive = true;
-	// 自機の所属しているマスクを設定
-	bodyCollision_.mask.SetBelongFrag(GameMask::attack);
-	// 当たり判定をとる対象のマスクを設定
-	bodyCollision_.mask.SetHitFrag(hitFragBit);
-	bodyCollision_.stayLambda = [this](LWP::Object::Collision* hitTarget) {
-		OnCollision(hitTarget);
-		};
-}
-
-void Bullet::Init() {
-	vel_ = { 0.0f,0.0f,0.0f };
-}
-
-void Bullet::Update() {
-	// 座標変更
-	body_.worldTF.translation += vel_ * moveSpeed_ * stopController_->GetDeltaTime();
-
-	// 角度変更
-	body_.worldTF.rotation = LookRotationZLock(vel_);
-
-	// 線損時間を過ぎているなら消す
-	if (currentFrame_ <= 0.0f) {
-		isAlive_ = false;
-	}
-
-	currentFrame_ -= stopController_->GetDeltaTime();
 }

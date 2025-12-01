@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Componets/Math.h"
 #include "../../Componets/HitStopController.h"
+#include "BulletConfig.h"
 #include <Adapter.h>
 
 /// <summary>
@@ -9,24 +10,27 @@
 class BulletBase {
 public:
 	// コンストラクタ
-	BulletBase(float attackPower, float speed, float elapsedTime);
+	BulletBase(const BulletData& data, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dirVel = { 0,0,0 });
 	// デストラクタ
 	virtual ~BulletBase() = default;
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Init() = 0;
+	virtual void Init();
 	/// <summary>
 	/// 更新
 	/// </summary>
-	virtual void Update() = 0;
+	virtual void Update();
 
 protected:
 	/// <summary>
 	/// 衝突応答
 	/// </summary>
-	virtual void OnCollision(LWP::Object::Collision* hitTarget);
+	virtual void OnCollision(LWP::Object::Collision* hitTarget) {
+		hitTarget;
+		isAlive_ = false;
+	}
 
 public:// アクセサ
 #pragma region Getter
@@ -41,6 +45,16 @@ public:// アクセサ
 	/// <returns></returns>
 	float GetAttackPower() { return attackPower_; }
 	/// <summary>
+	/// 攻撃倍率を取得
+	/// </summary>
+	/// <returns></returns>
+	float GetAttackMultiply() { return attackMultiply_; }
+	/// <summary>
+	/// 速度倍率を取得
+	/// </summary>
+	/// <returns></returns>
+	float GetSpeedMultiply() { return speedMultiply_; }
+	/// <summary>
 	/// 生存しているかを取得
 	/// </summary>
 	/// <returns></returns>
@@ -48,6 +62,21 @@ public:// アクセサ
 #pragma endregion
 
 #pragma region Setter
+	/// <summary>
+	/// 座標を設定
+	/// </summary>
+	/// <param name="pos"></param>
+	void SetPos(const LWP::Math::Vector3& pos) { body_.worldTF.translation = pos; }
+	/// <summary>
+	/// 角度を設定
+	/// </summary>
+	/// <param name="q"></param>
+	void SetRotation(const LWP::Math::Quaternion& q) { body_.worldTF.rotation = q; }
+	/// <summary>
+	/// 速度ベクトルを設定
+	/// </summary>
+	/// <param name="vel"></param>
+	void SetVelocity(const LWP::Math::Vector3& vel) { vel_ = vel; }
 	/// <summary>
 	/// 名前を設定
 	/// </summary>
@@ -58,6 +87,16 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	void SetAttackPower(float value) { attackPower_ = value; }
+	/// <summary>
+	/// 攻撃倍率を設定
+	/// </summary>
+	/// <param name="value"></param>
+	void SetAttackMultiply(float value) { attackMultiply_ = value; }
+	/// <summary>
+	/// 速度倍率を設定
+	/// </summary>
+	/// <param name="value"></param>
+	void SetSpeedMultiply(float value) { speedMultiply_ = value; }
 #pragma endregion
 
 protected:
@@ -74,10 +113,17 @@ protected:
 	// 速度
 	LWP::Math::Vector3 vel_ = { 0.0f,0.0f,1.0f };
 
+	// 調整情報
+	BulletData data_;
+
 	// 攻撃力
 	float attackPower_;
+	// 攻撃倍率
+	float attackMultiply_ = 1.0f;
 	// 移動速度
 	float moveSpeed_;
+	// 速度倍率
+	float speedMultiply_ = 1.0f;
 
 	float currentFrame_ = 60.0f;
 

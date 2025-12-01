@@ -1,0 +1,10 @@
+{
+    "Vector3 :ColliderSize": [
+        4.0,
+        5.0,
+        4.0
+    ],
+    "float :AttackPower": 50.0,
+    "float :ElapsedTime": 1.0,
+    "float :Speed": 1.0
+}

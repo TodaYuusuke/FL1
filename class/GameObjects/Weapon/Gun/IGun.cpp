@@ -38,7 +38,7 @@ void IGun::Init() {
 	speedMultiply_ = 1.0f;
 
 	// 攻撃力
-	currentAttackValue_ = data_.attackValue * attackMultiply_;
+	//currentAttackValue_ = data_.attackMultiply * attackMultiply_;
 
 	// 射撃時の経過時間
 	if (data_.burstNum > 0) {
@@ -58,9 +58,6 @@ void IGun::Init() {
 void IGun::Update() {
 	// 持ち主がいないときのみ落下
 	FallingUpdate();
-
-	// 攻撃力
-	currentAttackValue_ = data_.attackValue * attackMultiply_;
 
 	// 弾がなくなれば強制リロード(クールタイム)
 	if (magazine_->GetEmpty()) {
@@ -94,13 +91,10 @@ void IGun::DebugGui() {
 			// 弾
 			if (ImGui::TreeNode("Bullet")) {
 				ImGui::DragInt("Num", &data_.bulletNum);
-				ImGui::DragFloat("Speed", &data_.bulletSpeed);
 				ImGui::TreePop();
 			}
 			// 溜め時間
 			ImGui::DragFloat("Store", &data_.storeTime);
-			// 攻撃力
-			ImGui::DragFloat("AttackPower", &data_.attackValue);
 			// 撃てない時間
 			ImGui::DragFloat("CoolTime", &data_.coolTime);
 			// レアリティ
@@ -120,13 +114,15 @@ void IGun::DebugGui() {
 			ImGui::TreePop();
 		}
 
-		ImGui::DragFloat("AtttackPower", &currentAttackValue_);
+		ImGui::DragFloat("AttackMultiply", &attackMultiply_);
 
 		ImGui::TreePop();
 	}
 }
 
 void IGun::Attack(int bulletHitFragBit, Actor* attackTarget) {
+	attackTarget;
+
 	// 弾がない状態なら撃てない
 	if (magazine_->GetEmpty()) {
 		isDestroy_ = true;
@@ -205,8 +201,7 @@ void IGun::AttackCommond() {
 				(Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, randomVec.Normalize()) * Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, shotDirVel_));
 		}
 		// 弾生成
-		Bullet* bullet = new Bullet(data_.bulletSize, body_.GetJointWorldPosition("Muzzle"), randomVec.Normalize() * 1.0f, bulletHitFragBit_, data_.attackValue, data_.bulletSpeed, data_.bulletElapsedTime);
-		pBulletManager_->CreateBullet(bullet);
+		pBulletManager_->CreateBullet(data_.bulletType, body_.GetJointWorldPosition("Muzzle"), bulletHitFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
 
 		i--;
 	} while (i > 0);

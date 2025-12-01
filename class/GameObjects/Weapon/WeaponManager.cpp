@@ -7,6 +7,7 @@
 #include "Melee/Melee.h"
 #include "../World/World.h"
 #include "../Player/Player.h"
+#include "../Bullets/BulletConfig.h"
 #include <queue>
 
 using namespace LWP;
@@ -84,7 +85,6 @@ void WeaponManager::DebugGui() {
 		}
 		if (ImGui::TreeNode("PickUpSprite")) {
 			samplePickUpWeaponSprite_.DebugGUI();
-			//ImGui::DragFloat3("Translation", &pickUpWeaponSprite_.worldTF.translation.x, 0.1f);
 			ImGui::TreePop();
 		}
 
@@ -290,7 +290,7 @@ Melee* WeaponManager::CreateMelee() {
 
 void WeaponManager::CreateJsonData(LWP::Utility::JsonIO& json, WeaponData& data, const std::string& name) {
 	// ファイル名
-	std::string fileName = name + ".json";
+	std::string fileName = kJsonDirectoryPath + data.name + "/" + name + ".json";
 	json.Init(fileName)
 		// 発射間隔
 		.BeginGroup("Interval")
@@ -302,23 +302,17 @@ void WeaponManager::CreateJsonData(LWP::Utility::JsonIO& json, WeaponData& data,
 		.BeginGroup("Bullet")
 		// 弾数
 		.AddValue<int>("Num", &data.bulletNum)
+		// 弾の種類
+		.AddValue<int>("Type", &data.bulletType)
 		// 同時に出る弾数
 		.AddValue<int>("SameBulletNum", &data.sameBulletNum)
 		// 拡散範囲
 		.AddValue<Vector3>("DiffusingRange", &data.diffusingBulletRange)
-		// 弾の大きさ(当たり判定)
-		.AddValue<Vector3>("ColliderSize", &data.bulletSize)
-		// 弾速
-		.AddValue<float>("Speed", &data.bulletSpeed)
-		// 弾の生存時間
-		.AddValue<float>("ElapsedTime", &data.bulletElapsedTime)
 		.EndGroup()
 
 		// バースト数
 		.AddValue<int>("BurstNum", &data.burstNum)
 
-		// 攻撃力
-		.AddValue<float>("AttackPower", &data.attackValue)
 		// 攻撃時の練度上昇量
 		.AddValue<float>("AttackSkillGain", &data.attackSkillGain)
 
@@ -354,18 +348,12 @@ void WeaponManager::SelectWeaponDataGui(LWP::Utility::JsonIO& json, WeaponData& 
 		if (ImGui::TreeNode("Bullet")) {
 			// 弾数
 			ImGui::DragInt("Num", &data.bulletNum, 1, 0);
+			// 弾の種類
+			SelectBulletType(data.bulletType, "BulletType");
 			// 同時に出る弾数
 			ImGui::DragInt("SameNum", &data.sameBulletNum, 1, 0);
 			// 弾の拡散範囲
 			ImGui::DragFloat3("DiffusingRange", &data.diffusingBulletRange.x, 0.01f, 0.0001f, 1.0f);
-			// 弾の大きさ(当たり判定)
-			ImGui::DragFloat3("ColliderSize", &data.bulletSize.x, 0.01f, 0.0001f, 1.0f);
-			// 弾速
-			ImGui::DragFloat("Speed", &data.bulletSpeed);
-			// 攻撃力
-			ImGui::DragFloat("AttackPower", &data.attackValue);
-			// 弾の生存時間
-			ImGui::DragFloat("ElapsedTime", &data.bulletElapsedTime);
 			ImGui::TreePop();
 		}
 		// バースト数
@@ -427,6 +415,31 @@ void WeaponManager::SelectWeaponRarity(int& selectedWeaponRarity, std::string la
 	}
 	else {
 		ImGui::TextDisabled(("Not found behavior-tree file"));
+	}
+}
+
+void WeaponManager::SelectBulletType(int& selectedType, std::string label) {
+	// 読み込むbehaviorTreeのプレビュー作成
+	bulletTypePreview_ = BulletManager::GetInstance()->GetBulletTypePreview();
+	if (!bulletTypePreview_.empty()) {
+		const char* combo_preview_value = bulletTypePreview_[selectedType].c_str();
+		if (ImGui::BeginCombo(label.c_str(), combo_preview_value)) {
+			for (int n = 0; n < bulletTypePreview_.size(); n++) {
+				const bool is_selected = ((int)selectedType == n);
+				std::string selectableLabel = bulletTypePreview_[n];
+				if (ImGui::Selectable(selectableLabel.c_str(), is_selected)) {
+					selectedType = n;
+				}
+
+				if (is_selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+	}
+	else {
+		ImGui::TextDisabled(("Not found bullet"));
 	}
 }
 

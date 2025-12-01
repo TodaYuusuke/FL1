@@ -123,6 +123,12 @@ private:
 	/// 武器のレアリティを選択
 	/// </summary>
 	void SelectWeaponRarity(int& selectedWeaponRarity, std::string label);
+	/// <summary>
+	/// 弾を選択
+	/// </summary>
+	/// <param name="selectedType"></param>
+	/// <param name="label"></param>
+	void SelectBulletType(int& selectedBulletType, std::string label);
 
 public:// アクセサ
 	/// <summary>
@@ -184,6 +190,10 @@ public:// Getter,Setter
 	void SetPlayer(Player* player) { player_ = player; }
 #pragma endregion
 
+private:// 定数
+	// jsonファイルのディレクトリパス
+	const std::string kJsonDirectoryPath = "Weapons/";
+
 private:
 	// 武器を落とすときの速度ベクトル
 	LWP::Math::Vector3 weaponDropVel = { 0.2f, 0.4f, 0.2f };
@@ -223,6 +233,8 @@ private:
 	// 作成するコピー元のレアリティ
 	int selectedOrizinRarityType_;
 
+	// 調整できる弾一覧
+	std::vector<std::string> bulletTypePreview_;
 	// 作成できる武器種一覧
 	std::vector<std::string> weaponTypePreview_;
 	// 作成できる武器のレアリティ一覧

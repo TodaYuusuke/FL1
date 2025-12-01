@@ -63,7 +63,11 @@ public:// アクセサ
 #pragma endregion
 
 #pragma region Setter
-
+	/// <summary>
+	/// 武器の向きを設定
+	/// </summary>
+	/// <param name="weaponSide"></param>
+	void SetWeaponSide(int weaponSide = -1) override { weaponSide; }
 #pragma endregion
 
 protected:

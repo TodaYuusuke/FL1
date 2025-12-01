@@ -45,7 +45,7 @@ void IMelee::Init() {
 	speedMultiply_ = 1.0f;
 
 	// 攻撃力
-	currentAttackValue_ = data_.attackValue * attackMultiply_;
+	//currentAttackValue_ = data_.attackValue * attackMultiply_;
 
 	// 射撃時の経過時間
 	attackFrame_ = data_.shotIntervalTime * 60.0f;
@@ -59,9 +59,6 @@ void IMelee::Init() {
 void IMelee::Update() {
 	// 持ち主がいないときのみ落下
 	FallingUpdate();
-
-	// 攻撃力
-	currentAttackValue_ = data_.attackValue * attackMultiply_;
 
 	// 弾がなくなれば強制リロードor破壊(クールタイム)
 	if (magazine_->GetEmpty()) {
@@ -98,13 +95,10 @@ void IMelee::DebugGui() {
 			// 弾
 			if (ImGui::TreeNode("Bullet")) {
 				ImGui::DragInt("Num", &data_.bulletNum);
-				ImGui::DragFloat("Speed", &data_.bulletSpeed);
 				ImGui::TreePop();
 			}
 			// 溜め時間
 			ImGui::DragFloat("Store", &data_.storeTime);
-			// 攻撃力
-			ImGui::DragFloat("AttackPower", &data_.attackValue);
 			// 撃てない時間
 			ImGui::DragFloat("CoolTime", &data_.coolTime);
 			// レアリティ
@@ -136,8 +130,7 @@ void IMelee::Attack(int bulletHitFragBit, Actor* attackTarget) {
 	if (!GetIsEnableAttack()) { return; }
 
 	// 攻撃判定生成
-	MeleeAttack* bullet = new MeleeAttack(data_.bulletSize, &body_.worldTF, bulletHitFragBit, data_.attackValue, data_.bulletElapsedTime);
-	pBulletManager_->CreateBullet(bullet);
+	pBulletManager_->CreateMelee(data_.bulletType, &body_.worldTF, bulletHitFragBit, attackMultiply_);
 
 	// 弾数を減らす
 	magazine_->BulletDecrement();

@@ -51,12 +51,9 @@ struct WeaponData {
 	float storeTime;								// 溜め時間[秒](溜める銃の場合に数値を入れる)
 	int burstNum;									// バースト数
 	int sameBulletNum;								// 同時に出る弾数
+	int bulletType;									// 弾の種類
 	LWP::Math::Vector3 diffusingBulletRange;		// 弾の拡散範囲[0～1]
-	LWP::Math::Vector3 bulletSize{1.0f,1.0f,1.0f};	// 弾の大きさ(当たり判定)
 	int bulletNum;									// 弾数
-	float bulletSpeed = 1.0f;						// 弾速
-	float bulletElapsedTime = 1.0f;					// 弾の生存時間
-	float attackValue = 50.0f;						// 攻撃力
 	float coolTime;									// 撃てない時間[秒]
 	float reloadTime;								// リロード時間[秒]
 	float attackSkillGain = 100.0f;					// 攻撃時の練度上昇量

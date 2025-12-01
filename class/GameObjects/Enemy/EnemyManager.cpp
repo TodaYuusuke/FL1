@@ -33,7 +33,7 @@ EnemyManager::EnemyManager(IWorld* world) {
 	}
 
 	// 管理クラスの調整項目
-	json_.Init("EnemyManager.json")
+	json_.Init(kJsonDirectoryPath + "EnemyManager.json")
 		.BeginGroup("SpawnData")
 		.BeginGroup("Same")
 		.AddValue<int>("Min", &minSameSpawnNum_)
@@ -490,7 +490,7 @@ void EnemyManager::CreateDebugData() {
 
 void EnemyManager::CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, const std::string& jsonName) {
 	// ファイル名
-	std::string fileName = jsonName + ".json";
+	std::string fileName = kJsonDirectoryPath + jsonName + ".json";
 	json.Init(fileName)
 		// ビヘイビアツリーのファイル名
 		.AddValue<std::string>("BTFileName", &data.BTFileName)
@@ -533,7 +533,7 @@ void EnemyManager::CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, c
 
 void EnemyManager::CreateLevelJsonData(LWP::Utility::JsonIO& json, LevelParameter& data, const std::string& jsonName) {
 	// ファイル名
-	std::string fileName = jsonName + ".json";
+	std::string fileName = kLevelJsonDirectoryPath + jsonName + ".json";
 	json.Init(fileName)
 		// 係数
 		.AddValue<float>("AttackMultiply", &data.attackMultiply)

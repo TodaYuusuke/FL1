@@ -163,6 +163,11 @@ public:// アクセサ
 	void SetWeaponPos(Actor* actor, IWeapon* weapon, int weaponSide);
 #pragma endregion
 
+private:// 定数
+	// jsonファイルのディレクトリパス
+	const std::string kJsonDirectoryPath = "Enemies/";
+	const std::string kLevelJsonDirectoryPath = "Enemies/Levels/";
+
 private:// デバッグ用変数
 	// ビヘイビアツリーの編集
 	std::unique_ptr<BehaviorTreeGraph> btEditor_;

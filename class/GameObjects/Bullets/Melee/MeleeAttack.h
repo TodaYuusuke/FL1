@@ -5,7 +5,7 @@
 class MeleeAttack : public BulletBase {
 public:
 	// コンストラクタ
-	MeleeAttack(const LWP::Math::Vector3& colliderSize, LWP::Object::TransformQuat* target, int hitFragBit, float attackPower, float elapsedTime);
+	MeleeAttack(const BulletData& data, LWP::Object::TransformQuat* target, int hitFragBit);
 	// デストラクタ
 	~MeleeAttack() override = default;
 

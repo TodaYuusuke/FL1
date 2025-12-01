@@ -19,6 +19,7 @@ void Missile::Update() {
 
 void Missile::Attack(int bulletHitFragBit, Actor* attackTarget) {
 	bulletHitFragBit;
+	attackTarget;
 	//// 弾がない状態なら撃てない
 	//if (magazine_->GetEmpty()) { 
 	//	isDestroy_ = true;
