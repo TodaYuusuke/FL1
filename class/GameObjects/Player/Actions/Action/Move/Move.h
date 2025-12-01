@@ -53,9 +53,9 @@ private:// 調整項目
 	// 車輪間の距離
 	float treadWidth = 2.5f;
 	// 移動速度の最高速
-	float maxSpeed = 0.3f;
+	float maxSpeed = 0.8f;
 	// 角速度の最高速
-	float maxOmega = 0.3f;
+	float maxOmega = 0.019f;
 
 private:
 	float angle = 0.0f;

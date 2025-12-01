@@ -7,6 +7,7 @@
 #include "Melee/Melee.h"
 #include "../World/World.h"
 #include "../Player/Player.h"
+#include "../../Componets/InputMyController/ControllerReceiver.h"
 #include <queue>
 
 using namespace LWP;
@@ -113,7 +114,7 @@ void WeaponManager::DebugGui() {
 
 void WeaponManager::CheckPlayerToWeaponDistance() {
 	// 回収キーを入力していなければ終了
-	if (!LWP::Input::Pad::GetPress(XBOX_X)) { return; }
+	if (!LWP::Input::Pad::GetPress(XBOX_X) && !(ControllerReceiver::GetInstance()->IsOpen() && LWP::Input::Keyboard::GetPress(DIK_LSHIFT))) { return; }
 	// 武器が存在してないなら終了
 	if (weapons_.empty()) { return; }
 

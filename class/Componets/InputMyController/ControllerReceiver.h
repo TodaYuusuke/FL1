@@ -129,5 +129,5 @@ private:
 	static const int16_t kInputStickCenter_ = 510;
 	static const float kInputStickRange_;
 
-	float deadZone_ = 0.02f;
+	float deadZone_ = 0.50f;
 };

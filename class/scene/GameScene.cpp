@@ -156,12 +156,5 @@ void GameScene::Update() {
 	ImGui::Text("button1 %d", (int)ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.button1);
 	ImGui::End();
 
-	static float deadZone;
-
-	ImGui::Begin("Controller");
-	ImGui::DragFloat("DeadZone %d", &deadZone,0.01f);
-	ImGui::End();
-	ControllerReceiver::GetInstance()->SetDeadZone(deadZone);
-
 #endif // DEBUG
 }

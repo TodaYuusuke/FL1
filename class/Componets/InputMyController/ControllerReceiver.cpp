@@ -342,21 +342,22 @@ LWP::Math::Vector2 ControllerReceiver::CalcRotateFromJoyStick(RecvStickTest in) 
 	if (std::abs(rotate.x) < deadZone_) {
 		rotate.x = 0;
 	}
-	/*else if (rotate.x >0) {
+	else if (rotate.x >0) {
 		rotate.x = 1.0f;
 	}
 	else {
 		rotate.x = -1.0f;
-	}*/
+	}
 	if (std::abs(rotate.y) < deadZone_) {
 		rotate.y = 0;
 	}
-	/*else if (rotate.y > 0) {
+	else if (rotate.y > 0) {
 		rotate.y = 1.0f;
 	}
 	else {
 		rotate.y = -1.0f;
-	}*/
+	}
+	rotate = rotate.Normalize();
 
 	return rotate;
 }
