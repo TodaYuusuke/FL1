@@ -17,6 +17,12 @@ public:
 	/// </summary>
 	void Destroy() override;
 
+	/// <summary>
+	/// 武器の向き
+	/// </summary>
+	/// <param name="weaponSide"></param>
+	void SetWeaponSide(int weaponSide = -1) override;
+
 public:// アクセサ
 #pragma region Getter
 
