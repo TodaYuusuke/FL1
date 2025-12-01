@@ -20,7 +20,14 @@ public: // ** 純粋仮想関数の実体宣言 ** //
 	// 更新
 	void Update();
 
-private: // ** これより先に必要な処理や変数を記述 ** //
+private: // 調整項目
+	// クリアまでに必要なキル数
+	int clearKillCount = 30;
+
+	LWP::Utility::JsonIO json_;
+
+private:
+
 	// 追従カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
 	// 敵管理クラス

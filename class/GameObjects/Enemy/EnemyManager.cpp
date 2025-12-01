@@ -6,6 +6,7 @@
 #include "Test/TestEnemy.h"
 #include "../Weapon/Gun/MachineGun/MachineGun.h"
 #include "../Weapon/WeaponManager.h"
+#include  "../World/IWorld.h"
 #include "EnemyConfig.h"
 #include "../UI/ScoreUI/ScoreManager.h"
 
@@ -28,10 +29,34 @@ EnemyManager::EnemyManager(IWorld* world) {
 		CreateJsonData(jsonDatas_[i], sampleEnemies_[i], EnemyConfig::Name::name[i]);
 	}
 #pragma endregion
-
+	// 各敵のレベルの調整情報
 	for (int i = 0; i < maxLevel_; i++) {
 		CreateLevelJsonData(levelJsonDatas_[i], sampleLevels_[i], levelPreview_[i]);
 	}
+
+	// 管理クラスの調整項目
+	json_.Init("EnemyManager.json")
+		.BeginGroup("SpawnData")
+		.BeginGroup("Same")
+		.AddValue<int>("Min", &minSameSpawnNum_)
+		.AddValue<int>("Max", &maxSameSpawnNum_)
+		.EndGroup()
+		// 一度に存在できる数
+		.AddValue<int>("LimitNum", &limitSpawnNum_)
+		// 生成禁止範囲
+		.AddValue<float>("InvalidRange", &invalidSpawnRange_)
+		.EndGroup()
+		// 各敵
+		.BeginGroup("Enemy")
+		.BeginGroup("Drone")
+		.AddValue<float>("FloatHeight", &dronefloatHeight_)
+		.EndGroup()
+		.EndGroup()
+		.CheckJsonFile();
+
+#ifdef _DEBUG
+	isRandomSpawn_ = false;
+#endif // DEBUG
 }
 
 EnemyManager::~EnemyManager() {
@@ -49,14 +74,23 @@ void EnemyManager::Init() {
 }
 
 void EnemyManager::Update() {
+	isTriggerDelete_ = false;
+
+	// 敵を生成
+	if (isRandomSpawn_) SpawnEnemy();
+
+	// 更新
 	for (Actor* actor : enemies_) {
 		actor->Update();
 	}
 	// 削除
 	enemies_.erase(
 		std::remove_if(enemies_.begin(), enemies_.end(),
-			[](Actor* actor) {
+			[&](Actor* actor) {
 				if (!actor->GetIsAlive()) {
+					isTriggerDelete_ = true;
+					killCount_++;
+
 					// 武器を落とす
 					for (int i = 0; i < actor->GetWeapon().size(); i++) {
 						WeaponManager::GetInstance()->DropWeapon(actor->GetWeapon()[i]);
@@ -79,9 +113,14 @@ void EnemyManager::DebugGui() {
 	if (ImGui::BeginTabItem("Enemies")) {
 		// jsonによる調整データ
 		if (ImGui::TreeNode("Json")) {
+			// 管理クラス
+			if (ImGui::TreeNode("RandomSpawnData")) {
+				json_.DebugGUI();
+				ImGui::TreePop();
+			}
+
 			// 調整するレベル
 			SelectLevelGui(levelJsonDatas_[selectLevel_], sampleLevels_[selectLevel_]);
-
 			// 選択した敵を調整
 			SelectEnemyDataGui(jsonDatas_[selectCreateEnemyType_], sampleEnemies_[selectCreateEnemyType_]);
 
@@ -128,6 +167,17 @@ void EnemyManager::DebugGui() {
 			ImGui::TreePop();
 		}
 
+		// 経過時間
+		ImGui::DragFloat("CurrentFrame", &currentFrame_);
+		// 出現間隔
+		ImGui::DragFloat("SpawnInterval", &spawnInterval_);
+		// キル数
+		ImGui::DragInt("KillCount", &killCount_);
+		ImGui::DragInt("LimitSpawnNum", &limitSpawnNum_);
+
+		// ランダム出現開始
+		ImGui::Checkbox("GameStart!", &isRandomSpawn_);
+
 		ImGui::EndTabItem();
 	}
 }
@@ -141,10 +191,13 @@ Actor* EnemyManager::CreateMeleeEnemy() {
 
 	// 近接敵
 	MeleeAttacker* actor = new MeleeAttacker(pWorld_, createID_, data);
-	actor->SetTranslation(createPos_);
 
 	// 武器を付与
 	GiveWeapon(actor, sampleEnemies_[(int)EnemyType::kMelee]);
+
+	// 座標を指定
+	actor->SetTranslation(createPos_);
+
 	createID_++;
 
 	return actor;
@@ -159,10 +212,13 @@ Actor* EnemyManager::CreateGunnerEnemy() {
 
 	// 遠距離敵
 	Gunner* actor = new Gunner(pWorld_, createID_, data);
-	actor->SetTranslation(createPos_);
 
 	// 武器を付与
 	GiveWeapon(actor, sampleEnemies_[(int)EnemyType::kGunner]);
+
+	// 座標を指定
+	actor->SetTranslation(createPos_);
+
 	createID_++;
 
 	return actor;
@@ -177,11 +233,14 @@ Actor* EnemyManager::CreateDroneEnemy() {
 
 	// ドローン敵
 	Drone* actor = new Drone(pWorld_, createID_, data);
-	actor->SetTranslation(createPos_);
-	actor->SetFloatHeight(dronefloatHeight_);
 
 	// 武器を付与
 	GiveWeapon(actor, sampleEnemies_[(int)EnemyType::kDrone]);
+
+	// 座標を指定
+	actor->SetTranslation(createPos_);
+	actor->SetFloatHeight(dronefloatHeight_);
+
 	createID_++;
 
 	return actor;
@@ -196,10 +255,13 @@ Actor* EnemyManager::CreateCargoEnemy() {
 
 	// 遠距離敵
 	Cargo* actor = new Cargo(pWorld_, createID_, data);
-	actor->SetTranslation(createPos_);
 
 	// 武器を付与
 	GiveWeapon(actor, sampleEnemies_[(int)EnemyType::kCargo]);
+
+	// 座標を指定
+	actor->SetTranslation(createPos_);
+
 	createID_++;
 
 	return actor;
@@ -220,6 +282,38 @@ void EnemyManager::GiveWeapon(Actor* actor, const EnemyData& data) {
 		// 武器の装着位置設定
 		SetWeaponPos(actor, weapon, i);
 	}
+}
+
+void EnemyManager::SpawnEnemy() {
+	// 敵が多すぎるなら出現させない
+	if ((int)enemies_.size() >= limitSpawnNum_) { return; }
+
+	currentFrame_ += HitStopController::GetInstance()->GetDeltaTime();
+	spawnInterval_ -= HitStopController::GetInstance()->GetDeltaTime();
+
+	// 次の敵を強制出現 or 敵がすべていない
+	if (spawnInterval_ <= 0.0f || enemies_.empty()) {
+		spawnInterval_ = spawnData_.nextSpawnTime * 60.0f;
+		spawnData_.spawnNum = LWP::Utility::Random::GenerateInt(minSameSpawnNum_, maxSameSpawnNum_);
+		// 生成開始
+		for (int i = 0; i < spawnData_.spawnNum; i++) {
+			selectCreateEnemyType_ = LWP::Utility::Random::GenerateInt(0, (int)EnemyType::kCount - 2);
+			CreateRandomSpawnPos();
+			enemies_.push_back(CreateEnemy());
+		}
+	}
+}
+
+void EnemyManager::CreateRandomSpawnPos() {
+	// 自機の座標を確認
+	Actor* actor = pWorld_->FindActor("Player");
+
+	// 自機座標の近くには生成しない
+	float max = 1.0f;
+	Vector3 randomSpawnDir = LWP::Utility::Random::GenerateVector3(Vector3{ -max,-max,-max }, Vector3{ max,max,max }).Normalize();
+	randomSpawnDir.y = 0.0f;
+	randomSpawnDir *= invalidSpawnRange_;
+	createPos_ = actor->GetWorldTF()->GetWorldPosition() + randomSpawnDir;
 }
 
 // ------------ デバッグ用関数↓------------ //
@@ -393,7 +487,7 @@ void EnemyManager::CreateDebugData() {
 	}
 	// レベルプレビュー
 	for (int i = 1; i <= maxLevel_; i++) {
-		levelPreview_.push_back("Level"+ std::to_string(i));
+		levelPreview_.push_back("Level" + std::to_string(i));
 	}
 #pragma endregion
 }
@@ -514,7 +608,7 @@ void EnemyManager::SelectEnemyDataGui(LWP::Utility::JsonIO& json, EnemyData& dat
 
 		// HP
 		ImGui::DragFloat("HP", &data.hp, 0.1f);
-		
+
 		// 得点
 		ImGui::DragFloat("Score", &data.score, 0.1f);
 

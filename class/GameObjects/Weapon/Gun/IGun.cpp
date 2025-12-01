@@ -14,7 +14,7 @@ IGun::IGun(WeaponData data) {
 
 	// 調整項目を代入
 	data_ = data;
-	name_ = data_.modelName;
+	name_ = data_.name;
 
 	// モデル生成
 	body_.LoadFullPath("resources/model/Weapon/Gun/" + data_.modelName);

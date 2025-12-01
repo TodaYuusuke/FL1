@@ -98,13 +98,28 @@ namespace WeaponConfig {
 		// Melee系→resources/model/Melee/からのパス含めた名前
 		inline std::array<std::array<std::string, (int)WeaponType::kCount>, (int)RarityType::kCount> modelName = {{
 				  // Common							UnCommon						Rare							SuperRare						Legendary						Over
-/* マシンガン	*/{  "MachineGun/MachineGun1.gltf"	, "MachineGun/MachineGun1.gltf"	, "MachineGun/MachineGun1.gltf"	,"MachineGun/MachineGun1.gltf"	, "MachineGun/MachineGun1.gltf"	,"MachineGun/MachineGun1.gltf"  },
-/* ショットガン	*/{  "ShotGun/ShotGun1.gltf"		, "ShotGun/ShotGun1.gltf"		, "ShotGun/ShotGun1.gltf"		,"ShotGun/ShotGun1.gltf"		, "ShotGun/ShotGun1.gltf"		,"ShotGun/ShotGun1.gltf"		},
-/* ライフル		*/{  "Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				},
-/* ランチャー	*/{  "Launcher/Launcher1.gltf"		, "Launcher/Launcher1.gltf"		, "Launcher/Launcher1.gltf"		,"Launcher/Launcher1.gltf"		, "Launcher/Launcher1.gltf"		,"Launcher/Launcher1.gltf"		},
-/* ミサイル		*/{  "AR/AR.obj"					, "AR/AR.obj"					, "AR/AR.obj"					,"AR/AR.obj"					,"AR/AR.obj"					,"AR/AR.obj"					},
+/* マシンガン	*/{  "MachineGun/MachineGun.gltf"	, "MachineGun/MachineGun.gltf"	, "MachineGun/MachineGun.gltf"	,"MachineGun/MachineGun.gltf"	,"MachineGun/MachineGun.gltf"	,"MachineGun/MachineGun.gltf"	},
+/* ショットガン	*/{  "ShotGun/ShotGun.gltf"			, "ShotGun/ShotGun.gltf"		, "ShotGun/ShotGun.gltf"		,"ShotGun/ShotGun.gltf"			,"ShotGun/ShotGun.gltf"			,"ShotGun/ShotGun.gltf"			},
+/* ライフル		*/{  "Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				},
+/* ランチャー	*/{  "Launcher/Launcher.gltf"		, "Launcher/Launcher.gltf"		, "Launcher/Launcher.gltf"		,"Launcher/Launcher.gltf"		,"Launcher/Launcher.gltf"		,"Launcher/Launcher.gltf"		},
+/* ミサイル		*/{  "Missle/MisslePod.obj"			, "Missle/MisslePod.obj"		, "Missle/MisslePod.obj"		,"Missle/MisslePod.obj"			,"Missle/MisslePod.obj"			,"Missle/MisslePod.obj"			},
 /* 近接			*/{  "PileBunker.gltf"				, "PileBunker.gltf"				, "PileBunker.gltf"				,"PileBunker.gltf"				,"PileBunker.gltf"				,"PileBunker.gltf"				}	
 		}};
+	}
+	// テクスチャ名
+	namespace TextureName {
+		// 武器のUI
+		// 順序はWeaponType準拠
+		namespace UI {
+			inline std::array<std::string, (int)WeaponType::kCount> uiName = {
+				"Weapon/MachineGun.png",	// マシンガン
+				"Weapon/ShotGun.png",		// ショットガン
+				"Weapon/MachineGun.png",	// ライフル
+				"Weapon/Launcher.png",		// ランチャー
+				"Weapon/MissilePod.png",	// ミサイル
+				"Weapon/PileBunker.png"		// 近接
+			};
+		}
 	}
 
 	/// <summary>

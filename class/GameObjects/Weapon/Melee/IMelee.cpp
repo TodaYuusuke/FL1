@@ -16,7 +16,7 @@ IMelee::IMelee(WeaponData data) {
 
 	// 調整項目を代入
 	data_ = data;
-	name_ = data_.modelName;
+	name_ = data_.name;
 
 	// モデル生成
 	body_.LoadFullPath("resources/model/Weapon/Melee/" + data_.modelName);
@@ -127,8 +127,6 @@ void IMelee::DebugGui() {
 }
 
 void IMelee::Attack(int bulletHitFragBit, Actor* attackTarget) {
-	bulletHitFragBit;
-
 	// 弾がない状態なら撃てない
 	if (magazine_->GetEmpty()) {
 		isDestroy_ = true;
@@ -154,7 +152,7 @@ void IMelee::Attack(int bulletHitFragBit, Actor* attackTarget) {
 		// 攻撃対象との距離
 		Vector3 dist = attackTarget->GetWorldTF()->GetWorldPosition() - actor_->GetWorldTF()->GetWorldPosition();
 		float length = dist.Length();
-		if (length >= 6.0f) length -= 6.0f;
+		if (length >= assistOffset) length -= assistOffset;
 		else length = 0.0f;
 
 		if (length >= 20.0f) {

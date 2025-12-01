@@ -204,8 +204,13 @@ private:
 	// 武器リスト
 	std::vector<IWeapon*> weapons_;
 
+	// 拾える武器を画像で出す
+	std::array<LWP::Primitive::NormalSprite, (int)WeaponType::kCount> pickUpWeaponSprite_;
+	// 拾える武器を画像のWorldTransform
+	LWP::Primitive::NormalSprite samplePickUpWeaponSprite_;
+
 	// 武器を生成する座標
-	LWP::Math::Vector3 createPos_;
+	LWP::Math::Vector3 createPos_ = { 0.0f,10.0f,0.0f };
 
 	int selectWeapon_;
 

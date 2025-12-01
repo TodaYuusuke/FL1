@@ -1,9 +1,9 @@
 {
     "Group :Bullet": {
         "Vector3 :ColliderSize": [
-            2.0,
             3.0,
-            2.0
+            4.0,
+            3.0
         ],
         "Vector3 :DiffusingRange": [
             0.0,
@@ -20,6 +20,7 @@
         "float :Normal": 0.5
     },
     "float :AttackPower": 100.0,
+    "float :AttackSkillGain": 100.0,
     "float :CoolTime": 0.0,
     "float :ReloadTime": 0.0,
     "float :StoreTime": 0.0,

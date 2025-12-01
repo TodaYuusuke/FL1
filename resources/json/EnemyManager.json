@@ -1,0 +1,15 @@
+{
+    "Group :Enemy": {
+        "Group :Drone": {
+            "float :FloatHeight": 4.0
+        }
+    },
+    "Group :SpawnData": {
+        "Group :Same": {
+            "int32_t :Max": 8,
+            "int32_t :Min": 4
+        },
+        "float :InvalidRange": 40.0,
+        "int32_t :LimitNum": 10
+    }
+}
