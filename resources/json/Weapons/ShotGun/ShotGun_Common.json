@@ -5,15 +5,15 @@
             0.05000000074505806,
             0.0
         ],
-        "float :Speed": 1.0,
         "int32_t :Num": 10,
-        "int32_t :SameBulletNum": 20
+        "int32_t :SameBulletNum": 20,
+        "int32_t :Type": 2
     },
     "Group :Interval": {
         "float :Burst": 0.0,
         "float :Normal": 1.0
     },
-    "float :AttackPower": 20.0,
+    "float :AttackSkillGain": 100.0,
     "float :CoolTime": 0.0,
     "float :ReloadTime": 0.0,
     "float :StoreTime": 0.0,

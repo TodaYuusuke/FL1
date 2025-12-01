@@ -9,6 +9,7 @@ using namespace LWP::Math;
 BulletManager::BulletManager() {
 	BulletRegister<Bullet>((int)BulletType::LargeCaliber);
 	BulletRegister<Bullet>((int)BulletType::SmallCaliber);
+	BulletRegister<Bullet>((int)BulletType::BuckShot);
 	BulletRegister<MissleBase>((int)BulletType::Launcher);
 	MeleeRegister<MeleeAttack>((int)BulletType::M_Pile);
 

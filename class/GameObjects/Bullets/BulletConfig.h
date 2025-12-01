@@ -15,7 +15,6 @@ enum class BulletType {
 // 弾の調整項目
 struct BulletData {
 	LWP::Math::Vector3 bulletSize{ 1.0f,1.0f,1.0f };	// 弾の大きさ(当たり判定)
-	//LWP::Math::Vector3 explosionSize;					// 爆発の大きさ(当たり判定)
 	float speed = 1.0f;									// 弾速
 	float elapsedTime = 1.0f;							// 弾の生存時間
 	float attackValue = 50.0f;							// 攻撃力
@@ -29,8 +28,8 @@ namespace BulletConfig {
 			"LargeCaliber",		// 大口径
 			"SmallCaliber",		// 小口径
 			"BuckShot",			// 散弾
-			"Launcher",		// ランチャー弾
-			"M_Pile"
+			"Launcher",			// ランチャー弾
+			"M_Pile"			// 近接攻撃
 		};
 	}
 
