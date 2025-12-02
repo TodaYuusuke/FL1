@@ -150,7 +150,10 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="class\GameObjects\Bullets\AttackBase.cpp" />
     <ClCompile Include="class\GameObjects\Bullets\Bullet\MissleBase.cpp" />
+    <ClCompile Include="class\GameObjects\Bullets\Strategy\Movement\HomingMove.cpp" />
+    <ClCompile Include="class\GameObjects\Bullets\Strategy\Impact\ExplosionImpact.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\Cargo\Cargo.cpp" />
     <ClCompile Include="class\Componets\BehaviourTree\DecoratorNode\RunOnce.cpp" />
     <ClCompile Include="class\Componets\BehaviourTree\LeafNode\ReadyToAttackLeaf.cpp" />
@@ -223,10 +226,15 @@
     <ClCompile Include="class\GameObjects\Weapon\WeaponManager.cpp" />
     <ClCompile Include="class\GameObjects\Bullets\Melee\MeleeAttack.cpp" />
     <ClCompile Include="class\GameObjects\Player\System\WeaponSkill\WeaponSkill.cpp" />
+    <ClCompile Include="class\GameObjects\Bullets\Strategy\Movement\StraightMove.cpp" />
+    <ClCompile Include="class\GameObjects\Bullets\Strategy\Impact\NormalImpact.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="class\GameObjects\Bullets\AttackBase.h" />
     <ClInclude Include="class\GameObjects\Bullets\BulletConfig.h" />
     <ClInclude Include="class\GameObjects\Bullets\Bullet\MissleBase.h" />
+    <ClInclude Include="class\GameObjects\Bullets\Strategy\Movement\HomingMove.h" />
+    <ClInclude Include="class\GameObjects\Bullets\Strategy\Impact\ExplosionImpact.h" />
     <ClInclude Include="class\GameObjects\Enemy\Cargo\Cargo.h" />
     <ClInclude Include="class\Componets\BehaviourTree\DecoratorNode\RunOnce.h" />
     <ClInclude Include="class\Componets\BehaviourTree\LeafNode\ReadyToAttackLeaf.h" />
@@ -312,6 +320,10 @@
     <ClInclude Include="class\GameObjects\Bullets\Melee\MeleeAttack.h" />
     <ClInclude Include="class\GameObjects\Player\System\WeaponSkill\WeaponSkill.h" />
     <ClInclude Include="class\GameObjects\Bullets\Explosion\Explosion.h" />
+    <ClInclude Include="class\GameObjects\Bullets\Strategy\Movement\IMovement.h" />
+    <ClInclude Include="class\GameObjects\Bullets\Strategy\Movement\StraightMove.h" />
+    <ClInclude Include="class\GameObjects\Bullets\Strategy\Impact\IImpact.h" />
+    <ClInclude Include="class\GameObjects\Bullets\Strategy\Impact\NormalImpact.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

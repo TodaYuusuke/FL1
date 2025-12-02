@@ -5,7 +5,7 @@ using namespace FLMath;
 using namespace LWP;
 using namespace LWP::Math;
 
-MeleeAttack::MeleeAttack(const BulletData& data, LWP::Object::TransformQuat* target, int hitFragBit)
+MeleeAttack::MeleeAttack(const AttackData& data, LWP::Object::TransformQuat* target, int hitFragBit)
 	: BulletBase(data, Vector3{0,0,0}, hitFragBit)
 {
 	target_ = target;

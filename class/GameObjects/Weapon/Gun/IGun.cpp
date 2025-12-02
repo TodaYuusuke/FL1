@@ -201,7 +201,7 @@ void IGun::AttackCommond() {
 				(Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, randomVec.Normalize()) * Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, shotDirVel_));
 		}
 		// 弾生成
-		pBulletManager_->CreateBullet(data_.bulletType, body_.GetJointWorldPosition("Muzzle"), bulletHitFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
+		pBulletManager_->CreateAttack(data_.bulletType, body_.GetJointWorldPosition("Muzzle"), bulletHitFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
 
 		i--;
 	} while (i > 0);

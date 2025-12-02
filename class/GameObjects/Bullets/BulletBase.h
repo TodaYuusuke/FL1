@@ -2,131 +2,49 @@
 #include "../../Componets/Math.h"
 #include "../../Componets/HitStopController.h"
 #include "BulletConfig.h"
+#include "AttackBase.h"
+#include "Strategy/Impact/IImpact.h"
 #include <Adapter.h>
 
 /// <summary>
 /// 弾の基底クラス
 /// </summary>
-class BulletBase {
+class BulletBase : public AttackBase {
 public:
 	// コンストラクタ
-	BulletBase(const BulletData& data, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dirVel = { 0,0,0 });
+	BulletBase(const AttackData& data, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dirVel = { 0,0,0 });
 	// デストラクタ
-	virtual ~BulletBase() = default;
+	~BulletBase() override = default;
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Init();
+	void Init() override;
 	/// <summary>
 	/// 更新
 	/// </summary>
-	virtual void Update();
-
-protected:
+	void Update() override;
 	/// <summary>
 	/// 衝突応答
 	/// </summary>
-	virtual void OnCollision(LWP::Object::Collision* hitTarget) {
-		hitTarget;
-		isAlive_ = false;
-	}
+	void OnCollision(LWP::Object::Collision* hitTarget) override;
 
 public:// アクセサ
 #pragma region Getter
-	/// <summary>
-	/// 名前を取得
-	/// </summary>
-	/// <returns></returns>
-	std::string GetName() { return bodyCollision_.name; }
-	/// <summary>
-	/// 攻撃力を取得
-	/// </summary>
-	/// <returns></returns>
-	float GetAttackPower() { return attackPower_; }
-	/// <summary>
-	/// 攻撃倍率を取得
-	/// </summary>
-	/// <returns></returns>
-	float GetAttackMultiply() { return attackMultiply_; }
-	/// <summary>
-	/// 速度倍率を取得
-	/// </summary>
-	/// <returns></returns>
-	float GetSpeedMultiply() { return speedMultiply_; }
-	/// <summary>
-	/// 生存しているかを取得
-	/// </summary>
-	/// <returns></returns>
-	bool GetIsAlive() { return isAlive_; }
+
 #pragma endregion
 
 #pragma region Setter
-	/// <summary>
-	/// 座標を設定
-	/// </summary>
-	/// <param name="pos"></param>
-	void SetPos(const LWP::Math::Vector3& pos) { body_.worldTF.translation = pos; }
-	/// <summary>
-	/// 角度を設定
-	/// </summary>
-	/// <param name="q"></param>
-	void SetRotation(const LWP::Math::Quaternion& q) { body_.worldTF.rotation = q; }
-	/// <summary>
-	/// 速度ベクトルを設定
-	/// </summary>
-	/// <param name="vel"></param>
-	void SetVelocity(const LWP::Math::Vector3& vel) { vel_ = vel; }
-	/// <summary>
-	/// 名前を設定
-	/// </summary>
-	/// <param name="name"></param>
-	void SetName(const std::string& name) { bodyCollision_.name = name; }
-	/// <summary>
-	/// 攻撃力を設定
-	/// </summary>
-	/// <returns></returns>
-	void SetAttackPower(float value) { attackPower_ = value; }
-	/// <summary>
-	/// 攻撃倍率を設定
-	/// </summary>
-	/// <param name="value"></param>
-	void SetAttackMultiply(float value) { attackMultiply_ = value; }
-	/// <summary>
-	/// 速度倍率を設定
-	/// </summary>
-	/// <param name="value"></param>
-	void SetSpeedMultiply(float value) { speedMultiply_ = value; }
+
 #pragma endregion
 
 protected:
-	// ヒットストップ
-	HitStopController* stopController_;
+	// 着弾時の処理
+	std::unique_ptr<IImpact> impact_;
 
-	// モデル
-	LWP::Resource::RigidModel body_;
-
-	// 体の当たり判定
-	LWP::Object::Collision bodyCollision_;
+	// AABB
 	LWP::Object::Collider::AABB& bodyAABB_;
 
-	// 速度
-	LWP::Math::Vector3 vel_ = { 0.0f,0.0f,1.0f };
-
 	// 調整情報
-	BulletData data_;
-
-	// 攻撃力
-	float attackPower_;
-	// 攻撃倍率
-	float attackMultiply_ = 1.0f;
-	// 移動速度
-	float moveSpeed_;
-	// 速度倍率
-	float speedMultiply_ = 1.0f;
-
-	float currentFrame_ = 60.0f;
-
-	// 生存しているか
-	bool isAlive_ = true;
+	AttackData data_;
 };

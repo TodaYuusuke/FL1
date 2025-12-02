@@ -1,15 +1,17 @@
 #include "BulletBase.h"
 #include "../Collision/CollisionMask.h"
+#include "BulletManager.h"
+#include "Strategy/Impact/NormalImpact.h"
+#include "Strategy/Impact/ExplosionImpact.h"
 
 using namespace FLMath;
 using namespace LWP;
 using namespace LWP::Math;
 
-BulletBase::BulletBase(const BulletData& data, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dirVel)
-	: bodyAABB_(bodyCollision_.SetBroadShape<LWP::Object::Collider::AABB>())
+BulletBase::BulletBase(const AttackData& data, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dirVel)
+	: AttackBase(hitFragBit),
+	bodyAABB_(bodyCollision_.SetBroadShape<LWP::Object::Collider::AABB>())
 {
-	stopController_ = HitStopController::GetInstance();
-
 	// 調整情報
 	data_ = data;
 	// 現在の攻撃力
@@ -31,7 +33,7 @@ BulletBase::BulletBase(const BulletData& data, const LWP::Math::Vector3& pos, in
 	body_.worldTF.rotation = Quaternion::LookRotation(dirVel);
 
 	// 体の判定生成
-	Vector3 size = data.bulletSize / 2.0f;
+	Vector3 size = data.attackSize / 2.0f;
 	bodyAABB_.min = size * -1.0f;
 	bodyAABB_.max = size;
 	bodyCollision_.SetFollow(&body_.worldTF);
@@ -39,10 +41,16 @@ BulletBase::BulletBase(const BulletData& data, const LWP::Math::Vector3& pos, in
 	// 自機の所属しているマスクを設定
 	bodyCollision_.mask.SetBelongFrag(GameMask::attack);
 	// 当たり判定をとる対象のマスクを設定
+	hitFragBit_ = hitFragBit;
 	bodyCollision_.mask.SetHitFrag(hitFragBit);
 	bodyCollision_.stayLambda = [this](LWP::Object::Collision* hitTarget) {
 		OnCollision(hitTarget);
 		};
+
+	// 着弾時の処理
+	if (data_.impactType == (int)ImpactType::kExplosion) {
+		impact_ = std::make_unique<ExplosionImpact>(BulletManager::GetInstance()->GetImpactData(data_.impactType));
+	}
 }
 
 void BulletBase::Init() {
@@ -74,4 +82,14 @@ void BulletBase::Update() {
 	}
 
 	currentFrame_ -= stopController_->GetDeltaTime();
+}
+
+
+void BulletBase::OnCollision(LWP::Object::Collision* hitTarget) {
+	if (isAlive_) {
+		if(impact_) impact_->OnHit(this);
+	}
+
+	hitTarget;
+	isAlive_ = false;
 }

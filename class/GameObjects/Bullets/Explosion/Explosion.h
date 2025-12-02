@@ -1,9 +1,10 @@
 #pragma once
-#include "../BulletBase.h"
+#include "../AttackBase.h"
 
-class Explosion : public BulletBase {
+class Explosion : public AttackBase {
+public:
 	// コンストラクタ
-	Explosion(const BulletData& data, const LWP::Math::Vector3& pos, int hitFragBit);
+	Explosion(const ImpactData& data, const LWP::Math::Vector3& pos, int hitFragBit);
 	// デストラクタ
 	~Explosion() override = default;
 
@@ -15,11 +16,16 @@ class Explosion : public BulletBase {
 	/// 更新
 	/// </summary>
 	void Update() override;
-
-private:// 調整項目
-	// 爆発の最大範囲
-	LWP::Math::Vector3 maxExplosionSize = { 10.0f ,10.0f ,10.0f };
+	/// <summary>
+	/// 衝突応答
+	/// </summary>
+	void OnCollision(LWP::Object::Collision* hitTarget) override;
 
 private:
+	// AABB
+	LWP::Object::Collider::Sphere& bodySphere_;
+
+	// 調整情報
+	ImpactData data_;
 };
 

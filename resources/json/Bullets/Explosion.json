@@ -1,0 +1,6 @@
+{
+    "float :AttackPower": 50.0,
+    "float :ColliderSize": 10.0,
+    "float :ElapsedTime": 1.0,
+    "float :Speed": 1.0
+}
