@@ -13,7 +13,7 @@ public:
 	/// 更新
 	/// </summary>
 	/// <param name="b"></param>
-	void Update(BulletBase* b) override;
+	void Update(BulletBase* bullet) override;
 
 private:// 外部から受け取る変数
 	Actor* target_;

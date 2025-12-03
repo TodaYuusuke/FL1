@@ -31,6 +31,10 @@ public:
 	/// </summary>
 	void Update();
 	/// <summary>
+	/// ゲームシーンの最後に呼ぶ処理
+	/// </summary>
+	void EndFrame();
+	/// <summary>
 	/// 調整項目
 	/// </summary>
 	void DebugGui();

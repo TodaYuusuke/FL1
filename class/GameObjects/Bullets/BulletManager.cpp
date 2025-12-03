@@ -1,5 +1,4 @@
 #include "BulletManager.h"
-#include "Bullet/MissleBase.h"
 #include "Bullet/Bullet.h"
 #include "Explosion/Explosion.h"
 
@@ -12,7 +11,7 @@ BulletManager::BulletManager() {
 	BulletRegister<Bullet>((int)BulletType::LargeCaliber);		// 大口径
 	BulletRegister<Bullet>((int)BulletType::SmallCaliber);		// 小口径
 	BulletRegister<Bullet>((int)BulletType::BuckShot);			// 散弾
-	BulletRegister<MissleBase>((int)BulletType::Launcher);		// ランチャー弾
+	BulletRegister<Bullet>((int)BulletType::Launcher);			// ランチャー弾
 
 	// 近接攻撃登録
 	MeleeRegister<MeleeAttack>((int)BulletType::M_Pile);		// パイル攻撃
@@ -31,6 +30,10 @@ BulletManager::BulletManager() {
 		impactTypePreview_.push_back(AttackConfig::Impact::Name::impactName[i]);
 		sampleImpactDatas_[i].type = i;
 		CreateJsonData(jsonImpactDatas_[i], sampleImpactDatas_[i], AttackConfig::Impact::Name::impactName[i]);
+	}
+	// 移動方式
+	for (int i = 0; i < (int)MovementType::kCount; i++) {
+		movementTypePreview_.push_back(AttackConfig::Bullet::Movement::movementName[i]);
 	}
 	// 属性
 	for (int i = 0; i < (int)ElementType::kCount; i++) {
@@ -56,6 +59,9 @@ void BulletManager::Update() {
 	for (auto it = attackList_.begin(); it != attackList_.end(); it++) {
 		(*it)->Update();
 	}
+}
+
+void BulletManager::EndFrame() {
 	// 削除
 	attackList_.remove_if([](AttackBase* bullet) {
 		if (!bullet->GetIsAlive()) {
@@ -115,6 +121,14 @@ void BulletManager::CreateJsonData(LWP::Utility::JsonIO& json, AttackData& data,
 		.AddValue<float>("ElapsedTime", &data.elapsedTime)
 		// 着弾時の処理
 		.AddValue<int>("ImpactType", &data.impactType)
+		// 移動方式
+		.AddValue<int>("MovementType", &data.movementType)
+		// 追尾
+		.BeginGroup("Homing")
+		.AddValue<float>("DerayTime", &data.derayHomingTime)
+		.AddValue<float>("Accuracy", &data.homingAccuracy)
+		.EndGroup()
+
 		.CheckJsonFile();
 }
 
@@ -146,6 +160,8 @@ void BulletManager::SelectBulletDataGui(LWP::Utility::JsonIO& json, AttackData& 
 
 		// 着弾時の処理選択
 		SelectType(impactTypePreview_, data.impactType, "##ImpactType");
+		// 移動方式選択
+		SelectType(movementTypePreview_, data.movementType, "##MovementType");
 		// 弾の大きさ(当たり判定)
 		ImGui::DragFloat3("ColliderSize", &data.attackSize.x, 0.01f, 0.0001f, 1.0f);
 		// 弾速
@@ -154,6 +170,11 @@ void BulletManager::SelectBulletDataGui(LWP::Utility::JsonIO& json, AttackData& 
 		ImGui::DragFloat("AttackPower", &data.attackValue);
 		// 弾の生存時間
 		ImGui::DragFloat("ElapsedTime", &data.elapsedTime);
+		if (ImGui::TreeNode("Homing")) {
+			ImGui::DragFloat("DerayTime", &data.derayHomingTime);
+			ImGui::DragFloat("Accuracy", &data.homingAccuracy);
+			ImGui::TreePop();
+		}
 		ImGui::TreePop();
 	}
 }

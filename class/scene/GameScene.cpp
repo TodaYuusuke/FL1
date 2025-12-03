@@ -71,14 +71,15 @@ void GameScene::Update() {
 	if (enemyManager_->GetKillCount() >= clearKillCount) {
 		
 	}
-
 	// ヒットストップ
 	HitStopController::GetInstance()->Update();
 
 	// 敵管理
 	enemyManager_->Update();
+
 	// ワールドオブジェクト
 	world_->Update();
+
 	// 弾管理クラス
 	BulletManager::GetInstance()->Update();
 	// 武器管理クラス
@@ -131,4 +132,8 @@ void GameScene::Update() {
 	ImGui::EndTabBar();
 	ImGui::End();
 #endif // DEBUG
+
+	// 更新処理終了時に呼ぶ処理
+	enemyManager_->EndFrame();
+	BulletManager::GetInstance()->EndFrame();
 }

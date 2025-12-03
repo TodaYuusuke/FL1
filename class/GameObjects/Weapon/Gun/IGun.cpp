@@ -59,6 +59,11 @@ void IGun::Update() {
 	// 持ち主がいないときのみ落下
 	FallingUpdate();
 
+	// 対象が死んでいる
+	if (target_ && !target_->GetIsAlive()) {
+		target_ = nullptr;
+	}
+
 	// 弾がなくなれば強制リロード(クールタイム)
 	if (magazine_->GetEmpty()) {
 		isDestroy_ = true;
@@ -201,7 +206,7 @@ void IGun::AttackCommond() {
 				(Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, randomVec.Normalize()) * Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, shotDirVel_));
 		}
 		// 弾生成
-		pBulletManager_->CreateAttack(data_.bulletType, body_.GetJointWorldPosition("Muzzle"), bulletHitFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
+		pBulletManager_->CreateAttack(data_.bulletType, target_, body_.GetJointWorldPosition("Muzzle"), bulletHitFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
 
 		i--;
 	} while (i > 0);

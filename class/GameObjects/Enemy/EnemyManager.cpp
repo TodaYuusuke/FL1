@@ -81,6 +81,9 @@ void EnemyManager::Update() {
 	for (Actor* actor : enemies_) {
 		actor->Update();
 	}
+}
+
+void EnemyManager::EndFrame() {
 	// 削除
 	enemies_.erase(
 		std::remove_if(enemies_.begin(), enemies_.end(),

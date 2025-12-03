@@ -4,7 +4,7 @@
 class StraightMove : public IMovement {
 public:
 	// コンストラクタ
-	StraightMove() = default;
+	StraightMove();
 	// デストラクタ
 	~StraightMove() override = default;
 

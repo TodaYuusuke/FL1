@@ -3,12 +3,14 @@
 #include "BulletManager.h"
 #include "Strategy/Impact/NormalImpact.h"
 #include "Strategy/Impact/ExplosionImpact.h"
+#include "Strategy/Movement/StraightMove.h"
+#include "Strategy/Movement/HomingMove.h"
 
 using namespace FLMath;
 using namespace LWP;
 using namespace LWP::Math;
 
-BulletBase::BulletBase(const AttackData& data, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dirVel)
+BulletBase::BulletBase(const AttackData& data, Actor* target, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dirVel)
 	: AttackBase(hitFragBit),
 	bodyAABB_(bodyCollision_.SetBroadShape<LWP::Object::Collider::AABB>())
 {
@@ -22,6 +24,8 @@ BulletBase::BulletBase(const AttackData& data, const LWP::Math::Vector3& pos, in
 	currentFrame_ = data.elapsedTime * 60.0f;
 	// 移動速度
 	vel_ = dirVel;
+	// 追尾対象
+	target_ = target;
 
 	// モデルの読み込み
 	body_.LoadCube();
@@ -51,6 +55,13 @@ BulletBase::BulletBase(const AttackData& data, const LWP::Math::Vector3& pos, in
 	if (data_.impactType == (int)ImpactType::kExplosion) {
 		impact_ = std::make_unique<ExplosionImpact>(BulletManager::GetInstance()->GetImpactData(data_.impactType));
 	}
+
+	if (data_.movementType == (int)MovementType::kStraight) {
+		movement_  = std::make_unique<StraightMove>();
+	}
+	else if (data_.movementType == (int)MovementType::kHoming) {
+		movement_ = std::make_unique<HomingMove>(target);
+	}
 }
 
 void BulletBase::Init() {
@@ -70,11 +81,8 @@ void BulletBase::Init() {
 void BulletBase::Update() {
 	attackPower_ = data_.attackValue * attackMultiply_;
 
-	// 座標変更
-	body_.worldTF.translation += vel_ * moveSpeed_ * stopController_->GetDeltaTime();
-
-	// 角度変更
-	body_.worldTF.rotation = LookRotationZLock(vel_);
+	// 移動方式
+	movement_->Update(this);
 
 	// 線損時間を過ぎているなら消す
 	if (currentFrame_ <= 0.0f) {

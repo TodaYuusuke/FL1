@@ -19,6 +19,6 @@ public:
 	void Update() override;
 
 private:
-	LWP::Object::TransformQuat* target_;
+	LWP::Object::TransformQuat* targetTF_;
 };
 

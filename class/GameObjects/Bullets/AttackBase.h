@@ -4,6 +4,7 @@
 #include "BulletConfig.h"
 #include <Adapter.h>
 
+class Actor;
 class AttackBase {
 public:
 	// コンストラクタ
@@ -72,6 +73,11 @@ public:// アクセサ
 
 #pragma region Setter
 	/// <summary>
+	/// 攻撃対象を設定
+	/// </summary>
+	/// <param name="target"></param>
+	void SetTarget(Actor* target) { target_ = target; }
+	/// <summary>
 	/// 座標を設定
 	/// </summary>
 	/// <param name="pos"></param>
@@ -111,6 +117,8 @@ public:// アクセサ
 protected:// 外部から受け取る変数
 	// ヒットストップ
 	HitStopController* stopController_;
+	// 攻撃対象(特定の処理でのみ使う)
+	Actor* target_;
 
 protected:
 	// モデル

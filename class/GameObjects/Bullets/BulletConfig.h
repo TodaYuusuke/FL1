@@ -18,6 +18,12 @@ enum class ImpactType {
 	kExplosion,		// 爆発
 	kCount			
 };
+// 移動方式の種類
+enum class MovementType {
+	kStraight,			// 直進
+	kHoming,			// 追尾
+	kCount
+};
 /// <summary>
 /// 属性の種類
 /// </summary>
@@ -29,9 +35,12 @@ enum class ElementType {
 // 攻撃の調整項目
 struct AttackData {
 	int impactType;										// 着弾時の処理
+	int movementType;									// 移動方式
 	LWP::Math::Vector3 attackSize{ 1.0f,1.0f,1.0f };	// 攻撃の大きさ(当たり判定)
 	float speed = 1.0f;									// 弾速
 	float elapsedTime = 1.0f;							// 弾の生存時間
+	float derayHomingTime;								// ホーミング機能になるまでの時間
+	float homingAccuracy;								// ホーミング精度
 	float attackValue = 50.0f;							// 攻撃力
 };
 // 攻撃着弾時の処理の調整項目
@@ -64,6 +73,15 @@ namespace AttackConfig {
 				"BuckShot",			// 散弾
 				"Launcher",			// ランチャー弾
 				"M_Pile"			// 近接攻撃
+			};
+		}
+
+		namespace Movement {
+			// 識別名
+			// 順番はBulletType準拠
+			inline std::array<std::string, (int)MovementType::kCount> movementName = {
+				"Straight",		// 直進
+				"Homing"		// 追尾
 			};
 		}
 

@@ -6,11 +6,11 @@ using namespace LWP;
 using namespace LWP::Math;
 
 MeleeAttack::MeleeAttack(const AttackData& data, LWP::Object::TransformQuat* target, int hitFragBit)
-	: BulletBase(data, Vector3{0,0,0}, hitFragBit)
+	: BulletBase(data, nullptr, Vector3{ 0,0,0 }, hitFragBit)
 {
-	target_ = target;
+	targetTF_ = target;
 
-	bodyCollision_.SetFollow(target_);
+	bodyCollision_.SetFollow(targetTF_);
 	bodyCollision_.worldTF.translation = { 0.0f,0.0f,1.0f };
 	bodyCollision_.isActive = true;
 	// 所属しているマスクを設定
@@ -31,7 +31,7 @@ void MeleeAttack::Update() {
 	body_.worldTF.translation += vel_ * moveSpeed_ * stopController_->GetDeltaTime();
 
 	// 攻撃している人がいないならペアレントを消す
-	if (!target_) bodyCollision_.SetFollow(nullptr);
+	if (!targetTF_) bodyCollision_.SetFollow(nullptr);
 
 	// 線損時間を過ぎているなら消す
 	if (currentFrame_ <= 0.0f) {

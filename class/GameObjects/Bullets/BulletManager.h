@@ -5,7 +5,7 @@
 #include "Melee/MeleeAttack.h"
 #include "BulletConfig.h"
 
-using BulletCreator = std::function<BulletBase* (const AttackData&, const LWP::Math::Vector3&, int, const LWP::Math::Vector3&)>;
+using BulletCreator = std::function<BulletBase* (const AttackData&, Actor*, const LWP::Math::Vector3&, int, const LWP::Math::Vector3&)>;
 using ImpactCreator = std::function<AttackBase* (const ImpactData&, const LWP::Math::Vector3&, int)>;
 using MeleeCreator = std::function<BulletBase* (const AttackData&, LWP::Object::TransformQuat*, int)>;
 /// <summary>
@@ -28,6 +28,10 @@ public:
 	/// 更新
 	/// </summary>
 	void Update();
+	/// <summary>
+	/// ゲームシーンの最後に呼ぶ処理
+	/// </summary>
+	void EndFrame();
 	/// <summary>
 	/// 調整項目
 	/// </summary>
@@ -85,8 +89,8 @@ public:// アクセサ
 
 	template<class T>
 	void BulletRegister(int type) {
-		bulletCreators_[type] = [](const AttackData& data, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dir = { 0,0,0 }) {
-			return new T(data, pos, hitFragBit, dir);  // ← 派生クラスを new
+		bulletCreators_[type] = [](const AttackData& data, Actor* target, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dir = { 0,0,0 }) {
+			return new T(data, target, pos, hitFragBit, dir);  // ← 派生クラスを new
 			};
 	}
 	template<class U>
@@ -109,9 +113,9 @@ public:// アクセサ
 	/// <param name="pos">生成座標</param>
 	/// <param name="hitFragBit">当たり判定をとる対象のマスク</param>
 	/// <param name="dir">方向ベクトル</param>
-	void CreateAttack(int type, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dir = { 0,0,0 }, float attackMultiply = 1.0f) {
+	void CreateAttack(int type, Actor* target, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dir = { 0,0,0 }, float attackMultiply = 1.0f) {
 		if (bulletCreators_.contains(type)) {
-			AddBullet(bulletCreators_[type](sampleBulletDatas_[type], pos, hitFragBit, dir), attackMultiply);
+			AddBullet(bulletCreators_[type](sampleBulletDatas_[type], target, pos, hitFragBit, dir), attackMultiply);
 		}
 	}
 	/// <summary>
@@ -173,6 +177,7 @@ private:// 調整項目
 	// 調整できる弾一覧
 	std::vector<std::string> bulletTypePreview_;
 	std::vector<std::string> impactTypePreview_;
+	std::vector<std::string> movementTypePreview_;
 	std::vector<std::string> bulletElementPreview_;
 
 private:

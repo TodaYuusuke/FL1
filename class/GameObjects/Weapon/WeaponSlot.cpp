@@ -18,7 +18,7 @@ void WeaponSlot::Init() {}
 
 void WeaponSlot::Update() {
 	// 練度を踏まえて武器の攻撃倍率更新
-	if(!weapons_.empty()) weapons_.front()->SetAttackMultiply(pWeaponSkill_->GetSkillData(weapons_.front()->GetWeaponData().name).attackMultiply);
+	if (!weapons_.empty()) weapons_.front()->SetAttackMultiply(pWeaponSkill_->GetSkillData(weapons_.front()->GetWeaponData().name).attackMultiply);
 
 	// 削除コマンドがあるなら消す
 	weapons_.erase(
@@ -71,13 +71,9 @@ void WeaponSlot::Attack() {
 			else {
 				weapons_.front()->SetShotDirVelocity(GetDirVector({ 0,0,1 }, weapons_.front()->GetActor()->GetModel().worldTF.rotation));
 			}
-
-			// 近接武器なら相手を指定
-			if (weapons_.front()->GetWeaponData().name == WeaponConfig::Name::name[(int)WeaponType::kMelee]) {
-				// 相手がだれかを指定するために更新処理一回呼ぶ
-				pLeadingSystem_->Update();
-				actor = pLeadingSystem_->GetLeadingTarget();
-			}
+			// 相手がだれかを指定するために更新処理一回呼ぶ
+			pLeadingSystem_->Update();
+			actor = pLeadingSystem_->GetLeadingTarget();
 		}
 	}
 

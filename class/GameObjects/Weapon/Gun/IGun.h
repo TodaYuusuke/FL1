@@ -71,6 +71,8 @@ public:// アクセサ
 #pragma endregion
 
 protected:
+	Actor* target_;
+
 	// 射撃スタイル
 	ShotType shotType_;
 	// 現在のバースト数

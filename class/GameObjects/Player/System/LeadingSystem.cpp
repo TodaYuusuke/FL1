@@ -40,10 +40,8 @@ void LeadingSystem::Update() {
 	SelectLeadingTarget();
 
 	// 敵が死んでいたら偏差終了
-	if (leadingTarget_) {
-		if (pEnemyManager_->GetTriggerDeleteEnemy()) {
-			leadingTarget_ = nullptr;
-		}
+	if (leadingTarget_ && !leadingTarget_->GetIsAlive()) {
+		leadingTarget_ = nullptr;
 	}
 	// 偏差対象解除
 	ClearLeadingTarget();
