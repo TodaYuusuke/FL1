@@ -9,6 +9,7 @@ using namespace ActionConfig::Mask;
 using namespace LWP::Input;
 
 WeaponController::WeaponController(LeadingSystem* leadingSystem, Actor* target) {
+	vCon_ = VirtualController::GetInstance();
 	pLeadingSystem_ = leadingSystem;
 	target_ = target;
 
@@ -85,12 +86,12 @@ void WeaponController::InputHandle() {
 	collectSide_ = WeaponSide::kCount;
 	// 武器の回収ボタンを押しているか
 	bool isCollect = false;
-	if (Keyboard::GetPress(DIK_0) || Controller::GetPress(XBOX_X)) {
+	if (vCon_->GetPress(BindActionType::kCollect)) {
 		isCollect = true;
 	}
 
 	// 左手
-	if (Keyboard::GetPress(DIK_1) || Controller::GetPress(XBOX_LT)) {
+	if (vCon_->GetPress(BindActionType::kLeftHand)) {
 		// 回収中なら武器装着要求を出す
 		if (!weapons_[WeaponSide::kLeft]->GetIsFullWeapon() && isCollect) {
 			collectSide_ = WeaponSide::kLeft;
@@ -100,7 +101,7 @@ void WeaponController::InputHandle() {
 		}
 	}
 	// 右手
-	if (Keyboard::GetPress(DIK_2) || Controller::GetPress(XBOX_RT)) {
+	if (vCon_->GetPress(BindActionType::kRightHand)) {
 		// 回収中なら武器装着
 		if (!weapons_[WeaponSide::kRight]->GetIsFullWeapon() && isCollect) {
 			collectSide_ = WeaponSide::kRight;
@@ -110,7 +111,7 @@ void WeaponController::InputHandle() {
 		}
 	}
 	// 左肩
-	if (Keyboard::GetPress(DIK_3) || Controller::GetPress(XBOX_LB)) {
+	if (vCon_->GetPress(BindActionType::kLeftShoulder)) {
 		// 回収中なら武器装着要求を出す
 		if (!weapons_[WeaponSide::kLeftShoulder]->GetIsFullWeapon() && isCollect) {
 			collectSide_ = WeaponSide::kLeftShoulder;
@@ -120,7 +121,7 @@ void WeaponController::InputHandle() {
 		}
 	}
 	// 右肩
-	if (Keyboard::GetPress(DIK_4) || Controller::GetPress(XBOX_RB)) {
+	if (vCon_->GetPress(BindActionType::kRightShoulder)) {
 		// 回収中なら武器装着
 		if (!weapons_[WeaponSide::kRightShoulder]->GetIsFullWeapon() && isCollect) {
 			collectSide_ = WeaponSide::kRightShoulder;

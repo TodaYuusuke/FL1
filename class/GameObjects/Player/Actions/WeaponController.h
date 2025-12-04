@@ -4,6 +4,7 @@
 #include "../System/WeaponSkill/WeaponSkill.h"
 #include "../../Weapon/IWeapon.h"
 #include "../../Weapon/WeaponSlot.h"
+#include "../../../Componets/Input/VirtualController.h"
 #include <memory>
 #include <vector>
 
@@ -118,6 +119,7 @@ public:// アクセサ
 #pragma endregion
 
 private:
+	VirtualController* vCon_;
 	// 偏差射撃計算機能
 	LeadingSystem* pLeadingSystem_;
 	// 使用者のアドレス

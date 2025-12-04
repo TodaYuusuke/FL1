@@ -1,6 +1,6 @@
 #include "World.h"
 #include "Scene/IScene.h"
-#include "../../GameObjects/Bullets/BulletManager.h"
+#include "../../GameObjects/Attack/AttackManager.h"
 #include "../../GameObjects/Weapon/WeaponManager.h"
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
 
@@ -62,5 +62,5 @@ float World::FindAttackPower(const std::string& name) {
 		return actorManager.Find(name)->GetAttackPower();
 	}
 	
-	return BulletManager::GetInstance()->FindBullet(name)->GetAttackPower();
+	return AttackManager::GetInstance()->FindBullet(name)->GetAttackPower();
 }

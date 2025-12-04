@@ -1,6 +1,5 @@
 #include "MachineGun.h"
-#include "../../../Bullets/BulletManager.h"
-#include "../../../Bullets/Bullet/Bullet.h"
+#include "../../../Attack/AttackManager.h"
 
 using namespace FLMath;
 

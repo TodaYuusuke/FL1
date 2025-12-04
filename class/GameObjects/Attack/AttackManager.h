@@ -3,7 +3,7 @@
 #include "BulletBase.h"
 #include "AttackBase.h"
 #include "Melee/MeleeAttack.h"
-#include "BulletConfig.h"
+#include "AttackConfig.h"
 
 using BulletCreator = std::function<BulletBase* (const AttackData&, Actor*, const LWP::Math::Vector3&, int, const LWP::Math::Vector3&)>;
 using ImpactCreator = std::function<AttackBase* (const ImpactData&, const LWP::Math::Vector3&, int)>;
@@ -11,13 +11,13 @@ using MeleeCreator = std::function<BulletBase* (const AttackData&, LWP::Object::
 /// <summary>
 /// 弾管理クラス
 /// </summary>
-class BulletManager final : public LWP::Utility::ISingleton<BulletManager> {
-	friend class LWP::Utility::ISingleton<BulletManager>;// ISingletonをフレンドクラスにしてコンストラクタを呼び出せるように
+class AttackManager final : public LWP::Utility::ISingleton<AttackManager> {
+	friend class LWP::Utility::ISingleton<AttackManager>;// ISingletonをフレンドクラスにしてコンストラクタを呼び出せるように
 private:
 	// コンストラクタ
-	BulletManager();
+	AttackManager();
 	// デストラクタ
-	~BulletManager();
+	~AttackManager();
 
 public:
 	/// <summary>

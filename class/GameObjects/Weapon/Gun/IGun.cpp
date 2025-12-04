@@ -1,6 +1,5 @@
 #include "IGun.h"
-#include "../../Bullets/BulletManager.h"
-#include "../../Bullets/Bullet/Bullet.h"
+#include "../../Attack/AttackManager.h"
 #include "../../Collision/CollisionMask.h"
 
 using namespace FLMath;
@@ -10,7 +9,7 @@ IGun::IGun(WeaponData data) {
 	// ヒットストップ
 	stopController_ = HitStopController::GetInstance();
 	// 弾管理クラスのアドレス取得
-	pBulletManager_ = BulletManager::GetInstance();
+	pBulletManager_ = AttackManager::GetInstance();
 
 	// 調整項目を代入
 	data_ = data;

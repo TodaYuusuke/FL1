@@ -3,6 +3,14 @@
 #include "../../../../../Componets/Math.h"
 
 class Move : public IAction {
+private:
+	// 移動方式
+	enum class MoveType {
+		kTank,
+		kFPS,
+		kCount
+	};
+
 public:
 	// コンストラクタ
 	Move();
@@ -38,7 +46,15 @@ private:
 	/// <param name="deltaTime"></param>
 	void DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 rightStick, float deltaTime);
 
-	//void StickDiff(LWP::Math::Vector2& leftStick, LWP::Math::Vector2& rightStick);
+	/// <summary>
+	/// 一人称視点の移動処理
+	/// </summary>
+	void FPSTypeMove();
+
+	/// <summary>
+	/// 移動方式の確認
+	/// </summary>
+	void CheckMoveType();
 
 public:
 #pragma region Getter
@@ -58,6 +74,9 @@ private:// 調整項目
 	float maxOmega = 0.3f;
 
 private:
+	// 操作タイプ
+	MoveType moveType_;
+
 	float angle = 0.0f;
 	float omega;
 	float vL = 0.0f;

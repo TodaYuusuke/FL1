@@ -1,4 +1,7 @@
 #include "Move.h"
+#include "../../../../../Componets/Input/VirtualController.h"
+#include "../../../../../Componets/BehaviourTree/Actor/Actor.h"
+#include "../../../../World/World.h"
 #include <numbers>
 
 using namespace FLMath;
@@ -15,11 +18,8 @@ void Move::Init() {
 }
 
 void Move::Update() {
-	Vector2 lStick = AdjustmentStick(LWP::Input::Controller::GetLStick());
-	Vector2 rStick = AdjustmentStick(LWP::Input::Controller::GetRStick());
-
-	// 戦車挙動
-	DifferentialUpdate(lStick, rStick, stopController_->GetDeltaTime());
+	// 移動方式選択
+	CheckMoveType();
 
 	// タイムスケール適用
 	vel_ *= stopController_->GetDeltaTime();
@@ -27,6 +27,14 @@ void Move::Update() {
 
 void Move::DebugGui() {
 	if (ImGui::TreeNode("Move")) {
+		if (ImGui::Button("TankMove")) {
+			moveType_ = MoveType::kTank;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("FPSMove")) {
+			moveType_ = MoveType::kFPS;
+		}
+
 		ImGui::DragFloat("MaxSpeed", &maxSpeed, 0.01f, -1000.0f, 1000.0f);
 		ImGui::DragFloat("MaxOmega", &maxOmega, 0.01f, -1000.0f, 1000.0f);
 		ImGui::DragFloat("TreadWidth", &treadWidth, 0.01f, -1000.0f, 1000.0f);
@@ -73,7 +81,7 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 	// スティック入力が互いに反対
 	if (target_vL * target_vR < 0.0f) {
 		// 値の修正される前のスティックの入力値で比較
-		float sqrtStick = (Controller::GetLStick().y - Controller::GetRStick().y);
+		float sqrtStick = (VirtualController::GetInstance()->GetLAxis().y - VirtualController::GetInstance()->GetRAxis().y);
 		if (std::sqrtf(sqrtStick * sqrtStick) <= 1.7f) {
 			target_vL = 0.0f;
 			target_vR = 0.0f;
@@ -117,48 +125,30 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 	}
 }
 
-//void Move::StickDiff(LWP::Math::Vector2& leftStick, LWP::Math::Vector2& rightStick) {
-	//Vector2 diff = {
-	//	leftStick.x - rightStick.x,
-	//	leftStick.y - rightStick.y
-	//};
-	//diff.x *= diff.x;
-	//diff.x = std::sqrtf(diff.x);
-	//diff.y *= diff.y;
-	//diff.y = std::sqrtf(diff.y);
+void Move::FPSTypeMove() {
+	Vector2 lStick = VirtualController::GetInstance()->GetLAxis();
+	Vector2 rStick = VirtualController::GetInstance()->GetRAxis();
 
-	//if (diff.x >= 0.2f) {
-	//	leftStick.x = 0.0f;
-	//	rightStick.x = 0.0f;
-	//}
-	//else {
-	//	leftStick.x =(leftStick.x + rightStick.x) * 0.5f;
-	//	rightStick.x =(leftStick.x + rightStick.x) * 0.5f;
-	//}
+	// 角度算出
+	Quaternion qYaw = Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, rStick.x * maxOmega);
+	rot_ = qYaw * rot_;
 
-	//// スティック入力が互いに反対
-	//if (leftStick.y * rightStick.y < 0.0f) {
-	//	float sqrtStick = (Controller::GetLStick().y - Controller::GetRStick().y);
-	//	if (std::sqrtf(sqrtStick * sqrtStick) <= 1.5f) {
-	//		leftStick.y = 0.0f;
-	//		rightStick.y = 0.0f;
-	//	}
-	//}
-	//else if (diff.y >= 0.4f) {
-	//	leftStick.y = 0.0f;
-	//	rightStick.y = 0.0f;
-	//}
-	//else {
-	//	leftStick.y = (leftStick.y + rightStick.y) * 0.5f;
-	//	rightStick.y = (leftStick.y + rightStick.y) * 0.5f;
-	//}
+	// 角度から向かう方向算出
+	Vector3 vel = Vector3{ lStick.x,0,lStick.y } *Matrix4x4::CreateRotateXYZMatrix(rot_);
+	vel_ = vel * maxSpeed;
+}
 
-	//leftStick = {
-	//	(leftStick.x + rightStick.x) * 0.5f,
-	//	(leftStick.y + rightStick.y) * 0.5f
-	//};
-	//rightStick = {
-	//(leftStick.x + rightStick.x) * 0.5f,
-	//(leftStick.y + rightStick.y) * 0.5f
-	//};
-//}
+void Move::CheckMoveType() {
+	switch (moveType_) {
+	case MoveType::kTank:
+		// スティック入力の補正
+		Vector2 lStick = AdjustmentStick(VirtualController::GetInstance()->GetLAxis());
+		Vector2 rStick = AdjustmentStick(VirtualController::GetInstance()->GetRAxis());
+		// 戦車挙動
+		DifferentialUpdate(lStick, rStick, stopController_->GetDeltaTime());
+		break;
+	case MoveType::kFPS:
+		FPSTypeMove();
+		break;
+	}
+}

@@ -1,6 +1,6 @@
 #include "BulletBase.h"
 #include "../Collision/CollisionMask.h"
-#include "BulletManager.h"
+#include "AttackManager.h"
 #include "Strategy/Impact/NormalImpact.h"
 #include "Strategy/Impact/ExplosionImpact.h"
 #include "Strategy/Movement/StraightMove.h"
@@ -53,7 +53,7 @@ BulletBase::BulletBase(const AttackData& data, Actor* target, const LWP::Math::V
 
 	// 着弾時の処理
 	if (data_.impactType == (int)ImpactType::kExplosion) {
-		impact_ = std::make_unique<ExplosionImpact>(BulletManager::GetInstance()->GetImpactData(data_.impactType));
+		impact_ = std::make_unique<ExplosionImpact>(AttackManager::GetInstance()->GetImpactData(data_.impactType));
 	}
 
 	if (data_.movementType == (int)MovementType::kStraight) {

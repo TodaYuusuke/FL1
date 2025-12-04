@@ -1,9 +1,10 @@
 #include "GameScene.h"
 #include "NullScene.h"
 #include "Title.h"
-#include "../GameObjects/Bullets/BulletManager.h"
+#include "../GameObjects/Attack/AttackManager.h"
 #include "../GameObjects/Weapon/WeaponManager.h"
 #include "../Componets/HitStopController.h"
+#include "../Componets/Input/VirtualController.h"
 
 using namespace LWP;
 using namespace LWP::Resource;
@@ -15,21 +16,25 @@ using namespace LWP::Utility;
 using namespace LWP::Info;
 
 GameScene::GameScene() {
+	// ゲームコントローラ
+	VirtualController::Create();
 	// ヒットストップクラス
 	HitStopController::Create();
 	// 弾管理クラスを生成
-	BulletManager::Create();
+	AttackManager::Create();
 	// 武器管理クラスを作成
 	WeaponManager::Create();
 }
 
 GameScene::~GameScene() {
 	// 武器管理クラス
-	BulletManager::Destroy();
+	AttackManager::Destroy();
 	// 弾管理クラス
 	WeaponManager::Destroy();
 	// ヒットストップクラス
 	HitStopController::Destroy();
+	// ゲームコントローラ
+	VirtualController::Destroy();
 }
 
 void GameScene::Initialize() {
@@ -43,7 +48,7 @@ void GameScene::Initialize() {
 	world_ = std::make_unique<World>();
 
 	// 自機
-	Player* player = new Player(followCamera_->GetCamera(), followCamera_->defaultTargetDist_);
+	Player* player = new Player(followCamera_.get(), followCamera_->defaultTargetDist_);
 	// 自機をアクターとして追加
 	world_->AddActor(player);
 
@@ -67,6 +72,8 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+	VirtualController::GetInstance()->Update();
+
 	// 敵を一定数倒したら終了
 	if (enemyManager_->GetKillCount() >= clearKillCount) {
 		
@@ -81,7 +88,7 @@ void GameScene::Update() {
 	world_->Update();
 
 	// 弾管理クラス
-	BulletManager::GetInstance()->Update();
+	AttackManager::GetInstance()->Update();
 	// 武器管理クラス
 	WeaponManager::GetInstance()->Update();
 
@@ -104,7 +111,7 @@ void GameScene::Update() {
 	// 武器管理クラス
 	WeaponManager::GetInstance()->DebugGui();
 	// 弾管理クラス
-	BulletManager::GetInstance()->DebugGui();
+	AttackManager::GetInstance()->DebugGui();
 	// 敵管理
 	enemyManager_->DebugGui();
 
@@ -135,5 +142,5 @@ void GameScene::Update() {
 
 	// 更新処理終了時に呼ぶ処理
 	enemyManager_->EndFrame();
-	BulletManager::GetInstance()->EndFrame();
+	AttackManager::GetInstance()->EndFrame();
 }

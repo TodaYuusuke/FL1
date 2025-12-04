@@ -3,6 +3,7 @@
 #include "Action/Evasion/Evasion.h"
 #include "Action/None/NoneAction.h"
 #include "../../../Componets/BehaviourTree/Actor/Actor.h"
+#include "../../../Componets/Input/VirtualController.h"
 
 using namespace ActionConfig;
 using namespace ActionConfig::Mask;
@@ -60,7 +61,7 @@ void MoveController::DebugGui() {
 
 void MoveController::InputHandle() {
 	// 回避
-	if (Keyboard::GetTrigger(DIK_LSHIFT) || Pad::GetTrigger(XBOX_A)) {
+	if (VirtualController::GetInstance()->GetTrigger(BindActionType::kBoost)) {
 		if (CheckEnableChangeState(Movement::SubAction::evasion, actions_[ActionType::kSub]->GetEnableChangeState())) {
 			if (CheckInabilityParallelState(Movement::SubAction::evasion, actions_[ActionType::kMain]->GetInabilityParallelState())) {
 				ChangeState(actions_[ActionType::kSub], std::make_unique<Evasion>(actions_[ActionType::kMain]->GetVel(), pActor_->GetWorldTF()->GetWorldPosition()));

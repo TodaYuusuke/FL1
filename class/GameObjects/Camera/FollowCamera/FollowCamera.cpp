@@ -1,5 +1,6 @@
 #include "FollowCamera.h"
 #include "../../../Componets/BehaviourTree/Actor/Actor.h"
+#include "../../../Componets/Input/VirtualController.h"
 
 using namespace LWP;
 using namespace LWP::Math;
@@ -29,7 +30,7 @@ void FollowCamera::Update() {
 	camera_->worldTF.rotation = target_->GetWorldTF()->rotation;
 
 	// カメラの後追い
-	interTarget_ = LWP::Utility::Interpolation::Lerp(interTarget_, target_->GetWorldTF()->GetWorldPosition(), interTargetRate);
+	//interTarget_ = LWP::Utility::Interpolation::Lerp(interTarget_, target_->GetWorldTF()->GetWorldPosition(), interTargetRate);
 	// カメラの座標を決定
 	camera_->worldTF.translation = target_->GetWorldTF()->GetWorldPosition() + (kTargetDist * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(camera_->worldTF.rotation));
 }

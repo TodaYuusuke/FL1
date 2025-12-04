@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Componets/Math.h"
 #include "../../Componets/HitStopController.h"
-#include "BulletConfig.h"
+#include "AttackConfig.h"
 #include <Adapter.h>
 
 class Actor;

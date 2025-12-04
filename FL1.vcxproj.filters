@@ -123,13 +123,13 @@
     <ClCompile Include="class\Componets\Timer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\Bullets\BulletBase.cpp">
+    <ClCompile Include="class\GameObjects\Attack\BulletBase.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\Bullets\Bullet\Bullet.cpp">
+    <ClCompile Include="class\GameObjects\Attack\Bullet\Bullet.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\Bullets\BulletManager.cpp">
+    <ClCompile Include="class\GameObjects\Attack\AttackManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="class\GameObjects\Camera\FollowCamera\FollowCamera.cpp">
@@ -219,7 +219,7 @@
     <ClCompile Include="class\scene\GameScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\Bullets\Melee\MeleeAttack.cpp">
+    <ClCompile Include="class\GameObjects\Attack\Melee\MeleeAttack.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="class\GameObjects\Player\System\WeaponSkill\WeaponSkill.cpp">
@@ -228,22 +228,34 @@
     <ClCompile Include="class\GameObjects\Weapon\IWeapon.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\Bullets\Explosion\Explosion.cpp">
+    <ClCompile Include="class\GameObjects\Attack\Explosion\Explosion.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\Bullets\Strategy\Movement\StraightMove.cpp">
+    <ClCompile Include="class\GameObjects\Attack\Strategy\Movement\StraightMove.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\Bullets\Strategy\Movement\HomingMove.cpp">
+    <ClCompile Include="class\GameObjects\Attack\Strategy\Movement\HomingMove.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\Bullets\Strategy\Impact\NormalImpact.cpp">
+    <ClCompile Include="class\GameObjects\Attack\Strategy\Impact\NormalImpact.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\Bullets\Strategy\Impact\ExplosionImpact.cpp">
+    <ClCompile Include="class\GameObjects\Attack\Strategy\Impact\ExplosionImpact.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\Bullets\AttackBase.cpp">
+    <ClCompile Include="class\GameObjects\Attack\AttackBase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\Componets\Input\VirtualController.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\Componets\Input\Device\GamePadDevice.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\Componets\Input\Device\KeyboardDevice.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\Componets\Input\InputController.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -392,13 +404,13 @@
     <ClInclude Include="class\GameObjects\Weapon\WeaponConfig.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Bullets\BulletBase.h">
+    <ClInclude Include="class\GameObjects\Attack\BulletBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Bullets\Bullet\Bullet.h">
+    <ClInclude Include="class\GameObjects\Attack\Bullet\Bullet.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Bullets\BulletManager.h">
+    <ClInclude Include="class\GameObjects\Attack\AttackManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\GameObjects\Camera\FollowCamera\FollowCamera.h">
@@ -494,37 +506,55 @@
     <ClInclude Include="class\scene\GameScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Bullets\Melee\MeleeAttack.h">
+    <ClInclude Include="class\GameObjects\Attack\Melee\MeleeAttack.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\GameObjects\Player\System\WeaponSkill\WeaponSkill.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Bullets\Explosion\Explosion.h">
+    <ClInclude Include="class\GameObjects\Attack\Explosion\Explosion.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Bullets\BulletConfig.h">
+    <ClInclude Include="class\GameObjects\Attack\AttackConfig.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Bullets\Strategy\Movement\IMovement.h">
+    <ClInclude Include="class\GameObjects\Attack\Strategy\Movement\IMovement.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Bullets\Strategy\Movement\StraightMove.h">
+    <ClInclude Include="class\GameObjects\Attack\Strategy\Movement\StraightMove.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Bullets\Strategy\Movement\HomingMove.h">
+    <ClInclude Include="class\GameObjects\Attack\Strategy\Movement\HomingMove.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Bullets\Strategy\Impact\IImpact.h">
+    <ClInclude Include="class\GameObjects\Attack\Strategy\Impact\IImpact.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Bullets\Strategy\Impact\NormalImpact.h">
+    <ClInclude Include="class\GameObjects\Attack\Strategy\Impact\NormalImpact.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Bullets\Strategy\Impact\ExplosionImpact.h">
+    <ClInclude Include="class\GameObjects\Attack\Strategy\Impact\ExplosionImpact.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Bullets\AttackBase.h">
+    <ClInclude Include="class\GameObjects\Attack\AttackBase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\Componets\Input\InputConfig.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\Componets\Input\VirtualController.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\Componets\Input\Device\IInputDevice.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\Componets\Input\Device\GamePadDevice.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\Componets\Input\Device\KeyboardDevice.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\Componets\Input\InputController.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

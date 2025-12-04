@@ -1,4 +1,4 @@
-#include "BulletManager.h"
+#include "AttackManager.h"
 #include "Bullet/Bullet.h"
 #include "Explosion/Explosion.h"
 
@@ -6,7 +6,7 @@ using namespace FLMath;
 using namespace LWP;
 using namespace LWP::Math;
 
-BulletManager::BulletManager() {
+AttackManager::AttackManager() {
 	// 弾登録
 	BulletRegister<Bullet>((int)BulletType::LargeCaliber);		// 大口径
 	BulletRegister<Bullet>((int)BulletType::SmallCaliber);		// 小口径
@@ -42,26 +42,26 @@ BulletManager::BulletManager() {
 	}
 }
 
-BulletManager::~BulletManager() {
+AttackManager::~AttackManager() {
 	for (auto it = attackList_.begin(); it != attackList_.end(); it++) {
 		delete (*it);
 	}
 	attackList_.clear();
 }
 
-void BulletManager::Init() {
+void AttackManager::Init() {
 	for (auto it = attackList_.begin(); it != attackList_.end(); it++) {
 		(*it)->Init();
 	}
 }
 
-void BulletManager::Update() {
+void AttackManager::Update() {
 	for (auto it = attackList_.begin(); it != attackList_.end(); it++) {
 		(*it)->Update();
 	}
 }
 
-void BulletManager::EndFrame() {
+void AttackManager::EndFrame() {
 	// 削除
 	attackList_.remove_if([](AttackBase* bullet) {
 		if (!bullet->GetIsAlive()) {
@@ -72,7 +72,7 @@ void BulletManager::EndFrame() {
 		});
 }
 
-void BulletManager::DebugGui() {
+void AttackManager::DebugGui() {
 	if (ImGui::BeginTabItem("AttackManager")) {
 		// 調整
 		if (ImGui::TreeNode("Attack")) {
@@ -107,7 +107,7 @@ void BulletManager::DebugGui() {
 	}
 }
 
-void BulletManager::CreateJsonData(LWP::Utility::JsonIO& json, AttackData& data, const std::string& name) {
+void AttackManager::CreateJsonData(LWP::Utility::JsonIO& json, AttackData& data, const std::string& name) {
 	// ファイル名
 	std::string fileName = kJsonDirectoryPath + name + ".json";
 	json.Init(fileName)
@@ -132,7 +132,7 @@ void BulletManager::CreateJsonData(LWP::Utility::JsonIO& json, AttackData& data,
 		.CheckJsonFile();
 }
 
-void BulletManager::CreateJsonData(LWP::Utility::JsonIO& json, ImpactData& data, const std::string& name) {
+void AttackManager::CreateJsonData(LWP::Utility::JsonIO& json, ImpactData& data, const std::string& name) {
 	// ファイル名
 	std::string fileName = kJsonDirectoryPath + name + ".json";
 	json.Init(fileName)
@@ -147,7 +147,7 @@ void BulletManager::CreateJsonData(LWP::Utility::JsonIO& json, ImpactData& data,
 		.CheckJsonFile();
 }
 
-void BulletManager::SelectBulletDataGui(LWP::Utility::JsonIO& json, AttackData& data) {
+void AttackManager::SelectBulletDataGui(LWP::Utility::JsonIO& json, AttackData& data) {
 	// 調整項目
 	if (ImGui::TreeNode("Json")) {
 		if (ImGui::Button("Save")) {
@@ -179,7 +179,7 @@ void BulletManager::SelectBulletDataGui(LWP::Utility::JsonIO& json, AttackData& 
 	}
 }
 
-void BulletManager::SelectBulletDataGui(LWP::Utility::JsonIO& json, ImpactData& data) {
+void AttackManager::SelectBulletDataGui(LWP::Utility::JsonIO& json, ImpactData& data) {
 	// 調整項目
 	if (ImGui::TreeNode("Json")) {
 		if (ImGui::Button("Save")) {
@@ -202,7 +202,7 @@ void BulletManager::SelectBulletDataGui(LWP::Utility::JsonIO& json, ImpactData& 
 	}
 }
 
-void BulletManager::SelectBulletType(int& selectedType, std::string label) {
+void AttackManager::SelectBulletType(int& selectedType, std::string label) {
 	// 読み込むbehaviorTreeのプレビュー作成
 	if (!bulletTypePreview_.empty()) {
 		const char* combo_preview_value = bulletTypePreview_[selectedType].c_str();
@@ -226,7 +226,7 @@ void BulletManager::SelectBulletType(int& selectedType, std::string label) {
 	}
 }
 
-void BulletManager::SelectType(std::vector<std::string> list, int& selectedType, std::string label) {
+void AttackManager::SelectType(std::vector<std::string> list, int& selectedType, std::string label) {
 	// 読み込むbehaviorTreeのプレビュー作成
 	if (!list.empty()) {
 		const char* combo_preview_value = list[selectedType].c_str();
@@ -250,7 +250,7 @@ void BulletManager::SelectType(std::vector<std::string> list, int& selectedType,
 	}
 }
 
-void BulletManager::SelectBulletElement(int& selectedType, std::string label) {
+void AttackManager::SelectBulletElement(int& selectedType, std::string label) {
 	// 読み込むbehaviorTreeのプレビュー作成
 	if (!bulletElementPreview_.empty()) {
 		const char* combo_preview_value = bulletElementPreview_[selectedType].c_str();
@@ -274,7 +274,7 @@ void BulletManager::SelectBulletElement(int& selectedType, std::string label) {
 	}
 }
 
-void BulletManager::AddBullet(AttackBase* attack, float attackMultiply) {
+void AttackManager::AddBullet(AttackBase* attack, float attackMultiply) {
 	// 名前
 	attack->SetName("Bullet" + std::to_string(createID_));
 	attack->SetAttackMultiply(attackMultiply);

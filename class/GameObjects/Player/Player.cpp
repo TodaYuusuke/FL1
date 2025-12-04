@@ -7,7 +7,7 @@ using namespace LWP;
 using namespace LWP::Math;
 using namespace LWP::Object;
 
-Player::Player(Camera* camera, const LWP::Math::Vector3& centerPos) {
+Player::Player(FollowCamera* camera, const LWP::Math::Vector3& centerPos) {
 	// 初期位置の設定
 	tag_ = "Player";
 	name_ = "Player";
@@ -40,7 +40,7 @@ Player::Player(Camera* camera, const LWP::Math::Vector3& centerPos) {
 	bodyAABB_.max = { 3.0f, 9.5f, 1.0f };
 
 	// 偏差射撃機能
-	leadingSystem_ = std::make_unique<LeadingSystem>(camera, blackBoard_);
+	leadingSystem_ = std::make_unique<LeadingSystem>(camera->GetCamera(), blackBoard_);
 
 	// 移動系統の管理
 	moveController_ = std::make_unique<MoveController>(this);

@@ -4,6 +4,7 @@
 #include "Actions/WeaponController.h"
 #include "System/WeaponSkill/WeaponSkill.h"
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
+#include "../Camera/FollowCamera/FollowCamera.h"
 #include <Adapter.h>
 
 class EnemyManager;
@@ -13,7 +14,7 @@ class EnemyManager;
 class Player : public Actor {
 public:
 	// コンストラクタ
-	Player(LWP::Object::Camera* camera, const LWP::Math::Vector3& centerPos);
+	Player(FollowCamera* camera, const LWP::Math::Vector3& centerPos);
 	// デストラクタ
 	~Player() override;
 

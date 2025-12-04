@@ -7,7 +7,8 @@
 #include "Melee/Melee.h"
 #include "../World/World.h"
 #include "../Player/Player.h"
-#include "../Bullets/BulletConfig.h"
+#include "../Attack/AttackConfig.h"
+#include "../../Componets/Input/VirtualController.h"
 #include <queue>
 
 using namespace LWP;
@@ -134,7 +135,7 @@ void WeaponManager::DebugGui() {
 
 void WeaponManager::CheckPlayerToWeaponDistance() {
 	// 回収キーを入力していなければ終了
-	if (!LWP::Input::Pad::GetPress(XBOX_X)) { return; }
+	if (!VirtualController::GetInstance()->GetPress(BindActionType::kCollect)) { return; }
 	// 武器が存在してないなら終了
 	if (weapons_.empty()) { return; }
 
@@ -420,7 +421,7 @@ void WeaponManager::SelectWeaponRarity(int& selectedWeaponRarity, std::string la
 
 void WeaponManager::SelectBulletType(int& selectedType, std::string label) {
 	// 読み込むbehaviorTreeのプレビュー作成
-	bulletTypePreview_ = BulletManager::GetInstance()->GetBulletTypePreview();
+	bulletTypePreview_ = AttackManager::GetInstance()->GetBulletTypePreview();
 	if (!bulletTypePreview_.empty()) {
 		const char* combo_preview_value = bulletTypePreview_[selectedType].c_str();
 		if (ImGui::BeginCombo(label.c_str(), combo_preview_value)) {
