@@ -1,11 +1,16 @@
 {
+    "Group :Homing": {
+        "float :Accuracy": 0.0,
+        "float :DerayTime": 0.0
+    },
     "Vector3 :ColliderSize": [
-        1.0,
-        1.0,
-        1.0
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071
     ],
     "float :AttackPower": 1.0,
-    "float :ElapsedTime": 1.0,
-    "float :Speed": 1.0,
-    "int32_t :ImpactType": 1
+    "float :ElapsedTime": 3.0,
+    "float :Speed": 0.30000001192092896,
+    "int32_t :ImpactType": 1,
+    "int32_t :MovementType": 0
 }
