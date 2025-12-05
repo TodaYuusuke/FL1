@@ -34,7 +34,7 @@ Player::Player(FollowCamera* camera, const LWP::Math::Vector3& centerPos) {
 	// 当たり判定をとる対象のマスクを設定
 	bodyCollision_.mask.SetHitFrag(GameMask::attack);
 	bodyCollision_.enterLambda = [this](LWP::Object::Collision* hitTarget) {
-		hitTarget;
+		OnCollision(hitTarget);
 		};
 	bodyAABB_.min = { -3.0f, -0.5f, -1.0f };
 	bodyAABB_.max = { 3.0f, 9.5f, 1.0f };
@@ -167,6 +167,11 @@ void Player::DrawGui() {
 				ImGui::TreePop();
 			}
 
+			ImGui::TreePop();
+		}
+		// 当たり判定
+		if (ImGui::TreeNode("HP")) {
+			hp_->DebugGui();
 			ImGui::TreePop();
 		}
 		// 当たり判定

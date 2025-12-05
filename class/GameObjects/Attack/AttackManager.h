@@ -70,7 +70,7 @@ private:
 	/// <summary>
 	/// 弾の生成
 	/// </summary>
-	void AddBullet(AttackBase* attack, float attackMultiply);
+	void AddBullet(AttackBase* attack, float attackMultiply, int belongFragBit);
 
 public:// アクセサ
 	/// <summary>
@@ -113,9 +113,9 @@ public:// アクセサ
 	/// <param name="pos">生成座標</param>
 	/// <param name="hitFragBit">当たり判定をとる対象のマスク</param>
 	/// <param name="dir">方向ベクトル</param>
-	void CreateAttack(int type, Actor* target, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dir = { 0,0,0 }, float attackMultiply = 1.0f) {
+	void CreateAttack(int type, Actor* target, const LWP::Math::Vector3& pos, int hitFragBit, int belongFragBit, const LWP::Math::Vector3& dir = { 0,0,0 }, float attackMultiply = 1.0f) {
 		if (bulletCreators_.contains(type)) {
-			AddBullet(bulletCreators_[type](sampleBulletDatas_[type], target, pos, hitFragBit, dir), attackMultiply);
+			AddBullet(bulletCreators_[type](sampleBulletDatas_[type], target, pos, hitFragBit, dir), attackMultiply, belongFragBit);
 		}
 	}
 	/// <summary>
@@ -124,9 +124,9 @@ public:// アクセサ
 	/// <param name="type">種類(BulletType参照)</param>
 	/// <param name="target">攻撃対象</param>
 	/// <param name="hitFragBit">当たり判定をとる対象のマスク</param>
-	void CreateAttack(int type, LWP::Object::TransformQuat* target, int hitFragBit, float attackMultiply = 1.0f) {
+	void CreateAttack(int type, LWP::Object::TransformQuat* target, int hitFragBit, int belongFragBit, float attackMultiply = 1.0f) {
 		if (meleeCreators_.contains(type)) {
-			AddBullet(meleeCreators_[type](sampleBulletDatas_[type], target, hitFragBit), attackMultiply);
+			AddBullet(meleeCreators_[type](sampleBulletDatas_[type], target, hitFragBit), attackMultiply, belongFragBit);
 		}
 	}
 	/// <summary>
@@ -135,9 +135,9 @@ public:// アクセサ
 	/// <param name="type">種類(BulletType参照)</param>
 	/// <param name="target">攻撃対象</param>
 	/// <param name="hitFragBit">当たり判定をとる対象のマスク</param>
-	void CreateImpact(int type, const LWP::Math::Vector3& pos, int hitFragBit, float attackMultiply = 1.0f) {
+	void CreateImpact(int type, const LWP::Math::Vector3& pos, int hitFragBit, int belongFragBit, float attackMultiply = 1.0f) {
 		if (impactCreators_.contains(type)) {
-			AddBullet(impactCreators_[type](sampleImpactDatas_[type], pos, hitFragBit), attackMultiply);
+			AddBullet(impactCreators_[type](sampleImpactDatas_[type], pos, hitFragBit), attackMultiply, belongFragBit);
 		}
 	}
 

@@ -9,5 +9,5 @@ ExplosionImpact::ExplosionImpact(ImpactData data)
 }
 
 void ExplosionImpact::OnHit(AttackBase* attack) {
-	AttackManager::GetInstance()->CreateImpact((int)ImpactType::kExplosion, attack->GetWorldTF()->GetWorldPosition(), attack->GetHitFragBit());
+	AttackManager::GetInstance()->CreateImpact((int)ImpactType::kExplosion, attack->GetWorldTF()->GetWorldPosition(), attack->GetHitFragBit(),attack->GetBelongFragBit());
 }

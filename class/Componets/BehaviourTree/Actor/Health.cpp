@@ -18,6 +18,10 @@ void Health::Update() {
 	isHit_ = false;
 }
 
+void Health::DebugGui() {
+	ImGui::DragFloat("HP", &hp_);
+}
+
 void Health::Damage(float value) {
 	hp_ = std::clamp<float>(hp_ - value, minHp_, maxHp_);
 	isHit_ = true;

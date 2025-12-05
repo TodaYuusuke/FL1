@@ -274,10 +274,11 @@ void AttackManager::SelectBulletElement(int& selectedType, std::string label) {
 	}
 }
 
-void AttackManager::AddBullet(AttackBase* attack, float attackMultiply) {
+void AttackManager::AddBullet(AttackBase* attack, float attackMultiply, int belongFragBit) {
 	// 名前
 	attack->SetName("Bullet" + std::to_string(createID_));
 	attack->SetAttackMultiply(attackMultiply);
+	//attack->SetBelongFrag(belongFragBit);
 	attackList_.push_back(attack);
 	createID_++;
 }

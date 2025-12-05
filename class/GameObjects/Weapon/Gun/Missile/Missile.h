@@ -21,10 +21,6 @@ public:
 	/// </summary>
 	void Update() override;
 	/// <summary>
-	/// 攻撃
-	/// </summary>
-	void Attack(int bulletHitFragBit, Actor* attackTarget = nullptr) override;
-	/// <summary>
 	/// 破壊処理
 	/// </summary>
 	void Destroy() override;

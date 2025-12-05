@@ -100,6 +100,11 @@ public:// アクセサ
 	/// <returns></returns>
 	StateBase* GetState() { return state_; }
 	/// <summary>
+	/// 所属当たり判定を取得
+	/// </summary>
+	/// <returns></returns>
+	int GetBelongFrag() { return bodyCollision_.mask.GetBelongFrag(); }
+	/// <summary>
 	/// 持っている武器を取得
 	/// </summary>
 	/// <returns></returns>
@@ -217,6 +222,11 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	void SetAttackPower(const float& attackPower) { attackPower_ = attackPower; }
+	/// <summary>
+	/// 所属当たり判定を設定
+	/// </summary>
+	/// <param name="belongFrag"></param>
+	void SetBelongFrag(int belongFrag) { bodyCollision_.mask.SetBelongFrag(belongFrag); }
 	/// <summary>
 	/// 生きているか設定
 	/// </summary>

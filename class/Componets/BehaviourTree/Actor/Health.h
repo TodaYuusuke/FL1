@@ -3,6 +3,7 @@
 #include <set>
 #include <vector>
 #include <algorithm>
+#include <Adapter.h>
 
 /// <summary>
 /// HPクラス
@@ -18,6 +19,10 @@ public:
 	/// 更新
 	/// </summary>
 	void Update();
+	/// <summary>
+	/// 調整項目
+	/// </summary>
+	void DebugGui();
 
 public:// アクセサ
 	/// <summary>

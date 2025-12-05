@@ -61,14 +61,14 @@ void Actor::Attack() {
 			// 近接武器なら自機を指定
 			if (weapons_[i]->GetWeaponData().name == WeaponConfig::Name::name[(int)WeaponType::kMelee]) {
 				// 攻撃
-				weapons_[i]->Attack(GameMask::player, blackBoard_->GetValue<Actor*>("Player"));
+				weapons_[i]->Attack(GameMask::player, GameMask::attack | GameMask::enemy, blackBoard_->GetValue<Actor*>("Player"));
 				continue;
 			}
 			else {
 				// 射撃方向
 				weapons_[i]->SetShotDirVelocity(Vector3{ 0,0,1 } * (model_.worldTF.rotation * weapons_[i]->GetWorldTF()->rotation));
 				// 攻撃
-				weapons_[i]->Attack(GameMask::player);
+				weapons_[i]->Attack(GameMask::player, GameMask::attack | GameMask::enemy);
 				continue;
 			}
 		}
@@ -76,6 +76,7 @@ void Actor::Attack() {
 }
 
 void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
+	if (hitTarget->mask.GetHitFrag() != bodyCollision_.mask.GetBelongFrag()) { return; }
 	// ダメージを受ける
 	hp_->Damage(world_->FindAttackPower(hitTarget->name), hitTarget->name);
 }

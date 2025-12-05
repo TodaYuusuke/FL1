@@ -28,7 +28,7 @@ public:
 	/// <summary>
 	/// 攻撃
 	/// </summary>
-	void Attack(int bulletHitFragBit, Actor* attackTarget = nullptr) override;
+	void Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attackTarget = nullptr) override;
 	/// <summary>
 	/// リロード
 	/// </summary>
@@ -79,4 +79,5 @@ protected:
 	int burstNum_;
 
 	int bulletHitFragBit_;
+	int bulletBelongFragBit_;
 };

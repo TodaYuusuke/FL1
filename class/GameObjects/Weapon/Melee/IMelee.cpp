@@ -119,7 +119,7 @@ void IMelee::DebugGui() {
 	}
 }
 
-void IMelee::Attack(int bulletHitFragBit, Actor* attackTarget) {
+void IMelee::Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attackTarget) {
 	// 弾がない状態なら撃てない
 	if (magazine_->GetEmpty()) {
 		isDestroy_ = true;
@@ -129,7 +129,7 @@ void IMelee::Attack(int bulletHitFragBit, Actor* attackTarget) {
 	if (!GetIsEnableAttack()) { return; }
 
 	// 攻撃判定生成
-	pBulletManager_->CreateAttack(data_.bulletType, &body_.worldTF, bulletHitFragBit, attackMultiply_);
+	pBulletManager_->CreateAttack(data_.bulletType, &body_.worldTF, bulletHitFragBit, bulletBelongFragBit, attackMultiply_);
 
 	// 弾数を減らす
 	magazine_->BulletDecrement();
@@ -144,7 +144,9 @@ void IMelee::Attack(int bulletHitFragBit, Actor* attackTarget) {
 		// 攻撃対象との距離
 		Vector3 dist = attackTarget->GetWorldTF()->GetWorldPosition() - actor_->GetWorldTF()->GetWorldPosition();
 		float length = dist.Length();
-		if (length >= assistOffset) length -= assistOffset;
+		if (length >= assistOffset) {
+			length -= assistOffset;
+		}
 		else length = 0.0f;
 
 		if (length >= 20.0f) {
