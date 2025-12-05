@@ -41,11 +41,15 @@ bool VirtualController::GetRelease(BindActionType actionType) const {
 }
 
 Vector2 VirtualController::GetLAxis() const {
-	Vector2 result = device_[0]->GetLAxis() + device_[1]->GetLAxis();
-	return result;
+	Vector2 result{};
+	for (int i = 0; i < device_.size(); i++) result += device_[i]->GetLAxis();
+
+	return result.Normalize();
 }
 
 Vector2 VirtualController::GetRAxis() const {
-	Vector2 result = device_[0]->GetRAxis() + device_[1]->GetRAxis();
-	return result;
+	Vector2 result{};
+	for (int i = 0; i < device_.size(); i++) result += device_[i]->GetRAxis(); 
+
+	return result.Normalize();
 }

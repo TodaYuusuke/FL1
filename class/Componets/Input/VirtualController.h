@@ -1,5 +1,4 @@
 #pragma once
-#include "InputController.h"
 #include "Device/IInputDevice.h"
 
 class VirtualController final : public LWP::Utility::ISingleton<VirtualController> {

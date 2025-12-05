@@ -255,9 +255,6 @@
     <ClCompile Include="class\Componets\Input\Device\KeyboardDevice.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\Componets\Input\InputController.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="class\scene\TestScene.h">
@@ -552,9 +549,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\Componets\Input\Device\KeyboardDevice.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="class\Componets\Input\InputController.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

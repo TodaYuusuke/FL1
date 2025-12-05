@@ -217,7 +217,6 @@
     <ClCompile Include="class\GameObjects\Enemy\EnemyManager.cpp" />
     <ClCompile Include="class\GameObjects\Attack\Explosion\Explosion.cpp" />
     <ClCompile Include="class\Componets\Input\Device\KeyboardDevice.cpp" />
-    <ClCompile Include="class\Componets\Input\InputController.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\StateBase.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\WaitState.cpp" />
@@ -331,7 +330,6 @@
     <ClInclude Include="class\Componets\Input\VirtualController.h" />
     <ClInclude Include="class\Componets\Input\Device\IInputDevice.h" />
     <ClInclude Include="class\Componets\Input\Device\KeyboardDevice.h" />
-    <ClInclude Include="class\Componets\Input\InputController.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
