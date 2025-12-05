@@ -28,8 +28,20 @@
         "parent": 6,
         "pos_x": 782.0,
         "pos_y": 311.0,
-        "speed": 0.10000000149011612,
+        "speed": 0.5,
         "type": 3
+    },
+    {
+        "children": [
+            8
+        ],
+        "id": 5,
+        "name": "RunOnce",
+        "parent": 13,
+        "pos_x": 426.0,
+        "pos_y": -117.0,
+        "speed": 0.0,
+        "type": 1
     },
     {
         "children": [
@@ -43,18 +55,6 @@
         "pos_y": 22.0,
         "speed": 0.0,
         "type": 0
-    },
-    {
-        "children": [
-            8
-        ],
-        "id": 5,
-        "name": "RunOnce",
-        "parent": 13,
-        "pos_x": 426.0,
-        "pos_y": -117.0,
-        "speed": 0.0,
-        "type": 1
     },
     {
         "children": [],
@@ -72,11 +72,11 @@
         "id": 9,
         "name": "WaitLeaf",
         "parent": 10,
-        "pos_x": 786.525390625,
-        "pos_y": 51.22062683105469,
+        "pos_x": 769.525390625,
+        "pos_y": 45.22064208984375,
         "speed": 0.0,
         "type": 3,
-        "wait_time": 60.0
+        "wait_time": 40.0
     },
     {
         "children": [
