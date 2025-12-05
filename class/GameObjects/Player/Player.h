@@ -14,7 +14,7 @@ class EnemyManager;
 class Player : public Actor {
 public:
 	// コンストラクタ
-	Player(FollowCamera* camera, const LWP::Math::Vector3& centerPos);
+	Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& centerPos);
 	// デストラクタ
 	~Player() override;
 
@@ -113,6 +113,9 @@ private:// デバッグ用変数
 	// 初期武器
 	std::array<int, (int)WeaponSide::kCount> weaponTypies_;
 	std::array<int, (int)WeaponSide::kCount> weaponRarities_;
+
+private:
+	float maxHp_ = 100.0f;
 
 private:
 	LWP::Utility::JsonIO json_;

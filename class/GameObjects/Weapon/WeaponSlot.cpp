@@ -79,7 +79,7 @@ void WeaponSlot::Attack() {
 	}
 
 	// 攻撃
-	weapons_.front()->Attack(GameMask::enemy, actor);
+	weapons_.front()->Attack(GameMask::enemy, GameMask::attack | GameMask::player, actor);
 }
 
 void WeaponSlot::Compact() {

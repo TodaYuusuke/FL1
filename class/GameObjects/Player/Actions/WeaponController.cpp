@@ -163,21 +163,6 @@ void WeaponController::InputHandle() {
 	if (vCon_->GetPress(BindActionType::kCollect)) {
 		isCollect = true;
 	}
-	if (ControllerReceiver::GetInstance()->IsOpen() && Keyboard::GetPress(DIK_LSHIFT)) {
-		isCollect =  true;
-	}
-
-	//マイコン入力取得
-	bool lButton=false, lTrigger=false;
-	bool rButton=false, rTrigger=false;
-
-	if (ControllerReceiver::GetInstance()->IsOpen()) {
-		lTrigger = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.button0;
-		lButton = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.button1;
-
-		rTrigger = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.button0;
-		rButton = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.button1;
-	}
 
 	// 左手
 	if (vCon_->GetPress(BindActionType::kLeftHand)) {

@@ -55,20 +55,20 @@ void GameScene::Initialize() {
 	world_ = std::make_unique<World>();
 
 	// 自機
-	Player* player = new Player(followCamera_.get(), followCamera_->defaultTargetDist_);
+	player_ = new Player(followCamera_.get(), world_.get(), followCamera_->defaultTargetDist_);
 	// 自機をアクターとして追加
-	world_->AddActor(player);
+	world_->AddActor(player_);
 
 	// 敵管理クラス
 	enemyManager_ = std::make_unique<EnemyManager>(world_.get());
 
 	// 敵管理リストを設定
-	player->SetEnemyManager(enemyManager_.get());
+	player_->SetEnemyManager(enemyManager_.get());
 	// 追従カメラを自機対象に設定
-	followCamera_->SetTarget(player);
+	followCamera_->SetTarget(player_);
 
 	// 武器管理クラスに自機のアドレスを登録
-	WeaponManager::GetInstance()->SetPlayer(player);
+	WeaponManager::GetInstance()->SetPlayer(player_);
 	// 武器管理クラスにワールドのアドレスを登録
 	WeaponManager::GetInstance()->SetWorld(world_.get());
 
@@ -85,7 +85,7 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 	// 敵を一定数倒したら終了
-	if (enemyManager_->GetKillCount() >= clearKillCount) {
+	if (enemyManager_->GetKillCount() >= clearKillCount || !player_->GetIsAlive()) {
 		
 	}
 	// ヒットストップ

@@ -7,15 +7,13 @@ using namespace LWP;
 using namespace LWP::Math;
 using namespace LWP::Object;
 
-Player::Player(FollowCamera* camera, const LWP::Math::Vector3& centerPos) {
+Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& centerPos) {
 	// 初期位置の設定
 	tag_ = "Player";
 	name_ = "Player";
 	attackPower_ = 10;
 	centerPos_ = centerPos;
-
-	// HP
-	hp_ = std::make_unique<Health>(100.0f);
+	world_ = world;
 
 	// 黒板生成
 	blackBoard_ = new BlackBoard();
@@ -34,7 +32,7 @@ Player::Player(FollowCamera* camera, const LWP::Math::Vector3& centerPos) {
 	// 当たり判定をとる対象のマスクを設定
 	bodyCollision_.mask.SetHitFrag(GameMask::attack);
 	bodyCollision_.enterLambda = [this](LWP::Object::Collision* hitTarget) {
-		hitTarget;
+		OnCollision(hitTarget);
 		};
 	bodyAABB_.min = { -3.0f, -0.5f, -1.0f };
 	bodyAABB_.max = { 3.0f, 9.5f, 1.0f };
@@ -78,7 +76,12 @@ Player::Player(FollowCamera* camera, const LWP::Math::Vector3& centerPos) {
 		.AddValue<float>("Max", &bodyAABB_.max.x)
 		.AddValue<float>("Min", &bodyAABB_.min.x)
 		.EndGroup()
+		// HP
+		.AddValue<float>("Value", &maxHp_)
 		.CheckJsonFile();
+
+	// HP
+	hp_ = std::make_unique<Health>(maxHp_);
 
 	// 初期武器を設定
 	void (Player:: * setWeapon[(int)WeaponSide::kCount])(IWeapon*) = {
@@ -109,6 +112,14 @@ void Player::Init() {
 }
 
 void Player::Update() {
+	if (hp_->GetIsDead()) { 
+		isAlive_ = false;
+		return; 
+	}
+	else {
+		isAlive_ = true;
+	}
+
 	// HP
 	hp_->Update();
 
@@ -167,6 +178,19 @@ void Player::DrawGui() {
 				ImGui::TreePop();
 			}
 
+			ImGui::TreePop();
+		}
+		// 体力
+		if (ImGui::TreeNode("HP")) {
+			// 調整項目
+			if (ImGui::Button("Save")) {
+				json_.Save();
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Load")) {
+				json_.Load();
+			}
+			ImGui::DragFloat("Value", &maxHp_, 0.01f);
 			ImGui::TreePop();
 		}
 		// 当たり判定

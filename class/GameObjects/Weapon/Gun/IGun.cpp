@@ -124,7 +124,7 @@ void IGun::DebugGui() {
 	}
 }
 
-void IGun::Attack(int bulletHitFragBit, Actor* attackTarget) {
+void IGun::Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attackTarget) {
 	attackTarget;
 
 	// 弾がない状態なら撃てない
@@ -139,6 +139,7 @@ void IGun::Attack(int bulletHitFragBit, Actor* attackTarget) {
 
 	isAttack_ = true;
 	bulletHitFragBit_ = bulletHitFragBit;
+	bulletBelongFragBit_ = bulletBelongFragBit;
 }
 
 void IGun::Reload() {
@@ -205,7 +206,7 @@ void IGun::AttackCommond() {
 				(Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, randomVec.Normalize()) * Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, shotDirVel_));
 		}
 		// 弾生成
-		pBulletManager_->CreateAttack(data_.bulletType, target_, body_.GetJointWorldPosition("Muzzle"), bulletHitFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
+		pBulletManager_->CreateAttack(data_.bulletType, target_, body_.GetJointWorldPosition("Muzzle"), bulletHitFragBit_, bulletBelongFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
 
 		i--;
 	} while (i > 0);

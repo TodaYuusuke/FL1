@@ -60,10 +60,15 @@ public:// アクセサ
 	/// <returns></returns>
 	float GetSpeedMultiply() { return speedMultiply_; }
 	/// <summary>
-	/// 当たり判定をとる対象のマスクを設定
+	/// 当たり判定をとる対象のマスクを取得
 	/// </summary>
 	/// <returns></returns>
 	int GetHitFragBit() { return hitFragBit_; }
+	/// <summary>
+	/// 所属当たり判定を取得
+	/// </summary>
+	/// <returns></returns>
+	int GetBelongFragBit() { return bodyCollision_.mask.GetBelongFrag(); }
 	/// <summary>
 	/// 生存しているかを取得
 	/// </summary>
@@ -112,6 +117,8 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="value"></param>
 	void SetSpeedMultiply(float value) { speedMultiply_ = value; }
+
+	void SetBelongFrag(int belongHitFrag) { bodyCollision_.mask.SetBelongFrag(belongHitFrag); }
 #pragma endregion
 
 protected:// 外部から受け取る変数
