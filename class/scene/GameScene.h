@@ -33,6 +33,8 @@ private:
 	// 敵管理クラス
 	std::unique_ptr<EnemyManager> enemyManager_;
 
+	Player* player_;
+
 	// ワールド
 	std::unique_ptr<World> world_;
 
