@@ -112,12 +112,12 @@ namespace WeaponConfig {
 		// 順序はWeaponType準拠
 		namespace UI {
 			inline std::array<std::string, (int)WeaponType::kCount> uiName = {
-				"Weapon/MachineGun.png",	// マシンガン
-				"Weapon/ShotGun.png",		// ショットガン
-				"Weapon/MachineGun.png",	// ライフル
-				"Weapon/Launcher.png",		// ランチャー
+				"Weapon/machingun_UI.png",	// マシンガン
+				"Weapon/shotgun_UI.png",		// ショットガン
+				"Weapon/machingun_UI.png",	// ライフル
+				"Weapon/launcher_UI.png",		// ランチャー
 				"Weapon/MissilePod.png",	// ミサイル
-				"Weapon/PileBunker.png"		// 近接
+				"Weapon/pilebunker_UI.png"		// 近接
 			};
 		}
 	}

@@ -39,7 +39,7 @@ private:
 
 	size_t digit_ = 0;
 
-	const LWP::Math::Vector2 kTextureSize_ = {128.0f,128.0f};
+	const LWP::Math::Vector2 kTextureSize_ = {64.0f,64.0f};
 
 	LWP::Math::Vector2 center_ = {0,0};
 	LWP::Math::Vector2 width_ = {10.0f,10.0f};
