@@ -66,6 +66,12 @@ public:// アクセサ
     /// </summary>
     /// <returns></returns>
     LWP::Math::Vector3 GetWeaponVelocity() { return weaponVel_; }
+
+    /// <summary>
+    /// 先頭に格納された武器を取得
+    /// </summary>
+    IWeapon* GetFrontWeapon() { return weapons_.front(); };
+
 #pragma endregion
 
 #pragma region Setter

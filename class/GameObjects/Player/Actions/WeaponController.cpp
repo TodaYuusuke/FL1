@@ -23,6 +23,8 @@ WeaponController::WeaponController(LeadingSystem* leadingSystem, Actor* target) 
 	weapons_[WeaponSide::kRight] = std::make_unique<WeaponSlot>(pLeadingSystem_, weaponSkills_.get());
 	weapons_[WeaponSide::kLeftShoulder] = std::make_unique<WeaponSlot>(pLeadingSystem_, weaponSkills_.get());
 	weapons_[WeaponSide::kRightShoulder] = std::make_unique<WeaponSlot>(pLeadingSystem_, weaponSkills_.get());
+
+	Init();
 }
 
 WeaponController::~WeaponController() {}
@@ -31,6 +33,40 @@ void WeaponController::Init() {
 	// 武器
 	for (auto it = weapons_.begin(); it != weapons_.end(); it++) {
 		if (it->second) it->second->Init();
+	}
+
+	// 管理クラスの調整項目
+	json_.Init(kJsonDirectoryPath + "HasWeapnUI.json")
+		.BeginGroup("LeftArm")
+		.AddValue<LWP::Math::Vector3>("Scale"     , &sampleWeaponSurface_[WeaponSide::kLeft].worldTF.scale)
+		.AddValue<LWP::Math::Quaternion>("Rotate" , &sampleWeaponSurface_[WeaponSide::kLeft].worldTF.rotation)
+		.AddValue<LWP::Math::Vector3>("Translate" , &sampleWeaponSurface_[WeaponSide::kLeft].worldTF.translation)
+		.EndGroup()
+		.BeginGroup("RightArm")
+		.AddValue<LWP::Math::Vector3>("Scale", &sampleWeaponSurface_[WeaponSide::kRight].worldTF.scale)
+		.AddValue<LWP::Math::Quaternion>("Rotate", &sampleWeaponSurface_[WeaponSide::kRight].worldTF.rotation)
+		.AddValue<LWP::Math::Vector3>("Translate", &sampleWeaponSurface_[WeaponSide::kRight].worldTF.translation)
+		.EndGroup()
+		.BeginGroup("LeftShoulder")
+		.AddValue<LWP::Math::Vector3>("Scale", &sampleWeaponSurface_[WeaponSide::kLeftShoulder].worldTF.scale)
+		.AddValue<LWP::Math::Quaternion>("Rotate", &sampleWeaponSurface_[WeaponSide::kLeftShoulder].worldTF.rotation)
+		.AddValue<LWP::Math::Vector3>("Translate", &sampleWeaponSurface_[WeaponSide::kLeftShoulder].worldTF.translation)
+		.EndGroup()
+		.BeginGroup("RightShoulder")
+		.AddValue<LWP::Math::Vector3>("Scale", &sampleWeaponSurface_[WeaponSide::kRightShoulder].worldTF.scale)
+		.AddValue<LWP::Math::Quaternion>("Rotate", &sampleWeaponSurface_[WeaponSide::kRightShoulder].worldTF.rotation)
+		.AddValue<LWP::Math::Vector3>("Translate", &sampleWeaponSurface_[WeaponSide::kRightShoulder].worldTF.translation)
+		.EndGroup()
+		.CheckJsonFile();
+
+
+	//UI初期化
+	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount;side++) {
+		for (int i = 0; i < (int)WeaponType::kCount; i++) {
+			weaponSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
+			//weaponSurfaces_[(WeaponSide)side][i].material.color = { 1.0f,1.0f,1.0f,0.5f };
+		}
+		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
 	}
 }
 
@@ -45,6 +81,28 @@ void WeaponController::Update() {
 
 	// 武器練度
 	weaponSkills_->Update();
+
+	//UI設定
+	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount; side++) {
+		for (int i = 0; i < (int)WeaponType::kCount; i++) {
+			weaponSurfaces_[(WeaponSide)side][i].worldTF.Parent(debugOwner_->GetWorldTF());
+			//weaponSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
+			weaponSurfaces_[(WeaponSide)side][i].isActive = false;
+			weaponSurfaces_[(WeaponSide)side][i].worldTF.translation = sampleWeaponSurface_[(WeaponSide)side].GetCenterPosition();
+			weaponSurfaces_[(WeaponSide)side][i].worldTF.rotation = sampleWeaponSurface_[(WeaponSide)side].worldTF.rotation;
+			weaponSurfaces_[(WeaponSide)side][i].worldTF.scale = sampleWeaponSurface_[(WeaponSide)side].worldTF.scale;
+			weaponSurfaces_[(WeaponSide)side][i].anchorPoint = {0.5f,0.5f};
+		}
+	}
+	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount; side++) {
+		if (weapons_[(WeaponSide)side]->GetIsFullWeapon()) {
+			auto type = WeaponConfig::GetWeaponType(weapons_[(WeaponSide)side]->GetFrontWeapon()->GetName());
+			weaponSurfaces_[(WeaponSide)side][type].isActive = true;
+			//weaponSurfaces_[(WeaponSide)side][type].worldTF.translation = LWP::Math::Matrix4x4::TransformCoord(weaponSurfaces_[(WeaponSide)side][type].worldTF.translation,debugOwner_->GetWorldTF()->GetAffineMatrix());
+			//weaponSurfaces_[(WeaponSide)side][type].worldTF.rotation = LWP::Math::Quaternion::ConvertDirection(LWP::Math::Matrix4x4::TransformCoord(weaponSurfaces_[(WeaponSide)side][type].worldTF.rotation.vec(), debugOwner_->GetWorldTF()->GetAffineMatrix().Inverse()));
+			//weaponSurfaces_[(WeaponSide)side][type].worldTF.translation;
+		}
+	}
 }
 
 void WeaponController::DebugGui() {
@@ -77,6 +135,10 @@ void WeaponController::DebugGui() {
 
 		if (ImGui::TreeNode("Skill")) {
 			weaponSkills_->DebugGui();
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("UI")) {
+			json_.DebugGUI();
 			ImGui::TreePop();
 		}
 		ImGui::TreePop();

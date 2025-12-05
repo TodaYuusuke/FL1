@@ -144,5 +144,13 @@ private:
 
 	// デバッグ用の武器の持ち主
 	Actor* debugOwner_;
+
+private://UI表示
+	// jsonファイルのディレクトリパス
+	const std::string kJsonDirectoryPath = "WeaponUI/";
+	std::map<WeaponSide, std::array<LWP::Primitive::NormalSurface, (int)WeaponType::kCount>> weaponSurfaces_;
+	std::map<WeaponSide, LWP::Primitive::NormalSurface> sampleWeaponSurface_;
+
+	LWP::Utility::JsonIO json_;
 };
 
