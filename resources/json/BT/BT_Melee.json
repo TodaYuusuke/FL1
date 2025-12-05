@@ -26,22 +26,10 @@
         "id": 11,
         "name": "ChasePlayerLeaf",
         "parent": 6,
-        "pos_x": 782.0,
-        "pos_y": 311.0,
+        "pos_x": 796.0,
+        "pos_y": 353.0,
         "speed": 0.5,
         "type": 3
-    },
-    {
-        "children": [
-            8
-        ],
-        "id": 5,
-        "name": "RunOnce",
-        "parent": 13,
-        "pos_x": 426.0,
-        "pos_y": -117.0,
-        "speed": 0.0,
-        "type": 1
     },
     {
         "children": [
@@ -55,6 +43,18 @@
         "pos_y": 22.0,
         "speed": 0.0,
         "type": 0
+    },
+    {
+        "children": [
+            8
+        ],
+        "id": 5,
+        "name": "RunOnce",
+        "parent": 13,
+        "pos_x": 426.0,
+        "pos_y": -117.0,
+        "speed": 0.0,
+        "type": 1
     },
     {
         "children": [],
@@ -72,8 +72,8 @@
         "id": 9,
         "name": "WaitLeaf",
         "parent": 10,
-        "pos_x": 769.525390625,
-        "pos_y": 45.22064208984375,
+        "pos_x": 775.525390625,
+        "pos_y": 139.22064208984375,
         "speed": 0.0,
         "type": 3,
         "wait_time": 40.0
@@ -81,14 +81,15 @@
     {
         "children": [
             7,
+            14,
             9,
             12
         ],
         "id": 10,
         "name": "Sequence",
         "parent": 6,
-        "pos_x": 627.525390625,
-        "pos_y": 50.22064971923828,
+        "pos_x": 619.525390625,
+        "pos_y": 48.22064208984375,
         "speed": 0.0,
         "type": 0
     },
@@ -97,10 +98,20 @@
         "id": 12,
         "name": "ReadyToAttackLeaf",
         "parent": 10,
-        "pos_x": 784.8599853515625,
-        "pos_y": 146.5547332763672,
-        "readyToAttackTime": 60.0,
+        "pos_x": 789.8599853515625,
+        "pos_y": 250.55474853515625,
+        "readyToAttackTime": 40.0,
         "speed": 0.0,
+        "type": 3
+    },
+    {
+        "children": [],
+        "id": 14,
+        "name": "EscapeFromPlayerLeaf",
+        "parent": 10,
+        "pos_x": 794.0,
+        "pos_y": 40.0,
+        "speed": 0.6000000238418579,
         "type": 3
     }
 ]
