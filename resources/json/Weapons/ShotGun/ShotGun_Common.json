@@ -1,19 +1,19 @@
 {
     "Group :Bullet": {
         "Vector3 :DiffusingRange": [
-            0.05000000074505806,
-            0.05000000074505806,
+            0.03999999910593033,
+            0.03999999910593033,
             0.0
         ],
-        "int32_t :Num": 10,
-        "int32_t :SameBulletNum": 20,
+        "int32_t :Num": 20,
+        "int32_t :SameBulletNum": 4,
         "int32_t :Type": 2
     },
     "Group :Interval": {
         "float :Burst": 0.0,
-        "float :Normal": 1.0
+        "float :Normal": 0.5
     },
-    "float :AttackSkillGain": 100.0,
+    "float :AttackSkillGain": 8.0,
     "float :CoolTime": 0.0,
     "float :ReloadTime": 0.0,
     "float :StoreTime": 0.0,
