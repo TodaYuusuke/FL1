@@ -151,9 +151,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="class\Componets\Input\Device\GamePadDevice.cpp" />
+    <ClCompile Include="class\Componets\Input\Device\LeverDevice.cpp" />
     <ClCompile Include="class\GameObjects\Attack\AttackBase.cpp" />
     <ClCompile Include="class\GameObjects\Attack\Strategy\Movement\HomingMove.cpp" />
     <ClCompile Include="class\GameObjects\Attack\Strategy\Impact\ExplosionImpact.cpp" />
+    <ClCompile Include="class\Componets\InputMyController\ControllerReceiver.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\Cargo\Cargo.cpp" />
     <ClCompile Include="class\Componets\BehaviourTree\DecoratorNode\RunOnce.cpp" />
     <ClCompile Include="class\Componets\BehaviourTree\LeafNode\ReadyToAttackLeaf.cpp" />
@@ -173,6 +175,8 @@
     <ClCompile Include="class\GameObjects\Player\Actions\Action\None\NoneAction.cpp" />
     <ClCompile Include="class\GameObjects\Player\Actions\MoveController.cpp" />
     <ClCompile Include="class\GameObjects\Player\Actions\WeaponController.cpp" />
+    <ClCompile Include="class\GameObjects\UI\ScoreUI\ScoreManager.cpp" />
+    <ClCompile Include="class\GameObjects\UI\ScoreUI\ScoreUI.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Components\Magazine.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Gun\IGun.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Gun\Launcher\Launcher.cpp" />
@@ -184,6 +188,7 @@
     <ClCompile Include="class\GameObjects\Weapon\Melee\IMelee.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Melee\Melee.cpp" />
     <ClCompile Include="class\scene\GameScene.cpp" />
+    <ClCompile Include="class\scene\ResultScene.cpp" />
     <ClCompile Include="class\scene\TestScene.cpp" />
     <ClCompile Include="class\scene\Title.cpp" />
     <ClCompile Include="DirectXGame\Externals\imnodes\imnodes.cpp" />
@@ -233,11 +238,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="class\Componets\Input\Device\GamePadDevice.h" />
+    <ClInclude Include="class\Componets\Input\Device\LeverDevice.h" />
     <ClInclude Include="class\Componets\Input\InputConfig.h" />
     <ClInclude Include="class\GameObjects\Attack\AttackBase.h" />
     <ClInclude Include="class\GameObjects\Attack\AttackConfig.h" />
     <ClInclude Include="class\GameObjects\Attack\Strategy\Movement\HomingMove.h" />
     <ClInclude Include="class\GameObjects\Attack\Strategy\Impact\ExplosionImpact.h" />
+    <ClInclude Include="class\Componets\InputMyController\ControllerReceiver.h" />
     <ClInclude Include="class\GameObjects\Enemy\Cargo\Cargo.h" />
     <ClInclude Include="class\Componets\BehaviourTree\DecoratorNode\RunOnce.h" />
     <ClInclude Include="class\Componets\BehaviourTree\LeafNode\ReadyToAttackLeaf.h" />
@@ -262,6 +269,8 @@
     <ClInclude Include="class\GameObjects\Player\Actions\IActions.h" />
     <ClInclude Include="class\GameObjects\Player\Actions\MoveController.h" />
     <ClInclude Include="class\GameObjects\Player\Actions\WeaponController.h" />
+    <ClInclude Include="class\GameObjects\UI\ScoreUI\ScoreManager.h" />
+    <ClInclude Include="class\GameObjects\UI\ScoreUI\ScoreUI.h" />
     <ClInclude Include="class\GameObjects\Weapon\Components\Magazine.h" />
     <ClInclude Include="class\GameObjects\Weapon\Gun\IGun.h" />
     <ClInclude Include="class\GameObjects\Weapon\Gun\Launcher\Launcher.h" />
@@ -274,6 +283,7 @@
     <ClInclude Include="class\GameObjects\Weapon\Melee\Melee.h" />
     <ClInclude Include="class\GameObjects\Weapon\WeaponConfig.h" />
     <ClInclude Include="class\scene\GameScene.h" />
+    <ClInclude Include="class\scene\ResultScene.h" />
     <ClInclude Include="class\scene\TestScene.h" />
     <ClInclude Include="class\scene\Title.h" />
     <ClInclude Include="DirectXGame\Externals\imnodes\imnodes.h" />

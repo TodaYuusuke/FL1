@@ -216,6 +216,18 @@ private:
 
 	// 拾える武器を画像で出す
 	std::array<LWP::Primitive::NormalSprite, (int)WeaponType::kCount> pickUpWeaponSprite_;
+	//コントローラーの種類
+	enum ControllerUIType{
+		kJoyPad,//xboxパッド
+		kLever, //自作コン
+		kCount  //使用禁止
+	};
+	inline static const std::array<std::string, (int)ControllerUIType::kCount> controllerUIName = {
+				"Weapon/pickup_UI_pad.png",	// パッド
+				"Weapon/pickup_UI_lever.png"		// レバー(自作コン)
+	};
+	std::array<LWP::Primitive::NormalSprite, (int)ControllerUIType::kCount> pickUpUISprite_;
+	ControllerUIType controllerType_ = kJoyPad;
 	// 拾える武器を画像のWorldTransform
 	LWP::Primitive::NormalSprite samplePickUpWeaponSprite_;
 

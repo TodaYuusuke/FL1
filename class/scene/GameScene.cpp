@@ -5,6 +5,10 @@
 #include "../GameObjects/Weapon/WeaponManager.h"
 #include "../Componets/HitStopController.h"
 #include "../Componets/Input/VirtualController.h"
+#include "../GameObjects/UI/ScoreUI/ScoreManager.h"
+#include "ResultScene.h"
+#include "../Componets/InputMyController/ControllerReceiver.h"
+
 
 using namespace LWP;
 using namespace LWP::Resource;
@@ -35,6 +39,9 @@ GameScene::~GameScene() {
 	HitStopController::Destroy();
 	// ゲームコントローラ
 	VirtualController::Destroy();
+
+	//マイコン入力の停止
+	ControllerReceiver::GetInstance()->ClosePort();
 }
 
 void GameScene::Initialize() {
@@ -69,11 +76,14 @@ void GameScene::Initialize() {
 	json_.Init("Game.json")
 		.AddValue<int>("ClearKillCount", &clearKillCount)
 		.CheckJsonFile();
+
+	//スコア表示テスト
+	score_ = std::make_unique<ScoreUI>();
+	score_->Initialize(7);
+	score_->SetCenter({1280.0f,100.0f});
 }
 
 void GameScene::Update() {
-	VirtualController::GetInstance()->Update();
-
 	// 敵を一定数倒したら終了
 	if (enemyManager_->GetKillCount() >= clearKillCount) {
 		
@@ -95,7 +105,23 @@ void GameScene::Update() {
 	// 追従カメラ
 	followCamera_->Update();
 
+	//スコア表示(テスト)
+	score_->SetScore(ScoreCounter::GetInstance()->GetScore());
+	score_->Update();
+
+
 #ifdef _DEBUG
+
+	// 次のシーンへ以降
+	if (Input::Keyboard::GetTrigger(DIK_F)) {
+		nextSceneFunction = []() { return new ResultScene(); };
+	}
+
+	//マイコンの再接続
+	if (Input::Keyboard::GetTrigger(DIK_R)) {
+		ControllerReceiver::GetInstance()->ReOpenPort();
+	}
+
 	ImGui::Begin("GameObjects");
 	ImGui::BeginTabBar("GameObject");
 
@@ -138,9 +164,28 @@ void GameScene::Update() {
 
 	ImGui::EndTabBar();
 	ImGui::End();
+
+
+	ImGui::Begin("LeftStick");
+	//ImGui::Text("input  X: %.3f , Y: %.3f", ControllerReceiver::GetInstance()->GetData().GetRawData().x, microController_.GetRawData().y);
+	ImGui::Text("calced X: %.3f , Y: %.3f", ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.lever.x, ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.lever.y);
+	ImGui::Text("button0 %d", (int)ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.button0);
+	ImGui::Text("button1 %d", (int)ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.button1);
+	ImGui::End();
+
+	ImGui::Begin("RightStick");
+	//ImGui::Text("input  X: %.3f , Y: %.3f", ControllerReceiver::GetInstance()->GetData().GetRawData().x, microController_.GetRawData().y);
+	ImGui::Text("calced X: %.3f , Y: %.3f", ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.lever.x, ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.lever.y);
+	ImGui::Text("button0 %d", (int)ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.button0);
+	ImGui::Text("button1 %d", (int)ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.button1);
+	ImGui::End();
+
 #endif // DEBUG
 
 	// 更新処理終了時に呼ぶ処理
 	enemyManager_->EndFrame();
 	AttackManager::GetInstance()->EndFrame();
+
+	// コントローラー
+	VirtualController::GetInstance()->Update();
 }

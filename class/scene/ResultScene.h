@@ -9,32 +9,18 @@
 
 #include "Adapter.h"
 
-class GameScene final
+class ResultScene final
 	: public IScene {
 public: // ** 純粋仮想関数の実体宣言 ** //
-	GameScene();
-	~GameScene();
+	ResultScene();
+	~ResultScene();
 
 	// 初期化
 	void Initialize();
 	// 更新
 	void Update();
 
-private: // 調整項目
-	// クリアまでに必要なキル数
-	int clearKillCount = 30;
-
-	LWP::Utility::JsonIO json_;
-
-private:
-
-	// 追従カメラ
-	std::unique_ptr<FollowCamera> followCamera_;
-	// 敵管理クラス
-	std::unique_ptr<EnemyManager> enemyManager_;
-
-	// ワールド
-	std::unique_ptr<World> world_;
+private: // ** これより先に必要な処理や変数を記述 ** //
 
 	std::unique_ptr<ScoreUI> score_;
 };

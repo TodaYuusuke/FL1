@@ -3,6 +3,7 @@
 #include "Action/Evasion/Evasion.h"
 #include "Action/None/NoneAction.h"
 #include "../../../Componets/BehaviourTree/Actor/Actor.h"
+#include "../../../Componets/InputMyController/ControllerReceiver.h"
 #include "../../../Componets/Input/VirtualController.h"
 
 using namespace ActionConfig;

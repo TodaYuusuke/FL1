@@ -2,6 +2,7 @@
 #include "../../../../../Componets/Input/VirtualController.h"
 #include "../../../../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../../../../World/World.h"
+#include "../../../../../Componets/InputMyController/ControllerReceiver.h"
 #include <numbers>
 
 using namespace FLMath;
@@ -20,6 +21,15 @@ void Move::Init() {
 void Move::Update() {
 	// 移動方式選択
 	CheckMoveType();
+
+	////マイコン入力が有効
+	//if (ControllerReceiver::GetInstance()->IsOpen()) {
+	//	lStick = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.lever;
+	//	rStick = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.lever;
+	//}
+
+	//// 戦車挙動
+	//DifferentialUpdate(lStick, rStick, stopController_->GetDeltaTime());
 
 	// タイムスケール適用
 	vel_ *= stopController_->GetDeltaTime();
@@ -81,7 +91,9 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 	// スティック入力が互いに反対
 	if (target_vL * target_vR < 0.0f) {
 		// 値の修正される前のスティックの入力値で比較
-		float sqrtStick = (VirtualController::GetInstance()->GetLAxis().y - VirtualController::GetInstance()->GetRAxis().y);
+		Vector2 lStick = VirtualController::GetInstance()->GetLAxis();
+		Vector2 rStick = VirtualController::GetInstance()->GetRAxis();
+		float sqrtStick = (lStick.y - rStick.y);
 		if (std::sqrtf(sqrtStick * sqrtStick) <= 1.7f) {
 			target_vL = 0.0f;
 			target_vR = 0.0f;

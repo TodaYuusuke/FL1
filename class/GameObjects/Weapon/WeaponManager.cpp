@@ -9,6 +9,7 @@
 #include "../Player/Player.h"
 #include "../Attack/AttackConfig.h"
 #include "../../Componets/Input/VirtualController.h"
+#include "../../Componets/InputMyController/ControllerReceiver.h"
 #include <queue>
 
 using namespace LWP;
@@ -31,11 +32,17 @@ WeaponManager::WeaponManager() {
 	// 拾える武器画像
 	for (int i = 0; i < pickUpWeaponSprite_.size(); i++) {
 		pickUpWeaponSprite_[i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
+		pickUpWeaponSprite_[i].material.color = {1.0f,1.0f,1.0f,0.5f};
 	}
 	samplePickUpWeaponSprite_.isActive = false;
 	samplePickUpWeaponSprite_.anchorPoint = { 0.5f, 0.5f };
 	samplePickUpWeaponSprite_.worldTF.translation = { 400.0f, 200.0f,0.0f };
-	samplePickUpWeaponSprite_.worldTF.scale = { 0.3f, 0.3f,1.0f };
+	samplePickUpWeaponSprite_.worldTF.scale = { 1.5f, 1.5f,1.0f };
+	
+	//ボタン表記
+	for (int i = 0; i < pickUpUISprite_.size(); i++) {
+		pickUpUISprite_[i].LoadTexture(controllerUIName[i]);
+	}
 }
 
 WeaponManager::~WeaponManager() {
@@ -61,6 +68,18 @@ void WeaponManager::Update() {
 		pickUpWeaponSprite_[i].worldTF.translation = samplePickUpWeaponSprite_.worldTF.translation;
 		pickUpWeaponSprite_[i].worldTF.scale = samplePickUpWeaponSprite_.worldTF.scale;
 		pickUpWeaponSprite_[i].anchorPoint = samplePickUpWeaponSprite_.anchorPoint;
+	}
+
+	for (int i = 0; i < pickUpUISprite_.size(); i++) {
+		pickUpUISprite_[i].isActive = false;
+		pickUpUISprite_[i].worldTF.translation = samplePickUpWeaponSprite_.worldTF.translation;
+		pickUpUISprite_[i].worldTF.scale = samplePickUpWeaponSprite_.worldTF.scale;
+		pickUpUISprite_[i].anchorPoint = samplePickUpWeaponSprite_.anchorPoint;
+	}
+	//入力タイプ確認
+	controllerType_ = kJoyPad;
+	if (ControllerReceiver::GetInstance()->IsOpen()) {
+		controllerType_ = kLever;
 	}
 
 	// 自機が近いなら武器を渡す
@@ -194,6 +213,7 @@ void WeaponManager::CheckPlayerToWeaponDistance() {
 	if (que.empty()) { return; }
 	// 拾える武器表示
 	pickUpWeaponSprite_[WeaponConfig::GetWeaponType(que.top()->GetName())].isActive = true;
+	pickUpUISprite_[(int)controllerType_].isActive = true;
 
 	// 武器を拾う
 	PickUpWeapon(que.top(), pWorld_->FindActor("Player"));

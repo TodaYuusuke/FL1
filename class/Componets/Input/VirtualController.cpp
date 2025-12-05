@@ -1,6 +1,7 @@
 #include "VirtualController.h"
 #include "Device/KeyboardDevice.h"
 #include "Device/GamePadDevice.h"
+#include "Device/LeverDevice.h"
 
 using namespace LWP::Math;
 using namespace LWP::Input;
@@ -8,6 +9,7 @@ using namespace LWP::Input;
 VirtualController::VirtualController() {
 	device_.push_back(std::make_unique<KeyboardDevice>());
 	device_.push_back(std::make_unique<GamePadDevice>());
+	device_.push_back(std::make_unique<LeverDevice>());
 }
 
 void VirtualController::Update() {

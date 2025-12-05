@@ -31,7 +31,7 @@ namespace InputConfig {
 				inline uint8_t Left = DIK_LEFT;
 				inline uint8_t Right = DIK_RIGHT;
 			};
-			inline int collect			= DIK_0;			// 武器回収
+			inline int collect			= DIK_LSHIFT;		// 武器回収
 			inline int leftShoulder		= DIK_3;			// 左肩武器使用
 			inline int leftHand			= DIK_1;			// 左手武器使用
 			inline int rightShoulder	= DIK_4;			// 右肩武器使用

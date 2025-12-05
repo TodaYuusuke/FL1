@@ -8,6 +8,8 @@
 #include "../Weapon/WeaponManager.h"
 #include  "../World/IWorld.h"
 #include "EnemyConfig.h"
+#include "../UI/ScoreUI/ScoreManager.h"
+
 
 using namespace EnemyConfig;
 using namespace LWP;
@@ -96,6 +98,8 @@ void EnemyManager::EndFrame() {
 					for (int i = 0; i < actor->GetWeapon().size(); i++) {
 						WeaponManager::GetInstance()->DropWeapon(actor->GetWeapon()[i]);
 					}
+					//スコアの増加
+					ScoreCounter::GetInstance()->AddScore(actor->GetScore());
 
 					// 敵の解放
 					delete actor;
