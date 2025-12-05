@@ -1,12 +1,12 @@
 {
     "Group :Bullet": {
         "Vector3 :DiffusingRange": [
-            0.03999999910593033,
-            0.03999999910593033,
+            0.05999999865889549,
+            0.05999999865889549,
             0.0
         ],
         "int32_t :Num": 20,
-        "int32_t :SameBulletNum": 4,
+        "int32_t :SameBulletNum": 6,
         "int32_t :Type": 2
     },
     "Group :Interval": {

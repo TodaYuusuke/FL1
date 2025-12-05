@@ -1,26 +1,18 @@
 {
     "Group :Bullet": {
-        "Vector3 :ColliderSize": [
-            3.0,
-            4.0,
-            3.0
-        ],
         "Vector3 :DiffusingRange": [
             0.0,
             0.0,
             0.0
         ],
-        "float :ElapsedTime": 0.25,
-        "float :Speed": 1.0,
         "int32_t :Num": 10,
         "int32_t :SameBulletNum": 0,
         "int32_t :Type": 4
     },
     "Group :Interval": {
         "float :Burst": 0.0,
-        "float :Normal": 0.5
+        "float :Normal": 1.0
     },
-    "float :AttackPower": 100.0,
     "float :AttackSkillGain": 100.0,
     "float :CoolTime": 0.0,
     "float :ReloadTime": 0.0,

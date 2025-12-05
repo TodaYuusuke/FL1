@@ -2,7 +2,7 @@
     {
         "false_child": 27,
         "id": 6,
-        "limit_distance": 20.0,
+        "limit_distance": 50.0,
         "name": "CheckNearPlayer",
         "parent": 22,
         "pos_x": 644.4833984375,
@@ -26,9 +26,9 @@
         "id": 11,
         "name": "ChasePlayerLeaf",
         "parent": 21,
-        "pos_x": 337.6000061035156,
+        "pos_x": 337.5999755859375,
         "pos_y": 463.5733642578125,
-        "speed": 0.05000000074505806,
+        "speed": 0.5,
         "type": 3
     },
     {
@@ -67,7 +67,7 @@
         "pos_y": 197.02972412109375,
         "speed": 0.0,
         "type": 3,
-        "wait_time": 60.0
+        "wait_time": 40.0
     },
     {
         "children": [
@@ -86,11 +86,11 @@
         "id": 10,
         "name": "WaitLeaf",
         "parent": 9,
-        "pos_x": 212.00003051757813,
+        "pos_x": 212.0,
         "pos_y": -216.0,
         "speed": 0.0,
         "type": 3,
-        "wait_time": 60.0
+        "wait_time": 40.0
     },
     {
         "children": [],
@@ -109,8 +109,8 @@
         "name": "EscapeFromPlayerLeaf",
         "parent": 23,
         "pos_x": 681.6007080078125,
-        "pos_y": -40.07530212402344,
-        "speed": 0.029999999329447746,
+        "pos_y": -40.0753173828125,
+        "speed": 0.5,
         "type": 3
     },
     {
@@ -154,11 +154,11 @@
     {
         "false_child": 28,
         "id": 22,
-        "limit_distance": 15.0,
+        "limit_distance": 20.0,
         "name": "CheckFarPlayer",
         "parent": 20,
-        "pos_x": 440.0000305175781,
-        "pos_y": 224.0,
+        "pos_x": 429.0,
+        "pos_y": 215.0,
         "speed": 0.0,
         "true_child": 6,
         "type": 2
@@ -166,11 +166,11 @@
     {
         "false_child": 26,
         "id": 23,
-        "limit_distance": 15.0,
+        "limit_distance": 20.0,
         "name": "CheckNearPlayer",
         "parent": 18,
         "pos_x": 450.0,
-        "pos_y": -10.999984741210938,
+        "pos_y": -11.0,
         "speed": 0.0,
         "true_child": 17,
         "type": 2

@@ -14,7 +14,7 @@
     "Group :Weapon": {
         "Group :Hand": {
             "Group :Left": {
-                "int32_t :Type": 6
+                "int32_t :Type": 1
             },
             "Group :Right": {
                 "int32_t :Type": 5
@@ -22,15 +22,15 @@
         },
         "Group :Shoulder": {
             "Group :Left": {
-                "int32_t :Type": 0
+                "int32_t :Type": 6
             },
             "Group :Right": {
-                "int32_t :Type": 0
+                "int32_t :Type": 6
             }
         },
         "int32_t :MinRarity": 0
     },
-    "float :HP": 100.0,
-    "float :Score": 1000.0,
+    "float :HP": 30.0,
+    "float :Score": 100.0,
     "string :BTFileName": "resources/json/BT/BT_Melee.json"
 }
