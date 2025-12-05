@@ -72,6 +72,7 @@ void WeaponController::Init() {
 			weaponSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
 			//weaponSurfaces_[(WeaponSide)side][i].material.color = { 1.0f,1.0f,1.0f,0.5f };
 		}
+		sampleWeaponSurface_[(WeaponSide)side].LoadTexture("Weapon/none_UI.png");
 		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
 	}
 
@@ -97,7 +98,7 @@ void WeaponController::Update() {
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.Parent(&cockpit_.worldTF);
 			//weaponSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
 			weaponSurfaces_[(WeaponSide)side][i].isActive = false;
-			weaponSurfaces_[(WeaponSide)side][i].worldTF.translation = sampleWeaponSurface_[(WeaponSide)side].GetCenterPosition();
+			weaponSurfaces_[(WeaponSide)side][i].worldTF.translation = sampleWeaponSurface_[(WeaponSide)side].worldTF.translation;
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.rotation = sampleWeaponSurface_[(WeaponSide)side].worldTF.rotation;
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.scale = sampleWeaponSurface_[(WeaponSide)side].worldTF.scale;
 			weaponSurfaces_[(WeaponSide)side][i].anchorPoint = {0.5f,0.5f};
@@ -107,9 +108,10 @@ void WeaponController::Update() {
 		if (weapons_[(WeaponSide)side]->GetIsFullWeapon()) {
 			auto type = WeaponConfig::GetWeaponType(weapons_[(WeaponSide)side]->GetFrontWeapon()->GetName());
 			weaponSurfaces_[(WeaponSide)side][type].isActive = true;
-			//weaponSurfaces_[(WeaponSide)side][type].worldTF.translation = LWP::Math::Matrix4x4::TransformCoord(weaponSurfaces_[(WeaponSide)side][type].worldTF.translation,debugOwner_->GetWorldTF()->GetAffineMatrix());
-			//weaponSurfaces_[(WeaponSide)side][type].worldTF.rotation = LWP::Math::Quaternion::ConvertDirection(LWP::Math::Matrix4x4::TransformCoord(weaponSurfaces_[(WeaponSide)side][type].worldTF.rotation.vec(), debugOwner_->GetWorldTF()->GetAffineMatrix().Inverse()));
-			//weaponSurfaces_[(WeaponSide)side][type].worldTF.translation;
+		}
+		else {
+			sampleWeaponSurface_[(WeaponSide)side].worldTF.Parent(&cockpit_.worldTF);
+			sampleWeaponSurface_[(WeaponSide)side].isActive = true;
 		}
 	}
 	cockpit_.worldTF.Parent(debugOwner_->GetWorldTF());
