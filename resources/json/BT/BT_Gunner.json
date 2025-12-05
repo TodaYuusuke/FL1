@@ -2,7 +2,7 @@
     {
         "false_child": 27,
         "id": 6,
-        "limit_distance": 20.0,
+        "limit_distance": 70.0,
         "name": "CheckNearPlayer",
         "parent": 22,
         "pos_x": 644.4833984375,
@@ -33,19 +33,6 @@
     },
     {
         "children": [
-            9,
-            21
-        ],
-        "id": 13,
-        "name": "Sequence",
-        "parent": -1,
-        "pos_x": -5.999969482421875,
-        "pos_y": -118.0,
-        "speed": 0.0,
-        "type": 0
-    },
-    {
-        "children": [
             7,
             8,
             12
@@ -55,6 +42,19 @@
         "parent": 6,
         "pos_x": 1017.4833374023438,
         "pos_y": 196.6187744140625,
+        "speed": 0.0,
+        "type": 0
+    },
+    {
+        "children": [
+            9,
+            21
+        ],
+        "id": 13,
+        "name": "Sequence",
+        "parent": -1,
+        "pos_x": -5.999969482421875,
+        "pos_y": -118.0,
         "speed": 0.0,
         "type": 0
     },
@@ -154,10 +154,10 @@
     {
         "false_child": 28,
         "id": 22,
-        "limit_distance": 15.0,
+        "limit_distance": 40.0,
         "name": "CheckFarPlayer",
         "parent": 20,
-        "pos_x": 440.0000305175781,
+        "pos_x": 440.0,
         "pos_y": 224.0,
         "speed": 0.0,
         "true_child": 6,
@@ -166,11 +166,11 @@
     {
         "false_child": 26,
         "id": 23,
-        "limit_distance": 15.0,
+        "limit_distance": 40.0,
         "name": "CheckNearPlayer",
         "parent": 18,
         "pos_x": 450.0,
-        "pos_y": -10.999984741210938,
+        "pos_y": -11.0,
         "speed": 0.0,
         "true_child": 17,
         "type": 2

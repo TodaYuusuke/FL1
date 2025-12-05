@@ -6,7 +6,7 @@
             0.0
         ],
         "int32_t :Num": 20,
-        "int32_t :SameBulletNum": 6,
+        "int32_t :SameBulletNum": 10,
         "int32_t :Type": 2
     },
     "Group :Interval": {

@@ -5,13 +5,13 @@
             0.0,
             0.0
         ],
-        "int32_t :Num": 150,
+        "int32_t :Num": 100,
         "int32_t :SameBulletNum": 0,
         "int32_t :Type": 1
     },
     "Group :Interval": {
         "float :Burst": 0.0,
-        "float :Normal": 0.25
+        "float :Normal": 0.23000000417232513
     },
     "float :AttackSkillGain": 1.0,
     "float :CoolTime": 0.0,
