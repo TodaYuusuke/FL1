@@ -36,7 +36,7 @@ void WeaponController::Init() {
 	}
 
 	// 管理クラスの調整項目
-	json_.Init(kJsonDirectoryPath + "HasWeapnUI.json")
+	json_.Init(kJsonDirectoryPath + "HasWeaponUI.json")
 		.BeginGroup("LeftArm")
 		.AddValue<LWP::Math::Vector3>("Scale"     , &sampleWeaponSurface_[WeaponSide::kLeft].worldTF.scale)
 		.AddValue<LWP::Math::Quaternion>("Rotate" , &sampleWeaponSurface_[WeaponSide::kLeft].worldTF.rotation)
@@ -57,6 +57,12 @@ void WeaponController::Init() {
 		.AddValue<LWP::Math::Quaternion>("Rotate", &sampleWeaponSurface_[WeaponSide::kRightShoulder].worldTF.rotation)
 		.AddValue<LWP::Math::Vector3>("Translate", &sampleWeaponSurface_[WeaponSide::kRightShoulder].worldTF.translation)
 		.EndGroup()
+		.BeginGroup("Cockpit")
+		.AddValue<LWP::Math::Vector3>("Scale", &cockpit_.worldTF.scale)
+		.AddValue<LWP::Math::Quaternion>("Rotate", &cockpit_.worldTF.rotation)
+		.AddValue<LWP::Math::Vector3>("Translate", &cockpit_.worldTF.translation)
+		.EndGroup()
+
 		.CheckJsonFile();
 
 
@@ -68,6 +74,9 @@ void WeaponController::Init() {
 		}
 		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
 	}
+
+	//コックピット
+	cockpit_.LoadShortPath("Cockpit/Cockpit.gltf");
 }
 
 void WeaponController::Update() {
@@ -85,7 +94,7 @@ void WeaponController::Update() {
 	//UI設定
 	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount; side++) {
 		for (int i = 0; i < (int)WeaponType::kCount; i++) {
-			weaponSurfaces_[(WeaponSide)side][i].worldTF.Parent(debugOwner_->GetWorldTF());
+			weaponSurfaces_[(WeaponSide)side][i].worldTF.Parent(&cockpit_.worldTF);
 			//weaponSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
 			weaponSurfaces_[(WeaponSide)side][i].isActive = false;
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.translation = sampleWeaponSurface_[(WeaponSide)side].GetCenterPosition();
@@ -103,6 +112,7 @@ void WeaponController::Update() {
 			//weaponSurfaces_[(WeaponSide)side][type].worldTF.translation;
 		}
 	}
+	cockpit_.worldTF.Parent(debugOwner_->GetWorldTF());
 }
 
 void WeaponController::DebugGui() {

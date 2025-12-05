@@ -150,7 +150,7 @@ private://UI表示
 	const std::string kJsonDirectoryPath = "WeaponUI/";
 	std::map<WeaponSide, std::array<LWP::Primitive::NormalSurface, (int)WeaponType::kCount>> weaponSurfaces_;
 	std::map<WeaponSide, LWP::Primitive::NormalSurface> sampleWeaponSurface_;
-
+	LWP::Resource::RigidModel cockpit_;
 	LWP::Utility::JsonIO json_;
 };
 

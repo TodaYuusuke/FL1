@@ -154,7 +154,7 @@ void WeaponManager::DebugGui() {
 
 void WeaponManager::CheckPlayerToWeaponDistance() {
 	// 回収キーを入力していなければ終了
-	if (!VirtualController::GetInstance()->GetPress(BindActionType::kCollect)) { return; }
+	//if (!VirtualController::GetInstance()->GetPress(BindActionType::kCollect)) { return; }
 	// 武器が存在してないなら終了
 	if (weapons_.empty()) { return; }
 
@@ -214,7 +214,7 @@ void WeaponManager::CheckPlayerToWeaponDistance() {
 	// 拾える武器表示
 	pickUpWeaponSprite_[WeaponConfig::GetWeaponType(que.top()->GetName())].isActive = true;
 	pickUpUISprite_[(int)controllerType_].isActive = true;
-
+	if (!VirtualController::GetInstance()->GetPress(BindActionType::kCollect)) { return; }//お試し
 	// 武器を拾う
 	PickUpWeapon(que.top(), pWorld_->FindActor("Player"));
 }

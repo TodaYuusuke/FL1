@@ -1,6 +1,7 @@
 #pragma once
 #include "IWorld.h"
 #include "../../Componets/BehaviourTree/Actor/ActorManager.h"
+#include <Adapter.h>
 
 /// <summary>
 /// ワールドクラス
@@ -9,7 +10,7 @@
 class World : public IWorld {
 public:
 	//コンストラクタ
-	World() = default;
+	World();
 	//デストラクタ
 	~World();
 	//更新
@@ -45,4 +46,7 @@ public:
 private:
 	//アクターマネージャー
 	ActorManager actorManager;
+
+	//天球
+	LWP::Resource::RigidModel skydome_;
 };

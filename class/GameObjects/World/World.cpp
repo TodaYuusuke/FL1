@@ -9,6 +9,14 @@ World::~World() {
 	Clear();
 }
 
+
+World::World() {
+	skydome_.LoadShortPath("level/Skydome/skydome.gltf");
+	//skydome_.materials["DefaultMaterial"].enableLighting = false;
+	skydome_.SetAllMaterialLighting(false);
+	skydome_.worldTF.scale = {1000.0f,1000.0f,1000.0f};
+}
+
 //更新
 void World::Update() {
 	//アクターの更新
@@ -23,6 +31,7 @@ void World::DebugGui() {
 		actorManager.DrawGui();
 		ImGui::EndTabItem();
 	}
+	skydome_.DebugGUI();
 }
 
 //消去
