@@ -17,7 +17,7 @@ public:
 
 private: //*** これより先に必要な処理や変数を記述 ***//
 
+	// テスト用モデル
 	LWP::Resource::RigidModel testModel_;
-	LWP::Primitive::NormalSprite sprite_;
 
 };
