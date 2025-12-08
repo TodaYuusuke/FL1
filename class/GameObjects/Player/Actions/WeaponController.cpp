@@ -84,7 +84,7 @@ void WeaponController::Init() {
 		bulletNums_[(WeaponSide)side].reset(new NumPlane);
 		bulletNums_[(WeaponSide)side]->Initialize(kBulletNumDigit_);
 		bulletNums_[(WeaponSide)side]->SetParent(&sampleWeaponSurface_[(WeaponSide)side].worldTF);
-
+		sampleBulletSurface_.isActive = false;
 	}
 
 	//コックピット
