@@ -1,6 +1,7 @@
 #pragma once
 #include "../IAction.h"
 #include "../../../../../Componets/Math.h"
+#include "../../../../../Componets/BehaviourTree/Actor/BlackBoard.h"
 
 class Move : public IAction {
 private:
@@ -13,7 +14,7 @@ private:
 
 public:
 	// コンストラクタ
-	Move();
+	Move(BlackBoard* blackBoard);
 	// デストラクタ
 	~Move() override = default;
 
@@ -64,6 +65,9 @@ public:
 #pragma region Setter
 
 #pragma endregion
+
+private:
+	BlackBoard* pBB_;
 
 private:// 調整項目
 	// 車輪間の距離

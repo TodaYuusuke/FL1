@@ -42,6 +42,28 @@ namespace FLMath {
 		return result;
 	}
 
+	Quaternion AngularVelocityToQuaternion(const Vector3& omega, float dt) {
+		float angle = omega.Length() * dt;
+
+		// もしほぼ回転なしなら単位クォータニオンを返す
+		if (angle < 1e-6f) {
+			return Quaternion{ 0,0,0,1 };
+		}
+
+		Vector3 axis = omega.Normalize();
+
+		float half = angle * 0.5f;
+		float s = sinf(half);
+
+		Quaternion dq;
+		dq.w = cosf(half);
+		dq.x = axis.x * s;
+		dq.y = axis.y * s;
+		dq.z = axis.z * s;
+
+		return dq;
+	}
+
 	float LerpShortAngle(float a, float b, float t) {
 		// 角度差分を求める
 		float diff = b - a;

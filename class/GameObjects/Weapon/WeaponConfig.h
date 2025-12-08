@@ -117,6 +117,33 @@ namespace WeaponConfig {
 				"Weapon/pilebunker_UI.png"		// 近接
 			};
 		}
+		// 落ちてる武器の光柱
+		// 順序はWeaponType準拠
+		namespace LightPillar {
+			namespace Color {
+				namespace Rarity {
+					inline std::array<unsigned int, (int)WeaponType::kCount> color {
+						// マシンガン
+						// ショットガン
+						// ライフル
+						// ランチャー
+						// ミサイル
+						// 近接
+					};
+				}
+				// (中間プレイ会専用)
+				namespace Weapon {
+					inline std::array<unsigned int, (int)WeaponType::kCount> color = {
+						LWP::Utility::WHITE,		// マシンガン
+						LWP::Utility::GREEN,		// ショットガン
+						LWP::Utility::BLUE,			// ライフル
+						LWP::Utility::CYAN,			// ランチャー
+						LWP::Utility::MAGENTA,		// ミサイル
+						LWP::Utility::RED			// 近接
+					};
+				}
+			}
+		}
 	}
 
 	/// <summary>

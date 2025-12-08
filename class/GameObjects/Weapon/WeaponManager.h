@@ -203,6 +203,8 @@ private:
 	// 武器回収角度
 	float pickUpWeaponAngle = 0.2f;
 
+	LWP::Math::Vector3 maxPillarScale = { 1.5f,50.0f,1.0f };
+
 private:// 外部から受け取る変数
 	IWorld* pWorld_;
 	Player* player_;

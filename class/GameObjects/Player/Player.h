@@ -32,6 +32,8 @@ public:
 	void DrawGui() override;
 
 private:// プライベートな関数
+	void AdjustRotate();
+
 	/// <summary>
 	/// 左手の武器を設定する
 	/// </summary>
@@ -127,4 +129,10 @@ private:
 	std::unique_ptr<MoveController> moveController_;
 	// 武器の処理
 	std::unique_ptr<WeaponController> weaponController_;
+
+	LWP::Math::Quaternion moveRot_;
+	LWP::Math::Quaternion preMoveRot_;
+	LWP::Math::Quaternion lockOnOmega_;
+	LWP::Math::Quaternion preLockOnOmega_;
+	bool isTriggerLockOn_ = false;
 };

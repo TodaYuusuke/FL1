@@ -4,6 +4,7 @@
 #include <algorithm>
 
 using namespace LWP;
+using namespace LWP::Utility;
 using namespace LWP::Math;
 using namespace LWP::Object;
 
@@ -41,7 +42,7 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 	leadingSystem_ = std::make_unique<LeadingSystem>(camera->GetCamera(), blackBoard_);
 
 	// 移動系統の管理
-	moveController_ = std::make_unique<MoveController>(this);
+	moveController_ = std::make_unique<MoveController>(blackBoard_);
 	// 武器系統の管理
 	weaponController_ = std::make_unique<WeaponController>(leadingSystem_.get(), this);
 	weaponController_->SetCenterDist(centerPos_);
@@ -112,9 +113,9 @@ void Player::Init() {
 }
 
 void Player::Update() {
-	if (hp_->GetIsDead()) { 
+	if (hp_->GetIsDead()) {
 		isAlive_ = false;
-		return; 
+		return;
 	}
 	else {
 		isAlive_ = true;
@@ -136,7 +137,8 @@ void Player::Update() {
 	weaponVel_.z = std::clamp<float>(weaponVel_.z, -5.0f, 5.0f);
 
 	model_.worldTF.translation += moveController_->GetVel() + weaponVel_;
-	model_.worldTF.rotation = moveController_->GetRot();
+
+	AdjustRotate();
 
 	weaponVel_ = { 0.0f,0.0f,0.0f };
 }
@@ -228,6 +230,65 @@ void Player::DrawGui() {
 		}
 		ImGui::TreePop();
 	}
+
+	static bool isDebugMode = false;
+	if (ImGui::Button("DebugMode:ON")) {
+		isDebugMode = true;
+		bodyCollision_.isActive = false;
+		isAlive_ = true;
+		hp_->SetHealth(999999);
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("DebugMode:OFF")) {
+		isDebugMode = false;
+		bodyCollision_.isActive = true;
+		hp_->SetHealth(maxHp_);
+	}
+	if (isDebugMode) ImGui::Text("DebugMode:ON");
+	else ImGui::Text("DebugMode:OFF");
+}
+
+void Player::AdjustRotate() {
+	Quaternion result{ 0,0,0,1 };
+	Quaternion qCurr = model_.worldTF.rotation;
+	Quaternion qNext{ 0,0,0,1 };
+	float t = 0.3f;
+	moveRot_ *= moveController_->GetRot();
+
+	if (leadingSystem_->GetLeadingTarget() && preMoveRot_ == moveRot_) {
+		if (!isTriggerLockOn_) moveRot_ = (Quaternion{ 0,0,0,1 });
+
+		t = 1.0f;
+		Vector3 playerDir = (Vector3{ 0,0,1 } *Matrix4x4::CreateRotateXYZMatrix(model_.worldTF.rotation)).Normalize();
+		Vector3 p2eDir = (leadingSystem_->GetLeadingTarget()->GetWorldTF()->GetWorldPosition() - model_.worldTF.GetWorldPosition()).Normalize();
+		p2eDir.y = 0.0f;
+		float dot = Vector3::Dot(playerDir, p2eDir);
+		dot = std::clamp(dot, -1.0f, 1.0f);
+		float angle = std::acos(dot);     // ラジアン
+
+		Vector3 cross = Vector3::Cross(playerDir, p2eDir);
+		// cross.y > 0 なら左に、< 0 なら右に回る
+		float sign = (cross.y > 0.0f) ? 1.0f : -1.0f;
+		float signedAngle = angle * sign;
+
+		Quaternion q = Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, signedAngle);
+		qNext = (q * qCurr * moveRot_).Normalize();
+		lockOnOmega_ = qNext;
+
+		isTriggerLockOn_ = true;
+	}
+	else {
+		if (isTriggerLockOn_) moveRot_ = (Quaternion{ 0,0,0,1 });
+		qNext = (lockOnOmega_ * moveRot_).Normalize();
+
+		isTriggerLockOn_ = false;
+	}
+
+	result = Interp::SlerpQuaternion(qCurr, qNext, t);
+	model_.worldTF.rotation = result;
+
+	preMoveRot_ = moveRot_;
+	preLockOnOmega_ = lockOnOmega_;
 }
 
 void Player::SelectWeaponType(int& selectedWeaponType, std::string label) {

@@ -11,10 +11,10 @@ using namespace ActionConfig::Mask;
 using namespace LWP::Input;
 using namespace LWP::Math;
 
-MoveController::MoveController(Actor* actor) {
-	pActor_ = actor;
+MoveController::MoveController(BlackBoard* blackBoard) {
+	pBB_ = blackBoard;
 
-	actions_[ActionType::kMain] = std::make_unique<Move>();
+	actions_[ActionType::kMain] = std::make_unique<Move>(pBB_);
 	actions_[ActionType::kSub] = std::make_unique<NoneAction>();
 	enableChangeState_ = Movement::SubAction::jump | Movement::SubAction::sliding | Movement::SubAction::evasion;
 }
@@ -44,7 +44,7 @@ void MoveController::Update() {
 	}
 	// 回避時
 	else if(actions_[ActionType::kSub]->GetStateName() == "Evasion") {
-		vel = actions_[ActionType::kSub]->GetVel() - pActor_->GetWorldTF()->GetWorldPosition();
+		vel = actions_[ActionType::kSub]->GetVel() - pBB_->GetValue<Actor*>("Player")->GetWorldTF()->GetWorldPosition();
 	}
 	else {
 		vel = actions_[ActionType::kMain]->GetVel() + actions_[ActionType::kSub]->GetVel();
@@ -65,7 +65,7 @@ void MoveController::InputHandle() {
 	if (VirtualController::GetInstance()->GetTrigger(BindActionType::kBoost)) {
 		if (CheckEnableChangeState(Movement::SubAction::evasion, actions_[ActionType::kSub]->GetEnableChangeState())) {
 			if (CheckInabilityParallelState(Movement::SubAction::evasion, actions_[ActionType::kMain]->GetInabilityParallelState())) {
-				ChangeState(actions_[ActionType::kSub], std::make_unique<Evasion>(actions_[ActionType::kMain]->GetVel(), pActor_->GetWorldTF()->GetWorldPosition()));
+				ChangeState(actions_[ActionType::kSub], std::make_unique<Evasion>(actions_[ActionType::kMain]->GetVel(), pBB_->GetValue<Actor*>("Player")->GetWorldTF()->GetWorldPosition()));
 			}
 		}
 	}

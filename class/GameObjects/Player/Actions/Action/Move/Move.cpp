@@ -9,7 +9,8 @@ using namespace FLMath;
 using namespace LWP::Math;
 using namespace LWP::Input;
 
-Move::Move() {
+Move::Move(BlackBoard* blackBoard) {
+	pBB_ = blackBoard;
 	stopController_ = HitStopController::GetInstance();
 	stateName_ = "Move";
 }
@@ -21,15 +22,6 @@ void Move::Init() {
 void Move::Update() {
 	// 移動方式選択
 	CheckMoveType();
-
-	////マイコン入力が有効
-	//if (ControllerReceiver::GetInstance()->IsOpen()) {
-	//	lStick = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickLeft.lever;
-	//	rStick = ControllerReceiver::GetInstance()->GetData().stick.multiSticks.stickRight.lever;
-	//}
-
-	//// 戦車挙動
-	//DifferentialUpdate(lStick, rStick, stopController_->GetDeltaTime());
 
 	// タイムスケール適用
 	vel_ *= stopController_->GetDeltaTime();
@@ -125,15 +117,19 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 		0.0f,
 	};
 	// 角度代入
-	rot_ = LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{ 1,0,0 }, rot.x);
-	rot_ = LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, rot.y) * rot_;
+	Quaternion q = LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, -(target_vR - target_vL) / treadWidth * maxOmega);
+	//rot_ = pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation;
+	//rot_ = LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{ 1,0,0 }, rot.x);
+	//rot_ = LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{ 1,0,0 }, rot.x)*LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, rot.y);
+	//rot_ =  * rot_;
+	rot_ = q;
 
 	// 速度を算出
-	vel_ = Vector3{ 0,0,1 } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(rot) * v;
+	vel_ = Vector3{ 0,0,1 } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation/* * rot_*/) * v;
 	// 横移動をしているなら算出
 	if (leftStick.x * rightStick.x > 0.0f) {
 		Vector3 sideMove = { leftStick.x * maxSpeed, 0.0f, 0.0f };
-		vel_ += sideMove * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(rot);
+		vel_ += sideMove * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation/* * rot_*/);
 	}
 }
 

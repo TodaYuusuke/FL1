@@ -1,6 +1,7 @@
 #pragma once
 #include "IActions.h"
 #include "Action/IAction.h"
+#include "../../../Componets/BehaviourTree/Actor/BlackBoard.h"
 #include <memory>
 #include <vector>
 
@@ -11,7 +12,7 @@ class Actor;
 class MoveController : public IActions {
 public:
 	// コンストラクタ
-	MoveController(Actor* actor);
+	MoveController(BlackBoard* blackBoard);
 	// デストラクタ
 	~MoveController() override;
 
@@ -45,7 +46,7 @@ public:// アクセサ
 #pragma endregion
 
 private:
-	Actor* pActor_;
+	BlackBoard* pBB_;
 
 private:
 	// 行動処理をまとめたリスト

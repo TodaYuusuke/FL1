@@ -22,6 +22,17 @@ IGun::IGun(WeaponData data) {
 	// マガジン作成
 	magazine_ = std::make_unique<Magazine>(data_.bulletNum);
 
+	// 光柱
+	lightPillar_.Init();
+	lightPillar_.isActive = true;
+	lightPillar_.LoadTexture("Weapon/pillar.png");
+	unsigned int color = WeaponConfig::TextureName::LightPillar::Color::Weapon::color[WeaponConfig::GetWeaponType(name_)];
+	lightPillar_.material.color = LWP::Utility::Color(color);
+	lightPillar_.material.color.A = 100;
+	lightPillar_.anchorPoint = { 0.5f, 0.5f };
+	lightPillar_.worldTF.scale = { 1.0f, 50.0f, 1.0f };
+	lightPillar_.worldTF.translation = body_.worldTF.translation;
+
 	Init();
 }
 
@@ -72,6 +83,10 @@ void IGun::Update() {
 
 	// 攻撃指示
 	AttackCommond();
+
+	if (actor_) lightPillar_.isActive = false;
+	else lightPillar_.isActive = true;
+	lightPillar_.worldTF.translation = body_.worldTF.GetWorldPosition();
 
 	attackFrame_ -= stopController_->GetDeltaTime();
 	coolFrame_ -= stopController_->GetDeltaTime();
