@@ -14,10 +14,6 @@ Emitter::Emitter(LWP::Resource::Texture texID, int surfaceType, const LWP::Math:
 	transform_.translation = pos;
 }
 
-Emitter::Emitter(LWP::Resource::Texture texID, int surfaceType, const LWP::Math::Vector3& pos)
-{
-}
-
 Emitter::~Emitter()
 {
 	// 全ての粒子要素の解放
