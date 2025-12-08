@@ -96,9 +96,9 @@ namespace EnemyConfig {
 		inline std::array<std::string, (int)EnemyType::kCount> modelName = {
 			"resources/model/Enemy/Melee/Player.gltf",			// 近距離
 			"resources/model/Enemy/Gunner/Player.gltf",			// 遠距離
-			"resources/model/Enemy/Drone/Player.gltf",			// ドローン
-			"resources/model/Enemy/Cargo/Player.gltf",			// 輸送機
-			"resources/model/Enemy/Cargo/Player.gltf"			// テスト敵
+			"resources/model/Enemy/Drone/Drone.gltf",			// ドローン
+			"resources/model/Enemy/Cargo/HoverTank.gltf",		// 輸送機
+			"resources/model/Enemy/Melee/Player.gltf"			// テスト敵
 		};
 	}
 

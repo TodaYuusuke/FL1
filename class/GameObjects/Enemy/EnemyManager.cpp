@@ -191,6 +191,7 @@ Actor* EnemyManager::CreateMeleeEnemy() {
 	data.attackMultiply = sampleLevels_[selectLevel_].attackMultiply;
 	data.speedMultiply = sampleLevels_[selectLevel_].speedMultiply;
 	data.level = sampleLevels_[selectLevel_].value;
+	data.type = (int)EnemyType::kMelee;
 
 	// 近接敵
 	MeleeAttacker* actor = new MeleeAttacker(pWorld_, createID_, data);
@@ -212,6 +213,7 @@ Actor* EnemyManager::CreateGunnerEnemy() {
 	data.attackMultiply = sampleLevels_[selectLevel_].attackMultiply;
 	data.speedMultiply = sampleLevels_[selectLevel_].speedMultiply;
 	data.level = sampleLevels_[selectLevel_].value;
+	data.type = (int)EnemyType::kGunner;
 
 	// 遠距離敵
 	Gunner* actor = new Gunner(pWorld_, createID_, data);
@@ -233,6 +235,7 @@ Actor* EnemyManager::CreateDroneEnemy() {
 	data.attackMultiply = sampleLevels_[selectLevel_].attackMultiply;
 	data.speedMultiply = sampleLevels_[selectLevel_].speedMultiply;
 	data.level = sampleLevels_[selectLevel_].value;
+	data.type = (int)EnemyType::kDrone;
 
 	// ドローン敵
 	Drone* actor = new Drone(pWorld_, createID_, data);
@@ -255,6 +258,7 @@ Actor* EnemyManager::CreateCargoEnemy() {
 	data.attackMultiply = sampleLevels_[selectLevel_].attackMultiply;
 	data.speedMultiply = sampleLevels_[selectLevel_].speedMultiply;
 	data.level = sampleLevels_[selectLevel_].value;
+	data.type = (int)EnemyType::kCargo;
 
 	// 遠距離敵
 	Cargo* actor = new Cargo(pWorld_, createID_, data);
@@ -644,26 +648,32 @@ void EnemyManager::SelectLevelGui(LWP::Utility::JsonIO& json, LevelParameter& da
 }
 
 void EnemyManager::SetWeaponPos(Actor* actor, IWeapon* weapon, int weaponSide) {
+	weapon->SetRotation(Quaternion{ 0,0,0,1 });
 	Vector3 weaponPos{};
+	// 単一武器の場合
+	if (actor->GetEnemyData().type == (int)EnemyType::kDrone) {
+		weaponPos = actor->GetModel().GetJointWorldPosition("WeaponAnchor");
+		weapon->SetTranslation(weaponPos);
+		return;
+	}
 	// 左手
-	if ((int)WeaponSide::kLeft == weaponSide) {
+	else if ((int)WeaponSide::kLeft == weaponSide) {
 		weaponPos = actor->GetModel().GetJointWorldPosition("WeaponAnchor.L");
 		weapon->SetTranslation(weaponPos);
 	}
 	// 右手
-	if ((int)WeaponSide::kRight == weaponSide) {
+	else if ((int)WeaponSide::kRight == weaponSide) {
 		weaponPos = actor->GetModel().GetJointWorldPosition("WeaponAnchor.R");
 		weapon->SetTranslation(weaponPos);
 	}
 	// 左肩
-	if ((int)WeaponSide::kLeftShoulder == weaponSide) {
+	else if ((int)WeaponSide::kLeftShoulder == weaponSide) {
 		weaponPos = actor->GetModel().GetJointWorldPosition("ShoulderWeaponAnchor.L");
 		weapon->SetTranslation(weaponPos);
 	}
 	// 右肩
-	if ((int)WeaponSide::kRightShoulder == weaponSide) {
+	else if ((int)WeaponSide::kRightShoulder == weaponSide) {
 		weaponPos = actor->GetModel().GetJointWorldPosition("ShoulderWeaponAnchor.R");
 		weapon->SetTranslation(weaponPos);
 	}
-	weapon->SetRotation(Quaternion{ 0,0,0,1 });
 }

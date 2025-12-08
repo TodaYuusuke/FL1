@@ -258,8 +258,10 @@ void Player::AdjustRotate() {
 	if (leadingSystem_->GetLeadingTarget() && preMoveRot_ == moveRot_) {
 		if (!isTriggerLockOn_) moveRot_ = (Quaternion{ 0,0,0,1 });
 
+		Vector3 pos = leadingSystem_->GetLeadingTarget()->GetModel().GetJointWorldPosition("LockOnAnchor");
 		t = 1.0f;
 		Vector3 playerDir = (Vector3{ 0,0,1 } *Matrix4x4::CreateRotateXYZMatrix(model_.worldTF.rotation)).Normalize();
+		playerDir.y = 0.0f;
 		Vector3 p2eDir = (leadingSystem_->GetLeadingTarget()->GetWorldTF()->GetWorldPosition() - model_.worldTF.GetWorldPosition()).Normalize();
 		p2eDir.y = 0.0f;
 		float dot = Vector3::Dot(playerDir, p2eDir);

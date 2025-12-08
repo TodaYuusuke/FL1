@@ -217,7 +217,7 @@ private:// 外部から受け取る変数
 
 private:// 調整項目
 	// ドローンの浮遊標高
-	float dronefloatHeight_ = 4.0f;
+	float dronefloatHeight_ = 10.0f;
 
 	// 一度に出現する敵の最小数
 	int minSameSpawnNum_ = 4;

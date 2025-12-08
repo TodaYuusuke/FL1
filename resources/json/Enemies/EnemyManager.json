@@ -1,7 +1,7 @@
 {
     "Group :Enemy": {
         "Group :Drone": {
-            "float :FloatHeight": 4.0
+            "float :FloatHeight": 9.0
         }
     },
     "Group :SpawnData": {
