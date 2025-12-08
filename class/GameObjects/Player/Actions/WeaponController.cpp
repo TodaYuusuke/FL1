@@ -115,13 +115,17 @@ void WeaponController::Update() {
 		}
 	}
 	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount; side++) {
+		//武器を所有してるとき
 		if (weapons_[(WeaponSide)side]->GetIsFullWeapon()) {
 			auto type = WeaponConfig::GetWeaponType(weapons_[(WeaponSide)side]->GetFrontWeapon()->GetName());
 			weaponSurfaces_[(WeaponSide)side][type].isActive = true;
+			bulletNums_[(WeaponSide)side]->SetIsActive(true);
+			bulletNums_[(WeaponSide)side]->SetNum(weapons_[(WeaponSide)side]->GetFrontWeapon()->GetBulletNum());
 		}
 		else {
 			sampleWeaponSurface_[(WeaponSide)side].worldTF.Parent(&cockpit_.worldTF);
 			sampleWeaponSurface_[(WeaponSide)side].isActive = true;
+			bulletNums_[(WeaponSide)side]->SetIsActive(false);
 		}
 	}
 	cockpit_.worldTF.Parent(debugOwner_->GetWorldTF());

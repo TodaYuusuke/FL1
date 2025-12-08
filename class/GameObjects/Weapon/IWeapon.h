@@ -112,6 +112,13 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	bool GetIsEmpty() { return magazine_->GetEmpty(); }
+
+	/// <summary>
+	/// 弾数を取得
+	/// </summary>
+	/// <returns></returns>
+	int GetBulletNum() { return magazine_->GetBulletNum(); }
+
 #pragma endregion
 
 #pragma region Setter
