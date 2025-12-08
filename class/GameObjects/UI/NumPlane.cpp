@@ -17,6 +17,7 @@ void NumPlane::Initialize(size_t num) {
 		//surfaces_[i].worldTF.translation = { center_.x,center_.y,0.0f };
 		surfaces_[i].SetSplitSize(kTextureSize_);
 		surfaces_[i].isActive = true;
+		surfaces_[i].material.color = {166,238,175,255};
 	}
 	SetNumbers();
 	width_.x = kTextureSize_.x;
