@@ -62,6 +62,10 @@ void WeaponController::Init() {
 		.AddValue<LWP::Math::Quaternion>("Rotate", &cockpit_.worldTF.rotation)
 		.AddValue<LWP::Math::Vector3>("Translate", &cockpit_.worldTF.translation)
 		.EndGroup()
+		.BeginGroup("NumBullet")
+		.AddValue<LWP::Math::Vector3>("Scale", &sampleBulletSurface_.worldTF.scale)
+		.AddValue<LWP::Math::Vector3>("Translate", &sampleBulletSurface_.worldTF.translation)
+		.EndGroup()
 
 		.CheckJsonFile();
 
@@ -74,6 +78,12 @@ void WeaponController::Init() {
 		}
 		sampleWeaponSurface_[(WeaponSide)side].LoadTexture("Weapon/none_UI.png");
 		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
+
+		//弾数表示
+		bulletNums_[(WeaponSide)side].reset(new NumPlane);
+		bulletNums_[(WeaponSide)side]->Initialize(kBulletNumDigit_);
+		bulletNums_[(WeaponSide)side]->SetParent(&sampleWeaponSurface_[(WeaponSide)side].worldTF);
+
 	}
 
 	//コックピット
@@ -115,6 +125,15 @@ void WeaponController::Update() {
 		}
 	}
 	cockpit_.worldTF.Parent(debugOwner_->GetWorldTF());
+
+	//弾数
+	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount; side++) {
+		bulletNums_[(WeaponSide)side]->SetCenter(sampleBulletSurface_.worldTF.translation);
+		bulletNums_[(WeaponSide)side]->SetScale(sampleBulletSurface_.worldTF.scale);
+		sampleWeaponSurface_[(WeaponSide)side].worldTF.Parent(&cockpit_.worldTF);
+		bulletNums_[(WeaponSide)side]->SetParent(&(sampleWeaponSurface_[(WeaponSide)side].worldTF));
+		bulletNums_[(WeaponSide)side]->Update();
+	}
 }
 
 void WeaponController::DebugGui() {

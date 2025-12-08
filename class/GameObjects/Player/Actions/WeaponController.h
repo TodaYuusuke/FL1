@@ -5,6 +5,7 @@
 #include "../../Weapon/IWeapon.h"
 #include "../../Weapon/WeaponSlot.h"
 #include "../../../Componets/Input/VirtualController.h"
+#include "../../UI/NumPlane.h"
 #include <memory>
 #include <vector>
 
@@ -148,8 +149,16 @@ private:
 private://UI表示
 	// jsonファイルのディレクトリパス
 	const std::string kJsonDirectoryPath = "WeaponUI/";
+	//所有武器用の平面
 	std::map<WeaponSide, std::array<LWP::Primitive::NormalSurface, (int)WeaponType::kCount>> weaponSurfaces_;
 	std::map<WeaponSide, LWP::Primitive::NormalSurface> sampleWeaponSurface_;
+
+	//弾数表示
+	std::map < WeaponSide, std::unique_ptr<NumPlane>> bulletNums_;
+	LWP::Primitive::NormalSurface sampleBulletSurface_;
+	static const size_t kBulletNumDigit_ = 3;
+
+	//コックピット表示
 	LWP::Resource::RigidModel cockpit_;
 	LWP::Utility::JsonIO json_;
 };

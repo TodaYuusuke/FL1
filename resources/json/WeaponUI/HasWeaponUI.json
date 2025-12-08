@@ -53,6 +53,18 @@
             1.4249999523162842
         ]
     },
+    "Group :NumBullet": {
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "Vector3 :Translate": [
+            0.029999999329447746,
+            -0.4099999964237213,
+            -0.03999999910593033
+        ]
+    },
     "Group :RightArm": {
         "Quaternion :Rotate": [
             0.0,
