@@ -27,7 +27,7 @@ IMelee::IMelee(WeaponData data) {
 	// 光柱
 	lightPillar_.Init();
 	lightPillar_.isActive = true;
-	lightPillar_.LoadTexture("Weapon/pillar.png");
+	lightPillar_.LoadTexture("Weapon/pillar_triangle.png");
 	unsigned int color = WeaponConfig::TextureName::LightPillar::Color::Weapon::color[WeaponConfig::GetWeaponType(name_)];
 	lightPillar_.material.color = LWP::Utility::Color(color);
 	lightPillar_.material.color.A = 100;

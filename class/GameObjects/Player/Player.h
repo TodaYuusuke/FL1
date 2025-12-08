@@ -118,6 +118,7 @@ private:// デバッグ用変数
 
 private:
 	float maxHp_ = 100.0f;
+	float maxSpeed_ = 1.0f;
 
 private:
 	LWP::Utility::JsonIO json_;

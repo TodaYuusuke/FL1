@@ -44,6 +44,11 @@ public:// アクセサ
 	/// <returns></returns>
 	float GetHealth() { return hp_; };
 	/// <summary>
+	/// 最大HPを取得
+	/// </summary>
+	/// <returns></returns>
+	float GetMaxHealth() { return maxHp_; }
+	/// <summary>
 	/// 死亡しているかを取得
 	/// </summary>
 	/// <returns></returns>

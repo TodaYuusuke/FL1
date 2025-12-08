@@ -38,17 +38,6 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 	bodyAABB_.min = { -3.0f, -0.5f, -1.0f };
 	bodyAABB_.max = { 3.0f, 9.5f, 1.0f };
 
-	// 偏差射撃機能
-	leadingSystem_ = std::make_unique<LeadingSystem>(camera->GetCamera(), blackBoard_);
-
-	// 移動系統の管理
-	moveController_ = std::make_unique<MoveController>(blackBoard_);
-	// 武器系統の管理
-	weaponController_ = std::make_unique<WeaponController>(leadingSystem_.get(), this);
-	weaponController_->SetCenterDist(centerPos_);
-	// デバッグ用の武器の持ち主を設定
-	weaponController_->SetDebugWeaponOwner(this);
-
 	// jsonファイルの読み込みor作成
 	json_.Init("Player.json")
 		// 武器
@@ -80,6 +69,17 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 		// HP
 		.AddValue<float>("Value", &maxHp_)
 		.CheckJsonFile();
+
+	// 偏差射撃機能
+	leadingSystem_ = std::make_unique<LeadingSystem>(camera->GetCamera(), blackBoard_);
+
+	// 移動系統の管理
+	moveController_ = std::make_unique<MoveController>(blackBoard_);
+	// 武器系統の管理
+	weaponController_ = std::make_unique<WeaponController>(leadingSystem_.get(), this);
+	weaponController_->SetCenterDist(centerPos_);
+	// デバッグ用の武器の持ち主を設定
+	weaponController_->SetDebugWeaponOwner(this);
 
 	// HP
 	hp_ = std::make_unique<Health>(maxHp_);
