@@ -48,7 +48,6 @@ namespace LWP::Effect {
 			// 結果を返還
 			return result;
 		}
-
 	};
 
 	/// <summary>
@@ -102,4 +101,5 @@ namespace LWP::Effect {
 			return result;
 		}
 	};
+
 }

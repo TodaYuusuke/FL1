@@ -7,6 +7,8 @@ Emitter::Emitter(LWP::Resource::Texture texID, int surfaceType, const LWP::Math:
 {
 	// テクスチャIDの取得
 	tex_ = texID;
+	// 平面タイプの設定
+	particleType_ = Surface;
 	// 平面タイプの取得
 	surfaceType_ = surfaceType;
 
@@ -62,20 +64,20 @@ void Emitter::Update(const float deltaTime, const float playSpeed)
 		if (isWaitDeleteAllParticles_) {
 			// 生成するフラグが立っている場合これ以上生成しないように
 			if (isEmit_) { isEmit_ = false; }
-		}
 
-		// 配列内のパーティクルが全て消えたら終了
-		if (particles_.size() <= 0) {
+			// 配列内のパーティクルが全て消えたら終了
+			if (particles_.size() <= 0) {
+				isEnd_ = true;
+				// これ以降の処理を無視
+				return;
+			}
+		}
+		else {
+			// 強制終了
 			isEnd_ = true;
 			// これ以降の処理を無視
 			return;
 		}
-	}
-	else {
-		// 強制終了
-		isEnd_ = true;
-		// これ以降の処理を無視
-		return;
 	}
 
 	// 粒子生成のフラグが立っている場合
@@ -102,6 +104,14 @@ void Emitter::Update(const float deltaTime, const float playSpeed)
 	// 各種タイマーの更新
 	aliveTimer_.Update();
 	emitTimer_.Update();
+}
+
+Emitter& Emitter::SetIsWaitDeleteAllParticles(const bool isWait)
+{
+	// フラグの状態変更
+	isWaitDeleteAllParticles_ = isWait;
+
+	return *this;
 }
 
 Emitter& Emitter::SetEmitTimeAmp(const float minTime, const float maxTime)
@@ -184,7 +194,7 @@ void Emitter::Emit()
 		switch (particleType_)
 		{
 		case Emitter::Surface: // 平面
-
+			EmitSurface();
 			break;
 		case Emitter::model3D: // 3Dモデル
 			// Todo : 現状未実装
@@ -236,10 +246,10 @@ void Emitter::EmitSurface()
 
 	// 個別設定
 	if (pVelocityPos_.isUsed) {
-		newParticle->SetVelocity(pVelocityPos_);
+		newParticle->SetVelocity(pVelocityPos_.Convert());
 	}
 	else {
-		newParticle->SetEasing(pEasingPos_);
+		newParticle->SetEasing(pEasingPos_.Convert());
 	}
 
 	// パーティクルを配列に追加

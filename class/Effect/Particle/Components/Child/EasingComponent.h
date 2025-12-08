@@ -79,7 +79,7 @@ inline void EasingComponent<T>::Update(const float deltaTime, const float playSp
 
 	if (!easingTimer_.GetIsFinish()) {
 		// イージングで座標移動を行う
-		*value_ = LWP::Utility::Lerp(start_, end_, easingTimer_.GetProgress());
+		*value_ = LWP::Utility::Lerp(start_, end_, LWP::Utility::Easing::CallFunction(type_, easingTimer_.GetProgress()));
 	}
 	else {
 		// イージングで座標移動を行う

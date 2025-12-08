@@ -220,6 +220,7 @@
     <ClCompile Include="class\Componets\Input\Device\KeyboardDevice.cpp" />
     <ClCompile Include="class\Effect\Emitter\Emitter.cpp" />
     <ClCompile Include="class\Effect\EffectManager.cpp" />
+    <ClCompile Include="class\Effect\EffectEditor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\StateBase.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\WaitState.cpp" />
@@ -344,6 +345,7 @@
     <ClInclude Include="class\Effect\Particle\Components\Child\VelocityComponent.h" />
     <ClInclude Include="class\Effect\Emitter\Emitter.h" />
     <ClInclude Include="class\Effect\EffectManager.h" />
+    <ClInclude Include="class\Effect\EffectEditor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

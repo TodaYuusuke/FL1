@@ -1,6 +1,6 @@
 #pragma once
 #include <Adapter.h>
-#include "Emitter/Emitter.h"
+#include "EffectEditor.h"
 
 /// <summary>
 /// エフェクト管理クラス
@@ -36,6 +36,14 @@ public: // メンバ関数
 	/// </summary>
 	void DebugGUI();
 
+public: // アクセッサ等
+
+	/// <summary>
+	/// (デバッグ用) 新規エミッタの生成
+	/// </summary>
+	/// <param name="newEmitter">新規エミッタ</param>
+	void SendNewEmitter(Emitter* newEmitter);
+
 private: // メンバ変数
 
 	// エミッタリスト
@@ -43,6 +51,9 @@ private: // メンバ変数
 
 	// 粒子全体の再生速度
 	float playSpeed_ = 1.0f;
+
+	// エフェクトエディタ
+	EffectEditor* effectEditor_ = nullptr;
 
 };
 

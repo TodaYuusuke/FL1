@@ -12,8 +12,9 @@ public: // サブクラス
 	/// 粒子種類
 	/// </summary>
 	enum ParticleType {
-		Surface, // 平面
-		model3D, // 3Dモデル
+		Surface,	// 平面
+		model3D,	// 3Dモデル
+		PTypeCount,	 // カウント用
 	};
 
 	/// <summary>
@@ -24,7 +25,8 @@ public: // サブクラス
 		Billboard,				// ビルボード
 		HorizontalBillboard,	// 水平ビルボード
 		VerticalBillboard,		// 垂直ビルボード
-		StretchBillboard		// ストレッチビルボード
+		StretchBillboard,		// ストレッチビルボード
+		STypeCount,				// カウント用
 	};
 
 public: // コンストラクタ等
@@ -74,6 +76,9 @@ public: // アクセッサ等
 	/// </summary>
 	/// <param name="parent">親</param>
 	void SetParent(LWP::Object::TransformQuat* parent) { transform_.Parent(parent); }
+
+	
+	Emitter& SetIsWaitDeleteAllParticles(const bool isWait);
 
 	/// <summary>
 	/// 生成間隔秒数の振れ幅設定

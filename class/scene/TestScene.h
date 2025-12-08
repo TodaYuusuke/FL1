@@ -1,5 +1,6 @@
 #pragma once
 #include "scene/IScene.h"
+#include "../Effect/EffectManager.h"
 
 class TestScene final
 	: public IScene {
@@ -19,5 +20,8 @@ private: //*** これより先に必要な処理や変数を記述 ***//
 
 	// テスト用モデル
 	LWP::Resource::RigidModel testModel_;
+
+	// エフェクトマネージャー
+	std::unique_ptr<EffectManager> effectManager_ = nullptr;
 
 };
