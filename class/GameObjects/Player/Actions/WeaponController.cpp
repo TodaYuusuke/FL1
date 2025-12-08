@@ -65,6 +65,7 @@ void WeaponController::Init() {
 		.BeginGroup("NumBullet")
 		.AddValue<LWP::Math::Vector3>("Scale", &sampleBulletSurface_.worldTF.scale)
 		.AddValue<LWP::Math::Vector3>("Translate", &sampleBulletSurface_.worldTF.translation)
+		.AddValue<int>("BulletNumDigit", &kBulletNumDigit_)
 		.EndGroup()
 
 		.CheckJsonFile();

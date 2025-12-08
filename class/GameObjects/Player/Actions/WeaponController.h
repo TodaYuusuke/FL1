@@ -156,7 +156,7 @@ private://UI表示
 	//弾数表示
 	std::map < WeaponSide, std::unique_ptr<NumPlane>> bulletNums_;
 	LWP::Primitive::NormalSurface sampleBulletSurface_;
-	static const size_t kBulletNumDigit_ = 3;
+	int kBulletNumDigit_ = 3;
 
 	//コックピット表示
 	LWP::Resource::RigidModel cockpit_;
