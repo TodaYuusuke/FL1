@@ -201,6 +201,9 @@ protected:
 	// 所有者
 	Actor* actor_;
 
+	// 光の柱
+	LWP::Primitive::NormalBillboard2D lightPillar_;
+
 	// 名前
 	std::string name_;
 

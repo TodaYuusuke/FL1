@@ -22,7 +22,7 @@ void World::Update() {
 	//アクターの更新
 	actorManager.Update();
 	//アクターの消去
-	actorManager.Remove();
+	//actorManager.Remove();
 }
 
 void World::DebugGui() {

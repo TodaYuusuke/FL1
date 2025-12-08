@@ -79,7 +79,11 @@ public:// アクセサ
 #pragma endregion
 
 #pragma region Setter
-
+	/// <summary>
+	/// 角度を設定
+	/// </summary>
+	/// <param name="rot"></param>
+	void SetRot(const LWP::Math::Quaternion& rot) { rot_ = rot; }
 #pragma endregion
 
 protected:

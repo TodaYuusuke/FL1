@@ -27,8 +27,6 @@ public:
 	/// </summary>
 	void DebugGui();
 
-	void CalFutureTargetPos(float bulletSpeed);
-
 private:
 	/// <summary>
 	/// 偏差射撃の対象を選択
@@ -40,6 +38,9 @@ private:
 	void ClearLeadingTarget();
 
 	float PlusMin(float a, float b);
+
+	void CalFutureTargetPos(float bulletSpeed);
+	void CalFutureTargetPos(const LWP::Math::Vector3& shooterPos, float bulletSpeed);
 
 public:// アクセサ
 	void Start(LWP::Math::Vector3 shooterPos, float bulletSpeed) {
@@ -56,8 +57,10 @@ public:// アクセサ
 	/// <summary>
 	/// 偏差射撃の角度を取得
 	/// </summary>
+	/// <param name="shooterPos"></param>
+	/// <param name="bulletSpeed"></param>
 	/// <returns></returns>
-	LWP::Math::Vector3 GetLeadingShotAngle(LWP::Math::Vector3 shooterPos, float bulletSpeed);
+	LWP::Math::Vector3 GetLeadingShotAngle(const LWP::Math::Vector3& shooterPos, float bulletSpeed);
 #pragma endregion
 
 #pragma region Setter
@@ -78,12 +81,12 @@ private:// 外部から受け取る変数
 
 private:// 調整項目
 	// 偏差射撃の対象になる範囲(スクリーン座標基準)
-	float leadingScreenRange_ = 700.0f;
+	float leadingScreenRange_ = 300.0f;
 	// 偏差射撃の対象になる範囲(ワールド座標基準)
-	float leadingWorldRange_ = 100.0f;
+	//float leadingWorldRange_ = 100.0f;
 
 	// 偏差射撃の性能
-	float leadingAccuracy_ = 1.0f;
+	//float leadingAccuracy_ = 1.0f;
 
 private:
 	// 偏差対象
@@ -99,11 +102,8 @@ private:
 	// 算出した角度
 	LWP::Math::Quaternion leadingShotAngle_;
 
-
-
 	LWP::Math::Vector3 shooterPos_;
 	float bulletSpeed_;
-
 
 	LWP::Primitive::NormalSprite reticle_;
 };

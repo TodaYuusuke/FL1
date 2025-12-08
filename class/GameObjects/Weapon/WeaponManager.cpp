@@ -32,13 +32,13 @@ WeaponManager::WeaponManager() {
 	// 拾える武器画像
 	for (int i = 0; i < pickUpWeaponSprite_.size(); i++) {
 		pickUpWeaponSprite_[i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
-		pickUpWeaponSprite_[i].material.color = {1.0f,1.0f,1.0f,0.5f};
+		pickUpWeaponSprite_[i].material.color = { 1.0f,1.0f,1.0f,0.5f };
 	}
 	samplePickUpWeaponSprite_.isActive = false;
 	samplePickUpWeaponSprite_.anchorPoint = { 0.5f, 0.5f };
 	samplePickUpWeaponSprite_.worldTF.translation = { 400.0f, 200.0f,0.0f };
 	samplePickUpWeaponSprite_.worldTF.scale = { 1.5f, 1.5f,1.0f };
-	
+
 	//ボタン表記
 	for (int i = 0; i < pickUpUISprite_.size(); i++) {
 		pickUpUISprite_[i].LoadTexture(controllerUIName[i]);

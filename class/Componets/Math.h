@@ -16,6 +16,8 @@ namespace FLMath {
 	/// <returns></returns>
 	LWP::Math::Quaternion LookRotationZLock(const LWP::Math::Vector3& dirVec);
 
+	LWP::Math::Quaternion AngularVelocityToQuaternion(const LWP::Math::Vector3& omega, float dt);
+
 	float LerpShortAngle(float a, float b, float t);
 
 	/// <summary>
