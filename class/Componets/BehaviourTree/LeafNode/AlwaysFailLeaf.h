@@ -8,10 +8,12 @@
 class AlwaysFailLeaf : public LeafNodeBase {
 public:
 	explicit AlwaysFailLeaf(BlackBoard* black_board) : LeafNodeBase(black_board) {}
-
 	~AlwaysFailLeaf() override = default;
 
-	NodeResult GetNodeResult() const override {
-		return NodeResult::Fail;
-	}
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void Init() override { nodeResult = NodeResult::Fail; }
+
+	NodeResult GetNodeResult() const override { return NodeResult::Fail; }
 };

@@ -65,15 +65,24 @@ Cargo::~Cargo() {
 	delete bt_;
 }
 
-//void Cargo::DrawGui() {
-//	if (ImGui::TreeNode("Cargo")) {
-//		//btEditor_->SetRunnningNodeID(bt_->GetRunningNodeID());
-//		//btEditor_->Update();
-//		//btEditor_->Draw();
-//		ImGui::TreePop();
-//	}
-//}
+void Cargo::DrawGui() {
+	if (ImGui::TreeNode("Cargo")) {
+		//btEditor_->SetRunnningNodeID(bt_->GetRunningNodeID());
+		//btEditor_->Update();
+		//btEditor_->Draw();
+		ImGui::TreePop();
+	}
+}
 
 const int Cargo::GetBTRunningNodeID() const {
 	return bt_->GetRunningNodeID();
+}
+
+void Cargo::Move() {
+	if (state_) {
+		velocity_ = state_->GetVel();
+		quat_ = state_->GetRot();
+	}
+
+	model_.worldTF.translation += velocity_;
 }

@@ -21,6 +21,7 @@ const bool CheckFarPlayer::IsCondition() {
 
 	// 方向ベクトル算出
 	Vector3 vector = player->GetWorldTF()->GetWorldPosition() - actor->GetWorldTF()->GetWorldPosition();
+	vector.y = 0.0f;
 	// 距離を算出
 	float result = std::sqrt((vector.x * vector.x) + (vector.y * vector.y) + (vector.z * vector.z));
 

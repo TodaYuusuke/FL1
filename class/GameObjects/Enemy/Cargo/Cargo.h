@@ -18,8 +18,26 @@ public:
 	//デストラクタ
 	~Cargo() override;
 
+	/// <summary>
+	/// 調整項目
+	/// </summary>
+	void DrawGui() override;
+
+private:
+	/// <summary>
+	/// 移動処理
+	/// </summary>
+	void Move();
+
+public:
+#pragma region Getter
 	// BehaviorTreeの中で現在動いているノードのIDを取得
 	const int GetBTRunningNodeID() const;
+#pragma endregion
+
+#pragma region Setter
+
+#pragma endregion
 
 private:
 	// 武器リスト

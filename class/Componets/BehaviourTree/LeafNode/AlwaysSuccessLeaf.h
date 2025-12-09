@@ -8,10 +8,12 @@
 class AlwaysSuccessLeaf : public LeafNodeBase {
 public:
 	explicit AlwaysSuccessLeaf(BlackBoard* black_board) : LeafNodeBase(black_board) {}
-
 	~AlwaysSuccessLeaf() override = default;
 
-	NodeResult GetNodeResult() const override {
-		return NodeResult::Success;
-	}
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void Init() override { nodeResult = NodeResult::Success; }
+
+	NodeResult GetNodeResult() const override { return NodeResult::Success; }
 };
