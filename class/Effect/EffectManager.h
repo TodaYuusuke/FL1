@@ -1,12 +1,12 @@
 #pragma once
 #include <Adapter.h>
-#include "EffectEditor.h"
+#include "Emitter/Emitter.h"
 
 /// <summary>
 /// エフェクト管理クラス
 /// </summary>
-class EffectManager
-{
+class EffectManager final : public LWP::Utility::ISingleton<EffectManager>{
+	friend class LWP::Utility::ISingleton<EffectManager>;
 public: // コンストラクタ
 
 	/// <summary>
@@ -39,21 +39,29 @@ public: // メンバ関数
 public: // アクセッサ等
 
 	/// <summary>
-	/// (デバッグ用) 新規エミッタの生成
+	/// 新規エミッタの生成
+	/// </summary>
+	/// <param name="ParticleName">生成するパーティクル名称</param>
+	/// <param name="pos">エミッタの初期座標</param>
+	/// <param name="parent">(任意)親となるエミッタ座標</param>
+	void CreateNewEmitter(std::string ParticleName, const LWP::Math::Vector3& pos, LWP::Object::TransformQuat* parent = nullptr);
+
+	/// <summary>
+	/// (呼び出し禁止) 新規エミッタの受け取り
 	/// </summary>
 	/// <param name="newEmitter">新規エミッタ</param>
-	void SendNewEmitter(Emitter* newEmitter);
+	void ReciveNewEmitter(Emitter* newEmitter);
 
 private: // メンバ変数
 
 	// エミッタリスト
 	std::list<Emitter*> emitters_{};
 
+	// エフェクトの保存データリスト
+	std::map<std::string, LWP::Effect::EffectSaveData> effectDatas_{};
+
 	// 粒子全体の再生速度
 	float playSpeed_ = 1.0f;
-
-	// エフェクトエディタ
-	EffectEditor* effectEditor_ = nullptr;
 
 };
 

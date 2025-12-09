@@ -11,16 +11,16 @@ EffectManager::~EffectManager()
 	}
 	// 配列クリア
 	emitters_.clear();
-
-	// エディタ解放
-	delete effectEditor_;
 }
 
 void EffectManager::Init()
 {
-	// エフェクトエディタの作成
-	effectEditor_ = new EffectEditor(this);
-	effectEditor_->Init();
+	// 全てのエミッタの削除
+	for (Emitter* e : emitters_) {
+		delete e;
+	}
+	// 配列クリア
+	emitters_.clear();
 }
 
 void EffectManager::Update()
@@ -45,11 +45,15 @@ void EffectManager::Update()
 
 void EffectManager::DebugGUI()
 {
-	// エディタの更新
-	effectEditor_->Update();
+	
 }
 
-void EffectManager::SendNewEmitter(Emitter* newEmitter)
+void EffectManager::CreateNewEmitter(std::string ParticleName, const Vector3& pos, LWP::Object::TransformQuat* parent)
+{
+	
+}
+
+void EffectManager::ReciveNewEmitter(Emitter* newEmitter)
 {
 	// 新規エミッタを配列に追加
 	emitters_.push_back(newEmitter);

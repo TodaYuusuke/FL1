@@ -7,8 +7,8 @@ class EffectManager;
 /// <summary>
 /// エフェクトの編集、保存を行うクラス
 /// </summary>
-class EffectEditor
-{
+class EffectEditor final : public LWP::Utility::ISingleton<EffectEditor> {
+	friend class LWP::Utility::ISingleton<EffectEditor>;
 public: // サブクラス
 
 	/// <summary>
@@ -19,39 +19,12 @@ public: // サブクラス
 		EASING
 	};
 
-	/// <summary>
-	/// パーティクル保存用構造体
-	/// </summary>
-	struct EffectSaveData {
-		int ParticleType = Emitter::ParticleType::Surface;
-		std::string ModelPath = "cube.obj";
-		int SurfaceType = Emitter::SurfaceType::Normal;
-		std::string TexPath = "circle.png";
-		float EmitAliveTime = 5.0f;
-		bool IsWaitDeleteAllParticles = false;
-		int EmitCount = 3;
-		int MaxEmitCount = 100;
-		float EmitTime = 0.1f;
-		bool unificationRandomScale = false;
-		LWP::Effect::RandomData<float>					EmitTimeAmp{};
-		LWP::Effect::RandomData<float>					AliveTimeAmp{};
-		LWP::Effect::VelocityData<LWP::Math::Vector3>	PVelocityTranslate{};
-		LWP::Effect::EasingData<LWP::Math::Vector3>		PEasingTranslate{};
-		LWP::Effect::VelocityData<LWP::Math::Vector3>	PVelocityRotate{};
-		LWP::Effect::EasingData<LWP::Math::Vector3>		PEasingScale{};
-		LWP::Effect::EasingData<LWP::Math::Vector4>		PEasingColor{};
-	};
-
 public: // コンストラクタ
-
-	// デフォルトコンストラクタ削除
-	EffectEditor() = delete;
 
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	/// <param name="manager">粒子マネージャー</param>
-	EffectEditor(EffectManager* manager);
+	EffectEditor() = default;
 
 	/// <summary>
 	/// デストラクタ
@@ -70,25 +43,66 @@ public: // メンバ関数
 	/// </summary>
 	void Update();
 
+public: // アクセッサ等
+
+	/// <summary>
+	/// エフェクトマネージャーのセッター
+	/// </summary>
+	/// <param name="effectManager">エフェクトマネージャー</param>
+	void SetEffectManager(EffectManager* effectManager) { effectManager_ = effectManager; }
+
 private: // プライベートなメンバ関数
 
 	/// <summary>
 	/// パーティクルタイプ編集用UI
 	/// </summary>
 	/// <param name="type">編集対象</param>
-	void EditParticleTypeUI(int& type);
+	void EditParticleTypeGUI(int& type);
 
 	/// <summary>
 	/// 平面タイプ編集用UI
 	/// </summary>
 	/// <param name="type">編集対象</param>
-	void EditSurfaceTypeUI(int& type);
+	void EditSurfaceTypeGUI(int& type);
 
 	/// <summary>
 	/// イージング編集用GUI
 	/// </summary>
 	/// <param name="type">編集対象</param>
-	void EditEasingUI(LWP::Utility::Easing::Type& type);
+	/// <param name="eType">保存用</param>
+	void EditEasingTypeGUI(LWP::Utility::Easing::Type& type, int& eType);
+
+	/// <summary>
+	/// Vector3用編集GUI
+	/// </summary>
+	/// <param name="id">ImGui表示名</param>
+	/// <param name="data">編集対象</param>
+	/// <param name="isClampZero">0でクランプするか</param>
+	/// <param name="isUnification">均一化するか</param>
+	void EditVector3GUI(const std::string& id, LWP::Math::Vector3& data, const bool isUnification, const bool isClampZero = false);
+
+	/// <summary>
+	/// 色用編集GUI
+	/// </summary>
+	/// <param name="id">ImGui表示名</param>
+	/// <param name="color">編集対象</param>
+	void EditColorGUI(const std::string& id, LWP::Math::Vector4& color);
+
+	/// <summary>
+	/// VelocityData用編集GUI
+	/// </summary>
+	/// <param name="id">ImGui表示名</param>
+	/// <param name="data">編集対象</param>
+	/// <param name="isUnification">値を均一化するか</param>
+	void EditVelocityGUI(const std::string& id, LWP::Effect::VelocityData<LWP::Math::Vector3>& data, const bool isUnification = false);
+
+	/// <summary>
+	/// EasingData用編集GUI
+	/// </summary>
+	/// <param name="id">ImGui表示名</param>
+	/// <param name="data">編集対象</param>
+	/// <param name="isUnification">値を均一化するか</param>
+	void EditEasingGUI(const std::string& id, LWP::Effect::EasingData<LWP::Math::Vector3>& data, const bool isUnification = false);
 
 	/// <summary>
 	/// 保存メニュー
@@ -135,9 +149,6 @@ private: // メンバ変数
 	// エフェクトマネージャー
 	EffectManager* effectManager_ = nullptr;
 
-	// jsonIO
-	LWP::Utility::JsonIO jsonIO_{};
-
 	// 保存されるデフォルトディレクトリ
 	std::string defaultDirectory_ = "./resources/json/Particle/";
 
@@ -145,7 +156,7 @@ private: // メンバ変数
 	std::string nowLoadFileName_ = "None";
 
 	// 編集中データ
-	EffectSaveData editData_{};
+	LWP::Effect::EffectSaveData editData_{};
 
 	// 移動方法の切り替えフラグ
 	int moveMode_ = VELOCITY;
@@ -163,4 +174,3 @@ private: // メンバ変数
 	static const std::array<std::string, size_t(LWP::Utility::Easing::Type::EasingCount)> kEaseingTypeMap_;
 
 };
-

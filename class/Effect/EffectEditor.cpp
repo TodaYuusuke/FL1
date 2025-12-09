@@ -4,6 +4,7 @@
 using namespace LWP::Math;
 using namespace LWP::Utility;
 using namespace LWP::Base;
+using namespace LWP::Effect;
 
 const std::array<std::string, size_t(Emitter::ParticleType::PTypeCount)> EffectEditor::kParticleTypeMap_ = {
 	"Surface",
@@ -54,12 +55,6 @@ const std::array<std::string, size_t(Easing::Type::EasingCount)> EffectEditor::k
 	"InOutExpo"
 };
 
-EffectEditor::EffectEditor(EffectManager* manager)
-{
-	// マネージャー取得
-	effectManager_ = manager;
-}
-
 void EffectEditor::Init()
 {
 	// 編集データのリセット
@@ -68,14 +63,16 @@ void EffectEditor::Init()
 	editData_.AliveTimeAmp.max = 1.0f;
 	editData_.PEasingScale.startValue = { 1.0f, 1.0f, 1.0f };
 	editData_.PEasingScale.endValue = { 1.0f, 1.0f, 1.0f };
-	editData_.PEasingColor.startValue = { 1.0f, 1.0f, 1.0f, 1.0f };
-	editData_.PEasingColor.startValue = { 1.0f, 1.0f, 1.0f, 1.0f };
+	editData_.PEasingColor.startValueAmp.min = { 1.0f, 1.0f, 1.0f, 1.0f };
+	editData_.PEasingColor.startValueAmp.max = { 1.0f, 1.0f, 1.0f, 1.0f };
+	editData_.PEasingColor.endValueAmp.min = { 1.0f, 1.0f, 1.0f, 1.0f };
+	editData_.PEasingColor.endValueAmp.max = { 1.0f, 1.0f, 1.0f, 1.0f };
 }
 
 void EffectEditor::Update()
 {
 	// ImGui開始
-	ImGui::Begin("EffectManager", nullptr, ImGuiWindowFlags_MenuBar);
+	ImGui::Begin("EffectEditor", nullptr, ImGuiWindowFlags_MenuBar);
 
 	// メニューバー開始
 	if (ImGui::BeginMenuBar()) {
@@ -145,7 +142,7 @@ void EffectEditor::Update()
 	ImGui::End();
 }
 
-void EffectEditor::EditParticleTypeUI(int& type)
+void EffectEditor::EditParticleTypeGUI(int& type)
 {
 	if (ImGui::BeginCombo("Particle Type Setting", kParticleTypeMap_[static_cast<uint32_t>(type)].c_str()))
 	{
@@ -165,7 +162,7 @@ void EffectEditor::EditParticleTypeUI(int& type)
 	}
 }
 
-void EffectEditor::EditSurfaceTypeUI(int& type)
+void EffectEditor::EditSurfaceTypeGUI(int& type)
 {
 	if (ImGui::BeginCombo("Surface Type Setting", kSurfaceTypeMap_[static_cast<uint32_t>(type)].c_str()))
 	{
@@ -185,7 +182,7 @@ void EffectEditor::EditSurfaceTypeUI(int& type)
 	}
 }
 
-void EffectEditor::EditEasingUI(LWP::Utility::Easing::Type& type)
+void EffectEditor::EditEasingTypeGUI(LWP::Utility::Easing::Type& type, int& eType)
 {
 	if (ImGui::BeginCombo("Easing Setting", kEaseingTypeMap_[static_cast<uint32_t>(type)].c_str()))
 	{
@@ -195,6 +192,7 @@ void EffectEditor::EditEasingUI(LWP::Utility::Easing::Type& type)
 			if (ImGui::Selectable(kEaseingTypeMap_[i].c_str(), isSelected))
 			{
 				type = static_cast<Easing::Type>(i);
+				eType = static_cast<int>(type);
 			}
 			if (isSelected)
 			{
@@ -203,6 +201,90 @@ void EffectEditor::EditEasingUI(LWP::Utility::Easing::Type& type)
 		}
 		ImGui::EndCombo();
 	}
+}
+
+void EffectEditor::EditVector3GUI(const std::string& id, LWP::Math::Vector3& data, const bool isUnification, const bool isClampZero)
+{
+	// 均一化を行う場合
+	if (isUnification) {
+		// GUI表示
+		ImGui::DragFloat(id.c_str(), &data.x, 0.1f);
+		// 均一化
+		data = Vector3(data.x, data.x, data.x);
+	}
+	else {
+		// GUI表示
+		ImGui::DragFloat3(id.c_str(), &data.x, 0.1f);
+	}
+
+	// ゼロでクランプする場合
+	if (isClampZero) {
+		if (data.x < 0.0f) { data.x = 0.0f; }
+		if (data.y < 0.0f) { data.y = 0.0f; }
+		if (data.z < 0.0f) { data.z = 0.0f; }
+	}
+}
+
+void EffectEditor::EditColorGUI(const std::string& id, LWP::Math::Vector4& color)
+{
+	// 調整
+	ImGui::DragFloat4(id.c_str(), &color.x, 0.01f);
+	ImGui::SameLine();
+
+	// 0以下になっていた場合調整
+	if (color.x < 0.0f) { color.x = 0.0f; }
+	if (color.y < 0.0f) { color.y = 0.0f; }
+	if (color.z < 0.0f) { color.z = 0.0f; }
+	if (color.w < 0.0f) { color.w = 0.0f; }
+
+	// 色変換し、その結果を表示
+	ImVec4 imColor = { color.x, color.y, color.z, color.w };
+	std::string previewId = id + " : Preview";
+	ImGui::ColorButton(previewId.c_str(), imColor);
+}
+
+void EffectEditor::EditVelocityGUI(const std::string& id, LWP::Effect::VelocityData<LWP::Math::Vector3>& data, const bool isUnification)
+{
+	// ID名称設定
+	std::string ampId = id + " Amp";
+
+	// 開始値設定
+	EditVector3GUI(id, data.startValue, isUnification);
+	EditVector3GUI(ampId, data.startValueAmp.max, isUnification, true);
+	data.startValueAmp.min = data.startValueAmp.max * -1.0f;
+	ImGui::Separator();
+
+	// 速度設定
+	EditVector3GUI("Velocity", data.velocity, isUnification);
+	EditVector3GUI("Velocity Amp", data.velocityAmp.max, isUnification, true);
+	data.velocityAmp.min = data.velocityAmp.max * -1.0f;
+	ImGui::Separator();
+
+	// 加速度設定
+	EditVector3GUI("Acceleration", data.acceleration, isUnification);
+	EditVector3GUI("Acceleration Amp", data.accelerationAmp.max, isUnification, true);
+	data.accelerationAmp.min = data.accelerationAmp.max * -1.0f;
+}
+
+void EffectEditor::EditEasingGUI(const std::string& id, LWP::Effect::EasingData<LWP::Math::Vector3>& data, const bool isUnification)
+{
+	// 開始値設定
+	EditVector3GUI("Start", data.startValue, isUnification);
+	EditVector3GUI("Start Amp", data.startValueAmp.max, isUnification, true);
+	data.startValueAmp.min = data.startValueAmp.max * -1.0f;
+	ImGui::Separator();
+
+	// 終端値設定
+	EditVector3GUI("End", data.endValue, isUnification);
+	EditVector3GUI("End Amp", data.endValueAmp.max, isUnification, true);
+	data.endValueAmp.min = data.endValueAmp.max * -1.0f;
+	ImGui::Separator();
+
+	// 補間設定
+	EditEasingTypeGUI(data.type, data.eType);
+
+	// 警告回避用
+	id;
 }
 
 void EffectEditor::SaveMenu()
@@ -221,7 +303,7 @@ void EffectEditor::CommonTab()
 	ImGui::NewLine();
 
 	// 粒子タイプの編集
-	EditParticleTypeUI(editData_.ParticleType);
+	EditParticleTypeGUI(editData_.ParticleType);
 	// 粒子タイプによって処理を分岐
 	switch (editData_.ParticleType)
 	{
@@ -230,7 +312,7 @@ void EffectEditor::CommonTab()
 		ImGuiManager::InputText("Tex Path", editData_.TexPath);
 		ImGui::NewLine();
 		// 平面タイプの選択
-		EditSurfaceTypeUI(editData_.SurfaceType);
+		EditSurfaceTypeGUI(editData_.SurfaceType);
 		break;
 	case Emitter::ParticleType::model3D:
 		// Todo : 実装途中
@@ -284,20 +366,8 @@ void EffectEditor::MoveTab()
 	switch (moveMode_)
 	{
 	case EffectEditor::VELOCITY:
-		ImGui::DragFloat3("Default", &editData_.PVelocityTranslate.startValue.x, 0.1f);
-		ImGui::DragFloat3("Default Amp Min", &editData_.PVelocityTranslate.startValueAmp.min.x, 0.1f);
-		ImGui::DragFloat3("Default Amp Max", &editData_.PVelocityTranslate.startValueAmp.max.x, 0.1f);
-		ImGui::Separator();
-
-		ImGui::DragFloat3("Velocity", &editData_.PVelocityTranslate.velocity.x, 0.01f);
-		ImGui::DragFloat3("Velocity Amp Min", &editData_.PVelocityTranslate.velocityAmp.min.x, 0.01f);
-		ImGui::DragFloat3("Velocity Amp Max", &editData_.PVelocityTranslate.velocityAmp.max.x, 0.01f);
-		ImGui::Separator();
-
-		ImGui::DragFloat3("Acceleration", &editData_.PVelocityTranslate.acceleration.x, 0.01f);
-		ImGui::DragFloat3("Acceleration Amp Min", &editData_.PVelocityTranslate.accelerationAmp.min.x, 0.01f);
-		ImGui::DragFloat3("Acceleration Amp Max", &editData_.PVelocityTranslate.accelerationAmp.max.x, 0.01f);
-		ImGui::Separator();
+		// 速度移動調整GUI
+		EditVelocityGUI("Default", editData_.PVelocityTranslate);
 
 		// 使用状態の切り替え
 		editData_.PVelocityTranslate.isUsed = true;
@@ -305,18 +375,8 @@ void EffectEditor::MoveTab()
 		break;
 	case EffectEditor::EASING:
 
-		ImGui::DragFloat3("Start", &editData_.PEasingTranslate.startValue.x);
-		ImGui::DragFloat3("Start Min", &editData_.PEasingTranslate.startValueAmp.min.x, 0.01f);
-		ImGui::DragFloat3("Start Max", &editData_.PEasingTranslate.startValueAmp.max.x, 0.01f);
-		ImGui::Separator();
-
-		ImGui::DragFloat3("End", &editData_.PEasingTranslate.endValue.x);
-		ImGui::DragFloat3("End Amp Min", &editData_.PEasingTranslate.endValueAmp.min.x, 0.01f);
-		ImGui::DragFloat3("End Amp Max", &editData_.PEasingTranslate.endValueAmp.max.x, 0.01f);
-		ImGui::Separator();
-
-		// イージングの種類の選択
-		EditEasingUI(editData_.PEasingTranslate.type);
+		// 移動補間調整GUI
+		EditEasingGUI("", editData_.PEasingTranslate, false);
 
 		// 使用状態の切り替え
 		editData_.PVelocityTranslate.isUsed = false;
@@ -330,20 +390,8 @@ void EffectEditor::RotateTab()
 	ImGui::SeparatorText("Rotate Category  (All Degree)");
 	ImGui::NewLine();
 
-	ImGui::DragFloat3("Default", &editData_.PVelocityRotate.startValue.x, 0.1f);
-	ImGui::DragFloat3("Default Amp Min", &editData_.PVelocityRotate.startValueAmp.min.x, 0.1f);
-	ImGui::DragFloat3("Default Amp Max", &editData_.PVelocityRotate.startValueAmp.max.x, 0.1f);
-	ImGui::Separator();
-
-	ImGui::DragFloat3("Velocity", &editData_.PVelocityRotate.velocity.x, 0.01f);
-	ImGui::DragFloat3("Velocity Amp Min", &editData_.PVelocityRotate.velocityAmp.min.x, 0.01f);
-	ImGui::DragFloat3("Velocity Amp Max", &editData_.PVelocityRotate.velocityAmp.max.x, 0.01f);
-	ImGui::Separator();
-
-	ImGui::DragFloat3("Acceleration", &editData_.PVelocityRotate.acceleration.x, 0.01f);
-	ImGui::DragFloat3("Acceleration Amp Min", &editData_.PVelocityRotate.accelerationAmp.min.x, 0.01f);
-	ImGui::DragFloat3("Acceleration Amp Max", &editData_.PVelocityRotate.accelerationAmp.max.x, 0.01f);
-	ImGui::Separator();
+	// 編集GUI
+	EditVelocityGUI("Degree", editData_.PVelocityRotate, false);
 }
 
 void EffectEditor::ScaleTab()
@@ -353,56 +401,26 @@ void EffectEditor::ScaleTab()
 
 	ImGui::Checkbox("Is Unification Scale", &editData_.unificationRandomScale);
 
-	if (editData_.unificationRandomScale) {
-		ImGui::DragFloat("Start", &editData_.PEasingScale.startValue.x);
-		ImGui::DragFloat("Start Min", &editData_.PEasingScale.startValueAmp.min.x, 0.01f);
-		ImGui::DragFloat("Start Max", &editData_.PEasingScale.startValueAmp.max.x, 0.01f);
-		ImGui::Separator();
-
-		ImGui::DragFloat("End", &editData_.PEasingScale.endValue.x);
-		ImGui::DragFloat("End Amp Min", &editData_.PEasingScale.endValueAmp.min.x, 0.01f);
-		ImGui::DragFloat("End Amp Max", &editData_.PEasingScale.endValueAmp.max.x, 0.01f);
-		ImGui::Separator();
-
-		// それぞれの値を統一する
-		editData_.PEasingScale.startValue		= { editData_.PEasingScale.startValue.x, editData_.PEasingScale.startValue.x , editData_.PEasingScale.startValue.x };
-		editData_.PEasingScale.startValueAmp.min = { editData_.PEasingScale.startValueAmp.min.x, editData_.PEasingScale.startValueAmp.min.x , editData_.PEasingScale.startValueAmp.min.x };
-		editData_.PEasingScale.startValueAmp.max = { editData_.PEasingScale.startValueAmp.max.x, editData_.PEasingScale.startValueAmp.max.x , editData_.PEasingScale.startValueAmp.max.x };
-		editData_.PEasingScale.endValue		= { editData_.PEasingScale.endValue.x, editData_.PEasingScale.endValue.x , editData_.PEasingScale.endValue.x };
-		editData_.PEasingScale.endValueAmp.min = { editData_.PEasingScale.endValueAmp.min.x, editData_.PEasingScale.endValueAmp.min.x , editData_.PEasingScale.endValueAmp.min.x };
-		editData_.PEasingScale.endValueAmp.max = { editData_.PEasingScale.endValueAmp.max.x, editData_.PEasingScale.endValueAmp.max.x , editData_.PEasingScale.endValueAmp.max.x };
-	}
-	else {
-		ImGui::DragFloat3("Start", &editData_.PEasingScale.startValue.x);
-		ImGui::DragFloat3("Start Min", &editData_.PEasingScale.startValueAmp.min.x, 0.01f);
-		ImGui::DragFloat3("Start Max", &editData_.PEasingScale.startValueAmp.max.x, 0.01f);
-		ImGui::Separator();
-
-		ImGui::DragFloat3("End", &editData_.PEasingScale.endValue.x);
-		ImGui::DragFloat3("End Amp Min", &editData_.PEasingScale.endValueAmp.min.x, 0.01f);
-		ImGui::DragFloat3("End Amp Max", &editData_.PEasingScale.endValueAmp.max.x, 0.01f);
-		ImGui::Separator();
-	}
-
-	// イージングの種類の選択
-	EditEasingUI(editData_.PEasingTranslate.type);
+	// 移動補間調整GUI
+	EditEasingGUI("", editData_.PEasingScale, editData_.unificationRandomScale);
 
 }
 
 void EffectEditor::ColorTab()
 {
-	ImGui::SeparatorText("Scale Category");
+	ImGui::SeparatorText("Color Category");
 	ImGui::NewLine();
 
-	ImGui::DragFloat4("Start", &editData_.PEasingColor.startValue.x);
-	ImGui::DragFloat4("Start Min", &editData_.PEasingColor.startValueAmp.min.x, 0.01f);
-	ImGui::DragFloat4("Start Max", &editData_.PEasingColor.startValueAmp.max.x, 0.01f);
+	EditColorGUI("Start Min", editData_.PEasingColor.startValueAmp.min);
+	EditColorGUI("Start Max", editData_.PEasingColor.startValueAmp.max);
 	ImGui::Separator();
 
-	ImGui::DragFloat4("End", &editData_.PEasingColor.endValue.x);
-	ImGui::DragFloat4("End Amp Min", &editData_.PEasingColor.endValueAmp.min.x, 0.01f);
-	ImGui::DragFloat4("End Amp Max", &editData_.PEasingColor.endValueAmp.max.x, 0.01f);
+	EditColorGUI("End Min", editData_.PEasingColor.endValueAmp.min);
+	EditColorGUI("End Max", editData_.PEasingColor.endValueAmp.max);
 	ImGui::Separator();
+
+	// イージングの種類の選択
+	EditEasingTypeGUI(editData_.PEasingColor.type, editData_.PEasingColor.eType);
 }
 
 void EffectEditor::CreateParticle()
@@ -429,5 +447,5 @@ void EffectEditor::CreateParticle()
 	}
 
 	// 生成したエミッタを渡す
-	effectManager_->SendNewEmitter(newEmitter);
+	effectManager_->ReciveNewEmitter(newEmitter);
 }
