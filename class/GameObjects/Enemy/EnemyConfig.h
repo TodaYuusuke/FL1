@@ -87,6 +87,21 @@ namespace EnemyConfig {
 			"resources/json/BT/BT_Drone.json",
 			"resources/json/BT/BT_Cargo.json"
 		};
+
+		/// <summary>
+		/// ビヘイビアツリーのファイル名から要素番号を検索
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		inline int GetBTNameIndex(const std::string& name) {
+			for (int i = 0; i < fileName.size(); i++) {
+				if (fileName[i] == name) {
+					return i;
+				}
+			}
+			// 該当なし
+			return -1;
+		}
 	}
 
 	// モデル名前

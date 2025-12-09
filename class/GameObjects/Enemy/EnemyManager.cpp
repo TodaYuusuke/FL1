@@ -122,10 +122,15 @@ void EnemyManager::DebugGui() {
 				ImGui::TreePop();
 			}
 
+			static int level = 0;
+			SelectType(levelPreview_, level, "Level##0");
 			// 調整するレベル
-			SelectLevelGui(levelJsonDatas_[selectLevel_], sampleLevels_[selectLevel_]);
+			SelectLevelGui(levelJsonDatas_[level], sampleLevels_[level]);
+
+			static int enemyType = 0;
+			SelectCreateEnemy(sampleEnemies_, enemyType,"EnemyType");
 			// 選択した敵を調整
-			SelectEnemyDataGui(jsonDatas_[selectCreateEnemyType_], sampleEnemies_[selectCreateEnemyType_]);
+			SelectEnemyDataGui(jsonDatas_[enemyType], sampleEnemies_[enemyType]);
 
 			ImGui::TreePop();
 		}
@@ -134,7 +139,7 @@ void EnemyManager::DebugGui() {
 		if (ImGui::TreeNode("BT edit")) {
 			// 読み込むファイルを選択
 			SwitchNodeEditorCanvas(btEditor_->GetEditorContext());
-			SelectJsonFile("JsonFile");
+			SelectType(enemyBTFileNamePreview_, selectBTFileName_, "JsonFile##0");
 
 			// 読み込み
 			if (ImGui::Button("Load")) {
@@ -149,9 +154,9 @@ void EnemyManager::DebugGui() {
 		// 敵作成
 		if (ImGui::TreeNode("Create")) {
 			// 作成する敵を選択
-			SelectCreateEnemy("EnemyType");
+			SelectType(enemyTypePreview_, selectCreateEnemyType_, "EnemyType##0");
 			// 使用するレベルを選択
-			SelectLevel("Level");
+			SelectType(levelPreview_, selectLevel_, "Level##1");
 
 			// 生成座標
 			ImGui::DragFloat3("CreateTranslation", &createPos_.x, 0.01f);
@@ -360,16 +365,41 @@ Actor* EnemyManager::CreateEnemy() {
 	}
 }
 
-void EnemyManager::SelectCreateEnemy(const std::string& label) {
+void EnemyManager::SelectType(std::vector<std::string> list, int& selectedType, std::string label) {
+	// 読み込むbehaviorTreeのプレビュー作成
+	if (!list.empty()) {
+		const char* combo_preview_value = list[selectedType].c_str();
+		if (ImGui::BeginCombo(label.c_str(), combo_preview_value)) {
+			for (int n = 0; n < list.size(); n++) {
+				const bool is_selected = ((int)selectedType == n);
+				std::string selectableLabel = list[n];
+				if (ImGui::Selectable(selectableLabel.c_str(), is_selected)) {
+					selectedType = n;
+				}
+
+				if (is_selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+	}
+	else {
+		ImGui::TextDisabled(("Not found element"));
+	}
+}
+
+void EnemyManager::SelectCreateEnemy(std::map<int, EnemyData> data, int& selectType, const std::string& label) {
 	ImGui::Text("Select create enemy");
 	// 追加する敵のプレビュー作成
 	if (!enemyTypePreview_.empty()) {
-		const char* combo_preview_value = enemyTypePreview_[selectCreateEnemyType_].c_str();
+		const char* combo_preview_value = enemyTypePreview_[selectType].c_str();
 		if (ImGui::BeginCombo((label.c_str()), combo_preview_value)) {
 			for (int n = 0; n < enemyTypePreview_.size(); n++) {
-				const bool is_selected = ((int)selectCreateEnemyType_ == n);
+				const bool is_selected = ((int)selectType == n);
 				if (ImGui::Selectable(enemyTypePreview_[n].c_str(), is_selected)) {
-					selectCreateEnemyType_ = n;
+					selectType = n;
+					modifyBTFile_ = EnemyConfig::BTFileName::GetBTNameIndex(data[n].BTFileName);
 				}
 
 				if (is_selected) {
@@ -384,16 +414,16 @@ void EnemyManager::SelectCreateEnemy(const std::string& label) {
 	}
 }
 
-void EnemyManager::SelectJsonFile(const std::string& label) {
+void EnemyManager::SelectJsonFile(EnemyData& data, int& selectedType, const std::string& label) {
 	ImGui::Text("Select Behavior-Tree file");
 	// 読み込むbehaviorTreeのプレビュー作成
 	if (!enemyBTFileNamePreview_.empty()) {
-		const char* combo_preview_value = enemyBTFileNamePreview_[selectBTFileName_].c_str();
+		const char* combo_preview_value = enemyBTFileNamePreview_[selectedType].c_str();
 		if (ImGui::BeginCombo((label.c_str()), combo_preview_value)) {
 			for (int n = 0; n < enemyBTFileNamePreview_.size(); n++) {
-				const bool is_selected = ((int)selectBTFileName_ == n);
+				const bool is_selected = ((int)selectedType == n);
 				if (ImGui::Selectable(enemyBTFileNamePreview_[n].c_str(), is_selected)) {
-					selectBTFileName_ = n;
+					selectedType = n;
 				}
 
 				if (is_selected) {
@@ -460,7 +490,7 @@ void EnemyManager::SelectWeaponRarity() {
 	// 読み込むbehaviorTreeのプレビュー作成
 	if (!weaponRarityPreview_.empty()) {
 		const char* combo_preview_value = weaponRarityPreview_[selectedWeaponRarity_].c_str();
-		if (ImGui::BeginCombo(("##Weapon rarity"), combo_preview_value)) {
+		if (ImGui::BeginCombo(("Weapon rarity"), combo_preview_value)) {
 			for (int n = 0; n < weaponRarityPreview_.size(); n++) {
 				const bool is_selected = ((int)selectedWeaponRarity_ == n);
 				if (ImGui::Selectable(weaponRarityPreview_[n].c_str(), is_selected)) {
@@ -560,6 +590,7 @@ void EnemyManager::SelectEnemyDataGui(LWP::Utility::JsonIO& json, EnemyData& dat
 	// 調整項目
 	if (ImGui::TreeNode("Enemy")) {
 		if (ImGui::Button("Save")) {
+			data.BTFileName = enemyBTFileNamePreview_[modifyBTFile_];
 			json.Save();
 		}
 		ImGui::SameLine();
@@ -567,15 +598,8 @@ void EnemyManager::SelectEnemyDataGui(LWP::Utility::JsonIO& json, EnemyData& dat
 			json.Load();
 		}
 
-		// 作成する敵を選択
-		SelectCreateEnemy("EnemyType");
-
-		// 調整する敵の種類
-		data.type = selectCreateEnemyType_;
-
 		// 使用するビヘイビアツリーを選択
-		SelectJsonFile("JsonFile");
-		data.BTFileName = enemyBTFileNamePreview_[selectBTFileName_];
+		SelectJsonFile(data, modifyBTFile_, "JsonFile##1");
 
 		// 武器
 		if (ImGui::TreeNode("Weapon")) {
@@ -634,9 +658,6 @@ void EnemyManager::SelectLevelGui(LWP::Utility::JsonIO& json, LevelParameter& da
 		if (ImGui::Button("Load")) {
 			json.Load();
 		}
-
-		// 使用するレベルを選択
-		SelectLevel("Level");
 
 		// 攻撃倍率
 		ImGui::DragFloat("AttackMultiply", &data.attackMultiply, 0.1f, 0.0f);
