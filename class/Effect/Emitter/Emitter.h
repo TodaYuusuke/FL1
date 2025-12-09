@@ -77,7 +77,10 @@ public: // アクセッサ等
 	/// <param name="parent">親</param>
 	void SetParent(LWP::Object::TransformQuat* parent) { transform_.Parent(parent); }
 
-	
+	/// <summary>
+	/// 粒子が消えるまで待つかどうかの設定
+	/// </summary>
+	/// <param name="isWait">待つか</param>
 	Emitter& SetIsWaitDeleteAllParticles(const bool isWait);
 
 	/// <summary>
@@ -116,7 +119,8 @@ public: // アクセッサ等
 	/// 粒子の拡縮イージング設定
 	/// </summary>
 	/// <param name="data">データ本体</param>
-	Emitter& SetScaleEasing(const LWP::Effect::EasingData<LWP::Math::Vector3>& data);
+	/// <param name="isUnificationScale">拡縮の均一化</param>
+	Emitter& SetScaleEasing(const LWP::Effect::EasingData<LWP::Math::Vector3>& data, const bool isUnificationScale);
 	
 	/// <summary>
 	/// 粒子の色イージング設定

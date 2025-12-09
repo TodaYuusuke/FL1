@@ -164,10 +164,12 @@ Emitter& Emitter::SetRotateVelocity(const LWP::Effect::VelocityData<LWP::Math::V
 	return *this;
 }
 
-Emitter& Emitter::SetScaleEasing(const LWP::Effect::EasingData<LWP::Math::Vector3>& data)
+Emitter& Emitter::SetScaleEasing(const LWP::Effect::EasingData<LWP::Math::Vector3>& data, const bool isUnificationScale)
 {
 	// 各データの受け渡し
 	pEasingScale_ = data;
+	// フラグの受け取り
+	unificationRandomScale_ = isUnificationScale;
 
 	return *this;
 }

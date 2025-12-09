@@ -9,7 +9,7 @@ class EffectManager;
 /// </summary>
 class EffectEditor final : public LWP::Utility::ISingleton<EffectEditor> {
 	friend class LWP::Utility::ISingleton<EffectEditor>;
-public: // サブクラス
+private: // プライベートなサブクラス
 
 	/// <summary>
 	/// 粒子の移動モード列挙子
@@ -17,6 +17,13 @@ public: // サブクラス
 	enum MoveMode {
 		VELOCITY,
 		EASING
+	};
+
+	enum PopUpMode {
+		None,
+		New,
+		Save,
+		Load
 	};
 
 public: // コンストラクタ
@@ -105,9 +112,9 @@ private: // プライベートなメンバ関数
 	void EditEasingGUI(const std::string& id, LWP::Effect::EasingData<LWP::Math::Vector3>& data, const bool isUnification = false);
 
 	/// <summary>
-	/// 保存メニュー
+	/// ポップアップ関連の更新
 	/// </summary>
-	void SaveMenu();
+	void PopUpUpdate();
 
 	/// <summary>
 	/// 読み込みメニュー(関数名がおかしいのはImGuiの関数と被るから)
@@ -149,14 +156,11 @@ private: // メンバ変数
 	// エフェクトマネージャー
 	EffectManager* effectManager_ = nullptr;
 
-	// 保存されるデフォルトディレクトリ
-	std::string defaultDirectory_ = "./resources/json/Particle/";
-
 	// 現在読み込み中のファイルパス
-	std::string nowLoadFileName_ = "None";
+	std::string nowLoadName_ = "Test Particle";
 
 	// 編集中データ
-	LWP::Effect::EffectSaveData editData_{};
+	LWP::Effect::EffectSaveData* editData_ = nullptr;
 
 	// 移動方法の切り替えフラグ
 	int moveMode_ = VELOCITY;
@@ -172,5 +176,11 @@ private: // メンバ変数
 
 	// 補間選択用マップ
 	static const std::array<std::string, size_t(LWP::Utility::Easing::Type::EasingCount)> kEaseingTypeMap_;
+
+	// ポップアップのモード
+	int popupMode_ = EffectEditor::PopUpMode::None;
+
+	// 作成するエフェクト名
+	std::string createEffectName_{};
 
 };

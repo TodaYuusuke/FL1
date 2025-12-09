@@ -58,15 +58,10 @@ const std::array<std::string, size_t(Easing::Type::EasingCount)> EffectEditor::k
 void EffectEditor::Init()
 {
 	// 編集データのリセット
-	editData_ = EffectSaveData();
-	editData_.AliveTimeAmp.min = 1.0f;
-	editData_.AliveTimeAmp.max = 1.0f;
-	editData_.PEasingScale.startValue = { 1.0f, 1.0f, 1.0f };
-	editData_.PEasingScale.endValue = { 1.0f, 1.0f, 1.0f };
-	editData_.PEasingColor.startValueAmp.min = { 1.0f, 1.0f, 1.0f, 1.0f };
-	editData_.PEasingColor.startValueAmp.max = { 1.0f, 1.0f, 1.0f, 1.0f };
-	editData_.PEasingColor.endValueAmp.min = { 1.0f, 1.0f, 1.0f, 1.0f };
-	editData_.PEasingColor.endValueAmp.max = { 1.0f, 1.0f, 1.0f, 1.0f };
+	editData_ = effectManager_->CreateNewData("Test Particle");
+	editData_->PEasingTranslate.Convert();
+	editData_->PEasingScale.Convert();
+	editData_->PEasingColor.Convert();
 }
 
 void EffectEditor::Update()
@@ -79,11 +74,12 @@ void EffectEditor::Update()
 		if (ImGui::BeginMenu("File")) {
 			// 新規生成
 			if (ImGui::MenuItem("New")) {
-				Init();
+				// ポップアップ表示
+				popupMode_ = EffectEditor::PopUpMode::New;
 			}
 			// 保存
 			if (ImGui::MenuItem("Save")) {
-				SaveMenu();
+				popupMode_ = EffectEditor::PopUpMode::Save;
 			}
 			// 再読み込み
 			if (ImGui::MenuItem("Load")) {
@@ -95,8 +91,9 @@ void EffectEditor::Update()
 	}
 
 	// 現在編集中のパーティクルのパスを表示
-	ImGui::Text("Now Loading Path : ");
-	ImGui::Text(nowLoadFileName_.c_str());
+	ImGui::Text("Now Editing Effect : ");
+	ImGui::SameLine();
+	ImGui::Text(nowLoadName_.c_str());
 	ImGui::NewLine();
 
 	// タブ開始
@@ -138,6 +135,9 @@ void EffectEditor::Update()
 	if (ImGui::Button("GenerateParticle")) {
 		CreateParticle();
 	}
+
+	// ポップアップ関連の更新
+	PopUpUpdate();
 
 	ImGui::End();
 }
@@ -287,9 +287,103 @@ void EffectEditor::EditEasingGUI(const std::string& id, LWP::Effect::EasingData<
 	id;
 }
 
-void EffectEditor::SaveMenu()
+void EffectEditor::PopUpUpdate()
 {
+	// 中央に表示する（オプション）
+	ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 
+	// ウィンドウのスケール調整
+	ImGui::SetWindowFontScale(1.5f);
+
+	switch (popupMode_)
+	{
+	case EffectEditor::None:
+		break;
+	case EffectEditor::New:
+		// ポップアップ表示
+		ImGui::OpenPopup("New");
+
+		// ポップアップの起動
+		if (ImGui::BeginPopupModal("New", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+
+			// 名前の入力を指示
+			ImGui::Text("Input New Effect Name.");
+			LWP::Base::ImGuiManager::InputText("New Name", createEffectName_);
+			
+			if (createEffectName_ != "") {
+				if (ImGui::Button("Create")) {
+					// 新規作成
+					editData_ = effectManager_->CreateNewData(createEffectName_);
+					nowLoadName_ = createEffectName_;
+					editData_->PEasingTranslate.Convert();
+					editData_->PEasingScale.Convert();
+					editData_->PEasingColor.Convert();
+
+					// 開いたウィンドウを閉じる
+					ImGui::CloseCurrentPopup();
+					popupMode_ = EffectEditor::PopUpMode::None;
+					createEffectName_ = "";
+				}
+			}
+			else {
+				ImGui::Text("Please Input Name.   ");
+			}
+
+			// 改行しない
+			ImGui::SameLine();
+
+			// キャンセル
+			if (ImGui::Button("Cancel")) {
+				// 開いたウィンドウを閉じる
+				ImGui::CloseCurrentPopup();
+				popupMode_ = EffectEditor::PopUpMode::None;
+				createEffectName_ = "";
+			}
+
+			// ポップアップ終了
+			ImGui::EndPopup();
+		}
+		break;
+	case EffectEditor::Save:
+		// ポップアップ表示
+		ImGui::OpenPopup("Save");
+
+		// ポップアップの起動
+		if (ImGui::BeginPopupModal("Save", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+
+			// 保存するか否か確認する
+			ImGui::Text("Save All Effects?");
+
+			// はい
+			if (ImGui::Button("Yes")) {
+				// 保存
+				effectManager_->SaveAllData();
+
+				// 開いたウィンドウを閉じる
+				ImGui::CloseCurrentPopup();
+				popupMode_ = EffectEditor::PopUpMode::None;
+			}
+
+			// 改行しない
+			ImGui::SameLine();
+
+			// いいえ
+			if (ImGui::Button("No")) {
+				// 開いたウィンドウを閉じる
+				ImGui::CloseCurrentPopup();
+				popupMode_ = EffectEditor::PopUpMode::None;
+			}
+
+			// ポップアップ終了
+			ImGui::EndPopup();
+		}
+		break;
+	case EffectEditor::Load:
+		break;
+	}
+
+	// ウィンドウのスケール調整
+	ImGui::SetWindowFontScale(1.0f);
 }
 
 void EffectEditor::LoadPMenu()
@@ -303,16 +397,16 @@ void EffectEditor::CommonTab()
 	ImGui::NewLine();
 
 	// 粒子タイプの編集
-	EditParticleTypeGUI(editData_.ParticleType);
+	EditParticleTypeGUI(editData_->ParticleType);
 	// 粒子タイプによって処理を分岐
-	switch (editData_.ParticleType)
+	switch (editData_->ParticleType)
 	{
 	case Emitter::ParticleType::Surface:
 		// テクスチャパスを入力
-		ImGuiManager::InputText("Tex Path", editData_.TexPath);
+		ImGuiManager::InputText("Tex Path", editData_->TexPath);
 		ImGui::NewLine();
 		// 平面タイプの選択
-		EditSurfaceTypeGUI(editData_.SurfaceType);
+		EditSurfaceTypeGUI(editData_->SurfaceType);
 		break;
 	case Emitter::ParticleType::model3D:
 		// Todo : 実装途中
@@ -322,20 +416,20 @@ void EffectEditor::CommonTab()
 	ImGui::Separator();
 	
 	// 生存時間の調整
-	ImGui::DragFloat("Emitter Alive Time", &editData_.EmitAliveTime, 0.01f, 0.0f);
-	ImGui::Checkbox("Is Wait Delete All Particles", &editData_.IsWaitDeleteAllParticles);
+	ImGui::DragFloat("Emitter Alive Time", &editData_->EmitAliveTime, 0.01f, 0.0f);
+	ImGui::Checkbox("Is Wait Delete All Particles", &editData_->IsWaitDeleteAllParticles);
 	ImGui::Separator();
 
 	// 生成される粒子数
-	ImGui::DragInt("Particle Emit Count", &editData_.EmitCount, 1.0f, 1);
-	ImGui::DragInt("Particle Max Emit Count", &editData_.MaxEmitCount, 1.0f, 1);
-	ImGui::DragFloat("Particle Emit Time", &editData_.EmitTime, 0.01f, 0.0f);
-	ImGui::DragFloat("Particle Emit Time Amp", &editData_.EmitTimeAmp.max, 0.01f, 0.0f);
-	editData_.EmitTimeAmp.min = -editData_.EmitTimeAmp.max;
+	ImGui::DragInt("Particle Emit Count", &editData_->EmitCount, 1.0f, 1);
+	ImGui::DragInt("Particle Max Emit Count", &editData_->MaxEmitCount, 1.0f, 1);
+	ImGui::DragFloat("Particle Emit Time", &editData_->EmitTime, 0.01f, 0.0f);
+	ImGui::DragFloat("Particle Emit Time Amp", &editData_->EmitTimeAmp.max, 0.01f, 0.0f);
+	editData_->EmitTimeAmp.min = -editData_->EmitTimeAmp.max;
 	ImGui::Separator();
 
-	ImGui::DragFloat("Particle Alive Time Min", &editData_.AliveTimeAmp.min, 0.01f, 0.0f);
-	ImGui::DragFloat("Particle Alive Time Max", &editData_.AliveTimeAmp.max, 0.01f, 0.0f);
+	ImGui::DragFloat("Particle Alive Time Min", &editData_->AliveTimeAmp.min, 0.01f, 0.0f);
+	ImGui::DragFloat("Particle Alive Time Max", &editData_->AliveTimeAmp.max, 0.01f, 0.0f);
 }
 
 void EffectEditor::MoveTab()
@@ -367,20 +461,20 @@ void EffectEditor::MoveTab()
 	{
 	case EffectEditor::VELOCITY:
 		// 速度移動調整GUI
-		EditVelocityGUI("Default", editData_.PVelocityTranslate);
+		EditVelocityGUI("Default", editData_->PVelocityTranslate);
 
 		// 使用状態の切り替え
-		editData_.PVelocityTranslate.isUsed = true;
-		editData_.PEasingTranslate.isUsed = false;
+		editData_->PVelocityTranslate.isUsed = true;
+		editData_->PEasingTranslate.isUsed = false;
 		break;
 	case EffectEditor::EASING:
 
 		// 移動補間調整GUI
-		EditEasingGUI("", editData_.PEasingTranslate, false);
+		EditEasingGUI("", editData_->PEasingTranslate, false);
 
 		// 使用状態の切り替え
-		editData_.PVelocityTranslate.isUsed = false;
-		editData_.PEasingTranslate.isUsed = true;
+		editData_->PVelocityTranslate.isUsed = false;
+		editData_->PEasingTranslate.isUsed = true;
 		break;
 	}
 }
@@ -391,7 +485,7 @@ void EffectEditor::RotateTab()
 	ImGui::NewLine();
 
 	// 編集GUI
-	EditVelocityGUI("Degree", editData_.PVelocityRotate, false);
+	EditVelocityGUI("Degree", editData_->PVelocityRotate, false);
 }
 
 void EffectEditor::ScaleTab()
@@ -399,10 +493,10 @@ void EffectEditor::ScaleTab()
 	ImGui::SeparatorText("Scale Category");
 	ImGui::NewLine();
 
-	ImGui::Checkbox("Is Unification Scale", &editData_.unificationRandomScale);
+	ImGui::Checkbox("Is Unification Scale", &editData_->unificationRandomScale);
 
 	// 移動補間調整GUI
-	EditEasingGUI("", editData_.PEasingScale, editData_.unificationRandomScale);
+	EditEasingGUI("", editData_->PEasingScale, editData_->unificationRandomScale);
 
 }
 
@@ -411,41 +505,20 @@ void EffectEditor::ColorTab()
 	ImGui::SeparatorText("Color Category");
 	ImGui::NewLine();
 
-	EditColorGUI("Start Min", editData_.PEasingColor.startValueAmp.min);
-	EditColorGUI("Start Max", editData_.PEasingColor.startValueAmp.max);
+	EditColorGUI("Start Min", editData_->PEasingColor.startValueAmp.min);
+	EditColorGUI("Start Max", editData_->PEasingColor.startValueAmp.max);
 	ImGui::Separator();
 
-	EditColorGUI("End Min", editData_.PEasingColor.endValueAmp.min);
-	EditColorGUI("End Max", editData_.PEasingColor.endValueAmp.max);
+	EditColorGUI("End Min", editData_->PEasingColor.endValueAmp.min);
+	EditColorGUI("End Max", editData_->PEasingColor.endValueAmp.max);
 	ImGui::Separator();
 
 	// イージングの種類の選択
-	EditEasingTypeGUI(editData_.PEasingColor.type, editData_.PEasingColor.eType);
+	EditEasingTypeGUI(editData_->PEasingColor.type, editData_->PEasingColor.eType);
 }
 
 void EffectEditor::CreateParticle()
 {
-	// 新規エミッタ生成
-	Emitter* newEmitter = new Emitter(LWP::Resource::LoadTexture("Particle/" + editData_.TexPath), editData_.SurfaceType, generateEmitPos_);
-	// 編集値を元にエミッタの初期化
-	newEmitter->Init(editData_.EmitAliveTime, editData_.EmitTime, editData_.EmitCount, editData_.MaxEmitCount)
-		.SetIsWaitDeleteAllParticles(editData_.IsWaitDeleteAllParticles)
-		.SetParticleAliveTimeAmp(editData_.AliveTimeAmp.min, editData_.AliveTimeAmp.max)
-		.SetRotateVelocity(editData_.PVelocityRotate)
-		.SetScaleEasing(editData_.PEasingScale)
-		.SetColorEasing(editData_.PEasingColor);
-
-	// 位置座標のみは別で設定
-	switch (moveMode_)
-	{
-	case EffectEditor::VELOCITY:
-		newEmitter->SetTranslateVelocity(editData_.PVelocityTranslate);
-		break;
-	case EffectEditor::EASING:
-		newEmitter->SetTranslateEasing(editData_.PEasingTranslate);
-		break;
-	}
-
-	// 生成したエミッタを渡す
-	effectManager_->ReciveNewEmitter(newEmitter);
+	// マネージャーに現在の編集名称の粒子を生成するよう指示
+	effectManager_->CreateNewEmitter(nowLoadName_, generateEmitPos_);
 }

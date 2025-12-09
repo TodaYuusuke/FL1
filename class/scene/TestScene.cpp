@@ -33,4 +33,10 @@ void TestScene::Update() {
 	// エフェクト関連初期化
 	EffectManager::GetInstance()->Update();
 	EffectEditor::GetInstance()->Update();
+
+	ImGui::Begin("Test");
+	if (ImGui::Button("Emit")) {
+		EffectManager::GetInstance()->CreateNewEmitter("Spark", { 0.0f, 0.0f, 0.0f });
+	}
+	ImGui::End();
 }

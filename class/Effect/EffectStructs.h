@@ -94,12 +94,12 @@ namespace LWP::Effect {
 		int eType = 0;															// 保存用
 		
 		EasingData<T> Convert() {
+			this->type = static_cast<LWP::Utility::Easing::Type>(eType); // 補間種類の設定
 			EasingData<T> result = *this;
 
 			// ランダムな値を求めて返還する
 			result.startValue	+= this->startValueAmp.Random();	// 開始値
 			result.endValue		+= this->endValueAmp.Random();		// 終了値
-			result.type			= static_cast<LWP::Utility::Easing::Type>(eType); // 補間種類の設定
 			return result;
 		}
 	};
@@ -140,60 +140,60 @@ namespace LWP::Effect {
 				.AddValue("EmitTime", &EmitTime)
 				.AddValue("unificationRandomScale", &unificationRandomScale)
 
-				.AddValue("EmitTimeAmp : Min", &EmitTimeAmp.min)
-				.AddValue("EmitTimeAmp : Max", &EmitTimeAmp.max)
+				.AddValue("EmitTimeAmp-Min", &EmitTimeAmp.min)
+				.AddValue("EmitTimeAmp-Max", &EmitTimeAmp.max)
 
-				.AddValue("AliveTimeAmp : Min", &AliveTimeAmp.min)
-				.AddValue("AliveTimeAmp : Max", &AliveTimeAmp.max)
+				.AddValue("AliveTimeAmp-Min", &AliveTimeAmp.min)
+				.AddValue("AliveTimeAmp-Max", &AliveTimeAmp.max)
 
-				.AddValue("PVelocityT : IsUsed", &PVelocityTranslate.isUsed)
-				.AddValue("PVelocityT : Start", &PVelocityTranslate.startValue)
-				.AddValue("PVelocityT : StartAmp : Min", &PVelocityTranslate.startValueAmp.min)
-				.AddValue("PVelocityT : StartAmp : Max", &PVelocityTranslate.startValueAmp.max)
-				.AddValue("PVelocityT : Velocity", &PVelocityTranslate.velocity)
-				.AddValue("PVelocityT : VelocityAmp : Min", &PVelocityTranslate.velocityAmp.min)
-				.AddValue("PVelocityT : VelocityAmp : Max", &PVelocityTranslate.velocityAmp.max)
-				.AddValue("PVelocityT : Acceleration", &PVelocityTranslate.acceleration)
-				.AddValue("PVelocityT : AccelerationAmp : Min", &PVelocityTranslate.accelerationAmp.min)
-				.AddValue("PVelocityT : AccelerationAmp : Max", &PVelocityTranslate.accelerationAmp.max)
+				.AddValue("PVelocityT-IsUsed", &PVelocityTranslate.isUsed)
+				.AddValue("PVelocityT-Start", &PVelocityTranslate.startValue)
+				.AddValue("PVelocityT-StartAmp-Min", &PVelocityTranslate.startValueAmp.min)
+				.AddValue("PVelocityT-StartAmp-Max", &PVelocityTranslate.startValueAmp.max)
+				.AddValue("PVelocityT-Velocity", &PVelocityTranslate.velocity)
+				.AddValue("PVelocityT-VelocityAmp-Min", &PVelocityTranslate.velocityAmp.min)
+				.AddValue("PVelocityT-VelocityAmp-Max", &PVelocityTranslate.velocityAmp.max)
+				.AddValue("PVelocityT-Acceleration", &PVelocityTranslate.acceleration)
+				.AddValue("PVelocityT-AccelerationAmp-Min", &PVelocityTranslate.accelerationAmp.min)
+				.AddValue("PVelocityT-AccelerationAmp-Max", &PVelocityTranslate.accelerationAmp.max)
 
-				.AddValue("PEasingT : IsUsed", &PEasingTranslate.isUsed)
-				.AddValue("PEasingT : Start", &PEasingTranslate.startValue)
-				.AddValue("PEasingT : StartAmp : Min", &PEasingTranslate.startValueAmp.min)
-				.AddValue("PEasingT : StartAmp : Max", &PEasingTranslate.startValueAmp.max)
-				.AddValue("PEasingT : End", &PEasingTranslate.endValue)
-				.AddValue("PEasingT : EndAmp : Min", &PEasingTranslate.endValueAmp.min)
-				.AddValue("PEasingT : EndAmp : Max", &PEasingTranslate.endValueAmp.max)
-				.AddValue("PEasingT : EasingType", &PEasingTranslate.eType)
+				.AddValue("PEasingT-IsUsed", &PEasingTranslate.isUsed)
+				.AddValue("PEasingT-Start", &PEasingTranslate.startValue)
+				.AddValue("PEasingT-StartAmp-Min", &PEasingTranslate.startValueAmp.min)
+				.AddValue("PEasingT-StartAmp-Max", &PEasingTranslate.startValueAmp.max)
+				.AddValue("PEasingT-End", &PEasingTranslate.endValue)
+				.AddValue("PEasingT-EndAmp-Min", &PEasingTranslate.endValueAmp.min)
+				.AddValue("PEasingT-EndAmp-Max", &PEasingTranslate.endValueAmp.max)
+				.AddValue("PEasingT-EasingType", &PEasingTranslate.eType)
 
-				.AddValue("PVelocityR : IsUsed", &PVelocityRotate.isUsed)
-				.AddValue("PVelocityR : Start", &PVelocityRotate.startValue)
-				.AddValue("PVelocityR : StartAmp : Min", &PVelocityRotate.startValueAmp.min)
-				.AddValue("PVelocityR : StartAmp : Max", &PVelocityRotate.startValueAmp.max)
-				.AddValue("PVelocityR : Velocity", &PVelocityRotate.velocity)
-				.AddValue("PVelocityR : VelocityAmp : Min", &PVelocityRotate.velocityAmp.min)
-				.AddValue("PVelocityR : VelocityAmp : Max", &PVelocityRotate.velocityAmp.max)
-				.AddValue("PVelocityR : Acceleration", &PVelocityRotate.acceleration)
-				.AddValue("PVelocityR : AccelerationAmp : Min", &PVelocityRotate.accelerationAmp.min)
-				.AddValue("PVelocityR : AccelerationAmp : Max", &PVelocityRotate.accelerationAmp.max)
+				.AddValue("PVelocityR-IsUsed", &PVelocityRotate.isUsed)
+				.AddValue("PVelocityR-Start", &PVelocityRotate.startValue)
+				.AddValue("PVelocityR-StartAmp-Min", &PVelocityRotate.startValueAmp.min)
+				.AddValue("PVelocityR-StartAmp-Max", &PVelocityRotate.startValueAmp.max)
+				.AddValue("PVelocityR-Velocity", &PVelocityRotate.velocity)
+				.AddValue("PVelocityR-VelocityAmp-Min", &PVelocityRotate.velocityAmp.min)
+				.AddValue("PVelocityR-VelocityAmp-Max", &PVelocityRotate.velocityAmp.max)
+				.AddValue("PVelocityR-Acceleration", &PVelocityRotate.acceleration)
+				.AddValue("PVelocityR-AccelerationAmp-Min", &PVelocityRotate.accelerationAmp.min)
+				.AddValue("PVelocityR-AccelerationAmp-Max", &PVelocityRotate.accelerationAmp.max)
 
-				.AddValue("PEasingS : IsUsed", &PEasingScale.isUsed)
-				.AddValue("PEasingS : Start", &PEasingScale.startValue)
-				.AddValue("PEasingS : StartAmp : Min", &PEasingScale.startValueAmp.min)
-				.AddValue("PEasingS : StartAmp : Max", &PEasingScale.startValueAmp.max)
-				.AddValue("PEasingS : End", &PEasingScale.endValue)
-				.AddValue("PEasingS : EndAmp : Min", &PEasingScale.endValueAmp.min)
-				.AddValue("PEasingS : EndAmp : Max", &PEasingScale.endValueAmp.max)
-				.AddValue("PEasingS : EasingType", &PEasingScale.eType)
+				.AddValue("PEasingS-IsUsed", &PEasingScale.isUsed)
+				.AddValue("PEasingS-Start", &PEasingScale.startValue)
+				.AddValue("PEasingS-StartAmp-Min", &PEasingScale.startValueAmp.min)
+				.AddValue("PEasingS-StartAmp-Max", &PEasingScale.startValueAmp.max)
+				.AddValue("PEasingS-End", &PEasingScale.endValue)
+				.AddValue("PEasingS-EndAmp-Min", &PEasingScale.endValueAmp.min)
+				.AddValue("PEasingS-EndAmp-Max", &PEasingScale.endValueAmp.max)
+				.AddValue("PEasingS-EasingType", &PEasingScale.eType)
 
-				.AddValue("PEasingC : IsUsed", &PEasingColor.isUsed)
-				.AddValue("PEasingC : Start", &PEasingColor.startValue)
-				.AddValue("PEasingC : StartAmp : Min", &PEasingColor.startValueAmp.min)
-				.AddValue("PEasingC : StartAmp : Max", &PEasingColor.startValueAmp.max)
-				.AddValue("PEasingC : End", &PEasingColor.endValue)
-				.AddValue("PEasingC : EndAmp : Min", &PEasingColor.endValueAmp.min)
-				.AddValue("PEasingC : EndAmp : Max", &PEasingColor.endValueAmp.max)
-				.AddValue("PEasingC : EasingType", &PEasingColor.eType);
+				.AddValue("PEasingC-IsUsed", &PEasingColor.isUsed)
+				.AddValue("PEasingC-Start", &PEasingColor.startValue)
+				.AddValue("PEasingC-StartAmp-Min", &PEasingColor.startValueAmp.min)
+				.AddValue("PEasingC-StartAmp-Max", &PEasingColor.startValueAmp.max)
+				.AddValue("PEasingC-End", &PEasingColor.endValue)
+				.AddValue("PEasingC-EndAmp-Min", &PEasingColor.endValueAmp.min)
+				.AddValue("PEasingC-EndAmp-Max", &PEasingColor.endValueAmp.max)
+				.AddValue("PEasingC-EasingType", &PEasingColor.eType);
 
 			jsonIO.EndGroup();
 		}
