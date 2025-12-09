@@ -62,6 +62,13 @@ void EffectEditor::Init()
 	editData_->PEasingTranslate.Convert();
 	editData_->PEasingScale.Convert();
 	editData_->PEasingColor.Convert();
+
+	if (editData_->PVelocityTranslate.isUsed) {
+		moveMode_ = VELOCITY;
+	}
+	else {
+		moveMode_ = EASING;
+	}
 }
 
 void EffectEditor::Update()
@@ -318,6 +325,13 @@ void EffectEditor::PopUpUpdate()
 					editData_->PEasingTranslate.Convert();
 					editData_->PEasingScale.Convert();
 					editData_->PEasingColor.Convert();
+
+					if (editData_->PVelocityTranslate.isUsed) {
+						moveMode_ = VELOCITY;
+					}
+					else {
+						moveMode_ = EASING;
+					}
 
 					// 開いたウィンドウを閉じる
 					ImGui::CloseCurrentPopup();
