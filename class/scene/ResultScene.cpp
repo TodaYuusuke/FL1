@@ -28,6 +28,8 @@ ResultScene::~ResultScene() {
 }
 
 void ResultScene::Initialize() {
+	//マイコン入力開始
+	ControllerReceiver::GetInstance()->ReOpenPort();
 	// ゲームコントローラ
 	VirtualController::Create();
 

@@ -5,7 +5,7 @@ using namespace LWP::Math;
 using namespace LWP::Input;
 
 LeverDevice::LeverDevice() {
-
+	preKeys_ = ControllerReceiver::GetInstance()->GetData().stick.multiSticks;
 }
 
 void LeverDevice::Update() {

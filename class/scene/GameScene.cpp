@@ -44,6 +44,8 @@ GameScene::~GameScene() {
 }
 
 void GameScene::Initialize() {
+	//ポート再オープン
+	ControllerReceiver::GetInstance()->ReOpenPort();
 	// ゲームコントローラ
 	VirtualController::Create();
 	// ヒットストップクラス
@@ -101,6 +103,7 @@ void GameScene::Initialize() {
 	EffectManager::GetInstance()->Init();
 	EffectEditor::GetInstance()->SetEffectManager(EffectManager::GetInstance());
 	EffectEditor::GetInstance()->Init();
+
 }
 
 void GameScene::Update() {
