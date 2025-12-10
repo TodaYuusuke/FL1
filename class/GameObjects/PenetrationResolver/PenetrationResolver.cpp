@@ -36,7 +36,7 @@ void PenetrationResolver::CheckPushOutObject() {
 		};
 	std::priority_queue<
 		PushOut,				// 要素の型
-		std::vector<PushOut>,		// 内部コンテナ
+		std::vector<PushOut>,	// 内部コンテナ
 		decltype(compare)       // コンパレータ
 	> que{ compare };
 
@@ -45,11 +45,11 @@ void PenetrationResolver::CheckPushOutObject() {
 	}
 
 	checkPushList_.clear();
-	checkPushList_ = pushObjcts_;
 	while (!que.empty()) {
 		checkPushList_.push_back(que.top());
 		que.pop();
 	}
+	pushObjcts_ = checkPushList_;
 
 	// リスト内のペアを総当たり
 	for (std::list<PushOut>::iterator itrA = pushObjcts_.begin(); itrA != pushObjcts_.end(); ++itrA) {
@@ -57,13 +57,14 @@ void PenetrationResolver::CheckPushOutObject() {
 		std::list<PushOut>::iterator itrB = itrA;
 		itrB++;
 		for (; itrB != pushObjcts_.end(); ++itrB) {
+			// 相手との距離
 			Vector3 dist = (*itrB).target->GetWorldTF()->GetWorldPosition() - (*itrA).target->GetWorldTF()->GetWorldPosition();
-			float range = (*itrA).range/* * (*itrB).range*/;
-			if (dist.Length() > range) { continue; }
+			// 押し出し範囲以上なら終了
+			if (dist.Length() > (*itrA).range) { continue; }
 
 			// 押し出し量決定
-			float value = dist.Length() - range;
-			(*itrA).offset = (dist.Normalize() * value)/* * (value / range)*/;
+			float value = dist.Length() - (*itrA).range;
+			(*itrA).offset = (dist.Normalize() * value);
 			(*itrA).target->SetTranslation((*itrA).target->GetWorldTF()->GetWorldPosition() + (*itrA).offset);
 		}
 	}
