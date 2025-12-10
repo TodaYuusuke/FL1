@@ -72,6 +72,11 @@ void WeaponController::Init() {
 		.AddValue<LWP::Math::Quaternion>("Rotate", &hpCircleSurface_.worldTF.rotation)
 		.AddValue<LWP::Math::Vector3>("Translate", &hpCircleSurface_.worldTF.translation)
 		.EndGroup()
+		.BeginGroup("HPNum")
+		.AddValue<LWP::Math::Vector3>("Scale", &transformHpPlane_.scale)
+		.AddValue<LWP::Math::Quaternion>("Rotate", &transformHpPlane_.rotation)
+		.AddValue<LWP::Math::Vector3>("Translate", &transformHpPlane_.translation)
+		.EndGroup()
 
 
 		.CheckJsonFile();
@@ -100,7 +105,11 @@ void WeaponController::Init() {
 	hpCircleSurface_.worldTF.Parent(&cockpit_.worldTF);
 	hpCircleSurface_.anchorPoint = {0.5f,0.0f};
 	hpCircleSurface_.clipRect.max = circleTextureSize_;
-	hpCircleSurface_.material.color = { 166, 238, 175, 255 };
+	hpCircleSurface_.material.color = { 56, 178, 65, 255 };
+	hpPlane_ = std::make_unique<NumPlane>();
+	hpPlane_->Initialize(3);
+	hpPlane_->SetParent(&cockpit_.worldTF);
+
 }
 
 void WeaponController::Update() {
@@ -152,6 +161,8 @@ void WeaponController::Update() {
 	}
 	//hpCircleSurface_.DebugGUI();
 	//CalcHP();
+	hpPlane_->SetCenter(transformHpPlane_.translation);
+	hpPlane_->SetScale(transformHpPlane_.scale);
 }
 
 void WeaponController::CalcHP(Health* health) {
@@ -160,6 +171,8 @@ void WeaponController::CalcHP(Health* health) {
 	float ratio = now / max;
 	hpCircleSurface_.anchorPoint.y = 1.0f - ratio;
 	hpCircleSurface_.clipRect.min.y = (1.0f - ratio) * circleTextureSize_.y;
+	hpPlane_->SetNum(int32_t(ratio*100.0f));
+	hpPlane_->Update();
 }
 
 void WeaponController::DebugGui() {

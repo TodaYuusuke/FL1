@@ -170,5 +170,7 @@ private://UI表示
 	//HP表示(中間用の仮のやつ)
 	LWP::Primitive::ClipSurface hpCircleSurface_;
 	LWP::Math::Vector2 circleTextureSize_ = {255.0f,255.0f};
+	std::unique_ptr<NumPlane> hpPlane_;
+	LWP::Object::TransformQuat transformHpPlane_;
 };
 
