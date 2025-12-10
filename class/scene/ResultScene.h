@@ -22,5 +22,8 @@ public: // ** 純粋仮想関数の実体宣言 ** //
 
 private: // ** これより先に必要な処理や変数を記述 ** //
 
+	// キー入力を促すスプライト
+	LWP::Primitive::NormalSprite anyKeySprite_{};
+
 	std::unique_ptr<ScoreUI> score_;
 };
