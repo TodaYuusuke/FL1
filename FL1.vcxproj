@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="class\Componets\Input\Device\GamePadDevice.cpp" />
+    <ClCompile Include="class\Effect\Utility\DeltaTimer.cpp" />
     <ClCompile Include="class\Componets\Input\Device\LeverDevice.cpp" />
     <ClCompile Include="class\GameObjects\Attack\AttackBase.cpp" />
     <ClCompile Include="class\GameObjects\Attack\Strategy\Movement\HomingMove.cpp" />
@@ -223,6 +224,9 @@
     <ClCompile Include="class\GameObjects\Enemy\EnemyManager.cpp" />
     <ClCompile Include="class\GameObjects\Attack\Explosion\Explosion.cpp" />
     <ClCompile Include="class\Componets\Input\Device\KeyboardDevice.cpp" />
+    <ClCompile Include="class\Effect\Emitter\Emitter.cpp" />
+    <ClCompile Include="class\Effect\EffectManager.cpp" />
+    <ClCompile Include="class\Effect\EffectEditor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\StateBase.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\WaitState.cpp" />
@@ -236,12 +240,19 @@
     <ClCompile Include="class\GameObjects\Attack\Strategy\Movement\StraightMove.cpp" />
     <ClCompile Include="class\GameObjects\Attack\Strategy\Impact\NormalImpact.cpp" />
     <ClCompile Include="class\Componets\Input\VirtualController.cpp" />
+    <ClCompile Include="class\Effect\Particle\Particle.cpp" />
     <ClCompile Include="class\GameObjects\PenetrationResolver\PenetrationResolver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="class\Componets\Input\Device\GamePadDevice.h" />
     <ClInclude Include="class\Componets\Input\Device\LeverDevice.h" />
     <ClInclude Include="class\Componets\Input\InputConfig.h" />
+    <ClInclude Include="class\Effect\EffectStructs.h" />
+    <ClInclude Include="class\Effect\Particle\Components\Child\EasingComponent.h" />
+    <ClInclude Include="class\Effect\Particle\Components\IParticleComponent.h" />
+    <ClInclude Include="class\Effect\Particle\Components\ParticleSystemIncluder.h" />
+    <ClInclude Include="class\Effect\Utility\DeltaTimer.h" />
+    <ClInclude Include="class\Effect\Utility\Lerp.h" />
     <ClInclude Include="class\GameObjects\Attack\AttackBase.h" />
     <ClInclude Include="class\GameObjects\Attack\AttackConfig.h" />
     <ClInclude Include="class\GameObjects\Attack\Strategy\Movement\HomingMove.h" />
@@ -343,6 +354,11 @@
     <ClInclude Include="class\Componets\Input\VirtualController.h" />
     <ClInclude Include="class\Componets\Input\Device\IInputDevice.h" />
     <ClInclude Include="class\Componets\Input\Device\KeyboardDevice.h" />
+    <ClInclude Include="class\Effect\Particle\Particle.h" />
+    <ClInclude Include="class\Effect\Particle\Components\Child\VelocityComponent.h" />
+    <ClInclude Include="class\Effect\Emitter\Emitter.h" />
+    <ClInclude Include="class\Effect\EffectManager.h" />
+    <ClInclude Include="class\Effect\EffectEditor.h" />
     <ClInclude Include="class\GameObjects\PenetrationResolver\PenetrationResolver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

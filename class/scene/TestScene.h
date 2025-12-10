@@ -1,11 +1,13 @@
 #pragma once
 #include "scene/IScene.h"
+#include "../Effect/EffectManager.h"
+#include "../Effect/EffectEditor.h"
 
 class TestScene final
 	: public IScene {
 public:
-	TestScene() = default;
-	~TestScene() = default;
+	TestScene();
+	~TestScene();
 
 	//*** 純粋仮想関数の実体宣言 ***//
 
@@ -17,7 +19,7 @@ public:
 
 private: //*** これより先に必要な処理や変数を記述 ***//
 
+	// テスト用モデル
 	LWP::Resource::RigidModel testModel_;
-	LWP::Primitive::NormalSprite sprite_;
 
 };
