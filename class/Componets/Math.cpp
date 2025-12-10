@@ -118,7 +118,7 @@ namespace FLMath {
 	Vector2 ConvertWorldToScreen(const Vector3& worldPos, const Matrix4x4& viewProjection) {
 		Vector3 result = worldPos;
 		if (result.x == 0 && result.y == 0 && result.z == 0) {
-			result = { 0.000001f,0.000001f ,0.0f };
+			result = { 0.000001f,0.000001f ,0.000001f };
 		}
 		// ビューポート行列
 		Matrix4x4 matViewport = Matrix4x4::CreateViewportMatrix(0, 0, LWP::Info::GetWindowWidthF(), LWP::Info::GetWindowHeightF(), 0, 1);

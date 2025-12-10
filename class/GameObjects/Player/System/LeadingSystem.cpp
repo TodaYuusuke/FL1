@@ -55,6 +55,7 @@ void LeadingSystem::Update() {
 	}
 	else {
 		CalFutureTargetPos(bulletSpeed_);
+		leadingTargetPos_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor");
 	}
 
 	reticle_.worldTF.translation = {
