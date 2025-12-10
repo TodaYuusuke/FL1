@@ -18,6 +18,20 @@ void VirtualController::Update() {
 	}
 }
 
+bool VirtualController::PressAnyKey() {
+	for (int i = 0; i < device_.size(); i++) {
+		if (device_[i]->PressAnyKey()) return true; 
+	}
+	return false;
+}
+
+bool VirtualController::TriggerAnyKey() {
+	for (int i = 0; i < device_.size(); i++) {
+		if (device_[i]->TriggerAnyKey()) return true;
+	}
+	return false;
+}
+
 bool VirtualController::GetPress(BindActionType actionType) const {
 	bool result = false;
 	for (int i = 0; i < device_.size(); i++) {

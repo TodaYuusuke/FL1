@@ -13,10 +13,45 @@ GamePadDevice::GamePadDevice() {
 	bindData_[(int)BindActionType::kBoost] = Command::GamePad::boost;
 	bindData_[(int)BindActionType::kInteract] = Command::GamePad::interact;
 	bindData_[(int)BindActionType::kCancel] = Command::GamePad::cancel;
+
+	anyKeyBind_.push_back(XBOX_A);
+	anyKeyBind_.push_back(XBOX_B);
+	anyKeyBind_.push_back(XBOX_X);
+	anyKeyBind_.push_back(XBOX_Y);
+	anyKeyBind_.push_back(XBOX_LB);
+	anyKeyBind_.push_back(XBOX_RB);
+	anyKeyBind_.push_back(XBOX_LT);
+	anyKeyBind_.push_back(XBOX_RT);
+	anyKeyBind_.push_back(XBOX_START);
+	anyKeyBind_.push_back(XBOX_BACK);
+	anyKeyBind_.push_back(XBOX_LSTICK);
+	anyKeyBind_.push_back(XBOX_RSTICK);
+	anyKeyBind_.push_back(XBOX_DPAD_UP);
+	anyKeyBind_.push_back(XBOX_DPAD_DOWN);
+	anyKeyBind_.push_back(XBOX_DPAD_LEFT);
+	anyKeyBind_.push_back(XBOX_DPAD_RIGHT);
 }
 
 void GamePadDevice::Update() {
 
+}
+
+bool GamePadDevice::PressAnyKey() {
+	for (int& key : anyKeyBind_) {
+		if (Pad::GetPress(key)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool GamePadDevice::TriggerAnyKey() {
+	for (int& key : anyKeyBind_) {
+		if (Pad::GetTrigger(key)) {
+			return true;
+		}
+	}
+	return false;
 }
 
 bool GamePadDevice::GetPress(BindActionType code) const {

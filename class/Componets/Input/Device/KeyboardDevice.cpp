@@ -19,6 +19,14 @@ void KeyboardDevice::Update() {
 
 }
 
+bool KeyboardDevice::PressAnyKey() {
+	return Keyboard::GetPress(DIK_SPACE);
+}
+
+bool KeyboardDevice::TriggerAnyKey() {
+	return Keyboard::GetTrigger(DIK_SPACE);
+}
+
 bool KeyboardDevice::GetPress(BindActionType code) const {
 	return Keyboard::GetPress(bindData_[(int)code]);
 }

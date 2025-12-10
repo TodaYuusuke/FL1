@@ -12,6 +12,9 @@ public:
 	void Update();
 
 public:// アクセサ
+
+    bool PressAnyKey();
+    bool TriggerAnyKey();
     /// <summary>
     /// キーが押されているかを取得
     /// </summary>

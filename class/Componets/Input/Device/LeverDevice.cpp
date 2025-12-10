@@ -15,6 +15,30 @@ void LeverDevice::Update() {
 	if (!ControllerReceiver::GetInstance()->IsOpen()) preKeys_ = {};
 }
 
+bool LeverDevice::PressAnyKey() {
+	if (!ControllerReceiver::GetInstance()->IsOpen()) return false;
+	GameUsedData::multiSticks::stick2Shaft result = ControllerReceiver::GetInstance()->GetData().stick.multiSticks;
+
+	return Keyboard::GetPress(DIK_LSHIFT)						||	// 
+		result.stickLeft.button0								||	// 
+		result.stickRight.button0								||	// 
+		result.stickLeft.button1								||	// 
+		result.stickRight.button1								||	// 
+		Keyboard::GetPress(InputConfig::Command::Key::boost);		// 
+}
+
+bool LeverDevice::TriggerAnyKey() {
+	if (!ControllerReceiver::GetInstance()->IsOpen()) return false;
+	GameUsedData::multiSticks::stick2Shaft result = ControllerReceiver::GetInstance()->GetData().stick.multiSticks;
+
+	return (Keyboard::GetTrigger(DIK_LSHIFT))							||	// 
+			(result.stickLeft.button0 && !preKeys_.stickLeft.button0)	||	// 
+			(result.stickRight.button0 && !preKeys_.stickRight.button0) ||	// 
+			(result.stickLeft.button1 && !preKeys_.stickLeft.button1)	||	// 
+			(result.stickRight.button1 && !preKeys_.stickRight.button1) ||	// 
+			(Keyboard::GetTrigger(InputConfig::Command::Key::boost));
+}
+
 bool LeverDevice::GetPress(BindActionType code) const {
 	if (!ControllerReceiver::GetInstance()->IsOpen()) return false;
 
@@ -58,7 +82,7 @@ bool LeverDevice::GetTrigger(BindActionType code) const {
 
 	switch (code) {
 	case BindActionType::kCollect:
-		return Keyboard::GetPress(DIK_LSHIFT);
+		return Keyboard::GetTrigger(DIK_LSHIFT);
 		break;
 	case BindActionType::kLeftHand:
 		return result.stickLeft.button0 && !preKeys_.stickLeft.button0;
@@ -73,7 +97,7 @@ bool LeverDevice::GetTrigger(BindActionType code) const {
 		return result.stickRight.button1 && !preKeys_.stickRight.button1;
 		break;
 	case BindActionType::kBoost:
-		return Keyboard::GetPress(InputConfig::Command::Key::boost);
+		return Keyboard::GetTrigger(InputConfig::Command::Key::boost);
 		break;
 	case BindActionType::kInteract:
 		return false;

@@ -15,6 +15,8 @@ public:
     virtual void Update() = 0;
 
 public:// アクセサ
+    virtual bool PressAnyKey() = 0;
+    virtual bool TriggerAnyKey() = 0;
     /// <summary>
     /// キーが押されているかを取得
     /// </summary>

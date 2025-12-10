@@ -22,19 +22,6 @@ using namespace LWP::Utility;
 using namespace LWP::Info;
 
 GameScene::GameScene() {
-	// ゲームコントローラ
-	VirtualController::Create();
-	// ヒットストップクラス
-	HitStopController::Create();
-	// 弾管理クラスを生成
-	AttackManager::Create();
-	// 武器管理クラスを作成
-	WeaponManager::Create();
-	// 押し出し
-	PenetrationResolver::Create();
-	// インスタンス生成
-	EffectManager::Create();
-	EffectEditor::Create();
 }
 
 GameScene::~GameScene() {
@@ -57,6 +44,20 @@ GameScene::~GameScene() {
 }
 
 void GameScene::Initialize() {
+	// ゲームコントローラ
+	VirtualController::Create();
+	// ヒットストップクラス
+	HitStopController::Create();
+	// 弾管理クラスを生成
+	AttackManager::Create();
+	// 武器管理クラスを作成
+	WeaponManager::Create();
+	// 押し出し
+	PenetrationResolver::Create();
+	// インスタンス生成
+	EffectManager::Create();
+	EffectEditor::Create();
+
 	// 地形情報読み込み
 	levelData.LoadShortPath("gameScene.json");
 

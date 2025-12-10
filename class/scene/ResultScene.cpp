@@ -3,8 +3,10 @@
 #include "Title.h"
 #include "../GameObjects/Attack/AttackManager.h"
 #include "../GameObjects/Weapon/WeaponManager.h"
-#include "../Componets/HitStopController.h"
 #include "../GameObjects/UI/ScoreUI/ScoreManager.h"
+#include "../Componets/HitStopController.h"
+#include "../Componets/Input/VirtualController.h"
+#include "../Componets/InputMyController/ControllerReceiver.h"
 
 using namespace LWP;
 using namespace LWP::Resource;
@@ -16,14 +18,19 @@ using namespace LWP::Utility;
 using namespace LWP::Info;
 
 ResultScene::ResultScene() {
-
 }
 
 ResultScene::~ResultScene() {
-
+	// ゲームコントローラ
+	VirtualController::Destroy();
+	//マイコン入力の停止
+	ControllerReceiver::GetInstance()->ClosePort();
 }
 
 void ResultScene::Initialize() {
+	// ゲームコントローラ
+	VirtualController::Create();
+
 	anyKeySprite_.LoadTexture("UI/start_UI.png");
 	anyKeySprite_.FitToTexture();
 	anyKeySprite_.anchorPoint = { 0.5f, 0.5f };
@@ -35,7 +42,13 @@ void ResultScene::Initialize() {
 }
 
 void ResultScene::Update() {
-	
+	// コントローラー
+	VirtualController::GetInstance()->Update();
+
+	if (VirtualController::GetInstance()->TriggerAnyKey()) {
+		nextSceneFunction = []() { return new Title(); };
+	}
+
 	//スコア表示(テスト)
 	score_->SetScore(ScoreCounter::GetInstance()->GetScore());
 	score_->Update();

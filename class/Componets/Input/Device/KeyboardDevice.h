@@ -14,6 +14,8 @@ public:
     void Update() override;
 
 public:// アクセサ
+    bool PressAnyKey() override;
+    bool TriggerAnyKey() override;
     /// <summary>
     /// キーが押されているかを取得
     /// </summary>

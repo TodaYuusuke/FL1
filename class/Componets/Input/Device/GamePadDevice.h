@@ -14,6 +14,8 @@ public:
     void Update()  override;
 
 public:// アクセサ
+    bool PressAnyKey() override;
+    bool TriggerAnyKey() override;
     /// <summary>
     /// キーが押されているかを取得
     /// </summary>
@@ -44,4 +46,5 @@ public:// アクセサ
     LWP::Math::Vector2 GetRAxis()  override;
 
 private:
+    std::vector<int> anyKeyBind_;
 };
