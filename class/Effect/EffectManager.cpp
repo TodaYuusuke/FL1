@@ -22,6 +22,20 @@ EffectManager::~EffectManager()
 
 void EffectManager::Init()
 {
+	// 全てのエミッタの削除
+	for (Emitter* e : emitters_) {
+		delete e;
+	}
+	// 配列クリア
+	emitters_.clear();
+
+	// 全てのデータの削除
+	for (auto& [key, ptr] : effectDatas_) {
+		delete ptr;
+	}
+	// 配列クリア
+	effectDatas_.clear();
+
 	// jsonIOの初期化
 	jsonIO_.Init(filePath_);
 
