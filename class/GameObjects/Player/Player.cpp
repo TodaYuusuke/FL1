@@ -113,6 +113,9 @@ void Player::Init() {
 }
 
 void Player::Update() {
+	//HP表示
+	weaponController_->CalcHP(GetHP());
+
 	if (hp_->GetIsDead()) {
 		isAlive_ = false;
 		return;

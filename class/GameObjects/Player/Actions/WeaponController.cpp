@@ -67,6 +67,12 @@ void WeaponController::Init() {
 		.AddValue<LWP::Math::Vector3>("Translate", &sampleBulletSurface_.worldTF.translation)
 		.AddValue<int>("BulletNumDigit", &kBulletNumDigit_)
 		.EndGroup()
+		.BeginGroup("HPCircle")
+		.AddValue<LWP::Math::Vector3>("Scale", &hpCircleSurface_.worldTF.scale)
+		.AddValue<LWP::Math::Quaternion>("Rotate", &hpCircleSurface_.worldTF.rotation)
+		.AddValue<LWP::Math::Vector3>("Translate", &hpCircleSurface_.worldTF.translation)
+		.EndGroup()
+
 
 		.CheckJsonFile();
 
@@ -89,6 +95,12 @@ void WeaponController::Init() {
 
 	//コックピット
 	cockpit_.LoadShortPath("Cockpit/Cockpit.gltf");
+
+	hpCircleSurface_.LoadTexture("HP_circle.png");
+	hpCircleSurface_.worldTF.Parent(&cockpit_.worldTF);
+	hpCircleSurface_.anchorPoint = {0.5f,0.0f};
+	hpCircleSurface_.clipRect.max = circleTextureSize_;
+	hpCircleSurface_.material.color = { 166, 238, 175, 255 };
 }
 
 void WeaponController::Update() {
@@ -107,7 +119,6 @@ void WeaponController::Update() {
 	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount; side++) {
 		for (int i = 0; i < (int)WeaponType::kCount; i++) {
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.Parent(&cockpit_.worldTF);
-			//weaponSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
 			weaponSurfaces_[(WeaponSide)side][i].isActive = false;
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.translation = sampleWeaponSurface_[(WeaponSide)side].worldTF.translation;
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.rotation = sampleWeaponSurface_[(WeaponSide)side].worldTF.rotation;
@@ -139,6 +150,16 @@ void WeaponController::Update() {
 		bulletNums_[(WeaponSide)side]->SetParent(&(sampleWeaponSurface_[(WeaponSide)side].worldTF));
 		bulletNums_[(WeaponSide)side]->Update();
 	}
+	//hpCircleSurface_.DebugGUI();
+	//CalcHP();
+}
+
+void WeaponController::CalcHP(Health* health) {
+	float now = health->GetHealth();
+	float max = health->GetMaxHealth();
+	float ratio = now / max;
+	hpCircleSurface_.anchorPoint.y = 1.0f - ratio;
+	hpCircleSurface_.clipRect.min.y = (1.0f - ratio) * circleTextureSize_.y;
 }
 
 void WeaponController::DebugGui() {

@@ -33,6 +33,11 @@ public:
 	/// </summary>
 	void DebugGui() override;
 
+	/// <summary>
+	/// HPの割合計算
+	/// </summary>
+	void CalcHP(Health* health);
+
 private:
 	/// <summary>
 	/// 入力処理
@@ -161,5 +166,9 @@ private://UI表示
 	//コックピット表示
 	LWP::Resource::RigidModel cockpit_;
 	LWP::Utility::JsonIO json_;
+
+	//HP表示(中間用の仮のやつ)
+	LWP::Primitive::ClipSurface hpCircleSurface_;
+	LWP::Math::Vector2 circleTextureSize_ = {255.0f,255.0f};
 };
 
