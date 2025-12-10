@@ -9,7 +9,7 @@
 #include  "../World/IWorld.h"
 #include "EnemyConfig.h"
 #include "../UI/ScoreUI/ScoreManager.h"
-
+#include "../PenetrationResolver/PenetrationResolver.h"
 
 using namespace EnemyConfig;
 using namespace LWP;
@@ -170,7 +170,8 @@ void EnemyManager::DebugGui() {
 			// 敵生成
 			if (ImGui::Button("Create")) {
 				// プレビューで選択した敵を生成
-				enemies_.push_back(CreateEnemy());
+				Actor* enemy = CreateEnemy();
+				enemies_.push_back(enemy);
 			}
 			ImGui::TreePop();
 		}
@@ -340,24 +341,35 @@ Actor* EnemyManager::CreateTestEnemy() {
 }
 
 Actor* EnemyManager::CreateEnemy() {
+	Actor* enemy = nullptr;
 	switch (selectCreateEnemyType_) {
 		// 近接
 	case (int)EnemyType::kMelee:
-		return CreateMeleeEnemy();
+		enemy = CreateMeleeEnemy();
+		PenetrationResolver::GetInstance()->RegisterObject(enemy);
+		return enemy;
 		break;
 		// 遠距離
 	case (int)EnemyType::kGunner:
-		return CreateGunnerEnemy();
+		enemy = CreateGunnerEnemy();
+		PenetrationResolver::GetInstance()->RegisterObject(enemy);
+		return enemy;
 		break;
 	case (int)EnemyType::kDrone:
-		return CreateDroneEnemy();
+		enemy = CreateDroneEnemy();
+		PenetrationResolver::GetInstance()->RegisterObject(enemy);
+		return enemy;
 		break;
 	case (int)EnemyType::kCargo:
-		return CreateCargoEnemy();
+		enemy = CreateCargoEnemy();
+		PenetrationResolver::GetInstance()->RegisterObject(enemy);
+		return enemy;
 		break;
 		// テスト
 	case (int)EnemyType::kTest:
-		return CreateTestEnemy();
+		enemy = CreateTestEnemy();
+		PenetrationResolver::GetInstance()->RegisterObject(enemy);
+		return enemy;
 		break;
 	default:
 		return nullptr;

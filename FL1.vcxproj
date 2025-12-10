@@ -236,6 +236,7 @@
     <ClCompile Include="class\GameObjects\Attack\Strategy\Movement\StraightMove.cpp" />
     <ClCompile Include="class\GameObjects\Attack\Strategy\Impact\NormalImpact.cpp" />
     <ClCompile Include="class\Componets\Input\VirtualController.cpp" />
+    <ClCompile Include="class\GameObjects\PenetrationResolver\PenetrationResolver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="class\Componets\Input\Device\GamePadDevice.h" />
@@ -342,6 +343,7 @@
     <ClInclude Include="class\Componets\Input\VirtualController.h" />
     <ClInclude Include="class\Componets\Input\Device\IInputDevice.h" />
     <ClInclude Include="class\Componets\Input\Device\KeyboardDevice.h" />
+    <ClInclude Include="class\GameObjects\PenetrationResolver\PenetrationResolver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

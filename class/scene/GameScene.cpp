@@ -1,14 +1,14 @@
 #include "GameScene.h"
 #include "NullScene.h"
 #include "Title.h"
+#include "ResultScene.h"
 #include "../GameObjects/Attack/AttackManager.h"
 #include "../GameObjects/Weapon/WeaponManager.h"
+#include "../GameObjects/UI/ScoreUI/ScoreManager.h"
+#include "../GameObjects/PenetrationResolver/PenetrationResolver.h"
 #include "../Componets/HitStopController.h"
 #include "../Componets/Input/VirtualController.h"
-#include "../GameObjects/UI/ScoreUI/ScoreManager.h"
-#include "ResultScene.h"
 #include "../Componets/InputMyController/ControllerReceiver.h"
-
 
 using namespace LWP;
 using namespace LWP::Resource;
@@ -28,9 +28,13 @@ GameScene::GameScene() {
 	AttackManager::Create();
 	// 武器管理クラスを作成
 	WeaponManager::Create();
+	// 押し出し
+	PenetrationResolver::Create();
 }
 
 GameScene::~GameScene() {
+	// 押し出し
+	PenetrationResolver::Destroy();
 	// 武器管理クラス
 	AttackManager::Destroy();
 	// 弾管理クラス
@@ -72,6 +76,8 @@ void GameScene::Initialize() {
 	// 武器管理クラスにワールドのアドレスを登録
 	WeaponManager::GetInstance()->SetWorld(world_.get());
 
+	PenetrationResolver::GetInstance()->RegisterObject(player_, 1);
+
 	// 調整項目
 	json_.Init("Game.json")
 		.AddValue<int>("ClearKillCount", &clearKillCount)
@@ -86,10 +92,13 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	// 敵を一定数倒したら終了
 	if (enemyManager_->GetKillCount() >= clearKillCount || !player_->GetIsAlive()) {
-		
+		nextSceneFunction = []() { return new ResultScene(); };
 	}
 	// ヒットストップ
 	HitStopController::GetInstance()->Update();
+
+	// 押し出し
+	PenetrationResolver::GetInstance()->Update();
 
 	// 敵管理
 	enemyManager_->Update();
@@ -108,7 +117,6 @@ void GameScene::Update() {
 	//スコア表示(テスト)
 	score_->SetScore(ScoreCounter::GetInstance()->GetScore());
 	score_->Update();
-
 
 #ifdef _DEBUG
 
