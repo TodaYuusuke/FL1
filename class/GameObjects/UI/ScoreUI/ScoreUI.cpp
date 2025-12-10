@@ -20,9 +20,12 @@ void ScoreUI::Initialize(size_t num) {
 }
 
 void ScoreUI::Update() {
+#ifdef _DEBUG
 	ImGui::Begin("score");
 	ImGui::DragFloat2("center",&(center_.x));
 	ImGui::End();
+#endif // _DEBUG
+
 	SetNumbers();
 	CalcTranslate();
 }

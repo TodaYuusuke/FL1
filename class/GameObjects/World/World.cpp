@@ -29,9 +29,12 @@ void World::DebugGui() {
 	if (ImGui::BeginTabItem("World")) {
 		//GUIの描画
 		actorManager.DrawGui();
+		if (ImGui::TreeNode("Skydome")) {
+			skydome_.DebugGUI();
+			ImGui::TreePop();
+		}
 		ImGui::EndTabItem();
 	}
-	skydome_.DebugGUI();
 }
 
 //消去

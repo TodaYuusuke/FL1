@@ -4,9 +4,7 @@
 #include "../GameObjects/Player/Player.h"
 #include "../GameObjects/Enemy/EnemyManager.h"
 #include "../GameObjects/Camera/FollowCamera/FollowCamera.h"
-
 #include "../GameObjects/UI/ScoreUI/ScoreUI.h"
-
 #include "Adapter.h"
 
 class GameScene final
@@ -27,7 +25,6 @@ private: // 調整項目
 	LWP::Utility::JsonIO json_;
 
 private:
-
 	// 追従カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
 	// 敵管理クラス

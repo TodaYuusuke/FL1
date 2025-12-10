@@ -262,19 +262,18 @@ void Player::AdjustRotate() {
 		if (!isTriggerLockOn_) moveRot_ = (Quaternion{ 0,0,0,1 });
 
 		t = 1.0f;
+		Vector3 targetPos = leadingSystem_->GetLeadingTarget()->GetModel().GetJointWorldPosition("LockOnAnchor");
 		Vector3 playerDir = (Vector3{ 0,0,1 } *Matrix4x4::CreateRotateXYZMatrix(model_.worldTF.rotation)).Normalize();
-		Vector3 p2eDir = (leadingSystem_->GetLeadingTarget()->GetWorldTF()->GetWorldPosition() - model_.worldTF.GetWorldPosition()).Normalize();
-		p2eDir.y = 0.0f;
-		float dot = Vector3::Dot(playerDir, p2eDir);
-		dot = std::clamp(dot, -1.0f, 1.0f);
-		float angle = std::acos(dot);     // ラジアン
+		playerDir.y = 0.0f;
+		Vector3 targetDir = (targetPos - model_.worldTF.GetWorldPosition()).Normalize();
+		targetDir.y = 0.0f;
 
-		Vector3 cross = Vector3::Cross(playerDir, p2eDir);
-		// cross.y > 0 なら左に、< 0 なら右に回る
-		float sign = (cross.y > 0.0f) ? 1.0f : -1.0f;
-		float signedAngle = angle * sign;
+		float dot = Vector3::Dot(playerDir, targetDir);
+		float crossY = playerDir.x * targetDir.z - playerDir.z * targetDir.x;
 
-		Quaternion q = Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, signedAngle);
+		float signedAngle = atan2(crossY, dot);
+
+		Quaternion q = Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, -signedAngle);
 		qNext = (q * qCurr * moveRot_).Normalize();
 		lockOnOmega_ = qNext;
 

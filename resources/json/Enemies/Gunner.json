@@ -3,12 +3,12 @@
         "Vector3 :Max": [
             3.0,
             9.5,
-            1.0
+            3.0
         ],
         "Vector3 :Min": [
             -3.0,
             -0.5,
-            -1.0
+            -3.0
         ]
     },
     "Group :Weapon": {
@@ -32,5 +32,5 @@
     },
     "float :HP": 50.0,
     "float :Score": 120.0,
-    "string :BTFileName": "resources/json/BT/BT_Drone.json"
+    "string :BTFileName": "resources/json/BT/BT_Gunner.json"
 }

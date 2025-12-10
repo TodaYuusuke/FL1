@@ -82,14 +82,16 @@ private:// デバッグ用の関数群
 	/// 選ばれた敵を作成(デバッグ用)
 	/// </summary>
 	Actor* CreateEnemy();
+
+	void SelectType(std::vector<std::string> list, int& selectedType, std::string label);
 	/// <summary>
 	/// 作成する敵を選択(デバッグ用)
 	/// </summary>
-	void SelectCreateEnemy(const std::string& label);
+	void SelectCreateEnemy(std::map<int, EnemyData> data, int& selectType, const std::string& label);
 	/// <summary>
 	/// 読み込むjsonファイル選択(デバッグ用)
 	/// </summary>
-	void SelectJsonFile(const std::string& label);
+	void SelectJsonFile(EnemyData& data, int& selectedType, const std::string& label);
 	/// <summary>
 	/// 統制するレベル(デバッグ用)
 	/// </summary>
@@ -186,6 +188,7 @@ private:// デバッグ用変数
 	int selectCreateEnemyType_;
 	// behaviorTreeのファイル名一覧
 	std::vector<std::string> enemyBTFileNamePreview_;
+	int modifyBTFile_;
 	int selectBTFileName_;
 	// レベル一覧
 	std::vector<std::string> levelPreview_;
@@ -217,7 +220,7 @@ private:// 外部から受け取る変数
 
 private:// 調整項目
 	// ドローンの浮遊標高
-	float dronefloatHeight_ = 4.0f;
+	float dronefloatHeight_ = 10.0f;
 
 	// 一度に出現する敵の最小数
 	int minSameSpawnNum_ = 4;

@@ -30,13 +30,13 @@ void Health::Damage(float value) {
 void Health::Damage(float value, const std::string& name) {
 	isHit_ = true;
 
-	// 多重被弾回避
-	if (!damageAttackerName_.empty()) {
-		auto result = std::find(damageAttackerName_.begin(), damageAttackerName_.end(), name);
-		if (result != damageAttackerName_.end()) {
-			return;
-		}
-	}
+	//// 多重被弾回避
+	//if (!damageAttackerName_.empty()) {
+	//	auto result = std::find(damageAttackerName_.begin(), damageAttackerName_.end(), name);
+	//	if (result != damageAttackerName_.end()) {
+	//		return;
+	//	}
+	//}
 
 	// 攻撃者の名前
 	damageAttackerName_.push_back(name);

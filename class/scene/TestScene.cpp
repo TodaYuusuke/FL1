@@ -4,28 +4,39 @@
 using namespace LWP;
 using namespace LWP::Input;
 
+TestScene::TestScene()
+{
+	// インスタンス生成
+	EffectManager::Create();
+	EffectEditor::Create();
+}
+
+TestScene::~TestScene()
+{
+	// インスタンス生成
+	EffectManager::Destroy();
+	EffectEditor::Destroy();
+}
+
 // 初期化
 void TestScene::Initialize() {
+	// エフェクト関連初期化
+	EffectManager::GetInstance()->Init();
+	EffectEditor::GetInstance()->SetEffectManager(EffectManager::GetInstance());
+	EffectEditor::GetInstance()->Init();
+
 	testModel_.LoadCube();				// 立方体と球はデフォルトで用意してある
-	sprite_.LoadTexture("uvChecker.png");	// resources/texture直下のパスを指定する
 }
 
 // 更新
 void TestScene::Update() {
-	// 次のシーンへ以降
-	if (Input::Keyboard::GetTrigger(DIK_P)) {
-		nextSceneFunction = []() { return new Title(); };
-	}
+	// エフェクト関連初期化
+	EffectManager::GetInstance()->Update();
+	EffectEditor::GetInstance()->Update();
 
-	// 立方体のデバッグGUI
 	ImGui::Begin("Test");
-	if(ImGui::TreeNode("Cube Model")) {
-		testModel_.DebugGUI();
-		ImGui::TreePop();
-	}
-	if (ImGui::TreeNode("Sprite")) {
-		sprite_.DebugGUI();
-		ImGui::TreePop();
+	if (ImGui::Button("Emit")) {
+		EffectManager::GetInstance()->CreateNewEmitter("Spark", { 0.0f, 0.0f, 0.0f });
 	}
 	ImGui::End();
 }

@@ -87,6 +87,21 @@ namespace EnemyConfig {
 			"resources/json/BT/BT_Drone.json",
 			"resources/json/BT/BT_Cargo.json"
 		};
+
+		/// <summary>
+		/// ビヘイビアツリーのファイル名から要素番号を検索
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		inline int GetBTNameIndex(const std::string& name) {
+			for (int i = 0; i < fileName.size(); i++) {
+				if (fileName[i] == name) {
+					return i;
+				}
+			}
+			// 該当なし
+			return -1;
+		}
 	}
 
 	// モデル名前
@@ -96,9 +111,9 @@ namespace EnemyConfig {
 		inline std::array<std::string, (int)EnemyType::kCount> modelName = {
 			"resources/model/Enemy/Melee/Player.gltf",			// 近距離
 			"resources/model/Enemy/Gunner/Player.gltf",			// 遠距離
-			"resources/model/Enemy/Drone/Player.gltf",			// ドローン
-			"resources/model/Enemy/Cargo/Player.gltf",			// 輸送機
-			"resources/model/Enemy/Cargo/Player.gltf"			// テスト敵
+			"resources/model/Enemy/Drone/Drone.gltf",			// ドローン
+			"resources/model/Enemy/Cargo/HoverTank.gltf",		// 輸送機
+			"resources/model/Enemy/Melee/Player.gltf"			// テスト敵
 		};
 	}
 

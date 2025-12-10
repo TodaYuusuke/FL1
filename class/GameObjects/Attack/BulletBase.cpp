@@ -57,7 +57,7 @@ BulletBase::BulletBase(const AttackData& data, Actor* target, const LWP::Math::V
 	}
 
 	if (data_.movementType == (int)MovementType::kStraight) {
-		movement_  = std::make_unique<StraightMove>();
+		movement_ = std::make_unique<StraightMove>();
 	}
 	else if (data_.movementType == (int)MovementType::kHoming) {
 		movement_ = std::make_unique<HomingMove>(target);
@@ -84,6 +84,14 @@ void BulletBase::Update() {
 	// 移動方式
 	movement_->Update(this);
 
+	// 地面についたら消える
+	if (body_.worldTF.GetWorldPosition().y <= 0.0f) {
+		if (isAlive_) {
+			isAlive_ = false;
+			if (impact_) impact_->OnHit(this);
+		}
+	}
+
 	// 線損時間を過ぎているなら消す
 	if (currentFrame_ <= 0.0f) {
 		isAlive_ = false;
@@ -95,7 +103,7 @@ void BulletBase::Update() {
 
 void BulletBase::OnCollision(LWP::Object::Collision* hitTarget) {
 	if (isAlive_) {
-		if(impact_) impact_->OnHit(this);
+		if (impact_) impact_->OnHit(this);
 	}
 
 	hitTarget;

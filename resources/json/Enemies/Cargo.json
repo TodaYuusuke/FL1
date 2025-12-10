@@ -1,14 +1,14 @@
 {
     "Group :Collider": {
         "Vector3 :Max": [
-            0.5,
-            0.5,
-            0.5
+            3.0,
+            3.0,
+            3.0
         ],
         "Vector3 :Min": [
-            -0.5,
-            -0.5,
-            -0.5
+            -3.0,
+            -3.0,
+            -3.0
         ]
     },
     "Group :Weapon": {
@@ -32,5 +32,5 @@
     },
     "float :HP": 10.0,
     "float :Score": 20.0,
-    "string :BTFileName": "resources/json/BT/BT_Drone.json"
+    "string :BTFileName": "resources/json/BT/BT_Cargo.json"
 }
