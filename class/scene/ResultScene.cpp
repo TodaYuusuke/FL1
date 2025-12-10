@@ -31,6 +31,7 @@ void ResultScene::Initialize() {
 	// ゲームコントローラ
 	VirtualController::Create();
 
+	// スプライトの設定
 	anyKeySprite_.LoadTexture("UI/start_UI.png");
 	anyKeySprite_.FitToTexture();
 	anyKeySprite_.anchorPoint = { 0.5f, 0.5f };
