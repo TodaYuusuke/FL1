@@ -1,29 +1,217 @@
 {
     "name": "scene",
-    "objects": [
-        
-        {
-            "name": "Map",
-            "type": "MESH",
-            "transform": {
-                "translation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "Map/map.obj"
-        }
-    ]
+  "objects": [
+
+    {
+      "name": "Map00",
+      "type": "MESH",
+      "transform": {
+        "translation": [
+          -300.0,
+          0.0,
+          300.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scaling": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "file_name": "Map/map.obj"
+    },
+    {
+      "name": "Map01",
+      "type": "MESH",
+      "transform": {
+        "translation": [
+          0.0,
+          0.0,
+          300.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scaling": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "file_name": "Map/map.obj"
+    },
+    {
+      "name": "Map02",
+      "type": "MESH",
+      "transform": {
+        "translation": [
+          300.0,
+          0.0,
+          300.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scaling": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "file_name": "Map/map.obj"
+    },
+
+    {
+      "name": "Map10",
+      "type": "MESH",
+      "transform": {
+        "translation": [
+          -300.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scaling": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "file_name": "Map/map.obj"
+    },
+    {
+      "name": "Map11",
+      "type": "MESH",
+      "transform": {
+        "translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scaling": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "file_name": "Map/map.obj"
+    },
+    {
+      "name": "Map12",
+      "type": "MESH",
+      "transform": {
+        "translation": [
+          300.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scaling": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "file_name": "Map/map.obj"
+    },
+
+    {
+      "name": "Map20",
+      "type": "MESH",
+      "transform": {
+        "translation": [
+          -300.0,
+          0.0,
+          -300.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scaling": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "file_name": "Map/map.obj"
+    },
+    {
+      "name": "Map21",
+      "type": "MESH",
+      "transform": {
+        "translation": [
+          0.0,
+          0.0,
+          -300.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scaling": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "file_name": "Map/map.obj"
+    },
+    {
+      "name": "Map22",
+      "type": "MESH",
+      "transform": {
+        "translation": [
+          300.0,
+          0.0,
+          -300.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scaling": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "file_name": "Map/map.obj"
+    }
+
+
+  ]
 }
