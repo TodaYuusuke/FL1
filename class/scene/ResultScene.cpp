@@ -43,9 +43,6 @@ void ResultScene::Initialize() {
 }
 
 void ResultScene::Update() {
-	// コントローラー
-	VirtualController::GetInstance()->Update();
-
 	if (VirtualController::GetInstance()->TriggerAnyKey()) {
 		nextSceneFunction = []() { return new Title(); };
 	}
@@ -63,4 +60,7 @@ void ResultScene::Update() {
 	ImGui::EndTabBar();
 	ImGui::End();
 #endif // DEBUG
+
+	// コントローラー
+	VirtualController::GetInstance()->Update();
 }

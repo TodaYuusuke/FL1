@@ -34,10 +34,10 @@ void Title::Initialize() {
 
 // 更新
 void Title::Update() {
-	// コントローラー
-	VirtualController::GetInstance()->Update();
-
 	if (VirtualController::GetInstance()->TriggerAnyKey()) {
 		nextSceneFunction = []() { return new GameScene(); };
 	}
+
+	// コントローラー
+	VirtualController::GetInstance()->Update();
 }
