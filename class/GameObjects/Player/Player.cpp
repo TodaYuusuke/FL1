@@ -141,9 +141,9 @@ void Player::Update() {
 
 	model_.worldTF.translation += moveController_->GetVel() + weaponVel_;
 
-	model_.worldTF.translation.x = std::clamp<float>(model_.worldTF.translation.x, -250.0f, 250.0f);
-	model_.worldTF.translation.y = std::clamp<float>(model_.worldTF.translation.y, -250.0f, 250.0f);
-	model_.worldTF.translation.z = std::clamp<float>(model_.worldTF.translation.z, -250.0f, 250.0f);
+	model_.worldTF.translation.x = std::clamp<float>(model_.worldTF.translation.x, -300.0f, 300.0f);
+	model_.worldTF.translation.y = std::clamp<float>(model_.worldTF.translation.y, -300.0f, 300.0f);
+	model_.worldTF.translation.z = std::clamp<float>(model_.worldTF.translation.z, -300.0f, 300.0f);
 
 	AdjustRotate();
 
