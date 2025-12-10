@@ -3,6 +3,7 @@
 #include "../../../GameObjects/Enemy/State/StateBase.h"
 #include "../../../GameObjects/Weapon/IWeapon.h"
 #include "../../../GameObjects/Collision/CollisionMask.h"
+#include "../../../Effect/EffectManager.h"
 
 using namespace LWP;
 using namespace LWP::Math;
@@ -77,8 +78,20 @@ void Actor::Attack() {
 
 void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
 	if (hitTarget->mask.GetHitFrag() != bodyCollision_.mask.GetBelongFrag()) { return; }
+	hp_->SetIsHit(true);
+	// 多重被弾回避
+	std::vector<std::string> name = hp_->GetDamageAttackerName();
+	if (!name.empty()) {
+		auto result = std::find(name.begin(), name.end(), hitTarget->name);
+		if (result != name.end()) {
+			return;
+		}
+	}
 	// ダメージを受ける
 	hp_->Damage(world_->FindAttackPower(hitTarget->name), hitTarget->name);
+
+	// 被弾エフェクト
+	EffectManager::GetInstance()->CreateNewEmitter("Spark", model_.GetJointWorldPosition("LockOnAnchor"));
 }
 
 void Actor::ChangeState(StateBase* nextState) {
