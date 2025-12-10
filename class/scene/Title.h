@@ -17,6 +17,9 @@ public:
 
 private: //*** これより先に必要な処理や変数を記述 ***//
 
+	// タイトルロゴスプライト
+	LWP::Primitive::NormalSprite titleLogoSprite_{};
+
 	// キー入力を促すスプライト
 	LWP::Primitive::NormalSprite anyKeySprite_{};
 

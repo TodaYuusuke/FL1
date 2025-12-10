@@ -17,6 +17,12 @@ Title::~Title() {
 void Title::Initialize() {	
 
 	// スプライトの設定
+	titleLogoSprite_.LoadTexture("UI/title_logo.png");
+	titleLogoSprite_.FitToTexture();
+	titleLogoSprite_.anchorPoint = { 0.5f, 0.5f };
+	titleLogoSprite_.worldTF.translation = { LWP::Info::GetWindowWidthF() / 2.0f,  (LWP::Info::GetWindowHeightF() / 2.0f)};
+
+	// スプライトの設定
 	anyKeySprite_.LoadTexture("UI/start_UI.png");
 	anyKeySprite_.FitToTexture();
 	anyKeySprite_.anchorPoint = { 0.5f, 0.5f };
