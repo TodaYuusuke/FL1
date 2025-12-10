@@ -71,8 +71,7 @@ void EffectEditor::Init()
 	}
 }
 
-void EffectEditor::Update()
-{
+void EffectEditor::Update() {
 	// ImGui開始
 	ImGui::Begin("EffectEditor", nullptr, ImGuiWindowFlags_MenuBar);
 

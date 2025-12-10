@@ -9,6 +9,8 @@
 #include "../Componets/HitStopController.h"
 #include "../Componets/Input/VirtualController.h"
 #include "../Componets/InputMyController/ControllerReceiver.h"
+#include "../Effect/EffectManager.h"
+#include "../Effect/EffectEditor.h"
 
 using namespace LWP;
 using namespace LWP::Resource;
@@ -30,9 +32,15 @@ GameScene::GameScene() {
 	WeaponManager::Create();
 	// 押し出し
 	PenetrationResolver::Create();
+	// インスタンス生成
+	EffectManager::Create();
+	EffectEditor::Create();
 }
 
 GameScene::~GameScene() {
+	// 
+	EffectEditor::Destroy();
+	EffectManager::Destroy();
 	// 押し出し
 	PenetrationResolver::Destroy();
 	// 武器管理クラス
@@ -87,6 +95,11 @@ void GameScene::Initialize() {
 	score_ = std::make_unique<ScoreUI>();
 	score_->Initialize(7);
 	score_->SetCenter({1280.0f,100.0f});
+
+	// エフェクト関連初期化
+	EffectManager::GetInstance()->Init();
+	EffectEditor::GetInstance()->SetEffectManager(EffectManager::GetInstance());
+	EffectEditor::GetInstance()->Init();
 }
 
 void GameScene::Update() {
@@ -118,6 +131,9 @@ void GameScene::Update() {
 	score_->SetScore(ScoreCounter::GetInstance()->GetScore());
 	score_->Update();
 
+	// エフェクト関連初期化
+	EffectManager::GetInstance()->Update();
+
 #ifdef _DEBUG
 
 	// 次のシーンへ以降
@@ -129,6 +145,9 @@ void GameScene::Update() {
 	if (Input::Keyboard::GetTrigger(DIK_R)) {
 		ControllerReceiver::GetInstance()->ReOpenPort();
 	}
+
+	// 演出のエディタ
+	EffectEditor::GetInstance()->Update();
 
 	ImGui::Begin("GameObjects");
 	ImGui::BeginTabBar("GameObject");
