@@ -139,11 +139,12 @@ void Move::FPSTypeMove() {
 
 	// 角度算出
 	Quaternion qYaw = Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, rStick.x * maxOmega);
-	rot_ = qYaw * rot_;
+	rot_ = qYaw;
 
 	// 角度から向かう方向算出
-	Vector3 vel = Vector3{ lStick.x,0,lStick.y } *Matrix4x4::CreateRotateXYZMatrix(rot_);
-	vel_ = vel * maxSpeed;
+	Vector3 vel = Vector3{ 0,0,lStick.y } *Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation * rot_);
+	Vector3 vel2 = Vector3{ lStick.x,0,0 } *Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation * rot_);
+	vel_ = vel + vel2 * maxSpeed;
 }
 
 void Move::CheckMoveType() {
