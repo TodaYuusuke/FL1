@@ -176,6 +176,7 @@
     <ClCompile Include="class\GameObjects\Player\Actions\Action\None\NoneAction.cpp" />
     <ClCompile Include="class\GameObjects\Player\Actions\MoveController.cpp" />
     <ClCompile Include="class\GameObjects\Player\Actions\WeaponController.cpp" />
+    <ClCompile Include="class\GameObjects\UI\BackGround.cpp" />
     <ClCompile Include="class\GameObjects\UI\NumPlane.cpp" />
     <ClCompile Include="class\GameObjects\UI\ScoreUI\ScoreManager.cpp" />
     <ClCompile Include="class\GameObjects\UI\ScoreUI\ScoreUI.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="class\GameObjects\Player\Actions\IActions.h" />
     <ClInclude Include="class\GameObjects\Player\Actions\MoveController.h" />
     <ClInclude Include="class\GameObjects\Player\Actions\WeaponController.h" />
+    <ClInclude Include="class\GameObjects\UI\BackGround.h" />
     <ClInclude Include="class\GameObjects\UI\NumPlane.h" />
     <ClInclude Include="class\GameObjects\UI\ScoreUI\ScoreManager.h" />
     <ClInclude Include="class\GameObjects\UI\ScoreUI\ScoreUI.h" />

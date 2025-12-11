@@ -6,6 +6,7 @@
 #include "../GameObjects/Camera/FollowCamera/FollowCamera.h"
 
 #include "../GameObjects/UI/ScoreUI/ScoreUI.h"
+#include "../GameObjects/UI/BackGround.h"
 
 #include "Adapter.h"
 
@@ -26,4 +27,7 @@ private: // ** これより先に必要な処理や変数を記述 ** //
 	LWP::Primitive::NormalSprite anyKeySprite_{};
 
 	std::unique_ptr<ScoreUI> score_;
+
+	//背景
+	std::unique_ptr<BackGround> backGround_;
 };
