@@ -25,7 +25,7 @@ private:// 調整項目
 	// 
 	float maxEvasionFrame = 20.0f;
 
-	float maxEvasionDist = 15.0f;
+	float maxEvasionDist = 50.0f;
 
 private:
 	LWP::Math::Vector3 startPos_;
