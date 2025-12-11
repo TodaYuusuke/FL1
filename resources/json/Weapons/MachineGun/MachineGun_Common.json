@@ -13,7 +13,7 @@
         "float :Burst": 0.0,
         "float :Normal": 0.23000000417232513
     },
-    "float :AttackSkillGain": 1.0,
+    "float :AttackSkillGain": 10.0,
     "float :CoolTime": 0.0,
     "float :ReloadTime": 0.0,
     "float :StoreTime": 0.0,
