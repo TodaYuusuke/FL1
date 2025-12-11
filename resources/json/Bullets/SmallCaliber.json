@@ -10,7 +10,7 @@
     ],
     "float :AttackPower": 2.0,
     "float :ElapsedTime": 2.4000000953674316,
-    "float :Speed": 5.0,
+    "float :Speed": 4.0,
     "int32_t :ImpactType": 0,
     "int32_t :MovementType": 0
 }
