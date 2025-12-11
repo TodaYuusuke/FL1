@@ -26,9 +26,9 @@
         "id": 11,
         "name": "ChasePlayerLeaf",
         "parent": 6,
-        "pos_x": 796.0,
-        "pos_y": 353.0,
-        "speed": 0.5,
+        "pos_x": 798.0,
+        "pos_y": 364.0,
+        "speed": 0.800000011920929,
         "type": 3
     },
     {

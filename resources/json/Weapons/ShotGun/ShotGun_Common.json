@@ -5,7 +5,7 @@
             0.05999999865889549,
             0.0
         ],
-        "int32_t :Num": 20,
+        "int32_t :Num": 8,
         "int32_t :SameBulletNum": 6,
         "int32_t :Type": 2
     },
@@ -13,7 +13,7 @@
         "float :Burst": 0.0,
         "float :Normal": 0.5
     },
-    "float :AttackSkillGain": 8.0,
+    "float :AttackSkillGain": 80.0,
     "float :CoolTime": 0.0,
     "float :ReloadTime": 0.0,
     "float :StoreTime": 0.0,

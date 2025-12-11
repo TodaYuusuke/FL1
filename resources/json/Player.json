@@ -17,8 +17,9 @@
                 "int32_t :Type": 3
             },
             "Group :Right": {
-                "int32_t :Type": 5
+                "int32_t :Type": 3
             }
         }
-    }
+    },
+    "float :Value": 1000.0
 }

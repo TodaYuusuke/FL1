@@ -30,7 +30,7 @@
         },
         "int32_t :MinRarity": 0
     },
-    "float :HP": 50.0,
+    "float :HP": 30.0,
     "float :Score": 120.0,
     "string :BTFileName": "resources/json/BT/BT_Gunner.json"
 }

@@ -9,7 +9,7 @@
             "int32_t :Max": 8,
             "int32_t :Min": 4
         },
-        "float :InvalidRange": 100.0,
-        "int32_t :LimitNum": 10
+        "float :InvalidRange": 300.0,
+        "int32_t :LimitNum": 8
     }
 }
