@@ -104,6 +104,8 @@ void GameScene::Initialize() {
 	EffectEditor::GetInstance()->SetEffectManager(EffectManager::GetInstance());
 	EffectEditor::GetInstance()->Init();
 
+	//スコアを0に
+	ScoreCounter::GetInstance()->Reset();
 }
 
 void GameScene::Update() {
