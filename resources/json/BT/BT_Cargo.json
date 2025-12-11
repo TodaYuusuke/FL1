@@ -1,14 +1,36 @@
 [
     {
+        "false_child": 27,
+        "id": 6,
+        "limit_distance": 210.0,
+        "name": "CheckNearPlayer",
+        "parent": 22,
+        "pos_x": 644.4833984375,
+        "pos_y": 175.6187744140625,
+        "speed": 0.0,
+        "true_child": 5,
+        "type": 2
+    },
+    {
+        "children": [],
+        "id": 11,
+        "name": "ChasePlayerLeaf",
+        "parent": 21,
+        "pos_x": 337.5999755859375,
+        "pos_y": 463.5733642578125,
+        "speed": 0.30000001192092896,
+        "type": 3
+    },
+    {
         "children": [
-            18,
-            17
+            8,
+            12
         ],
-        "id": 21,
-        "name": "Selector",
-        "parent": 13,
-        "pos_x": 152.0,
-        "pos_y": 104.00003051757813,
+        "id": 5,
+        "name": "Sequence",
+        "parent": 6,
+        "pos_x": 1017.4833374023438,
+        "pos_y": 196.6187744140625,
         "speed": 0.0,
         "type": 0
     },
@@ -27,13 +49,14 @@
     },
     {
         "children": [],
-        "id": 17,
-        "name": "EscapeFromPlayerLeaf",
-        "parent": 21,
-        "pos_x": 330.6007080078125,
-        "pos_y": 196.9246826171875,
-        "speed": 0.800000011920929,
-        "type": 3
+        "id": 8,
+        "name": "WaitLeaf",
+        "parent": 5,
+        "pos_x": 1132.933349609375,
+        "pos_y": 197.02972412109375,
+        "speed": 0.0,
+        "type": 3,
+        "wait_time": 60.0
     },
     {
         "children": [
@@ -49,28 +72,6 @@
     },
     {
         "children": [],
-        "id": 26,
-        "name": "AlwaysFailLeaf",
-        "parent": 19,
-        "pos_x": 680.0,
-        "pos_y": 69.00001525878906,
-        "speed": 0.0,
-        "type": 3
-    },
-    {
-        "children": [
-            19
-        ],
-        "id": 18,
-        "name": "Sequence",
-        "parent": 21,
-        "pos_x": 340.9999694824219,
-        "pos_y": -9.999984741210938,
-        "speed": 0.0,
-        "type": 0
-    },
-    {
-        "children": [],
         "id": 10,
         "name": "WaitLeaf",
         "parent": 9,
@@ -81,26 +82,116 @@
         "wait_time": 60.0
     },
     {
-        "false_child": 26,
-        "id": 19,
-        "limit_distance": 70.0,
-        "name": "CheckFarPlayer",
-        "parent": 18,
-        "pos_x": 436.2574462890625,
-        "pos_y": -21.090484619140625,
+        "children": [],
+        "id": 12,
+        "name": "ReadyToAttackLeaf",
+        "parent": 5,
+        "pos_x": 1132.98681640625,
+        "pos_y": 295.1094970703125,
+        "readyToAttackTime": 60.0,
         "speed": 0.0,
-        "true_child": 20,
+        "type": 3
+    },
+    {
+        "children": [],
+        "id": 17,
+        "name": "EscapeFromPlayerLeaf",
+        "parent": 23,
+        "pos_x": 681.6007080078125,
+        "pos_y": -40.0753173828125,
+        "speed": 0.5,
+        "type": 3
+    },
+    {
+        "children": [
+            23
+        ],
+        "id": 18,
+        "name": "Sequence",
+        "parent": 21,
+        "pos_x": 340.9999694824219,
+        "pos_y": -9.999984741210938,
+        "speed": 0.0,
+        "type": 0
+    },
+    {
+        "children": [
+            22
+        ],
+        "id": 20,
+        "name": "Sequence",
+        "parent": 21,
+        "pos_x": 338.7979431152344,
+        "pos_y": 224.80250549316406,
+        "speed": 0.0,
+        "type": 0
+    },
+    {
+        "children": [
+            18,
+            20,
+            11
+        ],
+        "id": 21,
+        "name": "Selector",
+        "parent": 13,
+        "pos_x": 152.0,
+        "pos_y": 222.00003051757813,
+        "speed": 0.0,
+        "type": 0
+    },
+    {
+        "false_child": 28,
+        "id": 22,
+        "limit_distance": 200.0,
+        "name": "CheckFarPlayer",
+        "parent": 20,
+        "pos_x": 440.0,
+        "pos_y": 224.0,
+        "speed": 0.0,
+        "true_child": 6,
+        "type": 2
+    },
+    {
+        "false_child": 26,
+        "id": 23,
+        "limit_distance": 200.0,
+        "name": "CheckNearPlayer",
+        "parent": 18,
+        "pos_x": 450.0,
+        "pos_y": -11.0,
+        "speed": 0.0,
+        "true_child": 17,
         "type": 2
     },
     {
         "children": [],
-        "id": 20,
-        "name": "WaitLeaf",
-        "parent": 19,
-        "pos_x": 675.0,
-        "pos_y": -36.99999237060547,
+        "id": 26,
+        "name": "AlwaysFailLeaf",
+        "parent": 23,
+        "pos_x": 680.0,
+        "pos_y": 69.00001525878906,
         "speed": 0.0,
-        "type": 3,
-        "wait_time": 60.0
+        "type": 3
+    },
+    {
+        "children": [],
+        "id": 27,
+        "name": "AlwaysFailLeaf",
+        "parent": 6,
+        "pos_x": 936.0982666015625,
+        "pos_y": 335.489013671875,
+        "speed": 0.0,
+        "type": 3
+    },
+    {
+        "children": [],
+        "id": 28,
+        "name": "AlwaysFailLeaf",
+        "parent": 22,
+        "pos_x": 643.0,
+        "pos_y": 339.0,
+        "speed": 0.0,
+        "type": 3
     }
 ]
