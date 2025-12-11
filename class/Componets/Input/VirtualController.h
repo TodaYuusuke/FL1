@@ -43,6 +43,11 @@ public:// アクセサ
     /// </summary>
     /// <returns></returns>
     LWP::Math::Vector2 GetRAxis() const;
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    bool IsSwitchCommand();
 
 private:
     std::vector<std::unique_ptr<IInputDevice>> device_;

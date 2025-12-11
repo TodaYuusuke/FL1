@@ -25,6 +25,8 @@ void Move::Update() {
 
 	// タイムスケール適用
 	vel_ *= stopController_->GetDeltaTime();
+
+	isPreMoveTypeChange_ = isMoveTypeChange_;
 }
 
 void Move::DebugGui() {
@@ -148,6 +150,13 @@ void Move::FPSTypeMove() {
 }
 
 void Move::CheckMoveType() {
+	isMoveTypeChange_ = VirtualController::GetInstance()->IsSwitchCommand();
+
+	if (isMoveTypeChange_ && !isPreMoveTypeChange_) {
+		if (moveType_ == MoveType::kTank) moveType_ = MoveType::kFPS;
+		else if (moveType_ == MoveType::kFPS) moveType_ = MoveType::kTank;
+	}
+
 	switch (moveType_) {
 	case MoveType::kTank:
 		// スティック入力の補正

@@ -69,3 +69,10 @@ Vector2 VirtualController::GetRAxis() const {
 
 	return result.Normalize();
 }
+
+bool VirtualController::IsSwitchCommand() {
+	if (Keyboard::GetPress(DIK_LCONTROL) && Keyboard::GetPress(DIK_SPACE) && Keyboard::GetPress(DIK_BACKSPACE) && Keyboard::GetPress(DIK_RETURN)) {
+		return true;
+	}
+	return false;
+}

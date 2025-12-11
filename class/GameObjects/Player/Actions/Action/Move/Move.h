@@ -85,5 +85,8 @@ private:
 	float omega;
 	float vL = 0.0f;
 	float vR = 0.0f;
+
+	bool isMoveTypeChange_;
+	bool isPreMoveTypeChange_;
 };
 
