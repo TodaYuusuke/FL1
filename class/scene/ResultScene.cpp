@@ -39,6 +39,8 @@ void ResultScene::Initialize() {
 	anyKeySprite_.anchorPoint = { 0.5f, 0.5f };
 	anyKeySprite_.worldTF.translation = { LWP::Info::GetWindowWidthF() / 2.0f,  (LWP::Info::GetWindowHeightF() / 2.0f) + 350.0f };
 
+	backGround_ = std::make_unique<BackGround>();
+
 	//スコア表示テスト
 	score_ = std::make_unique<ScoreUI>();
 	score_->Initialize(9);

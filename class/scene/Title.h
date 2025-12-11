@@ -1,6 +1,6 @@
 #pragma once
 #include "scene/IScene.h"
-
+#include "../GameObjects/UI/BackGround.h"
 class Title final
 	: public IScene {
 public:
@@ -23,4 +23,6 @@ private: //*** これより先に必要な処理や変数を記述 ***//
 	// キー入力を促すスプライト
 	LWP::Primitive::NormalSprite anyKeySprite_{};
 
+	//背景
+	std::unique_ptr<BackGround> backGround_;
 };
