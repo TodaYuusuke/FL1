@@ -22,15 +22,15 @@
         },
         "Group :Shoulder": {
             "Group :Left": {
-                "int32_t :Type": 0
+                "int32_t :Type": 6
             },
             "Group :Right": {
-                "int32_t :Type": 6
+                "int32_t :Type": 0
             }
         },
         "int32_t :MinRarity": 0
     },
     "float :HP": 1.0,
     "float :Score": 10.0,
-    "string :BTFileName": "resources/json/BT/BT_Cargo.json"
+    "string :BTFileName": "resources/json/BT/BT_Drone.json"
 }

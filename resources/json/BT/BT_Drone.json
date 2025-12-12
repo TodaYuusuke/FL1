@@ -2,7 +2,7 @@
     {
         "false_child": 27,
         "id": 6,
-        "limit_distance": 50.0,
+        "limit_distance": 150.0,
         "name": "CheckNearPlayer",
         "parent": 22,
         "pos_x": 644.4833984375,
@@ -28,7 +28,7 @@
         "parent": 21,
         "pos_x": 337.5999755859375,
         "pos_y": 463.5733642578125,
-        "speed": 0.20000000298023224,
+        "speed": 0.6000000238418579,
         "type": 3
     },
     {
@@ -154,7 +154,7 @@
     {
         "false_child": 28,
         "id": 22,
-        "limit_distance": 20.0,
+        "limit_distance": 100.0,
         "name": "CheckFarPlayer",
         "parent": 20,
         "pos_x": 429.0,
@@ -166,7 +166,7 @@
     {
         "false_child": 26,
         "id": 23,
-        "limit_distance": 20.0,
+        "limit_distance": 100.0,
         "name": "CheckNearPlayer",
         "parent": 18,
         "pos_x": 450.0,
