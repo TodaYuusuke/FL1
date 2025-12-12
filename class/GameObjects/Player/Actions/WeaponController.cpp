@@ -134,6 +134,7 @@ void WeaponController::Update() {
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.scale = sampleWeaponSurface_[(WeaponSide)side].worldTF.scale;
 			weaponSurfaces_[(WeaponSide)side][i].anchorPoint = {0.5f,0.5f};
 		}
+		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
 	}
 	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount; side++) {
 		//武器を所有してるとき
