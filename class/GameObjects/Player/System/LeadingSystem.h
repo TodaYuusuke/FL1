@@ -88,6 +88,8 @@ private:// 調整項目
 	// 偏差射撃の性能
 	//float leadingAccuracy_ = 1.0f;
 
+	LWP::Utility::JsonIO json_;
+
 private:
 	// 偏差対象
 	Actor* leadingTarget_;

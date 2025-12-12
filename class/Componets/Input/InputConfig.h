@@ -8,6 +8,7 @@ enum class BindActionType {
 	kLeftShoulder,		// 
 	kRightShoulder,		// 
 	kBoost,				// 加速
+	kTurn,				// 180度回転
 	kInteract,			// 決定ボタン
 	kCancel,			// キャンセルボタン
 	kCount
@@ -37,6 +38,7 @@ namespace InputConfig {
 			inline int rightShoulder	= DIK_4;			// 右肩武器使用
 			inline int rightHand		= DIK_2;			// 右手武器使用
 			inline int boost			= DIK_SPACE;		// 加速
+			inline int turn				= DIK_LCONTROL;		// 180度回転
 			inline int interact			= DIK_F;			// 決定ボタン
 			inline int cancel			= DIK_C;			// キャンセルボタン
 		}
@@ -49,6 +51,7 @@ namespace InputConfig {
 			inline int rightShoulder	= XBOX_RB;			// 右肩武器使用
 			inline int rightHand		= XBOX_RT;			// 右手武器使用
 			inline int boost			= XBOX_A;			// 加速
+			inline int turn				= XBOX_B;			// 180度回転
 			inline int interact			= XBOX_A;			// 決定ボタン
 			inline int cancel			= XBOX_B;			// キャンセルボタン
 		}

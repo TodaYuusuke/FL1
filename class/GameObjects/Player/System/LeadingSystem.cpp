@@ -1,7 +1,8 @@
 #include "LeadingSystem.h"
-#include "../../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../../Enemy/EnemyManager.h"
 #include "../../Weapon/IWeapon.h"
+#include "../../Player/PlayerConfig.h"
+#include "../../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../../../Componets/Math.h"
 
 using namespace FLMath;
@@ -13,6 +14,10 @@ using namespace LWP::Math;
 LeadingSystem::LeadingSystem(LWP::Object::Camera* camera, BlackBoard* blackBoard) {
 	pCamera_ = camera;
 	blackBoard_ = blackBoard;
+
+	json_.Init(kJsonFileDirectoryPath + "LeadingSystem.json")
+		.AddValue<float>("LeadingScreenRange", &leadingScreenRange_)
+		.CheckJsonFile();
 
 	reticle_.LoadTexture("lockOnReticle.png");
 	reticle_.anchorPoint = { 0.5f,0.5f };
@@ -67,11 +72,9 @@ void LeadingSystem::Update() {
 
 void LeadingSystem::DebugGui() {
 	if (ImGui::TreeNode("LeadingSystem")) {
-		//ImGui::DragFloat("LeadingWorldRange", &leadingWorldRange_, 0.1f);
-		ImGui::DragFloat("LeadingScreenRange", &leadingScreenRange_, 0.1f);
-		//ImGui::DragFloat("LeadingAccuracy", &leadingAccuracy_, 0.01f);
+		// 調整項目
+		json_.DebugGUI();
 
-		ImGui::SameLine();
 		if (leadingTarget_) {
 			ImGui::Text("Leading!");
 			ImGui::DragFloat3("Translation", &leadingTarget_->GetWorldTF()->translation.x);

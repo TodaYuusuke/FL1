@@ -13,20 +13,43 @@ Move::Move(BlackBoard* blackBoard) {
 	pBB_ = blackBoard;
 	stopController_ = HitStopController::GetInstance();
 	stateName_ = "Move";
+
+	json_.Init(kJsonFileDirectoryPath + "PlayerMove.json")
+		// 車輪間の距離
+		.AddValue<float>("TreadWidth", &treadWidth)
+		// 移動速度の最高速
+		.AddValue<float>("MaxSpeed", &maxSpeed)
+		// 角速度の最高速
+		.AddValue<float>("MaxOmega", &maxOmega)
+		// 旋回の閾値
+		.AddValue<float>("RotThreshold", &rotThreshold)
+		// 180度旋回にかかる時間
+		.AddValue<float>("TurnTime", &turnTime)
+		.CheckJsonFile();
 }
 
 void Move::Init() {
-
+	turnRadian_ = {};
+	preTurnRadian_ = {};
 }
 
 void Move::Update() {
+	// 180度旋回入力があるか
+	isTurnBehind_ = VirtualController::GetInstance()->GetPress(BindActionType::kTurn);
+
 	// 移動方式選択
 	CheckMoveType();
+
+	// 180度回転入力があった時の処理
+	TurnBehind();
+	turnTime_.Update();
 
 	// タイムスケール適用
 	vel_ *= stopController_->GetDeltaTime();
 
+	preTurnRadian_ = turnRadian_;
 	isPreMoveTypeChange_ = isMoveTypeChange_;
+	isPreTurnBehind_ = isTurnBehind_;
 }
 
 void Move::DebugGui() {
@@ -39,11 +62,14 @@ void Move::DebugGui() {
 			moveType_ = MoveType::kFPS;
 		}
 
-		ImGui::DragFloat("MaxSpeed", &maxSpeed, 0.01f, -1000.0f, 1000.0f);
-		ImGui::DragFloat("MaxOmega", &maxOmega, 0.01f, -1000.0f, 1000.0f);
-		ImGui::DragFloat("TreadWidth", &treadWidth, 0.01f, -1000.0f, 1000.0f);
-		ImGui::DragFloat("Omega", &omega);
-		ImGui::DragFloat("Angle", &angle);
+		// 調整項目
+		json_.DebugGUI();
+
+		if (ImGui::TreeNode("Current")) {
+			ImGui::DragFloat("Omega", &omega);
+			ImGui::DragFloat("Angle", &angle);
+			ImGui::TreePop();
+		}
 		ImGui::TreePop();
 	}
 }
@@ -61,6 +87,26 @@ LWP::Math::Vector2 Move::AdjustmentStick(LWP::Math::Vector2 stick) {
 	}
 
 	return result;
+}
+
+void Move::TurnBehind() {
+	// 旋回開始
+	if (isTurnBehind_ && !isPreTurnBehind_) {
+		if (turnTime_.GetIsFinish()) {
+			turnRadian_ = {};
+			preTurnRadian_ = {};
+			turnTime_.Start(turnTime);
+			turnTime_.GetIsActive();
+		}
+	}
+
+	if (!turnTime_.GetIsActive()) { return; }
+
+	turnRadian_ = LWP::Utility::Interp::Lerp(Vector3{}, Vector3{ 0.0f, (float)std::numbers::pi, 0.0f }, turnTime_.GetProgress());
+
+	// 前回の角度を引いて角速度を求める
+	Vector3 radian = turnRadian_ - preTurnRadian_;
+	rot_ *= Quaternion::CreateFromAxisAngle({ 0.0f,1.0f,0.0f }, radian.y);
 }
 
 void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 rightStick, float deltaTime) {
@@ -88,7 +134,7 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 		Vector2 lStick = VirtualController::GetInstance()->GetLAxis();
 		Vector2 rStick = VirtualController::GetInstance()->GetRAxis();
 		float sqrtStick = (lStick.y - rStick.y);
-		if (std::sqrtf(sqrtStick * sqrtStick) <= 1.7f) {
+		if (std::sqrtf(sqrtStick * sqrtStick) <= rotThreshold * 2.0f) {
 			target_vL = 0.0f;
 			target_vR = 0.0f;
 		}
@@ -120,18 +166,14 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 	};
 	// 角度代入
 	Quaternion q = LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, -(target_vR - target_vL) / treadWidth * maxOmega);
-	//rot_ = pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation;
-	//rot_ = LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{ 1,0,0 }, rot.x);
-	//rot_ = LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{ 1,0,0 }, rot.x)*LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, rot.y);
-	//rot_ =  * rot_;
 	rot_ = q;
 
 	// 速度を算出
-	vel_ = Vector3{ 0,0,1 } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation/* * rot_*/) * v;
+	vel_ = Vector3{ 0,0,1 } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation) * v;
 	// 横移動をしているなら算出
 	if (leftStick.x * rightStick.x > 0.0f) {
 		Vector3 sideMove = { leftStick.x * maxSpeed, 0.0f, 0.0f };
-		vel_ += sideMove * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation/* * rot_*/);
+		vel_ += sideMove * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation);
 	}
 }
 
@@ -144,8 +186,8 @@ void Move::FPSTypeMove() {
 	rot_ = qYaw;
 
 	// 角度から向かう方向算出
-	Vector3 vel = Vector3{ 0,0,lStick.y } *Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation * rot_);
-	Vector3 vel2 = Vector3{ lStick.x,0,0 } *Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation * rot_);
+	Vector3 vel = Vector3{ 0,0,lStick.y } *Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation * qYaw);
+	Vector3 vel2 = Vector3{ lStick.x,0,0 } *Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation * qYaw);
 	vel_ = vel + vel2 * maxSpeed;
 }
 

@@ -1,7 +1,9 @@
 #pragma once
 #include "../IAction.h"
+#include "../../../PlayerConfig.h"
 #include "../../../../../Componets/Math.h"
 #include "../../../../../Componets/BehaviourTree/Actor/BlackBoard.h"
+#include "../../../../../Effect/Utility/DeltaTimer.h"
 
 class Move : public IAction {
 private:
@@ -40,18 +42,21 @@ private:
 	LWP::Math::Vector2 AdjustmentStick(LWP::Math::Vector2 stick);
 
 	/// <summary>
+	/// 180度旋回
+	/// </summary>
+	void TurnBehind();
+
+	/// <summary>
 	/// 戦車のような移動処理
 	/// </summary>
 	/// <param name="leftStickY"></param>
 	/// <param name="rightStickY"></param>
 	/// <param name="deltaTime"></param>
 	void DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 rightStick, float deltaTime);
-
 	/// <summary>
 	/// 一人称視点の移動処理
 	/// </summary>
 	void FPSTypeMove();
-
 	/// <summary>
 	/// 移動方式の確認
 	/// </summary>
@@ -76,10 +81,22 @@ private:// 調整項目
 	float maxSpeed = 0.8f;
 	// 角速度の最高速
 	float maxOmega = 0.019f;
+	// 旋回の閾値
+	float rotThreshold = 0.85f;
+	// 180度旋回にかかる時間
+	float turnTime = 0.8f;
+
+	LWP::Utility::JsonIO json_;
 
 private:
 	// 操作タイプ
 	MoveType moveType_;
+
+	LWP::Math::Vector3 turnRadian_;
+	LWP::Math::Vector3 preTurnRadian_;
+	// 180度旋回のイージング
+	//LWP::Resource::Motion turnEase_;
+	LWP::Utility::DeltaTimer turnTime_;
 
 	float angle = 0.0f;
 	float omega;
@@ -88,5 +105,8 @@ private:
 
 	bool isMoveTypeChange_;
 	bool isPreMoveTypeChange_;
+	// 180°回転
+	bool isTurnBehind_;
+	bool isPreTurnBehind_;
 };
 
