@@ -199,7 +199,7 @@ private:
 	LWP::Math::Vector3 weaponDropVel = { 0.2f, 0.4f, 0.2f };
 	
 	// 武器回収範囲
-	float pickUpWeaponRange = 3.0f;
+	float pickUpWeaponRange = 10.0f;
 	// 武器回収角度
 	float pickUpWeaponAngle = 0.2f;
 
@@ -215,6 +215,9 @@ private:
 
 	// 武器リスト
 	std::vector<IWeapon*> weapons_;
+
+	// 拾える武器を表す線
+	std::vector<LWP::Resource::RigidModel> pickUpWeaponLines_;
 
 	// 拾える武器を画像で出す
 	std::array<LWP::Primitive::NormalSprite, (int)WeaponType::kCount> pickUpWeaponSprite_;

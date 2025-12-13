@@ -81,9 +81,13 @@ void WeaponManager::Update() {
 	if (ControllerReceiver::GetInstance()->IsOpen()) {
 		controllerType_ = kLever;
 	}
-
+	pickUpWeaponLines_.clear();
 	// 自機が近いなら武器を渡す
 	CheckPlayerToWeaponDistance();
+
+	for (int i = 0; i < pickUpWeaponLines_.size(); i++) {
+		//pickUpWeaponLines_[i].worldTF.rotation = FLMath::LookRotationZLock((pWorld_->FindActor("Player")->GetModel().GetJointWorldPosition("LockOnAnchor") - weapon->GetWorldTF()->GetWorldPosition()).Normalize());
+	}
 }
 
 void WeaponManager::DebugGui() {
@@ -205,6 +209,15 @@ void WeaponManager::CheckPlayerToWeaponDistance() {
 		float dot = Vector3::Dot(wDir, pDir);
 		if (dot <= pickUpWeaponAngle) { continue; }
 
+		//pickUpWeaponLines_.emplace_back();
+		int size = (int)pickUpWeaponLines_.size();
+		pickUpWeaponLines_.resize(size + 1);
+		pickUpWeaponLines_[size].LoadFullPath("resources/model/Weapon/Line.obj");
+		pickUpWeaponLines_[size].materials["Material"].color.A = 200;
+		pickUpWeaponLines_[size].worldTF.translation = weapon->GetWorldTF()->GetWorldPosition();
+		Vector3 dist = (pWorld_->FindActor("Player")->GetModel().GetJointWorldPosition("LockOnAnchor") + Vector3{ 0.0f,-0.5f,0.0f }) - weapon->GetWorldTF()->GetWorldPosition();
+		pickUpWeaponLines_[size].worldTF.scale = { 0.1f,0.1f,dist.Length() / 2.0f };
+		pickUpWeaponLines_[size].worldTF.rotation = FLMath::LookRotationZLock(dist.Normalize());
 		// 回収可能
 		que.push(weapon);
 	}
