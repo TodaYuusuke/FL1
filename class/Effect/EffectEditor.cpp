@@ -295,9 +295,6 @@ void EffectEditor::EditEasingGUI(const std::string& id, LWP::Effect::EasingData<
 
 void EffectEditor::PopUpUpdate()
 {
-	// 中央に表示する（オプション）
-	ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-
 	// ウィンドウのスケール調整
 	ImGui::SetWindowFontScale(1.5f);
 
@@ -306,6 +303,8 @@ void EffectEditor::PopUpUpdate()
 	case EffectEditor::None:
 		break;
 	case EffectEditor::New:
+		// 中央に表示する（オプション）
+		ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 		// ポップアップ表示
 		ImGui::OpenPopup("New");
 
@@ -358,6 +357,8 @@ void EffectEditor::PopUpUpdate()
 		}
 		break;
 	case EffectEditor::Save:
+		// 中央に表示する（オプション）
+		ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 		// ポップアップ表示
 		ImGui::OpenPopup("Save");
 
