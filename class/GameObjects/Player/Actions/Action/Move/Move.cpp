@@ -23,8 +23,12 @@ Move::Move(BlackBoard* blackBoard) {
 		.AddValue<float>("MaxOmega", &maxOmega)
 		// 旋回の閾値
 		.AddValue<float>("RotThreshold", &rotThreshold)
+		// 180度の閾値
+		.AddValue<float>("TurnThreshold", &turnThreshold)
 		// 180度旋回にかかる時間
 		.AddValue<float>("TurnTime", &turnTime)
+		// 入力を検出する範囲
+		.AddValue<Vector2>("InputDetectionRange", &inputDetectionRange)
 		.CheckJsonFile();
 }
 
@@ -35,8 +39,8 @@ void Move::Init() {
 
 void Move::Update() {
 	// 180度旋回入力があるか
-	isTurnBehind_ = VirtualController::GetInstance()->GetPress(BindActionType::kTurn);
-
+	//isTurnBehind_ = VirtualController::GetInstance()->GetPress(BindActionType::kTurn);
+	isTurnBehind_ = false;
 	// 移動方式選択
 	CheckMoveType();
 
@@ -76,12 +80,12 @@ void Move::DebugGui() {
 
 LWP::Math::Vector2 Move::AdjustmentStick(LWP::Math::Vector2 stick) {
 	Vector2 result = { 0.0f,0.0f };
-	if (std::fabsf(stick.x) >= 0.8f) {
+	if (std::fabsf(stick.x) >= inputDetectionRange.x) {
 		if (std::signbit(stick.x)) { result.x = -1.0f; }
 		else { result.x = 1.0f; }
 	}
 	result.x = stick.x;
-	if (std::fabsf(stick.y) >= 0.01f) {
+	if (std::fabsf(stick.y) >= inputDetectionRange.y) {
 		if (std::signbit(stick.y)) { result.y = -1.0f; }
 		else { result.y = 1.0f; }
 	}
@@ -115,28 +119,29 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 	float target_vR = rightStick.y * maxSpeed;
 
 	// 片方の入力が無かったら0にする
-	if (target_vL == 0.0f) {
-		target_vR = 0.0f;
-	}
-	if (target_vR == 0.0f) {
-		target_vL = 0.0f;
-	}
-	Vector2 diff = {
-		leftStick.x - rightStick.x,
-		leftStick.y - rightStick.y
-	};
-	diff.x = std::sqrtf(diff.x * diff.x);
-	diff.y = std::sqrtf(diff.y * diff.y);
+	//if (target_vL == 0.0f) {
+	//	target_vR = 0.0f;
+	//}
+	//if (target_vR == 0.0f) {
+	//	target_vL = 0.0f;
+	//}
+	//Vector2 diff = {
+	//	leftStick.x - rightStick.x,
+	//	leftStick.y - rightStick.y
+	//};
+	//diff.x = std::sqrtf(diff.x * diff.x);
+	//diff.y = std::sqrtf(diff.y * diff.y);
 
+	// 値の修正される前のスティックの入力値で比較
+	Vector2 lStick = VirtualController::GetInstance()->GetLAxis();
+	Vector2 rStick = VirtualController::GetInstance()->GetRAxis();
+	float sqrtStick = (lStick.y - rStick.y);
 	// スティック入力が互いに反対
 	if (target_vL * target_vR < 0.0f) {
-		// 値の修正される前のスティックの入力値で比較
-		Vector2 lStick = VirtualController::GetInstance()->GetLAxis();
-		Vector2 rStick = VirtualController::GetInstance()->GetRAxis();
-		float sqrtStick = (lStick.y - rStick.y);
-		if (std::sqrtf(sqrtStick * sqrtStick) <= rotThreshold * 2.0f) {
+		if (std::sqrtf(sqrtStick * sqrtStick) >= turnThreshold * 2.0f) {
 			target_vL = 0.0f;
 			target_vR = 0.0f;
+			isTurnBehind_ = true;
 		}
 	}
 

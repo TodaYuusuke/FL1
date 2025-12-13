@@ -75,6 +75,9 @@ private:
 	BlackBoard* pBB_;
 
 private:// 調整項目
+	// 入力を検出する範囲
+	LWP::Math::Vector2 inputDetectionRange = { 0.8f, 0.01f };
+
 	// 車輪間の距離
 	float treadWidth = 2.5f;
 	// 移動速度の最高速
@@ -82,7 +85,9 @@ private:// 調整項目
 	// 角速度の最高速
 	float maxOmega = 0.019f;
 	// 旋回の閾値
-	float rotThreshold = 0.85f;
+	float rotThreshold = 0.1f;
+	// 180度回転の閾値
+	float turnThreshold = 0.85f;
 	// 180度旋回にかかる時間
 	float turnTime = 0.8f;
 

@@ -65,6 +65,11 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	LWP::Math::Quaternion GetRot() { return rot_; }
+	/// <summary>
+	/// 移動速度を取得
+	/// </summary>
+	/// <returns></returns>
+	float GetMoveSpeed() { return moveSpeed_; }
 #pragma endregion
 
 #pragma region Setter
@@ -88,6 +93,8 @@ protected:
 	LWP::Math::Vector3 vel_;
 	// 角度
 	LWP::Math::Quaternion rot_;
+
+	float moveSpeed_ = 1.0f;
 
 	// 経過時間
 	float currentFrame_;
