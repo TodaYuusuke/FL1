@@ -271,6 +271,7 @@ protected:
 
 	// モデル
 	LWP::Resource::SkinningModel model_;
+	std::vector<std::string> jointName_;
 	// 移動量
 	LWP::Math::Vector3 velocity_{ 0.0f,0.0f,0.0f };
 	// 武器由来の速度

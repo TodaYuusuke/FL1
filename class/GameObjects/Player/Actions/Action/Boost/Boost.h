@@ -1,12 +1,13 @@
 #pragma once
 #include "../IAction.h"
+#include "../../../../../Effect/Utility/DeltaTimer.h"
 
-class Evasion : public IAction {
+class Boost : public IAction {
 public:
 	// コンストラクタ
-	Evasion(const LWP::Math::Vector3& dirVec, const LWP::Math::Vector3& startPos);
+	Boost(const LWP::Math::Vector3& dirVec, const LWP::Math::Vector3& startPos);
 	// デストラクタ
-	~Evasion() override = default;
+	~Boost() override = default;
 
 	/// <summary>
 	/// 初期化
@@ -22,13 +23,14 @@ public:
 	void DebugGui() override;
 
 private:// 調整項目
-	// 
-	float maxEvasionFrame = 20.0f;
+	float maxBoostTime = 0.5f;
 
-	float maxEvasionDist = 50.0f;
+	LWP::Utility::JsonIO json_;
 
 private:
-	LWP::Math::Vector3 startPos_;
-	LWP::Math::Vector3 endPos_;
+	LWP::Utility::DeltaTimer easeTimer_;
+
+	float start_ = 1.0f;
+	float end_ = 2.0f;
 };
 

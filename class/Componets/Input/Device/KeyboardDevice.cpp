@@ -11,6 +11,7 @@ KeyboardDevice::KeyboardDevice() {
 	bindData_[(int)BindActionType::kLeftShoulder]	= Command::Key::leftShoulder;
 	bindData_[(int)BindActionType::kRightShoulder]	= Command::Key::rightShoulder;
 	bindData_[(int)BindActionType::kBoost]			= Command::Key::boost;
+	bindData_[(int)BindActionType::kTurn]			= Command::Key::turn;
 	bindData_[(int)BindActionType::kInteract]		= Command::Key::interact;
 	bindData_[(int)BindActionType::kCancel]			= Command::Key::cancel;
 }

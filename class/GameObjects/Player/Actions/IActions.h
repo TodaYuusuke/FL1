@@ -32,8 +32,13 @@ protected:
 	/// <param name="currentAction"></param>
 	/// <param name="nextAction"></param>
 	void ChangeState(std::unique_ptr<IAction>& currentAction, std::unique_ptr<IAction> nextAction) {
-		// 権利を譲渡
-		currentAction = std::move(nextAction);
+		// 同じ方なら終了
+		if (currentAction && typeid(*nextAction) == typeid(*currentAction)) {
+			nextAction.reset();
+			return;
+		}
+		// 状態が生成されているときだけ解放
+		if (currentAction) currentAction = std::move(nextAction);
 	}
 	/// <summary>
 	/// 変更可能な状態かを取得

@@ -11,6 +11,7 @@ GamePadDevice::GamePadDevice() {
 	bindData_[(int)BindActionType::kLeftShoulder] = Command::GamePad::leftShoulder;
 	bindData_[(int)BindActionType::kRightShoulder] = Command::GamePad::rightShoulder;
 	bindData_[(int)BindActionType::kBoost] = Command::GamePad::boost;
+	bindData_[(int)BindActionType::kTurn] = Command::GamePad::turn;
 	bindData_[(int)BindActionType::kInteract] = Command::GamePad::interact;
 	bindData_[(int)BindActionType::kCancel] = Command::GamePad::cancel;
 

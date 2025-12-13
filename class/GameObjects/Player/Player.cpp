@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "../Collision/CollisionMask.h"
 #include "../Weapon/WeaponManager.h"
+#include "../World/IWorld.h"
 #include <algorithm>
 
 using namespace LWP;
@@ -19,10 +20,13 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 	// 黒板生成
 	blackBoard_ = new BlackBoard();
 	blackBoard_->SetValue<Actor*>("Player", this);
-
+	
 	// モデル生成
 	model_.LoadShortPath("Player/Player.gltf");
 	model_.Update();
+	for (auto key : model_.skeleton.jointMap) {
+		if (!key.first.empty()) jointName_.push_back(key.first);
+	}
 
 	// 体の判定生成
 	bodyCollision_.SetFollow(&model_.worldTF);
@@ -39,7 +43,7 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 	bodyAABB_.max = { 3.0f, 9.5f, 1.0f };
 
 	// jsonファイルの読み込みor作成
-	json_.Init("Player.json")
+	json_.Init(kJsonFileDirectoryPath + "Player.json")
 		// 武器
 		.BeginGroup("Weapon")
 		// 手
@@ -253,6 +257,21 @@ void Player::DrawGui() {
 	}
 	if (isDebugMode) ImGui::Text("DebugMode:ON");
 	else ImGui::Text("DebugMode:OFF");
+}
+
+void Player::OnCollision(LWP::Object::Collision* hitTarget) {
+	if (hitTarget->mask.GetHitFrag() != bodyCollision_.mask.GetBelongFrag()) { return; }
+	hp_->SetIsHit(true);
+	// 多重被弾回避
+	std::vector<std::string> name = hp_->GetDamageAttackerName();
+	if (!name.empty()) {
+		auto result = std::find(name.begin(), name.end(), hitTarget->name);
+		if (result != name.end()) {
+			return;
+		}
+	}
+	// ダメージを受ける
+	hp_->Damage(world_->FindAttackPower(hitTarget->name), hitTarget->name);
 }
 
 void Player::AdjustRotate() {

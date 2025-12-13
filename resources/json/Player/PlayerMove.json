@@ -1,0 +1,12 @@
+{
+    "Vector2 :InputDetectionRange": [
+        0.800000011920929,
+        0.009999999776482582
+    ],
+    "float :MaxOmega": 9.999999974752427e-07,
+    "float :MaxSpeed": 0.800000011920929,
+    "float :RotThreshold": 0.699999988079071,
+    "float :TreadWidth": 9.999999747378752e-05,
+    "float :TurnThreshold": 0.8500000238418579,
+    "float :TurnTime": 0.20000000298023224
+}

@@ -42,10 +42,10 @@ namespace ActionConfig {
 				// スライディング
 				inline const unsigned int sliding = 0b01 << 2;
 				// 回避
-				inline const unsigned int evasion = 0b01 << 3;
+				inline const unsigned int boost = 0b01 << 3;
 
 				// サブ状態すべて
-				inline const unsigned int all = jump | sliding | evasion;
+				inline const unsigned int all = jump | sliding | boost;
 			}
 
 			// 移動状態すべて

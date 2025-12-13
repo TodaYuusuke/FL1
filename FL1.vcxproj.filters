@@ -96,7 +96,7 @@
     <ClCompile Include="DirectXGame\Externals\imnodes\imnodes.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\Player\Actions\Action\Evasion\Evasion.cpp">
+    <ClCompile Include="class\GameObjects\Player\Actions\Action\Boost\Boost.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="class\GameObjects\Player\Actions\Action\Move\Move.cpp">
@@ -294,6 +294,12 @@
     <ClCompile Include="class\GameObjects\UI\BackGround.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="class\GameObjects\Camera\Effect\CameraEffectHandler.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\GameObjects\Camera\Effect\Shake\CameraShake.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="class\scene\TestScene.h">
@@ -398,7 +404,7 @@
     <ClInclude Include="DirectXGame\Externals\imnodes\imnodes.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\Player\Actions\Action\Evasion\Evasion.h">
+    <ClInclude Include="class\GameObjects\Player\Actions\Action\Boost\Boost.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\GameObjects\Player\Actions\Action\Move\Move.h">
@@ -645,6 +651,21 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\GameObjects\UI\BackGround.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\Camera\CameraConfig.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\Camera\Effect\CameraEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\Camera\Effect\CameraEffectHandler.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\Player\PlayerConfig.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\Camera\Effect\Shake\CameraShake.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

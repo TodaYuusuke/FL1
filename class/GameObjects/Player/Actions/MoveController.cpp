@@ -1,6 +1,6 @@
 #include "MoveController.h"
 #include "Action/Move/Move.h"
-#include "Action/Evasion/Evasion.h"
+#include "Action/Boost/Boost.h"
 #include "Action/None/NoneAction.h"
 #include "../../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../../../Componets/InputMyController/ControllerReceiver.h"
@@ -16,7 +16,7 @@ MoveController::MoveController(BlackBoard* blackBoard) {
 
 	actions_[ActionType::kMain] = std::make_unique<Move>(pBB_);
 	actions_[ActionType::kSub] = std::make_unique<NoneAction>();
-	enableChangeState_ = Movement::SubAction::jump | Movement::SubAction::sliding | Movement::SubAction::evasion;
+	enableChangeState_ = Movement::SubAction::jump | Movement::SubAction::sliding | Movement::SubAction::boost;
 }
 
 MoveController::~MoveController() {
@@ -38,16 +38,12 @@ void MoveController::Update() {
 	}
 
 	Vector3 vel{};
-	// サブの行動が終了したら状態変更
-	if (actions_[ActionType::kSub]->GetCurrentFrame() <= 0.0f) {
-		ChangeState(actions_[ActionType::kSub], std::make_unique<NoneAction>());
-	}
 	// 回避時
-	else if(actions_[ActionType::kSub]->GetStateName() == "Evasion") {
-		vel = actions_[ActionType::kSub]->GetVel() - pBB_->GetValue<Actor*>("Player")->GetWorldTF()->GetWorldPosition();
+	if(actions_[ActionType::kSub]->GetStateName() == "Boost") {
+		vel = actions_[ActionType::kMain]->GetVel() * actions_[ActionType::kMain]->GetMoveSpeed() * actions_[ActionType::kSub]->GetMoveSpeed();
 	}
 	else {
-		vel = actions_[ActionType::kMain]->GetVel() + actions_[ActionType::kSub]->GetVel();
+		vel = actions_[ActionType::kMain]->GetVel() * actions_[ActionType::kMain]->GetMoveSpeed() + actions_[ActionType::kSub]->GetVel() * actions_[ActionType::kSub]->GetMoveSpeed();
 	}
 
 	vel_ = vel;
@@ -62,11 +58,16 @@ void MoveController::DebugGui() {
 
 void MoveController::InputHandle() {
 	// 回避
-	if (VirtualController::GetInstance()->GetTrigger(BindActionType::kBoost)) {
-		if (CheckEnableChangeState(Movement::SubAction::evasion, actions_[ActionType::kSub]->GetEnableChangeState())) {
-			if (CheckInabilityParallelState(Movement::SubAction::evasion, actions_[ActionType::kMain]->GetInabilityParallelState())) {
-				ChangeState(actions_[ActionType::kSub], std::make_unique<Evasion>(actions_[ActionType::kMain]->GetVel(), pBB_->GetValue<Actor*>("Player")->GetWorldTF()->GetWorldPosition()));
+	bool isBoost = false;
+	if (VirtualController::GetInstance()->GetPress(BindActionType::kBoost)) {
+		if (CheckEnableChangeState(Movement::SubAction::boost, actions_[ActionType::kSub]->GetEnableChangeState())) {
+			if (CheckInabilityParallelState(Movement::SubAction::boost, actions_[ActionType::kMain]->GetInabilityParallelState())) {
+				ChangeState(actions_[ActionType::kSub], std::make_unique<Boost>(actions_[ActionType::kMain]->GetVel(), pBB_->GetValue<Actor*>("Player")->GetWorldTF()->GetWorldPosition()));
+				isBoost = true;
 			}
 		}
+	}
+	if (!isBoost) {
+		ChangeState(actions_[ActionType::kSub], std::make_unique<NoneAction>());
 	}
 }

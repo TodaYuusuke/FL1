@@ -150,6 +150,8 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="class\GameObjects\Camera\Effect\Shake\CameraShake.cpp" />
+    <ClCompile Include="class\GameObjects\Camera\Effect\CameraEffectHandler.cpp" />
     <ClCompile Include="class\Componets\Input\Device\GamePadDevice.cpp" />
     <ClCompile Include="class\Effect\Utility\DeltaTimer.cpp" />
     <ClCompile Include="class\Componets\Input\Device\LeverDevice.cpp" />
@@ -171,7 +173,7 @@
     <ClCompile Include="class\Componets\Math.cpp" />
     <ClCompile Include="class\Componets\Timer.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\ReadyToAttackState.cpp" />
-    <ClCompile Include="class\GameObjects\Player\Actions\Action\Evasion\Evasion.cpp" />
+    <ClCompile Include="class\GameObjects\Player\Actions\Action\Boost\Boost.cpp" />
     <ClCompile Include="class\GameObjects\Player\Actions\Action\Move\Move.cpp" />
     <ClCompile Include="class\GameObjects\Player\Actions\Action\None\NoneAction.cpp" />
     <ClCompile Include="class\GameObjects\Player\Actions\MoveController.cpp" />
@@ -245,6 +247,10 @@
     <ClCompile Include="class\GameObjects\PenetrationResolver\PenetrationResolver.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="class\GameObjects\Camera\Effect\Shake\CameraShake.h" />
+    <ClInclude Include="class\GameObjects\Camera\CameraConfig.h" />
+    <ClInclude Include="class\GameObjects\Camera\Effect\CameraEffect.h" />
+    <ClInclude Include="class\GameObjects\Camera\Effect\CameraEffectHandler.h" />
     <ClInclude Include="class\Componets\Input\Device\GamePadDevice.h" />
     <ClInclude Include="class\Componets\Input\Device\LeverDevice.h" />
     <ClInclude Include="class\Componets\Input\InputConfig.h" />
@@ -276,13 +282,14 @@
     <ClInclude Include="class\Componets\Timer.h" />
     <ClInclude Include="class\GameObjects\Enemy\State\ReadyToAttackState.h" />
     <ClInclude Include="class\GameObjects\Player\Actions\ActionConfig.h" />
-    <ClInclude Include="class\GameObjects\Player\Actions\Action\Evasion\Evasion.h" />
+    <ClInclude Include="class\GameObjects\Player\Actions\Action\Boost\Boost.h" />
     <ClInclude Include="class\GameObjects\Player\Actions\Action\IAction.h" />
     <ClInclude Include="class\GameObjects\Player\Actions\Action\Move\Move.h" />
     <ClInclude Include="class\GameObjects\Player\Actions\Action\None\NoneAction.h" />
     <ClInclude Include="class\GameObjects\Player\Actions\IActions.h" />
     <ClInclude Include="class\GameObjects\Player\Actions\MoveController.h" />
     <ClInclude Include="class\GameObjects\Player\Actions\WeaponController.h" />
+    <ClInclude Include="class\GameObjects\Player\PlayerConfig.h" />
     <ClInclude Include="class\GameObjects\UI\BackGround.h" />
     <ClInclude Include="class\GameObjects\UI\NumPlane.h" />
     <ClInclude Include="class\GameObjects\UI\ScoreUI\ScoreManager.h" />

@@ -29,7 +29,10 @@ Gunner::Gunner(IWorld* world, int ID, const EnemyData& data) {
 	// モデル生成
 	model_.LoadFullPath(data.modelName);
 	model_.Update();
-	
+	for (auto key : model_.skeleton.jointMap) {
+		if (!key.first.empty()) jointName_.push_back(key.first);
+	}
+
 	// 黒板生成
 	blackBoard_ = new BlackBoard();
 	blackBoard_->SetValue<Actor*>(EnemyConfig::name, this);

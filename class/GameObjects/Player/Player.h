@@ -5,6 +5,7 @@
 #include "System/WeaponSkill/WeaponSkill.h"
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../Camera/FollowCamera/FollowCamera.h"
+#include "PlayerConfig.h"
 #include <Adapter.h>
 
 class EnemyManager;
@@ -30,6 +31,10 @@ public:
 	/// 調整項目
 	/// </summary>
 	void DrawGui() override;
+	/// <summary>
+	/// 衝突応答
+	/// </summary>
+	void OnCollision(LWP::Object::Collision* hitTarget) override;
 
 private:// プライベートな関数
 	void AdjustRotate();

@@ -1,4 +1,5 @@
 #include "WeaponSkill.h"
+#include "../../PlayerConfig.h"
 #include <array> 
 #include <algorithm>
 #include <cmath>
@@ -13,7 +14,7 @@ WeaponSkill::WeaponSkill() {
 	radar_[5].weaponType = (int)WeaponType::kLauncher;
 
 	// 練度の詳細設定作成
-	json_.Init("WeaponSkill.json");
+	json_.Init(kJsonFileDirectoryPath + "WeaponSkill.json");
 	// 減衰率
 	json_.BeginGroup("Decay")
 		.AddValue<float>("Near", &decay[1])
