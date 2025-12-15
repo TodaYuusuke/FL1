@@ -6,6 +6,8 @@
 #include <numbers>
 
 using namespace FLMath;
+using namespace LWP;
+using namespace LWP::Utility;
 using namespace LWP::Math;
 using namespace LWP::Input;
 
@@ -115,34 +117,25 @@ void Move::TurnBehind() {
 
 void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 rightStick, float deltaTime) {
 	// 履帯の目標速度（入力を反転したい場合は符号調整）
-	float target_vL = leftStick.y * maxSpeed;
-	float target_vR = rightStick.y * maxSpeed;
-
-	// 片方の入力が無かったら0にする
-	//if (target_vL == 0.0f) {
-	//	target_vR = 0.0f;
-	//}
-	//if (target_vR == 0.0f) {
-	//	target_vL = 0.0f;
-	//}
-	//Vector2 diff = {
-	//	leftStick.x - rightStick.x,
-	//	leftStick.y - rightStick.y
-	//};
-	//diff.x = std::sqrtf(diff.x * diff.x);
-	//diff.y = std::sqrtf(diff.y * diff.y);
+	Vector2 target_vL = leftStick * maxSpeed;
+	Vector2 target_vR = rightStick * maxSpeed;
 
 	// 値の修正される前のスティックの入力値で比較
 	Vector2 lStick = VirtualController::GetInstance()->GetLAxis();
 	Vector2 rStick = VirtualController::GetInstance()->GetRAxis();
 	float sqrtStick = (lStick.y - rStick.y);
 	// スティック入力が互いに反対
-	if (target_vL * target_vR < 0.0f) {
+	if (target_vL.y * target_vR.y < 0.0f) {
 		if (std::sqrtf(sqrtStick * sqrtStick) >= turnThreshold * 2.0f) {
-			target_vL = 0.0f;
-			target_vR = 0.0f;
+			target_vL.y = 0.0f;
+			target_vR.y = 0.0f;
 			isTurnBehind_ = true;
 		}
+	}
+	// 同じ方向に左右のスティックを入力したか
+	if (target_vL.x * target_vR.x < 0.0f) {
+		target_vL.x = 0.0f;
+		target_vR.x = 0.0f;
 	}
 
 	// 補間（スムーズな操作）
@@ -150,36 +143,15 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 	vR += (target_vR - vR) * 0.1f;
 
 	// 差動モデル計算
-	float v = (vR + vL) * 0.5f;
-	omega = (vR - vL) / treadWidth * maxOmega;
-	// 更新
-	angle += -omega * deltaTime;
+	Vector2 v = (vR + vL) * 0.5f;
 
-	// 回転角が2πを超えたら初期化
-	if (angle <= -(float)std::numbers::pi * 2.0f) {
-		angle = std::fmodf(std::fabsf(angle), -(float)std::numbers::pi * 2.0f);
-	}
-	if (angle >= (float)std::numbers::pi * 2.0f) {
-		angle = std::fmodf(std::fabsf(angle), (float)std::numbers::pi * 2.0f);
-	}
-
-	// 角度[ラジアン]
-	Vector3 rot = {
-		0.0f,
-		angle,
-		0.0f,
-	};
 	// 角度代入
-	Quaternion q = LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, -(target_vR - target_vL) / treadWidth * maxOmega);
+	Quaternion q = LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, -(target_vR.y - target_vL.y) / treadWidth * maxOmega * deltaTime);
 	rot_ = q;
 
 	// 速度を算出
-	vel_ = Vector3{ 0,0,1 } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation) * v;
-	// 横移動をしているなら算出
-	if (leftStick.x * rightStick.x > 0.0f) {
-		Vector3 sideMove = { leftStick.x * maxSpeed, 0.0f, 0.0f };
-		vel_ += sideMove * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation);
-	}
+	vel_ = Vector3{ 0,0,1 } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation) * v.y;
+	vel_ += Vector3{ 1,0,0 } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation) * v.x;
 }
 
 void Move::FPSTypeMove() {

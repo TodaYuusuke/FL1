@@ -12,7 +12,7 @@ CameraEffectHandler::CameraEffectHandler() {
 
 void CameraEffectHandler::Init() {
 	for (auto& effect : cameraEffects_) {
-		effect.second->Update();
+		effect.second->Init();
 	}
 }
 

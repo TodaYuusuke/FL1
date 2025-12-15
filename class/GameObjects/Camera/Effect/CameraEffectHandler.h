@@ -27,14 +27,17 @@ public:
 	/// </summary>
 	void Update();
 
-private:
-
 public:// アクセサ
 	/// <summary>
-	/// 演出開始
+	/// 揺れ演出開始
 	/// </summary>
 	/// <param name="effectType"></param>
 	void StartShake(LWP::Math::Vector3 range, float endTime);
+	/// <summary>
+	/// ズーム演出開始
+	/// </summary>
+	/// <param name="zoomValue"></param>
+	/// <param name="endTime"></param>
 	void StartZoom(float zoomValue, float endTime);
 
 #pragma region Getter

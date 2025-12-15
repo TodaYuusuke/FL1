@@ -105,8 +105,8 @@ private:
 
 	float angle = 0.0f;
 	float omega;
-	float vL = 0.0f;
-	float vR = 0.0f;
+	LWP::Math::Vector2 vL;
+	LWP::Math::Vector2 vR;
 
 	bool isMoveTypeChange_;
 	bool isPreMoveTypeChange_;

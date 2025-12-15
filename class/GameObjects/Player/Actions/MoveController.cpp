@@ -4,7 +4,6 @@
 #include "Action/None/NoneAction.h"
 #include "../../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../../../Componets/InputMyController/ControllerReceiver.h"
-#include "../../../Componets/Input/VirtualController.h"
 
 using namespace ActionConfig;
 using namespace ActionConfig::Mask;
@@ -13,6 +12,8 @@ using namespace LWP::Math;
 
 MoveController::MoveController(BlackBoard* blackBoard) {
 	pBB_ = blackBoard;
+	vCon_ = VirtualController::GetInstance();
+	cameraEffector_ = CameraEffectHandler::GetInstance();
 
 	actions_[ActionType::kMain] = std::make_unique<Move>(pBB_);
 	actions_[ActionType::kSub] = std::make_unique<NoneAction>();
@@ -59,15 +60,26 @@ void MoveController::DebugGui() {
 void MoveController::InputHandle() {
 	// 回避
 	bool isBoost = false;
-	if (VirtualController::GetInstance()->GetPress(BindActionType::kBoost)) {
+	if (vCon_->GetPress(BindActionType::kBoost)) {
 		if (CheckEnableChangeState(Movement::SubAction::boost, actions_[ActionType::kSub]->GetEnableChangeState())) {
 			if (CheckInabilityParallelState(Movement::SubAction::boost, actions_[ActionType::kMain]->GetInabilityParallelState())) {
 				ChangeState(actions_[ActionType::kSub], std::make_unique<Boost>(actions_[ActionType::kMain]->GetVel(), pBB_->GetValue<Actor*>("Player")->GetWorldTF()->GetWorldPosition()));
 				isBoost = true;
+
+				// カメラ演出開始
+				if (vCon_->GetTrigger(BindActionType::kBoost)) {
+					cameraEffector_->StartZoom(boostCameraFov, boostCameraEffectTime);
+					cameraEffector_->StartShake(boostCameraShake, boostCameraEffectTime);
+				}
 			}
 		}
 	}
 	if (!isBoost) {
 		ChangeState(actions_[ActionType::kSub], std::make_unique<NoneAction>());
+
+		// カメラ演出終了
+		if (vCon_->GetRelease(BindActionType::kBoost)) {
+			cameraEffector_->StartZoom(-boostCameraFov, boostCameraEffectTime * 2.0f);
+		}
 	}
 }

@@ -3,6 +3,8 @@
 #include "Action/IAction.h"
 #include "Action/Boost/Boost.h"
 #include "../../../Componets/BehaviourTree/Actor/BlackBoard.h"
+#include "../../../Componets/Input/VirtualController.h"
+#include "../../Camera/Effect/CameraEffectHandler.h"
 #include <memory>
 #include <vector>
 
@@ -46,8 +48,15 @@ public:// アクセサ
 
 #pragma endregion
 
+private:// 調整項目
+	float boostCameraFov = 15.0f;
+	float boostCameraEffectTime = 0.3f;
+	LWP::Math::Vector3 boostCameraShake = { 0.02f,0.02f ,0.02f };
+
 private:
 	BlackBoard* pBB_;
+	VirtualController* vCon_;
+	CameraEffectHandler* cameraEffector_;
 
 private:
 	// 行動処理をまとめたリスト
