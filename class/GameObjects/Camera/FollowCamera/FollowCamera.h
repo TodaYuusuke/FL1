@@ -61,6 +61,16 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	void SetCameraRotate(LWP::Math::Quaternion quat) { camera_->worldTF.rotation = quat; }
+	/// <summary>
+	/// 座標の設定
+	/// </summary>
+	/// <param name="pos"></param>
+	void SetTranslation(LWP::Math::Vector3 pos) { camera_->worldTF.translation = pos; }
+	/// <summary>
+	/// 視野角の設定
+	/// </summary>
+	/// <param name="fov"></param>
+	void SetFov(float fov) { camera_->fov = fov; }
 #pragma endregion
 
 public:// jsonで保存する値

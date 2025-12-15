@@ -42,6 +42,11 @@ namespace FLMath {
 		return result;
 	}
 
+	float Exponential(float current, float target, float damping) {
+		float factor = 1.0f - std::exp(-damping);
+		return current + (target - current) * factor;
+	}
+
 	Quaternion AngularVelocityToQuaternion(const Vector3& omega, float dt) {
 		float angle = omega.Length() * dt;
 

@@ -150,6 +150,9 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="class\Componets\Shake.cpp" />
+    <ClCompile Include="class\GameObjects\Camera\Effect\CameraEffect.cpp" />
+    <ClCompile Include="class\GameObjects\Camera\Effect\Zoom\CameraZoom.cpp" />
     <ClCompile Include="class\GameObjects\Camera\Effect\Shake\CameraShake.cpp" />
     <ClCompile Include="class\GameObjects\Camera\Effect\CameraEffectHandler.cpp" />
     <ClCompile Include="class\Componets\Input\Device\GamePadDevice.cpp" />
@@ -247,6 +250,8 @@
     <ClCompile Include="class\GameObjects\PenetrationResolver\PenetrationResolver.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="class\Componets\Shake.h" />
+    <ClInclude Include="class\GameObjects\Camera\Effect\Zoom\CameraZoom.h" />
     <ClInclude Include="class\GameObjects\Camera\Effect\Shake\CameraShake.h" />
     <ClInclude Include="class\GameObjects\Camera\CameraConfig.h" />
     <ClInclude Include="class\GameObjects\Camera\Effect\CameraEffect.h" />

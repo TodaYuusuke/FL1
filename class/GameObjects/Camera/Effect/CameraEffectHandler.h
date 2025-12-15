@@ -1,17 +1,23 @@
 #pragma once
 #include <Adapter.h>
+#include "../CameraConfig.h"
 #include "../FollowCamera/FollowCamera.h"
+#include "Shake/CameraShake.h"
+#include "Zoom/CameraZoom.h"
 #include "CameraEffect.h"
 
 /// <summary>
 /// カメラの演出を実行
 /// </summary>
-class CameraEffectHandler {
+class CameraEffectHandler final : public LWP::Utility::ISingleton<CameraEffectHandler> {
+	friend class LWP::Utility::ISingleton<CameraEffectHandler>;
+private:
 	// コンストラクタ
 	CameraEffectHandler();
 	// デストラクタ
 	~CameraEffectHandler() = default;
 
+public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -21,12 +27,15 @@ class CameraEffectHandler {
 	/// </summary>
 	void Update();
 
+private:
+
 public:// アクセサ
 	/// <summary>
 	/// 演出開始
 	/// </summary>
 	/// <param name="effectType"></param>
-	void StartEffect(int effectType);
+	void StartShake(LWP::Math::Vector3 range, float endTime);
+	void StartZoom(float zoomValue, float endTime);
 
 #pragma region Getter
 
@@ -43,7 +52,10 @@ public:// アクセサ
 private:
 	// 演出対象
 	FollowCamera* effectTarget_;
+
+	std::unique_ptr<CameraShake> shake_;
+
 	// 演出処理
-	//std::map<int, CameraEffect> cameraEffects_;
+	std::map<CameraEffectType, std::unique_ptr<CameraEffect>> cameraEffects_;
 };
 

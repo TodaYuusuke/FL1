@@ -2,6 +2,7 @@
 #include "NullScene.h"
 #include "Title.h"
 #include "ResultScene.h"
+#include "../GameObjects/Camera/Effect/CameraEffectHandler.h"
 #include "../GameObjects/Attack/AttackManager.h"
 #include "../GameObjects/Weapon/WeaponManager.h"
 #include "../GameObjects/UI/ScoreUI/ScoreManager.h"
@@ -38,12 +39,15 @@ GameScene::~GameScene() {
 	HitStopController::Destroy();
 	// ゲームコントローラ
 	VirtualController::Destroy();
-
 	//マイコン入力の停止
 	ControllerReceiver::GetInstance()->ClosePort();
+	// カメラ演出
+	CameraEffectHandler::Destroy();
 }
 
 void GameScene::Initialize() {
+	// カメラ演出
+	CameraEffectHandler::Create();
 	//ポート再オープン
 	ControllerReceiver::GetInstance()->ReOpenPort();
 	// ゲームコントローラ
@@ -99,6 +103,9 @@ void GameScene::Initialize() {
 	score_->Initialize(7);
 	score_->SetCenter({1280.0f,100.0f});
 
+	// 演出対象のカメラ
+	CameraEffectHandler::GetInstance()->SetEffectTarget(followCamera_.get());
+
 	// エフェクト関連初期化
 	EffectManager::GetInstance()->Init();
 	EffectEditor::GetInstance()->SetEffectManager(EffectManager::GetInstance());
@@ -139,6 +146,9 @@ void GameScene::Update() {
 
 	// エフェクト関連初期化
 	EffectManager::GetInstance()->Update();
+
+	// カメラ演出
+	CameraEffectHandler::GetInstance()->Update();
 
 #ifdef _DEBUG
 
@@ -188,6 +198,12 @@ void GameScene::Update() {
 				followCamera_->ResetTarget();
 			}
 			ImGui::TreePop();
+		}
+		if (ImGui::Button("SampleShake")) {
+			CameraEffectHandler::GetInstance()->StartShake(Vector3{ 0.01f,0.01f,0.01f }, 1.0f);
+		}
+		if (ImGui::Button("SampleZoom")) {
+			CameraEffectHandler::GetInstance()->StartZoom(10.0f, 0.5f);
 		}
 		ImGui::EndTabItem();
 	}
