@@ -47,7 +47,6 @@ void CameraBound::Finish() {
 }
 
 void CameraBound::BoundMove() {
-	//if (!timer_) { return; }
 	if (currentFrame_ / (endTime_ * 60.0f) > 1.0f) { return; }
 
 	Vector3 start{};

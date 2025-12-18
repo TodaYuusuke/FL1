@@ -1,6 +1,7 @@
 #include "IGun.h"
 #include "../../Attack/AttackManager.h"
 #include "../../Collision/CollisionMask.h"
+#include "../../Camera/Effect/CameraEffectHandler.h"
 
 using namespace FLMath;
 using namespace LWP::Math;
@@ -222,6 +223,11 @@ void IGun::AttackCommond() {
 		}
 		// 弾生成
 		pBulletManager_->CreateAttack(data_.bulletType, target_, body_.GetJointWorldPosition("Muzzle"), bulletHitFragBit_, bulletBelongFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
+		
+		// 所持者が自機ならカメラ演出
+		if (actor_->GetName() == "Player") {
+			CameraEffectHandler::GetInstance()->StartShake(Vector3{ 0.005f, 0.005f ,0.005f }, 0.1f);
+		}
 
 		i--;
 	} while (i > 0);
