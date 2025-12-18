@@ -97,10 +97,11 @@ private:
 	// 操作タイプ
 	MoveType moveType_;
 
+	LWP::Math::Vector3 preVel_;
+
 	LWP::Math::Vector3 turnRadian_;
 	LWP::Math::Vector3 preTurnRadian_;
-	// 180度旋回のイージング
-	//LWP::Resource::Motion turnEase_;
+	// 180度旋回のイージングのタイマー
 	LWP::Utility::DeltaTimer turnTime_;
 
 	float angle = 0.0f;
@@ -113,5 +114,7 @@ private:
 	// 180°回転
 	bool isTurnBehind_;
 	bool isPreTurnBehind_;
+
+	bool isBound_;
 };
 

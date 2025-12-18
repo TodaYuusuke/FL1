@@ -70,6 +70,7 @@ void MoveController::InputHandle() {
 				if (vCon_->GetTrigger(BindActionType::kBoost)) {
 					cameraEffector_->StartZoom(boostCameraFov, boostCameraEffectTime);
 					cameraEffector_->StartShake(boostCameraShake, boostCameraEffectTime);
+					cameraEffector_->StartBound(boostCameraBound, boostCameraBoundTime);
 				}
 			}
 		}

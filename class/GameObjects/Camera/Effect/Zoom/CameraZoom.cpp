@@ -19,6 +19,11 @@ void CameraZoom::Init() {
 }
 
 void CameraZoom::Update() {
+	if (!timer_->GetIsActive()) {
+		isActive_ = false;
+		return;
+	}
+
 	if (timer_) {
 		zoomValue_ = Interp::LerpF(0, endZoom_, timer_->GetProgress());
 		timer_->Update();

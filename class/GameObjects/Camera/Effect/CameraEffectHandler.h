@@ -4,6 +4,7 @@
 #include "../FollowCamera/FollowCamera.h"
 #include "Shake/CameraShake.h"
 #include "Zoom/CameraZoom.h"
+#include "BoundMove/CameraBound.h"
 #include "CameraEffect.h"
 
 /// <summary>
@@ -15,7 +16,7 @@ private:
 	// コンストラクタ
 	CameraEffectHandler();
 	// デストラクタ
-	~CameraEffectHandler() = default;
+	~CameraEffectHandler();
 
 public:
 	/// <summary>
@@ -39,6 +40,12 @@ public:// アクセサ
 	/// <param name="zoomValue"></param>
 	/// <param name="endTime"></param>
 	void StartZoom(float zoomValue, float endTime);
+	/// <summary>
+	/// 跳ねる演出開始
+	/// </summary>
+	/// <param name="boundValue"></param>
+	/// <param name="endTime"></param>
+	void StartBound(LWP::Math::Vector3 boundValue, float endTime);
 
 #pragma region Getter
 
@@ -55,8 +62,6 @@ public:// アクセサ
 private:
 	// 演出対象
 	FollowCamera* effectTarget_;
-
-	std::unique_ptr<CameraShake> shake_;
 
 	// 演出処理
 	std::map<CameraEffectType, std::unique_ptr<CameraEffect>> cameraEffects_;

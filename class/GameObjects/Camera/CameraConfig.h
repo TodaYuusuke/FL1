@@ -3,6 +3,7 @@
 enum class CameraEffectType {
 	kShake,
 	kZoom,
+	kBound,
 	kCount
 };
 

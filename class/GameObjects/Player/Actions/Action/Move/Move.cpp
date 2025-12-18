@@ -3,6 +3,7 @@
 #include "../../../../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../../../../World/World.h"
 #include "../../../../../Componets/InputMyController/ControllerReceiver.h"
+#include "../../../../Camera/Effect/CameraEffectHandler.h"
 #include <numbers>
 
 using namespace FLMath;
@@ -40,8 +41,7 @@ void Move::Init() {
 }
 
 void Move::Update() {
-	// 180度旋回入力があるか
-	//isTurnBehind_ = VirtualController::GetInstance()->GetPress(BindActionType::kTurn);
+	// 180度旋回入力
 	isTurnBehind_ = false;
 	// 移動方式選択
 	CheckMoveType();
@@ -52,6 +52,20 @@ void Move::Update() {
 
 	// タイムスケール適用
 	vel_ *= stopController_->GetDeltaTime();
+
+	// 移動開始時にカメラを揺らす
+	Vector2 v = (vR + vL) * 0.5f;
+	if (v.Length() >= preVel_.Length()) {
+		if (Vector3{ v.x, 0.0f, v.y } != preVel_) {
+			if (std::fabsf(v.x) + std::fabsf(v.y) <= 0.05f) {
+				if (std::fabsf(preVel_.x) + std::fabsf(preVel_.z) <= 0.01f) {
+					CameraEffectHandler::GetInstance()->StartBound(Vector3{ 0.0f,0.01f,0.0f }, 0.05f);
+				}
+			}
+		}
+	}
+
+	preVel_ = { v.x, 0.0f, v.y };
 
 	preTurnRadian_ = turnRadian_;
 	isPreMoveTypeChange_ = isMoveTypeChange_;
@@ -141,6 +155,19 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 	// 補間（スムーズな操作）
 	vL += (target_vL - vL) * 0.1f;
 	vR += (target_vR - vR) * 0.1f;
+	const float EPS = 1e-6f;
+	if (std::fabs(vR.x) < EPS) {
+		vR.x = 0.0f;
+	}
+	if (std::fabs(vR.y) < EPS) {
+		vR.y = 0.0f;
+	}
+	if (std::fabs(vL.x) < EPS) {
+		vL.x = 0.0f;
+	}
+	if (std::fabs(vL.y) < EPS) {
+		vL.y = 0.0f;
+	}
 
 	// 差動モデル計算
 	Vector2 v = (vR + vL) * 0.5f;
@@ -151,7 +178,10 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 
 	// 速度を算出
 	vel_ = Vector3{ 0,0,1 } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation) * v.y;
-	vel_ += Vector3{ 1,0,0 } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation) * v.x;
+
+	if (rightStick.x * leftStick.x > 0.0f) {
+		vel_ += Vector3{ 1,0,0 } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation) * v.x;
+	}
 }
 
 void Move::FPSTypeMove() {

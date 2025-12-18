@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="class\Componets\Shake.cpp" />
+    <ClCompile Include="class\GameObjects\Camera\Effect\BoundMove\CameraBound.cpp" />
     <ClCompile Include="class\GameObjects\Camera\Effect\CameraEffect.cpp" />
     <ClCompile Include="class\GameObjects\Camera\Effect\Zoom\CameraZoom.cpp" />
     <ClCompile Include="class\GameObjects\Camera\Effect\Shake\CameraShake.cpp" />
@@ -251,6 +252,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="class\Componets\Shake.h" />
+    <ClInclude Include="class\GameObjects\Camera\Effect\BoundMove\CameraBound.h" />
     <ClInclude Include="class\GameObjects\Camera\Effect\Zoom\CameraZoom.h" />
     <ClInclude Include="class\GameObjects\Camera\Effect\Shake\CameraShake.h" />
     <ClInclude Include="class\GameObjects\Camera\CameraConfig.h" />

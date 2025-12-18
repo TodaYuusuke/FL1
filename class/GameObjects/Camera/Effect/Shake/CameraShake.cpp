@@ -16,19 +16,22 @@ void CameraShake::Init() {
 }
 
 void CameraShake::Update() {
-	if (!shake_.GetIsActive()) { return; }
+	if (!shake_.GetIsActive()) {
+		isActive_ = false;
+		return; 
+	}
 
-	// —h‚ê‚ÌXV
+	// æºã‚Œã®æ›´æ–°
 	shake_.Update();
 
-	// —h‚ê‚Ì”ÍˆÍ‚ð‹·‚ß‚é
+	// æºã‚Œã®ç¯„å›²ã‚’ç‹­ã‚ã‚‹
 	shakeRange_ = Interp::Exponential(shakeRange_, Vector3{}, 0.1f);
 	shake_.SetRange(shakeRange_);
 
-	// ƒJƒƒ‰‚ÌŒü‚«‚É‰ž‚¶‚Ä—h‚ê‚é•ûŒü‚ð•Ï“®
+	// ã‚«ãƒ¡ãƒ©ã®å‘ãã«å¿œã˜ã¦æºã‚Œã‚‹æ–¹å‘ã‚’å¤‰å‹•
 	vel_ = shakeValue_ * Matrix4x4::CreateRotateXYZMatrix(pCamera_->GetCamera()->worldTF.rotation);
 
-	// À•W‚É“K—p
+	// åº§æ¨™ã«é©ç”¨
 	pCamera_->SetTranslation(pCamera_->GetCamera()->worldTF.GetWorldPosition() + vel_);
 }
 

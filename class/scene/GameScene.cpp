@@ -205,6 +205,9 @@ void GameScene::Update() {
 		if (ImGui::Button("SampleZoom")) {
 			CameraEffectHandler::GetInstance()->StartZoom(10.0f, 0.5f);
 		}
+		if (ImGui::Button("SampleBoundMove")) {
+			CameraEffectHandler::GetInstance()->StartBound(Vector3{ 0.0f,-0.5f,0.0f }, 0.5f);
+		}
 		ImGui::EndTabItem();
 	}
 

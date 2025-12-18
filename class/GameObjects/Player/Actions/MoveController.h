@@ -51,7 +51,9 @@ public:// アクセサ
 private:// 調整項目
 	float boostCameraFov = 15.0f;
 	float boostCameraEffectTime = 0.3f;
+	float boostCameraBoundTime = 3.0f / 60.0f;
 	LWP::Math::Vector3 boostCameraShake = { 0.02f,0.02f ,0.02f };
+	LWP::Math::Vector3 boostCameraBound = { 0.0f,0.1f,0.0f };
 
 private:
 	BlackBoard* pBB_;

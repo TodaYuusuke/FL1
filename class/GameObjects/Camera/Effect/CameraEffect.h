@@ -25,11 +25,15 @@ public:// アクセサ
 	/// <returns></returns>
 	LWP::Math::Vector3 GetVelocity() { return vel_; }
 
+	bool GetIsActive() { return isActive_; }
+
 protected:// 外部から受け取る変数
 	FollowCamera* pCamera_;
 
 protected:
 	// 速度
 	LWP::Math::Vector3 vel_;
+
+	bool isActive_ = true;
 };
 
