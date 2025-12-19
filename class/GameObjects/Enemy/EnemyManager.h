@@ -3,6 +3,7 @@
 #include "EnemyConfig.h"
 #include "../Weapon/WeaponConfig.h"
 #include <Adapter.h>
+#include <filesystem>
 
 class IWorld;
 /// <summary>
@@ -130,6 +131,16 @@ private:// デバッグ用の関数群
 	/// <param name="json"></param>
 	void SelectLevelGui(LWP::Utility::JsonIO& json, LevelParameter& data);
 
+	void LoadSpawnJson(const std::string& fileName);
+	void LoadJson(const std::string& fileName);
+	void SpawnJsonExport();
+	void ExportJson(const std::string& fileName);
+	void SortSpawnTime();
+	void SpawnGui();
+
+	std::filesystem::path GetExeDir();
+	std::vector<std::string> GetFileNames(const std::string& folderPath);
+
 public:// アクセサ
 #pragma region Getter
 	/// <summary>
@@ -175,6 +186,9 @@ private:// 定数
 	const std::string kLevelJsonDirectoryPath = "Enemies/Levels/";
 
 private:// デバッグ用変数
+	std::vector<EnemySpawnData> spawnDatas_;
+
+
 	// ビヘイビアツリーの編集
 	std::unique_ptr<BehaviorTreeGraph> btEditor_;
 

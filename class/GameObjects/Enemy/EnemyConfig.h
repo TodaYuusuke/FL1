@@ -64,6 +64,14 @@ struct EnemyData {
 	}
 };
 
+struct EnemySpawnData {
+	int type;
+	int id;
+	float spawnTime;
+	LWP::Math::Vector3 pos;
+	LWP::Resource::RigidModel debugModel;
+};
+
 namespace EnemyConfig {
 	namespace Name {
 		// 名前
