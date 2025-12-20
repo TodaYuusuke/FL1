@@ -158,12 +158,26 @@ void EnemyManager::DebugGui() {
 			// 配置
 			if (ImGui::TreeNode("Placement")) {
 				static int type = 0;
+				static int preType = -1;
 				static int placementID = 0;
 				static Vector3 pos;
 				static float spawnTime;
 				SelectType(enemyTypePreview_, type, "EnemyType##1");
 				ImGui::DragFloat("SpawnTime", &spawnTime, 0.01f, 0.0f);
 				ImGui::DragFloat3("Pos", &pos.x, 0.01f);
+
+				// 配置予定モデル表示
+				spawnModel_.isActive = true;
+				if (preType != type) {
+					spawnModel_.LoadFullPath(EnemyConfig::ModelName::modelName[type]);
+					for (auto& key : spawnModel_.materials) {
+						key.second.color.R = 0;
+						key.second.color.G = 255;
+						key.second.color.B = 0;
+						key.second.color.A = 100;
+					}
+				}
+				spawnModel_.worldTF.translation = pos;
 
 				if (ImGui::Button("Create")) {
 					spawnDatas_.emplace_back();
@@ -179,6 +193,8 @@ void EnemyManager::DebugGui() {
 
 					placementID++;
 				}
+
+				preType = type;
 				ImGui::TreePop();
 			}
 
@@ -846,15 +862,17 @@ void EnemyManager::SortSpawnTime() {
 
 void EnemyManager::SpawnGui() {
 	if (spawnDatas_.empty()) { return; }
-
+	
 	if (ImGui::TreeNode("SpawnEnemies")) {
 		static int type = 0;
 		std::vector<std::string> preview;
 		for (EnemySpawnData& data : spawnDatas_) {
-			data.debugModel.materials["Material"].color.R = 255;
-			data.debugModel.materials["Material"].color.G = 255;
-			data.debugModel.materials["Material"].color.B = 255;
-			data.debugModel.materials["Material"].color.A = 255;
+			for (auto& key : data.debugModel.materials) {
+				key.second.color.R = 255;
+				key.second.color.G = 255;
+				key.second.color.B = 255;
+				key.second.color.A = 255;
+			}
 
 			preview.push_back(EnemyConfig::Name::name[data.type] + std::to_string(data.id));
 		}
@@ -863,8 +881,11 @@ void EnemyManager::SpawnGui() {
 		SelectType(preview, type, "SpawnEnemy");
 
 		// 色を赤色にする
-		spawnDatas_[type].debugModel.materials["Material"].color.G = 0;
-		spawnDatas_[type].debugModel.materials["Material"].color.B = 0;
+		for (auto& key : spawnDatas_[type].debugModel.materials) {
+			key.second.color.R = 255;
+			key.second.color.G = 0;
+			key.second.color.B = 0;
+		}
 
 		std::string label = EnemyConfig::Name::name[spawnDatas_[type].type];
 		if (ImGui::TreeNode(label.c_str())) {
@@ -879,7 +900,11 @@ void EnemyManager::SpawnGui() {
 			spawnDatas_.erase(spawnDatas_.begin() + type);
 			type = 0;
 		}
+
 		ImGui::TreePop();
+	}
+	else {
+		spawnModel_.isActive = false;
 	}
 }
 

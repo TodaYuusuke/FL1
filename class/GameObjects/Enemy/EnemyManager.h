@@ -187,13 +187,11 @@ private:// 定数
 
 private:// デバッグ用変数
 	std::vector<EnemySpawnData> spawnDatas_;
-
+	LWP::Resource::SkinningModel spawnModel_;
 
 	// ビヘイビアツリーの編集
 	std::unique_ptr<BehaviorTreeGraph> btEditor_;
 
-	// 敵の生成座標(デバッグ用)
-	LWP::Math::Vector3 createPos_;
 	// 敵の速度(デバッグ用)
 	LWP::Math::Vector3 createVel_;
 
@@ -208,7 +206,6 @@ private:// デバッグ用変数
 	std::vector<std::string> levelPreview_;
 	int maxLevel_ = 10;
 	int selectLevel_;
-
 	// 作成できる武器種一覧
 	std::vector<std::string> weaponTypePreview_;
 	// 作成できる武器のレアリティ一覧
@@ -220,7 +217,6 @@ private:// デバッグ用変数
 	std::map<int, EnemyData> sampleEnemies_;
 	// jsonファイル作成
 	std::map<int, LWP::Utility::JsonIO> jsonDatas_;
-
 	// 調整されたレベルのオリジナル
 	std::map<int, LevelParameter> sampleLevels_;
 	// レベルjsonファイル作成
@@ -250,6 +246,9 @@ private:// 調整項目
 private:
 	// 敵リスト
 	std::vector<Actor*> enemies_;
+
+	// 敵の生成座標
+	LWP::Math::Vector3 createPos_;
 
 	SpawnData spawnData_;
 	float currentFrame_;
