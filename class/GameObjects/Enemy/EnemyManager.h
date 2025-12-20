@@ -40,7 +40,7 @@ public:
 	/// </summary>
 	void DebugGui();
 
-private:
+private:// 敵の生成関数
 	/// <summary>
 	/// 近接敵生成
 	/// </summary>
@@ -58,13 +58,19 @@ private:
 	/// </summary>
 	/// <returns></returns>
 	Actor* CreateCargoEnemy();
+	/// <summary>
+	/// 選ばれた敵を作成(デバッグ用)
+	/// </summary>
+	Actor* CreateEnemy();
 
+private:// 敵に持たせる武器に関する関数
 	/// <summary>
 	/// 武器を付与
 	/// </summary>
 	/// <param name="actor"></param>
 	void GiveWeapon(Actor* actor, const EnemyData& data);
 
+private:// 敵出現用の関数
 	/// <summary>
 	/// 敵出現
 	/// </summary>
@@ -73,45 +79,31 @@ private:
 	/// 敵の出現位置をランダムで生成
 	/// </summary>
 	void CreateRandomSpawnPos();
-
-private:// デバッグ用の関数群
+				
+private:// ******** デバッグ、エディタ用の関数群↓ ******** //
 	/// <summary>
 	/// テスト敵生成(デバッグ用)
 	/// </summary>
 	Actor* CreateTestEnemy();
-	/// <summary>
-	/// 選ばれた敵を作成(デバッグ用)
-	/// </summary>
-	Actor* CreateEnemy();
 
+	/// <summary>
+	/// ComboGuiの表示
+	/// </summary>
+	/// <param name="list"></param>
+	/// <param name="selectedType"></param>
+	/// <param name="label"></param>
 	void SelectType(std::vector<std::string> list, int& selectedType, std::string label);
 	/// <summary>
 	/// 作成する敵を選択(デバッグ用)
 	/// </summary>
-	void SelectCreateEnemy(std::map<int, EnemyData> data, int& selectType, const std::string& label);
-	/// <summary>
-	/// 読み込むjsonファイル選択(デバッグ用)
-	/// </summary>
-	void SelectJsonFile(EnemyData& data, int& selectedType, const std::string& label);
-	/// <summary>
-	/// 統制するレベル(デバッグ用)
-	/// </summary>
-	void SelectLevel(const std::string& label);
-	/// <summary>
-	/// 作成したい武器の種類を選択(デバッグ用)
-	/// </summary>
-	void SelectWeaponType(int& selectedWeaponType, std::string label);
-	/// <summary>
-	/// 作成したい武器の種類を選択(デバッグ用)
-	/// </summary>
-	void SelectWeaponRarity();
-	/// <summary>
-	/// デバッグ用変数の情報作成
-	/// </summary>
-	void CreateDebugData();
+	void SelectEnemyType(std::map<int, EnemyData> data, int& selectType, const std::string& label);
 
 	/// <summary>
-	/// jsonファイル作成
+	/// デバッグ用変数の作成
+	/// </summary>
+	void CreateDebugData();
+	/// <summary>
+	/// 敵単体のjsonファイル作成
 	/// </summary>
 	void CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, const std::string& jsonName);
 	/// <summary>
@@ -121,25 +113,65 @@ private:// デバッグ用の関数群
 	/// <param name="data"></param>
 	/// <param name="jsonName"></param>
 	void CreateLevelJsonData(LWP::Utility::JsonIO& json, LevelParameter& data, const std::string& jsonName);
+
 	/// <summary>
 	/// 選択された武器のguiの表示
 	/// </summary>
-	void SelectEnemyDataGui(LWP::Utility::JsonIO& json, EnemyData& data);
+	void SelectEnemyGui(LWP::Utility::JsonIO& json, EnemyData& data);
 	/// <summary>
-	/// 選択されたレベルの表示
+	/// 選択されたレベルのguiの表示
 	/// </summary>
 	/// <param name="json"></param>
 	void SelectLevelGui(LWP::Utility::JsonIO& json, LevelParameter& data);
 
-	void LoadSpawnJson(const std::string& fileName);
-	void LoadJson(const std::string& fileName);
-	void SpawnJsonExport();
-	void ExportJson(const std::string& fileName);
-	void SortSpawnTime();
-	void SpawnGui();
+private:// 配置エディタで使用する関数
+	/// <summary>
+	/// 配置済み敵のguiの表示
+	/// </summary>
+	void SpawnedEnemiesGui();
+	/// <summary>
+	/// 敵配置guiの表示
+	/// </summary>
+	void SpawnEnemyGui();
 
+	/// <summary>
+	/// 生成順に整列
+	/// </summary>
+	void SortSpawnTime();
+
+	/// <summary>
+	/// 敵の配置jsonファイルの読み込みボタン
+	/// </summary>
+	/// <param name="fileName"></param>
+	void LoadSpawnJsonButton(const std::string& fileName);
+	/// <summary>
+	/// 敵の配置をjsonファイルから読み込む処理
+	/// </summary>
+	/// <param name="fileName"></param>
+	void LoadSpawnJson(const std::string& fileName);
+	/// <summary>
+	/// 敵の配置jsonファイルの保存ボタン
+	/// </summary>
+	void ExportSpawnJsonButton();
+	/// <summary>
+	/// 敵の配置をjsonファイルに出力する処理
+	/// </summary>
+	/// <param name="fileName"></param>
+	void ExportSpawnJson(const std::string& fileName);
+
+	/// <summary>
+	/// exeからのディレクトリパスを取得
+	/// </summary>
+	/// <returns></returns>
 	std::filesystem::path GetExeDir();
+	/// <summary>
+	/// 指定したフォルダに入っているjsonファイル群の取得
+	/// </summary>
+	/// <param name="folderPath"></param>
+	/// <returns></returns>
 	std::vector<std::string> GetFileNames(const std::string& folderPath);
+
+		// ******** デバッグ、エディタ用の関数群↑ ******** //
 
 public:// アクセサ
 #pragma region Getter
@@ -223,7 +255,8 @@ private:// デバッグ用変数
 	std::map<int, LWP::Utility::JsonIO> levelJsonDatas_;
 
 	// ランダム出現開始
-	bool isRandomSpawn_ = true;
+	//bool isRandomSpawn_ = true;
+	EnemySpawnType spawnType_ = EnemySpawnType::kWave;
 
 private:// 外部から受け取る変数
 	IWorld* pWorld_;

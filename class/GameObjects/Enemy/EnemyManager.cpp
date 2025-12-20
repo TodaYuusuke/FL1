@@ -56,7 +56,7 @@ EnemyManager::EnemyManager(IWorld* world) {
 		.CheckJsonFile();
 
 #ifdef _DEBUG
-	isRandomSpawn_ = false;
+	spawnType_ = EnemySpawnType::kNone;
 #endif // DEBUG
 }
 
@@ -78,7 +78,7 @@ void EnemyManager::Update() {
 	isTriggerDelete_ = false;
 
 	// 敵を生成
-	if (isRandomSpawn_) SpawnEnemy();
+	SpawnEnemy();
 
 	// 更新
 	for (Actor* actor : enemies_) {
@@ -123,15 +123,17 @@ void EnemyManager::DebugGui() {
 				ImGui::TreePop();
 			}
 
+			ImGui::Text("Select level");
 			static int level = 0;
 			SelectType(levelPreview_, level, "Level##0");
 			// 調整するレベル
 			SelectLevelGui(levelJsonDatas_[level], sampleLevels_[level]);
 
+			ImGui::Text("\nSelect enemy");
 			static int enemyType = 0;
-			SelectCreateEnemy(sampleEnemies_, enemyType, "EnemyType");
+			SelectEnemyType(sampleEnemies_, enemyType, "EnemyType");
 			// 選択した敵を調整
-			SelectEnemyDataGui(jsonDatas_[enemyType], sampleEnemies_[enemyType]);
+			SelectEnemyGui(jsonDatas_[enemyType], sampleEnemies_[enemyType]);
 
 			ImGui::TreePop();
 		}
@@ -141,61 +143,47 @@ void EnemyManager::DebugGui() {
 			std::vector<std::string> spawnJsonName;
 			// 読み込み
 			spawnJsonName = GetFileNames((GetExeDir() / "resources/json/SpawnEnemy/").string());
+			// 読み込むwaveのjsonファイル選択
 			SelectType(spawnJsonName, jsonType, "SpawnJson");
-			LoadSpawnJson((GetExeDir() / "resources/json/SpawnEnemy/").string() + spawnJsonName[jsonType]);
 
+			// ロードボタン
+			if (ImGui::Button(("Json Load"))) {
+				LoadSpawnJsonButton((GetExeDir() / "resources/json/SpawnEnemy/").string() + spawnJsonName[jsonType]);
+				// モデル読み込み
+				for (EnemySpawnData& data : spawnDatas_) {
+					data.debugModel.LoadFullPath(EnemyConfig::ModelName::modelName[data.type]);
+					data.debugModel.isActive = true;
+
+					Vector3 pos = data.pos;
+					// ドローンだけ高さ分引く
+					if (data.type == (int)EnemyType::kDrone) {
+						pos.y -= dronefloatHeight_;
+					}
+					data.debugModel.worldTF.translation = pos;
+				}
+			}
 			ImGui::SameLine();
-			// 保存
-			SpawnJsonExport();
-			// リストのソート
-			if (ImGui::Button("Sort Spawn Time")) {
-				SortSpawnTime();
+			// 保存ボタン
+			if (ImGui::Button(("Json Export"))) {
+				ExportSpawnJsonButton();
 			}
 
+			//// 編集モードでない
+			//if (spawnType_ != EnemySpawnType::kNone) {
+			//	//ImGui::Text("Not spawn edit mode. Click -Start spawn edit- button");
+			//}
+
 			// 配置した敵の調整
-			SpawnGui();
+			SpawnedEnemiesGui();
+			// これから配置する敵の調整
+			SpawnEnemyGui();
 
-			// 配置
-			if (ImGui::TreeNode("Placement")) {
-				static int type = 0;
-				static int preType = -1;
-				static int placementID = 0;
-				static Vector3 pos;
-				static float spawnTime;
-				SelectType(enemyTypePreview_, type, "EnemyType##1");
-				ImGui::DragFloat("SpawnTime", &spawnTime, 0.01f, 0.0f);
-				ImGui::DragFloat3("Pos", &pos.x, 0.01f);
-
-				// 配置予定モデル表示
+			// 編集モードボタン
+			if (ImGui::Button("Start spawn edit")) {
+				spawnType_ = EnemySpawnType::kNone;
+				currentFrame_ = 0.0f;
+				spawnInterval_ = 0.0f;
 				spawnModel_.isActive = true;
-				if (preType != type) {
-					spawnModel_.LoadFullPath(EnemyConfig::ModelName::modelName[type]);
-					for (auto& key : spawnModel_.materials) {
-						key.second.color.R = 0;
-						key.second.color.G = 255;
-						key.second.color.B = 0;
-						key.second.color.A = 100;
-					}
-				}
-				spawnModel_.worldTF.translation = pos;
-
-				if (ImGui::Button("Create")) {
-					spawnDatas_.emplace_back();
-					spawnDatas_.back().type = type;
-					spawnDatas_.back().id = placementID;
-					spawnDatas_.back().spawnTime = spawnTime;
-					spawnDatas_.back().pos = pos;
-					if (type == (int)EnemyType::kDrone) {
-						spawnDatas_.back().pos.y += dronefloatHeight_;
-					}
-					spawnDatas_.back().debugModel.LoadFullPath(EnemyConfig::ModelName::modelName[type]);
-					spawnDatas_.back().debugModel.worldTF.translation = spawnDatas_.back().pos;
-
-					placementID++;
-				}
-
-				preType = type;
-				ImGui::TreePop();
 			}
 
 			ImGui::TreePop();
@@ -251,7 +239,20 @@ void EnemyManager::DebugGui() {
 		ImGui::DragInt("LimitSpawnNum", &limitSpawnNum_);
 
 		// ランダム出現開始
-		ImGui::Checkbox("GameStart!", &isRandomSpawn_);
+		if (ImGui::Button("RandomSpawn")) {
+			spawnType_ = EnemySpawnType::kRandom;
+			currentFrame_ = 0.0f;
+			spawnInterval_ = 0.0f;
+			spawnDatas_.clear();
+			spawnModel_.isActive = false;
+		}
+		if (ImGui::Button("WaveSpawn")) {
+			spawnType_ = EnemySpawnType::kWave;
+			currentFrame_ = 0.0f;
+			spawnInterval_ = 0.0f;
+			spawnDatas_.clear();
+			spawnModel_.isActive = false;
+		}
 
 		ImGui::EndTabItem();
 	}
@@ -346,66 +347,6 @@ Actor* EnemyManager::CreateCargoEnemy() {
 	return actor;
 }
 
-void EnemyManager::GiveWeapon(Actor* actor, const EnemyData& data) {
-	for (int i = 0; i < data.containWeaponTypes.size(); i++) {
-		if (data.containWeaponTypes[i] >= (int)WeaponType::kCount) { continue; }
-
-		// 持たせる武器を作成
-		IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(data.containWeaponTypes[i], 0);
-		// 所持者の攻撃倍率を武器に反映
-		weapon->SetAttackMultiply(actor->GetEnemyData().attackMultiply);
-
-		// 武器の付与
-		WeaponManager::GetInstance()->PickUpWeapon(weapon, actor, i);
-
-		// 武器の装着位置設定
-		SetWeaponPos(actor, weapon, i);
-	}
-}
-
-void EnemyManager::SpawnEnemy() {
-	// 敵が多すぎるなら出現させない
-	if ((int)enemies_.size() >= limitSpawnNum_) { return; }
-
-	currentFrame_ += HitStopController::GetInstance()->GetDeltaTime();
-	spawnInterval_ -= HitStopController::GetInstance()->GetDeltaTime();
-
-	// 次の敵を強制出現 or 敵がすべていない
-	if (spawnInterval_ <= 0.0f || enemies_.empty()) {
-		spawnInterval_ = spawnData_.nextSpawnTime * 60.0f;
-		spawnData_.spawnNum = LWP::Utility::Random::GenerateInt(minSameSpawnNum_, maxSameSpawnNum_);
-		// 生成開始
-		for (int i = 0; i < spawnData_.spawnNum; i++) {
-			selectCreateEnemyType_ = LWP::Utility::Random::GenerateInt(0, (int)EnemyType::kCount - 2);
-			CreateRandomSpawnPos();
-			enemies_.push_back(CreateEnemy());
-		}
-	}
-}
-
-void EnemyManager::CreateRandomSpawnPos() {
-	// 自機の座標を確認
-	Actor* actor = pWorld_->FindActor("Player");
-
-	// 自機座標の近くには生成しない
-	float max = 1.0f;
-	Vector3 randomSpawnDir = LWP::Utility::Random::GenerateVector3(Vector3{ -max,-max,-max }, Vector3{ max,max,max }).Normalize();
-	randomSpawnDir.y = 0.0f;
-	randomSpawnDir *= invalidSpawnRange_;
-	createPos_ = actor->GetWorldTF()->GetWorldPosition() + randomSpawnDir;
-}
-
-// ------------ デバッグ用関数↓------------ //
-
-Actor* EnemyManager::CreateTestEnemy() {
-	// テスト敵
-	TestEnemy* actor = new TestEnemy();
-	actor->SetTranslation(createPos_);
-	actor->SetVelocity(createVel_);
-
-	return actor;
-}
-
 Actor* EnemyManager::CreateEnemy() {
 	Actor* enemy = nullptr;
 	switch (selectCreateEnemyType_) {
@@ -443,6 +384,104 @@ Actor* EnemyManager::CreateEnemy() {
 	}
 }
 
+void EnemyManager::GiveWeapon(Actor* actor, const EnemyData& data) {
+	for (int i = 0; i < data.containWeaponTypes.size(); i++) {
+		if (data.containWeaponTypes[i] >= (int)WeaponType::kCount) { continue; }
+
+		// 持たせる武器を作成
+		IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(data.containWeaponTypes[i], 0);
+		// 所持者の攻撃倍率を武器に反映
+		weapon->SetAttackMultiply(actor->GetEnemyData().attackMultiply);
+
+		// 武器の付与
+		WeaponManager::GetInstance()->PickUpWeapon(weapon, actor, i);
+
+		// 武器の装着位置設定
+		SetWeaponPos(actor, weapon, i);
+	}
+}
+
+void EnemyManager::SpawnEnemy() {
+	// 敵が多すぎるなら出現させない
+	if ((int)enemies_.size() >= limitSpawnNum_) { return; }
+
+	// 次の敵を強制出現 or 敵がすべていない
+	switch (spawnType_) {
+	case EnemySpawnType::kRandom:
+		currentFrame_ += HitStopController::GetInstance()->GetDeltaTime();
+		spawnInterval_ -= HitStopController::GetInstance()->GetDeltaTime();
+
+		if (spawnInterval_ <= 0.0f || enemies_.empty()) {
+			spawnInterval_ = spawnData_.nextSpawnTime * 60.0f;
+			spawnData_.spawnNum = LWP::Utility::Random::GenerateInt(minSameSpawnNum_, maxSameSpawnNum_);
+			// 生成開始
+			for (int i = 0; i < spawnData_.spawnNum; i++) {
+				selectCreateEnemyType_ = LWP::Utility::Random::GenerateInt(0, (int)EnemyType::kCount - 2);
+				CreateRandomSpawnPos();
+				enemies_.push_back(CreateEnemy());
+			}
+		}
+		break;
+	case EnemySpawnType::kWave:
+		currentFrame_ += HitStopController::GetInstance()->GetDeltaTime();
+		spawnInterval_ -= HitStopController::GetInstance()->GetDeltaTime();
+
+		// 生成したすべての敵を倒したら次のWaveに進む
+		if (spawnInterval_ <= 0.0f && enemies_.empty()) {
+			std::vector<std::string> spawnJsonName;
+			spawnJsonName = GetFileNames((GetExeDir() / "resources/json/SpawnEnemy/").string());
+			int index = LWP::Utility::Random::GenerateInt(0, (int)spawnJsonName.size() - 1);
+			// jsonファイル読み込み
+			LoadSpawnJsonButton((GetExeDir() / "resources/json/SpawnEnemy/").string() + spawnJsonName[index]);
+
+			spawnInterval_ = spawnDatas_.back().spawnTime * 60.0f;
+		}
+		else {
+			break;
+		}
+
+		// 生成開始
+		for (EnemySpawnData& data : spawnDatas_) {
+			if (data.isSpawn) { continue; }
+			float lastSpawnTime = spawnDatas_.back().spawnTime;
+			if (data.spawnTime <= (lastSpawnTime * 60.0f) - spawnInterval_) {
+				data.isSpawn = true;
+				selectCreateEnemyType_ = data.type;
+				createPos_ = data.pos;
+				enemies_.push_back(CreateEnemy());
+			}
+		}
+
+		break;
+	default:
+		break;
+	}
+
+}
+
+void EnemyManager::CreateRandomSpawnPos() {
+	// 自機の座標を確認
+	Actor* actor = pWorld_->FindActor("Player");
+
+	// 自機座標の近くには生成しない
+	float max = 1.0f;
+	Vector3 randomSpawnDir = LWP::Utility::Random::GenerateVector3(Vector3{ -max,-max,-max }, Vector3{ max,max,max }).Normalize();
+	randomSpawnDir.y = 0.0f;
+	randomSpawnDir *= invalidSpawnRange_;
+	createPos_ = actor->GetWorldTF()->GetWorldPosition() + randomSpawnDir;
+}
+
+// ------------ デバッグ用関数↓------------ //
+
+Actor* EnemyManager::CreateTestEnemy() {
+	// テスト敵
+	TestEnemy* actor = new TestEnemy();
+	actor->SetTranslation(createPos_);
+	actor->SetVelocity(createVel_);
+
+	return actor;
+}
+
 void EnemyManager::SelectType(std::vector<std::string> list, int& selectedType, std::string label) {
 	// 読み込むbehaviorTreeのプレビュー作成
 	if (!list.empty()) {
@@ -467,8 +506,7 @@ void EnemyManager::SelectType(std::vector<std::string> list, int& selectedType, 
 	}
 }
 
-void EnemyManager::SelectCreateEnemy(std::map<int, EnemyData> data, int& selectType, const std::string& label) {
-	ImGui::Text("Select create enemy");
+void EnemyManager::SelectEnemyType(std::map<int, EnemyData> data, int& selectType, const std::string& label) {
 	// 追加する敵のプレビュー作成
 	if (!enemyTypePreview_.empty()) {
 		const char* combo_preview_value = enemyTypePreview_[selectType].c_str();
@@ -489,101 +527,6 @@ void EnemyManager::SelectCreateEnemy(std::map<int, EnemyData> data, int& selectT
 	}
 	else {
 		ImGui::TextDisabled(("Not found add enemy"));
-	}
-}
-
-void EnemyManager::SelectJsonFile(EnemyData& data, int& selectedType, const std::string& label) {
-	ImGui::Text("Select Behavior-Tree file");
-	// 読み込むbehaviorTreeのプレビュー作成
-	if (!enemyBTFileNamePreview_.empty()) {
-		const char* combo_preview_value = enemyBTFileNamePreview_[selectedType].c_str();
-		if (ImGui::BeginCombo((label.c_str()), combo_preview_value)) {
-			for (int n = 0; n < enemyBTFileNamePreview_.size(); n++) {
-				const bool is_selected = ((int)selectedType == n);
-				if (ImGui::Selectable(enemyBTFileNamePreview_[n].c_str(), is_selected)) {
-					selectedType = n;
-				}
-
-				if (is_selected) {
-					ImGui::SetItemDefaultFocus();
-				}
-			}
-			ImGui::EndCombo();
-		}
-	}
-	else {
-		ImGui::TextDisabled(("Not found behavior-tree file"));
-	}
-}
-
-void EnemyManager::SelectLevel(const std::string& label) {
-	ImGui::Text("Select level");
-	// 読み込むbehaviorTreeのプレビュー作成
-	if (!levelPreview_.empty()) {
-		const char* combo_preview_value = levelPreview_[selectLevel_].c_str();
-		if (ImGui::BeginCombo((label.c_str()), combo_preview_value)) {
-			for (int n = 0; n < levelPreview_.size(); n++) {
-				const bool is_selected = ((int)selectLevel_ == n);
-				if (ImGui::Selectable(levelPreview_[n].c_str(), is_selected)) {
-					selectLevel_ = n;
-				}
-
-				if (is_selected) {
-					ImGui::SetItemDefaultFocus();
-				}
-			}
-			ImGui::EndCombo();
-		}
-	}
-	else {
-		ImGui::TextDisabled(("Not found level"));
-	}
-}
-
-void EnemyManager::SelectWeaponType(int& selectedWeaponType, std::string label) {
-	// 読み込むbehaviorTreeのプレビュー作成
-	if (!weaponTypePreview_.empty()) {
-		const char* combo_preview_value = weaponTypePreview_[selectedWeaponType].c_str();
-		if (ImGui::BeginCombo(label.c_str(), combo_preview_value)) {
-			for (int n = 0; n < weaponTypePreview_.size(); n++) {
-				const bool is_selected = ((int)selectedWeaponType == n);
-				std::string selectableLabel = weaponTypePreview_[n];
-				if (ImGui::Selectable(selectableLabel.c_str(), is_selected)) {
-					selectedWeaponType = n;
-				}
-
-				if (is_selected) {
-					ImGui::SetItemDefaultFocus();
-				}
-			}
-			ImGui::EndCombo();
-		}
-	}
-	else {
-		ImGui::TextDisabled(("Not found weapon"));
-	}
-}
-
-void EnemyManager::SelectWeaponRarity() {
-	// 読み込むbehaviorTreeのプレビュー作成
-	if (!weaponRarityPreview_.empty()) {
-		const char* combo_preview_value = weaponRarityPreview_[selectedWeaponRarity_].c_str();
-		if (ImGui::BeginCombo(("Weapon rarity"), combo_preview_value)) {
-			for (int n = 0; n < weaponRarityPreview_.size(); n++) {
-				const bool is_selected = ((int)selectedWeaponRarity_ == n);
-				if (ImGui::Selectable(weaponRarityPreview_[n].c_str(), is_selected)) {
-					selectedWeaponRarity_ = n;
-				}
-
-				if (is_selected) {
-					ImGui::SetItemDefaultFocus();
-				}
-			}
-			ImGui::EndCombo();
-		}
-	}
-	else {
-		ImGui::TextDisabled(("Not found behavior-tree file"));
 	}
 }
 
@@ -664,7 +607,7 @@ void EnemyManager::CreateLevelJsonData(LWP::Utility::JsonIO& json, LevelParamete
 		.CheckJsonFile();
 }
 
-void EnemyManager::SelectEnemyDataGui(LWP::Utility::JsonIO& json, EnemyData& data) {
+void EnemyManager::SelectEnemyGui(LWP::Utility::JsonIO& json, EnemyData& data) {
 	// 調整項目
 	if (ImGui::TreeNode("Enemy")) {
 		if (ImGui::Button("Save")) {
@@ -677,7 +620,7 @@ void EnemyManager::SelectEnemyDataGui(LWP::Utility::JsonIO& json, EnemyData& dat
 		}
 
 		// 使用するビヘイビアツリーを選択
-		SelectJsonFile(data, modifyBTFile_, "JsonFile##1");
+		SelectType(enemyBTFileNamePreview_, modifyBTFile_, "JsonFile##1");
 
 		// 武器
 		if (ImGui::TreeNode("Weapon")) {
@@ -686,24 +629,23 @@ void EnemyManager::SelectEnemyDataGui(LWP::Utility::JsonIO& json, EnemyData& dat
 			weaponRarityPreview_ = WeaponManager::GetInstance()->GetWeaponRarityPreview();
 			// 手武器を選択
 			if (ImGui::TreeNode("Select hand weapon")) {
-				SelectWeaponType(data.containWeaponTypes[(int)WeaponSide::kLeft], "Left");
-
-				SelectWeaponType(data.containWeaponTypes[(int)WeaponSide::kRight], "Right");
+				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kLeft], "Left##0");
+				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kRight], "Right##0");
 
 				ImGui::TreePop();
 			}
 			// 肩武器を選択
 			if (ImGui::TreeNode("Select shoulder weapon")) {
-				SelectWeaponType(data.containWeaponTypes[(int)WeaponSide::kLeftShoulder], "Left");
-
-				SelectWeaponType(data.containWeaponTypes[(int)WeaponSide::kRightShoulder], "Right");
+				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kLeftShoulder], "Left##1");
+				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kRightShoulder], "Right##1");
 
 				ImGui::TreePop();
 			}
-			// 最低保証のレアリティ
-			ImGui::Text("Select weapon min rarity");
-			SelectWeaponRarity();
-			data.minWeaponRarity = selectedWeaponRarity_;
+			//// 最低保証のレアリティ
+			//ImGui::Text("Select weapon min rarity");
+			//SelectType(weaponRarityPreview_, selectedWeaponRarity_, "")
+			//SelectWeaponRarity();
+			//data.minWeaponRarity = selectedWeaponRarity_;
 
 			ImGui::TreePop();
 		}
@@ -746,124 +688,34 @@ void EnemyManager::SelectLevelGui(LWP::Utility::JsonIO& json, LevelParameter& da
 	}
 }
 
-void EnemyManager::LoadSpawnJson(const std::string& fileName) {
-	if (ImGui::Button(("Json Load"))) {
-		OPENFILENAMEA ofn = { 0 };
-		char szFile[MAX_PATH] = { 0 };	// ファイルパスのサイズはWindows既定のものに
-		ofn.lStructSize = sizeof(ofn);
-		ofn.lpstrFile = szFile;
-		ofn.nMaxFile = sizeof(szFile);
-		std::string name = fileName;
-		ofn.lpstrFilter = name.c_str();
-		ofn.nFilterIndex = 1;
-		ofn.Flags = OFN_PATHMUSTEXIST;
+void EnemyManager::SpawnedEnemiesGui() {
+	//// 編集モードでない
+	//if (spawnType_ != EnemySpawnType::kNone) { return; }
+	//// 配置している敵がいない
+	//if (spawnDatas_.empty()) {
+	//	ImGui::Text("Not spawn enemy");
+	//	return;
+	//}
 
-		LoadJson(name);
-	}
-}
-
-void EnemyManager::LoadJson(const std::string& fileName) {
-	std::ifstream file(fileName);
-	if (!file.is_open()) return;
-
-	spawnDatas_.clear();
-	int id = 0;
-	nlohmann::json j;
-	file >> j;
-	for (const auto& node_json : j) {
-		float spawnTime = node_json["spawnTime"];
-		int type = node_json["type"];
-		Vector3 createPos = {
-			(float)node_json["createPos_x"],
-			(float)node_json["createPos_y"],
-			(float)node_json["createPos_z"]
-		};
-		EnemySpawnData data = {
-			.type = type,
-			.id = id,
-			.spawnTime = spawnTime,
-			.pos = createPos
-		};
-		data.debugModel.LoadCube();
-
-		id++;
-
-		spawnDatas_.push_back(data);
-	}
-
-	// モデル読み込み
-	for (EnemySpawnData& data : spawnDatas_) {
-		data.debugModel.LoadFullPath(EnemyConfig::ModelName::modelName[data.type]);
-		Vector3 pos = data.pos;
-		if (data.type == (int)EnemyType::kDrone) {
-			pos.y += dronefloatHeight_;
+	if (ImGui::TreeNode("SpawnedEnemies")) {
+		// 編集モードでない
+		if (spawnType_ != EnemySpawnType::kNone) {
+			ImGui::Text("Not spawn edit mode. Click -Start spawn edit- button");
+			ImGui::TreePop();
+			return;
 		}
-		data.debugModel.worldTF.translation = pos;
-	}
-
-	file.close();
-}
-
-void EnemyManager::SpawnJsonExport() {
-	// ファイル保存ダイアログを使って保存先とファイル名を指定
-	if (ImGui::Button(("Json Export"))) {
-#if defined(_WIN32)
-		char currentDir[MAX_PATH];
-		_getcwd(currentDir, MAX_PATH);
-
-		OPENFILENAMEA ofn = { 0 };
-		char szFile[MAX_PATH] = { 0 };	// ファイルパスのサイズはWindows既定のものに
-		ofn.lStructSize = sizeof(ofn);
-		ofn.lpstrFile = szFile;
-		ofn.nMaxFile = sizeof(szFile);
-		ofn.lpstrFilter = "JSON Files\0*.json\0All Files\0*.*\0";
-		ofn.nFilterIndex = 1;
-		ofn.lpstrDefExt = "json";
-		ofn.Flags = OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST;
-
-		if (GetSaveFileNameA(&ofn)) {
-			ExportJson(szFile);
+		// 配置している敵がいない
+		if (spawnDatas_.empty()) {
+			ImGui::Text("Not spawn enemy");
+			ImGui::TreePop();
+			return;
 		}
 
-		_chdir(currentDir);
-#endif
-	}
-}
+		// リストのソート
+		if (ImGui::Button("Sort Spawn Time")) {
+			SortSpawnTime();
+		}
 
-void EnemyManager::ExportJson(const std::string& fileName) {
-	using std::swap;
-
-	const int cJsonIndent = 4;
-	nlohmann::json j;
-
-	for (EnemySpawnData& data : spawnDatas_) {
-		nlohmann::json node_json;
-		node_json["spawnTime"] = data.spawnTime;
-		node_json["type"] = data.type;
-		node_json["createPos_x"] = data.pos.x;
-		node_json["createPos_y"] = data.pos.y;
-		node_json["createPos_z"] = data.pos.z;
-
-		j.push_back(node_json);
-	}
-	std::ofstream file(fileName);
-	if (file.is_open()) {
-		file << j.dump(cJsonIndent);
-		file.close();
-	}
-}
-
-void EnemyManager::SortSpawnTime() {
-	std::sort(spawnDatas_.begin(), spawnDatas_.end(),
-		[](EnemySpawnData data, EnemySpawnData nextData) {
-			return data.spawnTime < nextData.spawnTime;
-		});
-}
-
-void EnemyManager::SpawnGui() {
-	if (spawnDatas_.empty()) { return; }
-	
-	if (ImGui::TreeNode("SpawnEnemies")) {
 		static int type = 0;
 		std::vector<std::string> preview;
 		for (EnemySpawnData& data : spawnDatas_) {
@@ -903,8 +755,186 @@ void EnemyManager::SpawnGui() {
 
 		ImGui::TreePop();
 	}
+}
+
+void EnemyManager::SpawnEnemyGui() {
+	// 編集モードでない
+	//if (spawnType_ != EnemySpawnType::kNone) { return; }
+
+	if (ImGui::TreeNode("Spawn")) {
+		// 編集モードでない
+		if (spawnType_ != EnemySpawnType::kNone) {
+			ImGui::Text("Not spawn edit mode. Click -Start spawn edit- button");
+			ImGui::TreePop();
+			return;
+		}
+
+		static int type = 0;
+		static int preType = -1;
+		static int placementID = 0;
+		static Vector3 pos;
+		static float spawnTime;
+		SelectType(enemyTypePreview_, type, "EnemyType##1");
+		ImGui::DragFloat("SpawnTime", &spawnTime, 0.01f, 0.0f);
+		ImGui::DragFloat3("Pos", &pos.x, 0.01f);
+
+		// 配置予定モデル表示
+		spawnModel_.isActive = true;
+		if (preType != type) {
+			spawnModel_.LoadFullPath(EnemyConfig::ModelName::modelName[type]);
+			for (auto& key : spawnModel_.materials) {
+				key.second.color.R = 0;
+				key.second.color.G = 255;
+				key.second.color.B = 0;
+				key.second.color.A = 100;
+			}
+		}
+		spawnModel_.worldTF.translation = pos;
+		if (type == (int)EnemyType::kDrone) {
+			spawnModel_.worldTF.translation.y += dronefloatHeight_;
+		}
+
+		// 作成
+		if (ImGui::Button("Done")) {
+			spawnDatas_.emplace_back();
+			spawnDatas_.back().isSpawn = false;
+			spawnDatas_.back().type = type;
+			spawnDatas_.back().id = placementID;
+			spawnDatas_.back().spawnTime = spawnTime;
+			spawnDatas_.back().pos = pos;
+			if (type == (int)EnemyType::kDrone) {
+				spawnDatas_.back().pos.y += dronefloatHeight_;
+			}
+			spawnDatas_.back().debugModel.LoadFullPath(EnemyConfig::ModelName::modelName[type]);
+			spawnDatas_.back().debugModel.worldTF.translation = spawnDatas_.back().pos;
+
+			placementID++;
+		}
+
+		preType = type;
+
+		ImGui::TreePop();
+	}
 	else {
 		spawnModel_.isActive = false;
+	}
+}
+
+void EnemyManager::SortSpawnTime() {
+	if (spawnDatas_.empty()) { return; }
+
+	std::sort(spawnDatas_.begin(), spawnDatas_.end(),
+		[](EnemySpawnData data, EnemySpawnData nextData) {
+			return data.spawnTime < nextData.spawnTime;
+		});
+}
+
+void EnemyManager::LoadSpawnJsonButton(const std::string& fileName) {
+	OPENFILENAMEA ofn = { 0 };
+	char szFile[MAX_PATH] = { 0 };	// ファイルパスのサイズはWindows既定のものに
+	ofn.lStructSize = sizeof(ofn);
+	ofn.lpstrFile = szFile;
+	ofn.nMaxFile = sizeof(szFile);
+	std::string name = fileName;
+	ofn.lpstrFilter = name.c_str();
+	ofn.nFilterIndex = 1;
+	ofn.Flags = OFN_PATHMUSTEXIST;
+
+	LoadSpawnJson(name);
+	// 出現順にソート
+	SortSpawnTime();
+}
+
+void EnemyManager::LoadSpawnJson(const std::string& fileName) {
+	std::ifstream file(fileName);
+	if (!file.is_open()) return;
+
+	spawnDatas_.clear();
+	int id = 0;
+	nlohmann::json j;
+	file >> j;
+	for (const auto& node_json : j) {
+		float spawnTime = node_json["spawnTime"];
+		int type = node_json["type"];
+		Vector3 createPos = {
+			(float)node_json["createPos_x"],
+			(float)node_json["createPos_y"],
+			(float)node_json["createPos_z"]
+		};
+		EnemySpawnData data = {
+			.isSpawn = false,
+			.type = type,
+			.id = id,
+			.spawnTime = spawnTime,
+			.pos = createPos
+		};
+		data.debugModel.LoadCube();
+
+		id++;
+
+		spawnDatas_.push_back(data);
+	}
+
+	//// モデル読み込み
+	//for (EnemySpawnData& data : spawnDatas_) {
+	//	data.debugModel.LoadFullPath(EnemyConfig::ModelName::modelName[data.type]);
+	//	Vector3 pos = data.pos;
+	//	// ドローンだけ高さ分引く
+	//	if (data.type == (int)EnemyType::kDrone) {
+	//		pos.y -= dronefloatHeight_;
+	//	}
+	//	data.debugModel.worldTF.translation = pos;
+	//}
+
+	file.close();
+}
+
+void EnemyManager::ExportSpawnJsonButton() {
+	// ファイル保存ダイアログを使って保存先とファイル名を指定
+#if defined(_WIN32)
+	char currentDir[MAX_PATH];
+	_getcwd(currentDir, MAX_PATH);
+
+	OPENFILENAMEA ofn = { 0 };
+	char szFile[MAX_PATH] = { 0 };	// ファイルパスのサイズはWindows既定のものに
+	ofn.lStructSize = sizeof(ofn);
+	ofn.lpstrFile = szFile;
+	ofn.nMaxFile = sizeof(szFile);
+	ofn.lpstrFilter = "JSON Files\0*.json\0All Files\0*.*\0";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrDefExt = "json";
+	ofn.Flags = OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST;
+
+	if (GetSaveFileNameA(&ofn)) {
+		ExportSpawnJson(szFile);
+	}
+
+	_chdir(currentDir);
+#endif
+}
+
+void EnemyManager::ExportSpawnJson(const std::string& fileName) {
+	using std::swap;
+
+	const int cJsonIndent = 4;
+	nlohmann::json j;
+
+	// 出現順にソート
+	SortSpawnTime();
+	for (EnemySpawnData& data : spawnDatas_) {
+		nlohmann::json node_json;
+		node_json["spawnTime"] = data.spawnTime;
+		node_json["type"] = data.type;
+		node_json["createPos_x"] = data.pos.x;
+		node_json["createPos_y"] = data.pos.y;
+		node_json["createPos_z"] = data.pos.z;
+
+		j.push_back(node_json);
+	}
+	std::ofstream file(fileName);
+	if (file.is_open()) {
+		file << j.dump(cJsonIndent);
+		file.close();
 	}
 }
 
@@ -920,9 +950,6 @@ std::vector<std::string> EnemyManager::GetFileNames(const std::string& folderPat
 			entry.path().extension() == ".json") {
 			files.push_back(entry.path().filename().string());
 		}
-		//if (entry.is_regular_file()) {
-		//	files.push_back(entry.path().filename().string());
-		//}
 	}
 
 	return files;

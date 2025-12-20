@@ -12,6 +12,19 @@ enum class EnemyType {
 	kCount
 };
 
+/// <summary>
+/// 出現方式
+/// </summary>
+enum class EnemySpawnType {
+	kNone,
+	kRandom,	// ランダム
+	kWave,		// ウェーブ制
+	kCount		// 
+};
+
+/// <summary>
+/// 敵のレベル情報
+/// </summary>
 struct LevelParameter {
 	// レベル
 	int value = 1;
@@ -64,7 +77,11 @@ struct EnemyData {
 	}
 };
 
+/// <summary>
+/// 敵配置時に必要な情報(エディタ用)
+/// </summary>
 struct EnemySpawnData {
+	bool isSpawn;
 	int type;
 	int id;
 	float spawnTime;
