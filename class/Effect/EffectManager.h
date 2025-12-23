@@ -39,11 +39,12 @@ public: // メンバ関数
 public: // アクセッサ等
 
 	/// <summary>
-	/// 新規エミッタの生成
+	/// 新規平面エミッタの生成
 	/// </summary>
 	/// <param name="effectName">生成するエフェクト名称</param>
 	/// <param name="pos">エミッタの初期座標</param>
 	/// <param name="parent">(任意)親となるエミッタ座標</param>
+	/// <param name="texPath">(任意)テクスチャ変更する際はパスを入力</param>
 	void CreateNewEmitter(std::string effectName, const LWP::Math::Vector3& pos, LWP::Object::TransformQuat* parent = nullptr);
 
 	/// <summary>

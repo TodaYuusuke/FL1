@@ -422,9 +422,10 @@ void EffectEditor::CommonTab()
 		// 平面タイプの選択
 		EditSurfaceTypeGUI(editData_->SurfaceType);
 		break;
-	case Emitter::ParticleType::model3D:
-		// Todo : 実装途中
-		ImGui::Text("Work in Progress");
+	case Emitter::ParticleType::Model3D:
+		// モデルパスを入力
+		ImGuiManager::InputText("Model Path", editData_->ModelPath);
+		ImGui::NewLine();
 		break;
 	}
 	ImGui::Separator();

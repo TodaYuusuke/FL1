@@ -16,10 +16,22 @@ Emitter::Emitter(LWP::Resource::Texture texID, int surfaceType, const LWP::Math:
 	transform_.translation = pos;
 }
 
+Emitter::Emitter(const std::string& path, const LWP::Math::Vector3& pos)
+{
+	// ファイルパスの取得
+	modelPath_ = path;
+
+	// 平面タイプの設定
+	particleType_ = Model3D;
+
+	// エミッタ座標の初期設定
+	transform_.translation = pos;
+}
+
 Emitter::~Emitter()
 {
 	// 全ての粒子要素の解放
-	for (Particle* p : particles_) {
+	for (IParticle* p : particles_) {
 		delete p;
 	}
 	// 配列クリア
@@ -45,7 +57,7 @@ Emitter& Emitter::Init(const float aliveTime, const float emitTime, const int32_
 void Emitter::Update(const float deltaTime, const float playSpeed)
 {
 	// 生存時間を超過したパーティクルを削除
-	particles_.remove_if([&](Particle* p) {
+	particles_.remove_if([&](IParticle* p) {
 		// 粒子の終了フラグがTrueのとき
 		if (p->GetIsEnd()) {
 			// ポインタ解放
@@ -198,8 +210,8 @@ void Emitter::Emit()
 		case Emitter::Surface: // 平面
 			EmitSurface();
 			break;
-		case Emitter::model3D: // 3Dモデル
-			// Todo : 現状未実装
+		case Emitter::Model3D: // 3Dモデル
+			EmitModel();
 			break;
 		}
 	}
@@ -237,7 +249,35 @@ void Emitter::EmitSurface()
 	if (surfaceType_ == StretchBillboard) {};
 
 	// パーティクルインスタンス生成
-	Particle* newParticle = new Particle(std::move(generatePlane), surfaceType_ == StretchBillboard);
+	PlaneParticle* newParticle = new PlaneParticle(std::move(generatePlane), surfaceType_ == StretchBillboard);
+	// 初期化、データの受け渡し
+	newParticle->Init()
+		.SetParent(&transform_)
+		.SetAliveTime(pAliveTime_.Random())
+		.SetRotateVelocity(pVelocityRotate_.Convert())
+		.SetScaleEasing(pEasingScale_.Convert(), unificationRandomScale_)
+		.SetColorEasing(pEasingColor_.Convert());
+
+	// 個別設定
+	if (pVelocityPos_.isUsed) {
+		newParticle->SetVelocity(pVelocityPos_.Convert());
+	}
+	else {
+		newParticle->SetEasing(pEasingPos_.Convert());
+	}
+
+	// パーティクルを配列に追加
+	particles_.push_back(newParticle);
+}
+
+void Emitter::EmitModel()
+{
+	// モデルロード
+	std::unique_ptr<LWP::Resource::RigidModel> generateModel = std::make_unique<LWP::Resource::RigidModel>();
+	generateModel->LoadShortPath(modelPath_);
+
+	// パーティクルインスタンス生成
+	ModelParticle* newParticle = new ModelParticle(std::move(generateModel));
 	// 初期化、データの受け渡し
 	newParticle->Init()
 		.SetParent(&transform_)
