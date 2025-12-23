@@ -415,7 +415,7 @@ void EffectEditor::PopUpUpdate()
 		if (ImGui::BeginPopupModal("Load", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
 
 			// このパーティクルをロードするか否か確認する
-			std::string loadText = "Load [ " + loadEffectName_ + "] ?";
+			std::string loadText = "Load [" + loadEffectName_ + "] ?";
 
 			ImGui::Text(loadText.c_str());
 
