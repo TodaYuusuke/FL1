@@ -86,9 +86,11 @@
         "id": 12,
         "name": "ReadyToAttackLeaf",
         "parent": 5,
-        "pos_x": 1132.98681640625,
-        "pos_y": 295.1094970703125,
+        "pos_x": 1134.98681640625,
+        "pos_y": 296.1094970703125,
+        "readyToAttackMoveSpeed": 0.800000011920929,
         "readyToAttackTime": 60.0,
+        "readyToAttackTurnTime": 20.0,
         "speed": 0.0,
         "type": 3
     },

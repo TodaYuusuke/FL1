@@ -168,11 +168,6 @@ void EnemyManager::DebugGui() {
 				ExportSpawnJsonButton();
 			}
 
-			//// 編集モードでない
-			//if (spawnType_ != EnemySpawnType::kNone) {
-			//	//ImGui::Text("Not spawn edit mode. Click -Start spawn edit- button");
-			//}
-
 			// 配置した敵の調整
 			SpawnedEnemiesGui();
 			// これから配置する敵の調整
@@ -689,14 +684,6 @@ void EnemyManager::SelectLevelGui(LWP::Utility::JsonIO& json, LevelParameter& da
 }
 
 void EnemyManager::SpawnedEnemiesGui() {
-	//// 編集モードでない
-	//if (spawnType_ != EnemySpawnType::kNone) { return; }
-	//// 配置している敵がいない
-	//if (spawnDatas_.empty()) {
-	//	ImGui::Text("Not spawn enemy");
-	//	return;
-	//}
-
 	if (ImGui::TreeNode("SpawnedEnemies")) {
 		// 編集モードでない
 		if (spawnType_ != EnemySpawnType::kNone) {
@@ -758,9 +745,6 @@ void EnemyManager::SpawnedEnemiesGui() {
 }
 
 void EnemyManager::SpawnEnemyGui() {
-	// 編集モードでない
-	//if (spawnType_ != EnemySpawnType::kNone) { return; }
-
 	if (ImGui::TreeNode("Spawn")) {
 		// 編集モードでない
 		if (spawnType_ != EnemySpawnType::kNone) {
@@ -869,22 +853,12 @@ void EnemyManager::LoadSpawnJson(const std::string& fileName) {
 			.pos = createPos
 		};
 		data.debugModel.LoadCube();
+		data.debugModel.isActive = false;
 
 		id++;
 
 		spawnDatas_.push_back(data);
 	}
-
-	//// モデル読み込み
-	//for (EnemySpawnData& data : spawnDatas_) {
-	//	data.debugModel.LoadFullPath(EnemyConfig::ModelName::modelName[data.type]);
-	//	Vector3 pos = data.pos;
-	//	// ドローンだけ高さ分引く
-	//	if (data.type == (int)EnemyType::kDrone) {
-	//		pos.y -= dronefloatHeight_;
-	//	}
-	//	data.debugModel.worldTF.translation = pos;
-	//}
 
 	file.close();
 }

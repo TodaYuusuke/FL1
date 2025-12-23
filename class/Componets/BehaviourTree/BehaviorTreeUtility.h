@@ -25,6 +25,7 @@ enum class NodeType {
 enum class NodeName {
 	Sequence,
 	Selector,
+	RandomSelector,
 	Inverter,
 	RunOnce,
 	CheckFarPlayer,
@@ -45,6 +46,7 @@ enum class NodeName {
 static std::map<NodeName, NodeType> NODE_MAP = {
 	{NodeName::Sequence, NodeType::Composite},
 	{NodeName::Selector, NodeType::Composite},
+	{NodeName::RandomSelector, NodeType::Composite},
 	{NodeName::Inverter, NodeType::Decorator},
 	{NodeName::RunOnce, NodeType::Decorator},
 	{NodeName::CheckFarPlayer, NodeType::Branch},
@@ -73,20 +75,24 @@ struct BTNode {
 	int false_child = -1;
 
 	// Wait用の変数
-	float wait_time = -1.f;
+	float wait_time = -1.0f;
 
 	// 攻撃のタイミングをうかがう時間
-	float readyToAttackTime = -1.f;
+	float readyToAttackTime = -1.0f;
+	// 折り返し時間
+	float readyToAttackTurnTime = -1.0f;
+	// 移動速度
+	float readyToAttackMoveSpeed = 1.0f;
 
 	// CheckFarPlayer, CheckNearPlayer用の変数
-	float limit_distance = -1.f;
+	float limit_distance = -1.0f;
 
 	// 速度
 	float speed = 0.0f;
 
 	// エディター上での位置
-	float pos_x = 0.f;
-	float pos_y = 0.f;
+	float pos_x = 0.0f;
+	float pos_y = 0.0f;
 
 	// 名前をstring型で取得
 	std::string GetString() const {
@@ -298,6 +304,8 @@ private:
 	void SetWaitTime(int id, float wait_time);
 	// ノードの攻撃のタイミングをうかがっている時間を設定
 	void SetReadyToAttackTime(int id, float readyToAttackTime);
+	void SetReadyToAttackTurnTime(int id, float readyToAttackTurnTime);
+	void SetReadyToAttackMoveSpeed(int id, float readyToAttackMoveSpeed);
 	// ノードのspeedを設定
 	void SetSpeed(int id, float speed);
 

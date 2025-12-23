@@ -153,8 +153,8 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 	}
 
 	// 補間（スムーズな操作）
-	vL += (target_vL - vL) * 0.1f;
-	vR += (target_vR - vR) * 0.1f;
+	vL += (target_vL - vL) * 0.08f;
+	vR += (target_vR - vR) * 0.08f;
 	const float EPS = 1e-6f;
 	if (std::fabs(vR.x) < EPS) {
 		vR.x = 0.0f;
