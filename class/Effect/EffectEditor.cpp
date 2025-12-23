@@ -89,11 +89,19 @@ void EffectEditor::Update() {
 			}
 			// 再読み込み
 			if (ImGui::MenuItem("Load")) {
-				LoadPMenu();
+				isLoadGUI_ = true;
 			}
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
+	}
+
+	// ロードGUIを出す場合
+	if (isLoadGUI_) {
+		// ロードメニューの表示
+		LoadPMenu();
+		// 早期リターン
+		return;
 	}
 
 	// 現在編集中のパーティクルのパスを表示
@@ -231,10 +239,15 @@ void EffectEditor::EditVector3GUI(const std::string& id, LWP::Math::Vector3& dat
 	}
 }
 
-void EffectEditor::EditColorGUI(const std::string& id, LWP::Math::Vector4& color)
+void EffectEditor::EditColorGUI(const std::string& id, LWP::Math::Vector4& color, const bool isEnableAlpha)
 {
 	// 調整
-	ImGui::DragFloat4(id.c_str(), &color.x, 0.01f);
+	if (isEnableAlpha) {
+		ImGui::DragFloat4(id.c_str(), &color.x, 0.01f);
+	}
+	else {
+		ImGui::DragFloat3(id.c_str(), &color.x, 0.01f);
+	}
 	ImGui::SameLine();
 
 	// 0以下になっていた場合調整
@@ -393,6 +406,55 @@ void EffectEditor::PopUpUpdate()
 		}
 		break;
 	case EffectEditor::Load:
+		// 中央に表示する（オプション）
+		ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+		// ポップアップ表示
+		ImGui::OpenPopup("Load");
+
+		// ポップアップの起動
+		if (ImGui::BeginPopupModal("Load", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+
+			// このパーティクルをロードするか否か確認する
+			std::string loadText = "Load [ " + loadEffectName_ + "] ?";
+
+			ImGui::Text(loadText.c_str());
+
+			// はい
+			if (ImGui::Button("Yes")) {
+				// 新規作成
+				editData_ = effectManager_->CreateNewData(loadEffectName_);
+				nowLoadName_ = loadEffectName_;
+				editData_->PEasingTranslate.Convert();
+				editData_->PEasingScale.Convert();
+				editData_->PEasingColor.Convert();
+
+				if (editData_->PVelocityTranslate.isUsed) {
+					moveMode_ = VELOCITY;
+				}
+				else {
+					moveMode_ = EASING;
+				}
+
+				// ロードGUI無効
+				isLoadGUI_ = false;
+				// 開いたウィンドウを閉じる
+				ImGui::CloseCurrentPopup();
+				popupMode_ = EffectEditor::PopUpMode::None;
+			}
+
+			// 改行しない
+			ImGui::SameLine();
+
+			// いいえ
+			if (ImGui::Button("No")) {
+				// 開いたウィンドウを閉じる
+				ImGui::CloseCurrentPopup();
+				popupMode_ = EffectEditor::PopUpMode::None;
+			}
+
+			// ポップアップ終了
+			ImGui::EndPopup();
+		}
 		break;
 	}
 
@@ -402,7 +464,37 @@ void EffectEditor::PopUpUpdate()
 
 void EffectEditor::LoadPMenu()
 {
+	// 保存データの取得
+	std::vector<std::string> datas = effectManager_->GetDatas();
+	
+	ImGui::NewLine();
+	ImGui::SeparatorText("Load Menu");
+	ImGui::NewLine();
 
+	// 全オブジェクトのImGuiを描画
+	ImGui::BeginChild(ImGui::GetID((void*)0), ImVec2(300, 400), ImGuiWindowFlags_NoTitleBar);
+
+	// ボタンを押したらロード開始
+	for (int i = 0; i < datas.size(); i++) {
+		// ボタンを押したらロード開始
+		if (ImGui::Button(datas[i].c_str())) {
+			// ロードするエフェクト名称取得
+			loadEffectName_ = datas[i];
+			// ポップアップ表示
+			popupMode_ = EffectEditor::PopUpMode::Load;
+		}
+	}
+	ImGui::EndChild();
+
+	// 読み込みキャンセルボタン
+	if (ImGui::Button("Cancel Load")) {
+		isLoadGUI_ = false;
+	}
+
+	// ポップアップ関連の更新
+	PopUpUpdate();
+
+	ImGui::End();
 }
 
 void EffectEditor::CommonTab()
@@ -520,12 +612,15 @@ void EffectEditor::ColorTab()
 	ImGui::SeparatorText("Color Category");
 	ImGui::NewLine();
 
-	EditColorGUI("Start Min", editData_->PEasingColor.startValueAmp.min);
-	EditColorGUI("Start Max", editData_->PEasingColor.startValueAmp.max);
+	// 透明度編集を有効化するか
+	bool isEnableAlpha = (editData_->ParticleType != Emitter::Model3D);
+
+	EditColorGUI("Start Min", editData_->PEasingColor.startValueAmp.min, isEnableAlpha);
+	EditColorGUI("Start Max", editData_->PEasingColor.startValueAmp.max, isEnableAlpha);
 	ImGui::Separator();
 
-	EditColorGUI("End Min", editData_->PEasingColor.endValueAmp.min);
-	EditColorGUI("End Max", editData_->PEasingColor.endValueAmp.max);
+	EditColorGUI("End Min", editData_->PEasingColor.endValueAmp.min, isEnableAlpha);
+	EditColorGUI("End Max", editData_->PEasingColor.endValueAmp.max, isEnableAlpha);
 	ImGui::Separator();
 
 	// イージングの種類の選択

@@ -55,7 +55,7 @@ public: // アクセッサ等
 	LWP::Effect::EffectSaveData* CreateNewData(const std::string& dataName);
 
 	/// <summary>
-	/// (呼び出し禁止)(エディタ用) 新規保存用データ生成
+	/// (呼び出し禁止)(エディタ用) 保存データ取得用関数
 	/// </summary>
 	/// <returns>データ配列内に存在する全てのパーティクルの名称を取得する</returns>
 	std::vector<std::string> GetDatas();
