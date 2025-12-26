@@ -1,6 +1,7 @@
 #pragma once
 #include "WeaponConfig.h"
 #include <Adapter.h>
+#include <filesystem>
 
 class Player;
 class Actor;
@@ -46,26 +47,6 @@ private:
 	/// 指定した武器生成
 	/// </summary>
 	IWeapon* CreateSelectedWeapon(int weaponType);
-	/// <summary>
-	/// 指定した武器で使うモデル名
-	/// </summary>
-	/// <param name="weaponType"></param>
-	/// <returns></returns>
-	std::string ConvertWeaponModelName(int weaponType, int weaponRarity);
-
-	/// <summary>
-	/// 武器の種類を名前に変換
-	/// </summary>
-	/// <param name="type"></param>
-	/// <returns></returns>
-	std::string ConvertWeaponTypeName(int type);
-	/// <summary>
-	/// 武器のレアリティを名前に変換
-	/// </summary>
-	/// <param name="type"></param>
-	/// <returns></returns>
-	std::string ConvertWeaponRarityName(int rarity);
-
 	/// <summary>
 	/// コピー元となる武器を作成
 	/// </summary>
@@ -113,22 +94,93 @@ private:
 	/// 選択された武器のguiの表示
 	/// </summary>
 	void SelectWeaponDataGui(LWP::Utility::JsonIO& json, WeaponData& data);
+
 	/// <summary>
-	/// 武器の種類を選択
+	/// 新しく調整できる武器を作成するguiの表示
 	/// </summary>
-	/// <param name="selectedWeaponType"></param>
-	/// <param name="label"></param>
-	void SelectWeaponType(int& selectedWeaponType, std::string label);
+	void NewEditWeaponGui();
 	/// <summary>
-	/// 武器のレアリティを選択
+	/// 既存の武器を調整するguiの表示
 	/// </summary>
-	void SelectWeaponRarity(int& selectedWeaponRarity, std::string label);
+	void EditWeaponsGui();
 	/// <summary>
-	/// 弾を選択
+	/// 武器作成時のguiの表示
 	/// </summary>
+	void CreateWeaponsGui();
+
+	/// <summary>
+	/// ComboGuiの表示
+	/// </summary>
+	/// <param name="list"></param>
 	/// <param name="selectedType"></param>
 	/// <param name="label"></param>
-	void SelectBulletType(int& selectedBulletType, std::string label);
+	void SelectType(std::vector<std::string> list, int& selectedType, std::string label, bool& isClickCombo);
+	void SelectType(std::vector<std::string> list, int& selectedType, std::string label);
+
+	/// <summary>
+	/// 武器モデル名を取得
+	/// </summary>
+	/// <param name="list"></param>
+	/// <param name="selectedType"></param>
+	/// <param name="label"></param>
+	std::vector<std::string> GetWeaponModelNames(int weaponType);
+	std::vector<std::string> GetWeaponModelNames();
+	/// <summary>
+	/// 武器Jsonファイルを取得
+	/// </summary>
+	std::vector<std::string> GetWeaponJsonNames(const std::string& directoryPath);
+
+	/// <summary>
+	/// 武器の選択
+	/// </summary>
+	/// <param name="list"></param>
+	/// <param name="selectedType"></param>
+	/// <param name="label"></param>
+	std::vector<std::string> GetWeaponNames(int weaponType);
+
+	bool Contains(const std::string& str, const std::string& target) {
+		return str.find(target) != std::string::npos;
+	}
+
+private:// jsonファイルの保存で使用する関数
+	/// <summary>
+	/// 武器調整のためのGui表示
+	/// </summary>
+	/// <param name="json"></param>
+	/// <param name="data"></param>
+	void WeaponDataGui(WeaponData& data);
+
+	/// <summary>
+	/// 敵の配置jsonファイルの読み込みボタン
+	/// </summary>
+	/// <param name="fileName"></param>
+	void LoadEnemyData(int weaponType, const std::string& fileName);
+	/// <summary>
+	/// 敵の配置をjsonファイルから読み込む処理
+	/// </summary>
+	/// <param name="fileName"></param>
+	void LoadEnemyDataUpdate(int weaponType, const std::string& fileName);
+	/// <summary>
+	/// 敵の配置jsonファイルの保存ボタン
+	/// </summary>
+	void ExportEnemyData(int weaponType, const std::string& weaponName);
+	/// <summary>
+	/// 敵の配置をjsonファイルに出力する処理
+	/// </summary>
+	/// <param name="fileName"></param>
+	void ExportEnemyDataUpdate(int weaponType, const std::string& weaponName,const std::string& fileName);
+
+	/// <summary>
+	/// exeからのディレクトリパスを取得
+	/// </summary>
+	/// <returns></returns>
+	std::filesystem::path GetExeDir();
+	/// <summary>
+	/// 指定したフォルダに入っているjsonファイル群の取得
+	/// </summary>
+	/// <param name="folderPath"></param>
+	/// <returns></returns>
+	std::vector<std::string> GetFileNames(const std::string& folderPath);
 
 public:// アクセサ
 	/// <summary>
@@ -149,7 +201,7 @@ public:// アクセサ
 	/// <param name="weaponType"></param>
 	/// <param name="weaponRarity"></param>
 	/// <returns></returns>
-	IWeapon* CreateWeapon(int weaponType, int weaponRarity);
+	IWeapon* CreateWeapon(int weaponType, const std::string& weaponName);
 	/// <summary>
 	/// ランダムで武器を与える(受け取った武器のアドレスは解放禁止)
 	/// </summary>
@@ -243,8 +295,11 @@ private:
 
 	// --------- デバッグ用↓ --------- //
 	// 各武器のコピー元の武器
-	std::map<WeaponType, std::map<RarityType, WeaponData>> orizinWeaponData_;
+	//std::map<WeaponType, std::map<RarityType, WeaponData>> orizinWeaponData_;
+	std::map<WeaponType, std::map<std::string, WeaponData>> sampleWeaponData_;
 	std::map<WeaponType, std::map<RarityType, LWP::Utility::JsonIO>> jsonDatas_;
+	WeaponData editWeapon_;
+
 	// 作成するコピー元の武器種
 	int selectedOrizinWeaponType_;
 	// 作成するコピー元のレアリティ

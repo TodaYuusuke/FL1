@@ -10,6 +10,8 @@
 #include "../Attack/AttackConfig.h"
 #include "../../Componets/Input/VirtualController.h"
 #include "../../Componets/InputMyController/ControllerReceiver.h"
+
+#include "../../../DirectXGame/Externals/nameof/nameof.hpp"
 #include <queue>
 
 using namespace LWP;
@@ -25,6 +27,7 @@ WeaponManager::WeaponManager() {
 	for (int i = 0; i < WeaponConfig::Rarity::rarity.size(); i++) {
 		weaponRarityPreview_.push_back(WeaponConfig::Rarity::rarity[i]);
 	}
+	bulletTypePreview_ = AttackManager::GetInstance()->GetBulletTypePreview();
 
 	// コピー元の武器作成
 	CreateOriginWeapon();
@@ -92,63 +95,24 @@ void WeaponManager::Update() {
 
 void WeaponManager::DebugGui() {
 	if (ImGui::BeginTabItem("WeaponManager")) {
-		// 調整項目
-		if (ImGui::TreeNode("Json")) {
-			ImGui::Text("Select modify weapon");
-			static int selectWeapon = 0;
-			static int selectRarity = 0;
-			// 武器種
-			SelectWeaponType(selectWeapon, "Type");
-			// レアリティ
-			SelectWeaponRarity(selectRarity, "Rarity");
-
-			// 選択した武器を調整
-			SelectWeaponDataGui(jsonDatas_[(WeaponType)selectWeapon][(RarityType)selectRarity], orizinWeaponData_[(WeaponType)selectWeapon][(RarityType)selectRarity]);
-
-			ImGui::TreePop();
-		}
 		if (ImGui::TreeNode("PickUpSprite")) {
 			samplePickUpWeaponSprite_.DebugGUI();
 			ImGui::TreePop();
 		}
 
-		// 武器作成
+		// 武器の調整と作成
+		if (ImGui::TreeNode("Weapon editor")) {
+			// 既存の武器調整
+			EditWeaponsGui();
+			// 新たに武器の作成
+			NewEditWeaponGui();
+
+			ImGui::TreePop();
+		}
+
+		// ゲームシーンに武器作成
 		if (ImGui::TreeNode("Create Weapon")) {
-			ImGui::Text("Select create weapon");
-			static int selectWeapon = 0;
-			static int selectRarity = 0;
-			// 武器種
-			SelectWeaponType(selectWeapon, "Type");
-			// レアリティ
-			SelectWeaponRarity(selectRarity, "Rarity");
-
-			// 生成座標
-			ImGui::DragFloat3("CreatePos", &createPos_.x, 0.01f);
-
-			// 武器の四散範囲
-			ImGui::DragFloat3("WeaponDropRange", &weaponDropVel.x, 0.01f);
-			ImGui::DragFloat("PickUpWeaponAngle", &pickUpWeaponAngle, 0.01f);
-			ImGui::DragFloat("PickUpWeaponRange", &pickUpWeaponRange, 0.01f);
-
-			// 武器生成
-			if (ImGui::Button("Create")) {
-				// コピー元の武器情報
-				createWeaponData_ = orizinWeaponData_[(WeaponType)selectWeapon][(RarityType)selectRarity];
-				IWeapon* weapon = CreateSelectedWeapon(selectWeapon);
-				weapons_.push_back(weapon);
-				// 武器を地面に出す
-				DropWeapon(weapon);
-			}
-
-			// 武器解放
-			if (ImGui::Button("All Delete")) {
-				for (IWeapon* weapon : weapons_) {
-					// 所持者がいるなら解放しない
-					if (weapon->GetActor()) { continue; }
-					DeleteWeapon(weapon);
-				}
-			}
-
+			CreateWeaponsGui();
 			ImGui::TreePop();
 		}
 
@@ -225,7 +189,7 @@ void WeaponManager::CheckPlayerToWeaponDistance() {
 	// ***** 回収可能武器がないなら終了 ***** //
 	if (que.empty()) { return; }
 	// 拾える武器表示
-	pickUpWeaponSprite_[WeaponConfig::GetWeaponType(que.top()->GetName())].isActive = true;
+	pickUpWeaponSprite_[que.top()->GetWeaponData().type].isActive = true;
 	pickUpUISprite_[(int)controllerType_].isActive = true;
 	if (!VirtualController::GetInstance()->GetPress(BindActionType::kCollect)) { return; }//お試し
 	// 武器を拾う
@@ -258,31 +222,16 @@ IWeapon* WeaponManager::CreateSelectedWeapon(int weaponType) {
 	}
 }
 
-std::string WeaponManager::ConvertWeaponModelName(int weaponType, int weaponRarity) {
-	return WeaponConfig::ModelName::modelName[weaponType][weaponRarity];
-}
-
-std::string WeaponManager::ConvertWeaponTypeName(int type) {
-	return WeaponConfig::Name::name[type];
-}
-
-std::string WeaponManager::ConvertWeaponRarityName(int rarity) {
-	return WeaponConfig::Rarity::rarity[rarity];
-}
-
 void WeaponManager::CreateOriginWeapon() {
-	for (int i = 0; i < weaponTypePreview_.size(); i++) {
-		// 武器種名
-		std::string weaponType = ConvertWeaponTypeName(i);
-		for (int j = 0; j < weaponRarityPreview_.size(); j++) {
-			// レアリティ名
-			std::string rarityType = ConvertWeaponRarityName(j);
-			orizinWeaponData_[(WeaponType)i][(RarityType)j].name = weaponType;
-			orizinWeaponData_[(WeaponType)i][(RarityType)j].modelName = ConvertWeaponModelName(i, j);
-			orizinWeaponData_[(WeaponType)i][(RarityType)j].rarity = j;
-
-			// 調整データ作成
-			CreateJsonData(jsonDatas_[(WeaponType)i][(RarityType)j], orizinWeaponData_[(WeaponType)i][(RarityType)j], weaponType + "_" + rarityType);
+	for (int i = 0; i < (int)WeaponType::kCount; i++) {
+		sampleWeaponData_[(WeaponType)i];
+	}
+	for (const auto& [type, weapon] : sampleWeaponData_) {
+		// フォルダ指定
+		std::string folderName = WeaponConfig::Name::name[(int)type];
+		std::vector<std::string> jsonFiles = GetWeaponJsonNames("resources/json/Weapons/" + folderName);
+		for (int i = 0; i < jsonFiles.size(); i++) {
+			LoadEnemyData((int)type, jsonFiles[i]);
 		}
 	}
 }
@@ -326,6 +275,8 @@ void WeaponManager::CreateJsonData(LWP::Utility::JsonIO& json, WeaponData& data,
 	// ファイル名
 	std::string fileName = kJsonDirectoryPath + data.name + "/" + name + ".json";
 	json.Init(fileName)
+		// 使用するモデル名
+		.AddValue<std::string>("ModelName", &data.modelName)
 		// 発射間隔
 		.BeginGroup("Interval")
 		.AddValue<float>("Normal", &data.shotIntervalTime)
@@ -359,6 +310,8 @@ void WeaponManager::CreateJsonData(LWP::Utility::JsonIO& json, WeaponData& data,
 
 		// レアリティ
 		.AddValue<int>("Rarity", &data.rarity)
+		// 種類
+		.AddValue<int>("Type", &data.type)
 		.CheckJsonFile();
 }
 
@@ -383,7 +336,8 @@ void WeaponManager::SelectWeaponDataGui(LWP::Utility::JsonIO& json, WeaponData& 
 			// 弾数
 			ImGui::DragInt("Num", &data.bulletNum, 1, 0);
 			// 弾の種類
-			SelectBulletType(data.bulletType, "BulletType");
+			bool isClickCombo;
+			SelectType(bulletTypePreview_, data.bulletType, "BulletType##0", isClickCombo);
 			// 同時に出る弾数
 			ImGui::DragInt("SameNum", &data.sameBulletNum, 1, 0);
 			// 弾の拡散範囲
@@ -405,62 +359,174 @@ void WeaponManager::SelectWeaponDataGui(LWP::Utility::JsonIO& json, WeaponData& 
 	}
 }
 
-void WeaponManager::SelectWeaponType(int& selectedWeaponType, std::string label) {
-	// 読み込むbehaviorTreeのプレビュー作成
-	if (!weaponTypePreview_.empty()) {
-		const char* combo_preview_value = weaponTypePreview_[selectedWeaponType].c_str();
-		if (ImGui::BeginCombo(label.c_str(), combo_preview_value)) {
-			for (int n = 0; n < weaponTypePreview_.size(); n++) {
-				const bool is_selected = ((int)selectedWeaponType == n);
-				std::string selectableLabel = weaponTypePreview_[n];
-				if (ImGui::Selectable(selectableLabel.c_str(), is_selected)) {
-					selectedWeaponType = n;
-				}
+void WeaponManager::NewEditWeaponGui() {
+	// 新たに武器の作成
+	if (ImGui::TreeNode("New weapon")) {
+		// 武器種選択
+		SelectType(weaponTypePreview_, editWeapon_.type, "WeaponType##101");
+		// 武器のモデル選択
+		static int selectModelName = 0;
+		std::vector<std::string> names = GetWeaponModelNames(editWeapon_.type);
+		SelectType(names, selectModelName, "WeaponModel##101");
+		if (!names.empty()) editWeapon_.modelName = names[selectModelName];
 
-				if (is_selected) {
-					ImGui::SetItemDefaultFocus();
-				}
-			}
-			ImGui::EndCombo();
-		}
-	}
-	else {
-		ImGui::TextDisabled(("Not found weapon"));
+		// 詳細な設定
+		WeaponDataGui(editWeapon_);
+		ImGui::TreePop();
 	}
 }
 
-void WeaponManager::SelectWeaponRarity(int& selectedWeaponRarity, std::string label) {
-	// 読み込むbehaviorTreeのプレビュー作成
-	if (!weaponRarityPreview_.empty()) {
-		const char* combo_preview_value = weaponRarityPreview_[selectedWeaponRarity].c_str();
-		if (ImGui::BeginCombo((label.c_str()), combo_preview_value)) {
-			for (int n = 0; n < weaponRarityPreview_.size(); n++) {
-				const bool is_selected = ((int)selectedWeaponRarity == n);
-				if (ImGui::Selectable(weaponRarityPreview_[n].c_str(), is_selected)) {
-					selectedWeaponRarity = n;
-				}
+void WeaponManager::EditWeaponsGui() {
+	static int selectWeapon = 0;
+	static int selectWeaponName = 0;
+	static int selectModelName = 0;
+	std::vector<std::string> names = GetWeaponNames(selectWeapon);
+	std::vector<std::string> modelNames = GetWeaponModelNames(selectWeapon);
+	// 既存の武器調整
+	if (ImGui::TreeNode("Weapon list")) {
+		// 読み込み
+		if (!names.empty()) {
+			if (ImGui::Button("Load")) {
+				LoadEnemyData(selectWeapon, sampleWeaponData_[(WeaponType)selectWeapon][names[selectWeaponName]].jsonFileName);
+			}
+		}
 
-				if (is_selected) {
-					ImGui::SetItemDefaultFocus();
+		// 武器種
+		bool isClickCombo;
+		SelectType(weaponTypePreview_, selectWeapon, "WeaponType##100", isClickCombo);
+
+		names = GetWeaponNames(selectWeapon);
+		// タブクリック時の処理
+		if (isClickCombo) {
+			// 武器名のプレビュー外を指定しないようにする
+			if (!names.empty() && selectWeaponName > (int)names.size() - 1) { selectWeaponName = (int)names.size() - 1; }
+			// 指定された武器のモデル名のタブにフォーカスさせる
+			for (int i = 0; i < modelNames.size(); i++) {
+				if (names.empty()) { break; }
+				if (Contains(modelNames[i], sampleWeaponData_[(WeaponType)selectWeapon][names[selectWeaponName]].modelName)) {
+					selectModelName = i;
+					break;
 				}
 			}
-			ImGui::EndCombo();
+			// 武器モデルのプレビュー外を指定しないようにする
+			modelNames = GetWeaponModelNames(selectWeapon);
+			if (!modelNames.empty() && selectModelName > (int)modelNames.size() - 1) { selectModelName = (int)modelNames.size() - 1; }
+		}		
+
+		if (!names.empty()) {
+			// 武器名選択
+			SelectType(names, selectWeaponName, "WeaponName##100", isClickCombo);		
+			// タブクリック時の処理
+			if (isClickCombo) {
+				// 武器名のプレビュー外を指定しないようにする
+				if (!names.empty() && selectWeaponName > (int)names.size() - 1) { selectWeaponName = (int)names.size() - 1; }
+				// 指定された武器のモデル名のタブにフォーカスさせる
+				for (int i = 0; i < modelNames.size(); i++) {
+					if (Contains(modelNames[i], sampleWeaponData_[(WeaponType)selectWeapon][names[selectWeaponName]].modelName)) {
+						selectModelName = i;
+						break;
+					}
+				}
+			}
+
+			// 武器のモデル選択
+			SelectType(modelNames, selectModelName, "WeaponModel##100", isClickCombo);
+			if (isClickCombo) {
+				sampleWeaponData_[(WeaponType)selectWeapon][names[selectWeaponName]].modelName = modelNames[selectModelName];
+			}
+
+			// 詳細な設定
+			WeaponDataGui(sampleWeaponData_[(WeaponType)selectWeapon][names[selectWeaponName]]);
 		}
+		else {
+			ImGui::Text("Not found data");
+		}
+		ImGui::TreePop();
 	}
 	else {
-		ImGui::TextDisabled(("Not found behavior-tree file"));
+		for (int i = 0; i < modelNames.size(); i++) {
+			if (names.empty()) { break; }
+
+			if (Contains(modelNames[i], sampleWeaponData_[(WeaponType)selectWeapon][names[selectWeaponName]].modelName)) {
+				selectModelName = i;
+				break;
+			}
+		}
 	}
 }
 
-void WeaponManager::SelectBulletType(int& selectedType, std::string label) {
-	// 読み込むbehaviorTreeのプレビュー作成
-	bulletTypePreview_ = AttackManager::GetInstance()->GetBulletTypePreview();
-	if (!bulletTypePreview_.empty()) {
-		const char* combo_preview_value = bulletTypePreview_[selectedType].c_str();
+void WeaponManager::CreateWeaponsGui() {
+	static int selectWeapon = 0;
+	static int selectWeaponName = 0;
+	std::vector<std::string> names = GetWeaponNames(selectWeapon);
+
+	// 武器種
+	SelectType(weaponTypePreview_, selectWeapon, "WeaponType##2");
+	// 武器名
+	SelectType(names, selectWeaponName, "WeaponName##2");
+
+	// 生成座標
+	ImGui::DragFloat3("CreatePos", &createPos_.x, 0.01f);
+
+	// 武器の四散範囲
+	ImGui::DragFloat3("WeaponDropRange", &weaponDropVel.x, 0.01f);
+	ImGui::DragFloat("PickUpWeaponAngle", &pickUpWeaponAngle, 0.01f);
+	ImGui::DragFloat("PickUpWeaponRange", &pickUpWeaponRange, 0.01f);
+
+	// 武器生成
+	if (!names.empty()) {
+		if (ImGui::Button("Create")) {
+			// コピー元の武器情報
+			createWeaponData_ = sampleWeaponData_[(WeaponType)selectWeapon][names[selectWeaponName]];
+			IWeapon* weapon = CreateSelectedWeapon(selectWeapon);
+			weapons_.push_back(weapon);
+			// 武器を地面に出す
+			DropWeapon(weapon);
+		}
+	}
+
+	// 武器解放
+	if (ImGui::Button("All Delete")) {
+		for (IWeapon* weapon : weapons_) {
+			// 所持者がいるなら解放しない
+			if (weapon->GetActor()) { continue; }
+			DeleteWeapon(weapon);
+		}
+	}
+}
+
+void WeaponManager::SelectType(std::vector<std::string> list, int& selectedType, std::string label, bool& isClickCombo) {
+	isClickCombo = false;
+	if (!list.empty()) {
+		const char* combo_preview_value = list[selectedType].c_str();
 		if (ImGui::BeginCombo(label.c_str(), combo_preview_value)) {
-			for (int n = 0; n < bulletTypePreview_.size(); n++) {
+			for (int n = 0; n < list.size(); n++) {
 				const bool is_selected = ((int)selectedType == n);
-				std::string selectableLabel = bulletTypePreview_[n];
+				std::string selectableLabel = list[n];
+				if (ImGui::Selectable(selectableLabel.c_str(), is_selected)) {
+					selectedType = n;
+					isClickCombo = true;
+				}
+
+				if (is_selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+	}
+	else {
+		ImGui::TextDisabled(("Not found element"));
+	}
+}
+
+void WeaponManager::SelectType(std::vector<std::string> list, int& selectedType, std::string label) {
+	if (!list.empty()) {
+		const char* combo_preview_value = list[selectedType].c_str();
+		if (ImGui::BeginCombo(label.c_str(), combo_preview_value)) {
+			for (int n = 0; n < list.size(); n++) {
+				const bool is_selected = ((int)selectedType == n);
+				std::string selectableLabel = list[n];
 				if (ImGui::Selectable(selectableLabel.c_str(), is_selected)) {
 					selectedType = n;
 				}
@@ -473,10 +539,267 @@ void WeaponManager::SelectBulletType(int& selectedType, std::string label) {
 		}
 	}
 	else {
-		ImGui::TextDisabled(("Not found bullet"));
+		ImGui::TextDisabled(("Not found element"));
 	}
 }
 
+std::vector<std::string> WeaponManager::GetWeaponModelNames(int weaponType) {
+	std::vector<std::string> modelNamePreview;
+	std::vector<std::string> modelNames;
+	std::string directoryPath;
+	if (weaponType == (int)WeaponType::kMelee) {
+		directoryPath = "resources/model/Weapon/Melee/";
+		modelNames = GetFileNames((GetExeDir() / directoryPath).string());
+	}
+	else {
+		directoryPath = "resources/model/Weapon/Gun/";
+		modelNames = GetFileNames((GetExeDir() / directoryPath).string());
+	}
+
+	// exeからのパスは削除
+	for (std::string name : modelNames) {
+		const std::string target = GetExeDir().string() + "\\";
+		size_t pos = name.find(target);
+		if (pos != std::string::npos) {
+			name.erase(pos, target.length());
+		}
+		modelNamePreview.push_back(name);
+	}
+	return modelNamePreview;
+}
+
+std::vector<std::string> WeaponManager::GetWeaponModelNames() {
+	std::vector<std::string> modelNamePreview;
+	std::vector<std::string> modelNames;
+	std::string directoryPath = "resources/model/Weapon/";
+	modelNames = GetFileNames((GetExeDir().string() + directoryPath));
+
+	// exeからのパスは削除
+	for (std::string name : modelNames) {
+		const std::string target = GetExeDir().string() + "\\" + "\\";
+		size_t pos = name.find(target);
+		if (pos != std::string::npos) {
+			name.erase(pos, target.length());
+		}
+		modelNamePreview.push_back(name);
+	}
+	return modelNamePreview;
+}
+
+std::vector<std::string> WeaponManager::GetWeaponJsonNames(const std::string& directoryPath) {
+	std::vector<std::string> jsonNamePreview;
+
+	if (!std::filesystem::exists((GetExeDir() / directoryPath).string())) {
+		return jsonNamePreview;
+	}
+	for (const auto& entry : std::filesystem::recursive_directory_iterator((GetExeDir() / directoryPath).string())) {
+		if (entry.is_regular_file() &&
+			(entry.path().extension() == ".json")) {
+			jsonNamePreview.push_back(entry.path().string());
+		}
+	}
+
+	return jsonNamePreview;
+}
+
+std::vector<std::string> WeaponManager::GetWeaponNames(int weaponType) {
+	// 対象の配列に何もない
+	if (sampleWeaponData_[(WeaponType)weaponType].empty()) { return std::vector<std::string>(); }
+
+	std::vector<std::string> names;
+	for (const auto& [name, data] : sampleWeaponData_[(WeaponType)weaponType]) {
+		names.push_back(data.name);
+	}
+
+	return names;
+}
+
+void WeaponManager::WeaponDataGui(WeaponData& data) {
+	// 武器名(被りはダメ)
+	ImGui::InputText("Weapon Name", &data.name);
+
+	// 発射間隔
+	if (ImGui::TreeNode("Interval")) {
+		ImGui::DragFloat("Normal", &data.shotIntervalTime, 0.01f, 0.0f);
+		ImGui::DragFloat("Burst", &data.burstIntervalTime, 0.01f, 0.0f);
+		ImGui::TreePop();
+	}
+	// 弾
+	if (ImGui::TreeNode("Bullet")) {
+		// 弾数
+		ImGui::DragInt("Num", &data.bulletNum, 1, 0);
+		// 弾の種類
+		SelectType(bulletTypePreview_, data.bulletType, "BulletType##0");
+		// 同時に出る弾数
+		ImGui::DragInt("SameNum", &data.sameBulletNum, 1, 0);
+		// 弾の拡散範囲
+		ImGui::DragFloat3("DiffusingRange", &data.diffusingBulletRange.x, 0.01f, 0.0001f, 1.0f);
+		ImGui::TreePop();
+	}
+	// バースト数
+	ImGui::DragInt("BurstNum", &data.burstNum, 1, 0);
+	// 攻撃時の練度上昇量
+	ImGui::DragFloat("AttackSkillGain", &data.attackSkillGain);
+	// 溜め時間
+	ImGui::DragFloat("StoreTime", &data.storeTime);
+	// 撃てない時間
+	ImGui::DragFloat("CoolTime", &data.coolTime);
+	// リロード時間
+	ImGui::DragFloat("ReloadTime", &data.reloadTime);
+	// 武器のレアリティ
+	SelectType(weaponRarityPreview_, data.rarity, "RarityType##0");
+
+	if (ImGui::Button("Regist")) {
+		sampleWeaponData_[(WeaponType)data.type][data.name] = data;
+		ExportEnemyData(data.type, data.name);
+	}
+}
+
+// ********* jsonファイルの保存で使用する関数↓ ********* //
+void WeaponManager::LoadEnemyData(int weaponType, const std::string& fileName) {
+	OPENFILENAMEA ofn = { 0 };
+	char szFile[MAX_PATH] = { 0 };	// ファイルパスのサイズはWindows既定のものに
+	ofn.lStructSize = sizeof(ofn);
+	ofn.lpstrFile = szFile;
+	ofn.nMaxFile = sizeof(szFile);
+	std::string name = fileName;
+	ofn.lpstrFilter = name.c_str();
+	ofn.nFilterIndex = 1;
+	ofn.Flags = OFN_PATHMUSTEXIST;
+
+	LoadEnemyDataUpdate(weaponType, name);
+}
+
+void WeaponManager::LoadEnemyDataUpdate(int weaponType, const std::string& fileName) {
+	std::ifstream file(fileName);
+	if (!file.is_open()) return;
+
+	nlohmann::json j;
+	file >> j;
+	WeaponData data{};
+	//for (const auto& node_json : j) {
+		data.name = j["name"].get<std::string>();
+		data.type = j["type"];
+		data.rarity = j["rarity"];
+		data.modelName = j["modelName"].get<std::string>();
+		data.jsonFileName = j["jsonFileName"].get<std::string>();
+
+		data.shotIntervalTime = j["shotIntervalTime"];
+		data.burstIntervalTime = j["burstIntervalTime"];
+		data.bulletNum = j["bulletNum"];
+		data.bulletType = j["bulletType"];
+		data.sameBulletNum = j["sameBulletNum"];
+		data.diffusingBulletRange = {
+			j["diffusingBulletRange_x"],
+			j["diffusingBulletRange_y"],
+			j["diffusingBulletRange_z"]
+		};
+
+		data.burstNum = j["burstNum"];
+		data.attackSkillGain = j["attackSkillGain"];
+		data.storeTime = j["storeTime"];
+		data.coolTime = j["coolTime"];
+		data.reloadTime = j["reloadTime"];
+	//}
+	sampleWeaponData_[(WeaponType)weaponType][data.name] = data;
+
+	file.close();
+}
+
+void WeaponManager::ExportEnemyData(int weaponType, const std::string& weaponName) {
+	// ファイル保存ダイアログを使って保存先とファイル名を指定
+#if defined(_WIN32)
+	char currentDir[MAX_PATH];
+	_getcwd(currentDir, MAX_PATH);
+
+	OPENFILENAMEA ofn = { 0 };
+	char szFile[MAX_PATH] = { 0 };	// ファイルパスのサイズはWindows既定のものに
+	ofn.lStructSize = sizeof(ofn);
+	ofn.lpstrFile = szFile;
+	ofn.nMaxFile = sizeof(szFile);
+	ofn.lpstrFilter = "JSON Files\0*.json\0All Files\0*.*\0";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrDefExt = "json";
+	ofn.Flags = OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST;
+
+	if (GetSaveFileNameA(&ofn)) {
+		ExportEnemyDataUpdate(weaponType, weaponName, szFile);
+	}
+
+	_chdir(currentDir);
+#endif
+}
+
+void WeaponManager::ExportEnemyDataUpdate(int weaponType, const std::string& weaponName, const std::string& fileName) {
+	using std::swap;
+
+	const int cJsonIndent = 4;
+	//nlohmann::json j;
+
+	nlohmann::json node_json;
+	node_json["name"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].name;
+	node_json["type"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].type;
+	node_json["rarity"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].rarity;
+	node_json["modelName"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].modelName;
+	sampleWeaponData_[(WeaponType)weaponType][weaponName].jsonFileName = fileName;
+	// exeからのパスは削除
+	std::string name = sampleWeaponData_[(WeaponType)weaponType][weaponName].jsonFileName;
+	const std::string target = GetExeDir().string() + "\\";
+	size_t pos = name.find(target);
+	if (pos != std::string::npos) {
+		name.erase(pos, target.length());
+	}
+	sampleWeaponData_[(WeaponType)weaponType][weaponName].jsonFileName = name;
+	node_json["jsonFileName"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].jsonFileName;
+
+	node_json["shotIntervalTime"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].shotIntervalTime;
+	node_json["burstIntervalTime"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].burstIntervalTime;
+	node_json["bulletNum"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].bulletNum;
+	node_json["bulletType"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].bulletType;
+	node_json["sameBulletNum"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].sameBulletNum;
+
+	node_json["diffusingBulletRange_x"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].diffusingBulletRange.x;
+	node_json["diffusingBulletRange_y"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].diffusingBulletRange.y;
+	node_json["diffusingBulletRange_z"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].diffusingBulletRange.z;
+
+	node_json["burstNum"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].burstNum;
+	node_json["attackSkillGain"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].attackSkillGain;
+	node_json["storeTime"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].storeTime;
+	node_json["coolTime"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].coolTime;
+	node_json["reloadTime"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].reloadTime;
+
+	//j.push_back(node_json);
+
+	std::ofstream file(fileName);
+	if (file.is_open()) {
+		file << node_json.dump(cJsonIndent);
+		file.close();
+	}
+}
+
+std::filesystem::path WeaponManager::GetExeDir() {
+	return std::filesystem::current_path();
+}
+
+std::vector<std::string> WeaponManager::GetFileNames(const std::string& folderPath) {
+	std::vector<std::string> result;
+
+	if (!std::filesystem::exists(folderPath)) {
+		return result;
+	}
+
+	for (const auto& entry : std::filesystem::recursive_directory_iterator(folderPath)) {
+		if (entry.is_regular_file() &&
+			(entry.path().extension() == ".gltf" || entry.path().extension() == ".obj")) {
+			result.push_back(entry.path().string());
+		}
+	}
+
+	return result;
+}
+// ********* jsonファイルの保存で使用する関数↑ ********* //
+
+// ********* アクセサ↓ ********* //
 void WeaponManager::DropWeapon(IWeapon* weapon) {
 	if (!weapon) return;
 
@@ -517,9 +840,21 @@ void WeaponManager::PickUpWeapon(IWeapon* weapon, Actor* target, int weaponSide)
 	target->SetWeapon(weapon, weaponSide);
 }
 
-IWeapon* WeaponManager::CreateWeapon(int weaponType, int weaponRarity) {
+IWeapon* WeaponManager::CreateWeapon(int weaponType, const std::string& weaponName) {
 	// コピー元の武器情報を設定
-	createWeaponData_ = orizinWeaponData_[(WeaponType)weaponType][(RarityType)weaponRarity];
+	//createWeaponData_ = orizinWeaponData_[(WeaponType)weaponType][(RarityType)weaponRarity];
+	//auto result = std::find(sampleWeaponData_[(WeaponType)weaponType].begin(), sampleWeaponData_[(WeaponType)weaponType].end(),
+	//	[&](WeaponData data) {
+	//		if (data.name == weaponName) {
+	//			return true;
+	//		}
+	//		return false;
+	//	});
+	//if (result == sampleWeaponData_[(WeaponType)weaponType].end()) {
+	//	return nullptr;
+	//}
+
+	createWeaponData_ = sampleWeaponData_[(WeaponType)weaponType][weaponName];
 
 	// 選ばれた武器種作成
 	IWeapon* weapon = CreateSelectedWeapon(weaponType);
@@ -531,7 +866,7 @@ IWeapon* WeaponManager::CreateWeapon(int weaponType, int weaponRarity) {
 
 IWeapon* WeaponManager::CreateRandomWeapon(const std::vector<int>& weaponTypes, const std::vector<int>& weaponRarity) {
 #pragma region 武器種
-	int typeSize = (int)weaponTypes.size();
+	int typeSize = static_cast<int>(weaponTypes.size());
 	int randomType = 0;
 	int type = 0;
 	// 1種類の場合
@@ -546,7 +881,7 @@ IWeapon* WeaponManager::CreateRandomWeapon(const std::vector<int>& weaponTypes, 
 #pragma endregion
 
 #pragma region レアリティ
-	int raritySize = (int)weaponRarity.size();
+	int raritySize = static_cast<int>(weaponRarity.size());
 	int randomRarity = 0;
 	int rarity = 0;
 	// 1種類の場合
@@ -561,7 +896,16 @@ IWeapon* WeaponManager::CreateRandomWeapon(const std::vector<int>& weaponTypes, 
 #pragma endregion
 
 	// コピー元の武器情報を決定
-	createWeaponData_ = orizinWeaponData_[(WeaponType)type][(RarityType)rarity];
+	//createWeaponData_ = orizinWeaponData_[(WeaponType)type][(RarityType)rarity];
+	std::vector<WeaponData> datas;
+	for (const auto& [name, data] : sampleWeaponData_[(WeaponType)type]) {
+		if (data.rarity == rarity) datas.push_back(data);
+	}
+
+	int size = static_cast<int>(datas.size());
+	int randomWeapon = LWP::Utility::Random::GenerateInt(0, size - 1);
+
+	createWeaponData_ = datas[randomWeapon];
 
 	// 選ばれた武器種作成
 	IWeapon* weapon = CreateSelectedWeapon(type);
@@ -582,3 +926,4 @@ void WeaponManager::DeleteWeapon(IWeapon* weapon) {
 		weapons_.erase(result);
 	}
 }
+// ********* アクセサ↑ ********* //

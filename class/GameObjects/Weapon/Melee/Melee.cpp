@@ -31,5 +31,5 @@ void Melee::SetWeaponSide(int weaponSide) {
 		modelName.insert(pos, side);
 	}
 	// モデル再読み込み
-	body_.LoadFullPath("resources/model/Weapon/Melee/" + modelName);
+	body_.LoadFullPath(modelName);
 }

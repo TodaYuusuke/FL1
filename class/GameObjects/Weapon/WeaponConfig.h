@@ -44,20 +44,22 @@ enum class ShotType {
 /// 武器の調整項目
 /// </summary>
 struct WeaponData {
-	std::string name;								// 武器の名前
-	std::string modelName;							// 銃モデルのファイル名
+	std::string name="";								// 武器の名前
+	std::string modelName="";							// 銃モデルのファイル名
+	std::string jsonFileName="";						// jsonファイル名
 	float shotIntervalTime;							// 射撃間隔[秒]
 	float burstIntervalTime;						// バースト間隔[秒](バースト銃の場合に数値を入れる)
 	float storeTime;								// 溜め時間[秒](溜める銃の場合に数値を入れる)
 	int burstNum;									// バースト数
 	int sameBulletNum;								// 同時に出る弾数
 	int bulletType;									// 弾の種類
-	LWP::Math::Vector3 diffusingBulletRange;		// 弾の拡散範囲[0～1]
+	LWP::Math::Vector3 diffusingBulletRange{};		// 弾の拡散範囲[0～1]
 	int bulletNum;									// 弾数
 	float coolTime;									// 撃てない時間[秒]
 	float reloadTime;								// リロード時間[秒]
 	float attackSkillGain = 100.0f;					// 攻撃時の練度上昇量
 	int rarity;										// レアリティ
+	int type;
 };
 
 namespace WeaponConfig {
@@ -121,16 +123,6 @@ namespace WeaponConfig {
 		// 順序はWeaponType準拠
 		namespace LightPillar {
 			namespace Color {
-				namespace Rarity {
-					inline std::array<unsigned int, (int)WeaponType::kCount> color {
-						// マシンガン
-						// ショットガン
-						// ライフル
-						// ランチャー
-						// ミサイル
-						// 近接
-					};
-				}
 				// (中間プレイ会専用)
 				namespace Weapon {
 					inline std::array<unsigned int, (int)WeaponType::kCount> color = {
@@ -146,18 +138,18 @@ namespace WeaponConfig {
 		}
 	}
 
-	/// <summary>
-	/// 名前から武器の種類を検索
-	/// </summary>
-	/// <param name="name"></param>
-	/// <returns></returns>
-	inline int GetWeaponType(const std::string& name){
-		for (int i = 0; i < Name::name.size(); i++) {
-			if (Name::name[i] == name) {
-				return i;
-			}
-		}
-		// 該当なし
-		return -1;
-	}
+	///// <summary>
+	///// 名前から武器の種類を検索
+	///// </summary>
+	///// <param name="name"></param>
+	///// <returns></returns>
+	//inline int GetWeaponType(const std::string& name){
+	//	for (int i = 0; i < Name::name.size(); i++) {
+	//		if (Name::name[i] == name) {
+	//			return i;
+	//		}
+	//	}
+	//	// 該当なし
+	//	return -1;
+	//}
 }

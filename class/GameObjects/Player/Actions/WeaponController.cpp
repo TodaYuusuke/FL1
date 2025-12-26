@@ -138,7 +138,7 @@ void WeaponController::Update() {
 	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount; side++) {
 		//武器を所有してるとき
 		if (weapons_[(WeaponSide)side]->GetIsFullWeapon()) {
-			auto type = WeaponConfig::GetWeaponType(weapons_[(WeaponSide)side]->GetFrontWeapon()->GetName());
+			auto type = weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().type;
 			weaponSurfaces_[(WeaponSide)side][type].isActive = true;
 			bulletNums_[(WeaponSide)side]->SetIsActive(true);
 			bulletNums_[(WeaponSide)side]->SetNum(weapons_[(WeaponSide)side]->GetFrontWeapon()->GetBulletNum());

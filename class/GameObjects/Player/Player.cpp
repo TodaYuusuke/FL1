@@ -96,13 +96,13 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 		&Player::SetRightShoulderWeapon
 	};
 	for (int i = 0; i < weaponTypies_.size(); i++) {
-		// 武器なしは含めない
-		if (weaponTypies_[i] >= (int)WeaponType::kCount) { continue; }
+		//// 武器なしは含めない
+		//if (weaponTypies_[i] >= (int)WeaponType::kCount) { continue; }
 
-		// 持たせる武器を作成
-		IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(weaponTypies_[i], weaponRarities_[i]);
-		// 武器の付与
-		(this->*setWeapon[i])(weapon);
+		//// 持たせる武器を作成
+		//IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(weaponTypies_[i], weaponRarities_[i]);
+		//// 武器の付与
+		//(this->*setWeapon[i])(weapon);
 	}
 }
 

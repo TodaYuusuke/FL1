@@ -18,7 +18,7 @@ IMelee::IMelee(WeaponData data) {
 	name_ = data_.name;
 
 	// モデル生成
-	body_.LoadFullPath("resources/model/Weapon/Melee/" + data_.modelName);
+	body_.LoadFullPath(data_.modelName);
 	body_.worldTF.scale = { 0.5f,0.5f,0.5f };
 
 	// マガジン作成
@@ -28,7 +28,7 @@ IMelee::IMelee(WeaponData data) {
 	lightPillar_.Init();
 	lightPillar_.isActive = true;
 	lightPillar_.LoadTexture("Weapon/pillar_triangle.png");
-	unsigned int color = WeaponConfig::TextureName::LightPillar::Color::Weapon::color[WeaponConfig::GetWeaponType(name_)];
+	unsigned int color = WeaponConfig::TextureName::LightPillar::Color::Weapon::color[data_.type];
 	lightPillar_.material.color = LWP::Utility::Color(color);
 	lightPillar_.material.color.A = 100;
 	lightPillar_.anchorPoint = { 0.5f, 0.5f };
