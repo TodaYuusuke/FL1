@@ -20,7 +20,7 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 	// 黒板生成
 	blackBoard_ = new BlackBoard();
 	blackBoard_->SetValue<Actor*>("Player", this);
-	
+
 	// モデル生成
 	model_.LoadShortPath("Player/Player.gltf");
 	model_.Update();
@@ -50,18 +50,22 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 		.BeginGroup("Hand")
 		.BeginGroup("Left")
 		.AddValue<int>("Type", &weaponTypies_[(int)WeaponSide::kLeft])
+		.AddValue<int>("Name", &weaponNamesIndex_[(int)WeaponSide::kLeft])
 		.EndGroup()
 		.BeginGroup("Right")
 		.AddValue<int>("Type", &weaponTypies_[(int)WeaponSide::kRight])
+		.AddValue<int>("Name", &weaponNamesIndex_[(int)WeaponSide::kRight])
 		.EndGroup()
 		.EndGroup()
 		// 肩
 		.BeginGroup("Shoulder")
 		.BeginGroup("Left")
 		.AddValue<int>("Type", &weaponTypies_[(int)WeaponSide::kLeftShoulder])
+		.AddValue<int>("Name", &weaponNamesIndex_[(int)WeaponSide::kLeftShoulder])
 		.EndGroup()
 		.BeginGroup("Right")
 		.AddValue<int>("Type", &weaponTypies_[(int)WeaponSide::kRightShoulder])
+		.AddValue<int>("Name", &weaponNamesIndex_[(int)WeaponSide::kRightShoulder])
 		.EndGroup()
 		.EndGroup()
 		.EndGroup()
@@ -96,13 +100,14 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 		&Player::SetRightShoulderWeapon
 	};
 	for (int i = 0; i < weaponTypies_.size(); i++) {
-		//// 武器なしは含めない
-		//if (weaponTypies_[i] >= (int)WeaponType::kCount) { continue; }
+		// 武器なしは含めない
+		if (weaponTypies_[i] >= (int)WeaponType::kCount) { continue; }
 
-		//// 持たせる武器を作成
-		//IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(weaponTypies_[i], weaponRarities_[i]);
-		//// 武器の付与
-		//(this->*setWeapon[i])(weapon);
+		// 持たせる武器を作成
+		std::vector<std::string> weaponNames = WeaponManager::GetInstance()->GetWeaponNamePreview(weaponTypies_[i]);
+		IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(weaponTypies_[i], weaponNames[weaponNamesIndex_[i]]);
+		// 武器の付与
+		(this->*setWeapon[i])(weapon);
 	}
 }
 
@@ -169,24 +174,67 @@ void Player::DrawGui() {
 			}
 			weaponTypePreview_ = WeaponManager::GetInstance()->GetWeaponTypePreview();
 			weaponTypePreview_.push_back("None");
-			weaponRarityPreview_ = WeaponManager::GetInstance()->GetWeaponRarityPreview();
+			//weaponRarityPreview_ = WeaponManager::GetInstance()->GetWeaponNamePreview();
+
 			// 手武器を選択
 			if (ImGui::TreeNode("Select hand weapon")) {
-				SelectWeaponType(weaponTypies_[(int)WeaponSide::kLeft], "Left");
-				SelectWeaponRarity(weaponRarities_[(int)WeaponSide::kLeft], "Left");
+				std::vector<std::string> lWeaponNamePreview;
+				std::vector<std::string> rWeaponNamePreview;
+				bool isClickCombo = false;
+				int preType;
 
-				SelectWeaponType(weaponTypies_[(int)WeaponSide::kRight], "Right");
-				SelectWeaponRarity(weaponRarities_[(int)WeaponSide::kRight], "Right");
+				// 左の武器種選択
+				preType = weaponTypies_[(int)WeaponSide::kLeft];
+				SelectType(weaponTypePreview_,weaponTypies_[(int)WeaponSide::kLeft], "Left##0", isClickCombo);
+				// タブクリック時の処理
+				if (isClickCombo) {
+					if (weaponTypies_[(int)WeaponSide::kLeft] != preType) { weaponNamesIndex_[(int)WeaponSide::kLeft] = 0; }
+				}
+				// 武器名の選択
+				lWeaponNamePreview = WeaponManager::GetInstance()->GetWeaponNamePreview(weaponTypies_[(int)WeaponSide::kLeft]);
+				SelectType(lWeaponNamePreview, weaponNamesIndex_[(int)WeaponSide::kLeft], "Left##1");
+
+				// 右の武器種選択
+				preType = weaponTypies_[(int)WeaponSide::kRight];
+				SelectType(weaponTypePreview_, weaponTypies_[(int)WeaponSide::kRight], "Right##0", isClickCombo);
+				// タブクリック時の処理
+				if (isClickCombo) {
+					if (weaponTypies_[(int)WeaponSide::kRight] != preType) { weaponNamesIndex_[(int)WeaponSide::kRight] = 0; }
+				}
+				// 武器名の選択
+				rWeaponNamePreview = WeaponManager::GetInstance()->GetWeaponNamePreview(weaponTypies_[(int)WeaponSide::kRight]);
+				SelectType(rWeaponNamePreview, weaponNamesIndex_[(int)WeaponSide::kRight], "Right##1");
 
 				ImGui::TreePop();
 			}
 			// 肩武器を選択
 			if (ImGui::TreeNode("Select shoulder weapon")) {
-				SelectWeaponType(weaponTypies_[(int)WeaponSide::kLeftShoulder], "Left");
-				SelectWeaponRarity(weaponRarities_[(int)WeaponSide::kLeftShoulder], "Left");
+				std::vector<std::string> lWeaponNamePreview;
+				std::vector<std::string> rWeaponNamePreview;
+				bool isClickCombo = false;
+				int preType;
 
-				SelectWeaponType(weaponTypies_[(int)WeaponSide::kRightShoulder], "Right");
-				SelectWeaponRarity(weaponRarities_[(int)WeaponSide::kRightShoulder], "Right");
+				// 左の武器種選択
+				preType = weaponTypies_[(int)WeaponSide::kLeftShoulder];
+				SelectType(weaponTypePreview_, weaponTypies_[(int)WeaponSide::kLeftShoulder], "Left##2", isClickCombo);
+				// タブクリック時の処理
+				if (isClickCombo) {
+					if (weaponTypies_[(int)WeaponSide::kLeftShoulder] != preType) { weaponNamesIndex_[(int)WeaponSide::kLeftShoulder] = 0; }
+				}
+				// 武器名の選択
+				lWeaponNamePreview = WeaponManager::GetInstance()->GetWeaponNamePreview(weaponTypies_[(int)WeaponSide::kLeftShoulder]);
+				SelectType(lWeaponNamePreview, weaponNamesIndex_[(int)WeaponSide::kLeftShoulder], "Left##3");
+
+				// 右の武器種選択
+				preType = weaponTypies_[(int)WeaponSide::kRightShoulder];
+				SelectType(weaponTypePreview_, weaponTypies_[(int)WeaponSide::kRightShoulder], "Right##2", isClickCombo);
+				// タブクリック時の処理
+				if (isClickCombo) {
+					if (weaponTypies_[(int)WeaponSide::kRightShoulder] != preType) { weaponNamesIndex_[(int)WeaponSide::kRightShoulder] = 0; }
+				}
+				// 武器名の選択
+				rWeaponNamePreview = WeaponManager::GetInstance()->GetWeaponNamePreview(weaponTypies_[(int)WeaponSide::kRightShoulder]);
+				SelectType(rWeaponNamePreview, weaponNamesIndex_[(int)WeaponSide::kRightShoulder], "Right##3");
 
 				ImGui::TreePop();
 			}
@@ -314,6 +362,54 @@ void Player::AdjustRotate() {
 
 	preMoveRot_ = moveRot_;
 	preLockOnOmega_ = lockOnOmega_;
+}
+
+void Player::SelectType(std::vector<std::string> list, int& selectedType, std::string label, bool& isClickCombo) {
+	isClickCombo = false;
+	if (!list.empty()) {
+		const char* combo_preview_value = list[selectedType].c_str();
+		if (ImGui::BeginCombo(label.c_str(), combo_preview_value)) {
+			for (int n = 0; n < list.size(); n++) {
+				const bool is_selected = ((int)selectedType == n);
+				std::string selectableLabel = list[n];
+				if (ImGui::Selectable(selectableLabel.c_str(), is_selected)) {
+					selectedType = n;
+					isClickCombo = true;
+				}
+
+				if (is_selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+	}
+	else {
+		ImGui::TextDisabled(("Not found element"));
+	}
+}
+
+void Player::SelectType(std::vector<std::string> list, int& selectedType, std::string label) {
+	if (!list.empty()) {
+		const char* combo_preview_value = list[selectedType].c_str();
+		if (ImGui::BeginCombo(label.c_str(), combo_preview_value)) {
+			for (int n = 0; n < list.size(); n++) {
+				const bool is_selected = ((int)selectedType == n);
+				std::string selectableLabel = list[n];
+				if (ImGui::Selectable(selectableLabel.c_str(), is_selected)) {
+					selectedType = n;
+				}
+
+				if (is_selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+	}
+	else {
+		ImGui::TextDisabled(("Not found element"));
+	}
 }
 
 void Player::SelectWeaponType(int& selectedWeaponType, std::string label) {

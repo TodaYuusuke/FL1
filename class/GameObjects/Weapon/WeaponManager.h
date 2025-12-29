@@ -226,7 +226,20 @@ public:// Getter,Setter
 	/// 作成できる武器のレアリティ一覧を取得
 	/// </summary>
 	/// <returns></returns>
-	std::vector<std::string> GetWeaponRarityPreview() { return weaponRarityPreview_; }
+	//std::vector<std::string> GetWeaponRarityPreview() { return weaponRarityPreview_; }
+	/// <summary>
+	/// 作成できる武器名一覧を取得
+	/// </summary>
+	/// <returns></returns>
+	std::vector<std::string> GetWeaponNamePreview(int weaponType) {
+		if (sampleWeaponData_.empty() || sampleWeaponData_[(WeaponType)weaponType].empty()) { return std::vector<std::string>(); }
+
+		std::vector<std::string> result;
+		for (const auto& [key, data] : sampleWeaponData_[(WeaponType)weaponType]) {
+			result.push_back(data.name);
+		}
+		return result;
+	}
 #pragma endregion
 
 #pragma region Setter
@@ -295,7 +308,6 @@ private:
 
 	// --------- デバッグ用↓ --------- //
 	// 各武器のコピー元の武器
-	//std::map<WeaponType, std::map<RarityType, WeaponData>> orizinWeaponData_;
 	std::map<WeaponType, std::map<std::string, WeaponData>> sampleWeaponData_;
 	std::map<WeaponType, std::map<RarityType, LWP::Utility::JsonIO>> jsonDatas_;
 	WeaponData editWeapon_;

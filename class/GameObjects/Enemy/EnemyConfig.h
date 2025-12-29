@@ -53,6 +53,7 @@ struct EnemyData {
 	// 所持する武器種と搭載位置
 	// -1の時は何も持たない
 	std::array<int, (int)WeaponSide::kCount> containWeaponTypes;
+	std::array<int, (int)WeaponSide::kCount> containWeaponNames;
 	// 武器レアリティの最低保証
 	// -1は最低保証なし
 	int minWeaponRarity = 0;

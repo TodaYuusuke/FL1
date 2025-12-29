@@ -93,6 +93,7 @@ private:// ******** デバッグ、エディタ用の関数群↓ ******** //
 	/// <param name="selectedType"></param>
 	/// <param name="label"></param>
 	void SelectType(std::vector<std::string> list, int& selectedType, std::string label);
+	void SelectType(std::vector<std::string> list, int& selectedType, std::string label, bool& isClickCombo);
 	/// <summary>
 	/// 作成する敵を選択(デバッグ用)
 	/// </summary>
@@ -170,6 +171,10 @@ private:// 配置エディタで使用する関数
 	/// <param name="folderPath"></param>
 	/// <returns></returns>
 	std::vector<std::string> GetFileNames(const std::string& folderPath);
+
+	bool Contains(const std::string& str, const std::string& target) {
+		return str.find(target) != std::string::npos;
+	}
 
 		// ******** デバッグ、エディタ用の関数群↑ ******** //
 

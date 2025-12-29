@@ -384,7 +384,8 @@ void EnemyManager::GiveWeapon(Actor* actor, const EnemyData& data) {
 		if (data.containWeaponTypes[i] >= (int)WeaponType::kCount) { continue; }
 
 		// 持たせる武器を作成
-		IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(data.containWeaponTypes[i], 0);
+		std::vector<std::string> weaponNames = WeaponManager::GetInstance()->GetWeaponNamePreview(data.containWeaponTypes[i]);
+		IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(data.containWeaponTypes[i], weaponNames[data.containWeaponNames[i]]);
 		// 所持者の攻撃倍率を武器に反映
 		weapon->SetAttackMultiply(actor->GetEnemyData().attackMultiply);
 
@@ -501,6 +502,31 @@ void EnemyManager::SelectType(std::vector<std::string> list, int& selectedType, 
 	}
 }
 
+void EnemyManager::SelectType(std::vector<std::string> list, int& selectedType, std::string label, bool& isClickCombo) {
+	isClickCombo = false;
+	if (!list.empty()) {
+		const char* combo_preview_value = list[selectedType].c_str();
+		if (ImGui::BeginCombo(label.c_str(), combo_preview_value)) {
+			for (int n = 0; n < list.size(); n++) {
+				const bool is_selected = ((int)selectedType == n);
+				std::string selectableLabel = list[n];
+				if (ImGui::Selectable(selectableLabel.c_str(), is_selected)) {
+					selectedType = n;
+					isClickCombo = true;
+				}
+
+				if (is_selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+	}
+	else {
+		ImGui::TextDisabled(("Not found element"));
+	}
+}
+
 void EnemyManager::SelectEnemyType(std::map<int, EnemyData> data, int& selectType, const std::string& label) {
 	// 追加する敵のプレビュー作成
 	if (!enemyTypePreview_.empty()) {
@@ -557,9 +583,11 @@ void EnemyManager::CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, c
 		.BeginGroup("Hand")
 		.BeginGroup("Left")
 		.AddValue<int>("Type", &data.containWeaponTypes[(int)WeaponSide::kLeft])
+		.AddValue<int>("Name", &data.containWeaponNames[(int)WeaponSide::kLeft])
 		.EndGroup()
 		.BeginGroup("Right")
 		.AddValue<int>("Type", &data.containWeaponTypes[(int)WeaponSide::kRight])
+		.AddValue<int>("Name", &data.containWeaponNames[(int)WeaponSide::kRight])
 		.EndGroup()
 		.EndGroup()
 
@@ -567,9 +595,11 @@ void EnemyManager::CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, c
 		.BeginGroup("Shoulder")
 		.BeginGroup("Left")
 		.AddValue<int>("Type", &data.containWeaponTypes[(int)WeaponSide::kLeftShoulder])
+		.AddValue<int>("Name", &data.containWeaponNames[(int)WeaponSide::kLeftShoulder])
 		.EndGroup()
 		.BeginGroup("Right")
 		.AddValue<int>("Type", &data.containWeaponTypes[(int)WeaponSide::kRightShoulder])
+		.AddValue<int>("Name", &data.containWeaponNames[(int)WeaponSide::kRightShoulder])
 		.EndGroup()
 		.EndGroup()
 		// 武器の最低保証
@@ -621,26 +651,66 @@ void EnemyManager::SelectEnemyGui(LWP::Utility::JsonIO& json, EnemyData& data) {
 		if (ImGui::TreeNode("Weapon")) {
 			weaponTypePreview_ = WeaponManager::GetInstance()->GetWeaponTypePreview();
 			weaponTypePreview_.push_back("None");
-			weaponRarityPreview_ = WeaponManager::GetInstance()->GetWeaponRarityPreview();
+			//weaponRarityPreview_ = WeaponManager::GetInstance()->GetWeaponRarityPreview();
 			// 手武器を選択
 			if (ImGui::TreeNode("Select hand weapon")) {
-				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kLeft], "Left##0");
+				std::vector<std::string> lWeaponNamePreview;
+				std::vector<std::string> rWeaponNamePreview;
+				bool isClickCombo = false;
+				int preType;
+
+				preType = data.containWeaponTypes[(int)WeaponSide::kLeft];
+				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kLeft], "Left##0", isClickCombo);
+				// タブクリック時の処理
+				if (isClickCombo) {
+					if (data.containWeaponTypes[(int)WeaponSide::kLeft] != preType) { data.containWeaponNames[(int)WeaponSide::kLeft] = 0; }
+				}
+
+				lWeaponNamePreview = WeaponManager::GetInstance()->GetWeaponNamePreview(data.containWeaponTypes[(int)WeaponSide::kLeft]);
+				SelectType(lWeaponNamePreview, data.containWeaponNames[(int)WeaponSide::kLeft], "Left##1");
+
+
+				preType = data.containWeaponTypes[(int)WeaponSide::kRight];
 				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kRight], "Right##0");
+				// タブクリック時の処理
+				if (isClickCombo) {
+					if (data.containWeaponTypes[(int)WeaponSide::kRight] != preType) { data.containWeaponNames[(int)WeaponSide::kRight] = 0; }
+				}
+
+				rWeaponNamePreview = WeaponManager::GetInstance()->GetWeaponNamePreview(data.containWeaponTypes[(int)WeaponSide::kRight]);
+				SelectType(rWeaponNamePreview, data.containWeaponNames[(int)WeaponSide::kRight], "Right##1");
 
 				ImGui::TreePop();
 			}
 			// 肩武器を選択
 			if (ImGui::TreeNode("Select shoulder weapon")) {
-				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kLeftShoulder], "Left##1");
-				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kRightShoulder], "Right##1");
+				std::vector<std::string> lWeaponNamePreview;
+				std::vector<std::string> rWeaponNamePreview;
+				bool isClickCombo = false;
+				int preType;
+
+				preType = data.containWeaponTypes[(int)WeaponSide::kLeftShoulder];
+				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kLeftShoulder], "Left##2");
+				// タブクリック時の処理
+				if (isClickCombo) {
+					if (data.containWeaponTypes[(int)WeaponSide::kLeftShoulder] != preType) { data.containWeaponNames[(int)WeaponSide::kLeftShoulder] = 0; }
+				}
+
+				lWeaponNamePreview = WeaponManager::GetInstance()->GetWeaponNamePreview(data.containWeaponTypes[(int)WeaponSide::kLeftShoulder]);
+				SelectType(lWeaponNamePreview, data.containWeaponNames[(int)WeaponSide::kLeftShoulder], "Left##1");
+
+				preType = data.containWeaponTypes[(int)WeaponSide::kRightShoulder];
+				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kRightShoulder], "Right##2");
+				// タブクリック時の処理
+				if (isClickCombo) {
+					if (data.containWeaponTypes[(int)WeaponSide::kRightShoulder] != preType) { data.containWeaponNames[(int)WeaponSide::kRightShoulder] = 0; }
+				}
+
+				rWeaponNamePreview = WeaponManager::GetInstance()->GetWeaponNamePreview(data.containWeaponTypes[(int)WeaponSide::kRightShoulder]);
+				SelectType(rWeaponNamePreview, data.containWeaponNames[(int)WeaponSide::kRightShoulder], "Right##1");
 
 				ImGui::TreePop();
 			}
-			//// 最低保証のレアリティ
-			//ImGui::Text("Select weapon min rarity");
-			//SelectType(weaponRarityPreview_, selectedWeaponRarity_, "")
-			//SelectWeaponRarity();
-			//data.minWeaponRarity = selectedWeaponRarity_;
 
 			ImGui::TreePop();
 		}

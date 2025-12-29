@@ -60,6 +60,14 @@ private:// プライベートな関数
 	/// <param name="weapon"></param>
 	void SetRightShoulderWeapon(IWeapon* weapon) { weaponController_->SetRightShoulderWeapon(weapon); }
 	/// <summary>
+	/// ComboGuiの表示
+	/// </summary>
+	/// <param name="list"></param>
+	/// <param name="selectedType"></param>
+	/// <param name="label"></param>
+	void SelectType(std::vector<std::string> list, int& selectedType, std::string label, bool& isClickCombo);
+	void SelectType(std::vector<std::string> list, int& selectedType, std::string label);
+	/// <summary>
 	/// 武器の選択
 	/// </summary>
 	/// <param name="selectedWeaponType"></param>
@@ -71,6 +79,10 @@ private:// プライベートな関数
 	/// <param name="selectedWeaponRarity"></param>
 	/// <param name="label"></param>
 	void SelectWeaponRarity(int& selectedWeaponRarity, std::string label);
+
+	bool Contains(const std::string& str, const std::string& target) {
+		return str.find(target) != std::string::npos;
+	}
 
 public:// アクセサ
 #pragma region Getter
@@ -119,7 +131,7 @@ private:// デバッグ用変数
 	std::vector<std::string> weaponRarityPreview_;
 	// 初期武器
 	std::array<int, (int)WeaponSide::kCount> weaponTypies_;
-	std::array<int, (int)WeaponSide::kCount> weaponRarities_;
+	std::array<int, (int)WeaponSide::kCount> weaponNamesIndex_;
 
 private:
 	float maxHp_ = 100.0f;

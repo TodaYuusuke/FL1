@@ -411,11 +411,11 @@ void WeaponManager::EditWeaponsGui() {
 			// 武器モデルのプレビュー外を指定しないようにする
 			modelNames = GetWeaponModelNames(selectWeapon);
 			if (!modelNames.empty() && selectModelName > (int)modelNames.size() - 1) { selectModelName = (int)modelNames.size() - 1; }
-		}		
+		}
 
 		if (!names.empty()) {
 			// 武器名選択
-			SelectType(names, selectWeaponName, "WeaponName##100", isClickCombo);		
+			SelectType(names, selectWeaponName, "WeaponName##100", isClickCombo);
 			// タブクリック時の処理
 			if (isClickCombo) {
 				// 武器名のプレビュー外を指定しないようにする
@@ -677,30 +677,30 @@ void WeaponManager::LoadEnemyDataUpdate(int weaponType, const std::string& fileN
 	nlohmann::json j;
 	file >> j;
 	WeaponData data{};
-	//for (const auto& node_json : j) {
-		data.name = j["name"].get<std::string>();
-		data.type = j["type"];
-		data.rarity = j["rarity"];
-		data.modelName = j["modelName"].get<std::string>();
-		data.jsonFileName = j["jsonFileName"].get<std::string>();
 
-		data.shotIntervalTime = j["shotIntervalTime"];
-		data.burstIntervalTime = j["burstIntervalTime"];
-		data.bulletNum = j["bulletNum"];
-		data.bulletType = j["bulletType"];
-		data.sameBulletNum = j["sameBulletNum"];
-		data.diffusingBulletRange = {
-			j["diffusingBulletRange_x"],
-			j["diffusingBulletRange_y"],
-			j["diffusingBulletRange_z"]
-		};
+	data.name = j["name"].get<std::string>();
+	data.type = j["type"];
+	data.rarity = j["rarity"];
+	data.modelName = j["modelName"].get<std::string>();
+	data.jsonFileName = j["jsonFileName"].get<std::string>();
 
-		data.burstNum = j["burstNum"];
-		data.attackSkillGain = j["attackSkillGain"];
-		data.storeTime = j["storeTime"];
-		data.coolTime = j["coolTime"];
-		data.reloadTime = j["reloadTime"];
-	//}
+	data.shotIntervalTime = j["shotIntervalTime"];
+	data.burstIntervalTime = j["burstIntervalTime"];
+	data.bulletNum = j["bulletNum"];
+	data.bulletType = j["bulletType"];
+	data.sameBulletNum = j["sameBulletNum"];
+	data.diffusingBulletRange = {
+		j["diffusingBulletRange_x"],
+		j["diffusingBulletRange_y"],
+		j["diffusingBulletRange_z"]
+	};
+
+	data.burstNum = j["burstNum"];
+	data.attackSkillGain = j["attackSkillGain"];
+	data.storeTime = j["storeTime"];
+	data.coolTime = j["coolTime"];
+	data.reloadTime = j["reloadTime"];
+
 	sampleWeaponData_[(WeaponType)weaponType][data.name] = data;
 
 	file.close();
@@ -734,7 +734,6 @@ void WeaponManager::ExportEnemyDataUpdate(int weaponType, const std::string& wea
 	using std::swap;
 
 	const int cJsonIndent = 4;
-	//nlohmann::json j;
 
 	nlohmann::json node_json;
 	node_json["name"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].name;
@@ -767,8 +766,6 @@ void WeaponManager::ExportEnemyDataUpdate(int weaponType, const std::string& wea
 	node_json["storeTime"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].storeTime;
 	node_json["coolTime"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].coolTime;
 	node_json["reloadTime"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].reloadTime;
-
-	//j.push_back(node_json);
 
 	std::ofstream file(fileName);
 	if (file.is_open()) {
@@ -841,18 +838,7 @@ void WeaponManager::PickUpWeapon(IWeapon* weapon, Actor* target, int weaponSide)
 }
 
 IWeapon* WeaponManager::CreateWeapon(int weaponType, const std::string& weaponName) {
-	// コピー元の武器情報を設定
-	//createWeaponData_ = orizinWeaponData_[(WeaponType)weaponType][(RarityType)weaponRarity];
-	//auto result = std::find(sampleWeaponData_[(WeaponType)weaponType].begin(), sampleWeaponData_[(WeaponType)weaponType].end(),
-	//	[&](WeaponData data) {
-	//		if (data.name == weaponName) {
-	//			return true;
-	//		}
-	//		return false;
-	//	});
-	//if (result == sampleWeaponData_[(WeaponType)weaponType].end()) {
-	//	return nullptr;
-	//}
+	if (weaponName == "None") { return nullptr; }
 
 	createWeaponData_ = sampleWeaponData_[(WeaponType)weaponType][weaponName];
 
@@ -896,7 +882,6 @@ IWeapon* WeaponManager::CreateRandomWeapon(const std::vector<int>& weaponTypes, 
 #pragma endregion
 
 	// コピー元の武器情報を決定
-	//createWeaponData_ = orizinWeaponData_[(WeaponType)type][(RarityType)rarity];
 	std::vector<WeaponData> datas;
 	for (const auto& [name, data] : sampleWeaponData_[(WeaponType)type]) {
 		if (data.rarity == rarity) datas.push_back(data);

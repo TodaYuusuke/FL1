@@ -154,7 +154,7 @@ void GameScene::Update() {
 
 	// 次のシーンへ以降
 	if (Input::Keyboard::GetTrigger(DIK_F)) {
-		nextSceneFunction = []() { return new ResultScene(); };
+		//nextSceneFunction = []() { return new ResultScene(); };
 	}
 
 	//マイコンの再接続
