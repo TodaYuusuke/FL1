@@ -59,6 +59,11 @@ public:// アクセサ
         if (weapons_.size() == kMaxWeapons) return true;
         return false;
     }
+    /// <summary>
+    /// 武器を所持していないかを取得
+    /// </summary>
+    /// <returns></returns>
+    bool GetIsEmptyWeapon() { return weapons_.empty(); }
 
 #pragma region Getter
     /// <summary>

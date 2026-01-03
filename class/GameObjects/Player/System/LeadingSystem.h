@@ -88,6 +88,9 @@ private:// 調整項目
 	// 偏差射撃の性能
 	//float leadingAccuracy_ = 1.0f;
 
+	// 先読みの上限時間
+	float limitLeadingFrame = 30.0f;
+
 	LWP::Utility::JsonIO json_;
 
 private:

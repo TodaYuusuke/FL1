@@ -30,6 +30,11 @@ protected:
 public:// アクセサ
 #pragma region Getter
 	/// <summary>
+	/// 射撃者のアドレスを取得
+	/// </summary>
+	/// <returns></returns>
+	Actor* GetShooter() { return target_; }
+	/// <summary>
 	/// ワールドトランスフォームを取得
 	/// </summary>
 	/// <returns></returns>

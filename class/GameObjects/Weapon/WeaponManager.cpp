@@ -121,8 +121,6 @@ void WeaponManager::DebugGui() {
 }
 
 void WeaponManager::CheckPlayerToWeaponDistance() {
-	// 回収キーを入力していなければ終了
-	//if (!VirtualController::GetInstance()->GetPress(BindActionType::kCollect)) { return; }
 	// 武器が存在してないなら終了
 	if (weapons_.empty()) { return; }
 

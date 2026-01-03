@@ -45,6 +45,17 @@ public:
 	/// </summary>
 	virtual void FallingUpdate() = 0;
 
+private:
+	/// <summary>
+	/// 文字列内に指定した文字列が含まれているかを取得
+	/// </summary>
+	/// <param name="str"></param>
+	/// <param name="target"></param>
+	/// <returns></returns>
+	bool Contains(const std::string& str, const std::string& target) {
+		return str.find(target) != std::string::npos;
+	}
+
 public:// アクセサ
 #pragma region Getter
 	/// <summary>

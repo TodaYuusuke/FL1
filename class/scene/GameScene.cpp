@@ -132,10 +132,10 @@ void GameScene::Update() {
 	// ワールドオブジェクト
 	world_->Update();
 
-	// 弾管理クラス
-	AttackManager::GetInstance()->Update();
 	// 武器管理クラス
 	WeaponManager::GetInstance()->Update();
+	// 弾管理クラス
+	AttackManager::GetInstance()->Update();
 
 	// 追従カメラ
 	followCamera_->Update();

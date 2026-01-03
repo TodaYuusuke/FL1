@@ -85,6 +85,7 @@ void IGun::Update() {
 	// 攻撃指示
 	AttackCommond();
 
+	// 武器の光柱表示
 	if (actor_) lightPillar_.isActive = false;
 	else lightPillar_.isActive = true;
 	lightPillar_.worldTF.translation = body_.worldTF.GetWorldPosition();
@@ -224,9 +225,12 @@ void IGun::AttackCommond() {
 		// 弾生成
 		pBulletManager_->CreateAttack(data_.bulletType, target_, body_.GetJointWorldPosition("Muzzle"), bulletHitFragBit_, bulletBelongFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
 		
-		// 所持者が自機ならカメラ演出
+		// 所持者が自機なら演出開始
 		if (actor_->GetName() == "Player") {
+			// カメラ揺れ
 			CameraEffectHandler::GetInstance()->StartShake(Vector3{ 0.005f, 0.005f ,0.005f }, 0.1f);
+			// ヒットストップ
+			stopController_->Start(1.0f / 60.0f, 0.0f);
 		}
 
 		i--;

@@ -38,9 +38,9 @@ void WeaponController::Init() {
 	// 管理クラスの調整項目
 	json_.Init(kJsonDirectoryPath + "HasWeaponUI.json")
 		.BeginGroup("LeftArm")
-		.AddValue<LWP::Math::Vector3>("Scale"     , &sampleWeaponSurface_[WeaponSide::kLeft].worldTF.scale)
-		.AddValue<LWP::Math::Quaternion>("Rotate" , &sampleWeaponSurface_[WeaponSide::kLeft].worldTF.rotation)
-		.AddValue<LWP::Math::Vector3>("Translate" , &sampleWeaponSurface_[WeaponSide::kLeft].worldTF.translation)
+		.AddValue<LWP::Math::Vector3>("Scale", &sampleWeaponSurface_[WeaponSide::kLeft].worldTF.scale)
+		.AddValue<LWP::Math::Quaternion>("Rotate", &sampleWeaponSurface_[WeaponSide::kLeft].worldTF.rotation)
+		.AddValue<LWP::Math::Vector3>("Translate", &sampleWeaponSurface_[WeaponSide::kLeft].worldTF.translation)
 		.EndGroup()
 		.BeginGroup("RightArm")
 		.AddValue<LWP::Math::Vector3>("Scale", &sampleWeaponSurface_[WeaponSide::kRight].worldTF.scale)
@@ -83,7 +83,7 @@ void WeaponController::Init() {
 
 
 	//UI初期化
-	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount;side++) {
+	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount; side++) {
 		for (int i = 0; i < (int)WeaponType::kCount; i++) {
 			weaponSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
 			//weaponSurfaces_[(WeaponSide)side][i].material.color = { 1.0f,1.0f,1.0f,0.5f };
@@ -103,7 +103,7 @@ void WeaponController::Init() {
 
 	hpCircleSurface_.LoadTexture("HP_circle.png");
 	hpCircleSurface_.worldTF.Parent(&cockpit_.worldTF);
-	hpCircleSurface_.anchorPoint = {0.5f,0.0f};
+	hpCircleSurface_.anchorPoint = { 0.5f,0.0f };
 	hpCircleSurface_.clipRect.max = circleTextureSize_;
 	hpCircleSurface_.material.color = { 56, 178, 65, 255 };
 	hpPlane_ = std::make_unique<NumPlane>();
@@ -132,7 +132,7 @@ void WeaponController::Update() {
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.translation = sampleWeaponSurface_[(WeaponSide)side].worldTF.translation;
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.rotation = sampleWeaponSurface_[(WeaponSide)side].worldTF.rotation;
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.scale = sampleWeaponSurface_[(WeaponSide)side].worldTF.scale;
-			weaponSurfaces_[(WeaponSide)side][i].anchorPoint = {0.5f,0.5f};
+			weaponSurfaces_[(WeaponSide)side][i].anchorPoint = { 0.5f,0.5f };
 		}
 	}
 	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount; side++) {
@@ -171,7 +171,7 @@ void WeaponController::CalcHP(Health* health) {
 	float ratio = now / max;
 	hpCircleSurface_.anchorPoint.y = 1.0f - ratio;
 	hpCircleSurface_.clipRect.min.y = (1.0f - ratio) * circleTextureSize_.y;
-	hpPlane_->SetNum(int32_t(ratio*100.0f));
+	hpPlane_->SetNum(int32_t(ratio * 100.0f));
 	hpPlane_->Update();
 }
 
@@ -226,43 +226,44 @@ void WeaponController::InputHandle() {
 
 	// 左手
 	if (vCon_->GetPress(BindActionType::kLeftHand)) {
-		// 回収中なら武器装着要求を出す
-		if (!weapons_[WeaponSide::kLeft]->GetIsFullWeapon() && isCollect) {
-			collectSide_ = WeaponSide::kLeft;
-		}
-		else if (weapons_[WeaponSide::kLeft] && collectSide_ == WeaponSide::kCount) {
+		if (weapons_[WeaponSide::kLeft] && !weapons_[WeaponSide::kLeft]->GetIsEmptyWeapon()) {
 			weapons_[WeaponSide::kLeft]->Attack();
 		}
 	}
 	// 右手
 	if (vCon_->GetPress(BindActionType::kRightHand)) {
-		// 回収中なら武器装着
-		if (!weapons_[WeaponSide::kRight]->GetIsFullWeapon() && isCollect) {
-			collectSide_ = WeaponSide::kRight;
-		}
-		else if (weapons_[WeaponSide::kRight] && collectSide_ == WeaponSide::kCount) {
+		if (weapons_[WeaponSide::kRight] && !weapons_[WeaponSide::kRight]->GetIsEmptyWeapon()) {
 			weapons_[WeaponSide::kRight]->Attack();
 		}
 	}
 	// 左肩
 	if (vCon_->GetPress(BindActionType::kLeftShoulder)) {
-		// 回収中なら武器装着要求を出す
-		if (!weapons_[WeaponSide::kLeftShoulder]->GetIsFullWeapon() && isCollect) {
-			collectSide_ = WeaponSide::kLeftShoulder;
-		}
-		else if (weapons_[WeaponSide::kLeftShoulder] && collectSide_ == WeaponSide::kCount) {
+		if (weapons_[WeaponSide::kLeftShoulder] && !weapons_[WeaponSide::kLeftShoulder]->GetIsEmptyWeapon()) {
 			weapons_[WeaponSide::kLeftShoulder]->Attack();
 		}
 	}
 	// 右肩
 	if (vCon_->GetPress(BindActionType::kRightShoulder)) {
-		// 回収中なら武器装着
-		if (!weapons_[WeaponSide::kRightShoulder]->GetIsFullWeapon() && isCollect) {
-			collectSide_ = WeaponSide::kRightShoulder;
-		}
-		else if (weapons_[WeaponSide::kRightShoulder] && collectSide_ == WeaponSide::kCount) {
+		if (weapons_[WeaponSide::kRightShoulder] && !weapons_[WeaponSide::kRightShoulder]->GetIsEmptyWeapon()) {
 			weapons_[WeaponSide::kRightShoulder]->Attack();
 		}
+	}
+
+	// 回収中なら武器装着要求を出す
+	if (!weapons_[WeaponSide::kLeft]->GetIsFullWeapon() && isCollect) {
+		collectSide_ = WeaponSide::kLeft;
+	}
+	// 回収中なら武器装着要求を出す
+	else if (!weapons_[WeaponSide::kLeftShoulder]->GetIsFullWeapon() && isCollect) {
+		collectSide_ = WeaponSide::kLeftShoulder;
+	}
+	// 回収中なら武器装着要求を出す
+	else if (!weapons_[WeaponSide::kRight]->GetIsFullWeapon() && isCollect) {
+		collectSide_ = WeaponSide::kRight;
+	}
+	// 回収中なら武器装着要求を出す
+	else if (!weapons_[WeaponSide::kRightShoulder]->GetIsFullWeapon() && isCollect) {
+		collectSide_ = WeaponSide::kRightShoulder;
 	}
 }
 

@@ -13,17 +13,23 @@ public:
 	~Missile() override = default;
 
 	/// <summary>
-	/// 初期化
+	/// 攻撃
 	/// </summary>
-	void Init() override;
+	void Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attackTarget) override;
 	/// <summary>
-	/// 更新
+	/// 攻撃指示
 	/// </summary>
-	void Update() override;
+	void AttackCommond() override;
 	/// <summary>
-	/// 破壊処理
+	/// 落下処理
 	/// </summary>
-	void Destroy() override;
+	void FallingUpdate() override;
+
+	/// <summary>
+	/// 武器の向き
+	/// </summary>
+	/// <param name="weaponSide"></param>
+	void SetWeaponSide(int weaponSide = -1) override;
 
 public:// アクセサ
 #pragma region Getter
