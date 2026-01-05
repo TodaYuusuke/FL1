@@ -122,7 +122,7 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 	// 敵を一定数倒したら終了
-	if (enemyManager_->GetKillCount() >= clearKillCount || !player_->GetIsAlive()) {
+	if (!player_->GetIsAlive()) {
 		nextSceneFunction = []() { return new ResultScene(); };
 	}
 	// ウェーブ
