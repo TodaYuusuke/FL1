@@ -12,7 +12,7 @@ class IWorld;
 class EnemyManager {
 public:
 	// 敵発生情報
-	struct SpawnData {
+	struct RandomSpawnData {
 		int spawnNum;				// 敵生成数
 		float nextSpawnTime = 6.0f;	// 次の敵が強制的に出るまでの時間
 	};
@@ -288,7 +288,7 @@ private:
 	// 敵の生成座標
 	LWP::Math::Vector3 createPos_;
 
-	SpawnData spawnData_;
+	RandomSpawnData spawnData_;
 	float currentFrame_;
 	float spawnInterval_;
 

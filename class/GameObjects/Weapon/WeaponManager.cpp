@@ -360,10 +360,14 @@ void WeaponManager::SelectWeaponDataGui(LWP::Utility::JsonIO& json, WeaponData& 
 void WeaponManager::NewEditWeaponGui() {
 	// 新たに武器の作成
 	if (ImGui::TreeNode("New weapon")) {
-		// 武器種選択
-		SelectType(weaponTypePreview_, editWeapon_.type, "WeaponType##101");
-		// 武器のモデル選択
 		static int selectModelName = 0;
+		bool isClickCombo;
+		// 武器種選択
+		SelectType(weaponTypePreview_, editWeapon_.type, "WeaponType##101", isClickCombo);
+		// タブクリック時の処理
+		if (isClickCombo) selectModelName = 0;
+
+		// 武器のモデル選択
 		std::vector<std::string> names = GetWeaponModelNames(editWeapon_.type);
 		SelectType(names, selectModelName, "WeaponModel##101");
 		if (!names.empty()) editWeapon_.modelName = names[selectModelName];
