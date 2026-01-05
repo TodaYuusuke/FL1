@@ -137,19 +137,4 @@ namespace WeaponConfig {
 			}
 		}
 	}
-
-	///// <summary>
-	///// 名前から武器の種類を検索
-	///// </summary>
-	///// <param name="name"></param>
-	///// <returns></returns>
-	//inline int GetWeaponType(const std::string& name){
-	//	for (int i = 0; i < Name::name.size(); i++) {
-	//		if (Name::name[i] == name) {
-	//			return i;
-	//		}
-	//	}
-	//	// 該当なし
-	//	return -1;
-	//}
 }

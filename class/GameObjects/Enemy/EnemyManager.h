@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
-#include "EnemyConfig.h"
 #include "../Weapon/WeaponConfig.h"
+#include "EnemyConfig.h"
 #include <Adapter.h>
 #include <filesystem>
 

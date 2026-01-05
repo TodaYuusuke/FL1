@@ -250,6 +250,7 @@
     <ClCompile Include="class\Componets\Input\VirtualController.cpp" />
     <ClCompile Include="class\Effect\Particle\Particle.cpp" />
     <ClCompile Include="class\GameObjects\PenetrationResolver\PenetrationResolver.cpp" />
+    <ClCompile Include="class\GameObjects\WaveManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="class\Componets\BehaviourTree\CompositeNode\RandomSelector.h" />
@@ -378,6 +379,7 @@
     <ClInclude Include="class\Effect\EffectManager.h" />
     <ClInclude Include="class\Effect\EffectEditor.h" />
     <ClInclude Include="class\GameObjects\PenetrationResolver\PenetrationResolver.h" />
+    <ClInclude Include="class\GameObjects\WaveManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

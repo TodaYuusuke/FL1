@@ -12,7 +12,7 @@ using MeleeCreator = std::function<BulletBase* (const AttackData&, LWP::Object::
 /// 弾管理クラス
 /// </summary>
 class AttackManager final : public LWP::Utility::ISingleton<AttackManager> {
-	friend class LWP::Utility::ISingleton<AttackManager>;// ISingletonをフレンドクラスにしてコンストラクタを呼び出せるように
+	friend class LWP::Utility::ISingleton<AttackManager>;
 private:
 	// コンストラクタ
 	AttackManager();

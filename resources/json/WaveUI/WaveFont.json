@@ -1,0 +1,16 @@
+{
+    "Group :CenterPos": {
+        "Vector2 :Font": [
+            -200.0,
+            0.0
+        ],
+        "Vector2 :Number": [
+            200.0,
+            0.0
+        ],
+        "Vector2 :Screen": [
+            960.0,
+            200.0
+        ]
+    }
+}

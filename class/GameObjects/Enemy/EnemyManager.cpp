@@ -4,12 +4,12 @@
 #include "Drone/Drone.h"
 #include "Cargo/Cargo.h"
 #include "Test/TestEnemy.h"
-#include "../Weapon/Gun/MachineGun/MachineGun.h"
-#include "../Weapon/WeaponManager.h"
-#include  "../World/IWorld.h"
-#include "EnemyConfig.h"
 #include "../UI/ScoreUI/ScoreManager.h"
 #include "../PenetrationResolver/PenetrationResolver.h"
+#include "../World/IWorld.h"
+#include "../Weapon/Gun/MachineGun/MachineGun.h"
+#include "../Weapon/WeaponManager.h"
+#include "../WaveManager.h"
 #include "../../../DirectXGame/Externals/nlohmann/json.hpp"
 
 using namespace EnemyConfig;
@@ -424,6 +424,9 @@ void EnemyManager::SpawnEnemy() {
 
 		// 生成したすべての敵を倒したら次のWaveに進む
 		if (spawnInterval_ <= 0.0f && enemies_.empty()) {
+			// 次のウェーブに移行
+			WaveManager::GetInstance()->StartNextWave();
+
 			std::vector<std::string> spawnJsonName;
 			spawnJsonName = GetFileNames((GetExeDir() / "resources/json/SpawnEnemy/").string());
 			int index = LWP::Utility::Random::GenerateInt(0, (int)spawnJsonName.size() - 1);

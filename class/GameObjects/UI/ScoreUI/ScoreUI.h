@@ -14,6 +14,12 @@ public:
 	/// <param name="num">桁数</param>
 	void Initialize(size_t num);
 
+	// スコアの表示を設定
+	void SetIsScoreDisplay (bool isActive) {
+		for (int i = 0; i < kMaxNum_; i++) {
+			sprites_[i].isActive = isActive;
+		}
+	}
 	void SetCenter(LWP::Math::Vector2 center) { center_ = center; };
 	void SetScore(int32_t num) { score_ = num; };
 

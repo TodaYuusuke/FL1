@@ -160,6 +160,9 @@ void IGun::Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attackTa
 }
 
 void IGun::Reload() {
+	// 所持者が自機なら演出開始
+	if (actor_->GetName() == "Player") { return; }
+
 	reloadFrame_ -= stopController_->GetDeltaTime();
 	isDestroy_ = false;
 
