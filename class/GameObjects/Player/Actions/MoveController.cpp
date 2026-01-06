@@ -84,3 +84,12 @@ void MoveController::InputHandle() {
 		}
 	}
 }
+
+bool MoveController::GetIsTurnBehind() {
+	auto it = actions_.find(ActionType::kMain);
+	if (it != actions_.end()) {
+		if (auto move = dynamic_cast<Move*>(it->second.get())) {
+			return move->GetIsTurnBehind();
+		}
+	}
+}

@@ -87,6 +87,11 @@ private:// プライベートな関数
 public:// アクセサ
 #pragma region Getter
 	/// <summary>
+	/// 移動管理クラスを取得
+	/// </summary>
+	/// <returns></returns>
+	MoveController* GetMoveController() { return moveController_.get(); }
+	/// <summary>
 	/// ワールド座標を取得
 	/// </summary>
 	/// <returns></returns>
