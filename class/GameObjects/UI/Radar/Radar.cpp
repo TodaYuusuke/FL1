@@ -16,6 +16,7 @@ void Radar::Initialize() {
 	for (size_t i = 0; i < kMaxModels_; i++) {
 		unitModels_[i].LoadCube();
 		unitModels_[i].worldTF.Parent(&player_.worldTF);
+		unitModels_[i].SetAllMaterialLighting(false);
 	}
 
 	// 管理クラスの調整項目
@@ -41,7 +42,6 @@ void Radar::Update() {
 	}
 	for (auto &data : unitDatas_) {
 		if (index >= unitDatas_.size())break;
-		unitModels_[index].isActive = true;
 		for (auto& material : unitModels_[index].materials) {
 			material.second.color = colorSample_[unitDatas_[index].type];
 		}
@@ -49,6 +49,12 @@ void Radar::Update() {
 
 		LWP::Math::Vector3 newVec = LWP::Math::Matrix4x4::TransformCoord(unitDatas_[index].position, mat.Inverse());
 		newVec.y = 0;
+		newVec *= mapScale_;
+		if (newVec.Length() > viewBorder_) {
+			index++;
+			continue;
+		}
+		unitModels_[index].isActive = true;
 		unitModels_[index].worldTF.translation = newVec;
 		unitModels_[index].worldTF.Parent(&centerTransform_);
 		index++;
