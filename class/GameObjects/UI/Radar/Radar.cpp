@@ -41,7 +41,7 @@ void Radar::Update() {
 		unitModels_[i].isActive = false;
 	}
 	for (auto &data : unitDatas_) {
-		if (index >= unitDatas_.size())break;
+		if (index >= unitDatas_.size() || index >= kMaxModels_)break;
 		for (auto& material : unitModels_[index].materials) {
 			material.second.color = colorSample_[unitDatas_[index].type];
 		}
