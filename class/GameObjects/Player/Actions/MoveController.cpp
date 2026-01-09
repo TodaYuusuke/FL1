@@ -92,4 +92,5 @@ bool MoveController::GetIsTurnBehind() {
 			return move->GetIsTurnBehind();
 		}
 	}
+	return false;
 }

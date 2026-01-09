@@ -1,18 +1,19 @@
 #include "Tutorial.h"
 #include "TutorialData/MoveTutorial.h"
+#include "TutorialData/CollectTutorial.h"
+#include "TutorialData/AttackTutorial.h"
 
 Tutorial::Tutorial(Player* player, EnemyManager* enemyManager) {
 	player_ = player;
 	enemyManager_ = enemyManager;
 
-	guideData_.push_back(new MoveTutorial(player, enemyManager_));
+	guideData_ = std::make_unique<MoveTutorial>(player_, enemyManager_);
+
+	sequence_ = GuideSequence::kMove;
 }
 
 Tutorial::~Tutorial() {
-	for (BaseTutorialData* data : guideData_) {
-		delete data;
-		data = nullptr;
-	}
+
 }
 
 void Tutorial::Init() {
@@ -22,14 +23,30 @@ void Tutorial::Init() {
 void Tutorial::Update() {
 	if (isFinish_) { return; }
 
-	guideData_[currentGuideNum_]->Update();
+	guideData_->Update();
 
-	if (guideData_[currentGuideNum_]->GetIsFinish()) {
-		if (currentGuideNum_ < (int)guideData_.size() - 1) {
-			currentGuideNum_++;
+	switch (sequence_) {
+	case Tutorial::GuideSequence::kMove:
+		if (guideData_->GetIsFinish()) {
+			guideData_ = std::move(std::make_unique<CollectTutorial>(player_, enemyManager_));
+			sequence_ = GuideSequence::kCollect;
 		}
-		else {
-			isFinish_ = true;
+		break;
+	case Tutorial::GuideSequence::kCollect:
+		if (guideData_->GetIsFinish()) {
+			guideData_ = std::move(std::make_unique<AttackTutorial>(player_, enemyManager_));
+			sequence_ = GuideSequence::kAttack;
 		}
+		break;
+	case Tutorial::GuideSequence::kAttack:
+		if (guideData_->GetIsFinish()) {
+			sequence_ = GuideSequence::kCount;
+		}
+		break;
+	case Tutorial::GuideSequence::kCount:
+		isFinish_ = true;
+		break;
+	default:
+		break;
 	}
 }

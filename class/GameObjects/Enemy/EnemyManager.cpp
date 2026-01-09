@@ -442,6 +442,7 @@ void EnemyManager::SpawnEnemy() {
 		// 生成開始
 		for (EnemySpawnData& data : spawnDatas_) {
 			if (data.isSpawn) { continue; }
+
 			float lastSpawnTime = spawnDatas_.back().spawnTime;
 			if (data.spawnTime <= (lastSpawnTime * 60.0f) - spawnInterval_) {
 				data.isSpawn = true;
@@ -1000,6 +1001,34 @@ std::vector<std::string> EnemyManager::GetFileNames(const std::string& folderPat
 	}
 
 	return files;
+}
+
+void EnemyManager::TutorialSpawn() {
+	// 調整情報
+	EnemyData data = sampleEnemies_[(int)EnemyType::kMelee];
+	data.BTFileName = "resources/json/BT/BT_Tutorial.json";
+	data.attackMultiply = sampleLevels_[0].attackMultiply;
+	data.speedMultiply = sampleLevels_[0].speedMultiply;
+	data.level = sampleLevels_[0].value;
+	data.type = (int)EnemyType::kMelee;
+
+	// 近接敵
+	MeleeAttacker* actor = new MeleeAttacker(pWorld_, createID_, data);
+	// 武器を付与
+	GiveWeapon(actor, sampleEnemies_[(int)EnemyType::kMelee]);
+
+	// 武器の座標
+	Vector3 enemyPos = pWorld_->FindActor("Player")->GetWorldTF()->GetWorldPosition();
+	// 自機の向いている方向に敵を出す
+	enemyPos += Vector3{ 0.0f,0.0f,1.0f } *Matrix4x4::CreateRotateXYZMatrix(pWorld_->FindActor("Player")->GetWorldTF()->rotation) * 40.0f;
+	// 座標を指定
+	actor->SetTranslation(enemyPos);
+	enemies_.push_back(actor);
+
+	createID_++;
+
+	// 押し出し
+	PenetrationResolver::GetInstance()->RegisterObject(actor);
 }
 
 void EnemyManager::SetWeaponPos(Actor* actor, IWeapon* weapon, int weaponSide) {

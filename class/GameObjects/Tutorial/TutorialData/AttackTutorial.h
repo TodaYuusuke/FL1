@@ -1,30 +1,28 @@
 #pragma once
 #include <Adapter.h>
 #include "BaseTutorialData.h"
+#include "../../Weapon/WeaponManager.h"
 #include "../../../Componets/Input/VirtualController.h"
 
 class Player;
 class EnemyManager;
-class MoveTutorial : public BaseTutorialData {
+class AttackTutorial : public BaseTutorialData {
 public:
-	enum class MoveGuideSequence {
+	enum class AttackGuideSequence {
 		kIntro,
-		kMoveF,
-		kMoveB,
-		kMoveL,
-		kMoveR,
-		kCameraL,
-		kCameraR,
-		kTurn,
-		kBoost,
+		kLeftAttack,
+		kRightAttack,
+		kLeftShoulderAttack,
+		kRightShoulderAttack,
+		kKill,
 		kCount
 	};
 
 public:
 	// コンストラクタ
-	MoveTutorial(Player* player, EnemyManager* enemyManager);
+	AttackTutorial(Player* player, EnemyManager* enemyManager);
 	// デストラクタ
-	~MoveTutorial() override = default;
+	~AttackTutorial() override = default;
 
 	/// <summary>
 	/// 初期化
@@ -35,29 +33,25 @@ public:
 	/// </summary>
 	void Update() override;
 
-
 private:
 	/// <summary>
 	/// 成功演出
 	/// </summary>
 	/// <param name="echoSprite"></param>
-	void SuccessEffect(MoveGuideSequence target);
-
-	LWP::Math::Vector2 AdjustmentStick(LWP::Math::Vector2 stick);
+	void SuccessEffect(AttackGuideSequence target);
 
 private:
+	// 仮想コントローラ
 	VirtualController* vCon_;
 
 private:
 	// 
-	std::map<MoveGuideSequence, LWP::Primitive::NormalSprite> guideFont_;
-	std::map<MoveGuideSequence, LWP::Primitive::NormalSprite> echoFont_;
+	std::map<AttackGuideSequence, LWP::Primitive::NormalSprite> guideFont_;
+	std::map<AttackGuideSequence, LWP::Primitive::NormalSprite> echoFont_;
 
 	// チュートリアルの順序
-	MoveGuideSequence sequence_;
+	AttackGuideSequence sequence_;
 
-	// 方向ベクトル
-	LWP::Math::Vector3 dir_;
 	// 
 	LWP::Math::Vector3 centerPos_;
 };

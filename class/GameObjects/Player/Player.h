@@ -92,6 +92,11 @@ public:// アクセサ
 	/// <returns></returns>
 	MoveController* GetMoveController() { return moveController_.get(); }
 	/// <summary>
+	/// 武器管理クラスを取得
+	/// </summary>
+	/// <returns></returns>
+	WeaponController* GetWeaponController() { return weaponController_.get(); }
+	/// <summary>
 	/// ワールド座標を取得
 	/// </summary>
 	/// <returns></returns>

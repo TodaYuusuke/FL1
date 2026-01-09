@@ -179,6 +179,11 @@ private:// 配置エディタで使用する関数
 		// ******** デバッグ、エディタ用の関数群↑ ******** //
 
 public:// アクセサ
+	/// <summary>
+	/// チュートリアル用の敵出現
+	/// </summary>
+	void TutorialSpawn();
+
 #pragma region Getter
 	/// <summary>
 	/// 敵リストを取得

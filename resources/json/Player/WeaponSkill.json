@@ -1,42 +1,9 @@
 {
-    "Group :Level0": {
-        "float :AttackMultiply": 1.0,
-        "float :RequiredExp": 1000.0
+    "Group :Decay": {
+        "float :Far": 0.4000000059604645,
+        "float :Middle": 0.20000000298023224,
+        "float :Near": 0.10000000149011612
     },
-    "Group :Level1": {
-        "float :AttackMultiply": 1.1,
-        "float :RequiredExp": 2000.0
-    },
-    "Group :Level2": {
-        "float :AttackMultiply": 1.2,
-        "float :RequiredExp": 3000.0
-    },
-    "Group :Level3": {
-        "float :AttackMultiply": 1.3,
-        "float :RequiredExp": 4000.0
-    },
-    "Group :Level4": {
-        "float :AttackMultiply": 1.4,
-        "float :RequiredExp": 5000.0
-    },
-    "Group :Level5": {
-        "float :AttackMultiply": 1.5,
-        "float :RequiredExp": 6000.0
-    },
-    "Group :Level6": {
-        "float :AttackMultiply": 1.6,
-        "float :RequiredExp": 7000.0
-    },
-    "Group :Level7": {
-        "float :AttackMultiply": 1.7,
-        "float :RequiredExp": 8000.0
-    },
-    "Group :Level8": {
-        "float :AttackMultiply": 1.8,
-        "float :RequiredExp": 9000.0
-    },
-    "Group :Level9": {
-        "float :AttackMultiply": 1.9,
-        "float :RequiredExp": 10000.0
-    }
+    "float :MaxAttackMultiply": 2.0,
+    "float :MaxWeaponSkill": 1000.0
 }

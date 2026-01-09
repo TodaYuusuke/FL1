@@ -9,6 +9,14 @@ class EnemyManager;
 /// </summary>
 class Tutorial {
 public:
+	enum class GuideSequence {
+		kMove,
+		kCollect,
+		kAttack,
+		kCount
+	};
+
+public:
 	// コンストラクタ
 	Tutorial(Player* player, EnemyManager* enemyManager);
 	// デストラクタ
@@ -31,7 +39,10 @@ private:// 外部から受け取る変数
 	EnemyManager* enemyManager_;
 
 private:
-	std::vector<BaseTutorialData*> guideData_;
+	//std::vector<BaseTutorialData*> guideData_;
+	std::unique_ptr<BaseTutorialData> guideData_;
+
+	GuideSequence sequence_;
 
 	int currentGuideNum_;
 

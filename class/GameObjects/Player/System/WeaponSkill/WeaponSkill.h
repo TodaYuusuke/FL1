@@ -109,15 +109,8 @@ private:// 調整項目
 		0.4f    // d=3 反対側
 	};
 
-	// 練度ごとのパラメータ
-	//std::array<WeaponSkillData, maxLevel> sampleSkills_;
-
 private:
 	LWP::Utility::JsonIO json_;
-
-	// 武器別練度
-	// 順番はWeaponType準拠
-	//std::array<WeaponSkillData, (int)WeaponType::kCount> currentSkills_;
 
 	std::array<WeaponSkillData, (int)WeaponType::kCount> radar_;
 };

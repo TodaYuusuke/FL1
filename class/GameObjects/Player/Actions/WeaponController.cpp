@@ -109,10 +109,11 @@ void WeaponController::Init() {
 	hpPlane_ = std::make_unique<NumPlane>();
 	hpPlane_->Initialize(3);
 	hpPlane_->SetParent(&cockpit_.worldTF);
-
 }
 
 void WeaponController::Update() {
+	isPickUpWeapon_ = false;
+
 	// 入力
 	InputHandle();
 

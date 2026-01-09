@@ -189,6 +189,7 @@ public:// アクセサ
 	/// <param name="weapon"></param>
 	/// <returns></returns>
 	void DropWeapon(IWeapon* weapon);
+	void DropWeapon(IWeapon* weapon, const LWP::Math::Vector3& dropPos);
 	/// <summary>
 	/// 落ちている武器を付与
 	/// </summary>

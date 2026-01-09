@@ -105,6 +105,8 @@ void TutorialScene::Initialize() {
 
 	// チュートリアル
 	tutorial_ = std::make_unique<Tutorial>(player_, enemyManager_.get());
+
+	easingEditor_ = std::make_unique<EasingEditor>();
 }
 
 void TutorialScene::Update() {
@@ -153,6 +155,8 @@ void TutorialScene::Update() {
 	if (Input::Keyboard::GetTrigger(DIK_R)) {
 		ControllerReceiver::GetInstance()->ReOpenPort();
 	}
+
+	easingEditor_->Update();
 
 #endif // DEBUG
 

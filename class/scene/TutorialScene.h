@@ -5,6 +5,7 @@
 #include "../GameObjects/Enemy/EnemyManager.h"
 #include "../GameObjects/Camera/FollowCamera/FollowCamera.h"
 #include "../GameObjects/Tutorial/Tutorial.h"
+#include "../Componets/EasingEditor.h"
 #include "Adapter.h"
 
 class TutorialScene final
@@ -29,4 +30,6 @@ private:
 
 	// チュートリアル
 	std::unique_ptr<Tutorial> tutorial_;
+
+	std::unique_ptr<EasingEditor> easingEditor_;
 };

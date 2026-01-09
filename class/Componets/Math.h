@@ -63,4 +63,10 @@ namespace FLMath {
 	LWP::Math::Vector3 Abs(LWP::Math::Vector3 value);
 
 	float LengthSq(const LWP::Math::Vector3& value);
+
+	template<class T>
+	T Lerp(T start, T end, float t) {
+		T result = ((1.0f - t) * start) + (t * end);
+		return result;
+	}
 }

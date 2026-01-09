@@ -835,6 +835,31 @@ void WeaponManager::DropWeapon(IWeapon* weapon) {
 	weapon->SetScale(Vector3{ 1.5f,1.5f,1.5f });
 }
 
+void WeaponManager::DropWeapon(IWeapon* weapon, const LWP::Math::Vector3& dropPos) {
+	if (!weapon) return;
+
+	// 攻撃倍率を初期化
+	weapon->SetAttackMultiply(1.0f);
+
+	// 座標指定
+	weapon->SetTranslation(dropPos);
+
+	// 武器を四散させる
+	Vector3 min = weaponDropVel * -1;
+	min.y = 0.0f;
+	Vector3 max = weaponDropVel;
+	Vector3 randomVel = LWP::Utility::Random::GenerateVector3(min, max);
+	weapon->SetVelocity(randomVel);
+
+	// 地面に向かって武器を刺す
+	Vector3 randomDir = LWP::Utility::Random::GenerateVector3(Vector3{ -0.3f,-1.0f, -0.3f }, Vector3{ 0.3f,-0.8f, 0.3f });
+	Quaternion q = Quaternion::LookRotation(randomDir);
+	weapon->SetRotation(q);
+
+	// 大きくする
+	weapon->SetScale(Vector3{ 1.5f,1.5f,1.5f });
+}
+
 void WeaponManager::PickUpWeapon(IWeapon* weapon, Actor* target, int weaponSide) {
 	target->SetWeapon(weapon, weaponSide);
 }
