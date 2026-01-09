@@ -179,7 +179,7 @@ private://UI表示
 	LWP::Object::TransformQuat transformHpPlane_;
 
 	//レアリティ毎のカラーサンプル
-	std::array<LWP::Utility::Color,4> colorSample_;
+	std::array<LWP::Utility::Color, size_t(RarityType::kCount)> colorSample_;
 
 };
 

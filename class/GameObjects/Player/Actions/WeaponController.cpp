@@ -35,10 +35,12 @@ void WeaponController::Init() {
 		if (it->second) it->second->Init();
 	}
 
-	colorSample_[0] = { 56, 178, 65, 255 };
-	colorSample_[1] = { 56, 56, 180, 255 };
-	colorSample_[2] = { 56, 178, 65, 255 };
-	colorSample_[3] = { 56, 178, 65, 255 };
+	colorSample_[size_t(RarityType::kCommon)] = { 170, 170, 170, 255 };
+	colorSample_[size_t(RarityType::kUnCommon)] = { 56, 178, 65, 255 };
+	colorSample_[size_t(RarityType::kRare)] = { 56, 56, 180, 255 };
+	colorSample_[size_t(RarityType::kSuperRare)] = { 178, 56, 178, 255 };
+	colorSample_[size_t(RarityType::kLegendary)] = { 178, 178, 20, 255 };
+	colorSample_[size_t(RarityType::kOver)] = { 178, 20, 20, 255 };
 
 	// 管理クラスの調整項目
 	json_.Init(kJsonDirectoryPath + "HasWeaponUI.json")
