@@ -127,6 +127,9 @@ void TutorialScene::Update() {
 	// ワールドオブジェクト
 	world_->Update();
 
+	// チュートリアル
+	tutorial_->Update();
+
 	// 武器管理クラス
 	WeaponManager::GetInstance()->Update();
 	// 弾管理クラス
@@ -140,9 +143,6 @@ void TutorialScene::Update() {
 
 	// カメラ演出
 	CameraEffectHandler::GetInstance()->Update();
-
-	// チュートリアル
-	tutorial_->Update();
 
 #ifdef _DEBUG
 

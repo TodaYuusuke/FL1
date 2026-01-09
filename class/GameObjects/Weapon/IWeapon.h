@@ -109,6 +109,24 @@ public:// アクセサ
 	/// <returns></returns>
 	bool GetIsEnableAttack() { return attackFrame_ <= 0.0f; }
 	/// <summary>
+	/// 攻撃中かを取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsAttacking() { 
+		// 射撃できる状態か
+		if (!GetIsEnableAttack()) { return false; }
+		// 攻撃指示がない
+		if (!isAttack_) { return false; }
+		// 溜め時間中なら撃てない
+		if (GetIsStoreTime()) { return false; }
+		// 弾がない状態なら撃てない
+		if (magazine_->GetEmpty()) { return false; }
+		// 射撃不可時間なら終了
+		if (GetIsCoolTime()) { return false; }
+
+		return true; 
+	}
+	/// <summary>
 	/// 破壊するかを取得
 	/// </summary>
 	/// <returns></returns>

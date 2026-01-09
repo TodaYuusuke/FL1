@@ -80,8 +80,13 @@ void CollectTutorial::Update() {
 		break;
 	case CollectTutorial::CollectGuideSequence::kCollect:
 		// 武器を拾ったか
-		if (player_->GetWeaponController()->GetIsPickUpWeapon()) {
-			isNextGuide_ = true;
+		if (vCon_->GetPress(BindActionType::kCollect)) {
+			for (int i = 0; i < (int)WeaponSide::kCount; i++) {
+				if (!player_->GetWeaponController()->GetWeaponSlot((WeaponSide)i)->GetIsFullWeapon()) {
+					isNextGuide_ = true;
+					break;
+				}
+			}
 		}
 
 		// 成功演出

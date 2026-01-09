@@ -21,25 +21,15 @@ AttackTutorial::AttackTutorial(Player* player, EnemyManager* enemyManager) {
 	introFont_.material.color.A = 0;
 	introFont_.isActive = false;
 
-	guideFont_[AttackTutorial::AttackGuideSequence::kLeftAttack].anchorPoint = { 0.5f, 0.5f };
-	guideFont_[AttackTutorial::AttackGuideSequence::kLeftAttack].LoadTexture("UI/Tutorial/shot_tutorial.png");
-	echoFont_[AttackTutorial::AttackGuideSequence::kLeftAttack].LoadTexture("UI/Tutorial/shot_tutorial.png");
-	guideFont_[AttackTutorial::AttackGuideSequence::kLeftAttack].isActive = false;
+	guideFont_[AttackTutorial::AttackGuideSequence::kHandAttack].anchorPoint = { 0.5f, 0.5f };
+	guideFont_[AttackTutorial::AttackGuideSequence::kHandAttack].LoadTexture("UI/Tutorial/attackArm_tutorial.png");
+	echoFont_[AttackTutorial::AttackGuideSequence::kHandAttack].LoadTexture("UI/Tutorial/attackArm_tutorial.png");
+	guideFont_[AttackTutorial::AttackGuideSequence::kHandAttack].isActive = false;
 
-	guideFont_[AttackTutorial::AttackGuideSequence::kRightAttack].anchorPoint = { 0.5f, 0.5f };
-	guideFont_[AttackTutorial::AttackGuideSequence::kRightAttack].LoadTexture("UI/Tutorial/shot_tutorial.png");
-	echoFont_[AttackTutorial::AttackGuideSequence::kRightAttack].LoadTexture("UI/Tutorial/shot_tutorial.png");
-	guideFont_[AttackTutorial::AttackGuideSequence::kRightAttack].isActive = false;
-
-	guideFont_[AttackTutorial::AttackGuideSequence::kLeftShoulderAttack].anchorPoint = { 0.5f, 0.5f };
-	guideFont_[AttackTutorial::AttackGuideSequence::kLeftShoulderAttack].LoadTexture("UI/Tutorial/shot_tutorial.png");
-	echoFont_[AttackTutorial::AttackGuideSequence::kLeftShoulderAttack].LoadTexture("UI/Tutorial/shot_tutorial.png");
-	guideFont_[AttackTutorial::AttackGuideSequence::kLeftShoulderAttack].isActive = false;
-
-	guideFont_[AttackTutorial::AttackGuideSequence::kRightShoulderAttack].anchorPoint = { 0.5f, 0.5f };
-	guideFont_[AttackTutorial::AttackGuideSequence::kRightShoulderAttack].LoadTexture("UI/Tutorial/shot_tutorial.png");
-	echoFont_[AttackTutorial::AttackGuideSequence::kRightShoulderAttack].LoadTexture("UI/Tutorial/shot_tutorial.png");
-	guideFont_[AttackTutorial::AttackGuideSequence::kRightShoulderAttack].isActive = false;
+	guideFont_[AttackTutorial::AttackGuideSequence::kShoulderAttack].anchorPoint = { 0.5f, 0.5f };
+	guideFont_[AttackTutorial::AttackGuideSequence::kShoulderAttack].LoadTexture("UI/Tutorial/attackShoulder_tutorial.png");
+	echoFont_[AttackTutorial::AttackGuideSequence::kShoulderAttack].LoadTexture("UI/Tutorial/attackShoulder_tutorial.png");
+	guideFont_[AttackTutorial::AttackGuideSequence::kShoulderAttack].isActive = false;
 
 	guideFont_[AttackTutorial::AttackGuideSequence::kKill].anchorPoint = { 0.5f, 0.5f };
 	guideFont_[AttackTutorial::AttackGuideSequence::kKill].LoadTexture("UI/Tutorial/shot_tutorial.png");
@@ -76,71 +66,41 @@ void AttackTutorial::Update() {
 
 		// 条件を満たしたら次の説明に遷移
 		if (NextGuide(0.0f)) {
-			sequence_ = AttackTutorial::AttackGuideSequence::kKill;
+			sequence_ = AttackTutorial::AttackGuideSequence::kHandAttack;
 			isNextGuide_ = false;
 		}
 
 		break;
-	case AttackTutorial::AttackGuideSequence::kLeftAttack:
+	case AttackTutorial::AttackGuideSequence::kHandAttack:
 		// 攻撃したか
-		if (player_->GetWeaponController()->GetWeaponSlot(WeaponSide::kLeft)->GetFrontWeapon()->GetIsAttack()) {
+		if (player_->GetWeaponController()->GetWeaponSlot(WeaponSide::kLeft)->GetFrontWeapon()->GetIsAttacking() ||
+			player_->GetWeaponController()->GetWeaponSlot(WeaponSide::kRight)->GetFrontWeapon()->GetIsAttacking()) {
 			isNextGuide_ = true;
 		}
 
 		// 成功演出
-		if (isNextGuide_) { SuccessEffect(AttackTutorial::AttackGuideSequence::kLeftAttack); }
+		if (isNextGuide_) { SuccessEffect(AttackTutorial::AttackGuideSequence::kHandAttack); }
 
 		// 条件を満たしたら次の説明に遷移
 		if (NextGuide(60.0f)) {
-			sequence_ = AttackTutorial::AttackGuideSequence::kRightAttack;
+			sequence_ = AttackTutorial::AttackGuideSequence::kShoulderAttack;
 			isNextGuide_ = false;
 		}
 
 		break;
-	case AttackTutorial::AttackGuideSequence::kRightAttack:
+	case AttackTutorial::AttackGuideSequence::kShoulderAttack:
 		// 攻撃したか
-		if (player_->GetWeaponController()->GetWeaponSlot(WeaponSide::kLeft)->GetFrontWeapon()->GetIsAttack()) {
+		if (player_->GetWeaponController()->GetWeaponSlot(WeaponSide::kLeftShoulder)->GetFrontWeapon()->GetIsAttacking() ||
+			player_->GetWeaponController()->GetWeaponSlot(WeaponSide::kRightShoulder)->GetFrontWeapon()->GetIsAttacking()) {
 			isNextGuide_ = true;
 		}
 
 		// 成功演出
-		if (isNextGuide_) { SuccessEffect(AttackTutorial::AttackGuideSequence::kRightAttack); }
+		if (isNextGuide_) { SuccessEffect(AttackTutorial::AttackGuideSequence::kShoulderAttack); }
 
 		// 条件を満たしたら次の説明に遷移
 		if (NextGuide(60.0f)) {
-			sequence_ = AttackTutorial::AttackGuideSequence::kLeftShoulderAttack;
-			isNextGuide_ = false;
-		}
-
-		break;
-	case AttackTutorial::AttackGuideSequence::kLeftShoulderAttack:
-		// 攻撃したか
-		if (player_->GetWeaponController()->GetWeaponSlot(WeaponSide::kLeft)->GetFrontWeapon()->GetIsAttack()) {
-			isNextGuide_ = true;
-		}
-
-		// 成功演出
-		if (isNextGuide_) { SuccessEffect(AttackTutorial::AttackGuideSequence::kLeftShoulderAttack); }
-
-		// 条件を満たしたら次の説明に遷移
-		if (NextGuide(60.0f)) {
-			sequence_ = AttackTutorial::AttackGuideSequence::kRightShoulderAttack;
-			isNextGuide_ = false;
-		}
-
-		break;
-	case AttackTutorial::AttackGuideSequence::kRightShoulderAttack:
-		// 攻撃したか
-		if (player_->GetWeaponController()->GetWeaponSlot(WeaponSide::kLeft)->GetFrontWeapon()->GetIsAttack()) {
-			isNextGuide_ = true;
-		}
-
-		// 成功演出
-		if (isNextGuide_) { SuccessEffect(AttackTutorial::AttackGuideSequence::kRightShoulderAttack); }
-
-		// 条件を満たしたら次の説明に遷移
-		if (NextGuide(60.0f)) {
-			// 敵出現
+			// チュートリアル敵を生成
 			enemyManager_->TutorialSpawn();
 			sequence_ = AttackTutorial::AttackGuideSequence::kKill;
 			isNextGuide_ = false;

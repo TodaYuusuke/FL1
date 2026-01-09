@@ -10,10 +10,8 @@ class AttackTutorial : public BaseTutorialData {
 public:
 	enum class AttackGuideSequence {
 		kIntro,
-		kLeftAttack,
-		kRightAttack,
-		kLeftShoulderAttack,
-		kRightShoulderAttack,
+		kHandAttack,
+		kShoulderAttack,
 		kKill,
 		kCount
 	};
