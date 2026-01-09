@@ -82,6 +82,7 @@ void EnemyManager::Update() {
 	// 更新
 	for (Actor* actor : enemies_) {
 		actor->Update();
+		appendMiniMap_(actor->GetWorldTF()->GetWorldPosition());
 	}
 }
 

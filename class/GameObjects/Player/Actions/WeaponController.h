@@ -6,6 +6,7 @@
 #include "../../Weapon/WeaponSlot.h"
 #include "../../../Componets/Input/VirtualController.h"
 #include "../../UI/NumPlane.h"
+#include "../../UI/Radar/Radar.h"
 #include <memory>
 #include <vector>
 
@@ -69,6 +70,10 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	LWP::Math::Vector3 GetWeaponVelocity() { return weaponVel_; }
+
+	//コックピットのトランスフォーム取得
+	LWP::Object::TransformQuat* GetCockpit() { return &cockpit_.worldTF; }
+
 #pragma endregion
 
 #pragma region Setter
@@ -172,5 +177,9 @@ private://UI表示
 	LWP::Math::Vector2 circleTextureSize_ = {255.0f,255.0f};
 	std::unique_ptr<NumPlane> hpPlane_;
 	LWP::Object::TransformQuat transformHpPlane_;
+
+	//レアリティ毎のカラーサンプル
+	std::array<LWP::Utility::Color,4> colorSample_;
+
 };
 

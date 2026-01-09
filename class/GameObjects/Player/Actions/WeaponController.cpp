@@ -35,6 +35,11 @@ void WeaponController::Init() {
 		if (it->second) it->second->Init();
 	}
 
+	colorSample_[0] = { 56, 178, 65, 255 };
+	colorSample_[1] = { 56, 56, 180, 255 };
+	colorSample_[2] = { 56, 178, 65, 255 };
+	colorSample_[3] = { 56, 178, 65, 255 };
+
 	// 管理クラスの調整項目
 	json_.Init(kJsonDirectoryPath + "HasWeaponUI.json")
 		.BeginGroup("LeftArm")
@@ -110,6 +115,8 @@ void WeaponController::Init() {
 	hpPlane_->Initialize(3);
 	hpPlane_->SetParent(&cockpit_.worldTF);
 
+	//radar_->Initialize();
+	//radar_->SetParent(&cockpit_.worldTF);
 }
 
 void WeaponController::Update() {
@@ -133,6 +140,7 @@ void WeaponController::Update() {
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.rotation = sampleWeaponSurface_[(WeaponSide)side].worldTF.rotation;
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.scale = sampleWeaponSurface_[(WeaponSide)side].worldTF.scale;
 			weaponSurfaces_[(WeaponSide)side][i].anchorPoint = {0.5f,0.5f};
+			weaponSurfaces_[(WeaponSide)side][i].material.color = colorSample_[side];
 		}
 		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
 	}
@@ -141,6 +149,7 @@ void WeaponController::Update() {
 		if (weapons_[(WeaponSide)side]->GetIsFullWeapon()) {
 			auto type = WeaponConfig::GetWeaponType(weapons_[(WeaponSide)side]->GetFrontWeapon()->GetName());
 			weaponSurfaces_[(WeaponSide)side][type].isActive = true;
+			//weaponSurfaces_[(WeaponSide)side][type].material.color = { 56, 178, 65, 255 };
 			bulletNums_[(WeaponSide)side]->SetIsActive(true);
 			bulletNums_[(WeaponSide)side]->SetNum(weapons_[(WeaponSide)side]->GetFrontWeapon()->GetBulletNum());
 		}

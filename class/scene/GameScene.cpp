@@ -5,6 +5,7 @@
 #include "../GameObjects/Attack/AttackManager.h"
 #include "../GameObjects/Weapon/WeaponManager.h"
 #include "../GameObjects/UI/ScoreUI/ScoreManager.h"
+#include "../GameObjects/UI/Radar/Radar.h"
 #include "../GameObjects/PenetrationResolver/PenetrationResolver.h"
 #include "../Componets/HitStopController.h"
 #include "../Componets/Input/VirtualController.h"
@@ -39,6 +40,8 @@ GameScene::~GameScene() {
 	// ゲームコントローラ
 	VirtualController::Destroy();
 
+	Radar::Destroy();
+
 	//マイコン入力の停止
 	ControllerReceiver::GetInstance()->ClosePort();
 }
@@ -54,6 +57,9 @@ void GameScene::Initialize() {
 	AttackManager::Create();
 	// 武器管理クラスを作成
 	WeaponManager::Create();
+
+	Radar::Create();
+
 	// 押し出し
 	PenetrationResolver::Create();
 	// インスタンス生成
@@ -106,6 +112,13 @@ void GameScene::Initialize() {
 
 	//スコアを0に
 	ScoreCounter::GetInstance()->Reset();
+
+	
+	Radar::GetInstance()->Initialize();
+	Radar::GetInstance()->SetPlayerTransform(player_->GetWorldTF());
+	Radar::GetInstance()->SetParent(player_->GetWeaponController()->GetCockpit());
+	//std::function<void(LWP::Math::Vector3)> func = std::bind(&Radar::AppendTargetEnemy,radar_.get());
+	enemyManager_->SetMiniMapFunc(Radar::AppendTargetEnemy);
 }
 
 void GameScene::Update() {
@@ -118,6 +131,8 @@ void GameScene::Update() {
 
 	// 押し出し
 	PenetrationResolver::GetInstance()->Update();
+
+	Radar::GetInstance()->ClearVector();
 
 	// 敵管理
 	enemyManager_->Update();
@@ -136,6 +151,9 @@ void GameScene::Update() {
 	//スコア表示(テスト)
 	score_->SetScore(ScoreCounter::GetInstance()->GetScore());
 	score_->Update();
+
+	//ミニマップ
+	Radar::GetInstance()->Update();
 
 	// エフェクト関連初期化
 	EffectManager::GetInstance()->Update();
@@ -194,6 +212,8 @@ void GameScene::Update() {
 
 	// ヒットストップ
 	HitStopController::GetInstance()->DebugGui();
+
+	Radar::GetInstance()->DebugGui();
 
 	ImGui::EndTabBar();
 	ImGui::End();

@@ -3,6 +3,7 @@
 #include "EnemyConfig.h"
 #include "../Weapon/WeaponConfig.h"
 #include <Adapter.h>
+#include "../UI/Radar/Radar.h"
 
 class IWorld;
 /// <summary>
@@ -167,6 +168,12 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="weapon"></param>
 	void SetWeaponPos(Actor* actor, IWeapon* weapon, int weaponSide);
+
+	/// <summary>
+	/// ミニマップ登録用関数を設定
+	/// </summary>
+	/// <param name="player"></param>
+	void SetMiniMapFunc(void (* func)(LWP::Math::Vector3)) { appendMiniMap_ = func; }
 #pragma endregion
 
 private:// 定数
@@ -248,5 +255,9 @@ private:
 
 	// 敵を解放した瞬間
 	bool isTriggerDelete_;
+
+	//ミニマップに追加する関数を格納
+	//std::function<void(LWP::Math::Vector3)> appendMiniMap_;
+	void (* appendMiniMap_)(LWP::Math::Vector3);
 };
 

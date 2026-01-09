@@ -5,7 +5,9 @@
 #include "../GameObjects/Enemy/EnemyManager.h"
 #include "../GameObjects/Camera/FollowCamera/FollowCamera.h"
 #include "../GameObjects/UI/ScoreUI/ScoreUI.h"
+#include "../GameObjects/UI/Radar/Radar.h"
 #include "Adapter.h"
+
 
 class GameScene final
 	: public IScene {
@@ -36,4 +38,6 @@ private:
 	std::unique_ptr<World> world_;
 
 	std::unique_ptr<ScoreUI> score_;
+
+	//std::unique_ptr<Radar> radar_;
 };

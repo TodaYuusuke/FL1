@@ -74,6 +74,9 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	LWP::Math::Vector3 GetCenterPosition() override;
+
+	WeaponController* GetWeaponController() {return weaponController_.get(); };
+
 #pragma endregion
 
 #pragma region Setter
