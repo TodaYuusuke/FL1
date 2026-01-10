@@ -49,6 +49,10 @@ public:// アクセサ
     /// </summary>
     /// <param name="weapon"></param>
     void AddWeapon(IWeapon* weapon);
+    /// <summary>
+    /// 所持している武器をすべて解放
+    /// </summary>
+    void DeleteWeapons();
 
     /// <summary>
     /// 武器を所持限界数まで持っているかを取得

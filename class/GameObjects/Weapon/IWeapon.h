@@ -152,6 +152,11 @@ public:// アクセサ
 
 #pragma region Setter
 	/// <summary>
+	/// 武器の向きを指定
+	/// </summary>
+	/// <param name="weaponSide"></param>
+	virtual void SetWeaponSide(int weaponSide = -1) { weaponSide; }
+	/// <summary>
 	/// 親子付けの設定
 	/// </summary>
 	/// <param name="parent"></param>
@@ -206,10 +211,10 @@ public:// アクセサ
 	/// <param name="name"></param>
 	void SetName(const std::string& name) { name_ = name; }
 	/// <summary>
-	/// 武器の向きを指定
+	/// 破壊するかを設定
 	/// </summary>
-	/// <param name="weaponSide"></param>
-	virtual void SetWeaponSide(int weaponSide = -1) { weaponSide; }
+	/// <param name="isActive"></param>
+	//void SetIsDestroy(bool isActive) { isDestroy_ = isActive; }
 #pragma endregion
 
 protected:

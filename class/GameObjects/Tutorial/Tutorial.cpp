@@ -2,6 +2,7 @@
 #include "TutorialData/MoveTutorial.h"
 #include "TutorialData/CollectTutorial.h"
 #include "TutorialData/AttackTutorial.h"
+#include "../Player/Player.h"
 
 Tutorial::Tutorial(Player* player, EnemyManager* enemyManager) {
 	player_ = player;
@@ -10,6 +11,9 @@ Tutorial::Tutorial(Player* player, EnemyManager* enemyManager) {
 	guideData_ = std::make_unique<MoveTutorial>(player_, enemyManager_);
 
 	sequence_ = GuideSequence::kMove;
+
+	// 所持している武器をすべて破棄
+	player_->GetWeaponController()->DeleteWeapons();
 }
 
 Tutorial::~Tutorial() {

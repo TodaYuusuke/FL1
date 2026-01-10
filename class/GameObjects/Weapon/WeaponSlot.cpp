@@ -99,3 +99,16 @@ void WeaponSlot::AddWeapon(IWeapon* weapon) {
 		weapons_.push_back(weapon);
 	}
 }
+
+void WeaponSlot::DeleteWeapons() {
+	// 削除コマンドがあるなら消す
+	weapons_.erase(
+		std::remove_if(weapons_.begin(), weapons_.end(),
+			[&](IWeapon* w) {
+				// 武器管理クラスに該当武器の解放依頼
+				WeaponManager::GetInstance()->DeleteWeapon(w);
+				return true; // vectorから削除対象
+			}),
+		weapons_.end()
+	);
+}

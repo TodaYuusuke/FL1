@@ -268,6 +268,12 @@ void WeaponController::InputHandle() {
 	}
 }
 
+void WeaponController::DeleteWeapons() {
+	for (auto& [key, data] : weapons_) {
+		data->DeleteWeapons();
+	}
+}
+
 void WeaponController::SetWeapon(IWeapon* weapon) {
 	switch (collectSide_) {
 	case WeaponSide::kLeft:

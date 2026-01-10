@@ -64,6 +64,11 @@ private:
 	}
 
 public:// アクセサ
+	/// <summary>
+	/// 持っている武器をすべて解放
+	/// </summary>
+	void DeleteWeapons();
+
 #pragma region Getter
 	/// <summary>
 	/// 武器のスロットを取得
