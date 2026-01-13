@@ -25,6 +25,7 @@ void WeaponSlot::Update() {
 		std::remove_if(weapons_.begin(), weapons_.end(),
 			[&](IWeapon* w) {
 				if (w->GetIsDestroy()) {
+					w->Destroy();
 					// 武器管理クラスに該当武器の解放依頼
 					WeaponManager::GetInstance()->DeleteWeapon(w);
 					return true; // vectorから削除対象

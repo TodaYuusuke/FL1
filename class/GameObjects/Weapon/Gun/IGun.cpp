@@ -176,7 +176,8 @@ void IGun::Reload() {
 }
 
 void IGun::Destroy() {
-
+	// カメラ揺れ
+	CameraEffectHandler::GetInstance()->StartShake(Vector3{ 0.002f, 0.002f ,0.002f }, 0.1f);
 }
 
 void IGun::FallingUpdate() {

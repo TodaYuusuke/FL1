@@ -1,6 +1,7 @@
 #include "IMelee.h"
 #include "../../Attack/AttackManager.h"
 #include "../../Collision/CollisionMask.h"
+#include "../../Camera/Effect/CameraEffectHandler.h"
 
 using namespace LWP;
 using namespace LWP::Math;
@@ -195,7 +196,8 @@ void IMelee::Reload() {
 }
 
 void IMelee::Destroy() {
-
+	// カメラ揺れ
+	CameraEffectHandler::GetInstance()->StartShake(Vector3{ 0.002f, 0.002f ,0.002f }, 0.1f);
 }
 
 void IMelee::FallingUpdate() {

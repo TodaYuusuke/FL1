@@ -8,7 +8,7 @@ Tutorial::Tutorial(Player* player, EnemyManager* enemyManager) {
 	player_ = player;
 	enemyManager_ = enemyManager;
 
-	guideData_ = std::make_unique<AttackTutorial>(player_, enemyManager_);
+	guideData_ = std::make_unique<MoveTutorial>(player_, enemyManager_);
 
 	sequence_ = GuideSequence::kMove;
 
