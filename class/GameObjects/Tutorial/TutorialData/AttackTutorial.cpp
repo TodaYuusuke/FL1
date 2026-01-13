@@ -2,6 +2,7 @@
 #include "AttackTutorial.h"
 #include "../../Player/Player.h"
 #include "../../Enemy/EnemyManager.h"
+#include "../../Weapon/WeaponManager.h"
 
 using namespace FLMath;
 using namespace LWP;
@@ -59,6 +60,10 @@ void AttackTutorial::Update() {
 		sprite.isActive = false;
 	}
 
+	bool isDropedWeapon = false;
+	std::map<WeaponSide, IWeapon*> weapon;
+	std::vector<IWeapon*> weapons = WeaponManager::GetInstance()->GetWeapons();
+	std::vector<WeaponSide> checkSide;
 	switch (sequence_) {
 	case AttackTutorial::AttackGuideSequence::kIntro:
 		// 開始演出
@@ -72,14 +77,30 @@ void AttackTutorial::Update() {
 
 		break;
 	case AttackTutorial::AttackGuideSequence::kHandAttack:
-		// 攻撃したか
-		if (player_->GetWeaponController()->GetWeaponSlot(WeaponSide::kLeft)->GetFrontWeapon()->GetIsAttacking() ||
-			player_->GetWeaponController()->GetWeaponSlot(WeaponSide::kRight)->GetFrontWeapon()->GetIsAttacking()) {
+		// 手の武器で攻撃したら終了
+		weapon[WeaponSide::kLeft] = player_->GetWeaponController()->GetWeaponSlot(WeaponSide::kLeft)->GetFrontWeapon();
+		weapon[WeaponSide::kRight] = player_->GetWeaponController()->GetWeaponSlot(WeaponSide::kRight)->GetFrontWeapon();
+		if ((weapon[WeaponSide::kLeft] && weapon[WeaponSide::kLeft]->GetIsAttacking()) ||
+			(weapon[WeaponSide::kRight] && weapon[WeaponSide::kRight]->GetIsAttacking())) {
 			isNextGuide_ = true;
 		}
 
 		// 成功演出
 		if (isNextGuide_) { SuccessEffect(AttackTutorial::AttackGuideSequence::kHandAttack); }
+
+		// 武器を一つも持っていない状態になったら武器を生成
+		checkSide = {
+			WeaponSide::kLeft,
+			WeaponSide::kRight
+		};
+		// 所持者のない武器が存在しているかを検出
+		for (int i = 0; i < weapons.size(); i++) {
+			if (!weapons[i]->GetActor()) {
+				isDropedWeapon = true;
+				break;
+			}
+		}
+		if (!isDropedWeapon) DropWeapons(checkSide);
 
 		// 条件を満たしたら次の説明に遷移
 		if (NextGuide(60.0f)) {
@@ -89,14 +110,30 @@ void AttackTutorial::Update() {
 
 		break;
 	case AttackTutorial::AttackGuideSequence::kShoulderAttack:
-		// 攻撃したか
-		if (player_->GetWeaponController()->GetWeaponSlot(WeaponSide::kLeftShoulder)->GetFrontWeapon()->GetIsAttacking() ||
-			player_->GetWeaponController()->GetWeaponSlot(WeaponSide::kRightShoulder)->GetFrontWeapon()->GetIsAttacking()) {
+		// 肩の武器で攻撃したら終了
+		weapon[WeaponSide::kLeftShoulder] = player_->GetWeaponController()->GetWeaponSlot(WeaponSide::kLeftShoulder)->GetFrontWeapon();
+		weapon[WeaponSide::kRightShoulder] = player_->GetWeaponController()->GetWeaponSlot(WeaponSide::kRightShoulder)->GetFrontWeapon();
+		if ((weapon[WeaponSide::kLeftShoulder] && weapon[WeaponSide::kLeftShoulder]->GetIsAttacking()) ||
+			(weapon[WeaponSide::kRightShoulder] && weapon[WeaponSide::kRightShoulder]->GetIsAttacking())) {
 			isNextGuide_ = true;
 		}
 
 		// 成功演出
 		if (isNextGuide_) { SuccessEffect(AttackTutorial::AttackGuideSequence::kShoulderAttack); }
+
+		// 武器を一つも持っていない状態になったら武器を生成
+		checkSide = {
+			WeaponSide::kLeftShoulder,
+			WeaponSide::kRightShoulder
+		};
+		// 所持者のない武器が存在しているかを検出
+		for (int i = 0; i < weapons.size(); i++) {
+			if (!weapons[i]->GetActor()) {
+				isDropedWeapon = true;
+				break;
+			}
+		}
+		if (!isDropedWeapon) DropWeapons(checkSide);
 
 		// 条件を満たしたら次の説明に遷移
 		if (NextGuide(60.0f)) {
@@ -108,13 +145,28 @@ void AttackTutorial::Update() {
 
 		break;
 	case AttackTutorial::AttackGuideSequence::kKill:
-		// 武器を拾ったか
+		// 敵を倒したか
 		if (enemyManager_->GetEnemyList().empty()) {
 			isNextGuide_ = true;
 		}
-
 		// 成功演出
 		if (isNextGuide_) { SuccessEffect(AttackTutorial::AttackGuideSequence::kKill); }
+
+		// 武器を一つも持っていない状態になったら武器を生成
+		checkSide = {
+			WeaponSide::kLeft,
+			WeaponSide::kRight,
+			WeaponSide::kLeftShoulder,
+			WeaponSide::kRightShoulder,
+		};
+		// 所持者のない武器が存在しているかを検出
+		for (int i = 0; i < weapons.size(); i++) {
+			if (!weapons[i]->GetActor()) {
+				isDropedWeapon = true;
+				break;
+			}
+		}
+		if (!isDropedWeapon) DropWeapons(checkSide);
 
 		// 条件を満たしたら次の説明に遷移
 		if (NextGuide(60.0f)) {
@@ -131,6 +183,40 @@ void AttackTutorial::Update() {
 	}
 }
 
+void AttackTutorial::DropWeapons(std::vector<WeaponSide> checkSide) {
+	// 武器を一つも持っていない状態になったら武器を生成
+	bool isNoneWeapon = true;
+	for (int i = 0; i < checkSide.size(); i++) {
+		// 武器を所持している
+		if (player_->GetWeaponController()->GetWeaponSlot(checkSide[i])->GetFrontWeapon()) {
+			isNoneWeapon = false;
+			break;
+		}
+	}
+	if (isNoneWeapon) {
+		// 落とす武器
+		std::array<int, 4> dropWeapons = {
+			(int)WeaponType::kMachineGun,
+			(int)WeaponType::kShotGun,
+			(int)WeaponType::kMissile,
+			(int)WeaponType::kLauncher
+		};
+
+		// 武器の座標
+		Vector3 weaponPos = player_->GetWorldTF()->GetWorldPosition();
+		weaponPos.y += 20.0f;
+		// 自機の向いている方向に武器を出す
+		weaponPos += Vector3{ 0.0f,0.0f,1.0f } *Matrix4x4::CreateRotateXYZMatrix(player_->GetWorldTF()->rotation) * 40.0f;
+		// 持たせる武器を作成
+		for (int i = 0; i < dropWeapons.size(); i++) {
+			std::vector<std::string> weaponNames = WeaponManager::GetInstance()->GetWeaponNamePreview(dropWeapons[i]);
+			IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(dropWeapons[i], weaponNames[0]);
+
+			WeaponManager::GetInstance()->DropWeapon(weapon, weaponPos);
+		}
+	}
+}
+
 void AttackTutorial::SuccessEffect(AttackGuideSequence target) {
 	const float endFrame = 30.0f;
 	if (nextGuideInterval_ >= endFrame) {
@@ -141,5 +227,5 @@ void AttackTutorial::SuccessEffect(AttackGuideSequence target) {
 	// 衝撃波
 	echoFont_[target].isActive = true;
 	echoFont_[target].worldTF.scale = LWP::Utility::Interp::Lerp(Vector3{ 1,1,1 }, Vector3{ 2,2,2 }, Easing::OutExpo(nextGuideInterval_ / endFrame));
-	echoFont_[target].material.color.A = static_cast<int>(LWP::Utility::Interp::LerpF(200.0f, 0.0f, Easing::OutExpo(nextGuideInterval_ / endFrame)));
+	echoFont_[target].material.color.A = static_cast<unsigned char>(LWP::Utility::Interp::LerpF(200.0f, 0.0f, Easing::OutExpo(nextGuideInterval_ / endFrame)));
 }

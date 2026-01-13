@@ -29,23 +29,6 @@ CollectTutorial::CollectTutorial(Player* player, EnemyManager* enemyManager) {
 	for (auto& [key, sprite] : guideFont_) {
 		echoFont_[key] = sprite;
 	}
-
-	// 落とす武器
-	dropWeapons_[0] = (int)WeaponType::kMachineGun;
-	dropWeapons_[1] = (int)WeaponType::kShotGun;
-
-	// 武器の座標
-	Vector3 weaponPos = player_->GetWorldTF()->GetWorldPosition();
-	weaponPos.y += 20.0f;
-	// 自機の向いている方向に武器を出す
-	weaponPos += Vector3{ 0.0f,0.0f,1.0f } * Matrix4x4::CreateRotateXYZMatrix(player_->GetWorldTF()->rotation) * 40.0f;
-	// 持たせる武器を作成
-	for (int i = 0; i < dropWeapons_.size(); i++) {
-		std::vector<std::string> weaponNames = weaponManager_->GetWeaponNamePreview(dropWeapons_[i]);
-		IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(dropWeapons_[i], weaponNames[0]);
-
-		weaponManager_->DropWeapon(weapon, weaponPos);
-	}
 }
 
 void CollectTutorial::Init() {
@@ -75,6 +58,22 @@ void CollectTutorial::Update() {
 		if (NextGuide(0.0f)) {
 			sequence_ = CollectTutorial::CollectGuideSequence::kCollect;
 			isNextGuide_ = false;
+
+			// 落とす武器
+			dropWeapons_[0] = (int)WeaponType::kMachineGun;
+			dropWeapons_[1] = (int)WeaponType::kShotGun;
+			// 武器の座標
+			Vector3 weaponPos = player_->GetWorldTF()->GetWorldPosition();
+			weaponPos.y += 20.0f;
+			// 自機の向いている方向に武器を出す
+			weaponPos += Vector3{ 0.0f,0.0f,1.0f } *Matrix4x4::CreateRotateXYZMatrix(player_->GetWorldTF()->rotation) * 40.0f;
+			// 持たせる武器を作成
+			for (int i = 0; i < dropWeapons_.size(); i++) {
+				std::vector<std::string> weaponNames = weaponManager_->GetWeaponNamePreview(dropWeapons_[i]);
+				IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(dropWeapons_[i], weaponNames[0]);
+
+				weaponManager_->DropWeapon(weapon, weaponPos);
+			}
 		}
 
 		break;
@@ -117,5 +116,5 @@ void CollectTutorial::SuccessEffect(CollectGuideSequence target) {
 	// 衝撃波
 	echoFont_[target].isActive = true;
 	echoFont_[target].worldTF.scale = LWP::Utility::Interp::Lerp(Vector3{ 1,1,1 }, Vector3{ 2,2,2 }, Easing::OutExpo(nextGuideInterval_ / endFrame));
-	echoFont_[target].material.color.A = static_cast<int>(LWP::Utility::Interp::LerpF(200.0f, 0.0f, Easing::OutExpo(nextGuideInterval_ / endFrame)));
+	echoFont_[target].material.color.A = static_cast<unsigned char>(LWP::Utility::Interp::LerpF(200.0f, 0.0f, Easing::OutExpo(nextGuideInterval_ / endFrame)));
 }

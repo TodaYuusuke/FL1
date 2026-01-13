@@ -79,7 +79,10 @@ public:// アクセサ
     /// <summary>
     /// 先頭に格納された武器を取得
     /// </summary>
-    IWeapon* GetFrontWeapon() { return weapons_.front(); };
+    IWeapon* GetFrontWeapon() { 
+        if (weapons_.empty()) { return nullptr; }
+        return weapons_.front(); 
+    }
 #pragma endregion
 
 #pragma region Setter

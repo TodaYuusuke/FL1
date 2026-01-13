@@ -33,6 +33,11 @@ public:
 
 private:
 	/// <summary>
+	/// 条件を満たしている場合、武器を生成する
+	/// </summary>
+	void DropWeapons(std::vector<WeaponSide> checkSide);
+
+	/// <summary>
 	/// 成功演出
 	/// </summary>
 	/// <param name="echoSprite"></param>

@@ -241,6 +241,11 @@ public:// Getter,Setter
 		}
 		return result;
 	}
+	/// <summary>
+	/// 存在する武器を取得
+	/// </summary>
+	/// <returns></returns>
+	std::vector<IWeapon*> GetWeapons() { return weapons_; }
 #pragma endregion
 
 #pragma region Setter
