@@ -55,7 +55,6 @@ protected:
 	LWP::Primitive::NormalSprite introFont_;
 	LWP::Primitive::NormalSprite successFont_;
 
-	//LWP::Resource::Motion flashingEffect_;
 	EaseMachine flashingEffect_;
 	int flashAlpha_;
 

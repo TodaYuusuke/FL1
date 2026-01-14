@@ -26,6 +26,15 @@ WaveManager::WaveManager() {
 		.AddValue<Vector2>("Number", &centerPos_["Number"])
 		.EndGroup()
 		.CheckJsonFile();
+
+	flashingEffect_.SetAnimData(&flashAlpha_, 0, 255, 0.2f * 60.0f, LWP::Utility::Easing::OutExpo);
+	flashingEffect_.SetAnimData(&flashAlpha_, 255, 255, 1.0f * 60.0f, LWP::Utility::Easing::OutExpo);
+	flashingEffect_.SetAnimData(&flashAlpha_, 255, 100, 0.04f * 60.0f, LWP::Utility::Easing::OutExpo);
+	flashingEffect_.SetAnimData(&flashAlpha_, 100, 255, 0.04f * 60.0f, LWP::Utility::Easing::OutExpo);
+	flashingEffect_.SetAnimData(&flashAlpha_, 255, 100, 0.04f * 60.0f, LWP::Utility::Easing::OutExpo);
+	flashingEffect_.SetAnimData(&flashAlpha_, 100, 255, 0.04f * 60.0f, LWP::Utility::Easing::OutExpo);
+	flashingEffect_.SetAnimData(&flashAlpha_, 255, 0, 0.2f * 60.0f, LWP::Utility::Easing::InExpo);
+	flashingEffect_.SetAnimData(&flashAlpha_, 0, 0, 1.0f * 60.0f, LWP::Utility::Easing::InExpo);
 }
 
 WaveManager::~WaveManager() {
@@ -39,6 +48,7 @@ void WaveManager::Init() {
 	transitionSprite_.isActive = false;
 	currentWaveNum_ = 0;
 	isTransitionWave_ = false;
+	flashingEffect_.ResetData();
 }
 
 void WaveManager::Update() {
@@ -54,6 +64,8 @@ void WaveManager::Update() {
 
 	// ウェーブ数
 	numberUI_->Update();
+
+	flashingEffect_.Update();
 }
 
 void WaveManager::DebugGui() {
@@ -87,10 +99,17 @@ void WaveManager::DebugGui() {
 void WaveManager::TransitionEffect() {
 	if (!isTransitionWave_) { return; }
 
+	for (size_t i = 0; i < 2; i++) {
+		numberUI_->SetAlhpa(i, static_cast<unsigned char>(flashAlpha_));
+	}
+	transitionSprite_.material.color.A = static_cast<unsigned char>(flashAlpha_);
+
 	if (currentFrame_ <= 0.0f) {
 		isTransitionWave_ = false;
 		numberUI_->SetIsScoreDisplay(false);
 		transitionSprite_.isActive = false;
+
+		flashingEffect_.ResetData();
 		currentFrame_ = transitionEffectTime * 60.0f;
 	}
 
@@ -104,4 +123,5 @@ void WaveManager::StartNextWave() {
 	numberUI_->SetScore(currentWaveNum_);
 	numberUI_->SetIsScoreDisplay(true);
 	transitionSprite_.isActive = true;
+	flashingEffect_.SetIsStart(true);
 }

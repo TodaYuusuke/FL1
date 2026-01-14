@@ -1,6 +1,7 @@
 #pragma once
 #include <Adapter.h>
 #include "UI/ScoreUI/ScoreUI.h"
+#include "../Componets/EaseMachine.h"
 
 /// <summary>
 /// ウェーブの管理クラス
@@ -56,7 +57,7 @@ private:// 定数
 
 private:// 調整項目
 	// 遷移時間
-	float transitionEffectTime = 2.0f;
+	float transitionEffectTime = 3.0f;
 
 	LWP::Utility::JsonIO json_;
 
@@ -65,6 +66,9 @@ private:
 	LWP::Primitive::NormalSprite transitionSprite_;
 	// 数字スプライト
 	std::unique_ptr<ScoreUI> numberUI_;
+
+	EaseMachine flashingEffect_;
+	int flashAlpha_;
 
 	LWP::Math::Vector2 screenCenterPos_;
 	std::map<std::string, LWP::Math::Vector2> centerPos_;
