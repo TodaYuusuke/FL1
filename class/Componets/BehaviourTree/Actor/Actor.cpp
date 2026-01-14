@@ -91,7 +91,7 @@ void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
 	hp_->Damage(world_->FindAttackPower(hitTarget->name), hitTarget->name);
 
 	// 被弾エフェクト
-	EffectManager::GetInstance()->CreateNewEmitter("Spark", model_.GetJointWorldPosition("LockOnAnchor"));
+	//EffectManager::GetInstance()->CreateNewEmitter("Spark", model_.GetJointWorldPosition("LockOnAnchor"));
 }
 
 void Actor::ChangeState(StateBase* nextState) {

@@ -74,6 +74,9 @@ void WeaponController::Init() {
 		.AddValue<LWP::Math::Vector3>("Translate", &sampleBulletSurface_.worldTF.translation)
 		.AddValue<int>("BulletNumDigit", &kBulletNumDigit_)
 		.EndGroup()
+		.BeginGroup("GaugeDistance")
+		.AddValue<float>("Distance", &gaugeDistance_)
+		.EndGroup()
 		.BeginGroup("HPCircle")
 		.AddValue<LWP::Math::Vector3>("Scale", &hpCircleSurface_.worldTF.scale)
 		.AddValue<LWP::Math::Quaternion>("Rotate", &hpCircleSurface_.worldTF.rotation)
@@ -93,10 +96,13 @@ void WeaponController::Init() {
 	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount;side++) {
 		for (int i = 0; i < (int)WeaponType::kCount; i++) {
 			weaponSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
-			//weaponSurfaces_[(WeaponSide)side][i].material.color = { 1.0f,1.0f,1.0f,0.5f };
+			weaponGaugeSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UIGauge::uiName[i]);
+			weaponGaugeSurfaces_[(WeaponSide)side][i].clipRect.max = weaponTextureSize_;
+			
 		}
 		sampleWeaponSurface_[(WeaponSide)side].LoadTexture("Weapon/none_UI.png");
 		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
+		sampleWeaponSurface_[(WeaponSide)side].anchorPoint = {0.0f,0.5f};
 
 		//弾数表示
 		bulletNums_[(WeaponSide)side].reset(new NumPlane);
@@ -117,8 +123,6 @@ void WeaponController::Init() {
 	hpPlane_->Initialize(3);
 	hpPlane_->SetParent(&cockpit_.worldTF);
 
-	//radar_->Initialize();
-	//radar_->SetParent(&cockpit_.worldTF);
 }
 
 void WeaponController::Update() {
@@ -141,8 +145,15 @@ void WeaponController::Update() {
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.translation = sampleWeaponSurface_[(WeaponSide)side].worldTF.translation;
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.rotation = sampleWeaponSurface_[(WeaponSide)side].worldTF.rotation;
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.scale = sampleWeaponSurface_[(WeaponSide)side].worldTF.scale;
-			weaponSurfaces_[(WeaponSide)side][i].anchorPoint = {0.5f,0.5f};
+			weaponSurfaces_[(WeaponSide)side][i].anchorPoint = {0.0f,0.5f};
 			weaponSurfaces_[(WeaponSide)side][i].material.color = colorSample_[side];
+
+			weaponGaugeSurfaces_[(WeaponSide)side][i].worldTF.Parent(&weaponSurfaces_[(WeaponSide)side][i].worldTF);
+			weaponGaugeSurfaces_[(WeaponSide)side][i].worldTF.translation = {0.0f,0.0f,0.0f};
+			weaponGaugeSurfaces_[(WeaponSide)side][i].worldTF.translation.z = gaugeDistance_;
+			weaponGaugeSurfaces_[(WeaponSide)side][i].isActive = false;
+			weaponGaugeSurfaces_[(WeaponSide)side][i].anchorPoint = { 0.5f,0.5f };
+			weaponGaugeSurfaces_[(WeaponSide)side][i].material.color = colorSample_[side];
 		}
 		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
 	}
@@ -151,7 +162,8 @@ void WeaponController::Update() {
 		if (weapons_[(WeaponSide)side]->GetIsFullWeapon()) {
 			auto type = WeaponConfig::GetWeaponType(weapons_[(WeaponSide)side]->GetFrontWeapon()->GetName());
 			weaponSurfaces_[(WeaponSide)side][type].isActive = true;
-			//weaponSurfaces_[(WeaponSide)side][type].material.color = { 56, 178, 65, 255 };
+			weaponGaugeSurfaces_[(WeaponSide)side][type].isActive = true;
+			CalcGauge(&weaponGaugeSurfaces_[(WeaponSide)side][type], weaponSkills_->GetSkillData(type).value);
 			bulletNums_[(WeaponSide)side]->SetIsActive(true);
 			bulletNums_[(WeaponSide)side]->SetNum(weapons_[(WeaponSide)side]->GetFrontWeapon()->GetBulletNum());
 		}
@@ -185,6 +197,19 @@ void WeaponController::CalcHP(Health* health) {
 	hpCircleSurface_.clipRect.min.y = (1.0f - ratio) * circleTextureSize_.y;
 	hpPlane_->SetNum(int32_t(ratio*100.0f));
 	hpPlane_->Update();
+}
+
+void WeaponController::CalcGauge(LWP::Primitive::ClipSurface* gauge, float value) {
+	float now = value;
+	float max = weaponSkills_->GetMaxWeaponSkill();
+	if (max < now) {
+		now = max;
+	}
+	float ratio = now / max;
+	//ratio = 0.7f;
+	gauge->anchorPoint.x =  0;
+	gauge->clipRect.min = {0.0f,0.0f};
+	gauge->clipRect.max.x = (ratio) * weaponTextureSize_.x;
 }
 
 void WeaponController::DebugGui() {

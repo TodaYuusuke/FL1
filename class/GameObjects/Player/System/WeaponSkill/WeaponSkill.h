@@ -91,6 +91,10 @@ public:// アクセサ
 		}
 		return -1;
 	}
+
+	//練度の最大値を取得
+	float GetMaxWeaponSkill() { return maxWeaponSkill; }
+
 #pragma endregion
 
 #pragma region Setter

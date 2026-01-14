@@ -63,6 +63,9 @@ private:
 		weapons_[weaponSide]->AddWeapon(weapon);
 	}
 
+	//武器の練度ゲージ
+	void CalcGauge(LWP::Primitive::ClipSurface* gauge,float value);
+
 public:// アクセサ
 #pragma region Getter
 	/// <summary>
@@ -161,7 +164,9 @@ private://UI表示
 	const std::string kJsonDirectoryPath = "WeaponUI/";
 	//所有武器用の平面
 	std::map<WeaponSide, std::array<LWP::Primitive::NormalSurface, (int)WeaponType::kCount>> weaponSurfaces_;
+	std::map<WeaponSide, std::array<LWP::Primitive::ClipSurface, (int)WeaponType::kCount>> weaponGaugeSurfaces_;
 	std::map<WeaponSide, LWP::Primitive::NormalSurface> sampleWeaponSurface_;
+	LWP::Math::Vector2 weaponTextureSize_ = { 330.0f,180.0f };
 
 	//弾数表示
 	std::map < WeaponSide, std::unique_ptr<NumPlane>> bulletNums_;
@@ -181,5 +186,6 @@ private://UI表示
 	//レアリティ毎のカラーサンプル
 	std::array<LWP::Utility::Color, size_t(RarityType::kCount)> colorSample_;
 
+	float gaugeDistance_;
 };
 
