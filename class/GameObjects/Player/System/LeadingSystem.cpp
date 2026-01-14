@@ -78,6 +78,7 @@ void LeadingSystem::DebugGui() {
 		if (leadingTarget_) {
 			ImGui::Text("Leading!");
 			ImGui::DragFloat3("Translation", &leadingTarget_->GetWorldTF()->translation.x);
+			ImGui::DragFloat3("Pos", &leadingTargetPos_.x);
 			ImGui::DragFloat3("FutureTranslation", &targetFuture_.x);
 		}
 		else {
@@ -206,6 +207,7 @@ void LeadingSystem::CalFutureTargetPos(float bulletSpeed) {
 		flame2 = (-B + E) / (2 * A);
 		//解は2つなので正の数の最小値を使う
 		flame1 = PlusMin(flame1, flame2);
+		flame1 = std::clamp<float>(flame1, 0.0f, limitLeadingFrame);
 	}
 	else {
 		//虚数解
@@ -231,7 +233,7 @@ void LeadingSystem::CalFutureTargetPos(const Vector3& shooterPos, float bulletSp
 
 	//ピタゴラスの定理から２つのベクトルの長さが等しい場合の式を作り
 	//二次方程式の解の公式を使って弾が当たる予測時間を計算する
-	float A = (v3_Mv.x * v3_Mv.x + v3_Mv.y * v3_Mv.y + v3_Mv.z * v3_Mv.z) - bulletSpeed * bulletSpeed;
+	float A = (v3_Mv.x * v3_Mv.x + v3_Mv.y * v3_Mv.y + v3_Mv.z * v3_Mv.z) - (bulletSpeed * bulletSpeed);
 	float B = 2 * (v3_Pos.x * v3_Mv.x + v3_Pos.y * v3_Mv.y + v3_Pos.z * v3_Mv.z);
 	float C = (v3_Pos.x * v3_Pos.x + v3_Pos.y * v3_Pos.y + v3_Pos.z * v3_Pos.z);
 
@@ -250,13 +252,14 @@ void LeadingSystem::CalFutureTargetPos(const Vector3& shooterPos, float bulletSp
 	//弾が当たる時間のフレームを計算する
 	float flame1, flame2;
 	//二次方程式の解の公式の判別式で分類
-	float D = B * B - 4 * A * C;
+	float D = (B * B) - (4 * A * C);
 	if (D > 0) {
 		float E = std::sqrtf(D);
 		flame1 = (-B - E) / (2 * A);
 		flame2 = (-B + E) / (2 * A);
 		//解は2つなので正の数の最小値を使う
 		flame1 = PlusMin(flame1, flame2);
+		flame1 = std::clamp<float>(flame1, 0.0f, limitLeadingFrame);
 	}
 	else {
 		//虚数解
@@ -265,7 +268,7 @@ void LeadingSystem::CalFutureTargetPos(const Vector3& shooterPos, float bulletSp
 	}
 
 	// 的の未来位置
-	targetFuture_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") + v3_Mv * flame1;
+	targetFuture_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") + (v3_Mv * flame1);
 	leadingTargetPos_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor");
 }
 
@@ -281,7 +284,7 @@ Vector3 LeadingSystem::GetLeadingShotAngle(const Vector3& shooterPos, float bull
 
 	//ピタゴラスの定理から２つのベクトルの長さが等しい場合の式を作り
 	//二次方程式の解の公式を使って弾が当たる予測時間を計算する
-	float A = (v3_Mv.x * v3_Mv.x + v3_Mv.y * v3_Mv.y + v3_Mv.z * v3_Mv.z) - bulletSpeed * bulletSpeed;
+	float A = (v3_Mv.x * v3_Mv.x + v3_Mv.y * v3_Mv.y + v3_Mv.z * v3_Mv.z) - (bulletSpeed * bulletSpeed);
 	float B = 2 * (v3_Pos.x * v3_Mv.x + v3_Pos.y * v3_Mv.y + v3_Pos.z * v3_Mv.z);
 	float C = (v3_Pos.x * v3_Pos.x + v3_Pos.y * v3_Pos.y + v3_Pos.z * v3_Pos.z);
 
@@ -291,20 +294,21 @@ Vector3 LeadingSystem::GetLeadingShotAngle(const Vector3& shooterPos, float bull
 			return leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor");
 		}
 		else {
-			return leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") + v3_Mv * (-C / B);
+			return leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") + (v3_Mv * (-C / B));
 		}
 	}
 
 	//弾が当たる時間のフレームを計算する
 	float flame1, flame2;
 	//二次方程式の解の公式の判別式で分類
-	float D = B * B - 4 * A * C;
+	float D = (B * B) - (4 * A * C);
 	if (D > 0) {
 		float E = std::sqrtf(D);
 		flame1 = (-B - E) / (2 * A);
 		flame2 = (-B + E) / (2 * A);
 		//解は2つなので正の数の最小値を使う
 		flame1 = PlusMin(flame1, flame2);
+		flame1 = std::clamp<float>(flame1, 0.0f, limitLeadingFrame);
 	}
 	else {
 		//虚数解
@@ -312,8 +316,12 @@ Vector3 LeadingSystem::GetLeadingShotAngle(const Vector3& shooterPos, float bull
 		flame1 = 0;
 	}
 
+	// 的の未来位置
+	targetFuture_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") + (v3_Mv * flame1);
+	leadingTargetPos_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor");
+
 	// 方向ベクトル
-	Vector3 result = (leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") + v3_Mv * flame1) - shooterPos;
+	Vector3 result = (leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") + (v3_Mv * flame1)) - shooterPos;
 
 	return result.Normalize();
 }

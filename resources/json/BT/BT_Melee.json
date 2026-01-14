@@ -100,7 +100,9 @@
         "parent": 10,
         "pos_x": 789.8599853515625,
         "pos_y": 250.55474853515625,
-        "readyToAttackTime": 40.0,
+        "readyToAttackMoveSpeed": 0.5,
+        "readyToAttackTime": 120.0,
+        "readyToAttackTurnTime": 30.0,
         "speed": 0.0,
         "type": 3
     },

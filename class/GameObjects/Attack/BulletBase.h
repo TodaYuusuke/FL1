@@ -16,7 +16,7 @@ public:
 	// コンストラクタ
 	BulletBase(const AttackData& data, Actor* target, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dirVel = { 0,0,0 });
 	// デストラクタ
-	~BulletBase() override = default;
+	~BulletBase() override;
 
 	/// <summary>
 	/// 初期化

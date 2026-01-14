@@ -2,6 +2,7 @@
 #include "Actor/BlackBoard.h"
 #include "INode.h"
 #include "CompositeNode/Selector.h"
+#include "CompositeNode/RandomSelector.h"
 #include "CompositeNode/Sequence.h"
 #include "DecoratorNode/Inverter.h"
 #include "DecoratorNode/RunOnce.h"
@@ -71,6 +72,13 @@ INode* BehaviourTreeBuilder::BuildAttackerTree(std::string file_path, BlackBoard
 				}
 				node = selector;
 			}
+			else if (name == "RandomSelector") {
+				RandomSelector* selector = new RandomSelector(blackboard);
+				for (auto childId : nodeJson["children"]) {
+					selector->AddNode(buildNode(childId.get<int>()));
+				}
+				node = selector;
+			}
 
 			// --- Decoratorノード ---
 			else if (name == "Inverter") {
@@ -103,7 +111,9 @@ INode* BehaviourTreeBuilder::BuildAttackerTree(std::string file_path, BlackBoard
 			}
 			else if (name == "ReadyToAttackLeaf") {
 				float readyTime = nodeJson["readyToAttackTime"].get<float>();
-				node = new ReadyToAttackLeaf(blackboard, readyTime);
+				float turnTime = nodeJson["readyToAttackTurnTime"].get<float>();
+				float speed = nodeJson["readyToAttackMoveSpeed"].get<float>();
+				node = new ReadyToAttackLeaf(blackboard, readyTime, turnTime, speed);
 			}
 			else if (name == "ChasePlayerLeaf") {
 				float speed = nodeJson["speed"].get<float>();

@@ -438,6 +438,12 @@ void BehaviorTreeGraph::ExportJson(const std::string& file_name) {
 		if (node.readyToAttackTime != -1.f) {
 			node_json["readyToAttackTime"] = node.readyToAttackTime;
 		}
+		if (node.readyToAttackTime != -1.f) {
+			node_json["readyToAttackTurnTime"] = node.readyToAttackTurnTime;
+		}
+		if (node.readyToAttackTime != -1.f) {
+			node_json["readyToAttackMoveSpeed"] = node.readyToAttackMoveSpeed;
+		}
 
 		if (node.limit_distance != -1.f) {
 			node_json["limit_distance"] = node.limit_distance;
@@ -489,12 +495,21 @@ void BehaviorTreeGraph::ImportJson(const std::string& file_name) {
 		if (node_json.contains("wait_time")) {
 			node.wait_time = node_json["wait_time"];
 		}
+
 		if (node_json.contains("readyToAttackTime")) {
 			node.readyToAttackTime = node_json["readyToAttackTime"];
 		}
+		if (node_json.contains("readyToAttackTurnTime")) {
+			node.readyToAttackTime = node_json["readyToAttackTurnTime"];
+		}
+		if (node_json.contains("readyToAttackMoveSpeed")) {
+			node.readyToAttackTime = node_json["readyToAttackMoveSpeed"];
+		}
+
 		if (node_json.contains("limit_distance")) {
 			node.limit_distance = node_json["limit_distance"];
 		}
+
 		if (node_json.contains("speed")) {
 			node.speed = node_json["speed"];
 		}
@@ -805,15 +820,43 @@ void BehaviorTreeGraph::DrawParameter(const BTNode& node, int node_id, bool is_s
 		// 選択されているとき
 		if (is_selected && mIsEditMode) {
 			// 待機時間表示
-			ImGui::Text(("ReadyTime[frame]"));
-			ImGui::SetNextItemWidth(200);
+			{
+				ImGui::Text(("ReadyTime[frame]"));
+				ImGui::SetNextItemWidth(200);
 
-			float readyTime = node.readyToAttackTime;
-			ImGui::InputFloat("", &readyTime);
-			SetReadyToAttackTime(node_id, readyTime);
+				float readyTime = node.readyToAttackTime;
+				ImGui::InputFloat("##0", &readyTime);
+				//ImGui::InputFloat("ReadyTime[frame]", &readyTime);
+				SetReadyToAttackTime(node_id, readyTime);
+			}
+
+			// 折り返し時間表示
+			{
+				ImGui::Text(("TurnTime[frame]"));
+				ImGui::SetNextItemWidth(200);
+
+				float turnTime = node.readyToAttackTurnTime;
+				ImGui::InputFloat("##1", &turnTime);
+				//ImGui::InputFloat("TurnTime[frame]", &turnTime);
+				SetReadyToAttackTurnTime(node_id, turnTime);
+			}
+
+			// 移動速度表示
+			{
+				// 最大最小範囲の表示
+				ImGui::Text(("Speed"));
+				ImGui::SetNextItemWidth(200);
+
+				float speed = node.readyToAttackMoveSpeed;
+				ImGui::InputFloat("##2", &speed);
+				//ImGui::InputFloat("Speed", &speed);
+				SetReadyToAttackMoveSpeed(node_id, speed);
+			}
 		}
 		else {
 			ImGui::Text("ReadyTime: %.1f", node.readyToAttackTime);
+			ImGui::Text("TurnTime: %.1f", node.readyToAttackTurnTime);
+			ImGui::Text("Speed: %.1f", node.readyToAttackMoveSpeed);
 		}
 	}
 	// 近いか遠いかを判別するノードの場合
@@ -895,6 +938,14 @@ void BehaviorTreeGraph::SetWaitTime(int id, float wait_time) {
 
 void BehaviorTreeGraph::SetReadyToAttackTime(int id, float readyToAttackTime) {
 	mNodes.at(id).readyToAttackTime = readyToAttackTime;
+}
+
+void BehaviorTreeGraph::SetReadyToAttackTurnTime(int id, float readyToAttackTurnTime) {
+	mNodes.at(id).readyToAttackTurnTime = readyToAttackTurnTime;
+}
+
+void BehaviorTreeGraph::SetReadyToAttackMoveSpeed(int id, float readyToAttackMoveSpeed) {
+	mNodes.at(id).readyToAttackMoveSpeed = readyToAttackMoveSpeed;
 }
 
 void BehaviorTreeGraph::SetSpeed(int id, float speed) {

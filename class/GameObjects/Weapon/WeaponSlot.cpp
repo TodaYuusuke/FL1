@@ -18,13 +18,14 @@ void WeaponSlot::Init() {}
 
 void WeaponSlot::Update() {
 	// 練度を踏まえて武器の攻撃倍率更新
-	if (!weapons_.empty()) weapons_.front()->SetAttackMultiply(pWeaponSkill_->GetSkillData(weapons_.front()->GetWeaponData().name).attackMultiply);
+	if (!weapons_.empty()) weapons_.front()->SetAttackMultiply(pWeaponSkill_->GetSkillData(weapons_.front()->GetWeaponData().type).attackMultiply);
 
 	// 削除コマンドがあるなら消す
 	weapons_.erase(
 		std::remove_if(weapons_.begin(), weapons_.end(),
 			[&](IWeapon* w) {
 				if (w->GetIsDestroy()) {
+					w->Destroy();
 					// 武器管理クラスに該当武器の解放依頼
 					WeaponManager::GetInstance()->DeleteWeapon(w);
 					return true; // vectorから削除対象
@@ -61,7 +62,7 @@ void WeaponSlot::Attack() {
 		// 攻撃できる状態か
 		if (weapons_.front()->GetIsEnableAttack()) {
 			// 攻撃時に練度を上げる
-			pWeaponSkill_->SkillUp(weapons_.front()->GetWeaponData().name, weapons_.front()->GetWeaponData().attackSkillGain);
+			pWeaponSkill_->SkillUp(weapons_.front()->GetWeaponData().type, weapons_.front()->GetWeaponData().attackSkillGain);
 
 			// 偏差射撃
 			Vector3 shotVel = pLeadingSystem_->GetLeadingShotAngle(weapons_.front()->GetWorldTF()->GetWorldPosition(), 1.0f);
@@ -98,4 +99,17 @@ void WeaponSlot::AddWeapon(IWeapon* weapon) {
 	if (weapons_.size() < kMaxWeapons) {
 		weapons_.push_back(weapon);
 	}
+}
+
+void WeaponSlot::DeleteWeapons() {
+	// 削除コマンドがあるなら消す
+	weapons_.erase(
+		std::remove_if(weapons_.begin(), weapons_.end(),
+			[&](IWeapon* w) {
+				// 武器管理クラスに該当武器の解放依頼
+				WeaponManager::GetInstance()->DeleteWeapon(w);
+				return true; // vectorから削除対象
+			}),
+		weapons_.end()
+	);
 }

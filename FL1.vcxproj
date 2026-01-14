@@ -150,6 +150,11 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="class\GameObjects\Tutorial\TutorialData\AttackTutorial.cpp" />
+    <ClCompile Include="class\GameObjects\Tutorial\TutorialData\CollectTutorial.cpp" />
+    <ClCompile Include="class\GameObjects\Tutorial\TutorialData\MoveTutorial.cpp" />
+    <ClCompile Include="class\GameObjects\Tutorial\TutorialData\BaseTutorialData.cpp" />
+    <ClCompile Include="class\Componets\BehaviourTree\CompositeNode\RandomSelector.cpp" />
     <ClCompile Include="class\Componets\Shake.cpp" />
     <ClCompile Include="class\Effect\Particle\Child\ModelParticle.cpp" />
     <ClCompile Include="class\Effect\Particle\Child\PlaneParticle.cpp" />
@@ -198,6 +203,7 @@
     <ClCompile Include="class\GameObjects\Weapon\IWeapon.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Melee\IMelee.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Melee\Melee.cpp" />
+    <ClCompile Include="class\scene\TutorialScene.cpp" />
     <ClCompile Include="class\scene\GameScene.cpp" />
     <ClCompile Include="class\scene\ResultScene.cpp" />
     <ClCompile Include="class\scene\TestScene.cpp" />
@@ -236,6 +242,8 @@
     <ClCompile Include="class\Effect\Emitter\Emitter.cpp" />
     <ClCompile Include="class\Effect\EffectManager.cpp" />
     <ClCompile Include="class\Effect\EffectEditor.cpp" />
+    <ClCompile Include="class\Componets\EasingEditor.cpp" />
+    <ClCompile Include="class\Componets\EaseMachine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\StateBase.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\WaitState.cpp" />
@@ -250,8 +258,15 @@
     <ClCompile Include="class\GameObjects\Attack\Strategy\Impact\NormalImpact.cpp" />
     <ClCompile Include="class\Componets\Input\VirtualController.cpp" />
     <ClCompile Include="class\GameObjects\PenetrationResolver\PenetrationResolver.cpp" />
+    <ClCompile Include="class\GameObjects\WaveManager.cpp" />
+    <ClCompile Include="class\GameObjects\Tutorial\Tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="class\GameObjects\Tutorial\TutorialData\AttackTutorial.h" />
+    <ClInclude Include="class\GameObjects\Tutorial\TutorialData\CollectTutorial.h" />
+    <ClInclude Include="class\GameObjects\Tutorial\TutorialData\MoveTutorial.h" />
+    <ClInclude Include="class\GameObjects\Tutorial\TutorialData\BaseTutorialData.h" />
+    <ClInclude Include="class\Componets\BehaviourTree\CompositeNode\RandomSelector.h" />
     <ClInclude Include="class\Componets\Shake.h" />
     <ClInclude Include="class\Effect\Particle\Child\ModelParticle.h" />
     <ClInclude Include="class\Effect\Particle\Child\PlaneParticle.h" />
@@ -316,6 +331,7 @@
     <ClInclude Include="class\GameObjects\Weapon\Melee\IMelee.h" />
     <ClInclude Include="class\GameObjects\Weapon\Melee\Melee.h" />
     <ClInclude Include="class\GameObjects\Weapon\WeaponConfig.h" />
+    <ClInclude Include="class\scene\TutorialScene.h" />
     <ClInclude Include="class\scene\GameScene.h" />
     <ClInclude Include="class\scene\ResultScene.h" />
     <ClInclude Include="class\scene\TestScene.h" />
@@ -380,6 +396,10 @@
     <ClInclude Include="class\Effect\EffectManager.h" />
     <ClInclude Include="class\Effect\EffectEditor.h" />
     <ClInclude Include="class\GameObjects\PenetrationResolver\PenetrationResolver.h" />
+    <ClInclude Include="class\GameObjects\WaveManager.h" />
+    <ClInclude Include="class\GameObjects\Tutorial\Tutorial.h" />
+    <ClInclude Include="class\Componets\EasingEditor.h" />
+    <ClInclude Include="class\Componets\EaseMachine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

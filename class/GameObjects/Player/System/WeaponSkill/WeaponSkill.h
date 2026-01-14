@@ -61,11 +61,11 @@ public:// アクセサ
 		ApplyRadarEffect(radar_, type, value);
 		//radar_[type].value += value;
 	}
-	void SkillUp(const std::string& weaponName, float value) { 
-		int type = GetSkillData(weaponName).weaponType;
-		ApplyRadarEffect(radar_, type, value);
-		//radar_[type].value += value;
-	}
+	//void SkillUp(const std::string& weaponName, float value) { 
+	//	int type = GetSkillData(weaponName).weaponType;
+	//	ApplyRadarEffect(radar_, type, value);
+	//	//radar_[type].value += value;
+	//}
 
 #pragma region Getter
 	/// <summary>
@@ -79,12 +79,12 @@ public:// アクセサ
 		}
 		return WeaponSkillData();
 	}
-	WeaponSkillData GetSkillData(const std::string& weaponName) { 
-		for (int i = 0; i < (int)WeaponType::kCount; i++) {
-			if (radar_[i].weaponType == WeaponConfig::GetWeaponType(weaponName)) return radar_[i];
-		}
-		return WeaponSkillData();
-	}
+	//WeaponSkillData GetSkillData(const std::string& weaponName) { 
+	//	for (int i = 0; i < (int)WeaponType::kCount; i++) {
+	//		if (radar_[i].weaponType == WeaponConfig::GetWeaponType(weaponName)) return radar_[i];
+	//	}
+	//	return WeaponSkillData();
+	//}
 	int GetIndex(int weaponType) {
 		for (int i = 0; i < (int)WeaponType::kCount; i++) {
 			if (radar_[i].weaponType == weaponType) return i;
@@ -109,15 +109,8 @@ private:// 調整項目
 		0.4f    // d=3 反対側
 	};
 
-	// 練度ごとのパラメータ
-	//std::array<WeaponSkillData, maxLevel> sampleSkills_;
-
 private:
 	LWP::Utility::JsonIO json_;
-
-	// 武器別練度
-	// 順番はWeaponType準拠
-	//std::array<WeaponSkillData, (int)WeaponType::kCount> currentSkills_;
 
 	std::array<WeaponSkillData, (int)WeaponType::kCount> radar_;
 };

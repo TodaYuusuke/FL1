@@ -9,6 +9,7 @@ enum class BulletType {
 	SmallCaliber,		// 小口径
 	BuckShot,			// ショットガンの弾
 	Launcher,			// まっすぐに進む
+	Missile,			// ミサイル(ホーミング機能アリ)
 	M_Pile,				// パイル近接攻撃
 	kCount
 };
@@ -72,6 +73,7 @@ namespace AttackConfig {
 				"SmallCaliber",		// 小口径
 				"BuckShot",			// 散弾
 				"Launcher",			// ランチャー弾
+				"Missile",			// ミサイル弾
 				"M_Pile"			// 近接攻撃
 			};
 		}

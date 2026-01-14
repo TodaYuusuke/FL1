@@ -45,6 +45,17 @@ public:
 	/// </summary>
 	virtual void FallingUpdate() = 0;
 
+private:
+	/// <summary>
+	/// 文字列内に指定した文字列が含まれているかを取得
+	/// </summary>
+	/// <param name="str"></param>
+	/// <param name="target"></param>
+	/// <returns></returns>
+	bool Contains(const std::string& str, const std::string& target) {
+		return str.find(target) != std::string::npos;
+	}
+
 public:// アクセサ
 #pragma region Getter
 	/// <summary>
@@ -98,6 +109,24 @@ public:// アクセサ
 	/// <returns></returns>
 	bool GetIsEnableAttack() { return attackFrame_ <= 0.0f; }
 	/// <summary>
+	/// 攻撃中かを取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsAttacking() { 
+		// 射撃できる状態か
+		if (!GetIsEnableAttack()) { return false; }
+		// 攻撃指示がない
+		if (!isAttack_) { return false; }
+		// 溜め時間中なら撃てない
+		if (GetIsStoreTime()) { return false; }
+		// 弾がない状態なら撃てない
+		if (magazine_->GetEmpty()) { return false; }
+		// 射撃不可時間なら終了
+		if (GetIsCoolTime()) { return false; }
+
+		return true; 
+	}
+	/// <summary>
 	/// 破壊するかを取得
 	/// </summary>
 	/// <returns></returns>
@@ -122,6 +151,11 @@ public:// アクセサ
 #pragma endregion
 
 #pragma region Setter
+	/// <summary>
+	/// 武器の向きを指定
+	/// </summary>
+	/// <param name="weaponSide"></param>
+	virtual void SetWeaponSide(int weaponSide = -1) { weaponSide; }
 	/// <summary>
 	/// 親子付けの設定
 	/// </summary>
@@ -177,10 +211,10 @@ public:// アクセサ
 	/// <param name="name"></param>
 	void SetName(const std::string& name) { name_ = name; }
 	/// <summary>
-	/// 武器の向きを指定
+	/// 破壊するかを設定
 	/// </summary>
-	/// <param name="weaponSide"></param>
-	virtual void SetWeaponSide(int weaponSide = -1) { weaponSide; }
+	/// <param name="isActive"></param>
+	//void SetIsDestroy(bool isActive) { isDestroy_ = isActive; }
 #pragma endregion
 
 protected:

@@ -7,6 +7,7 @@
 #include "../GameObjects/Weapon/WeaponManager.h"
 #include "../GameObjects/UI/ScoreUI/ScoreManager.h"
 #include "../GameObjects/PenetrationResolver/PenetrationResolver.h"
+#include "../GameObjects/WaveManager.h"
 #include "../Componets/HitStopController.h"
 #include "../Componets/Input/VirtualController.h"
 #include "../Componets/InputMyController/ControllerReceiver.h"
@@ -26,6 +27,8 @@ GameScene::GameScene() {
 }
 
 GameScene::~GameScene() {
+	// ウェーブ
+	WaveManager::Destroy();
 	// 
 	EffectEditor::Destroy();
 	EffectManager::Destroy();
@@ -63,6 +66,8 @@ void GameScene::Initialize() {
 	// インスタンス生成
 	EffectManager::Create();
 	EffectEditor::Create();
+	// ウェーブ
+	WaveManager::Create();
 
 	// 地形情報読み込み
 	levelData.LoadShortPath("gameScene.json");
@@ -117,9 +122,12 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 	// 敵を一定数倒したら終了
-	if (enemyManager_->GetKillCount() >= clearKillCount || !player_->GetIsAlive()) {
+	if (!player_->GetIsAlive()) {
 		nextSceneFunction = []() { return new ResultScene(); };
 	}
+	// ウェーブ
+	WaveManager::GetInstance()->Update();
+
 	// ヒットストップ
 	HitStopController::GetInstance()->Update();
 
@@ -132,10 +140,10 @@ void GameScene::Update() {
 	// ワールドオブジェクト
 	world_->Update();
 
-	// 弾管理クラス
-	AttackManager::GetInstance()->Update();
 	// 武器管理クラス
 	WeaponManager::GetInstance()->Update();
+	// 弾管理クラス
+	AttackManager::GetInstance()->Update();
 
 	// 追従カメラ
 	followCamera_->Update();
@@ -154,7 +162,7 @@ void GameScene::Update() {
 
 	// 次のシーンへ以降
 	if (Input::Keyboard::GetTrigger(DIK_F)) {
-		nextSceneFunction = []() { return new ResultScene(); };
+		//nextSceneFunction = []() { return new ResultScene(); };
 	}
 
 	//マイコンの再接続
@@ -176,7 +184,8 @@ void GameScene::Update() {
 
 	// ワールド
 	world_->DebugGui();
-
+	// ウェーブ
+	WaveManager::GetInstance()->DebugGui();
 	// 武器管理クラス
 	WeaponManager::GetInstance()->DebugGui();
 	// 弾管理クラス

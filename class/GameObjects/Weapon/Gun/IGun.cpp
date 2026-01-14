@@ -17,7 +17,7 @@ IGun::IGun(WeaponData data) {
 	name_ = data_.name;
 
 	// モデル生成
-	body_.LoadFullPath("resources/model/Weapon/Gun/" + data_.modelName);
+	body_.LoadFullPath(data_.modelName);
 	body_.worldTF.scale = { 0.5f,0.5f,0.5f };
 
 	// マガジン作成
@@ -27,7 +27,7 @@ IGun::IGun(WeaponData data) {
 	lightPillar_.Init();
 	lightPillar_.isActive = true;
 	lightPillar_.LoadTexture("Weapon/pillar_triangle.png");
-	unsigned int color = WeaponConfig::TextureName::LightPillar::Color::Weapon::color[WeaponConfig::GetWeaponType(name_)];
+	unsigned int color = WeaponConfig::TextureName::LightPillar::Color::Weapon::color[data_.type];
 	lightPillar_.material.color = LWP::Utility::Color(color);
 	lightPillar_.material.color.A = 100;
 	lightPillar_.anchorPoint = { 0.5f, 0.5f };
@@ -85,6 +85,7 @@ void IGun::Update() {
 	// 攻撃指示
 	AttackCommond();
 
+	// 武器の光柱表示
 	if (actor_) lightPillar_.isActive = false;
 	else lightPillar_.isActive = true;
 	lightPillar_.worldTF.translation = body_.worldTF.GetWorldPosition();
@@ -159,6 +160,9 @@ void IGun::Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attackTa
 }
 
 void IGun::Reload() {
+	// 所持者が自機なら演出開始
+	if (actor_->GetName() == "Player") { return; }
+
 	reloadFrame_ -= stopController_->GetDeltaTime();
 	isDestroy_ = false;
 
@@ -172,7 +176,8 @@ void IGun::Reload() {
 }
 
 void IGun::Destroy() {
-
+	// カメラ揺れ
+	CameraEffectHandler::GetInstance()->StartShake(Vector3{ 0.002f, 0.002f ,0.002f }, 0.1f);
 }
 
 void IGun::FallingUpdate() {
@@ -224,9 +229,12 @@ void IGun::AttackCommond() {
 		// 弾生成
 		pBulletManager_->CreateAttack(data_.bulletType, target_, body_.GetJointWorldPosition("Muzzle"), bulletHitFragBit_, bulletBelongFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
 		
-		// 所持者が自機ならカメラ演出
+		// 所持者が自機なら演出開始
 		if (actor_->GetName() == "Player") {
+			// カメラ揺れ
 			CameraEffectHandler::GetInstance()->StartShake(Vector3{ 0.005f, 0.005f ,0.005f }, 0.1f);
+			// ヒットストップ
+			stopController_->Start(1.0f / 60.0f, 0.0f);
 		}
 
 		i--;

@@ -41,7 +41,7 @@ private:
 
 public:// アクセサ
 #pragma region Getter
-	
+	bool GetIsTurnBehind();
 #pragma endregion
 
 #pragma region Setter

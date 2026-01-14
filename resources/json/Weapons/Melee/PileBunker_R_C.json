@@ -1,0 +1,20 @@
+{
+    "attackSkillGain": 100.0,
+    "bulletNum": 10,
+    "bulletType": 4,
+    "burstIntervalTime": 0.0,
+    "burstNum": 0,
+    "coolTime": 0.0,
+    "diffusingBulletRange_x": 0.0,
+    "diffusingBulletRange_y": 0.0,
+    "diffusingBulletRange_z": 0.0,
+    "jsonFileName": "PileBunker_R_C.json",
+    "modelName": "resources/model/Weapon/Melee/PileBunker.gltf",
+    "name": "PileBunker",
+    "rarity": 0,
+    "reloadTime": 0.0,
+    "sameBulletNum": 0,
+    "shotIntervalTime": 1.0,
+    "storeTime": 0.0,
+    "type": 5
+}

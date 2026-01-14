@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
-#include "EnemyConfig.h"
 #include "../Weapon/WeaponConfig.h"
+#include "EnemyConfig.h"
 #include <Adapter.h>
 #include <filesystem>
 
@@ -12,7 +12,7 @@ class IWorld;
 class EnemyManager {
 public:
 	// 敵発生情報
-	struct SpawnData {
+	struct RandomSpawnData {
 		int spawnNum;				// 敵生成数
 		float nextSpawnTime = 6.0f;	// 次の敵が強制的に出るまでの時間
 	};
@@ -93,6 +93,7 @@ private:// ******** デバッグ、エディタ用の関数群↓ ******** //
 	/// <param name="selectedType"></param>
 	/// <param name="label"></param>
 	void SelectType(std::vector<std::string> list, int& selectedType, std::string label);
+	void SelectType(std::vector<std::string> list, int& selectedType, std::string label, bool& isClickCombo);
 	/// <summary>
 	/// 作成する敵を選択(デバッグ用)
 	/// </summary>
@@ -171,9 +172,18 @@ private:// 配置エディタで使用する関数
 	/// <returns></returns>
 	std::vector<std::string> GetFileNames(const std::string& folderPath);
 
+	bool Contains(const std::string& str, const std::string& target) {
+		return str.find(target) != std::string::npos;
+	}
+
 		// ******** デバッグ、エディタ用の関数群↑ ******** //
 
 public:// アクセサ
+	/// <summary>
+	/// チュートリアル用の敵出現
+	/// </summary>
+	void TutorialSpawn();
+
 #pragma region Getter
 	/// <summary>
 	/// 敵リストを取得
@@ -283,7 +293,7 @@ private:
 	// 敵の生成座標
 	LWP::Math::Vector3 createPos_;
 
-	SpawnData spawnData_;
+	RandomSpawnData spawnData_;
 	float currentFrame_;
 	float spawnInterval_;
 

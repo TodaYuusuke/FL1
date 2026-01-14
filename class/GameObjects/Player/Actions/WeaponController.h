@@ -60,15 +60,32 @@ private:
 		weapon->SetRotation(q);
 		weapon->SetParent(target_);
 		weapons_[weaponSide]->AddWeapon(weapon);
+		isPickUpWeapon_ = true;
 	}
 
 public:// アクセサ
+	/// <summary>
+	/// 持っている武器をすべて解放
+	/// </summary>
+	void DeleteWeapons();
+
 #pragma region Getter
+	/// <summary>
+	/// 武器のスロットを取得
+	/// </summary>
+	/// <param name="side"></param>
+	/// <returns></returns>
+	WeaponSlot* GetWeaponSlot(WeaponSide side) { return weapons_[side].get(); }
 	/// <summary>
 	/// 武器由来の速度を取得
 	/// </summary>
 	/// <returns></returns>
 	LWP::Math::Vector3 GetWeaponVelocity() { return weaponVel_; }
+	/// <summary>
+	/// 武器を拾ったかを取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsPickUpWeapon() { return isPickUpWeapon_; }
 #pragma endregion
 
 #pragma region Setter
@@ -172,5 +189,8 @@ private://UI表示
 	LWP::Math::Vector2 circleTextureSize_ = {255.0f,255.0f};
 	std::unique_ptr<NumPlane> hpPlane_;
 	LWP::Object::TransformQuat transformHpPlane_;
+
+	// 武器を拾ったか
+	bool isPickUpWeapon_;
 };
 

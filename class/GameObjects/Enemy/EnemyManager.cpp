@@ -4,12 +4,12 @@
 #include "Drone/Drone.h"
 #include "Cargo/Cargo.h"
 #include "Test/TestEnemy.h"
-#include "../Weapon/Gun/MachineGun/MachineGun.h"
-#include "../Weapon/WeaponManager.h"
-#include  "../World/IWorld.h"
-#include "EnemyConfig.h"
 #include "../UI/ScoreUI/ScoreManager.h"
 #include "../PenetrationResolver/PenetrationResolver.h"
+#include "../World/IWorld.h"
+#include "../Weapon/Gun/MachineGun/MachineGun.h"
+#include "../Weapon/WeaponManager.h"
+#include "../WaveManager.h"
 #include "../../../DirectXGame/Externals/nlohmann/json.hpp"
 
 using namespace EnemyConfig;
@@ -167,11 +167,6 @@ void EnemyManager::DebugGui() {
 			if (ImGui::Button(("Json Export"))) {
 				ExportSpawnJsonButton();
 			}
-
-			//// 編集モードでない
-			//if (spawnType_ != EnemySpawnType::kNone) {
-			//	//ImGui::Text("Not spawn edit mode. Click -Start spawn edit- button");
-			//}
 
 			// 配置した敵の調整
 			SpawnedEnemiesGui();
@@ -389,7 +384,8 @@ void EnemyManager::GiveWeapon(Actor* actor, const EnemyData& data) {
 		if (data.containWeaponTypes[i] >= (int)WeaponType::kCount) { continue; }
 
 		// 持たせる武器を作成
-		IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(data.containWeaponTypes[i], 0);
+		std::vector<std::string> weaponNames = WeaponManager::GetInstance()->GetWeaponNamePreview(data.containWeaponTypes[i]);
+		IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(data.containWeaponTypes[i], weaponNames[data.containWeaponNames[i]]);
 		// 所持者の攻撃倍率を武器に反映
 		weapon->SetAttackMultiply(actor->GetEnemyData().attackMultiply);
 
@@ -428,6 +424,9 @@ void EnemyManager::SpawnEnemy() {
 
 		// 生成したすべての敵を倒したら次のWaveに進む
 		if (spawnInterval_ <= 0.0f && enemies_.empty()) {
+			// 次のウェーブに移行
+			WaveManager::GetInstance()->StartNextWave();
+
 			std::vector<std::string> spawnJsonName;
 			spawnJsonName = GetFileNames((GetExeDir() / "resources/json/SpawnEnemy/").string());
 			int index = LWP::Utility::Random::GenerateInt(0, (int)spawnJsonName.size() - 1);
@@ -443,6 +442,7 @@ void EnemyManager::SpawnEnemy() {
 		// 生成開始
 		for (EnemySpawnData& data : spawnDatas_) {
 			if (data.isSpawn) { continue; }
+
 			float lastSpawnTime = spawnDatas_.back().spawnTime;
 			if (data.spawnTime <= (lastSpawnTime * 60.0f) - spawnInterval_) {
 				data.isSpawn = true;
@@ -492,6 +492,31 @@ void EnemyManager::SelectType(std::vector<std::string> list, int& selectedType, 
 				std::string selectableLabel = list[n];
 				if (ImGui::Selectable(selectableLabel.c_str(), is_selected)) {
 					selectedType = n;
+				}
+
+				if (is_selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+	}
+	else {
+		ImGui::TextDisabled(("Not found element"));
+	}
+}
+
+void EnemyManager::SelectType(std::vector<std::string> list, int& selectedType, std::string label, bool& isClickCombo) {
+	isClickCombo = false;
+	if (!list.empty()) {
+		const char* combo_preview_value = list[selectedType].c_str();
+		if (ImGui::BeginCombo(label.c_str(), combo_preview_value)) {
+			for (int n = 0; n < list.size(); n++) {
+				const bool is_selected = ((int)selectedType == n);
+				std::string selectableLabel = list[n];
+				if (ImGui::Selectable(selectableLabel.c_str(), is_selected)) {
+					selectedType = n;
+					isClickCombo = true;
 				}
 
 				if (is_selected) {
@@ -562,9 +587,11 @@ void EnemyManager::CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, c
 		.BeginGroup("Hand")
 		.BeginGroup("Left")
 		.AddValue<int>("Type", &data.containWeaponTypes[(int)WeaponSide::kLeft])
+		.AddValue<int>("Name", &data.containWeaponNames[(int)WeaponSide::kLeft])
 		.EndGroup()
 		.BeginGroup("Right")
 		.AddValue<int>("Type", &data.containWeaponTypes[(int)WeaponSide::kRight])
+		.AddValue<int>("Name", &data.containWeaponNames[(int)WeaponSide::kRight])
 		.EndGroup()
 		.EndGroup()
 
@@ -572,9 +599,11 @@ void EnemyManager::CreateJsonData(LWP::Utility::JsonIO& json, EnemyData& data, c
 		.BeginGroup("Shoulder")
 		.BeginGroup("Left")
 		.AddValue<int>("Type", &data.containWeaponTypes[(int)WeaponSide::kLeftShoulder])
+		.AddValue<int>("Name", &data.containWeaponNames[(int)WeaponSide::kLeftShoulder])
 		.EndGroup()
 		.BeginGroup("Right")
 		.AddValue<int>("Type", &data.containWeaponTypes[(int)WeaponSide::kRightShoulder])
+		.AddValue<int>("Name", &data.containWeaponNames[(int)WeaponSide::kRightShoulder])
 		.EndGroup()
 		.EndGroup()
 		// 武器の最低保証
@@ -626,26 +655,66 @@ void EnemyManager::SelectEnemyGui(LWP::Utility::JsonIO& json, EnemyData& data) {
 		if (ImGui::TreeNode("Weapon")) {
 			weaponTypePreview_ = WeaponManager::GetInstance()->GetWeaponTypePreview();
 			weaponTypePreview_.push_back("None");
-			weaponRarityPreview_ = WeaponManager::GetInstance()->GetWeaponRarityPreview();
+			//weaponRarityPreview_ = WeaponManager::GetInstance()->GetWeaponRarityPreview();
 			// 手武器を選択
 			if (ImGui::TreeNode("Select hand weapon")) {
-				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kLeft], "Left##0");
+				std::vector<std::string> lWeaponNamePreview;
+				std::vector<std::string> rWeaponNamePreview;
+				bool isClickCombo = false;
+				int preType;
+
+				preType = data.containWeaponTypes[(int)WeaponSide::kLeft];
+				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kLeft], "Left##0", isClickCombo);
+				// タブクリック時の処理
+				if (isClickCombo) {
+					if (data.containWeaponTypes[(int)WeaponSide::kLeft] != preType) { data.containWeaponNames[(int)WeaponSide::kLeft] = 0; }
+				}
+
+				lWeaponNamePreview = WeaponManager::GetInstance()->GetWeaponNamePreview(data.containWeaponTypes[(int)WeaponSide::kLeft]);
+				SelectType(lWeaponNamePreview, data.containWeaponNames[(int)WeaponSide::kLeft], "Left##1");
+
+
+				preType = data.containWeaponTypes[(int)WeaponSide::kRight];
 				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kRight], "Right##0");
+				// タブクリック時の処理
+				if (isClickCombo) {
+					if (data.containWeaponTypes[(int)WeaponSide::kRight] != preType) { data.containWeaponNames[(int)WeaponSide::kRight] = 0; }
+				}
+
+				rWeaponNamePreview = WeaponManager::GetInstance()->GetWeaponNamePreview(data.containWeaponTypes[(int)WeaponSide::kRight]);
+				SelectType(rWeaponNamePreview, data.containWeaponNames[(int)WeaponSide::kRight], "Right##1");
 
 				ImGui::TreePop();
 			}
 			// 肩武器を選択
 			if (ImGui::TreeNode("Select shoulder weapon")) {
-				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kLeftShoulder], "Left##1");
-				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kRightShoulder], "Right##1");
+				std::vector<std::string> lWeaponNamePreview;
+				std::vector<std::string> rWeaponNamePreview;
+				bool isClickCombo = false;
+				int preType;
+
+				preType = data.containWeaponTypes[(int)WeaponSide::kLeftShoulder];
+				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kLeftShoulder], "Left##2");
+				// タブクリック時の処理
+				if (isClickCombo) {
+					if (data.containWeaponTypes[(int)WeaponSide::kLeftShoulder] != preType) { data.containWeaponNames[(int)WeaponSide::kLeftShoulder] = 0; }
+				}
+
+				lWeaponNamePreview = WeaponManager::GetInstance()->GetWeaponNamePreview(data.containWeaponTypes[(int)WeaponSide::kLeftShoulder]);
+				SelectType(lWeaponNamePreview, data.containWeaponNames[(int)WeaponSide::kLeftShoulder], "Left##1");
+
+				preType = data.containWeaponTypes[(int)WeaponSide::kRightShoulder];
+				SelectType(weaponTypePreview_, data.containWeaponTypes[(int)WeaponSide::kRightShoulder], "Right##2");
+				// タブクリック時の処理
+				if (isClickCombo) {
+					if (data.containWeaponTypes[(int)WeaponSide::kRightShoulder] != preType) { data.containWeaponNames[(int)WeaponSide::kRightShoulder] = 0; }
+				}
+
+				rWeaponNamePreview = WeaponManager::GetInstance()->GetWeaponNamePreview(data.containWeaponTypes[(int)WeaponSide::kRightShoulder]);
+				SelectType(rWeaponNamePreview, data.containWeaponNames[(int)WeaponSide::kRightShoulder], "Right##1");
 
 				ImGui::TreePop();
 			}
-			//// 最低保証のレアリティ
-			//ImGui::Text("Select weapon min rarity");
-			//SelectType(weaponRarityPreview_, selectedWeaponRarity_, "")
-			//SelectWeaponRarity();
-			//data.minWeaponRarity = selectedWeaponRarity_;
 
 			ImGui::TreePop();
 		}
@@ -689,14 +758,6 @@ void EnemyManager::SelectLevelGui(LWP::Utility::JsonIO& json, LevelParameter& da
 }
 
 void EnemyManager::SpawnedEnemiesGui() {
-	//// 編集モードでない
-	//if (spawnType_ != EnemySpawnType::kNone) { return; }
-	//// 配置している敵がいない
-	//if (spawnDatas_.empty()) {
-	//	ImGui::Text("Not spawn enemy");
-	//	return;
-	//}
-
 	if (ImGui::TreeNode("SpawnedEnemies")) {
 		// 編集モードでない
 		if (spawnType_ != EnemySpawnType::kNone) {
@@ -758,9 +819,6 @@ void EnemyManager::SpawnedEnemiesGui() {
 }
 
 void EnemyManager::SpawnEnemyGui() {
-	// 編集モードでない
-	//if (spawnType_ != EnemySpawnType::kNone) { return; }
-
 	if (ImGui::TreeNode("Spawn")) {
 		// 編集モードでない
 		if (spawnType_ != EnemySpawnType::kNone) {
@@ -869,22 +927,12 @@ void EnemyManager::LoadSpawnJson(const std::string& fileName) {
 			.pos = createPos
 		};
 		data.debugModel.LoadCube();
+		data.debugModel.isActive = false;
 
 		id++;
 
 		spawnDatas_.push_back(data);
 	}
-
-	//// モデル読み込み
-	//for (EnemySpawnData& data : spawnDatas_) {
-	//	data.debugModel.LoadFullPath(EnemyConfig::ModelName::modelName[data.type]);
-	//	Vector3 pos = data.pos;
-	//	// ドローンだけ高さ分引く
-	//	if (data.type == (int)EnemyType::kDrone) {
-	//		pos.y -= dronefloatHeight_;
-	//	}
-	//	data.debugModel.worldTF.translation = pos;
-	//}
 
 	file.close();
 }
@@ -953,6 +1001,34 @@ std::vector<std::string> EnemyManager::GetFileNames(const std::string& folderPat
 	}
 
 	return files;
+}
+
+void EnemyManager::TutorialSpawn() {
+	// 調整情報
+	EnemyData data = sampleEnemies_[(int)EnemyType::kMelee];
+	data.BTFileName = "resources/json/BT/BT_Tutorial.json";
+	data.attackMultiply = sampleLevels_[0].attackMultiply;
+	data.speedMultiply = sampleLevels_[0].speedMultiply;
+	data.level = sampleLevels_[0].value;
+	data.type = (int)EnemyType::kMelee;
+
+	// 近接敵
+	MeleeAttacker* actor = new MeleeAttacker(pWorld_, createID_, data);
+	// 武器を付与
+	GiveWeapon(actor, sampleEnemies_[(int)EnemyType::kMelee]);
+
+	// 武器の座標
+	Vector3 enemyPos = pWorld_->FindActor("Player")->GetWorldTF()->GetWorldPosition();
+	// 自機の向いている方向に敵を出す
+	enemyPos += Vector3{ 0.0f,0.0f,1.0f } *Matrix4x4::CreateRotateXYZMatrix(pWorld_->FindActor("Player")->GetWorldTF()->rotation) * 40.0f;
+	// 座標を指定
+	actor->SetTranslation(enemyPos);
+	enemies_.push_back(actor);
+
+	createID_++;
+
+	// 押し出し
+	PenetrationResolver::GetInstance()->RegisterObject(actor);
 }
 
 void EnemyManager::SetWeaponPos(Actor* actor, IWeapon* weapon, int weaponSide) {

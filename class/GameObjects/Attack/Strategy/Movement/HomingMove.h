@@ -1,6 +1,7 @@
 #pragma once
 #include "IMovement.h"
 #include "../../../../Componets/BehaviourTree/Actor/Actor.h"
+#include "Adapter.h"
 
 class HomingMove : public IMovement {
 public:
@@ -16,7 +17,7 @@ public:
 	void Update(BulletBase* bullet) override;
 
 private:// 外部から受け取る変数
-	Actor* target_;
+	//Actor* target_;
 
 private:
 };

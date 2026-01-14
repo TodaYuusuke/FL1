@@ -1,0 +1,20 @@
+{
+    "attackSkillGain": 100.0,
+    "bulletNum": 10,
+    "bulletType": 2,
+    "burstIntervalTime": 0.0,
+    "burstNum": 0,
+    "coolTime": 0.0,
+    "diffusingBulletRange_x": 0.07000000029802322,
+    "diffusingBulletRange_y": 0.07000000029802322,
+    "diffusingBulletRange_z": 0.019999999552965164,
+    "jsonFileName": "BeamShotGun_R_C.json",
+    "modelName": "resources/model/Weapon/Gun/ShotGun\\ShotGun.gltf",
+    "name": "BeamShotGun",
+    "rarity": 0,
+    "reloadTime": 0.0,
+    "sameBulletNum": 3,
+    "shotIntervalTime": 1.0,
+    "storeTime": 0.0,
+    "type": 1
+}

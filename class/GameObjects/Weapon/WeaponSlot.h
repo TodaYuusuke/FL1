@@ -49,6 +49,10 @@ public:// アクセサ
     /// </summary>
     /// <param name="weapon"></param>
     void AddWeapon(IWeapon* weapon);
+    /// <summary>
+    /// 所持している武器をすべて解放
+    /// </summary>
+    void DeleteWeapons();
 
     /// <summary>
     /// 武器を所持限界数まで持っているかを取得
@@ -59,6 +63,11 @@ public:// アクセサ
         if (weapons_.size() == kMaxWeapons) return true;
         return false;
     }
+    /// <summary>
+    /// 武器を所持していないかを取得
+    /// </summary>
+    /// <returns></returns>
+    bool GetIsEmptyWeapon() { return weapons_.empty(); }
 
 #pragma region Getter
     /// <summary>
@@ -70,8 +79,10 @@ public:// アクセサ
     /// <summary>
     /// 先頭に格納された武器を取得
     /// </summary>
-    IWeapon* GetFrontWeapon() { return weapons_.front(); };
-
+    IWeapon* GetFrontWeapon() { 
+        if (weapons_.empty()) { return nullptr; }
+        return weapons_.front(); 
+    }
 #pragma endregion
 
 #pragma region Setter

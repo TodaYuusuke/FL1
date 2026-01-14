@@ -1,0 +1,24 @@
+[
+    {
+        "children": [
+            26
+        ],
+        "id": 13,
+        "name": "Sequence",
+        "parent": -1,
+        "pos_x": -5.999969482421875,
+        "pos_y": -118.0,
+        "speed": 0.0,
+        "type": 0
+    },
+    {
+        "children": [],
+        "id": 26,
+        "name": "AlwaysFailLeaf",
+        "parent": 13,
+        "pos_x": 207.95086669921875,
+        "pos_y": -117.41848754882813,
+        "speed": 0.0,
+        "type": 3
+    }
+]

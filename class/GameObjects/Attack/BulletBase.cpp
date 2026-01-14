@@ -60,9 +60,11 @@ BulletBase::BulletBase(const AttackData& data, Actor* target, const LWP::Math::V
 		movement_ = std::make_unique<StraightMove>();
 	}
 	else if (data_.movementType == (int)MovementType::kHoming) {
-		movement_ = std::make_unique<HomingMove>(target);
+		movement_ = std::make_unique<HomingMove>(target_);
 	}
 }
+
+BulletBase::~BulletBase() {}
 
 void BulletBase::Init() {
 	// 速度ベクトル

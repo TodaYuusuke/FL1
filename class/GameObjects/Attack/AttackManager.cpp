@@ -12,6 +12,7 @@ AttackManager::AttackManager() {
 	BulletRegister<Bullet>((int)BulletType::SmallCaliber);		// 小口径
 	BulletRegister<Bullet>((int)BulletType::BuckShot);			// 散弾
 	BulletRegister<Bullet>((int)BulletType::Launcher);			// ランチャー弾
+	BulletRegister<Bullet>((int)BulletType::Missile);			// ミサイル
 
 	// 近接攻撃登録
 	MeleeRegister<MeleeAttack>((int)BulletType::M_Pile);		// パイル攻撃

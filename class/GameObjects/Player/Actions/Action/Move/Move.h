@@ -64,7 +64,7 @@ private:
 
 public:
 #pragma region Getter
-
+	bool GetIsTurnBehind() { return isTurnBehind_; }
 #pragma endregion
 
 #pragma region Setter
