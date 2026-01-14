@@ -150,6 +150,8 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="class\Componets\Animation\Anim.cpp" />
+    <ClCompile Include="class\Componets\Animation\AnimationManager.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\TutorialData\AttackTutorial.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\TutorialData\CollectTutorial.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\TutorialData\MoveTutorial.cpp" />
@@ -260,8 +262,12 @@
     <ClCompile Include="class\GameObjects\PenetrationResolver\PenetrationResolver.cpp" />
     <ClCompile Include="class\GameObjects\WaveManager.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\Tutorial.cpp" />
+    <ClCompile Include="class\GameObjects\Player\Anim\RobotAnimManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="class\Componets\Animation\Anim.h" />
+    <ClInclude Include="class\Componets\Animation\AnimationManager.h" />
+    <ClInclude Include="class\Componets\Animation\AnimationStructs.h" />
     <ClInclude Include="class\GameObjects\Tutorial\TutorialData\AttackTutorial.h" />
     <ClInclude Include="class\GameObjects\Tutorial\TutorialData\CollectTutorial.h" />
     <ClInclude Include="class\GameObjects\Tutorial\TutorialData\MoveTutorial.h" />
@@ -400,6 +406,7 @@
     <ClInclude Include="class\GameObjects\Tutorial\Tutorial.h" />
     <ClInclude Include="class\Componets\EasingEditor.h" />
     <ClInclude Include="class\Componets\EaseMachine.h" />
+    <ClInclude Include="class\GameObjects\Player\Anim\RobotAnimManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
