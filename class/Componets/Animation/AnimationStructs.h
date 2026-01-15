@@ -50,7 +50,12 @@ namespace LWP::Animation
 		std::vector<EventData> Events{};	// イベント配列
 
 		// デバッグGUI関数
-		void DebugGUI(const std::string& id) {
+		void DebugGUI() {
+			// デバッグメニューの表示
+			ImGui::NewLine();
+			ImGui::SeparatorText("DebugMenu");
+			ImGui::NewLine();
+
 			// アニメーション名表示
 			std::string playAnimName = "PlayAnim : " + AnimName;
 			ImGui::Text(playAnimName.c_str());
@@ -63,11 +68,14 @@ namespace LWP::Animation
 			bool result = this->isLoop;
 			ImGui::Checkbox("IsLoop", &result);
 			
+			ImGui::NewLine();
+
 			// 全イベント情報表示
 			for (int i = 0; i < Events.size(); i++) {
 				// GUI名称設定
 				std::string GUIName = "Event " + std::to_string(i + 1);
 				Events[i].DebugGUI(GUIName);
+				ImGui::NewLine();
 			}
 		}
 	};

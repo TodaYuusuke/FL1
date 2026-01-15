@@ -49,6 +49,9 @@ void TestScene::Update() {
 	animationManager_->Update();
 
 	ImGui::Begin("Test");
+
+	animationManager_->DebugGUI("Test");
+
 	if (ImGui::Button("Play HandL_Shot_Que")) {
 		animationManager_->PlayQue("HandL_Shot", 0.1f, false)
 			.AddEvent("PlaySE", 1, [&]() { testSE_.Play(); });

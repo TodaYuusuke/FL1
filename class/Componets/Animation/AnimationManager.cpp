@@ -29,6 +29,10 @@ void AnimationManager::Init() {
 }
 
 void AnimationManager::Update() {
+	
+	// 停止する場合早期リターン
+	if (isStop_) { return;  }
+	
 	// アニメーション更新
 	animation_->Update();
 
@@ -54,9 +58,53 @@ void AnimationManager::Update() {
 }
 
 void AnimationManager::DebugGUI(const std::string& id) {
+	// デバッグメニューの表示
+	std::string displayName = "Animation Debug Menu - " + id;
+	ImGui::SeparatorText(displayName.c_str());
 
+	// 全アニメーションの停止
+	ImGui::NewLine();
+	ImGui::Checkbox("Stop Play", &isStop_);
+	ImGui::NewLine();
 
+	// キュー内のアニメーションを表示
+	ImGui::BeginChild(ImGui::GetID((void*)0), ImVec2(300, 200), ImGuiWindowFlags_NoTitleBar);
+	
+	// アニメーションキューが空でない場合
+	if (!animQue_.empty()) {
+		// 一時変数
+		int editID = 0;
+		Anim* change = nullptr;
 
+		for (Anim* a : animQue_) {
+			a->ImGuiRadioButton(selectedID_, editID, change);
+		}
+
+		// 表示対象が変更されていた場合
+		if (change != nullptr) {
+			debugingAnim_ = change;
+		}
+	}
+	else {
+		// キューが空であることを示す
+		ImGui::Text("Que is Empty.");
+		// 選択アニメーションはnullに
+		debugingAnim_ = nullptr;
+		// 選択IDリセット
+		selectedID_ = 0;
+	}
+
+	ImGui::EndChild();
+
+	// アニメーションが選択されている場合
+	if (debugingAnim_ != nullptr) {
+		// そのGUIを表示
+		debugingAnim_->DebugGUI();
+	}else{
+		ImGui::NewLine();
+		ImGui::Text("No Selected!");
+		ImGui::NewLine();
+	}
 }
 
 Anim& AnimationManager::PlayQue(const std::string& animName, const float transitionTime, const bool isLoop)

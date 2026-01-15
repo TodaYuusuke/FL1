@@ -36,6 +36,19 @@ public: // メンバ関数
 	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// デバッグGUI表示関数
+	/// </summary>
+	void DebugGUI();
+
+	/// <summary>
+	/// (ユーザー呼び出し禁止) ImGui上に対応するラジオボタンを表示させる関数
+	/// </summary>
+	/// <param name="id">ラジオボタン判定用ID</param>
+	/// <param name="buttonID">ボタンID</param>
+	/// <param name="targetAnim">ImGuiに表示するアニメーション</param>
+	void ImGuiRadioButton(int &id, int& buttonID, Anim*& targetAnim);
+
 public: // アクセッサ等
 
 	/// <summary>
@@ -65,8 +78,16 @@ private: // メンバ変数
 	
 	// アニメーションデータ
 	LWP::Animation::AnimData data_{};
-
+	
 	// アニメーション終了フラグ
 	bool isEnd_ = false;
+
+#pragma region デバッグ用変数
+
+	// ImGUI上で選択されているか
+	bool isSelected_ = false;
+
+#pragma endregion
+
 };
 

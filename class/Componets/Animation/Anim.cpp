@@ -46,6 +46,44 @@ void Anim::Update() {
 
 }
 
+void Anim::DebugGUI()
+{
+	// この処理が呼ばれている時点で選択状態とする
+	isSelected_ = true;
+
+	// データの情報表示
+	data_.DebugGUI();
+}
+
+void Anim::ImGuiRadioButton(int& id, int& buttonID, Anim*& targetAnim)
+{
+	// ImGUI上で選択状態であるならばUIの色を変更する
+	if (isSelected_) {
+		ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0, 255, 0, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImVec4(0, 255, 0, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ImVec4(0, 255, 0, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_CheckMark, ImVec4(0, 255, 0, 1.0f));
+	}
+
+	// ラジオボタンの表示
+	std::string displayName = data_.AnimName;
+	if (ImGui::RadioButton(displayName.c_str(), &id, buttonID)) {
+		// 表示対象として登録
+		targetAnim = this;
+	}
+
+	// 変更した色を元に戻す必要があるためここで戻す
+	if (isSelected_) {
+		ImGui::PopStyleColor(4);
+	}
+
+	// 選択フラグリセット
+	isSelected_ = false;
+
+	// ボタンID加算
+	buttonID++;
+}
+
 Anim& Anim::SetTrackType(const int type)
 {
 	// 再生トラックの設定

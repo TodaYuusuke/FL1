@@ -65,5 +65,19 @@ protected: // メンバ変数
 
 	// アニメーションキュー
 	std::list<Anim*> animQue_{};
+
+#pragma region デバッグ用変数
+
+	// 停止フラグ
+	bool isStop_ = false;
+
+	// 選択中ID
+	int selectedID_ = 0;
+
+	// 選択中のアニメーション
+	Anim* debugingAnim_ = nullptr;
+
+#pragma endregion
+
 };
 
