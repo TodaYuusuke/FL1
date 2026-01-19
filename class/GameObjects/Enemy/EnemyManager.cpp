@@ -111,6 +111,17 @@ void EnemyManager::EndFrame() {
 			}),
 		enemies_.end()
 	);
+
+	spawnEffects_.erase(
+		std::remove_if(spawnEffects_.begin(), spawnEffects_.end(),
+			[&](SpawnEffectData data) {
+				if (data.currentFrame <= 0.0f) {
+					return true; // vectorから削除対象
+				}
+				return false;
+			}),
+		spawnEffects_.end()
+	);
 }
 
 void EnemyManager::DebugGui() {
@@ -469,6 +480,15 @@ void EnemyManager::CreateRandomSpawnPos() {
 	randomSpawnDir.y = 0.0f;
 	randomSpawnDir *= invalidSpawnRange_;
 	createPos_ = actor->GetWorldTF()->GetWorldPosition() + randomSpawnDir;
+}
+
+void EnemyManager::CreateSpawnEffect(const LWP::Math::Vector3& pos) {
+	SpawnEffectData data{};
+	data.pos = pos;
+	data.currentFrame = spawnEffectTime;
+	//data.spawnEffectModels[0].LoadFullPath("resources/")
+
+	spawnEffects_.push_back(data);
 }
 
 // ------------ デバッグ用関数↓------------ //
