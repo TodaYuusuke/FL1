@@ -122,9 +122,9 @@ namespace FLMath {
 
 	Vector2 ConvertWorldToScreen(const Vector3& worldPos, const Matrix4x4& viewProjection) {
 		Vector3 result = worldPos;
-		if (result.x == 0 && result.y == 0 && result.z == 0) {
-			result = { 0.000001f,0.000001f ,0.000001f };
-		}
+		result += { 0.000001f, 0.000001f, 0.000001f };
+		//if (result.x == 0 && result.y == 0 && result.z == 0) {
+		//}
 		// ビューポート行列
 		Matrix4x4 matViewport = Matrix4x4::CreateViewportMatrix(0, 0, LWP::Info::GetWindowWidthF(), LWP::Info::GetWindowHeightF(), 0, 1);
 		// ビュー行列とプロジェクション行列、ビューポート行列を合成する

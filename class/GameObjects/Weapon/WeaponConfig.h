@@ -44,9 +44,9 @@ enum class ShotType {
 /// 武器の調整項目
 /// </summary>
 struct WeaponData {
-	std::string name="";								// 武器の名前
-	std::string modelName="";							// 銃モデルのファイル名
-	std::string jsonFileName="";						// jsonファイル名
+	std::string name="";							// 武器の名前
+	std::string modelName="";						// 銃モデルのファイル名
+	std::string jsonFileName="";					// jsonファイル名
 	float shotIntervalTime;							// 射撃間隔[秒]
 	float burstIntervalTime;						// バースト間隔[秒](バースト銃の場合に数値を入れる)
 	float storeTime;								// 溜め時間[秒](溜める銃の場合に数値を入れる)

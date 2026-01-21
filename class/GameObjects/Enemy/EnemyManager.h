@@ -301,6 +301,8 @@ private:
 	// 出現演出用のモデル
 	std::vector<SpawnEffectData> spawnEffects_;
 
+	std::vector<int> weaponRarityPercent_;
+
 	// 敵の生成座標
 	LWP::Math::Vector3 createPos_;
 
