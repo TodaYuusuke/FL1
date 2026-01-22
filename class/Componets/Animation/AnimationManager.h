@@ -3,7 +3,7 @@
 #include "Anim.h"
 
 /// <summary>
-/// アニメーション管理クラス(基底クラスとして使用可)
+/// アニメーション管理クラス
 /// </summary>
 class AnimationManager
 {
@@ -46,17 +46,17 @@ public: // メンバ関数
 	/// <param name="animName">アニメーション名</param>
 	/// <param name="transitionTime">遷移秒数</param>
 	/// <param name="isLoop">ループを行うか</param>
-	Anim& PlayQue(const std::string& animName, const float transitionTime = 0.0f, const bool isLoop = false);
+	/// <param name="trackType">(任意)再生するトラック</param>
+	virtual Anim& PlayQue(const std::string& animName, const float transitionTime = 0.0f, const bool isLoop = false, const int trackType = 0);
 	
 	/// <summary>
-	/// <para> キューを無視して直接再生を行う関数 </para>
-	/// <para> !! 必ずStart関数も同時に呼び出すように !! </para>
-	/// <para> 詳細は 参照</para>
+	/// キューを無視して直接再生を行う関数
 	/// </summary>
 	/// <param name="animName">アニメーション名</param>
 	/// <param name="transitionTime">遷移秒数</param>
 	/// <param name="isLoop">ループを行うか</param>
-	Anim& PlayDirect(const std::string& animName, const float transitionTime = 0.0f, const bool isLoop = false);
+	/// <param name="trackType">(任意)再生するトラック</param>
+	virtual Anim& PlayDirect(const std::string& animName, const float transitionTime = 0.0f, const bool isLoop = false, const int trackType = 0);
 
 protected: // メンバ変数
 

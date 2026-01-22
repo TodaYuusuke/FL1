@@ -107,7 +107,7 @@ void AnimationManager::DebugGUI(const std::string& id) {
 	}
 }
 
-Anim& AnimationManager::PlayQue(const std::string& animName, const float transitionTime, const bool isLoop)
+Anim& AnimationManager::PlayQue(const std::string& animName, const float transitionTime, const bool isLoop, const int trackType)
 {
 	// 空のアニメーションデータを作成
 	LWP::Animation::AnimData animData{};
@@ -115,15 +115,13 @@ Anim& AnimationManager::PlayQue(const std::string& animName, const float transit
 	animData.AnimName = animName;
 	animData.TransitionTime = transitionTime;
 	animData.isLoop = isLoop;
+	animData.trackType = trackType;
 
 	// アニメーション作成
 	Anim* newAnim = new Anim(animation_, animData);
 
-	// キュー配列内にアニメーションデータがない場合
-	if (animQue_.empty()) {
-		// 先頭アニメーションを開始
-		newAnim->Start();
-	}
+	// キューが空なら再生する
+	if (animQue_.empty()) { newAnim->Start(); }
 
 	// キュー配列に追加
 	animQue_.push_back(newAnim);
@@ -132,7 +130,7 @@ Anim& AnimationManager::PlayQue(const std::string& animName, const float transit
 	return *animQue_.back();
 }
 
-Anim& AnimationManager::PlayDirect(const std::string& animName, const float transitionTime, const bool isLoop)
+Anim& AnimationManager::PlayDirect(const std::string& animName, const float transitionTime, const bool isLoop, const int trackType)
 {
 	// キュー配列内にアニメーションデータがある場合
 	if (!animQue_.empty()) {
@@ -147,9 +145,13 @@ Anim& AnimationManager::PlayDirect(const std::string& animName, const float tran
 	animData.AnimName = animName;
 	animData.TransitionTime = transitionTime;
 	animData.isLoop = isLoop;
+	animData.trackType = trackType;
 
 	// アニメーション作成
 	Anim* newAnim = new Anim(animation_, animData);
+
+	// 強制的に再生する
+	newAnim->Start();
 
 	// キュー配列に追加
 	animQue_.push_front(newAnim);
@@ -157,4 +159,3 @@ Anim& AnimationManager::PlayDirect(const std::string& animName, const float tran
 	// 先頭のアニメーションを返す
 	return *animQue_.front();
 }
-
