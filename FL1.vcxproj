@@ -150,6 +150,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="class\Audio\AudioPlayer.cpp" />
     <ClCompile Include="class\Componets\Animation\Anim.cpp" />
     <ClCompile Include="class\Componets\Animation\AnimationManager.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\TutorialData\AttackTutorial.cpp" />
@@ -263,8 +264,11 @@
     <ClCompile Include="class\GameObjects\WaveManager.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\Tutorial.cpp" />
     <ClCompile Include="class\GameObjects\Player\Anim\RobotAnimManager.cpp" />
+    <ClCompile Include="class\Audio\SEPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="class\Audio\AudioConfig.h" />
+    <ClInclude Include="class\Audio\AudioPlayer.h" />
     <ClInclude Include="class\Componets\Animation\Anim.h" />
     <ClInclude Include="class\Componets\Animation\AnimationManager.h" />
     <ClInclude Include="class\Componets\Animation\AnimationStructs.h" />
@@ -407,6 +411,7 @@
     <ClInclude Include="class\Componets\EasingEditor.h" />
     <ClInclude Include="class\Componets\EaseMachine.h" />
     <ClInclude Include="class\GameObjects\Player\Anim\RobotAnimManager.h" />
+    <ClInclude Include="class\Audio\SEPlayer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

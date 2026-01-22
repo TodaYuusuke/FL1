@@ -2,6 +2,7 @@
 #include "scene/IScene.h"
 #include "../Effect/EffectManager.h"
 #include "../Effect/EffectEditor.h"
+#include "../Audio/SEPlayer.h"
 #include "../Componets/Animation/AnimationManager.h"
 
 class TestScene final
@@ -29,6 +30,6 @@ private: //*** これより先に必要な処理や変数を記述 ***//
 	// アニメーション管理クラス
 	AnimationManager* animationManager_ = nullptr;
 
-	LWP::Resource::Audio testSE_{};
-	LWP::Resource::Audio testSE2_{};
+
+	float masterVolume_ = 1.0f;
 };

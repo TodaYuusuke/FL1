@@ -10,9 +10,9 @@ public: // サブクラス
 
 	// 再生する箇所の種類
 	enum PlayType {
-		Other,			// 腕以外
-		RightArm = 2,	// 右腕
-		LeftArm = 3,	// 左腕
+		Other,				// 腕以外
+		RightArm	= 2,	// 右腕
+		LeftArm		= 3,	// 左腕
 	};
 
 public: // コンストラクタ等
