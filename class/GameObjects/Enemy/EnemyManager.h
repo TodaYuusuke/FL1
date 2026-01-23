@@ -79,6 +79,11 @@ private:// 敵出現用の関数
 	/// 敵の出現位置をランダムで生成
 	/// </summary>
 	void CreateRandomSpawnPos();
+
+	/// <summary>
+	/// 出現演出を作成
+	/// </summary>
+	void CreateSpawnEffect(const LWP::Math::Vector3& pos);
 				
 private:// ******** デバッグ、エディタ用の関数群↓ ******** //
 	/// <summary>
@@ -284,11 +289,19 @@ private:// 調整項目
 	// 自機を中心とした生成禁止範囲
 	float invalidSpawnRange_ = 25.0f;
 
+	// 出現演出時間
+	float spawnEffectTime = 2.0f;
+
 	LWP::Utility::JsonIO json_;
 
 private:
 	// 敵リスト
 	std::vector<Actor*> enemies_;
+
+	// 出現演出用のモデル
+	std::vector<SpawnEffectData> spawnEffects_;
+
+	std::vector<int> weaponRarityPercent_;
 
 	// 敵の生成座標
 	LWP::Math::Vector3 createPos_;

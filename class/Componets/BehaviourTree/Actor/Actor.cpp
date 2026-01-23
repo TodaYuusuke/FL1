@@ -63,6 +63,11 @@ void Actor::Attack() {
 			if (weapons_[i]->GetWeaponData().name == WeaponConfig::Name::name[(int)WeaponType::kMelee]) {
 				// 攻撃
 				weapons_[i]->Attack(GameMask::player, GameMask::attack | GameMask::enemy, blackBoard_->GetValue<Actor*>("Player"));
+
+				// 攻撃中なら適したアニメーションを再生
+				if (weapons_[i]->GetIsAttacking()) {
+
+				}
 				continue;
 			}
 			else {
@@ -70,6 +75,11 @@ void Actor::Attack() {
 				weapons_[i]->SetShotDirVelocity(Vector3{ 0,0,1 } * (model_.worldTF.rotation * weapons_[i]->GetWorldTF()->rotation));
 				// 攻撃
 				weapons_[i]->Attack(GameMask::player, GameMask::attack | GameMask::enemy);
+
+				// 攻撃中なら適したアニメーションを再生
+				if (weapons_[i]->GetIsAttacking()) {
+
+				}
 				continue;
 			}
 		}

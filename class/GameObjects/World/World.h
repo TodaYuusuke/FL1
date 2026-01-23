@@ -13,22 +13,54 @@ public:
 	World();
 	//デストラクタ
 	~World();
-	//更新
+
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
+	/// <summary>
+	/// 調整項目
+	/// </summary>
 	void DebugGui();
-	//消去
+	/// <summary>
+	/// 消去
+	/// </summary>
 	void Clear();
 
+public:
+	/// <summary>
+	/// 移動エリアの制限
+	/// </summary>
+	void LimitMoveArea(LWP::Math::Vector3& translation) override;
+
 public:// アクセサ
-	//アクターを追加
+	/// <summary>
+	/// アクターを追加
+	/// </summary>
+	/// <param name="actor"></param>
 	virtual void AddActor(Actor* actor) override;
-	//アクターの検索
+	/// <summary>
+	/// アクターの検索
+	/// </summary>
+	/// <param name="name"></param>
+	/// <returns></returns>
 	virtual Actor* FindActor(const std::string& name) const override;
-	//指定したタグ名を持つアクターの検索
+	/// <summary>
+	/// 指定したタグ名を持つアクターの検索
+	/// </summary>
+	/// <param name="tag"></param>
+	/// <returns></returns>
 	virtual std::vector<Actor*> FindActorWithTag(const std::string& tag) const override;
-	//アクター数を返す
+	/// <summary>
+	/// アクター数を返す
+	/// </summary>
+	/// <returns></returns>
 	virtual int CountActor() const override;
-	//指定したタグ名を持つアクター数を返す
+	/// <summary>
+	/// 指定したタグ名を持つアクター数を返す
+	/// </summary>
+	/// <param name="tag"></param>
+	/// <returns></returns>
 	virtual int CountActorWithTag(const std::string& tag) const override;
 
 	/// <summary>
@@ -44,9 +76,21 @@ public:
 	World& operator = (const World& other) = delete;
 
 private:
+	LWP::Math::Vector3 moveArea = { 300.0f,300.0f,300.0f };
+
+	float moveLimitSpeed_ = 0.1f;
+
+	LWP::Utility::JsonIO json_;
+
+private:
 	//アクターマネージャー
 	ActorManager actorManager;
 
 	//天球
 	LWP::Resource::RigidModel skydome_;
+
+	// 移動禁止平面
+	std::map<std::string, LWP::Primitive::NormalSurface> moveLimitSurface_;
+
+	LWP::Math::Vector3 scale_;
 };

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <Adapter.h>
 
 class Actor;
 
@@ -28,6 +29,11 @@ public:
 	/// <param name="name"></param>
 	/// <returns></returns>
 	virtual float FindAttackPower(const std::string& name) = 0;
+
+	/// <summary>
+	/// 移動エリアの制限
+	/// </summary>
+	virtual void LimitMoveArea(LWP::Math::Vector3& translation) { translation; }
 };
 
 #endif // !IWORLD_H_

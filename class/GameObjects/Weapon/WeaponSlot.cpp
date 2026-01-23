@@ -7,9 +7,10 @@
 using namespace LWP::Math;
 using namespace FLMath;
 
-WeaponSlot::WeaponSlot(LeadingSystem* leadingSystem, WeaponSkill* weaponSkill) {
+WeaponSlot::WeaponSlot(LeadingSystem* leadingSystem, WeaponSkill* weaponSkill, int weaponSide) {
 	pLeadingSystem_ = leadingSystem;
 	pWeaponSkill_ = weaponSkill;
+	weaponSide_ = weaponSide;
 }
 
 WeaponSlot::~WeaponSlot() {}
@@ -81,6 +82,11 @@ void WeaponSlot::Attack() {
 
 	// 攻撃
 	weapons_.front()->Attack(GameMask::enemy, GameMask::attack | GameMask::player, actor);
+
+	// 攻撃中なら適したアニメーションを再生
+	if(weapons_.front()->GetIsAttacking()) {
+
+	}
 }
 
 void WeaponSlot::Compact() {

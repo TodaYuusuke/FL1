@@ -123,7 +123,7 @@ public:// アクセサ
 	/// 速度を取得
 	/// </summary>
 	/// <returns></returns>
-	LWP::Math::Vector3 GetVelocity() { return velocity_; }
+	LWP::Math::Vector3* GetVelocity() { return &velocity_; }
 	/// <summary>
 	/// 武器由来の速度を取得
 	/// </summary>

@@ -111,6 +111,17 @@ void EnemyManager::EndFrame() {
 			}),
 		enemies_.end()
 	);
+
+	spawnEffects_.erase(
+		std::remove_if(spawnEffects_.begin(), spawnEffects_.end(),
+			[&](SpawnEffectData data) {
+				if (data.currentFrame <= 0.0f) {
+					return true; // vectorから削除対象
+				}
+				return false;
+			}),
+		spawnEffects_.end()
+	);
 }
 
 void EnemyManager::DebugGui() {
@@ -385,7 +396,16 @@ void EnemyManager::GiveWeapon(Actor* actor, const EnemyData& data) {
 
 		// 持たせる武器を作成
 		std::vector<std::string> weaponNames = WeaponManager::GetInstance()->GetWeaponNamePreview(data.containWeaponTypes[i]);
-		IWeapon* weapon = WeaponManager::GetInstance()->CreateWeapon(data.containWeaponTypes[i], weaponNames[data.containWeaponNames[i]]);
+		std::vector<int> weaponTypes;
+		weaponTypes.push_back(data.containWeaponTypes[i]);
+		std::vector<int> weaponRarities = {
+			(int)RarityType::kCommon,
+			(int)RarityType::kUnCommon,
+			(int)RarityType::kRare,
+			(int)RarityType::kSuperRare,
+			(int)RarityType::kLegendary
+		};
+		IWeapon* weapon = WeaponManager::GetInstance()->CreateRandomWeapon(weaponTypes, weaponRarities, weaponRarityPercent_);
 		// 所持者の攻撃倍率を武器に反映
 		weapon->SetAttackMultiply(actor->GetEnemyData().attackMultiply);
 
@@ -426,6 +446,7 @@ void EnemyManager::SpawnEnemy() {
 		if (spawnInterval_ <= 0.0f && enemies_.empty()) {
 			// 次のウェーブに移行
 			WaveManager::GetInstance()->StartNextWave();
+			weaponRarityPercent_ = WaveManager::GetInstance()->GetCurrentDropWeaponPercent();
 
 			std::vector<std::string> spawnJsonName;
 			spawnJsonName = GetFileNames((GetExeDir() / "resources/json/SpawnEnemy/").string());
@@ -469,6 +490,15 @@ void EnemyManager::CreateRandomSpawnPos() {
 	randomSpawnDir.y = 0.0f;
 	randomSpawnDir *= invalidSpawnRange_;
 	createPos_ = actor->GetWorldTF()->GetWorldPosition() + randomSpawnDir;
+}
+
+void EnemyManager::CreateSpawnEffect(const LWP::Math::Vector3& pos) {
+	SpawnEffectData data{};
+	data.pos = pos;
+	data.currentFrame = spawnEffectTime;
+	//data.spawnEffectModels[0].LoadFullPath("resources/")
+
+	spawnEffects_.push_back(data);
 }
 
 // ------------ デバッグ用関数↓------------ //

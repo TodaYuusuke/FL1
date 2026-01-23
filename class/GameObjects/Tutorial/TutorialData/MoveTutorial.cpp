@@ -175,7 +175,7 @@ void MoveTutorial::Update() {
 		// スティック入力の補正
 		lStick = AdjustmentStick(vCon_->GetLAxis());
 		rStick = AdjustmentStick(vCon_->GetRAxis());
-		if (lStick.y <= -1.0f || rStick.y >= 1.0f) {
+		if (lStick.y <= -1.0f && rStick.y >= 1.0f) {
 			isNextGuide_ = true;
 		}
 
@@ -193,7 +193,7 @@ void MoveTutorial::Update() {
 		// スティック入力の補正
 		lStick = AdjustmentStick(vCon_->GetLAxis());
 		rStick = AdjustmentStick(vCon_->GetRAxis());
-		if (lStick.y >= 1.0f || rStick.y <= -1.0f) {
+		if (lStick.y >= 1.0f && rStick.y <= -1.0f) {
 			isNextGuide_ = true;
 		}
 

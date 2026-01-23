@@ -25,7 +25,58 @@ WaveManager::WaveManager() {
 		.AddValue<Vector2>("Font", &centerPos_["Font"])
 		.AddValue<Vector2>("Number", &centerPos_["Number"])
 		.EndGroup()
+
+		.BeginGroup("DropPercents")
+		.BeginGroup("Wave110")
+		.AddValue<int>("Common", &weaponRarityPercent_[0][RarityType::kCommon])
+		.AddValue<int>("UnCommon", &weaponRarityPercent_[0][RarityType::kUnCommon])
+		.AddValue<int>("Rare", &weaponRarityPercent_[0][RarityType::kRare])
+		.AddValue<int>("SuperRare", &weaponRarityPercent_[0][RarityType::kSuperRare])
+		.AddValue<int>("Legendary", &weaponRarityPercent_[0][RarityType::kLegendary])
+		.EndGroup()
+
+		.BeginGroup("Wave1120")
+		.AddValue<int>("Common", &weaponRarityPercent_[1][RarityType::kCommon])
+		.AddValue<int>("UnCommon", &weaponRarityPercent_[1][RarityType::kUnCommon])
+		.AddValue<int>("Rare", &weaponRarityPercent_[1][RarityType::kRare])
+		.AddValue<int>("SuperRare", &weaponRarityPercent_[1][RarityType::kSuperRare])
+		.AddValue<int>("Legendary", &weaponRarityPercent_[1][RarityType::kLegendary])
+		.EndGroup()
+
+		.BeginGroup("Wave2130")
+		.AddValue<int>("Common", &weaponRarityPercent_[2][RarityType::kCommon])
+		.AddValue<int>("UnCommon", &weaponRarityPercent_[2][RarityType::kUnCommon])
+		.AddValue<int>("Rare", &weaponRarityPercent_[2][RarityType::kRare])
+		.AddValue<int>("SuperRare", &weaponRarityPercent_[2][RarityType::kSuperRare])
+		.AddValue<int>("Legendary", &weaponRarityPercent_[2][RarityType::kLegendary])
+		.EndGroup()
+
+		.BeginGroup("Wave3140")
+		.AddValue<int>("Common", &weaponRarityPercent_[3][RarityType::kCommon])
+		.AddValue<int>("UnCommon", &weaponRarityPercent_[3][RarityType::kUnCommon])
+		.AddValue<int>("Rare", &weaponRarityPercent_[3][RarityType::kRare])
+		.AddValue<int>("SuperRare", &weaponRarityPercent_[3][RarityType::kSuperRare])
+		.AddValue<int>("Legendary", &weaponRarityPercent_[3][RarityType::kLegendary])
+		.EndGroup()
+
+		.BeginGroup("Wave41")
+		.AddValue<int>("Common", &weaponRarityPercent_[4][RarityType::kCommon])
+		.AddValue<int>("UnCommon", &weaponRarityPercent_[4][RarityType::kUnCommon])
+		.AddValue<int>("Rare", &weaponRarityPercent_[4][RarityType::kRare])
+		.AddValue<int>("SuperRare", &weaponRarityPercent_[4][RarityType::kSuperRare])
+		.AddValue<int>("Legendary", &weaponRarityPercent_[4][RarityType::kLegendary])
+		.EndGroup()
+		.EndGroup()
 		.CheckJsonFile();
+
+	flashingEffect_.SetAnimData(&flashAlpha_, 0, 255, 0.2f * 60.0f, LWP::Utility::Easing::OutExpo);
+	flashingEffect_.SetAnimData(&flashAlpha_, 255, 255, 1.0f * 60.0f, LWP::Utility::Easing::OutExpo);
+	flashingEffect_.SetAnimData(&flashAlpha_, 255, 100, 0.04f * 60.0f, LWP::Utility::Easing::OutExpo);
+	flashingEffect_.SetAnimData(&flashAlpha_, 100, 255, 0.04f * 60.0f, LWP::Utility::Easing::OutExpo);
+	flashingEffect_.SetAnimData(&flashAlpha_, 255, 100, 0.04f * 60.0f, LWP::Utility::Easing::OutExpo);
+	flashingEffect_.SetAnimData(&flashAlpha_, 100, 255, 0.04f * 60.0f, LWP::Utility::Easing::OutExpo);
+	flashingEffect_.SetAnimData(&flashAlpha_, 255, 0, 0.2f * 60.0f, LWP::Utility::Easing::InExpo);
+	flashingEffect_.SetAnimData(&flashAlpha_, 0, 0, 1.0f * 60.0f, LWP::Utility::Easing::InExpo);
 }
 
 WaveManager::~WaveManager() {
@@ -39,6 +90,7 @@ void WaveManager::Init() {
 	transitionSprite_.isActive = false;
 	currentWaveNum_ = 0;
 	isTransitionWave_ = false;
+	flashingEffect_.ResetData();
 }
 
 void WaveManager::Update() {
@@ -54,6 +106,8 @@ void WaveManager::Update() {
 
 	// ウェーブ数
 	numberUI_->Update();
+
+	flashingEffect_.Update();
 }
 
 void WaveManager::DebugGui() {
@@ -87,10 +141,17 @@ void WaveManager::DebugGui() {
 void WaveManager::TransitionEffect() {
 	if (!isTransitionWave_) { return; }
 
+	for (size_t i = 0; i < 2; i++) {
+		numberUI_->SetAlhpa(i, static_cast<unsigned char>(flashAlpha_));
+	}
+	transitionSprite_.material.color.A = static_cast<unsigned char>(flashAlpha_);
+
 	if (currentFrame_ <= 0.0f) {
 		isTransitionWave_ = false;
 		numberUI_->SetIsScoreDisplay(false);
 		transitionSprite_.isActive = false;
+
+		flashingEffect_.ResetData();
 		currentFrame_ = transitionEffectTime * 60.0f;
 	}
 
@@ -104,4 +165,26 @@ void WaveManager::StartNextWave() {
 	numberUI_->SetScore(currentWaveNum_);
 	numberUI_->SetIsScoreDisplay(true);
 	transitionSprite_.isActive = true;
+	flashingEffect_.SetIsStart(true);
+
+	if (currentWaveNum_ >= 0 && currentWaveNum_ <= 10) {
+		currentWeaponRarityPercent_.clear();
+		currentWeaponRarityPercent_ = weaponRarityPercent_[0];
+	}
+	else if (currentWaveNum_ >= 11 && currentWaveNum_ <= 20) {
+		currentWeaponRarityPercent_.clear();
+		currentWeaponRarityPercent_ = weaponRarityPercent_[1];
+	}
+	else if (currentWaveNum_ >= 21 && currentWaveNum_ <= 30) {
+		currentWeaponRarityPercent_.clear();
+		currentWeaponRarityPercent_ = weaponRarityPercent_[2];
+	}
+	else if (currentWaveNum_ >= 31 && currentWaveNum_ <= 40) {
+		currentWeaponRarityPercent_.clear();
+		currentWeaponRarityPercent_ = weaponRarityPercent_[3];
+	}
+	else if (currentWaveNum_ >= 41) {
+		currentWeaponRarityPercent_.clear();
+		currentWeaponRarityPercent_ = weaponRarityPercent_[4];
+	}
 }

@@ -19,6 +19,12 @@ class Melee;
 class WeaponManager final : public LWP::Utility::ISingleton<WeaponManager> {
 	friend class LWP::Utility::ISingleton<WeaponManager>;// ISingletonをフレンドクラスにしてコンストラクタを呼び出せるように
 public:
+	struct RarityRate {
+		RarityType rarity;
+		int weight;
+	};
+
+public:
 	// コンストラクタ
 	WeaponManager();
 	// デストラクタ
@@ -138,6 +144,25 @@ private:
 	/// <param name="label"></param>
 	std::vector<std::string> GetWeaponNames(int weaponType);
 
+	RarityType RollRarity(const std::vector<RarityRate>& rarityTable) {
+		int totalWeight = 0;
+		for (const auto& r : rarityTable) {
+			totalWeight += r.weight;
+		}
+
+		int randValue = rand() % totalWeight;
+
+		int current = 0;
+		for (const auto& r : rarityTable) {
+			current += r.weight;
+			if (randValue < current) {
+				return r.rarity;
+			}
+		}
+
+		return rarityTable.back().rarity; // 保険
+	}
+
 	bool Contains(const std::string& str, const std::string& target) {
 		return str.find(target) != std::string::npos;
 	}
@@ -209,7 +234,7 @@ public:// アクセサ
 	/// <param name="weaponTypes"></param>
 	/// <param name="weaponRarity"></param>
 	/// <returns></returns>
-	IWeapon* CreateRandomWeapon(const std::vector<int>& weaponTypes, const std::vector<int>& weaponRarity);
+	IWeapon* CreateRandomWeapon(const std::vector<int>& weaponTypes, const std::vector<int>& weaponRarity, const std::vector<int>& weaponRarityPercent);
 
 	/// <summary>
 	/// 指定の武器を解放

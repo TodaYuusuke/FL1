@@ -877,7 +877,7 @@ IWeapon* WeaponManager::CreateWeapon(int weaponType, const std::string& weaponNa
 	return weapon;
 }
 
-IWeapon* WeaponManager::CreateRandomWeapon(const std::vector<int>& weaponTypes, const std::vector<int>& weaponRarity) {
+IWeapon* WeaponManager::CreateRandomWeapon(const std::vector<int>& weaponTypes, const std::vector<int>& weaponRarity, const std::vector<int>& weaponRarityPercent) {
 #pragma region 武器種
 	int typeSize = static_cast<int>(weaponTypes.size());
 	int randomType = 0;
@@ -894,24 +894,43 @@ IWeapon* WeaponManager::CreateRandomWeapon(const std::vector<int>& weaponTypes, 
 #pragma endregion
 
 #pragma region レアリティ
-	int raritySize = static_cast<int>(weaponRarity.size());
 	int randomRarity = 0;
 	int rarity = 0;
-	// 1種類の場合
-	if (raritySize == 1) {
-		rarity = weaponRarity[0];
+
+	std::vector<RarityRate> rarityTable = {
+	{ RarityType::kCommon,		0 },
+	{ RarityType::kUnCommon,	0 },
+	{ RarityType::kRare,		0 },
+	{ RarityType::kSuperRare,	0 },
+	{ RarityType::kLegendary,	0 }
+	};
+	for (int i = 0; i < weaponRarityPercent.size(); i++) {
+		rarityTable[i].weight = weaponRarityPercent[i];
 	}
-	// ランダムでレアリティを決める
-	else if (raritySize >= 2) {
-		randomRarity = LWP::Utility::Random::GenerateInt(0, raritySize - 1);
-		rarity = weaponRarity[randomRarity];
-	}
+	randomRarity = static_cast<int>(RollRarity(rarityTable));
+
+	rarity = weaponRarity[randomRarity];
 #pragma endregion
 
 	// コピー元の武器情報を決定
 	std::vector<WeaponData> datas;
 	for (const auto& [name, data] : sampleWeaponData_[(WeaponType)type]) {
 		if (data.rarity == rarity) datas.push_back(data);
+	}
+	// 該当レアリティがない
+	if (datas.empty()) {
+		int diffRarity = 10000;
+		int result;
+		for (const auto& [name, data] : sampleWeaponData_[(WeaponType)type]) {
+			if (static_cast<int>(std::fabsf(data.rarity - rarity)) < diffRarity) {
+				diffRarity = static_cast<int>(std::fabsf(data.rarity - rarity));
+				result = data.rarity;
+			}
+		}
+
+		for (const auto& [name, data] : sampleWeaponData_[(WeaponType)type]) {
+			if (data.rarity == result) datas.push_back(data);
+		}
 	}
 
 	int size = static_cast<int>(datas.size());

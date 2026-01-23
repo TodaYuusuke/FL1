@@ -1,6 +1,8 @@
 #pragma once
 #include <Adapter.h>
 #include "UI/ScoreUI/ScoreUI.h"
+#include "../Componets/EaseMachine.h"
+#include "Weapon/WeaponConfig.h"
 
 /// <summary>
 /// ウェーブの管理クラス
@@ -41,6 +43,22 @@ public:
 
 #pragma region Getter
 	/// <summary>
+	/// 現在の各レアリティの武器ドロップ率を取得
+	/// </summary>
+	/// <returns></returns>
+	std::vector<int> GetCurrentDropWeaponPercent() {
+		std::vector<int> result;
+		for (auto& [key, data] : currentWeaponRarityPercent_) {
+			result.push_back(data);
+		}
+		return result;
+	}
+	/// <summary>
+	/// 現在のウェーブ数を取得
+	/// </summary>
+	/// <returns></returns>
+	int GetCurrentWave() { return currentWaveNum_; }
+	/// <summary>
 	/// 次のウェーブに遷移している最中かを取得
 	/// </summary>
 	/// <returns></returns>
@@ -56,7 +74,9 @@ private:// 定数
 
 private:// 調整項目
 	// 遷移時間
-	float transitionEffectTime = 2.0f;
+	float transitionEffectTime = 3.0f;
+
+	std::array<std::map<RarityType, int>, 5> weaponRarityPercent_;
 
 	LWP::Utility::JsonIO json_;
 
@@ -65,6 +85,11 @@ private:
 	LWP::Primitive::NormalSprite transitionSprite_;
 	// 数字スプライト
 	std::unique_ptr<ScoreUI> numberUI_;
+
+	EaseMachine flashingEffect_;
+	int flashAlpha_;
+
+	std::map<RarityType, int> currentWeaponRarityPercent_;
 
 	LWP::Math::Vector2 screenCenterPos_;
 	std::map<std::string, LWP::Math::Vector2> centerPos_;

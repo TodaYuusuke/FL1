@@ -122,11 +122,11 @@ void Move::TurnBehind() {
 
 	if (!turnTime_.GetIsActive()) { return; }
 
-	turnRadian_ = LWP::Utility::Interp::Lerp(Vector3{}, Vector3{ 0.0f, (float)std::numbers::pi, 0.0f }, turnTime_.GetProgress());
+	turnRadian_ = LWP::Utility::Interp::Lerp(Vector3{}, Vector3{ (float)std::numbers::pi, 0.0f, 0.0f }, turnTime_.GetProgress());
 
 	// 前回の角度を引いて角速度を求める
 	Vector3 radian = turnRadian_ - preTurnRadian_;
-	rot_ *= Quaternion::CreateFromAxisAngle({ 0.0f,1.0f,0.0f }, radian.y);
+	rot_ *= Quaternion::CreateFromAxisAngle({ 0.0f,1.0f,0.0f }, radian.x);
 }
 
 void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 rightStick, float deltaTime) {
@@ -137,12 +137,20 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 	// 値の修正される前のスティックの入力値で比較
 	Vector2 lStick = VirtualController::GetInstance()->GetLAxis();
 	Vector2 rStick = VirtualController::GetInstance()->GetRAxis();
-	float sqrtStick = (lStick.y - rStick.y);
+	float sqrtStick = (lStick.x - rStick.x);
+	// 片方の入力が無かったら0にする
+	if (target_vL.y == 0.0f) {
+		target_vR.y = 0.0f;
+	}
+	if (target_vR.y == 0.0f) {
+		target_vL.y = 0.0f;
+	}
+
 	// スティック入力が互いに反対
-	if (target_vL.y * target_vR.y < 0.0f) {
+	if (target_vL.x * target_vR.x < 0.0f) {
 		if (std::sqrtf(sqrtStick * sqrtStick) >= turnThreshold * 2.0f) {
-			target_vL.y = 0.0f;
-			target_vR.y = 0.0f;
+			target_vL.x = 0.0f;
+			target_vR.x = 0.0f;
 			isTurnBehind_ = true;
 		}
 	}
