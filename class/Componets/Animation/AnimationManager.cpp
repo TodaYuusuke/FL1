@@ -1,11 +1,11 @@
 #include "AnimationManager.h"
 
-AnimationManager::AnimationManager(LWP::Resource::Animation* anim)
+AnimationManager::AnimationManager(const std::string& filePath, LWP::Resource::SkinningModel* model)
 {
-	// ポインタの受け取り
-	animation_ = anim;
+	// アニメーション
+	animation_.LoadFullPath(filePath, model);
 	// アニメーション初期化
-	animation_->Init();
+	animation_.Init();
 }
 
 AnimationManager::~AnimationManager()
@@ -19,7 +19,7 @@ AnimationManager::~AnimationManager()
 
 void AnimationManager::Init() {
 	// アニメーション初期化
-	animation_->Init();
+	animation_.Init();
 
 	// キュー内の全データ解放
 	for (Anim* anim : animQue_) {
@@ -34,7 +34,7 @@ void AnimationManager::Update() {
 	if (isStop_) { return;  }
 	
 	// アニメーション更新
-	animation_->Update();
+	animation_.Update();
 
 	//キュー内のデータが無ければ早期リターン
 	if (animQue_.empty()) { return; }
@@ -117,7 +117,7 @@ Anim& AnimationManager::PlayQue(const std::string& animName, const float transit
 	animData.isLoop = isLoop;
 
 	// アニメーション作成
-	Anim* newAnim = new Anim(animation_, animData);
+	Anim* newAnim = new Anim(&animation_, animData);
 
 	// キューが空なら再生する
 	if (animQue_.empty()) { newAnim->Start(); }
@@ -146,7 +146,7 @@ Anim& AnimationManager::PlayDirect(const std::string& animName, const float tran
 	animData.isLoop = isLoop;
 
 	// アニメーション作成
-	Anim* newAnim = new Anim(animation_, animData);
+	Anim* newAnim = new Anim(&animation_, animData);
 
 	// 強制的に再生する
 	newAnim->Start();

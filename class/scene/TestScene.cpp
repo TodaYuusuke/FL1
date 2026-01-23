@@ -33,7 +33,7 @@ void TestScene::Initialize() {
 	robotModel_.LoadShortPath("Player/Player.gltf");
 	animation_.LoadFullPath("resources/model/Player/Player.gltf", &robotModel_);
 
-	animationManager_ = new AnimationManager(&animation_);
+	//animationManager_ = new AnimationManager(&animation_);
 	animationManager_->Init();
 
 	testModel_.LoadCube();				// 立方体と球はデフォルトで用意してある

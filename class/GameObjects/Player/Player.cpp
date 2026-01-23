@@ -109,6 +109,17 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 		// 武器の付与
 		(this->*setWeapon[i])(weapon);
 	}
+
+	// アニメーションマネージャー作成
+	animManager_ = std::make_unique<RobotAnimManager>("resources/model/Player/Player.gltf", &model_, GetVelocity());
+	animManager_->Init();
+
+	// 各アニメーション再生
+	animManager_->PlayQue("Other_Idle", RobotAnimManager::PlayType::Other, 0.0f, true);
+	animManager_->PlayQue("HandL_Idle", RobotAnimManager::PlayType::LeftArm, 0.0f, true);
+	animManager_->PlayQue("HandR_Idle", RobotAnimManager::PlayType::RightArm, 0.0f, true);
+	animManager_->PlayQue("ShoulderL_Idle", RobotAnimManager::PlayType::LeftShoulder, 0.0f, true);
+	animManager_->PlayQue("ShoulderR_Idle", RobotAnimManager::PlayType::RightShoulder, 0.0f, true);
 }
 
 Player::~Player() {
@@ -161,6 +172,9 @@ void Player::Update() {
 	AdjustRotate();
 
 	weaponVel_ = { 0.0f,0.0f,0.0f };
+
+	// アニメーション更新
+	animManager_->Update();
 }
 
 void Player::DrawGui() {
@@ -324,6 +338,13 @@ void Player::OnCollision(LWP::Object::Collision* hitTarget) {
 	}
 	// ダメージを受ける
 	hp_->Damage(world_->FindAttackPower(hitTarget->name), hitTarget->name);
+}
+
+void Player::PlayShotAnim(const int weaponSide)
+{
+	// 射撃アニメーション再生
+	animManager_->PlayDirect("Shot", weaponSide + 2)
+		.AddEvent("PlaySE", 1, [&]() { SEPlayer::GetInstance()->PlaySE("Shot.mp3", 1.0f, LWP::AudioConfig::Player); });
 }
 
 void Player::AdjustRotate() {

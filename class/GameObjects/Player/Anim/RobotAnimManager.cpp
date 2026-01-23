@@ -1,6 +1,6 @@
 #include "RobotAnimManager.h"
 
-RobotAnimManager::RobotAnimManager(LWP::Resource::Animation* anim, const LWP::Math::Vector3* moveVec) : AnimationManager(anim)
+RobotAnimManager::RobotAnimManager(const std::string& filePath, LWP::Resource::SkinningModel* model, const LWP::Math::Vector3* moveVec) : AnimationManager(filePath, model)
 {
 	// 移動ベクトルのアドレス受け取り
 	moveVelocity = moveVec;
@@ -51,9 +51,9 @@ void RobotAnimManager::Init()
 	rightShoulderAnimQue_.clear();
 
 	// 移動ブレンド用アニメーションの開始と停止
-	animation_->Play("Other_Move", 0.0f, 0.0f, LWP::Resource::Animation::TrackType::Blend);
-	animation_->Loop(true, LWP::Resource::Animation::TrackType::Blend);
-	animation_->Stop(LWP::Resource::Animation::TrackType::Blend);
+	animation_.Play("Other_Move", 0.0f, 0.0f, LWP::Resource::Animation::TrackType::Blend);
+	animation_.Loop(true, LWP::Resource::Animation::TrackType::Blend);
+	animation_.Stop(LWP::Resource::Animation::TrackType::Blend);
 }
 
 void RobotAnimManager::Update()
@@ -62,7 +62,7 @@ void RobotAnimManager::Update()
 	if (isStop_) { return; }
 
 	// アニメーション更新
-	animation_->Update();
+	animation_.Update();
 
 	// 腕以外のキューを更新
 	AnimQueUpdate(animQue_);
@@ -71,6 +71,9 @@ void RobotAnimManager::Update()
 	AnimQueUpdate(rightArmAnimQue_);
 	AnimQueUpdate(leftShoulderAnimQue_);
 	AnimQueUpdate(rightShoulderAnimQue_);
+
+	// 移動ブレンドの更新
+	MoveBlendUpdate();
 }
 
 Anim& RobotAnimManager::PlayQue(const std::string& animName, const int trackType, const float transitionTime, const bool isLoop)
@@ -84,7 +87,7 @@ Anim& RobotAnimManager::PlayQue(const std::string& animName, const int trackType
 	animData.trackType = trackType;
 
 	// アニメーション作成
-	Anim* newAnim = new Anim(animation_, animData);
+	Anim* newAnim = new Anim(&animation_, animData);
 
 	// 再生する場所によって処理を変更する
 	switch (trackType)
@@ -159,6 +162,9 @@ Anim& RobotAnimManager::PlayDirect(const std::string& animName, const int trackT
 	animData.isLoop = isLoop;
 	animData.trackType = trackType;
 
+	// アニメーション作成
+	Anim* newAnim = nullptr;
+
 	// 再生する場所によって処理を変更する
 	switch (trackType)
 	{
@@ -171,7 +177,7 @@ Anim& RobotAnimManager::PlayDirect(const std::string& animName, const int trackT
 		}
 
 		// アニメーション作成
-		Anim* newAnim = new Anim(animation_, animData);
+		newAnim = new Anim(&animation_, animData);
 
 		// 強制的に再生する
 		newAnim->Start();
@@ -195,7 +201,7 @@ Anim& RobotAnimManager::PlayDirect(const std::string& animName, const int trackT
 		animData.AnimName = "HandL_" + animName;
 
 		// アニメーション作成
-		Anim* newAnim = new Anim(animation_, animData);
+		newAnim = new Anim(&animation_, animData);
 
 		// 強制的に再生する
 		newAnim->Start();
@@ -219,7 +225,7 @@ Anim& RobotAnimManager::PlayDirect(const std::string& animName, const int trackT
 		animData.AnimName = "HandR_" + animName;
 
 		// アニメーション作成
-		Anim* newAnim = new Anim(animation_, animData);
+		newAnim = new Anim(&animation_, animData);
 
 		// 強制的に再生する
 		newAnim->Start();
@@ -243,7 +249,7 @@ Anim& RobotAnimManager::PlayDirect(const std::string& animName, const int trackT
 		animData.AnimName = "ShoulderL_" + animName;
 
 		// アニメーション作成
-		Anim* newAnim = new Anim(animation_, animData);
+		newAnim = new Anim(&animation_, animData);
 
 		// 強制的に再生する
 		newAnim->Start();
@@ -267,7 +273,7 @@ Anim& RobotAnimManager::PlayDirect(const std::string& animName, const int trackT
 		animData.AnimName = "ShoulderR_" + animName;
 
 		// アニメーション作成
-		Anim* newAnim = new Anim(animation_, animData);
+		newAnim = new Anim(&animation_, animData);
 
 		// 強制的に再生する
 		newAnim->Start();
@@ -314,9 +320,10 @@ void RobotAnimManager::MoveBlendUpdate()
 {
 	// 移動ベクトルを二次元ベクトルで取得
 	LWP::Math::Vector2 moveV = LWP::Math::Vector2(moveVelocity->x, moveVelocity->z);
-
 	// ブレンド用tを求め、アニメーションのBlendTにセット
-	animation_->SetTime(CalcMoveT(moveV), LWP::Resource::Animation::TrackType::Blend);
+	animation_.SetTime(CalcMoveT(moveV), LWP::Resource::Animation::TrackType::Blend);
+	// 移動ベクトルの長さによってブレンドTを変更する
+	animation_.blendT = std::clamp<float>(moveV.Length(), 0.0f, 1.0f);
 }
 
 float RobotAnimManager::CalcMoveT(const LWP::Math::Vector2& v)

@@ -7,6 +7,7 @@
 #include "../INode.h"
 #include "../../HitStopController.h"
 #include "../../../GameObjects/Enemy/EnemyConfig.h"
+#include "../../../Audio/SEPlayer.h"
 
 class IWorld;
 class BlackBoard;
@@ -44,6 +45,20 @@ public:
 	/// 攻撃する
 	/// </summary>
 	virtual void Attack();
+
+public: // アニメーション用関数群
+
+	/// <summary>
+	/// 射撃アニメーション再生関数
+	/// </summary>
+	/// <param name="weaponSide">武器の場所</param>
+	virtual void PlayShotAnim(const int weaponSide = 0) {};
+
+	/// <summary>
+	/// 近接攻撃アニメーション再生関数
+	/// </summary>
+	/// <param name="weaponSide">武器の場所</param>
+	virtual void PlayMelleAnim(const int weaponSide = 0) {};
 
 protected:
 	/// <summary>

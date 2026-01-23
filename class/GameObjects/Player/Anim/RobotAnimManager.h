@@ -25,9 +25,10 @@ public: // コンストラクタ等
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	/// <param name="anim">対象アニメーション</param>
+	/// <param name="filePath">モデルまでのファイルパス</param>
+	/// <param name="model">アニメーション対象モデル</param>
 	/// <param name="moveVec">移動ベクトルのポインタ</param>
-	RobotAnimManager(LWP::Resource::Animation* anim, const LWP::Math::Vector3* moveVec);
+	RobotAnimManager(const std::string& filePath, LWP::Resource::SkinningModel* model, const LWP::Math::Vector3* moveVec);
 
 	/// <summary>
 	/// デストラクタ

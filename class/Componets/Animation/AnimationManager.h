@@ -15,8 +15,9 @@ public: // コンストラクタ等
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	/// <param name="anim">対象アニメーション</param>
-	AnimationManager(LWP::Resource::Animation* anim);
+	/// <param name="filePath">モデルまでのファイルパス</param>
+	/// <param name="model">アニメーション対象モデル</param>
+	AnimationManager(const std::string& filePath, LWP::Resource::SkinningModel* model);
 
 	/// <summary>
 	/// 仮想デストラクタ
@@ -59,7 +60,7 @@ public: // メンバ関数
 protected: // メンバ変数
 
 	// アニメーション
-	LWP::Resource::Animation* animation_ = nullptr;
+	LWP::Resource::Animation animation_;
 
 	// アニメーションキュー
 	std::list<Anim*> animQue_{};

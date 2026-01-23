@@ -66,7 +66,7 @@ void Actor::Attack() {
 
 				// 攻撃中なら適したアニメーションを再生
 				if (weapons_[i]->GetIsAttacking()) {
-
+					PlayMelleAnim(i);
 				}
 				continue;
 			}
@@ -78,7 +78,7 @@ void Actor::Attack() {
 
 				// 攻撃中なら適したアニメーションを再生
 				if (weapons_[i]->GetIsAttacking()) {
-
+					PlayShotAnim(i);
 				}
 				continue;
 			}
