@@ -120,12 +120,19 @@ void GameScene::Initialize() {
 	//std::function<void(LWP::Math::Vector3)> func = std::bind(&Radar::AppendTargetEnemy,radar_.get());
 	enemyManager_->SetMiniMapFunc(Radar::AppendTargetEnemy);
 	WeaponManager::GetInstance()->SetMiniMapFunc(Radar::AppendTargetWeapon);
+
+	//シーン遷移アニメーション
+	sceneChangeAnimation_ = std::make_unique<DefaultSceneChangeAnimation>();
+	sceneChangeAnimation_->Initialize();
+	sceneChangeAnimation_->SetAnimationLength(animationLength_);
+	sceneChangeAnimation_->Start(0);
+	isChangeScene_ = false;
 }
 
 void GameScene::Update() {
 	// 敵を一定数倒したら終了
 	if (enemyManager_->GetKillCount() >= clearKillCount || !player_->GetIsAlive()) {
-		nextSceneFunction = []() { return new ResultScene(); };
+		ChangeResultScene();
 	}
 	// ヒットストップ
 	HitStopController::GetInstance()->Update();
@@ -155,6 +162,9 @@ void GameScene::Update() {
 
 	//ミニマップ
 	Radar::GetInstance()->Update();
+
+	//シーン遷移アニメーション
+	sceneChangeAnimation_->Update();
 
 	// エフェクト関連初期化
 	EffectManager::GetInstance()->Update();
@@ -242,4 +252,10 @@ void GameScene::Update() {
 
 	// コントローラー
 	VirtualController::GetInstance()->Update();
+}
+
+void GameScene::ChangeResultScene() {
+	if (!isChangeScene_) sceneChangeAnimation_->Start(1);
+	if (!sceneChangeAnimation_->GetIsPlay()) nextSceneFunction = []() { return new ResultScene(); };
+	isChangeScene_ = true;
 }

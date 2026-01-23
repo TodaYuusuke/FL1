@@ -6,6 +6,7 @@
 #include "../GameObjects/Camera/FollowCamera/FollowCamera.h"
 #include "../GameObjects/UI/ScoreUI/ScoreUI.h"
 #include "../GameObjects/UI/Radar/Radar.h"
+#include "SceneChangeAnimation/SceneChangeAnimation.h"
 #include "Adapter.h"
 
 
@@ -19,6 +20,8 @@ public: // ** 純粋仮想関数の実体宣言 ** //
 	void Initialize();
 	// 更新
 	void Update();
+
+	void ChangeResultScene();
 
 private: // 調整項目
 	// クリアまでに必要なキル数
@@ -39,5 +42,9 @@ private:
 
 	std::unique_ptr<ScoreUI> score_;
 
-	//std::unique_ptr<Radar> radar_;
+	//シーン遷移
+	std::unique_ptr <DefaultSceneChangeAnimation> sceneChangeAnimation_;
+	bool isChangeScene_ = false;
+
+	int animationLength_ = 24;
 };
