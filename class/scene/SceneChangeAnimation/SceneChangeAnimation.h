@@ -16,6 +16,8 @@ public:
 	/// <param name="type">0:in 1:out</param>
 	void Start(int type);
 
+	void Start(int type, std::function<IScene* ()> func);
+
 	void Update();
 
 	bool GetIsPlay() { return isPlay_; };
@@ -32,4 +34,7 @@ private:
 	bool isPlay_;
 	int animationLength_;//アニメーション再生時間(フレーム)
 	int type_;
+
+	std::function<IScene*()> endPlayFunc_;//再生終了時に呼ぶ関数
+	bool isHaveFunc_=false;//関数を保持しているか
 };

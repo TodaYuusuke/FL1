@@ -15,6 +15,7 @@ public:
 	// 更新
 	void Update() override;
 
+	void ChangeGameScene();
 
 private: //*** これより先に必要な処理や変数を記述 ***//
 
@@ -29,6 +30,8 @@ private: //*** これより先に必要な処理や変数を記述 ***//
 
 	//シーン遷移
 	std::unique_ptr <DefaultSceneChangeAnimation> sceneChangeAnimation_;
+	bool isChangeScene_=false;
 
 	int animationLength_=24;
+
 };

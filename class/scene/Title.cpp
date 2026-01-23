@@ -39,13 +39,14 @@ void Title::Initialize() {
 	ControllerReceiver::GetInstance()->ReOpenPort();
 	// ゲームコントローラ
 	VirtualController::Create();
+
+	isChangeScene_ = false;
 }
 
 // 更新
 void Title::Update() {
-	if (VirtualController::GetInstance()->TriggerAnyKey()) {
-		sceneChangeAnimation_->Start(1);
-		nextSceneFunction = []() { return new GameScene(); };
+	if (VirtualController::GetInstance()->TriggerAnyKey() || isChangeScene_) {
+		ChangeGameScene();
 	}
 
 	// コントローラー
@@ -67,4 +68,11 @@ void Title::Update() {
 	ImGui::End();
 
 #endif
+}
+
+
+void Title::ChangeGameScene() {
+	if (!isChangeScene_) sceneChangeAnimation_->Start(1);
+	if(!sceneChangeAnimation_->GetIsPlay()) nextSceneFunction = []() { return new GameScene(); };
+	isChangeScene_ = true;
 }

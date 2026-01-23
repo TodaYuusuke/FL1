@@ -23,6 +23,7 @@ void DefaultSceneChangeAnimation::Initialize() {
 
 	animationLength_ = kSpritFrame_;
 	type_ = 0;
+	isHaveFunc_ = false;
 }
 
 void DefaultSceneChangeAnimation::Start(int type) {
@@ -37,6 +38,12 @@ void DefaultSceneChangeAnimation::Start(int type) {
 	}
 }
 
+void DefaultSceneChangeAnimation::Start(int type, std::function<IScene*()> func) {
+	Start(type);
+	endPlayFunc_ = func;
+	isHaveFunc_ = true;
+}
+
 void DefaultSceneChangeAnimation::Update() {
 	if (!isPlay_) return;
 	if (frame_ >= animationLength_) {
@@ -45,6 +52,10 @@ void DefaultSceneChangeAnimation::Update() {
 			for (size_t i = 0; i < kSpriteNum_; i++) {
 				sprites_[i].isActive = false;
 			}
+		}
+		if (isHaveFunc_) {
+			endPlayFunc_();
+			isHaveFunc_ = false;
 		}
 		return;
 	}
