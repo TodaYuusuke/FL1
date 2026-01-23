@@ -116,10 +116,10 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 
 	// 各アニメーション再生
 	animManager_->PlayQue("Other_Idle", RobotAnimManager::PlayType::Other, 0.0f, true);
-	animManager_->PlayQue("HandL_Idle", RobotAnimManager::PlayType::LeftArm, 0.0f, true);
-	animManager_->PlayQue("HandR_Idle", RobotAnimManager::PlayType::RightArm, 0.0f, true);
-	animManager_->PlayQue("ShoulderL_Idle", RobotAnimManager::PlayType::LeftShoulder, 0.0f, true);
-	animManager_->PlayQue("ShoulderR_Idle", RobotAnimManager::PlayType::RightShoulder, 0.0f, true);
+	animManager_->PlayQue("Idle", RobotAnimManager::PlayType::LeftArm, 0.0f, true);
+	animManager_->PlayQue("Idle", RobotAnimManager::PlayType::RightArm, 0.0f, true);
+	animManager_->PlayQue("Idle", RobotAnimManager::PlayType::LeftShoulder, 0.0f, true);
+	animManager_->PlayQue("Idle", RobotAnimManager::PlayType::RightShoulder, 0.0f, true);
 }
 
 Player::~Player() {
@@ -345,6 +345,9 @@ void Player::PlayShotAnim(const int weaponSide)
 	// 射撃アニメーション再生
 	animManager_->PlayDirect("Shot", weaponSide + 2)
 		.AddEvent("PlaySE", 1, [&]() { SEPlayer::GetInstance()->PlaySE("Shot.mp3", 1.0f, LWP::AudioConfig::Player); });
+
+	// 待機アニメーションをキューに入れる
+	animManager_->PlayQue("Idle", weaponSide + 2);
 }
 
 void Player::AdjustRotate() {
@@ -358,7 +361,7 @@ void Player::AdjustRotate() {
 		if (!isTriggerLockOn_) moveRot_ = (Quaternion{ 0,0,0,1 });
 
 		t = 0.6f;
-		Vector3 targetPos = leadingSystem_->GetLeadingTarget()->GetModel().GetJointWorldPosition("LockOnAnchor");
+		Vector3 targetPos = leadingSystem_->GetLeadingTarget()->GetModel()->GetJointWorldPosition("LockOnAnchor");
 		Vector3 playerDir = (Vector3{ 0,0,1 } *Matrix4x4::CreateRotateXYZMatrix(model_.worldTF.rotation)).Normalize();
 		playerDir.y = 0.0f;
 		Vector3 targetDir = (targetPos - model_.worldTF.GetWorldPosition()).Normalize();

@@ -18,7 +18,7 @@ IGun::IGun(WeaponData data) {
 
 	// モデル生成
 	body_.LoadFullPath(data_.modelName);
-	body_.worldTF.scale = { 0.5f,0.5f,0.5f };
+	//body_.worldTF.scale = { 0.5f,0.5f,0.5f };
 
 	// マガジン作成
 	magazine_ = std::make_unique<Magazine>(data_.bulletNum);
@@ -40,7 +40,7 @@ IGun::IGun(WeaponData data) {
 void IGun::Init() {
 	body_.worldTF.translation = { 0.0f,0.0f,0.0f };
 	body_.worldTF.rotation = { 0.0f,0.0f,0.0f,1.0f };
-	body_.worldTF.scale = { 0.5f,0.5f,0.5f };
+	//body_.worldTF.scale = { 0.5f,0.5f,0.5f };
 
 	// マガジン初期化
 	magazine_->Init(data_.bulletNum);

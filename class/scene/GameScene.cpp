@@ -27,6 +27,9 @@ GameScene::GameScene() {
 }
 
 GameScene::~GameScene() {
+	// 効果音プレイヤー生成
+	SEPlayer::Destroy();
+
 	// ウェーブ
 	WaveManager::Destroy();
 	// 
@@ -49,6 +52,9 @@ GameScene::~GameScene() {
 }
 
 void GameScene::Initialize() {
+	// 効果音プレイヤー生成
+	SEPlayer::Create();
+
 	// カメラ演出
 	CameraEffectHandler::Create();
 	//ポート再オープン
@@ -121,6 +127,9 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+	// 効果音プレイヤー生成
+	SEPlayer::GetInstance()->Update();
+
 	// 敵を一定数倒したら終了
 	if (!player_->GetIsAlive()) {
 		nextSceneFunction = []() { return new ResultScene(); };

@@ -51,14 +51,14 @@ private:
 	/// <param name="q"></param>
 	/// <param name="weaponPos"></param>
 	/// <param name="weaponSide"></param>
-	void SettingWeapon(IWeapon* weapon, LWP::Math::Quaternion q, LWP::Math::Vector3 weaponPos, WeaponSide weaponSide) {
+	void SettingWeapon(IWeapon* weapon, LWP::Math::Quaternion q, std::string jointName, WeaponSide weaponSide) {
 		if (weapons_[weaponSide]->GetIsFullWeapon()) { return; }
 
 		weapon->SetWeaponSide((int)weaponSide);
 		weapon->Init();
-		weapon->SetTranslation(weaponPos);
 		weapon->SetRotation(q);
-		weapon->SetParent(target_);
+		weapon->SetTranslation({ 0.0f, 0.0f, 0.0f });
+		weapon->SetParent(target_, jointName);
 		weapons_[weaponSide]->AddWeapon(weapon);
 		isPickUpWeapon_ = true;
 	}
@@ -99,28 +99,28 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="weapon"></param>
 	void SetLeftWeapon(IWeapon* weapon) {
-		SettingWeapon(weapon, LWP::Math::Quaternion{ 0,0,0,1 }, centerPos_ + LWP::Math::Vector3{ -1.0f, -0.7f, 3.0f }, WeaponSide::kLeft);
+		SettingWeapon(weapon, LWP::Math::Quaternion{ 0,0,0,1 }, "WeaponAnchor.L", WeaponSide::kLeft);
 	}
 	/// <summary>
 	/// 左肩の武器を設定する
 	/// </summary>
 	/// <param name="weapon"></param>
 	void SetLeftShoulderWeapon(IWeapon* weapon) {
-		SettingWeapon(weapon, LWP::Math::Quaternion{ 0,0,0,1 }, centerPos_ + LWP::Math::Vector3{ -1.25f, 0.5f, 3.0f }, WeaponSide::kLeftShoulder);
+		SettingWeapon(weapon, LWP::Math::Quaternion{ 0,0,0,1 }, "ShoulderWeaponAnchor.L", WeaponSide::kLeftShoulder);
 	}
 	/// <summary>
 	/// 右手の武器を設定する
 	/// </summary>
 	/// <param name="weapon"></param>
 	void SetRightWeapon(IWeapon* weapon) {
-		SettingWeapon(weapon, LWP::Math::Quaternion{ 0,0,0,1 }, centerPos_ + LWP::Math::Vector3{ 1.0f, -0.7f, 3.0f }, WeaponSide::kRight);
+		SettingWeapon(weapon, LWP::Math::Quaternion{ 0,0,0,1 }, "WeaponAnchor.R", WeaponSide::kRight);
 	}
 	/// <summary>
 	/// 右肩の武器を設定する
 	/// </summary>
 	/// <param name="weapon"></param>
 	void SetRightShoulderWeapon(IWeapon* weapon) {
-		SettingWeapon(weapon, LWP::Math::Quaternion{ 0,0,0,1 }, centerPos_ + LWP::Math::Vector3{ 1.25f, 0.5f, 3.0f }, WeaponSide::kRightShoulder);
+		SettingWeapon(weapon, LWP::Math::Quaternion{ 0,0,0,1 }, "ShoulderWeaponAnchor.R", WeaponSide::kRightShoulder);
 	}
 
 	/// <summary>

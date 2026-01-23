@@ -20,7 +20,7 @@ void HomingMove::Update(BulletBase* bullet) {
 	}
 
 	// 自機座標より少し上をホーミング
-	LWP::Math::Vector3 playerPos = bullet->GetShooter()->GetModel().GetJointWorldPosition("LockOnAnchor");
+	LWP::Math::Vector3 playerPos = bullet->GetShooter()->GetModel()->GetJointWorldPosition("LockOnAnchor");
 	// 弾から自機への方向ベクトルを算出
 	LWP::Math::Vector3 toPlayer = playerPos - bullet->GetWorldTF()->GetWorldPosition();
 	// 正規化

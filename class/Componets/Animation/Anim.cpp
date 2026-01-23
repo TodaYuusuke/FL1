@@ -19,9 +19,11 @@ void Anim::Start() {
 }
 
 void Anim::Update() {
+	// トラックタイプを取得
+	LWP::Resource::Animation::TrackType tType = static_cast<LWP::Resource::Animation::TrackType>(data_.trackType);
 
 	// アニメーションがループでない、かつアニメーション終了時
-	if (!data_.isLoop && !anim_->GetPlaying(data_.AnimName)) {
+	if (!data_.isLoop && !anim_->GetPlaying(data_.AnimName, tType)) {
 		// アニメーション終了
 		isEnd_ = true;
 	}
@@ -35,7 +37,7 @@ void Anim::Update() {
 	// イベント関係の処理
 	for (int i = 0; i < data_.Events.size(); i++) {
 		// 経過秒数が開始フレームを超過し、イベントが実行されていない場合
-		if(data_.Events[i].BeginFrame <= static_cast<int>(std::floor(anim_->GetProgressSeconds() * 60.0f)) && 
+		if(data_.Events[i].BeginFrame <= static_cast<int>(std::floor(anim_->GetProgressSeconds(tType) * 60.0f)) &&
 			!data_.Events[i].IsDone) {
 			// イベントの関数を実行
 			data_.Events[i].Func();

@@ -52,13 +52,13 @@ public: // アニメーション用関数群
 	/// 射撃アニメーション再生関数
 	/// </summary>
 	/// <param name="weaponSide">武器の場所</param>
-	virtual void PlayShotAnim(const int weaponSide = 0) {};
+	virtual void PlayShotAnim(const int weaponSide = 0) { weaponSide; };
 
 	/// <summary>
 	/// 近接攻撃アニメーション再生関数
 	/// </summary>
 	/// <param name="weaponSide">武器の場所</param>
-	virtual void PlayMelleAnim(const int weaponSide = 0) {};
+	virtual void PlayMelleAnim(const int weaponSide = 0) { weaponSide; };
 
 protected:
 	/// <summary>
@@ -128,7 +128,7 @@ public:// アクセサ
 	/// 現在位置を取得
 	/// </summary>
 	/// <returns></returns>
-	LWP::Resource::SkinningModel GetModel() { return model_; }
+	LWP::Resource::SkinningModel* GetModel() { return &model_; }
 	/// <summary>
 	/// ワールドトランスフォームを取得
 	/// </summary>

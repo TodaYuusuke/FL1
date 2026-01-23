@@ -73,7 +73,7 @@ void WeaponSlot::Attack() {
 				weapons_.front()->SetShotDirVelocity(shotVel);
 			}
 			else {
-				weapons_.front()->SetShotDirVelocity(GetDirVector({ 0,0,1 }, weapons_.front()->GetActor()->GetModel().worldTF.rotation));
+				weapons_.front()->SetShotDirVelocity(GetDirVector({ 0,0,1 }, weapons_.front()->GetActor()->GetModel()->worldTF.rotation));
 			}
 
 			// 相手がだれかを指定するために更新処理一回呼ぶ

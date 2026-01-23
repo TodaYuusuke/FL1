@@ -5,6 +5,7 @@
 #include "../GameObjects/Enemy/EnemyManager.h"
 #include "../GameObjects/Camera/FollowCamera/FollowCamera.h"
 #include "../GameObjects/UI/ScoreUI/ScoreUI.h"
+#include "../Audio/SEPlayer.h"
 #include "Adapter.h"
 
 class GameScene final

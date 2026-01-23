@@ -86,13 +86,16 @@ Anim& RobotAnimManager::PlayQue(const std::string& animName, const int trackType
 	animData.isLoop = isLoop;
 	animData.trackType = trackType;
 
-	// アニメーション作成
-	Anim* newAnim = new Anim(&animation_, animData);
+	// 空のアニメーション作成
+	Anim* newAnim = nullptr;
 
 	// 再生する場所によって処理を変更する
 	switch (trackType)
 	{
 	case RobotAnimManager::Other:
+		// アニメーション作成
+		newAnim = new Anim(&animation_, animData);
+
 		// キューが空なら再生する
 		if (animQue_.empty()) { newAnim->Start(); }
 
@@ -103,6 +106,11 @@ Anim& RobotAnimManager::PlayQue(const std::string& animName, const int trackType
 		return *animQue_.back();
 		break;
 	case RobotAnimManager::LeftArm:
+		// 先頭に識別子追加
+		animData.AnimName = "HandL_" + animName;
+		// アニメーション作成
+		newAnim = new Anim(&animation_, animData);
+
 		// キューが空なら再生する
 		if (leftArmAnimQue_.empty()) { newAnim->Start(); }
 
@@ -113,6 +121,11 @@ Anim& RobotAnimManager::PlayQue(const std::string& animName, const int trackType
 		return *leftArmAnimQue_.back();
 		break;
 	case RobotAnimManager::RightArm:
+		// 先頭に識別子追加
+		animData.AnimName = "HandR_" + animName;
+		// アニメーション作成
+		newAnim = new Anim(&animation_, animData);
+
 		// キューが空なら再生する
 		if (rightArmAnimQue_.empty()) { newAnim->Start(); }
 
@@ -123,6 +136,11 @@ Anim& RobotAnimManager::PlayQue(const std::string& animName, const int trackType
 		return *rightArmAnimQue_.back();
 		break;
 	case RobotAnimManager::LeftShoulder:
+		// 先頭に識別子追加
+		animData.AnimName = "ShoulderL_" + animName;
+		// アニメーション作成
+		newAnim = new Anim(&animation_, animData);
+
 		// キューが空なら再生する
 		if (leftShoulderAnimQue_.empty()) { newAnim->Start(); }
 
@@ -133,6 +151,11 @@ Anim& RobotAnimManager::PlayQue(const std::string& animName, const int trackType
 		return *leftShoulderAnimQue_.back();
 		break;
 	case RobotAnimManager::RightShoulder:
+		// 先頭に識別子追加
+		animData.AnimName = "ShoulderR_" + animName;
+		// アニメーション作成
+		newAnim = new Anim(&animation_, animData);
+
 		// キューが空なら再生する
 		if (rightShoulderAnimQue_.empty()) { newAnim->Start(); }
 
