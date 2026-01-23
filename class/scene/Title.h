@@ -1,6 +1,7 @@
 #pragma once
 #include "scene/IScene.h"
 #include "../GameObjects/UI/BackGround.h"
+#include "SceneChangeAnimation/SceneChangeAnimation.h"
 class Title final
 	: public IScene {
 public:
@@ -25,4 +26,9 @@ private: //*** これより先に必要な処理や変数を記述 ***//
 
 	//背景
 	std::unique_ptr<BackGround> backGround_;
+
+	//シーン遷移
+	std::unique_ptr <DefaultSceneChangeAnimation> sceneChangeAnimation_;
+
+	int animationLength_=24;
 };

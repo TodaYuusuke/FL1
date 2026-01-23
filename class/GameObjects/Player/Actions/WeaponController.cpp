@@ -148,11 +148,11 @@ void WeaponController::Update() {
 			weaponSurfaces_[(WeaponSide)side][i].anchorPoint = {0.0f,0.5f};
 			weaponSurfaces_[(WeaponSide)side][i].material.color = colorSample_[side];
 
-			weaponGaugeSurfaces_[(WeaponSide)side][i].worldTF.Parent(&weaponSurfaces_[(WeaponSide)side][i].worldTF);
+			weaponGaugeSurfaces_[(WeaponSide)side][i].worldTF.Parent(&sampleWeaponSurface_[(WeaponSide)side].worldTF);
 			weaponGaugeSurfaces_[(WeaponSide)side][i].worldTF.translation = {0.0f,0.0f,0.0f};
 			weaponGaugeSurfaces_[(WeaponSide)side][i].worldTF.translation.z = gaugeDistance_;
 			weaponGaugeSurfaces_[(WeaponSide)side][i].isActive = false;
-			weaponGaugeSurfaces_[(WeaponSide)side][i].anchorPoint = { 0.5f,0.5f };
+			weaponGaugeSurfaces_[(WeaponSide)side][i].anchorPoint = { 0.0f,0.5f };
 			weaponGaugeSurfaces_[(WeaponSide)side][i].material.color = colorSample_[side];
 		}
 		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
@@ -206,7 +206,7 @@ void WeaponController::CalcGauge(LWP::Primitive::ClipSurface* gauge, float value
 		now = max;
 	}
 	float ratio = now / max;
-	//ratio = 0.7f;
+	ratio = 0.7f;
 	gauge->anchorPoint.x =  0;
 	gauge->clipRect.min = {0.0f,0.0f};
 	gauge->clipRect.max.x = (ratio) * weaponTextureSize_.x;
