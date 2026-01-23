@@ -34,6 +34,11 @@ public:
 	/// 移動エリアの制限
 	/// </summary>
 	virtual void LimitMoveArea(LWP::Math::Vector3& translation) { translation; }
+
+	virtual bool GetIsLimitMoveArea(const LWP::Math::Vector3& translation) { 
+		translation; 
+		return false;
+	}
 };
 
 #endif // !IWORLD_H_

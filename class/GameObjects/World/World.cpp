@@ -81,6 +81,16 @@ void World::LimitMoveArea(LWP::Math::Vector3& translation) {
 	translation.z = std::clamp<float>(translation.z, -moveArea.z + 20.0f, moveArea.z - 20.0f);
 }
 
+bool World::GetIsLimitMoveArea(const LWP::Math::Vector3& translation) {
+	if (std::fabsf(translation.x) >= moveArea.x ||
+		std::fabsf(translation.y) >= moveArea.y ||
+		std::fabsf(translation.z) >= moveArea.z) {
+		return true;
+	}
+
+	return false;
+}
+
 void World::AddActor(Actor* actor) {
 	actorManager.Add(actor);
 }

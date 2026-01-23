@@ -33,6 +33,8 @@ public:
 	/// </summary>
 	void LimitMoveArea(LWP::Math::Vector3& translation) override;
 
+	bool GetIsLimitMoveArea(const LWP::Math::Vector3& translation) override;
+
 public:// アクセサ
 	/// <summary>
 	/// アクターを追加

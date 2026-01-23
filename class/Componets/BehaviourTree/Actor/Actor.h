@@ -153,7 +153,12 @@ public:// アクセサ
 	/// 生きているか取得
 	/// </summary>
 	/// <returns></returns>
-	bool GetIsAlive() { return isAlive_; };
+	bool GetIsAlive() { return isAlive_; }
+	/// <summary>
+	/// エリア外にいるかを取得
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsLimitMoveArea() { return isLimitMoveArea_; }
 	/// <summary>
 	/// 撃墜スコア取得
 	/// </summary>
@@ -288,6 +293,8 @@ protected:
 
 	// 生存フラグ
 	bool isAlive_ = true;
+	// エリア外にいるか
+	bool isLimitMoveArea_ = false;
 
 	//スコア(仮値全オブジェクト100)
 	int32_t score_ = 12345;
