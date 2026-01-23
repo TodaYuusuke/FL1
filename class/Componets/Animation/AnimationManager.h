@@ -46,8 +46,7 @@ public: // メンバ関数
 	/// <param name="animName">アニメーション名</param>
 	/// <param name="transitionTime">遷移秒数</param>
 	/// <param name="isLoop">ループを行うか</param>
-	/// <param name="trackType">(任意)再生するトラック</param>
-	virtual Anim& PlayQue(const std::string& animName, const float transitionTime = 0.0f, const bool isLoop = false, const int trackType = 0);
+	virtual Anim& PlayQue(const std::string& animName, const float transitionTime = 0.0f, const bool isLoop = false);
 	
 	/// <summary>
 	/// キューを無視して直接再生を行う関数
@@ -55,8 +54,7 @@ public: // メンバ関数
 	/// <param name="animName">アニメーション名</param>
 	/// <param name="transitionTime">遷移秒数</param>
 	/// <param name="isLoop">ループを行うか</param>
-	/// <param name="trackType">(任意)再生するトラック</param>
-	virtual Anim& PlayDirect(const std::string& animName, const float transitionTime = 0.0f, const bool isLoop = false, const int trackType = 0);
+	virtual Anim& PlayDirect(const std::string& animName, const float transitionTime = 0.0f, const bool isLoop = false);
 
 protected: // メンバ変数
 

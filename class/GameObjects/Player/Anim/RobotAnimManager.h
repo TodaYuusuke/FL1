@@ -10,9 +10,11 @@ public: // サブクラス
 
 	// 再生する箇所の種類
 	enum PlayType {
-		Other,				// 腕以外
-		RightArm	= 2,	// 右腕
-		LeftArm		= 3,	// 左腕
+		Other,					// 腕以外
+		LeftArm			= 2,	// 左腕
+		RightArm		= 3,	// 右腕
+		LeftShoulder	= 4,	// 左肩
+		RightShoulder	= 5,	// 右肩
 	};
 
 public: // コンストラクタ等
@@ -76,19 +78,23 @@ private: // プライベートなメンバ関数
 	void MoveBlendUpdate();
 
 	/// <summary>
-	/// 渡された二次元ベクトルを元にブレンド用Tを求める関数
+	/// 渡された二次元ベクトルを元にアニメーション時間を求める関数
 	/// </summary>
 	/// <param name="v">二次元ベクトル</param>
-	/// <returns>ブレンド用T (0.0f ~ 1.0f) </returns>
-	float CalcVecBlendT(const LWP::Math::Vector2& v);
+	/// <returns>アニメーション時間用T (0.0f ~ 1.0f) </returns>
+	float CalcMoveT(const LWP::Math::Vector2& v);
 
 private: // メンバ変数
 
 	// 左腕
-	std::list<Anim*> leftAnimQue_{};
-
+	std::list<Anim*> leftArmAnimQue_{};
 	// 右腕
-	std::list<Anim*> rightAnimQue_{};
+	std::list<Anim*> rightArmAnimQue_{};
+
+	// 左肩
+	std::list<Anim*> leftShoulderAnimQue_{};
+	// 右肩
+	std::list<Anim*> rightShoulderAnimQue_{};
 
 	// ブレンド時に使用する移動ベクトルのポインタ
 	const LWP::Math::Vector3* moveVelocity = nullptr;

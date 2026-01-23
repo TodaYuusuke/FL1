@@ -8,15 +8,23 @@ RobotAnimManager::RobotAnimManager(LWP::Resource::Animation* anim, const LWP::Ma
 
 RobotAnimManager::~RobotAnimManager()
 {
-	// 右腕用、左腕用キュー内の全データ解放
-	for (Anim* anim : leftAnimQue_) {
+	// 部位それぞれのキュー内の全データ解放
+	for (Anim* anim : leftArmAnimQue_) {
 		delete anim;
 	}
-	leftAnimQue_.clear();
-	for (Anim* anim : rightAnimQue_) {
+	leftArmAnimQue_.clear();
+	for (Anim* anim : rightArmAnimQue_) {
 		delete anim;
 	}
-	rightAnimQue_.clear();
+	rightArmAnimQue_.clear();
+	for (Anim* anim : leftShoulderAnimQue_) {
+		delete anim;
+	}
+	leftShoulderAnimQue_.clear();
+	for (Anim* anim : rightShoulderAnimQue_) {
+		delete anim;
+	}
+	rightShoulderAnimQue_.clear();
 }
 
 void RobotAnimManager::Init()
@@ -24,15 +32,28 @@ void RobotAnimManager::Init()
 	// 基底クラスの初期化処理呼び出し
 	AnimationManager::Init();
 	
-	// 右腕用、左腕用キュー内の全データ解放
-	for (Anim* anim : leftAnimQue_) {
+	// 部位それぞれのキュー内の全データ解放
+	for (Anim* anim : leftArmAnimQue_) {
 		delete anim;
 	}
-	leftAnimQue_.clear();
-	for (Anim* anim : rightAnimQue_) {
+	leftArmAnimQue_.clear();
+	for (Anim* anim : rightArmAnimQue_) {
 		delete anim;
 	}
-	rightAnimQue_.clear();
+	rightArmAnimQue_.clear();
+	for (Anim* anim : leftShoulderAnimQue_) {
+		delete anim;
+	}
+	leftShoulderAnimQue_.clear();
+	for (Anim* anim : rightShoulderAnimQue_) {
+		delete anim;
+	}
+	rightShoulderAnimQue_.clear();
+
+	// 移動ブレンド用アニメーションの開始と停止
+	animation_->Play("Other_Move", 0.0f, 0.0f, LWP::Resource::Animation::TrackType::Blend);
+	animation_->Loop(true, LWP::Resource::Animation::TrackType::Blend);
+	animation_->Stop(LWP::Resource::Animation::TrackType::Blend);
 }
 
 void RobotAnimManager::Update()
@@ -45,9 +66,11 @@ void RobotAnimManager::Update()
 
 	// 腕以外のキューを更新
 	AnimQueUpdate(animQue_);
-	// 左腕、右腕それぞれのキューを更新
-	AnimQueUpdate(leftAnimQue_);
-	AnimQueUpdate(rightAnimQue_);
+	// 部位それぞれのキューを更新
+	AnimQueUpdate(leftArmAnimQue_);
+	AnimQueUpdate(rightArmAnimQue_);
+	AnimQueUpdate(leftShoulderAnimQue_);
+	AnimQueUpdate(rightShoulderAnimQue_);
 }
 
 Anim& RobotAnimManager::PlayQue(const std::string& animName, const int trackType, const float transitionTime, const bool isLoop)
@@ -76,26 +99,47 @@ Anim& RobotAnimManager::PlayQue(const std::string& animName, const int trackType
 		// 末尾のアニメーションを返す
 		return *animQue_.back();
 		break;
-	case RobotAnimManager::RightArm:
-		// キューが空なら再生する
-		if (rightAnimQue_.empty()) { newAnim->Start(); }
-
-		// キュー配列に追加
-		rightAnimQue_.push_back(newAnim);
-
-		// 末尾のアニメーションを返す
-		return *rightAnimQue_.back();
-		break;
 	case RobotAnimManager::LeftArm:
 		// キューが空なら再生する
-		if (leftAnimQue_.empty()) { newAnim->Start(); }
+		if (leftArmAnimQue_.empty()) { newAnim->Start(); }
 
 		// キュー配列に追加
-		leftAnimQue_.push_back(newAnim);
+		leftArmAnimQue_.push_back(newAnim);
 
 		// 末尾のアニメーションを返す
-		return *leftAnimQue_.back();
+		return *leftArmAnimQue_.back();
 		break;
+	case RobotAnimManager::RightArm:
+		// キューが空なら再生する
+		if (rightArmAnimQue_.empty()) { newAnim->Start(); }
+
+		// キュー配列に追加
+		rightArmAnimQue_.push_back(newAnim);
+
+		// 末尾のアニメーションを返す
+		return *rightArmAnimQue_.back();
+		break;
+	case RobotAnimManager::LeftShoulder:
+		// キューが空なら再生する
+		if (leftShoulderAnimQue_.empty()) { newAnim->Start(); }
+
+		// キュー配列に追加
+		leftShoulderAnimQue_.push_back(newAnim);
+
+		// 末尾のアニメーションを返す
+		return *leftShoulderAnimQue_.back();
+		break;
+	case RobotAnimManager::RightShoulder:
+		// キューが空なら再生する
+		if (rightShoulderAnimQue_.empty()) { newAnim->Start(); }
+
+		// キュー配列に追加
+		rightShoulderAnimQue_.push_back(newAnim);
+
+		// 末尾のアニメーションを返す
+		return *rightShoulderAnimQue_.back();
+		break;
+
 	}
 
 	// ここまで来てしまったらエラー
@@ -107,13 +151,6 @@ Anim& RobotAnimManager::PlayQue(const std::string& animName, const int trackType
 
 Anim& RobotAnimManager::PlayDirect(const std::string& animName, const int trackType, const float transitionTime, const bool isLoop)
 {
-	// キュー配列内にアニメーションデータがある場合
-	if (!animQue_.empty()) {
-		// 先頭アニメーションを破棄
-		delete animQue_.front();
-		animQue_.pop_front();
-	}
-
 	// 空のアニメーションデータを作成
 	LWP::Animation::AnimData animData{};
 	// アニメーションデータの初期設定
@@ -122,13 +159,20 @@ Anim& RobotAnimManager::PlayDirect(const std::string& animName, const int trackT
 	animData.isLoop = isLoop;
 	animData.trackType = trackType;
 
-	// アニメーション作成
-	Anim* newAnim = new Anim(animation_, animData);
-
 	// 再生する場所によって処理を変更する
 	switch (trackType)
 	{
 	case RobotAnimManager::Other:
+		// キュー配列内にアニメーションデータがある場合
+		if (!animQue_.empty()) {
+			// 先頭アニメーションを破棄
+			delete animQue_.front();
+			animQue_.pop_front();
+		}
+
+		// アニメーション作成
+		Anim* newAnim = new Anim(animation_, animData);
+
 		// 強制的に再生する
 		newAnim->Start();
 
@@ -138,25 +182,101 @@ Anim& RobotAnimManager::PlayDirect(const std::string& animName, const int trackT
 		// 先頭のアニメーションを返す
 		return *animQue_.front();
 		break;
-	case RobotAnimManager::RightArm:
-		// 強制的に再生する
-		newAnim->Start();
 
-		// キュー配列に追加
-		rightAnimQue_.push_front(newAnim);
-
-		// 先頭のアニメーションを返す
-		return *rightAnimQue_.front();
-		break;
 	case RobotAnimManager::LeftArm:
+		// キュー配列内にアニメーションデータがある場合
+		if (!leftArmAnimQue_.empty()) {
+			// 先頭アニメーションを破棄
+			delete leftArmAnimQue_.front();
+			leftArmAnimQue_.pop_front();
+		}
+
+		// 先頭に識別子追加
+		animData.AnimName = "HandL_" + animName;
+
+		// アニメーション作成
+		Anim* newAnim = new Anim(animation_, animData);
+
 		// 強制的に再生する
 		newAnim->Start();
 
 		// キュー配列に追加
-		leftAnimQue_.push_front(newAnim);
+		leftArmAnimQue_.push_front(newAnim);
 
 		// 先頭のアニメーションを返す
-		return *leftAnimQue_.front();
+		return *leftArmAnimQue_.front();
+		break;
+
+	case RobotAnimManager::RightArm:
+		// キュー配列内にアニメーションデータがある場合
+		if (!rightArmAnimQue_.empty()) {
+			// 先頭アニメーションを破棄
+			delete rightArmAnimQue_.front();
+			rightArmAnimQue_.pop_front();
+		}
+
+		// 先頭に識別子追加
+		animData.AnimName = "HandR_" + animName;
+
+		// アニメーション作成
+		Anim* newAnim = new Anim(animation_, animData);
+
+		// 強制的に再生する
+		newAnim->Start();
+
+		// キュー配列に追加
+		rightArmAnimQue_.push_front(newAnim);
+
+		// 先頭のアニメーションを返す
+		return *rightArmAnimQue_.front();
+		break;
+
+	case RobotAnimManager::LeftShoulder:
+		// キュー配列内にアニメーションデータがある場合
+		if (!leftShoulderAnimQue_.empty()) {
+			// 先頭アニメーションを破棄
+			delete leftShoulderAnimQue_.front();
+			leftShoulderAnimQue_.pop_front();
+		}
+
+		// 先頭に識別子追加
+		animData.AnimName = "ShoulderL_" + animName;
+
+		// アニメーション作成
+		Anim* newAnim = new Anim(animation_, animData);
+
+		// 強制的に再生する
+		newAnim->Start();
+
+		// キュー配列に追加
+		leftShoulderAnimQue_.push_front(newAnim);
+
+		// 先頭のアニメーションを返す
+		return *leftShoulderAnimQue_.front();
+		break;
+
+	case RobotAnimManager::RightShoulder:
+		// キュー配列内にアニメーションデータがある場合
+		if (!rightShoulderAnimQue_.empty()) {
+			// 先頭アニメーションを破棄
+			delete rightShoulderAnimQue_.front();
+			rightShoulderAnimQue_.pop_front();
+		}
+
+		// 先頭に識別子追加
+		animData.AnimName = "ShoulderR_" + animName;
+
+		// アニメーション作成
+		Anim* newAnim = new Anim(animation_, animData);
+
+		// 強制的に再生する
+		newAnim->Start();
+
+		// キュー配列に追加
+		rightShoulderAnimQue_.push_front(newAnim);
+
+		// 先頭のアニメーションを返す
+		return *rightShoulderAnimQue_.front();
 		break;
 	}
 
@@ -196,10 +316,10 @@ void RobotAnimManager::MoveBlendUpdate()
 	LWP::Math::Vector2 moveV = LWP::Math::Vector2(moveVelocity->x, moveVelocity->z);
 
 	// ブレンド用tを求め、アニメーションのBlendTにセット
-	animation_->blendT = CalcVecBlendT(moveV);
+	animation_->SetTime(CalcMoveT(moveV), LWP::Resource::Animation::TrackType::Blend);
 }
 
-float RobotAnimManager::CalcVecBlendT(const LWP::Math::Vector2& v)
+float RobotAnimManager::CalcMoveT(const LWP::Math::Vector2& v)
 {
 	// 各軸の絶対値を求める
 	float ax = std::abs(v.x);
