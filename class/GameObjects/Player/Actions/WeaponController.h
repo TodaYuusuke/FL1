@@ -165,6 +165,7 @@ private://UI表示
 	//所有武器用の平面
 	std::map<WeaponSide, std::array<LWP::Primitive::NormalSurface, (int)WeaponType::kCount>> weaponSurfaces_;
 	std::map<WeaponSide, std::array<LWP::Primitive::ClipSurface, (int)WeaponType::kCount>> weaponGaugeSurfaces_;
+	std::map<WeaponSide, LWP::Primitive::SequenceSurface> raritySurface_;
 	std::map<WeaponSide, LWP::Primitive::NormalSurface> sampleWeaponSurface_;
 	LWP::Math::Vector2 weaponTextureSize_ = { 330.0f,180.0f };
 

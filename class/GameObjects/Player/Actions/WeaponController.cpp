@@ -161,6 +161,8 @@ void WeaponController::Update() {
 		//武器を所有してるとき
 		if (weapons_[(WeaponSide)side]->GetIsFullWeapon()) {
 			auto type = WeaponConfig::GetWeaponType(weapons_[(WeaponSide)side]->GetFrontWeapon()->GetName());
+			weaponSurfaces_[(WeaponSide)side][type].material.color = colorSample_[weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().rarity];
+			weaponGaugeSurfaces_[(WeaponSide)side][type].material.color = colorSample_[weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().rarity];
 			weaponSurfaces_[(WeaponSide)side][type].isActive = true;
 			weaponGaugeSurfaces_[(WeaponSide)side][type].isActive = true;
 			CalcGauge(&weaponGaugeSurfaces_[(WeaponSide)side][type], weaponSkills_->GetSkillData(type).value);
@@ -206,7 +208,7 @@ void WeaponController::CalcGauge(LWP::Primitive::ClipSurface* gauge, float value
 		now = max;
 	}
 	float ratio = now / max;
-	ratio = 0.7f;
+	//ratio = 0.7f;
 	gauge->anchorPoint.x =  0;
 	gauge->clipRect.min = {0.0f,0.0f};
 	gauge->clipRect.max.x = (ratio) * weaponTextureSize_.x;
