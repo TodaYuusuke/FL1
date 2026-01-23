@@ -188,5 +188,7 @@ private://UI表示
 	std::array<LWP::Utility::Color, size_t(RarityType::kCount)> colorSample_;
 
 	float gaugeDistance_;
+
+	const LWP::Math::Vector2 kRarityTextureSize_ = {330.0f,180.0f};
 };
 

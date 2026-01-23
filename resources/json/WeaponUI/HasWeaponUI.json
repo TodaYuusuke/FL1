@@ -18,7 +18,7 @@
         ]
     },
     "Group :GaugeDistance": {
-        "float :Distance": -0.013000000268220901
+        "float :Distance": -0.029999999329447746
     },
     "Group :HPCircle": {
         "Quaternion :Rotate": [

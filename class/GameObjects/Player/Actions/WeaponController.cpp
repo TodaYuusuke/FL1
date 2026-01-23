@@ -103,6 +103,12 @@ void WeaponController::Init() {
 		sampleWeaponSurface_[(WeaponSide)side].LoadTexture("Weapon/none_UI.png");
 		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
 		sampleWeaponSurface_[(WeaponSide)side].anchorPoint = {0.0f,0.5f};
+		raritySurface_[(WeaponSide)side].LoadTexture("Weapon/rarity_UI.png");
+		raritySurface_[(WeaponSide)side].SetSplitSize(kRarityTextureSize_);
+		raritySurface_[(WeaponSide)side].isActive = false;
+		raritySurface_[(WeaponSide)side].anchorPoint = { 0.0f,0.5f };
+		raritySurface_[(WeaponSide)side].worldTF.translation.z = -0.03f;
+		raritySurface_[(WeaponSide)side].worldTF.Parent(&sampleWeaponSurface_[(WeaponSide)side].worldTF);
 
 		//弾数表示
 		bulletNums_[(WeaponSide)side].reset(new NumPlane);
@@ -154,6 +160,8 @@ void WeaponController::Update() {
 			weaponGaugeSurfaces_[(WeaponSide)side][i].isActive = false;
 			weaponGaugeSurfaces_[(WeaponSide)side][i].anchorPoint = { 0.0f,0.5f };
 			weaponGaugeSurfaces_[(WeaponSide)side][i].material.color = colorSample_[side];
+
+			raritySurface_[(WeaponSide)side].isActive = false;
 		}
 		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
 	}
@@ -163,11 +171,15 @@ void WeaponController::Update() {
 			auto type = WeaponConfig::GetWeaponType(weapons_[(WeaponSide)side]->GetFrontWeapon()->GetName());
 			weaponSurfaces_[(WeaponSide)side][type].material.color = colorSample_[weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().rarity];
 			weaponGaugeSurfaces_[(WeaponSide)side][type].material.color = colorSample_[weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().rarity];
+			raritySurface_[(WeaponSide)side].material.color = colorSample_[weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().rarity];
+			raritySurface_[(WeaponSide)side].index = weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().rarity;
 			weaponSurfaces_[(WeaponSide)side][type].isActive = true;
 			weaponGaugeSurfaces_[(WeaponSide)side][type].isActive = true;
+			raritySurface_[(WeaponSide)side].isActive = true;
 			CalcGauge(&weaponGaugeSurfaces_[(WeaponSide)side][type], weaponSkills_->GetSkillData(type).value);
 			bulletNums_[(WeaponSide)side]->SetIsActive(true);
 			bulletNums_[(WeaponSide)side]->SetNum(weapons_[(WeaponSide)side]->GetFrontWeapon()->GetBulletNum());
+			bulletNums_[(WeaponSide)side]->SetColor(colorSample_[weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().rarity]);
 		}
 		else {
 			sampleWeaponSurface_[(WeaponSide)side].worldTF.Parent(&cockpit_.worldTF);

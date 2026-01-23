@@ -20,6 +20,7 @@ public:
 
 	void SetIsActive(bool is);
 	void SetParent(LWP::Object::TransformQuat* parent);
+	void SetColor(LWP::Utility::Color);
 
 	void Update();
 
