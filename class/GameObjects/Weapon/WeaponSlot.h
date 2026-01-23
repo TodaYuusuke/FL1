@@ -10,7 +10,7 @@ class LeadingSystem;
 class WeaponSlot {
 public:
     // コンス虎歌
-    WeaponSlot(LeadingSystem* leadingSystem, WeaponSkill* weaponSkill);
+    WeaponSlot(LeadingSystem* leadingSystem, WeaponSkill* weaponSkill, int weaponSide);
     // デストラクタ
     ~WeaponSlot();
 
@@ -114,4 +114,7 @@ private:
 
     // 武器由来の速度
     LWP::Math::Vector3 weaponVel_{ 0.0f,0.0f,0.0f };
+
+    // どこの武器か
+    int weaponSide_;
 };

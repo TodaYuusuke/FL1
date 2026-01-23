@@ -68,7 +68,7 @@ WaveManager::WaveManager() {
 		.EndGroup()
 		.EndGroup()
 		.CheckJsonFile();
-	json_.Save();
+
 	flashingEffect_.SetAnimData(&flashAlpha_, 0, 255, 0.2f * 60.0f, LWP::Utility::Easing::OutExpo);
 	flashingEffect_.SetAnimData(&flashAlpha_, 255, 255, 1.0f * 60.0f, LWP::Utility::Easing::OutExpo);
 	flashingEffect_.SetAnimData(&flashAlpha_, 255, 100, 0.04f * 60.0f, LWP::Utility::Easing::OutExpo);

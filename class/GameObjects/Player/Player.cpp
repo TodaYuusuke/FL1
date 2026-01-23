@@ -147,12 +147,17 @@ void Player::Update() {
 	weaponVel_.x = std::clamp<float>(weaponVel_.x, -5.0f, 5.0f);
 	weaponVel_.y = std::clamp<float>(weaponVel_.y, -5.0f, 5.0f);
 	weaponVel_.z = std::clamp<float>(weaponVel_.z, -5.0f, 5.0f);
+	
+	// 速度適用
+	velocity_ = moveController_->GetVel() + weaponVel_;
 
-	model_.worldTF.translation += moveController_->GetVel() + weaponVel_;
+	// 座標
+	model_.worldTF.translation += velocity_;
 
 	// 移動制限
 	world_->LimitMoveArea(model_.worldTF.translation);
 
+	// 体の向きを決める
 	AdjustRotate();
 
 	weaponVel_ = { 0.0f,0.0f,0.0f };
