@@ -7,6 +7,8 @@
 #include "../GameObjects/UI/ScoreUI/ScoreUI.h"
 #include "../GameObjects/UI/Radar/Radar.h"
 #include "SceneChangeAnimation/SceneChangeAnimation.h"
+#include "SceneChangeAnimation/SceneChangeAnimationForPlane.h"
+
 #include "Adapter.h"
 
 
@@ -43,8 +45,9 @@ private:
 	std::unique_ptr<ScoreUI> score_;
 
 	//シーン遷移
-	std::unique_ptr <DefaultSceneChangeAnimation> sceneChangeAnimation_;
+	std::unique_ptr <SceneChangeAnimationPlane> sceneChangeAnimation_;
 	bool isChangeScene_ = false;
 
-	int animationLength_ = 24;
+	int animationLength_ = 36;
+	bool isEndStartAnimation_;
 };

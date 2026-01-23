@@ -67,7 +67,7 @@ void WeaponController::Init() {
 		.BeginGroup("Cockpit")
 		.AddValue<LWP::Math::Vector3>("Scale", &cockpit_.worldTF.scale)
 		.AddValue<LWP::Math::Quaternion>("Rotate", &cockpit_.worldTF.rotation)
-		.AddValue<LWP::Math::Vector3>("Translate", &cockpit_.worldTF.translation)
+		.AddValue<LWP::Math::Vector3>("Translate", &cockpitTarget_)
 		.EndGroup()
 		.BeginGroup("NumBullet")
 		.AddValue<LWP::Math::Vector3>("Scale", &sampleBulletSurface_.worldTF.scale)
@@ -129,9 +129,12 @@ void WeaponController::Init() {
 	hpPlane_->Initialize(3);
 	hpPlane_->SetParent(&cockpit_.worldTF);
 
+	cockpitAnimationT_ = 0;
+	isEndAnimation_=false;
 }
 
 void WeaponController::Update() {
+	CockpitAnimation();
 	// 入力
 	InputHandle();
 
@@ -224,6 +227,20 @@ void WeaponController::CalcGauge(LWP::Primitive::ClipSurface* gauge, float value
 	gauge->anchorPoint.x =  0;
 	gauge->clipRect.min = {0.0f,0.0f};
 	gauge->clipRect.max.x = (ratio) * weaponTextureSize_.x;
+}
+
+void WeaponController::CockpitAnimation() {
+	cockpit_.worldTF.translation = cockpitTarget_;
+
+	float t = float(cockpitAnimationT_) / float(cockpitAnimationLength_);
+
+	cockpit_.worldTF.translation.y = (1.0f - t)* cockpitOrigin_ + t* cockpitTarget_.y;
+
+	cockpitAnimationT_++;
+	if (cockpitAnimationT_ > cockpitAnimationLength_) {
+		cockpitAnimationT_ = cockpitAnimationLength_;
+		isEndAnimation_=true;
+	}
 }
 
 void WeaponController::DebugGui() {

@@ -122,11 +122,13 @@ void GameScene::Initialize() {
 	WeaponManager::GetInstance()->SetMiniMapFunc(Radar::AppendTargetWeapon);
 
 	//シーン遷移アニメーション
-	sceneChangeAnimation_ = std::make_unique<DefaultSceneChangeAnimation>();
+	sceneChangeAnimation_ = std::make_unique<SceneChangeAnimationPlane>();
 	sceneChangeAnimation_->Initialize();
 	sceneChangeAnimation_->SetAnimationLength(animationLength_);
-	sceneChangeAnimation_->Start(0);
+	//sceneChangeAnimation_->Start(0);
+	sceneChangeAnimation_->SetParent(player_->GetWorldTF());
 	isChangeScene_ = false;
+	isEndStartAnimation_=false;
 }
 
 void GameScene::Update() {
@@ -164,6 +166,10 @@ void GameScene::Update() {
 	Radar::GetInstance()->Update();
 
 	//シーン遷移アニメーション
+	if (player_->GetWeaponController()->GetIsEndAnimation() && !isEndStartAnimation_) {
+		isEndStartAnimation_ = true;
+		sceneChangeAnimation_->Start(0);
+	}
 	sceneChangeAnimation_->Update();
 
 	// エフェクト関連初期化
@@ -225,6 +231,14 @@ void GameScene::Update() {
 	HitStopController::GetInstance()->DebugGui();
 
 	Radar::GetInstance()->DebugGui();
+
+	static bool is;
+	// シーン遷移アニメーション
+	if (LWP::Input::Keyboard::GetTrigger(DIK_7)) {
+		sceneChangeAnimation_->Start(int(is));
+		is = !is;
+	}
+	sceneChangeAnimation_->DebugGui();
 
 	ImGui::EndTabBar();
 	ImGui::End();

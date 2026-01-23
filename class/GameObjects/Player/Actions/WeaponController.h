@@ -66,6 +66,9 @@ private:
 	//武器の練度ゲージ
 	void CalcGauge(LWP::Primitive::ClipSurface* gauge,float value);
 
+	//コックピットアニメーション
+	void CockpitAnimation();
+
 public:// アクセサ
 #pragma region Getter
 	/// <summary>
@@ -76,6 +79,8 @@ public:// アクセサ
 
 	//コックピットのトランスフォーム取得
 	LWP::Object::TransformQuat* GetCockpit() { return &cockpit_.worldTF; }
+
+	bool GetIsEndAnimation() { return isEndAnimation_; };
 
 #pragma endregion
 
@@ -190,5 +195,11 @@ private://UI表示
 	float gaugeDistance_;
 
 	const LWP::Math::Vector2 kRarityTextureSize_ = {330.0f,180.0f};
+
+	LWP::Math::Vector3 cockpitTarget_{};//コックピットの移動目標
+	float cockpitOrigin_ = 8.6f;
+	int cockpitAnimationT_=0;
+	static const int cockpitAnimationLength_ = 48;
+	bool isEndAnimation_;
 };
 
