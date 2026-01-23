@@ -6,6 +6,7 @@
 #include "../GameObjects/Attack/AttackManager.h"
 #include "../GameObjects/Weapon/WeaponManager.h"
 #include "../GameObjects/UI/ScoreUI/ScoreManager.h"
+#include "../GameObjects/UI/Radar/Radar.h"
 #include "../GameObjects/PenetrationResolver/PenetrationResolver.h"
 #include "../GameObjects/WaveManager.h"
 #include "../Componets/HitStopController.h"
@@ -42,6 +43,9 @@ GameScene::~GameScene() {
 	HitStopController::Destroy();
 	// ゲームコントローラ
 	VirtualController::Destroy();
+
+	Radar::Destroy();
+
 	//マイコン入力の停止
 	ControllerReceiver::GetInstance()->ClosePort();
 	// カメラ演出
@@ -61,6 +65,9 @@ void GameScene::Initialize() {
 	AttackManager::Create();
 	// 武器管理クラスを作成
 	WeaponManager::Create();
+
+	Radar::Create();
+
 	// 押し出し
 	PenetrationResolver::Create();
 	// インスタンス生成
@@ -118,12 +125,29 @@ void GameScene::Initialize() {
 
 	//スコアを0に
 	ScoreCounter::GetInstance()->Reset();
+
+	
+	Radar::GetInstance()->Initialize();
+	Radar::GetInstance()->SetPlayerTransform(player_->GetWorldTF());
+	Radar::GetInstance()->SetParent(player_->GetWeaponController()->GetCockpit());
+	//std::function<void(LWP::Math::Vector3)> func = std::bind(&Radar::AppendTargetEnemy,radar_.get());
+	enemyManager_->SetMiniMapFunc(Radar::AppendTargetEnemy);
+	WeaponManager::GetInstance()->SetMiniMapFunc(Radar::AppendTargetWeapon);
+
+	//シーン遷移アニメーション
+	sceneChangeAnimation_ = std::make_unique<SceneChangeAnimationPlane>();
+	sceneChangeAnimation_->Initialize();
+	sceneChangeAnimation_->SetAnimationLength(animationLength_);
+	//sceneChangeAnimation_->Start(0);
+	sceneChangeAnimation_->SetParent(player_->GetWorldTF());
+	isChangeScene_ = false;
+	isEndStartAnimation_=false;
 }
 
 void GameScene::Update() {
 	// 敵を一定数倒したら終了
 	if (!player_->GetIsAlive()) {
-		nextSceneFunction = []() { return new ResultScene(); };
+		ChangeResultScene();
 	}
 	// ウェーブ
 	WaveManager::GetInstance()->Update();
@@ -133,6 +157,8 @@ void GameScene::Update() {
 
 	// 押し出し
 	PenetrationResolver::GetInstance()->Update();
+
+	Radar::GetInstance()->ClearVector();
 
 	// 敵管理
 	enemyManager_->Update();
@@ -151,6 +177,16 @@ void GameScene::Update() {
 	//スコア表示(テスト)
 	score_->SetScore(ScoreCounter::GetInstance()->GetScore());
 	score_->Update();
+
+	//ミニマップ
+	Radar::GetInstance()->Update();
+
+	//シーン遷移アニメーション
+	if (player_->GetWeaponController()->GetIsEndAnimation() && !isEndStartAnimation_) {
+		isEndStartAnimation_ = true;
+		sceneChangeAnimation_->Start(0);
+	}
+	sceneChangeAnimation_->Update();
 
 	// エフェクト関連初期化
 	EffectManager::GetInstance()->Update();
@@ -223,6 +259,16 @@ void GameScene::Update() {
 	// ヒットストップ
 	HitStopController::GetInstance()->DebugGui();
 
+	Radar::GetInstance()->DebugGui();
+
+	static bool is;
+	// シーン遷移アニメーション
+	if (LWP::Input::Keyboard::GetTrigger(DIK_7)) {
+		sceneChangeAnimation_->Start(int(is));
+		is = !is;
+	}
+	sceneChangeAnimation_->DebugGui();
+
 	ImGui::EndTabBar();
 	ImGui::End();
 
@@ -249,4 +295,10 @@ void GameScene::Update() {
 
 	// コントローラー
 	VirtualController::GetInstance()->Update();
+}
+
+void GameScene::ChangeResultScene() {
+	if (!isChangeScene_) sceneChangeAnimation_->Start(1);
+	if (!sceneChangeAnimation_->GetIsPlay()) nextSceneFunction = []() { return new ResultScene(); };
+	isChangeScene_ = true;
 }

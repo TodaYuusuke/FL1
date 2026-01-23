@@ -44,17 +44,24 @@ void ResultScene::Initialize() {
 	//スコア表示テスト
 	score_ = std::make_unique<ScoreUI>();
 	score_->Initialize(9);
+
+	sceneChangeAnimation_ = std::make_unique<DefaultSceneChangeAnimation>();
+	sceneChangeAnimation_->Initialize();
+	sceneChangeAnimation_->SetAnimationLength(animationLength_);
+	sceneChangeAnimation_->Start(0);
+	isChangeScene_ = false;
 }
 
 void ResultScene::Update() {
-	if (VirtualController::GetInstance()->TriggerAnyKey()) {
-		nextSceneFunction = []() { return new Title(); };
+	if (VirtualController::GetInstance()->TriggerAnyKey() || isChangeScene_) {
+		ChangeTitleScene();
 	}
 
 	//スコア表示(テスト)
 	score_->SetScore(ScoreCounter::GetInstance()->GetScore());
 	score_->Update();
 
+	sceneChangeAnimation_->Update();
 
 #ifdef _DEBUG
 	ImGui::Begin("GameObjects");
@@ -67,4 +74,10 @@ void ResultScene::Update() {
 
 	// コントローラー
 	VirtualController::GetInstance()->Update();
+}
+
+void ResultScene::ChangeTitleScene() {
+	if (!isChangeScene_) sceneChangeAnimation_->Start(1);
+	if (!sceneChangeAnimation_->GetIsPlay()) nextSceneFunction = []() { return new Title(); };
+	isChangeScene_ = true;
 }

@@ -6,6 +6,7 @@
 #include "../../Weapon/WeaponSlot.h"
 #include "../../../Componets/Input/VirtualController.h"
 #include "../../UI/NumPlane.h"
+#include "../../UI/Radar/Radar.h"
 #include <memory>
 #include <vector>
 
@@ -63,6 +64,12 @@ private:
 		isPickUpWeapon_ = true;
 	}
 
+	//武器の練度ゲージ
+	void CalcGauge(LWP::Primitive::ClipSurface* gauge,float value);
+
+	//コックピットアニメーション
+	void CockpitAnimation();
+
 public:// アクセサ
 	/// <summary>
 	/// 持っている武器をすべて解放
@@ -81,6 +88,12 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	LWP::Math::Vector3 GetWeaponVelocity() { return weaponVel_; }
+
+	//コックピットのトランスフォーム取得
+	LWP::Object::TransformQuat* GetCockpit() { return &cockpit_.worldTF; }
+
+	bool GetIsEndAnimation() { return isEndAnimation_; };
+
 	/// <summary>
 	/// 武器を拾ったかを取得
 	/// </summary>
@@ -173,7 +186,10 @@ private://UI表示
 	const std::string kJsonDirectoryPath = "WeaponUI/";
 	//所有武器用の平面
 	std::map<WeaponSide, std::array<LWP::Primitive::NormalSurface, (int)WeaponType::kCount>> weaponSurfaces_;
+	std::map<WeaponSide, std::array<LWP::Primitive::ClipSurface, (int)WeaponType::kCount>> weaponGaugeSurfaces_;
+	std::map<WeaponSide, LWP::Primitive::SequenceSurface> raritySurface_;
 	std::map<WeaponSide, LWP::Primitive::NormalSurface> sampleWeaponSurface_;
+	LWP::Math::Vector2 weaponTextureSize_ = { 330.0f,180.0f };
 
 	//弾数表示
 	std::map < WeaponSide, std::unique_ptr<NumPlane>> bulletNums_;
@@ -189,6 +205,19 @@ private://UI表示
 	LWP::Math::Vector2 circleTextureSize_ = {255.0f,255.0f};
 	std::unique_ptr<NumPlane> hpPlane_;
 	LWP::Object::TransformQuat transformHpPlane_;
+
+	//レアリティ毎のカラーサンプル
+	std::array<LWP::Utility::Color, size_t(RarityType::kCount)> colorSample_;
+
+	float gaugeDistance_;
+
+	const LWP::Math::Vector2 kRarityTextureSize_ = {330.0f,180.0f};
+
+	LWP::Math::Vector3 cockpitTarget_{};//コックピットの移動目標
+	float cockpitOrigin_ = 8.6f;
+	int cockpitAnimationT_=0;
+	static const int cockpitAnimationLength_ = 48;
+	bool isEndAnimation_;
 
 	// 武器を拾ったか
 	bool isPickUpWeapon_;

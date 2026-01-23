@@ -36,6 +36,12 @@ void NumPlane::SetParent(LWP::Object::TransformQuat* parent) {
 	}
 }
 
+void NumPlane::SetColor(LWP::Utility::Color color) {
+	for (size_t i = 0; i < kMaxNum_; i++) {
+		surfaces_[i].material.color = color;
+	}
+}
+
 void NumPlane::Update() {
 	SetNumbers();
 	CalcTranslate();

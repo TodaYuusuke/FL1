@@ -5,7 +5,12 @@
 #include "../GameObjects/Enemy/EnemyManager.h"
 #include "../GameObjects/Camera/FollowCamera/FollowCamera.h"
 #include "../GameObjects/UI/ScoreUI/ScoreUI.h"
+#include "../GameObjects/UI/Radar/Radar.h"
+#include "SceneChangeAnimation/SceneChangeAnimation.h"
+#include "SceneChangeAnimation/SceneChangeAnimationForPlane.h"
+
 #include "Adapter.h"
+
 
 class GameScene final
 	: public IScene {
@@ -17,6 +22,8 @@ public: // ** 純粋仮想関数の実体宣言 ** //
 	void Initialize();
 	// 更新
 	void Update();
+
+	void ChangeResultScene();
 
 private: // 調整項目
 	// クリアまでに必要なキル数
@@ -36,4 +43,11 @@ private:
 	std::unique_ptr<World> world_;
 
 	std::unique_ptr<ScoreUI> score_;
+
+	//シーン遷移
+	std::unique_ptr <SceneChangeAnimationPlane> sceneChangeAnimation_;
+	bool isChangeScene_ = false;
+
+	int animationLength_ = 36;
+	bool isEndStartAnimation_;
 };

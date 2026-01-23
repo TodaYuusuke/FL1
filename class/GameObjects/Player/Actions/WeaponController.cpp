@@ -35,6 +35,13 @@ void WeaponController::Init() {
 		if (it->second) it->second->Init();
 	}
 
+	colorSample_[size_t(RarityType::kCommon)] = { 170, 170, 170, 255 };
+	colorSample_[size_t(RarityType::kUnCommon)] = { 56, 178, 65, 255 };
+	colorSample_[size_t(RarityType::kRare)] = { 56, 56, 180, 255 };
+	colorSample_[size_t(RarityType::kSuperRare)] = { 178, 56, 178, 255 };
+	colorSample_[size_t(RarityType::kLegendary)] = { 178, 178, 20, 255 };
+	colorSample_[size_t(RarityType::kOver)] = { 178, 20, 20, 255 };
+
 	// 管理クラスの調整項目
 	json_.Init(kJsonDirectoryPath + "HasWeaponUI.json")
 		.BeginGroup("LeftArm")
@@ -60,12 +67,15 @@ void WeaponController::Init() {
 		.BeginGroup("Cockpit")
 		.AddValue<LWP::Math::Vector3>("Scale", &cockpit_.worldTF.scale)
 		.AddValue<LWP::Math::Quaternion>("Rotate", &cockpit_.worldTF.rotation)
-		.AddValue<LWP::Math::Vector3>("Translate", &cockpit_.worldTF.translation)
+		.AddValue<LWP::Math::Vector3>("Translate", &cockpitTarget_)
 		.EndGroup()
 		.BeginGroup("NumBullet")
 		.AddValue<LWP::Math::Vector3>("Scale", &sampleBulletSurface_.worldTF.scale)
 		.AddValue<LWP::Math::Vector3>("Translate", &sampleBulletSurface_.worldTF.translation)
 		.AddValue<int>("BulletNumDigit", &kBulletNumDigit_)
+		.EndGroup()
+		.BeginGroup("GaugeDistance")
+		.AddValue<float>("Distance", &gaugeDistance_)
 		.EndGroup()
 		.BeginGroup("HPCircle")
 		.AddValue<LWP::Math::Vector3>("Scale", &hpCircleSurface_.worldTF.scale)
@@ -86,10 +96,19 @@ void WeaponController::Init() {
 	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount; side++) {
 		for (int i = 0; i < (int)WeaponType::kCount; i++) {
 			weaponSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
-			//weaponSurfaces_[(WeaponSide)side][i].material.color = { 1.0f,1.0f,1.0f,0.5f };
+			weaponGaugeSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UIGauge::uiName[i]);
+			weaponGaugeSurfaces_[(WeaponSide)side][i].clipRect.max = weaponTextureSize_;
+			
 		}
 		sampleWeaponSurface_[(WeaponSide)side].LoadTexture("Weapon/none_UI.png");
 		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
+		sampleWeaponSurface_[(WeaponSide)side].anchorPoint = {0.0f,0.5f};
+		raritySurface_[(WeaponSide)side].LoadTexture("Weapon/rarity_UI.png");
+		raritySurface_[(WeaponSide)side].SetSplitSize(kRarityTextureSize_);
+		raritySurface_[(WeaponSide)side].isActive = false;
+		raritySurface_[(WeaponSide)side].anchorPoint = { 0.0f,0.5f };
+		raritySurface_[(WeaponSide)side].worldTF.translation.z = -0.03f;
+		raritySurface_[(WeaponSide)side].worldTF.Parent(&sampleWeaponSurface_[(WeaponSide)side].worldTF);
 
 		//弾数表示
 		bulletNums_[(WeaponSide)side].reset(new NumPlane);
@@ -109,11 +128,15 @@ void WeaponController::Init() {
 	hpPlane_ = std::make_unique<NumPlane>();
 	hpPlane_->Initialize(3);
 	hpPlane_->SetParent(&cockpit_.worldTF);
+
+	cockpitAnimationT_ = 0;
+	isEndAnimation_=false;
 }
 
 void WeaponController::Update() {
 	isPickUpWeapon_ = false;
 
+	CockpitAnimation();
 	// 入力
 	InputHandle();
 
@@ -133,16 +156,35 @@ void WeaponController::Update() {
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.translation = sampleWeaponSurface_[(WeaponSide)side].worldTF.translation;
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.rotation = sampleWeaponSurface_[(WeaponSide)side].worldTF.rotation;
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.scale = sampleWeaponSurface_[(WeaponSide)side].worldTF.scale;
-			weaponSurfaces_[(WeaponSide)side][i].anchorPoint = { 0.5f,0.5f };
+			weaponSurfaces_[(WeaponSide)side][i].anchorPoint = {0.0f,0.5f};
+			weaponSurfaces_[(WeaponSide)side][i].material.color = colorSample_[side];
+
+			weaponGaugeSurfaces_[(WeaponSide)side][i].worldTF.Parent(&sampleWeaponSurface_[(WeaponSide)side].worldTF);
+			weaponGaugeSurfaces_[(WeaponSide)side][i].worldTF.translation = {0.0f,0.0f,0.0f};
+			weaponGaugeSurfaces_[(WeaponSide)side][i].worldTF.translation.z = gaugeDistance_;
+			weaponGaugeSurfaces_[(WeaponSide)side][i].isActive = false;
+			weaponGaugeSurfaces_[(WeaponSide)side][i].anchorPoint = { 0.0f,0.5f };
+			weaponGaugeSurfaces_[(WeaponSide)side][i].material.color = colorSample_[side];
+
+			raritySurface_[(WeaponSide)side].isActive = false;
 		}
+		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
 	}
 	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount; side++) {
 		//武器を所有してるとき
 		if (weapons_[(WeaponSide)side]->GetIsFullWeapon()) {
 			auto type = weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().type;
+			weaponSurfaces_[(WeaponSide)side][type].material.color = colorSample_[weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().rarity];
+			weaponGaugeSurfaces_[(WeaponSide)side][type].material.color = colorSample_[weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().rarity];
+			raritySurface_[(WeaponSide)side].material.color = colorSample_[weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().rarity];
+			raritySurface_[(WeaponSide)side].index = weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().rarity;
 			weaponSurfaces_[(WeaponSide)side][type].isActive = true;
+			weaponGaugeSurfaces_[(WeaponSide)side][type].isActive = true;
+			raritySurface_[(WeaponSide)side].isActive = true;
+			CalcGauge(&weaponGaugeSurfaces_[(WeaponSide)side][type], weaponSkills_->GetSkillData(type).value);
 			bulletNums_[(WeaponSide)side]->SetIsActive(true);
 			bulletNums_[(WeaponSide)side]->SetNum(weapons_[(WeaponSide)side]->GetFrontWeapon()->GetBulletNum());
+			bulletNums_[(WeaponSide)side]->SetColor(colorSample_[weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().rarity]);
 		}
 		else {
 			sampleWeaponSurface_[(WeaponSide)side].worldTF.Parent(&cockpit_.worldTF);
@@ -174,6 +216,33 @@ void WeaponController::CalcHP(Health* health) {
 	hpCircleSurface_.clipRect.min.y = (1.0f - ratio) * circleTextureSize_.y;
 	hpPlane_->SetNum(int32_t(ratio * 100.0f));
 	hpPlane_->Update();
+}
+
+void WeaponController::CalcGauge(LWP::Primitive::ClipSurface* gauge, float value) {
+	float now = value;
+	float max = weaponSkills_->GetMaxWeaponSkill();
+	if (max < now) {
+		now = max;
+	}
+	float ratio = now / max;
+	//ratio = 0.7f;
+	gauge->anchorPoint.x =  0;
+	gauge->clipRect.min = {0.0f,0.0f};
+	gauge->clipRect.max.x = (ratio) * weaponTextureSize_.x;
+}
+
+void WeaponController::CockpitAnimation() {
+	cockpit_.worldTF.translation = cockpitTarget_;
+
+	float t = float(cockpitAnimationT_) / float(cockpitAnimationLength_);
+
+	cockpit_.worldTF.translation.y = (1.0f - t)* cockpitOrigin_ + t* cockpitTarget_.y;
+
+	cockpitAnimationT_++;
+	if (cockpitAnimationT_ > cockpitAnimationLength_) {
+		cockpitAnimationT_ = cockpitAnimationLength_;
+		isEndAnimation_=true;
+	}
 }
 
 void WeaponController::DebugGui() {

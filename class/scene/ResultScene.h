@@ -8,6 +8,8 @@
 #include "../GameObjects/UI/ScoreUI/ScoreUI.h"
 #include "../GameObjects/UI/BackGround.h"
 
+#include "SceneChangeAnimation/SceneChangeAnimation.h"
+
 #include "Adapter.h"
 
 class ResultScene final
@@ -21,6 +23,8 @@ public: // ** 純粋仮想関数の実体宣言 ** //
 	// 更新
 	void Update();
 
+	void ChangeTitleScene();
+
 private: // ** これより先に必要な処理や変数を記述 ** //
 
 	// キー入力を促すスプライト
@@ -30,4 +34,10 @@ private: // ** これより先に必要な処理や変数を記述 ** //
 
 	//背景
 	std::unique_ptr<BackGround> backGround_;
+
+	//シーン遷移
+	std::unique_ptr <DefaultSceneChangeAnimation> sceneChangeAnimation_;
+	bool isChangeScene_ = false;
+
+	int animationLength_ = 24;
 };

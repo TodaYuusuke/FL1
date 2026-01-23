@@ -284,6 +284,13 @@ public:// Getter,Setter
 	/// </summary>
 	/// <param name="player"></param>
 	void SetPlayer(Player* player) { player_ = player; }
+
+	/// <summary>
+	/// ミニマップ登録用関数を設定
+	/// </summary>
+	/// <param name="player"></param>
+	void SetMiniMapFunc(void (*func)(LWP::Math::Vector3)) { appendMiniMap_ = func; }
+	
 #pragma endregion
 
 private:// 定数
@@ -336,6 +343,9 @@ private:
 	LWP::Math::Vector3 createPos_ = { 0.0f,10.0f,0.0f };
 
 	int selectWeapon_;
+
+	//ミニマップに追加する関数を格納
+	void (*appendMiniMap_)(LWP::Math::Vector3);
 
 	// --------- デバッグ用↓ --------- //
 	// 各武器のコピー元の武器

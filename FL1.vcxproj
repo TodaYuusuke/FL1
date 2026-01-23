@@ -189,6 +189,7 @@
     <ClCompile Include="class\GameObjects\Player\Actions\WeaponController.cpp" />
     <ClCompile Include="class\GameObjects\UI\BackGround.cpp" />
     <ClCompile Include="class\GameObjects\UI\NumPlane.cpp" />
+    <ClCompile Include="class\GameObjects\UI\Radar\Radar.cpp" />
     <ClCompile Include="class\GameObjects\UI\ScoreUI\ScoreManager.cpp" />
     <ClCompile Include="class\GameObjects\UI\ScoreUI\ScoreUI.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Components\Magazine.cpp" />
@@ -204,6 +205,8 @@
     <ClCompile Include="class\scene\TutorialScene.cpp" />
     <ClCompile Include="class\scene\GameScene.cpp" />
     <ClCompile Include="class\scene\ResultScene.cpp" />
+    <ClCompile Include="class\scene\SceneChangeAnimation\SceneChangeAnimation.cpp" />
+    <ClCompile Include="class\scene\SceneChangeAnimation\SceneChangeAnimationForPlane.cpp" />
     <ClCompile Include="class\scene\TestScene.cpp" />
     <ClCompile Include="class\scene\Title.cpp" />
     <ClCompile Include="DirectXGame\Externals\imnodes\imnodes.cpp" />
@@ -314,6 +317,7 @@
     <ClInclude Include="class\GameObjects\Player\PlayerConfig.h" />
     <ClInclude Include="class\GameObjects\UI\BackGround.h" />
     <ClInclude Include="class\GameObjects\UI\NumPlane.h" />
+    <ClInclude Include="class\GameObjects\UI\Radar\Radar.h" />
     <ClInclude Include="class\GameObjects\UI\ScoreUI\ScoreManager.h" />
     <ClInclude Include="class\GameObjects\UI\ScoreUI\ScoreUI.h" />
     <ClInclude Include="class\GameObjects\Weapon\Components\Magazine.h" />
@@ -330,6 +334,8 @@
     <ClInclude Include="class\scene\TutorialScene.h" />
     <ClInclude Include="class\scene\GameScene.h" />
     <ClInclude Include="class\scene\ResultScene.h" />
+    <ClInclude Include="class\scene\SceneChangeAnimation\SceneChangeAnimation.h" />
+    <ClInclude Include="class\scene\SceneChangeAnimation\SceneChangeAnimationForPlane.h" />
     <ClInclude Include="class\scene\TestScene.h" />
     <ClInclude Include="class\scene\Title.h" />
     <ClInclude Include="DirectXGame\Externals\imnodes\imnodes.h" />
