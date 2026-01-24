@@ -345,7 +345,7 @@ void RobotAnimManager::MoveBlendUpdate()
 	LWP::Math::Vector2 stickVec = CalcMoveDirection(VirtualController::GetInstance()->GetLAxis(), VirtualController::GetInstance()->GetRAxis());
 
 	// ブレンド用tを求め、アニメーションのBlendTにセット
-	animation_.SetTime(LWP::Utility::Interp::LerpF(animation_.GetProgressSeconds(LWP::Resource::Animation::TrackType::Blend), CalcMoveT(stickVec), lerpSpeed_), LWP::Resource::Animation::TrackType::Blend);
+	animation_.SetTime(LerpAngle(animation_.GetProgressSeconds(LWP::Resource::Animation::TrackType::Blend), CalcMoveT(stickVec), lerpSpeed_), LWP::Resource::Animation::TrackType::Blend);
 	
 	// 移動ベクトルを二次元ベクトルで取得
 	LWP::Math::Vector2 moveV = LWP::Math::Vector2(moveVelocity->x, moveVelocity->z);
@@ -400,4 +400,21 @@ LWP::Math::Vector2 RobotAnimManager::CalcMoveDirection(const LWP::Math::Vector2&
 
 	// 計算結果を返す
 	return moveVec;
+}
+
+float RobotAnimManager::LerpAngle(const float current, const float target, const float speed)
+{
+	// 差分を折りたたむ
+	float delta = target - current;
+	if (delta > 0.5f) { delta -= 1.0f; }
+	if (delta < -0.5f) { delta += 1.0f; }
+
+	// 角度制限付きの補間
+	float result = current + delta * speed;
+
+	// 0.0 ~ 1.0 に戻す
+	if (result < 0.0f) { result += 1.0f; }
+	if (result >= 1.0f) { result -= 1.0f; }
+
+	return result;
 }

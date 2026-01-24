@@ -94,6 +94,15 @@ private: // プライベートなメンバ関数
 	/// <returns>移動方向 </returns>
 	LWP::Math::Vector2 CalcMoveDirection(const LWP::Math::Vector2& ls, const LWP::Math::Vector2& rs);
 
+	/// <summary>
+	/// 角度対応用の補間関数
+	/// </summary>
+	/// <param name="current">現在角度</param>
+	/// <param name="target">目標角度</param>
+	/// <param name="speed">補間速度</param>
+	/// <returns>補間値</returns>
+	float LerpAngle(const float current, const float target, const float speed);
+
 private: // メンバ変数
 
 	// 左腕
