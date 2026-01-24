@@ -1,5 +1,6 @@
 #pragma once
 #include "../../../Componets/Animation/AnimationManager.h"
+#include "../../../Componets/Input/VirtualController.h"
 
 /// <summary>
 /// ロボットアニメーションの管理クラス
@@ -85,6 +86,14 @@ private: // プライベートなメンバ関数
 	/// <returns>アニメーション時間用T (0.0f ~ 1.0f) </returns>
 	float CalcMoveT(const LWP::Math::Vector2& v);
 
+	/// <summary>
+	/// 渡された二次元ベクトルを元にアニメーション時間を求める関数
+	/// </summary>
+	/// <param name="ls">左スティック入力</param>
+	/// <param name="rs">右スティック入力</param>
+	/// <returns>移動方向 </returns>
+	LWP::Math::Vector2 CalcMoveDirection(const LWP::Math::Vector2& ls, const LWP::Math::Vector2& rs);
+
 private: // メンバ変数
 
 	// 左腕
@@ -96,6 +105,9 @@ private: // メンバ変数
 	std::list<Anim*> leftShoulderAnimQue_{};
 	// 右肩
 	std::list<Anim*> rightShoulderAnimQue_{};
+
+	// アニメーション補間時の補間係数
+	float lerpSpeed_ = 0.1f;
 
 	// ブレンド時に使用する移動ベクトルのポインタ
 	const LWP::Math::Vector3* moveVelocity = nullptr;

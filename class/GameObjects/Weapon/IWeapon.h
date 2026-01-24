@@ -167,10 +167,10 @@ public:// アクセサ
 		actor_ = charactor;
 
 		if (!actor_) {
-			body_.GetJoint("Grip")->localTF.ClearParent();
+			body_.worldTF.ClearParent();
 		}
 		else {
-			body_.GetJoint("Grip")->localTF.Parent(charactor->GetModel(), jointName);
+			body_.worldTF.Parent(charactor->GetModel(), jointName);
 		}
 	}
 

@@ -53,7 +53,7 @@ void RobotAnimManager::Init()
 	// 移動ブレンド用アニメーションの開始と停止
 	animation_.Play("Other_Move", 0.0f, 0.0f, LWP::Resource::Animation::TrackType::Blend);
 	animation_.Loop(true, LWP::Resource::Animation::TrackType::Blend);
-	animation_.Stop(LWP::Resource::Animation::TrackType::Blend);
+	animation_.Pause(LWP::Resource::Animation::TrackType::Blend);
 }
 
 void RobotAnimManager::Update()
@@ -341,12 +341,16 @@ void RobotAnimManager::AnimQueUpdate(std::list<Anim*>& animQue)
 
 void RobotAnimManager::MoveBlendUpdate()
 {
+	 // スティック入力によって移動しようとしている方向ベクトルを求める
+	LWP::Math::Vector2 stickVec = CalcMoveDirection(VirtualController::GetInstance()->GetLAxis(), VirtualController::GetInstance()->GetRAxis());
+
+	// ブレンド用tを求め、アニメーションのBlendTにセット
+	animation_.SetTime(LWP::Utility::Interp::LerpF(animation_.GetProgressSeconds(LWP::Resource::Animation::TrackType::Blend), CalcMoveT(stickVec), lerpSpeed_), LWP::Resource::Animation::TrackType::Blend);
+	
 	// 移動ベクトルを二次元ベクトルで取得
 	LWP::Math::Vector2 moveV = LWP::Math::Vector2(moveVelocity->x, moveVelocity->z);
-	// ブレンド用tを求め、アニメーションのBlendTにセット
-	animation_.SetTime(CalcMoveT(moveV), LWP::Resource::Animation::TrackType::Blend);
 	// 移動ベクトルの長さによってブレンドTを変更する
-	animation_.blendT = std::clamp<float>(moveV.Length(), 0.0f, 1.0f);
+	animation_.blendT = LWP::Utility::Interp::LerpF(animation_.blendT, std::clamp<float>(moveV.Length(), 0.0f, 1.0f), lerpSpeed_);
 }
 
 float RobotAnimManager::CalcMoveT(const LWP::Math::Vector2& v)
@@ -362,16 +366,38 @@ float RobotAnimManager::CalcMoveT(const LWP::Math::Vector2& v)
 	}
 
 	// t を求める
-	float t = ay / sum;
+	float t = ax / sum;
 
 	// 各軸の値を元に補正
-	if (v.x < 0.0f) {
-		t = 1.0f - t;
-	}
 	if (v.y < 0.0f) {
-		t = 1.0f + t;
+		t = 2.0f - t;
+	}
+	if (v.x < 0.0f) {
+		t = 4.0f - t;
 	}
 
 	// 求めた値を返す
 	return t * 0.25f;
+}
+
+LWP::Math::Vector2 RobotAnimManager::CalcMoveDirection(const LWP::Math::Vector2& ls, const LWP::Math::Vector2& rs)
+{
+	// スティック平均入力値を求める
+	LWP::Math::Vector2 moveVec{};
+	moveVec.x = (ls.x + rs.x) * 0.5f;
+	moveVec.y = (ls.y + rs.y) * 0.5f;
+
+	// 入力がほぼない場合
+	float lenSq = moveVec.x * moveVec.x + moveVec.y * moveVec.y;
+	if (lenSq < 1e-6f) {
+		return LWP::Math::Vector2(0.0f, 0.0f);
+	}
+
+	// 入力正規化
+	float invLen = 1.0f / std::sqrtf(lenSq);
+	moveVec.x *= invLen;
+	moveVec.y *= invLen;
+
+	// 計算結果を返す
+	return moveVec;
 }

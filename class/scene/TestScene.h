@@ -21,15 +21,6 @@ public:
 private: //*** これより先に必要な処理や変数を記述 ***//
 
 	// テスト用モデル
-	LWP::Resource::RigidModel testModel_;
+	LWP::Resource::SkinningModel testModel_;
 
-	// ロボットモデル
-	LWP::Resource::SkinningModel robotModel_{};
-	// ロボットアニメーション
-	LWP::Resource::Animation animation_{};
-	// アニメーション管理クラス
-	AnimationManager* animationManager_ = nullptr;
-
-
-	float masterVolume_ = 1.0f;
 };

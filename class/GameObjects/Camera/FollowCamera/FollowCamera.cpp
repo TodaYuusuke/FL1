@@ -1,6 +1,7 @@
 #include "FollowCamera.h"
 #include "../../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../../../Componets/Input/VirtualController.h"
+#include "../CameraConfig.h"
 
 using namespace LWP;
 using namespace LWP::Math;
@@ -20,6 +21,9 @@ void FollowCamera::Init() {
 	camera_->worldTF.rotation = LWP::Math::Quaternion::CreateFromAxisAngle(LWP::Math::Vector3{ 1, 0, 0 }, LWP::Utility::DegreeToRadian(kStartAngle.x));
 	// y軸は常に上を向くように固定
 	camera_->worldTF.rotation = LWP::Math::Quaternion::CreateFromAxisAngle(LWP::Math::Vector3{ 0, 1, 0 }, LWP::Utility::DegreeToRadian(kStartAngle.y)) * camera_->worldTF.rotation;
+
+	// FOVの初期値を設定
+	camera_->fov = kDefaultFov;
 }
 
 void FollowCamera::Update() {
@@ -47,4 +51,5 @@ void FollowCamera::DebugGUI() {
 	ImGui::DragFloat3("Translation", &camera_->worldTF.translation.x, 0.1f, -1000, 1000);
 	ImGui::DragFloat4("Quaternion", &camera_->worldTF.rotation.x, 0.1f, -1000, 1000);
 	ImGui::DragFloat3("Distance", &kTargetDist.x, 0.1f, -100, 100);
+	ImGui::DragFloat("FOV", &camera_->fov, 0.1f);
 }
