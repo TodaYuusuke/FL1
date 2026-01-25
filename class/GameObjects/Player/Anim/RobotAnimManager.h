@@ -29,7 +29,8 @@ public: // コンストラクタ等
 	/// <param name="filePath">モデルまでのファイルパス</param>
 	/// <param name="model">アニメーション対象モデル</param>
 	/// <param name="moveVec">移動ベクトルのポインタ</param>
-	RobotAnimManager(const std::string& filePath, LWP::Resource::SkinningModel* model, const LWP::Math::Vector3* moveVec);
+	/// <param name="direct">現在の向いている方向</param>
+	RobotAnimManager(const std::string& filePath, LWP::Resource::SkinningModel* model, const LWP::Math::Vector3* moveVec, const LWP::Math::Quaternion* direct);
 
 	/// <summary>
 	/// デストラクタ
@@ -80,19 +81,32 @@ private: // プライベートなメンバ関数
 	void MoveBlendUpdate();
 
 	/// <summary>
-	/// 渡された二次元ベクトルを元にアニメーション時間を求める関数
+	/// 渡された方向ベクトルを元にアニメーション時間を求める関数
 	/// </summary>
-	/// <param name="v">二次元ベクトル</param>
+	/// <param name="v">方向ベクトル</param>
 	/// <returns>アニメーション時間用T (0.0f ~ 1.0f) </returns>
-	float CalcMoveT(const LWP::Math::Vector2& v);
+	float CalcMoveT(const LWP::Math::Vector3& v);
 
 	/// <summary>
-	/// 渡された二次元ベクトルを元にアニメーション時間を求める関数
+	/// 回転を考慮した現在の移動方向を算出する関数
 	/// </summary>
-	/// <param name="ls">左スティック入力</param>
-	/// <param name="rs">右スティック入力</param>
-	/// <returns>移動方向 </returns>
-	LWP::Math::Vector2 CalcMoveDirection(const LWP::Math::Vector2& ls, const LWP::Math::Vector2& rs);
+	/// <returns></returns>
+	LWP::Math::Vector3 CalcMoveDirection();
+
+	/// <summary>
+	/// 3次元ベクトルをクォータニオンを元に回転させる関数
+	/// </summary>
+	/// <param name="q">クォータニオン</param>
+	/// <param name="v">ベクトル</param>
+	/// <returns>回転させたベクトル</returns>
+	LWP::Math::Vector3 RotateVector(const LWP::Math::Quaternion& q, const LWP::Math::Vector3& v);
+
+	/// <summary>
+	/// 方向ベクトルをローカル方向に修正する関数
+	/// </summary>
+	/// <param name="v">ベクトル</param>
+	/// <returns>ローカル方向ベクトル</returns>
+	LWP::Math::Vector3 ToLocalDirection(const LWP::Math::Vector3& v);
 
 	/// <summary>
 	/// 角度対応用の補間関数
@@ -120,5 +134,11 @@ private: // メンバ変数
 
 	// ブレンド時に使用する移動ベクトルのポインタ
 	const LWP::Math::Vector3* moveVelocity = nullptr;
+	// 現在プレイヤーが向いている方向
+	const LWP::Math::Quaternion* rotation = nullptr;
+
+	// ローカル軸定義変数
+	const LWP::Math::Vector3 kForward = { 0.0f, 0.0f, 1.0f };
+	const LWP::Math::Vector3 kRight = { 1.0f, 0.0f, 0.0f };
 };
 

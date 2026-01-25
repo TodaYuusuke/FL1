@@ -111,7 +111,7 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 	}
 
 	// アニメーションマネージャー作成
-	animManager_ = std::make_unique<RobotAnimManager>("resources/model/Player/Player.gltf", &model_, GetVelocity());
+	animManager_ = std::make_unique<RobotAnimManager>("resources/model/Player/Player.gltf", &model_, GetVelocity(), &model_.worldTF.rotation);
 	animManager_->Init();
 
 	// 各アニメーション再生

@@ -1,9 +1,11 @@
 #include "RobotAnimManager.h"
 
-RobotAnimManager::RobotAnimManager(const std::string& filePath, LWP::Resource::SkinningModel* model, const LWP::Math::Vector3* moveVec) : AnimationManager(filePath, model)
+RobotAnimManager::RobotAnimManager(const std::string& filePath, LWP::Resource::SkinningModel* model, const LWP::Math::Vector3* moveVec, const LWP::Math::Quaternion* direct)
+	: AnimationManager(filePath, model)
 {
-	// 移動ベクトルのアドレス受け取り
+	// 定数のアドレス受け取り
 	moveVelocity = moveVec;
+	rotation = direct;
 }
 
 RobotAnimManager::~RobotAnimManager()
@@ -341,11 +343,12 @@ void RobotAnimManager::AnimQueUpdate(std::list<Anim*>& animQue)
 
 void RobotAnimManager::MoveBlendUpdate()
 {
-	 // スティック入力によって移動しようとしている方向ベクトルを求める
-	LWP::Math::Vector2 stickVec = CalcMoveDirection(VirtualController::GetInstance()->GetLAxis(), VirtualController::GetInstance()->GetRAxis());
+	 // 移動ベクトルを求める
+	LWP::Math::Vector3 moveVec = CalcMoveDirection();
+	moveVec = ToLocalDirection(*moveVelocity);
 
 	// ブレンド用tを求め、アニメーションのBlendTにセット
-	animation_.SetTime(LerpAngle(animation_.GetProgressSeconds(LWP::Resource::Animation::TrackType::Blend), CalcMoveT(stickVec), lerpSpeed_), LWP::Resource::Animation::TrackType::Blend);
+	animation_.SetTime(LerpAngle(animation_.GetProgressSeconds(LWP::Resource::Animation::TrackType::Blend), CalcMoveT(moveVec), lerpSpeed_), LWP::Resource::Animation::TrackType::Blend);
 	
 	// 移動ベクトルを二次元ベクトルで取得
 	LWP::Math::Vector2 moveV = LWP::Math::Vector2(moveVelocity->x, moveVelocity->z);
@@ -353,11 +356,15 @@ void RobotAnimManager::MoveBlendUpdate()
 	animation_.blendT = LWP::Utility::Interp::LerpF(animation_.blendT, std::clamp<float>(moveV.Length(), 0.0f, 1.0f), lerpSpeed_);
 }
 
-float RobotAnimManager::CalcMoveT(const LWP::Math::Vector2& v)
+float RobotAnimManager::CalcMoveT(const LWP::Math::Vector3& v)
 {
+	if (v.Length() < 1e-6f) {
+		return 0.0f;
+	}
+
 	// 各軸の絶対値を求める
 	float ax = std::abs(v.x);
-	float ay = std::abs(v.y);
+	float ay = std::abs(v.z);
 
 	// 合成
 	float sum = ax + ay;
@@ -369,7 +376,7 @@ float RobotAnimManager::CalcMoveT(const LWP::Math::Vector2& v)
 	float t = ax / sum;
 
 	// 各軸の値を元に補正
-	if (v.y < 0.0f) {
+	if (v.z < 0.0f) {
 		t = 2.0f - t;
 	}
 	if (v.x < 0.0f) {
@@ -380,26 +387,46 @@ float RobotAnimManager::CalcMoveT(const LWP::Math::Vector2& v)
 	return t * 0.25f;
 }
 
-LWP::Math::Vector2 RobotAnimManager::CalcMoveDirection(const LWP::Math::Vector2& ls, const LWP::Math::Vector2& rs)
+LWP::Math::Vector3 RobotAnimManager::CalcMoveDirection()
 {
-	// スティック平均入力値を求める
-	LWP::Math::Vector2 moveVec{};
-	moveVec.x = (ls.x + rs.x) * 0.5f;
-	moveVec.y = (ls.y + rs.y) * 0.5f;
+	// 入力がない場合0を返す
+	if (moveVelocity->Length() < 1e-6f) { return LWP::Math::Vector3(); }
+	// 正規化
+	LWP::Math::Vector3 directionVec = moveVelocity->Normalize();
 
-	// 入力がほぼない場合
-	float lenSq = moveVec.x * moveVec.x + moveVec.y * moveVec.y;
-	if (lenSq < 1e-6f) {
-		return LWP::Math::Vector2(0.0f, 0.0f);
-	}
+	// クォータニオンを用いてローカル軸回転
+	LWP::Math::Vector3 forward	= RotateVector(*rotation, kForward);
+	LWP::Math::Vector3 right	= RotateVector(*rotation, kRight);
 
-	// 入力正規化
-	float invLen = 1.0f / std::sqrtf(lenSq);
-	moveVec.x *= invLen;
-	moveVec.y *= invLen;
+	// 合成
+	LWP::Math::Vector3 moveDir = (forward * directionVec.y) + (right * directionVec.x);
 
-	// 計算結果を返す
-	return moveVec;
+	// 正規化して返す
+	return moveDir.Normalize();
+}
+
+LWP::Math::Vector3 RobotAnimManager::RotateVector(const LWP::Math::Quaternion& q, const LWP::Math::Vector3& v)
+{
+	// ベクトルをクォータニオン化
+	LWP::Math::Quaternion vq(v);
+
+	// ベクトルを回転させる
+	LWP::Math::Quaternion qInv = q.Conjugate();
+	LWP::Math::Quaternion rq = q * vq * qInv;
+
+	// 計算結果を返還
+	return LWP::Math::Vector3(rq.x, rq.y, rq.z);
+}
+
+LWP::Math::Vector3 RobotAnimManager::ToLocalDirection(const LWP::Math::Vector3& v)
+{
+	// 逆回転を行う
+	LWP::Math::Quaternion inv = rotation->Conjugate();
+	// ワールド方向からローカル方向に修正
+	LWP::Math::Vector3 localDir = RotateVector(inv, v);
+
+	// 正規化して返還
+	return localDir.Normalize();
 }
 
 float RobotAnimManager::LerpAngle(const float current, const float target, const float speed)
