@@ -289,4 +289,7 @@ void WeaponController::SetWeapon(IWeapon* weapon) {
 		SetRightShoulderWeapon(weapon);
 		break;
 	}
+
+	// プレイヤーに対して取得アニメーション再生を要求
+	debugOwner_->PlayPickUpAnim(static_cast<int>(collectSide_));
 }

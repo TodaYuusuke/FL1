@@ -350,6 +350,16 @@ void Player::PlayShotAnim(const int weaponSide)
 	animManager_->PlayQue("Idle", weaponSide + 2);
 }
 
+void Player::PlayPickUpAnim(const int weaponSide)
+{
+	// 取得アニメーション再生
+	animManager_->PlayDirect("PickUp", weaponSide + 2, 0.1f)
+		.AddEvent("PlaySE", 1, [&]() { SEPlayer::GetInstance()->PlaySE("WeaponPickUp.mp3", 1.0f, LWP::AudioConfig::Player); });
+
+	// 待機アニメーションをキューに入れる
+	animManager_->PlayQue("Idle", weaponSide + 2);
+}
+
 void Player::AdjustRotate() {
 	Quaternion result{ 0,0,0,1 };
 	Quaternion qCurr = model_.worldTF.rotation;

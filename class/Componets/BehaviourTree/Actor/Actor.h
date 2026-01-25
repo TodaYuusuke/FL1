@@ -60,6 +60,12 @@ public: // アニメーション用関数群
 	/// <param name="weaponSide">武器の場所</param>
 	virtual void PlayMelleAnim(const int weaponSide = 0) { weaponSide; };
 
+	/// <summary>
+	/// 取得アニメーション再生関数
+	/// </summary>
+	/// <param name="weaponSide">取得した部位</param>
+	virtual void PlayPickUpAnim(const int weaponSide = 0) { weaponSide; }
+
 protected:
 	/// <summary>
 	/// 衝突応答
