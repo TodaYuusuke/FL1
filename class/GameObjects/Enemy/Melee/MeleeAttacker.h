@@ -20,7 +20,7 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update() override;
+	//void Update() override;
 	/// <summary>
 	/// 調整項目
 	/// </summary>
@@ -31,6 +31,11 @@ public:
 
 private:
 	void Move();
+
+	/// <summary>
+	/// アニメーションマネージャーの更新関数
+	/// </summary>
+	void AnimManagerUpdate() override;
 
 private:
 	// 武器リスト

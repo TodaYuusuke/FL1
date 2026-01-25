@@ -42,6 +42,9 @@ void Actor::Update() {
 
 	model_.worldTF.translation += (velocity_ + weaponVel_) * data_.speedMultiply;
 
+	// アニメーションマネージャーの更新
+	AnimManagerUpdate();
+
 	// 速度を初期化
 	velocity_ = { 0.0f, 0.0f, 0.0f };
 	weaponVel_ = { 0.0f, 0.0f, 0.0f };

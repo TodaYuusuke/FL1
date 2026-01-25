@@ -49,6 +49,11 @@ public:
 public: // アニメーション用関数群
 
 	/// <summary>
+	/// アニメーションマネージャーの更新関数
+	/// </summary>
+	virtual void AnimManagerUpdate() {};
+
+	/// <summary>
 	/// 射撃アニメーション再生関数
 	/// </summary>
 	/// <param name="weaponSide">武器の場所</param>

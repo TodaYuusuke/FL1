@@ -83,15 +83,6 @@ void Gunner::Init() {
 
 }
 
-void Gunner::Update()
-{
-	// 基底クラスの更新処理の呼び出し
-	Actor::Update();
-
-	// アニメーションマネージャーの更新
-	animManager_->Update();
-}
-
 void Gunner::DrawGui() {
 	if (ImGui::TreeNode("Gunner")) {
 		//btEditor_->SetRunnningNodeID(bt_->GetRunningNodeID());
@@ -112,4 +103,9 @@ void Gunner::Move() {
 	}
 
 	model_.worldTF.translation += velocity_;
+}
+
+void Gunner::AnimManagerUpdate()
+{
+	animManager_->Update();
 }

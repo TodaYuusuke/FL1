@@ -81,15 +81,6 @@ void MeleeAttacker::Init() {
 
 }
 
-void MeleeAttacker::Update()
-{
-	// 基底クラスの更新処理の呼び出し
-	Actor::Update();
-
-	// アニメーションマネージャーの更新
-	animManager_->Update();
-}
-
 void MeleeAttacker::DrawGui() {
 	if (ImGui::TreeNode("MeleeAttacker")) {
 		//btEditor_->SetRunnningNodeID(bt_->GetRunningNodeID());
@@ -110,4 +101,9 @@ void MeleeAttacker::Move() {
 	}
 
 	model_.worldTF.translation += velocity_;
+}
+
+void MeleeAttacker::AnimManagerUpdate()
+{
+	animManager_->Update();
 }
