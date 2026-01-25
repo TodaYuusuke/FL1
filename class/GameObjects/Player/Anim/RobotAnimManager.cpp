@@ -343,9 +343,8 @@ void RobotAnimManager::AnimQueUpdate(std::list<Anim*>& animQue)
 
 void RobotAnimManager::MoveBlendUpdate()
 {
-	 // 移動ベクトルを求める
-	LWP::Math::Vector3 moveVec = CalcMoveDirection();
-	moveVec = ToLocalDirection(*moveVelocity);
+	 // ローカル軸の移動ベクトルを求める
+	LWP::Math::Vector3 moveVec = ToLocalDirection(*moveVelocity);
 
 	// ブレンド用tを求め、アニメーションのBlendTにセット
 	animation_.SetTime(LerpAngle(animation_.GetProgressSeconds(LWP::Resource::Animation::TrackType::Blend), CalcMoveT(moveVec), lerpSpeed_), LWP::Resource::Animation::TrackType::Blend);
@@ -385,24 +384,6 @@ float RobotAnimManager::CalcMoveT(const LWP::Math::Vector3& v)
 
 	// 求めた値を返す
 	return t * 0.25f;
-}
-
-LWP::Math::Vector3 RobotAnimManager::CalcMoveDirection()
-{
-	// 入力がない場合0を返す
-	if (moveVelocity->Length() < 1e-6f) { return LWP::Math::Vector3(); }
-	// 正規化
-	LWP::Math::Vector3 directionVec = moveVelocity->Normalize();
-
-	// クォータニオンを用いてローカル軸回転
-	LWP::Math::Vector3 forward	= RotateVector(*rotation, kForward);
-	LWP::Math::Vector3 right	= RotateVector(*rotation, kRight);
-
-	// 合成
-	LWP::Math::Vector3 moveDir = (forward * directionVec.y) + (right * directionVec.x);
-
-	// 正規化して返す
-	return moveDir.Normalize();
 }
 
 LWP::Math::Vector3 RobotAnimManager::RotateVector(const LWP::Math::Quaternion& q, const LWP::Math::Vector3& v)

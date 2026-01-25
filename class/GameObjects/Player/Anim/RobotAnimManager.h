@@ -88,12 +88,6 @@ private: // プライベートなメンバ関数
 	float CalcMoveT(const LWP::Math::Vector3& v);
 
 	/// <summary>
-	/// 回転を考慮した現在の移動方向を算出する関数
-	/// </summary>
-	/// <returns></returns>
-	LWP::Math::Vector3 CalcMoveDirection();
-
-	/// <summary>
 	/// 3次元ベクトルをクォータニオンを元に回転させる関数
 	/// </summary>
 	/// <param name="q">クォータニオン</param>
