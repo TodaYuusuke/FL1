@@ -150,6 +150,8 @@ private:
 			totalWeight += r.weight;
 		}
 
+		if (totalWeight == 0) { return rarityTable.back().rarity; }
+
 		int randValue = rand() % totalWeight;
 
 		int current = 0;
