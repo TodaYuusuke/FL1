@@ -262,6 +262,7 @@
     <ClCompile Include="class\GameObjects\PenetrationResolver\PenetrationResolver.cpp" />
     <ClCompile Include="class\GameObjects\WaveManager.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\Tutorial.cpp" />
+    <ClCompile Include="SerialAnimation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="class\GameObjects\Tutorial\TutorialData\AttackTutorial.h" />
@@ -402,6 +403,7 @@
     <ClInclude Include="class\GameObjects\Tutorial\Tutorial.h" />
     <ClInclude Include="class\Componets\EasingEditor.h" />
     <ClInclude Include="class\Componets\EaseMachine.h" />
+    <ClInclude Include="SerialAnimation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
