@@ -347,18 +347,23 @@ void WeaponController::SetWeapon(IWeapon* weapon) {
 	switch (collectSide_) {
 	case WeaponSide::kLeft:
 		SetLeftWeapon(weapon);
+		// プレイヤーに対して取得アニメーション再生を要求
+		debugOwner_->PlayPickUpAnim(static_cast<int>(collectSide_));
 		break;
 	case WeaponSide::kLeftShoulder:
 		SetLeftShoulderWeapon(weapon);
+		// プレイヤーに対して取得アニメーション再生を要求
+		debugOwner_->PlayPickUpAnim(static_cast<int>(collectSide_));
 		break;
 	case WeaponSide::kRight:
 		SetRightWeapon(weapon);
+		// プレイヤーに対して取得アニメーション再生を要求
+		debugOwner_->PlayPickUpAnim(static_cast<int>(collectSide_));
 		break;
 	case WeaponSide::kRightShoulder:
 		SetRightShoulderWeapon(weapon);
+		// プレイヤーに対して取得アニメーション再生を要求
+		debugOwner_->PlayPickUpAnim(static_cast<int>(collectSide_));
 		break;
 	}
-
-	// プレイヤーに対して取得アニメーション再生を要求
-	debugOwner_->PlayPickUpAnim(static_cast<int>(collectSide_));
 }

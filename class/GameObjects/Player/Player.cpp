@@ -353,7 +353,7 @@ void Player::PlayShotAnim(const int weaponSide)
 void Player::PlayPickUpAnim(const int weaponSide)
 {
 	// 取得アニメーション再生
-	animManager_->PlayDirect("PickUp", weaponSide + 2, 0.1f)
+	animManager_->PlayDirect("PickUp", weaponSide + 2)
 		.AddEvent("PlaySE", 1, [&]() { SEPlayer::GetInstance()->PlaySE("WeaponPickUp.mp3", 1.0f, LWP::AudioConfig::Player); });
 
 	// 待機アニメーションをキューに入れる
