@@ -19,6 +19,10 @@ public:
 	~Cargo() override;
 
 	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update() override;
+	/// <summary>
 	/// 調整項目
 	/// </summary>
 	void DrawGui() override;

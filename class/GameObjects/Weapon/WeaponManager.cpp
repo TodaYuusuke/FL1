@@ -64,6 +64,7 @@ void WeaponManager::Init() {
 void WeaponManager::Update() {
 	for (IWeapon* weapon : weapons_) {
 		weapon->Update();
+		if(!weapon->GetActor()) appendMiniMap_(weapon->GetWorldTF()->GetWorldPosition());
 	}
 
 	for (int i = 0; i < pickUpWeaponSprite_.size(); i++) {

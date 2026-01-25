@@ -68,6 +68,44 @@ Cargo::~Cargo() {
 	delete bt_;
 }
 
+void Cargo::Update() {
+	// 前回の座標
+	SetPreTranslation(model_.GetJointWorldPosition("LockOnAnchor"));
+
+	// 体力がなければ死亡
+	if (hp_->GetIsDead()) { isAlive_ = false; }
+
+	// HP
+	hp_->Update();
+
+	// 状態
+	if (state_) state_->Update();
+
+	// ビヘイビアツリー更新
+	if (!state_ || state_->GetIsEnableChangeState()) {
+		bt_->Tick();
+	}
+
+	// 速度と角度代入
+	if (state_) {
+		velocity_ = state_->GetVel();
+		quat_ = state_->GetRot();
+	}
+
+	model_.worldTF.translation += (velocity_ + weaponVel_) * data_.speedMultiply;
+
+	// 速度を初期化
+	velocity_ = { 0.0f, 0.0f, 0.0f };
+	weaponVel_ = { 0.0f, 0.0f, 0.0f };
+
+	if (world_->GetIsLimitMoveArea(model_.worldTF.GetWorldPosition())) {
+		isLimitMoveArea_ = true;
+	}
+	else {
+		isLimitMoveArea_ = false;
+	}
+}
+
 void Cargo::DrawGui() {
 	if (ImGui::TreeNode("Cargo")) {
 		//btEditor_->SetRunnningNodeID(bt_->GetRunningNodeID());

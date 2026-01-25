@@ -57,7 +57,8 @@ protected:
 	std::unique_ptr<IMovement> movement_;
 
 	// AABB
-	LWP::Object::Collider::AABB& bodyAABB_;
+	//LWP::Object::Collider::AABB& bodyAABB_;
+	LWP::Object::Collider::Capsule& bodyCapsule_;
 
 	// 調整情報
 	AttackData data_;

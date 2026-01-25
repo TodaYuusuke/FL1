@@ -30,18 +30,49 @@ void Title::Initialize() {
 
 	backGround_ = std::make_unique<BackGround>();
 
+	sceneChangeAnimation_ = std::make_unique<DefaultSceneChangeAnimation>();
+	sceneChangeAnimation_->Initialize();
+	sceneChangeAnimation_->SetAnimationLength(animationLength_);
+	sceneChangeAnimation_->Start(0);
+
 	//マイコン入力開始
 	ControllerReceiver::GetInstance()->ReOpenPort();
 	// ゲームコントローラ
 	VirtualController::Create();
+
+	isChangeScene_ = false;
 }
 
 // 更新
 void Title::Update() {
-	if (VirtualController::GetInstance()->TriggerAnyKey()) {
-		nextSceneFunction = []() { return new GameScene(); };
+	if (VirtualController::GetInstance()->TriggerAnyKey() || isChangeScene_) {
+		ChangeGameScene();
 	}
 
 	// コントローラー
 	VirtualController::GetInstance()->Update();
+
+	sceneChangeAnimation_->SetAnimationLength(animationLength_);
+	sceneChangeAnimation_->Update();
+
+#ifdef _DEBUG
+	static bool is;
+	// シーン遷移アニメーション
+	if (LWP::Input::Keyboard::GetTrigger(DIK_7)) {
+		sceneChangeAnimation_->Start(int(is));
+		is = !is;
+	}
+
+	ImGui::Begin("sceneChange");
+	ImGui::DragInt("length",&animationLength_,1);
+	ImGui::End();
+
+#endif
+}
+
+
+void Title::ChangeGameScene() {
+	if (!isChangeScene_) sceneChangeAnimation_->Start(1);
+	if(!sceneChangeAnimation_->GetIsPlay()) nextSceneFunction = []() { return new GameScene(); };
+	isChangeScene_ = true;
 }

@@ -83,6 +83,7 @@ void EnemyManager::Update() {
 	// 更新
 	for (Actor* actor : enemies_) {
 		actor->Update();
+		appendMiniMap_(actor->GetWorldTF()->GetWorldPosition());
 	}
 }
 
@@ -91,6 +92,19 @@ void EnemyManager::EndFrame() {
 	enemies_.erase(
 		std::remove_if(enemies_.begin(), enemies_.end(),
 			[&](Actor* actor) {
+				// エリア外にいったら削除
+				if (actor->GetIsLimitMoveArea()) {
+					// 武器を落とす
+					for (int i = 0; i < actor->GetWeapon().size(); i++) {
+						WeaponManager::GetInstance()->DeleteWeapon(actor->GetWeapon()[i]);
+					}
+					// 敵の解放
+					delete actor;
+					actor = nullptr;
+					return true;
+				}
+
+				// 死んだら削除
 				if (!actor->GetIsAlive()) {
 					isTriggerDelete_ = true;
 					killCount_++;
