@@ -50,6 +50,10 @@ void LeadingSystem::Update() {
 	if (leadingTarget_ && !leadingTarget_->GetIsAlive() || pEnemyManager_->GetEnemyList().empty()) {
 		leadingTarget_ = nullptr;
 	}
+	// エリア外
+	if (leadingTarget_ && leadingTarget_->GetIsLimitMoveArea()) {
+		leadingTarget_ = nullptr;
+	}
 	// 偏差対象解除
 	ClearLeadingTarget();
 
