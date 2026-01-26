@@ -9,7 +9,7 @@
     "diffusingBulletRange_y": 0.0,
     "diffusingBulletRange_z": 0.0,
     "jsonFileName": "Rifle_R_C.json",
-    "modelName": "resources/model/Weapon/Gun/Rifle\\Rifle.obj",
+    "modelName": "resources/model/Weapon/Gun/Rifle/Rifle.gltf",
     "name": "Rifle",
     "rarity": 0,
     "reloadTime": 0.0,

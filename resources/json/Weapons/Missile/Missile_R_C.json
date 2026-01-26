@@ -9,7 +9,7 @@
     "diffusingBulletRange_y": 0.0,
     "diffusingBulletRange_z": 0.0,
     "jsonFileName": "Missile_R_C.json",
-    "modelName": "resources/model/Weapon/Gun/Missle\\MissilePod.gltf",
+    "modelName": "resources/model/Weapon/Gun/Missle/MissilePod.gltf",
     "name": "Misisle",
     "rarity": 0,
     "reloadTime": 0.0,

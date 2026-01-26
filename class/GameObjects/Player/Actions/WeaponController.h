@@ -59,7 +59,6 @@ private:
 		weapon->Init();
 		weapon->SetRotation(q);
 		weapon->SetTranslation({ 0.0f, 0.0f, 0.0f });
-		weapon->SetScale({ 1.0f, 1.0f, 1.0f });
 		weapon->SetParent(target_, jointName);
 		weapons_[weaponSide]->AddWeapon(weapon);
 		isPickUpWeapon_ = true;
