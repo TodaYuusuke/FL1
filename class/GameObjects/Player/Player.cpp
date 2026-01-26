@@ -342,9 +342,12 @@ void Player::OnCollision(LWP::Object::Collision* hitTarget) {
 
 void Player::PlayShotAnim(const int weaponSide)
 {
+	// アニメーション名と効果音名の取得
+	std::string animName = weaponController_->GetWeaponSlot(static_cast<WeaponSide>(weaponSide))->GetFrontWeapon()->GetWeaponData().animName;
+
 	// 射撃アニメーション再生
-	animManager_->PlayDirect("Shot", weaponSide + 2)
-		.AddEvent("PlaySE", 1, [&]() { SEPlayer::GetInstance()->PlaySE("Shot.mp3", 1.0f, LWP::AudioConfig::Player); });
+	animManager_->PlayDirect(animName, weaponSide + 2)
+		.AddEvent("PlaySE", 1, [&]() { SEPlayer::GetInstance()->PlaySE(weaponController_->GetWeaponSlot(static_cast<WeaponSide>(weaponSide))->GetFrontWeapon()->GetWeaponData().attackSEFileName, 1.0f, LWP::AudioConfig::Player); });
 
 	// 待機アニメーションをキューに入れる
 	animManager_->PlayQue("Idle", weaponSide + 2);
