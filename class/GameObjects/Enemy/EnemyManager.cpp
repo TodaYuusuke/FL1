@@ -427,7 +427,7 @@ void EnemyManager::GiveWeapon(Actor* actor, const EnemyData& data) {
 		WeaponManager::GetInstance()->PickUpWeapon(weapon, actor, i);
 
 		// 武器の装着位置設定
-		SetWeaponPos(actor, weapon, i);
+		//SetWeaponPos(actor, weapon, i);
 	}
 }
 

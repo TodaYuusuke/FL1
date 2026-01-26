@@ -121,9 +121,6 @@ void Actor::ChangeState(StateBase* nextState) {
 void Actor::SetWeapon(IWeapon* weapon, int weaponSide) {
 	// アクターにウェポンアンカーが存在する場合
 	if (model_.FindJoint("WeaponAnchor")) {
-		// 武器位置、スケールを元に戻す
-		weapon->SetScale({ 1.0f, 1.0f, 1.0f });
-		weapon->SetTranslation({ 0.0f, 0.0f, 0.0f });
 		weapon->SetParent(this, "WeaponAnchor");
 	}
 	else {
@@ -133,27 +130,16 @@ void Actor::SetWeapon(IWeapon* weapon, int weaponSide) {
 		switch (side)
 		{
 		case WeaponSide::kLeft:
-			// 武器位置、スケールを元に戻す
-			weapon->SetScale({ 1.0f, 1.0f, 1.0f });
 			weapon->SetTranslation({ 0.0f, 0.0f, 0.0f });
 			weapon->SetParent(this, "WeaponAnchor.L");
 			break;
 		case WeaponSide::kRight:
-			// 武器位置、スケールを元に戻す
-			weapon->SetScale({ 1.0f, 1.0f, 1.0f });
-			weapon->SetTranslation({ 0.0f, 0.0f, 0.0f });
 			weapon->SetParent(this, "WeaponAnchor.R");
 			break;
 		case WeaponSide::kLeftShoulder:
-			// 武器位置、スケールを元に戻す
-			weapon->SetScale({ 1.0f, 1.0f, 1.0f });
-			weapon->SetTranslation({ 0.0f, 0.0f, 0.0f });
 			weapon->SetParent(this, "ShoulderWeaponAnchor.L");
 			break;
 		case WeaponSide::kRightShoulder:
-			// 武器位置、スケールを元に戻す
-			weapon->SetScale({ 1.0f, 1.0f, 1.0f });
-			weapon->SetTranslation({ 0.0f, 0.0f, 0.0f });
 			weapon->SetParent(this, "ShoulderWeaponAnchor.R");
 			break;
 		}

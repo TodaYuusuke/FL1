@@ -170,6 +170,10 @@ public:// アクセサ
 			body_.worldTF.ClearParent();
 		}
 		else {
+			// 武器位置、スケールを元に戻す
+			SetScale({ 1.0f, 1.0f, 1.0f });
+			SetTranslation({ 0.0f, 0.0f, 0.0f });
+
 			body_.worldTF.Parent(charactor->GetModel(), jointName);
 		}
 	}
