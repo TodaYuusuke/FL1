@@ -130,7 +130,6 @@ void GameScene::Initialize() {
 	Radar::GetInstance()->Initialize();
 	Radar::GetInstance()->SetPlayerTransform(player_->GetWorldTF());
 	Radar::GetInstance()->SetParent(player_->GetWeaponController()->GetCockpit());
-	//std::function<void(LWP::Math::Vector3)> func = std::bind(&Radar::AppendTargetEnemy,radar_.get());
 	enemyManager_->SetMiniMapFunc(Radar::AppendTargetEnemy);
 	WeaponManager::GetInstance()->SetMiniMapFunc(Radar::AppendTargetWeapon);
 

@@ -64,6 +64,10 @@ MoveTutorial::MoveTutorial(Player* player, EnemyManager* enemyManager) {
 		echoFont_[key] = sprite;
 	}
 
+	// 連番画像
+	serialAnim_ = std::make_unique<SerialAnimation>("UI/Tutorial/manual/forward_manual.png", Vector2{ 700.0f,256.0f });
+	serialAnim_->SetPos({ LWP::Info::GetWindowWidthF() / 2.0f, 350.0f, 0.0f });
+
 	//sequence_ = MoveTutorial::MoveGuideSequence::kBoost;
 }
 
@@ -96,6 +100,7 @@ void MoveTutorial::Update() {
 		if (NextGuide(0.0f)) {
 			sequence_ = MoveTutorial::MoveGuideSequence::kMoveF;
 			isNextGuide_ = false;
+			serialAnim_->Start(10.0f, 30.0f, true);
 		}
 
 		break;
@@ -105,6 +110,7 @@ void MoveTutorial::Update() {
 		rStick = AdjustmentStick(vCon_->GetRAxis());
 		if (lStick.y + rStick.y >= 2.0f) {
 			isNextGuide_ = true;
+			serialAnim_->Init();
 		}
 
 		// 成功演出
@@ -114,6 +120,8 @@ void MoveTutorial::Update() {
 		if (NextGuide(60.0f)) { 
 			sequence_ = MoveTutorial::MoveGuideSequence::kMoveB;
 			isNextGuide_ = false;
+			serialAnim_->ChangeSprite("UI/Tutorial/manual/back_manual.png", Vector2{ 700.0f,256.0f });
+			serialAnim_->Start(10.0f, 30.0f, true);
 		}
 
 		break;
@@ -123,6 +131,7 @@ void MoveTutorial::Update() {
 		rStick = AdjustmentStick(vCon_->GetRAxis());
 		if (lStick.y + rStick.y <= -2.0f) {
 			isNextGuide_ = true;
+			serialAnim_->Init();
 		}
 
 		// 成功演出
@@ -132,6 +141,8 @@ void MoveTutorial::Update() {
 		if (NextGuide(60.0f)) {
 			sequence_ = MoveTutorial::MoveGuideSequence::kMoveL;
 			isNextGuide_ = false;
+			serialAnim_->ChangeSprite("UI/Tutorial/manual/leftMove_manual.png", Vector2{ 700.0f,256.0f });
+			serialAnim_->Start(10.0f, 30.0f, true);
 		}
 
 		break;
@@ -141,6 +152,7 @@ void MoveTutorial::Update() {
 		rStick = AdjustmentStick(vCon_->GetRAxis());
 		if (lStick.x + rStick.x <= -2.0f) {
 			isNextGuide_ = true;
+			serialAnim_->Init();
 		}
 
 		// 成功演出
@@ -150,6 +162,8 @@ void MoveTutorial::Update() {
 		if (NextGuide(60.0f)) {
 			sequence_ = MoveTutorial::MoveGuideSequence::kMoveR;
 			isNextGuide_ = false;
+			serialAnim_->ChangeSprite("UI/Tutorial/manual/rightMove_manual.png", Vector2{ 700.0f,256.0f });
+			serialAnim_->Start(10.0f, 30.0f, true);
 		}
 
 		break;
@@ -159,6 +173,7 @@ void MoveTutorial::Update() {
 		rStick = AdjustmentStick(vCon_->GetRAxis());
 		if (lStick.x + rStick.x >= 2.0f) {
 			isNextGuide_ = true;
+			serialAnim_->Init();
 		}
 
 		// 成功演出
@@ -168,6 +183,8 @@ void MoveTutorial::Update() {
 		if (NextGuide(60.0f)) {
 			sequence_ = MoveTutorial::MoveGuideSequence::kCameraL;
 			isNextGuide_ = false;
+			serialAnim_->ChangeSprite("UI/Tutorial/manual/leftTurn_manual.png", Vector2{ 700.0f,256.0f });
+			serialAnim_->Start(10.0f, 30.0f, true);
 		}
 
 		break;
@@ -177,6 +194,7 @@ void MoveTutorial::Update() {
 		rStick = AdjustmentStick(vCon_->GetRAxis());
 		if (lStick.y <= -1.0f && rStick.y >= 1.0f) {
 			isNextGuide_ = true;
+			serialAnim_->Init();
 		}
 
 		// 成功演出
@@ -186,6 +204,8 @@ void MoveTutorial::Update() {
 		if (NextGuide(60.0f)) {
 			sequence_ = MoveTutorial::MoveGuideSequence::kCameraR;
 			isNextGuide_ = false;
+			serialAnim_->ChangeSprite("UI/Tutorial/manual/rightTurn_manual.png", Vector2{ 700.0f,256.0f });
+			serialAnim_->Start(10.0f, 30.0f, true);
 		}
 
 		break;
@@ -195,6 +215,7 @@ void MoveTutorial::Update() {
 		rStick = AdjustmentStick(vCon_->GetRAxis());
 		if (lStick.y >= 1.0f && rStick.y <= -1.0f) {
 			isNextGuide_ = true;
+			serialAnim_->Init();
 		}
 
 		// 成功演出
@@ -204,6 +225,8 @@ void MoveTutorial::Update() {
 		if (NextGuide(60.0f)) {
 			sequence_ = MoveTutorial::MoveGuideSequence::kTurn;
 			isNextGuide_ = false;
+			serialAnim_->ChangeSprite("UI/Tutorial/manual/quickTurn_manual.png", Vector2{ 700.0f,256.0f });
+			serialAnim_->Start(10.0f, 30.0f, true);
 		}
 
 		break;
@@ -211,6 +234,7 @@ void MoveTutorial::Update() {
 		// 自機が回転した
 		if (player_->GetMoveController()->GetIsTurnBehind()) {
 			isNextGuide_ = true;
+			serialAnim_->Init();
 		}
 
 		// 成功演出
@@ -220,6 +244,8 @@ void MoveTutorial::Update() {
 		if (NextGuide(60.0f)) {
 			sequence_ = MoveTutorial::MoveGuideSequence::kBoost;
 			isNextGuide_ = false;
+			serialAnim_->ChangeSprite("UI/Tutorial/manual/boost_manual.png", Vector2{ 700.0f,256.0f });
+			serialAnim_->Start(10.0f, 30.0f, true);
 		}
 
 		break;
@@ -227,6 +253,7 @@ void MoveTutorial::Update() {
 		// 加速している
 		if (vCon_->GetPress(BindActionType::kBoost)) {
 			isNextGuide_ = true;
+			serialAnim_->Init();
 		}
 
 		// 成功演出
@@ -235,6 +262,7 @@ void MoveTutorial::Update() {
 		// 条件を満たしたら次の説明に遷移
 		if (NextGuide(60.0f)) {
 			sequence_ = MoveTutorial::MoveGuideSequence::kCount;
+			serialAnim_->Init();
 		}
 
 		break;
@@ -244,6 +272,8 @@ void MoveTutorial::Update() {
 
 		break;
 	}
+
+	serialAnim_->Update();
 }
 
 void MoveTutorial::SuccessEffect(MoveGuideSequence target) {

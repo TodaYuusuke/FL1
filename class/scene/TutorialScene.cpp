@@ -7,6 +7,7 @@
 #include "../GameObjects/Attack/AttackManager.h"
 #include "../GameObjects/Weapon/WeaponManager.h"
 #include "../GameObjects/UI/ScoreUI/ScoreManager.h"
+#include "../GameObjects/UI/Radar/Radar.h"
 #include "../GameObjects/PenetrationResolver/PenetrationResolver.h"
 #include "../GameObjects/WaveManager.h"
 #include "../Componets/HitStopController.h"
@@ -41,6 +42,7 @@ TutorialScene::~TutorialScene() {
 	HitStopController::Destroy();
 	// ゲームコントローラ
 	VirtualController::Destroy();
+	Radar::Destroy();
 	//マイコン入力の停止
 	ControllerReceiver::GetInstance()->ClosePort();
 	// カメラ演出
@@ -60,6 +62,7 @@ void TutorialScene::Initialize() {
 	AttackManager::Create();
 	// 武器管理クラスを作成
 	WeaponManager::Create();
+	Radar::Create();
 	// 押し出し
 	PenetrationResolver::Create();
 	// インスタンス生成
@@ -103,6 +106,13 @@ void TutorialScene::Initialize() {
 	EffectEditor::GetInstance()->SetEffectManager(EffectManager::GetInstance());
 	EffectEditor::GetInstance()->Init();
 
+	Radar::GetInstance()->Initialize();
+	Radar::GetInstance()->SetPlayerTransform(player_->GetWorldTF());
+	Radar::GetInstance()->SetParent(player_->GetWeaponController()->GetCockpit());
+	//std::function<void(LWP::Math::Vector3)> func = std::bind(&Radar::AppendTargetEnemy,radar_.get());
+	enemyManager_->SetMiniMapFunc(Radar::AppendTargetEnemy);
+	WeaponManager::GetInstance()->SetMiniMapFunc(Radar::AppendTargetWeapon);
+
 	// チュートリアル
 	tutorial_ = std::make_unique<Tutorial>(player_, enemyManager_.get());
 
@@ -121,11 +131,16 @@ void TutorialScene::Update() {
 	// 押し出し
 	PenetrationResolver::GetInstance()->Update();
 
+	Radar::GetInstance()->ClearVector();
+
 	// 敵管理
 	enemyManager_->Update();
 
 	// ワールドオブジェクト
 	world_->Update();
+
+	//ミニマップ
+	Radar::GetInstance()->Update();
 
 	// チュートリアル
 	tutorial_->Update();

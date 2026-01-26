@@ -29,6 +29,10 @@ CollectTutorial::CollectTutorial(Player* player, EnemyManager* enemyManager) {
 	for (auto& [key, sprite] : guideFont_) {
 		echoFont_[key] = sprite;
 	}
+
+	// 連番画像
+	serialAnim_ = std::make_unique<SerialAnimation>("UI/Tutorial/manual/pickup_manual.png", Vector2{ 700.0f,256.0f });
+	serialAnim_->SetPos({ LWP::Info::GetWindowWidthF() / 2.0f, 350.0f, 0.0f });
 }
 
 void CollectTutorial::Init() {
@@ -58,6 +62,8 @@ void CollectTutorial::Update() {
 		if (NextGuide(0.0f)) {
 			sequence_ = CollectTutorial::CollectGuideSequence::kCollect;
 			isNextGuide_ = false;
+
+			serialAnim_->Start(10.0f, 30.0f, true);
 
 			// 落とす武器
 			dropWeapons_[0] = (int)WeaponType::kMachineGun;
@@ -104,6 +110,8 @@ void CollectTutorial::Update() {
 
 		break;
 	}
+
+	serialAnim_->Update();
 }
 
 void CollectTutorial::SuccessEffect(CollectGuideSequence target) {
