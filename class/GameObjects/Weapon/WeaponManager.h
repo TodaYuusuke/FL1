@@ -178,24 +178,24 @@ private:// jsonファイルの保存で使用する関数
 	void WeaponDataGui(WeaponData& data);
 
 	/// <summary>
-	/// 敵の配置jsonファイルの読み込みボタン
+	/// 武器のjsonファイルの読み込みボタン
 	/// </summary>
 	/// <param name="fileName"></param>
-	void LoadEnemyData(int weaponType, const std::string& fileName);
+	void LoadWeaponData(int weaponType, const std::string& fileName);
 	/// <summary>
-	/// 敵の配置をjsonファイルから読み込む処理
+	/// 武器をjsonファイルから読み込む処理
 	/// </summary>
 	/// <param name="fileName"></param>
-	void LoadEnemyDataUpdate(int weaponType, const std::string& fileName);
+	void LoadWeaponDataUpdate(int weaponType, const std::string& fileName);
 	/// <summary>
-	/// 敵の配置jsonファイルの保存ボタン
+	/// 武器をjsonファイルの保存ボタン
 	/// </summary>
-	void ExportEnemyData(int weaponType, const std::string& weaponName);
+	void ExportWeaponData(int weaponType, const std::string& weaponName);
 	/// <summary>
-	/// 敵の配置をjsonファイルに出力する処理
+	/// 武器をjsonファイルに出力する処理
 	/// </summary>
 	/// <param name="fileName"></param>
-	void ExportEnemyDataUpdate(int weaponType, const std::string& weaponName,const std::string& fileName);
+	void ExportWeaponDataUpdate(int weaponType, const std::string& weaponName,const std::string& fileName);
 
 	/// <summary>
 	/// exeからのディレクトリパスを取得

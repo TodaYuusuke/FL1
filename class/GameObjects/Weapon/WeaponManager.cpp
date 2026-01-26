@@ -230,7 +230,7 @@ void WeaponManager::CreateOriginWeapon() {
 		std::string folderName = WeaponConfig::Name::name[(int)type];
 		std::vector<std::string> jsonFiles = GetWeaponJsonNames("/resources/json/Weapons/" + folderName);
 		for (int i = 0; i < jsonFiles.size(); i++) {
-			LoadEnemyData((int)type, jsonFiles[i]);
+			LoadWeaponData((int)type, jsonFiles[i]);
 		}
 	}
 }
@@ -390,14 +390,13 @@ void WeaponManager::EditWeaponsGui() {
 		// 読み込み
 		if (!names.empty()) {
 			if (ImGui::Button("Load")) {
-				LoadEnemyData(selectWeapon, sampleWeaponData_[(WeaponType)selectWeapon][names[selectWeaponName]].jsonFileName);
+				LoadWeaponData(selectWeapon, sampleWeaponData_[(WeaponType)selectWeapon][names[selectWeaponName]].jsonFileName);
 			}
 		}
 
 		// 武器種
 		bool isClickCombo;
 		SelectType(weaponTypePreview_, selectWeapon, "WeaponType##100", isClickCombo);
-
 		names = GetWeaponNames(selectWeapon);
 		// タブクリック時の処理
 		if (isClickCombo) {
@@ -620,6 +619,9 @@ std::vector<std::string> WeaponManager::GetWeaponNames(int weaponType) {
 void WeaponManager::WeaponDataGui(WeaponData& data) {
 	// 武器名(被りはダメ)
 	ImGui::InputText("Weapon Name", &data.name);
+	ImGui::InputText("Weapon Texture Name", &data.texName);
+	ImGui::InputText("Weapon Animation Name", &data.animName);
+	ImGui::InputText("Weapon Attack-SE Name", &data.attackSEFileName);
 
 	// 発射間隔
 	if (ImGui::TreeNode("Interval")) {
@@ -654,12 +656,12 @@ void WeaponManager::WeaponDataGui(WeaponData& data) {
 
 	if (ImGui::Button("Regist")) {
 		sampleWeaponData_[(WeaponType)data.type][data.name] = data;
-		ExportEnemyData(data.type, data.name);
+		ExportWeaponData(data.type, data.name);
 	}
 }
 
 // ********* jsonファイルの保存で使用する関数↓ ********* //
-void WeaponManager::LoadEnemyData(int weaponType, const std::string& fileName) {
+void WeaponManager::LoadWeaponData(int weaponType, const std::string& fileName) {
 	OPENFILENAMEA ofn = { 0 };
 	char szFile[MAX_PATH] = { 0 };	// ファイルパスのサイズはWindows既定のものに
 	ofn.lStructSize = sizeof(ofn);
@@ -670,10 +672,10 @@ void WeaponManager::LoadEnemyData(int weaponType, const std::string& fileName) {
 	ofn.nFilterIndex = 1;
 	ofn.Flags = OFN_PATHMUSTEXIST;
 
-	LoadEnemyDataUpdate(weaponType, name);
+	LoadWeaponDataUpdate(weaponType, name);
 }
 
-void WeaponManager::LoadEnemyDataUpdate(int weaponType, const std::string& fileName) {
+void WeaponManager::LoadWeaponDataUpdate(int weaponType, const std::string& fileName) {
 	std::ifstream file(fileName);
 	if (!file.is_open()) return;
 
@@ -686,6 +688,9 @@ void WeaponManager::LoadEnemyDataUpdate(int weaponType, const std::string& fileN
 	data.rarity = j["rarity"];
 	data.modelName = j["modelName"].get<std::string>();
 	data.jsonFileName = j["jsonFileName"].get<std::string>();
+	data.attackSEFileName = j["attackSEFileName"].get<std::string>();
+	data.animName = j["animName"].get<std::string>();
+	data.texName = j["texName"].get<std::string>();
 
 	data.shotIntervalTime = j["shotIntervalTime"];
 	data.burstIntervalTime = j["burstIntervalTime"];
@@ -709,7 +714,7 @@ void WeaponManager::LoadEnemyDataUpdate(int weaponType, const std::string& fileN
 	file.close();
 }
 
-void WeaponManager::ExportEnemyData(int weaponType, const std::string& weaponName) {
+void WeaponManager::ExportWeaponData(int weaponType, const std::string& weaponName) {
 	// ファイル保存ダイアログを使って保存先とファイル名を指定
 #if defined(_WIN32)
 	char currentDir[MAX_PATH];
@@ -726,14 +731,14 @@ void WeaponManager::ExportEnemyData(int weaponType, const std::string& weaponNam
 	ofn.Flags = OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST;
 
 	if (GetSaveFileNameA(&ofn)) {
-		ExportEnemyDataUpdate(weaponType, weaponName, szFile);
+		ExportWeaponDataUpdate(weaponType, weaponName, szFile);
 	}
 
 	_chdir(currentDir);
 #endif
 }
 
-void WeaponManager::ExportEnemyDataUpdate(int weaponType, const std::string& weaponName, const std::string& fileName) {
+void WeaponManager::ExportWeaponDataUpdate(int weaponType, const std::string& weaponName, const std::string& fileName) {
 	using std::swap;
 
 	const int cJsonIndent = 4;
@@ -753,6 +758,9 @@ void WeaponManager::ExportEnemyDataUpdate(int weaponType, const std::string& wea
 	}
 	sampleWeaponData_[(WeaponType)weaponType][weaponName].jsonFileName = name;
 	node_json["jsonFileName"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].jsonFileName;
+	node_json["texName"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].texName;
+	node_json["animName"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].animName;
+	node_json["attackSEFileName"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].attackSEFileName;
 
 	node_json["shotIntervalTime"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].shotIntervalTime;
 	node_json["burstIntervalTime"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].burstIntervalTime;
