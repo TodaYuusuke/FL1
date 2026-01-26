@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -266,6 +266,7 @@
     <ClCompile Include="class\GameObjects\PenetrationResolver\PenetrationResolver.cpp" />
     <ClCompile Include="class\GameObjects\WaveManager.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\Tutorial.cpp" />
+    <ClCompile Include="SerialAnimation.cpp" />
     <ClCompile Include="class\GameObjects\Player\Anim\RobotAnimManager.cpp" />
     <ClCompile Include="class\Audio\SEPlayer.cpp" />
   </ItemGroup>
@@ -416,6 +417,7 @@
     <ClInclude Include="class\GameObjects\Tutorial\Tutorial.h" />
     <ClInclude Include="class\Componets\EasingEditor.h" />
     <ClInclude Include="class\Componets\EaseMachine.h" />
+    <ClInclude Include="SerialAnimation.h" />
     <ClInclude Include="class\GameObjects\Player\Anim\RobotAnimManager.h" />
     <ClInclude Include="class\Audio\SEPlayer.h" />
   </ItemGroup>

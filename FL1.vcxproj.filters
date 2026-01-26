@@ -348,6 +348,9 @@
     <ClCompile Include="class\scene\SceneChangeAnimation\SceneChangeAnimationForPlane.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="SerialAnimation.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="class\Componets\Animation\Anim.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -780,6 +783,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\scene\SceneChangeAnimation\SceneChangeAnimationForPlane.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SerialAnimation.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\Componets\Animation\Anim.h">

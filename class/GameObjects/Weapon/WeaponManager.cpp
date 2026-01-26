@@ -228,7 +228,7 @@ void WeaponManager::CreateOriginWeapon() {
 	for (const auto& [type, weapon] : sampleWeaponData_) {
 		// フォルダ指定
 		std::string folderName = WeaponConfig::Name::name[(int)type];
-		std::vector<std::string> jsonFiles = GetWeaponJsonNames("resources/json/Weapons/" + folderName);
+		std::vector<std::string> jsonFiles = GetWeaponJsonNames("/resources/json/Weapons/" + folderName);
 		for (int i = 0; i < jsonFiles.size(); i++) {
 			LoadEnemyData((int)type, jsonFiles[i]);
 		}
@@ -551,12 +551,12 @@ std::vector<std::string> WeaponManager::GetWeaponModelNames(int weaponType) {
 	std::vector<std::string> modelNames;
 	std::string directoryPath;
 	if (weaponType == (int)WeaponType::kMelee) {
-		directoryPath = "resources/model/Weapon/Melee/";
-		modelNames = GetFileNames((GetExeDir() / directoryPath).string());
+		directoryPath = "/resources/model/Weapon/Melee/";
+		modelNames = GetFileNames(GetExeDir().string() + directoryPath);
 	}
 	else {
-		directoryPath = "resources/model/Weapon/Gun/";
-		modelNames = GetFileNames((GetExeDir() / directoryPath).string());
+		directoryPath = "/resources/model/Weapon/Gun/";
+		modelNames = GetFileNames(GetExeDir().string() + directoryPath);
 	}
 
 	// exeからのパスは削除
@@ -592,10 +592,10 @@ std::vector<std::string> WeaponManager::GetWeaponModelNames() {
 std::vector<std::string> WeaponManager::GetWeaponJsonNames(const std::string& directoryPath) {
 	std::vector<std::string> jsonNamePreview;
 
-	if (!std::filesystem::exists((GetExeDir() / directoryPath).string())) {
+	if (!std::filesystem::exists(GetExeDir().string() + directoryPath)) {
 		return jsonNamePreview;
 	}
-	for (const auto& entry : std::filesystem::recursive_directory_iterator((GetExeDir() / directoryPath).string())) {
+	for (const auto& entry : std::filesystem::recursive_directory_iterator(GetExeDir().string() + directoryPath)) {
 		if (entry.is_regular_file() &&
 			(entry.path().extension() == ".json")) {
 			jsonNamePreview.push_back(entry.path().string());
@@ -791,7 +791,8 @@ std::vector<std::string> WeaponManager::GetFileNames(const std::string& folderPa
 	for (const auto& entry : std::filesystem::recursive_directory_iterator(folderPath)) {
 		if (entry.is_regular_file() &&
 			(entry.path().extension() == ".gltf" || entry.path().extension() == ".obj")) {
-			result.push_back(entry.path().string());
+			std::string name = entry.path().generic_string();
+			result.push_back(name);
 		}
 	}
 
