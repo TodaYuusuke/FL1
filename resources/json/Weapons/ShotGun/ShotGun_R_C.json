@@ -1,4 +1,6 @@
 {
+    "animName": "PowerShot",
+    "attackSEFileName": "PowerShot.mp3",
     "attackSkillGain": 80.0,
     "bulletNum": 8,
     "bulletType": 2,
@@ -9,9 +11,6 @@
     "diffusingBulletRange_y": 0.05999999865889549,
     "diffusingBulletRange_z": 0.0,
     "jsonFileName": "ShotGun_R_C.json",
-    "attackSEFileName": "",
-    "texName": "",
-    "animName": "",
     "modelName": "resources/model/Weapon/Gun/ShotGun/ShotGun.gltf",
     "name": "ShotGun",
     "rarity": 0,
@@ -19,5 +18,6 @@
     "sameBulletNum": 6,
     "shotIntervalTime": 0.5,
     "storeTime": 0.0,
+    "texName": "",
     "type": 1
 }

@@ -340,14 +340,14 @@ void Player::OnCollision(LWP::Object::Collision* hitTarget) {
 	hp_->Damage(world_->FindAttackPower(hitTarget->name), hitTarget->name);
 }
 
-void Player::PlayShotAnim(const int weaponSide)
+void Player::PlayShotAnim(int weaponSide)
 {
 	// アニメーション名と効果音名の取得
 	std::string animName = weaponController_->GetWeaponSlot(static_cast<WeaponSide>(weaponSide))->GetFrontWeapon()->GetWeaponData().animName;
 
 	// 射撃アニメーション再生
 	animManager_->PlayDirect(animName, weaponSide + 2)
-		.AddEvent("PlaySE", 1, [&]() { SEPlayer::GetInstance()->PlaySE(weaponController_->GetWeaponSlot(static_cast<WeaponSide>(weaponSide))->GetFrontWeapon()->GetWeaponData().attackSEFileName, 1.0f, LWP::AudioConfig::Player); });
+		.AddEvent("PlaySE", 1, [this, weaponSide]() { PlayShotSound(weaponSide); });
 
 	// 待機アニメーションをキューに入れる
 	animManager_->PlayQue("Idle", weaponSide + 2);
@@ -361,6 +361,11 @@ void Player::PlayPickUpAnim(const int weaponSide)
 
 	// 待機アニメーションをキューに入れる
 	animManager_->PlayQue("Idle", weaponSide + 2);
+}
+
+void Player::PlayShotSound(int weaponSide)
+{
+	SEPlayer::GetInstance()->PlaySE(weaponController_->GetWeaponSlot(static_cast<WeaponSide>(weaponSide))->GetFrontWeapon()->GetWeaponData().attackSEFileName, 1.0f, LWP::AudioConfig::Player);
 }
 
 void Player::AdjustRotate() {

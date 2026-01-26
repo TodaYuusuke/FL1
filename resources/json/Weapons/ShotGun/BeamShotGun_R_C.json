@@ -1,4 +1,6 @@
 {
+    "animName": "PowerShot",
+    "attackSEFileName": "PowerShot.mp3",
     "attackSkillGain": 100.0,
     "bulletNum": 10,
     "bulletType": 2,
@@ -9,9 +11,6 @@
     "diffusingBulletRange_y": 0.07000000029802322,
     "diffusingBulletRange_z": 0.019999999552965164,
     "jsonFileName": "BeamShotGun_R_C.json",
-    "attackSEFileName": "",
-    "texName": "",
-    "animName": "",
     "modelName": "resources/model/Weapon/Gun/ShotGun/ShotGun.gltf",
     "name": "BeamShotGun",
     "rarity": 0,
@@ -19,5 +18,6 @@
     "sameBulletNum": 3,
     "shotIntervalTime": 1.0,
     "storeTime": 0.0,
+    "texName": "",
     "type": 1
 }
