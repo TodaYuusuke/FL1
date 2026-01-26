@@ -79,8 +79,21 @@ void EffectManager::CreateNewEmitter(std::string effectName, const Vector3& pos,
 	// データの値を取得
 	LWP::Effect::EffectSaveData data = *effectDatas_[effectName];
 
-	// 新規エミッタ生成
-	Emitter* newEmitter = new Emitter(LWP::Resource::LoadTexture("Particle/" + data.TexPath), data.SurfaceType, pos);
+	//空のエミッタ生成
+	Emitter* newEmitter = nullptr;
+
+	// 生成される粒子の種類によって処理を分岐
+	switch (data.ParticleType)
+	{
+	case Emitter::Surface: // 平面
+		newEmitter = new Emitter(LWP::Resource::LoadTexture("Particle/" + data.TexPath), data.SurfaceType, pos);
+		break;
+	case Emitter::Model3D: // 3Dモデル
+		newEmitter = new Emitter(data.ModelPath, pos);
+		break;
+	}
+
+	// エミッタ初期化
 	newEmitter->Init(data.EmitAliveTime, data.EmitTime, data.EmitCount, data.MaxEmitCount)
 		.SetIsWaitDeleteAllParticles(data.IsWaitDeleteAllParticles)
 		.SetParticleAliveTimeAmp(data.AliveTimeAmp.min, data.AliveTimeAmp.max)

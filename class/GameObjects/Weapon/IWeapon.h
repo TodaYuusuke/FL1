@@ -156,19 +156,28 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="weaponSide"></param>
 	virtual void SetWeaponSide(int weaponSide = -1) { weaponSide; }
+
 	/// <summary>
-	/// 親子付けの設定
+	/// 親子付け設定
 	/// </summary>
-	/// <param name="parent"></param>
-	void SetParent(Actor* character) {
-		actor_ = character;
+	/// <param name="charactor">所有者</param>
+	/// <param name="jointName">親子付けするジョイント名称</param>
+	void SetParent(Actor* charactor, const std::string& jointName) {
+		// 所有者を渡す
+		actor_ = charactor;
+
 		if (!actor_) {
 			body_.worldTF.ClearParent();
 		}
 		else {
-			body_.worldTF.Parent(character->GetWorldTF());
+			// 武器位置、スケールを元に戻す
+			SetScale({ 1.0f, 1.0f, 1.0f });
+			SetTranslation({ 0.0f, 0.0f, 0.0f });
+
+			body_.worldTF.Parent(charactor->GetModel(), jointName);
 		}
 	}
+
 	/// <summary>
 	/// 弾発射時の方向ベクトルを設定
 	/// </summary>

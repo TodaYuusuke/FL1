@@ -5,6 +5,7 @@
 #include "../../../Componets/BehaviourTree/INode.h"
 #include "../../Weapon/WeaponSlot.h"
 #include "../EnemyConfig.h"
+#include "../../Player/Anim/RobotAnimManager.h"
 #include <Adapter.h>
 
 class IWorld;
@@ -37,10 +38,19 @@ private:
 	/// </summary>
 	void Move();
 
+	/// <summary>
+	/// アニメーションマネージャーの更新関数
+	/// </summary>
+	void AnimManagerUpdate() override;
+
 private:
 	// 武器リスト
 	std::map<int, IWeapon*> weapons_;
 
 	// 識別番号
 	int ID_;
+
+	// アニメーションマネージャー
+	std::unique_ptr<RobotAnimManager> animManager_;
+
 };

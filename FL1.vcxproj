@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -150,12 +150,17 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="class\Audio\AudioPlayer.cpp" />
+    <ClCompile Include="class\Componets\Animation\Anim.cpp" />
+    <ClCompile Include="class\Componets\Animation\AnimationManager.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\TutorialData\AttackTutorial.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\TutorialData\CollectTutorial.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\TutorialData\MoveTutorial.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\TutorialData\BaseTutorialData.cpp" />
     <ClCompile Include="class\Componets\BehaviourTree\CompositeNode\RandomSelector.cpp" />
     <ClCompile Include="class\Componets\Shake.cpp" />
+    <ClCompile Include="class\Effect\Particle\Child\ModelParticle.cpp" />
+    <ClCompile Include="class\Effect\Particle\Child\PlaneParticle.cpp" />
     <ClCompile Include="class\GameObjects\Camera\Effect\BoundMove\CameraBound.cpp" />
     <ClCompile Include="class\GameObjects\Camera\Effect\CameraEffect.cpp" />
     <ClCompile Include="class\GameObjects\Camera\Effect\Zoom\CameraZoom.cpp" />
@@ -258,19 +263,28 @@
     <ClCompile Include="class\GameObjects\Attack\Strategy\Movement\StraightMove.cpp" />
     <ClCompile Include="class\GameObjects\Attack\Strategy\Impact\NormalImpact.cpp" />
     <ClCompile Include="class\Componets\Input\VirtualController.cpp" />
-    <ClCompile Include="class\Effect\Particle\Particle.cpp" />
     <ClCompile Include="class\GameObjects\PenetrationResolver\PenetrationResolver.cpp" />
     <ClCompile Include="class\GameObjects\WaveManager.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\Tutorial.cpp" />
     <ClCompile Include="class\Componets\SerialAnimation.cpp" />
+    <ClCompile Include="class\GameObjects\Player\Anim\RobotAnimManager.cpp" />
+    <ClCompile Include="class\Audio\SEPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="class\Audio\AudioConfig.h" />
+    <ClInclude Include="class\Audio\AudioPlayer.h" />
+    <ClInclude Include="class\Componets\Animation\Anim.h" />
+    <ClInclude Include="class\Componets\Animation\AnimationManager.h" />
+    <ClInclude Include="class\Componets\Animation\AnimationStructs.h" />
     <ClInclude Include="class\GameObjects\Tutorial\TutorialData\AttackTutorial.h" />
     <ClInclude Include="class\GameObjects\Tutorial\TutorialData\CollectTutorial.h" />
     <ClInclude Include="class\GameObjects\Tutorial\TutorialData\MoveTutorial.h" />
     <ClInclude Include="class\GameObjects\Tutorial\TutorialData\BaseTutorialData.h" />
     <ClInclude Include="class\Componets\BehaviourTree\CompositeNode\RandomSelector.h" />
     <ClInclude Include="class\Componets\Shake.h" />
+    <ClInclude Include="class\Effect\Particle\Child\ModelParticle.h" />
+    <ClInclude Include="class\Effect\Particle\Child\PlaneParticle.h" />
+    <ClInclude Include="class\Effect\Particle\ParticleIncluder.h" />
     <ClInclude Include="class\GameObjects\Camera\Effect\BoundMove\CameraBound.h" />
     <ClInclude Include="class\GameObjects\Camera\Effect\Zoom\CameraZoom.h" />
     <ClInclude Include="class\GameObjects\Camera\Effect\Shake\CameraShake.h" />
@@ -393,7 +407,7 @@
     <ClInclude Include="class\Componets\Input\VirtualController.h" />
     <ClInclude Include="class\Componets\Input\Device\IInputDevice.h" />
     <ClInclude Include="class\Componets\Input\Device\KeyboardDevice.h" />
-    <ClInclude Include="class\Effect\Particle\Particle.h" />
+    <ClInclude Include="class\Effect\Particle\IParticle.h" />
     <ClInclude Include="class\Effect\Particle\Components\Child\VelocityComponent.h" />
     <ClInclude Include="class\Effect\Emitter\Emitter.h" />
     <ClInclude Include="class\Effect\EffectManager.h" />
@@ -404,6 +418,8 @@
     <ClInclude Include="class\Componets\EasingEditor.h" />
     <ClInclude Include="class\Componets\EaseMachine.h" />
     <ClInclude Include="class\Componets\SerialAnimation.h" />
+    <ClInclude Include="class\GameObjects\Player\Anim\RobotAnimManager.h" />
+    <ClInclude Include="class\Audio\SEPlayer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

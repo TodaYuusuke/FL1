@@ -7,6 +7,7 @@
 #include "../Camera/FollowCamera/FollowCamera.h"
 #include "PlayerConfig.h"
 #include <Adapter.h>
+#include "Anim/RobotAnimManager.h"
 
 class EnemyManager;
 /// <summary>
@@ -35,6 +36,20 @@ public:
 	/// 衝突応答
 	/// </summary>
 	void OnCollision(LWP::Object::Collision* hitTarget) override;
+
+public: // アニメーション用関数群
+
+	/// <summary>
+	/// 射撃アニメーション再生関数
+	/// </summary>
+	/// <param name="weaponSide">武器の場所</param>
+	void PlayShotAnim(const int weaponSide = 0) override;
+
+	/// <summary>
+	/// 取得アニメーション再生関数
+	/// </summary>
+	/// <param name="weaponSide">取得した部位</param>
+	void PlayPickUpAnim(const int weaponSide = 0) override;
 
 private:// プライベートな関数
 	void AdjustRotate();
@@ -157,6 +172,9 @@ private:
 	std::unique_ptr<MoveController> moveController_;
 	// 武器の処理
 	std::unique_ptr<WeaponController> weaponController_;
+
+	// アニメーションマネージャー
+	std::unique_ptr<RobotAnimManager> animManager_;
 
 	LWP::Math::Quaternion moveRot_;
 	LWP::Math::Quaternion preMoveRot_;

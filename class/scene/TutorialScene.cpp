@@ -15,6 +15,7 @@
 #include "../Componets/InputMyController/ControllerReceiver.h"
 #include "../Effect/EffectManager.h"
 #include "../Effect/EffectEditor.h"
+#include "../Audio/SEPlayer.h"
 
 using namespace LWP;
 using namespace LWP::Resource;
@@ -29,6 +30,8 @@ TutorialScene::TutorialScene() {
 }
 
 TutorialScene::~TutorialScene() {
+	// 効果音プレイヤー生成
+	SEPlayer::Destroy();
 	// 
 	EffectEditor::Destroy();
 	EffectManager::Destroy();
@@ -68,6 +71,8 @@ void TutorialScene::Initialize() {
 	// インスタンス生成
 	EffectManager::Create();
 	EffectEditor::Create();
+	// 効果音プレイヤー生成
+	SEPlayer::Create();
 
 	// 地形情報読み込み
 	levelData.LoadShortPath("gameScene.json");
@@ -124,6 +129,9 @@ void TutorialScene::Update() {
 	if (tutorial_->GetIsFinish()) {
 		nextSceneFunction = []() { return new GameScene(); };
 	}
+
+	// 効果音プレイヤー生成
+	SEPlayer::GetInstance()->Update();
 
 	// ヒットストップ
 	HitStopController::GetInstance()->Update();

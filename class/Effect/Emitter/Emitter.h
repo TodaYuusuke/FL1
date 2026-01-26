@@ -1,5 +1,5 @@
 #pragma once
-#include "../Particle/Particle.h"
+#include "../Particle/ParticleIncluder.h"
 
 /// <summary>
 /// パーティクル生成の管理クラス
@@ -13,7 +13,7 @@ public: // サブクラス
 	/// </summary>
 	enum ParticleType {
 		Surface,	// 平面
-		model3D,	// 3Dモデル
+		Model3D,	// 3Dモデル
 		PTypeCount,	 // カウント用
 	};
 
@@ -41,6 +41,13 @@ public: // コンストラクタ等
 	/// <param name="SurfaceType">生成される平面のタイプ</param>
 	/// <param name="pos">初期座標</param>
 	Emitter(LWP::Resource::Texture texID, int surfaceType, const LWP::Math::Vector3& pos);
+
+	/// <summary>
+	/// コンストラクタ(3Dモデルパーティクル)
+	/// </summary>
+	/// <param name="path">モデルまでのファイルパス</param>
+	/// <param name="pos">初期座標</param>
+	Emitter(const std::string& path, const LWP::Math::Vector3& pos);
 
 	/// <summary>
 	/// デストラクタ
@@ -140,6 +147,11 @@ private: // プライベートなメンバ関数
 	/// </summary>
 	void EmitSurface();
 
+	/// <summary>
+	/// モデル生成時の処理関数
+	/// </summary>
+	void EmitModel();
+
 public: // パブリックなメンバ関数
 
 	// エミッタ自体のワールドトランスフォーム
@@ -149,6 +161,9 @@ private: // メンバ変数
 
 	// 粒子のタイプ
 	int particleType_ = Emitter::ParticleType::Surface;
+
+	// モデル描画の際のファイルパス
+	std::string modelPath_ = "";
 
 	// 平面描画時のタイプ
 	int surfaceType_ = Emitter::SurfaceType::Normal;
@@ -177,7 +192,7 @@ private: // メンバ変数
 	int32_t emitCount_ = 5;
 
 	// 粒子の格納配列
-	std::list<Particle*> particles_{};
+	std::list<IParticle*> particles_{};
 
 	// 粒子の生成時間
 	LWP::Effect::RandomData<float> pAliveTime_{};

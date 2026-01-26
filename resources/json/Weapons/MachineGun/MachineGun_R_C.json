@@ -9,7 +9,7 @@
     "diffusingBulletRange_y": 0.0,
     "diffusingBulletRange_z": 0.0,
     "jsonFileName": "MachineGun_R_C.json",
-    "modelName": "resources/model/Weapon/Gun/MachineGun\\MachineGun.gltf",
+    "modelName": "resources/model/Weapon/Gun/MachineGun/MachineGun.gltf",
     "name": "MachineGun",
     "rarity": 0,
     "reloadTime": 0.0,

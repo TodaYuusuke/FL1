@@ -3,24 +3,19 @@
 #include "../EffectStructs.h"
 
 /// <summary>
-/// パーティクルクラス
+/// パーティクル基底クラス
 /// </summary>
-class Particle
+class IParticle
 {
 public: // コンストラクタ等
 
 	// デフォルトコンストラクタ削除
-	Particle() = delete;
-
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	Particle(std::unique_ptr<LWP::Primitive::IPlane> plane, bool isStretchBillboard = false);
+	IParticle() = default;
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Particle();
+	virtual ~IParticle() = default;
 
 public: // メンバ関数
 
@@ -28,14 +23,14 @@ public: // メンバ関数
 	/// 初期化関数
 	/// </summary>
 	/// <param name="plane">平面のポインタ</param>
-	Particle& Init();
+	virtual IParticle& Init() = 0;
 
 	/// <summary>
 	/// 更新関数
 	/// </summary>
 	/// <param name="deltaTime">デルタタイム</param>
 	/// <param name="playSpeed">再生スピード</param>
-	void Update(const float deltaTime, const float playSpeed);
+	virtual void Update(const float deltaTime, const float playSpeed) = 0;
 
 public: // アクセッサ等
 
@@ -43,13 +38,13 @@ public: // アクセッサ等
 	/// 終了状態ゲッター
 	/// </summary>
 	/// <returns>終了状態</returns>
-	bool GetIsEnd() { return isEnd_; }
+	virtual bool GetIsEnd() = 0;
 
 	/// <summary>
 	/// 粒子の親子付け設定
 	/// </summary>
 	/// <param name="parent">粒子の親となるエミッタ</param>
-	Particle& SetParent(LWP::Object::TransformQuat* parent);
+	virtual IParticle& SetParent(LWP::Object::TransformQuat* parent) = 0;
 
 	/// <summary>
 	/// トランスフォームの設定
@@ -57,43 +52,40 @@ public: // アクセッサ等
 	/// <param name="scale">拡縮</param>
 	/// <param name="rotate">回転</param>
 	/// <param name="translate">座標</param>
-	Particle& SetTransform(const LWP::Math::Vector3& scale, const LWP::Math::Quaternion& rotate, const LWP::Math::Vector3& translate);
+	virtual IParticle& SetTransform(const LWP::Math::Vector3& scale, const LWP::Math::Quaternion& rotate, const LWP::Math::Vector3& translate) = 0;
 
 	/// <summary>
 	/// 生存時間設定
 	/// </summary>
 	/// <param name="aliveTime">生存時間</param>
-	Particle& SetAliveTime(const float aliveTime);
+	virtual IParticle& SetAliveTime(const float aliveTime) = 0;
 
 	/// <summary>
 	/// 移動速度設定
 	/// </summary>
-	Particle& SetVelocity(const LWP::Effect::VelocityData<LWP::Math::Vector3>& data);
+	virtual IParticle& SetVelocity(const LWP::Effect::VelocityData<LWP::Math::Vector3>& data) = 0;
 
 	/// <summary>
 	/// 移動補間設定
 	/// </summary>
-	Particle& SetEasing(const LWP::Effect::EasingData<LWP::Math::Vector3>& data);
+	virtual IParticle& SetEasing(const LWP::Effect::EasingData<LWP::Math::Vector3>& data) = 0;
 
 	/// <summary>
 	/// 回転速度設定
 	/// </summary>
-	Particle& SetRotateVelocity(const LWP::Effect::VelocityData<LWP::Math::Vector3>& data);
+	virtual IParticle& SetRotateVelocity(const LWP::Effect::VelocityData<LWP::Math::Vector3>& data) = 0;
 
 	/// <summary>
 	/// 拡縮イージング設定
 	/// </summary>
-	Particle& SetScaleEasing(const LWP::Effect::EasingData<LWP::Math::Vector3>& data, const bool isUnificationScale);
+	virtual IParticle& SetScaleEasing(const LWP::Effect::EasingData<LWP::Math::Vector3>& data, const bool isUnificationScale) = 0;
 
 	/// <summary>
 	/// 色イージング設定
 	/// </summary>
-	Particle& SetColorEasing(const LWP::Effect::EasingData<LWP::Math::Vector4>& data);
+	virtual IParticle& SetColorEasing(const LWP::Effect::EasingData<LWP::Math::Vector4>& data) = 0;
 
-private: // メンバ変数
-
-	// 平面
-	std::unique_ptr<LWP::Primitive::IPlane> plane_ = nullptr;
+protected: // メンバ変数
 
 	// 終了フラグ
 	bool isEnd_ = false;
@@ -117,8 +109,5 @@ private: // メンバ変数
 	
 	// 色用コンポーネント
 	IParticleComponent<LWP::Math::Vector4>* colorComponent_ = nullptr;
-
-	// ストレッチビルボードのベクトルアドレス格納用
-	LWP::Math::Vector3* stretchVector_ = nullptr;
 };
 

@@ -178,7 +178,7 @@ void WeaponManager::CheckPlayerToWeaponDistance() {
 		pickUpWeaponLines_[size].LoadFullPath("resources/model/Weapon/Line.obj");
 		pickUpWeaponLines_[size].materials["Material"].color.A = 200;
 		pickUpWeaponLines_[size].worldTF.translation = weapon->GetWorldTF()->GetWorldPosition();
-		Vector3 dist = (pWorld_->FindActor("Player")->GetModel().GetJointWorldPosition("LockOnAnchor") + Vector3{ 0.0f,-0.5f,0.0f }) - weapon->GetWorldTF()->GetWorldPosition();
+		Vector3 dist = (pWorld_->FindActor("Player")->GetModel()->GetJointWorldPosition("LockOnAnchor") + Vector3{ 0.0f,-0.5f,0.0f }) - weapon->GetWorldTF()->GetWorldPosition();
 		pickUpWeaponLines_[size].worldTF.scale = { 0.1f,0.1f,dist.Length() / 2.0f };
 		pickUpWeaponLines_[size].worldTF.rotation = FLMath::LookRotationZLock(dist.Normalize());
 		// 回収可能
@@ -811,7 +811,7 @@ void WeaponManager::DropWeapon(IWeapon* weapon) {
 	if (weapon->GetActor()) {
 		Vector3 pos = weapon->GetActor()->GetWorldTF()->GetWorldPosition() + weapon->GetWorldTF()->translation;
 		// 親子付け解除
-		weapon->SetParent(nullptr);
+		weapon->SetParent(nullptr, "");
 		// 座標指定
 		weapon->SetTranslation(pos);
 	}
