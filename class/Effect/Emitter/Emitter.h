@@ -1,5 +1,6 @@
 #pragma once
 #include "../Particle/ParticleIncluder.h"
+#include <Adapter.h>
 
 /// <summary>
 /// パーティクル生成の管理クラス
@@ -70,7 +71,17 @@ public: // メンバ関数
 	/// </summary>
 	void Update(const float deltaTime, const float playSpeed);
 
+	/// <summary>
+	/// 粒子生成関数
+	/// </summary>
+	void Emit();
+
 public: // アクセッサ等
+
+	/// <summary>
+	/// 終了関数
+	/// </summary>
+	void Finish() { if (!isEnd_) { isEnd_ = true; } }
 
 	/// <summary>
 	/// 終了状態ゲッター
@@ -83,6 +94,25 @@ public: // アクセッサ等
 	/// </summary>
 	/// <param name="parent">親</param>
 	void SetParent(LWP::Object::TransformQuat* parent) { transform_.Parent(parent); }
+
+	/// <summary>
+	/// ジョイントに対しての親子付け
+	/// </summary>
+	/// <param name="model">対象モデル</param>
+	/// <param name="jointName">対象ジョイント名</param>
+	void SetParent(LWP::Resource::SkinningModel* model, const std::string& jointName) { transform_.Parent(model, jointName); }
+
+	/// <summary>
+	/// 自動生成状態セッター
+	/// </summary>
+	/// <param name="isAuto">自動生成状態</param>
+	void SetIsAutoEmit(const bool isAuto) { isAutoEmit_ = isAuto; }
+
+	/// <summary>
+	/// 無限生成状態セッター
+	/// </summary>
+	/// <param name="isInfinite">エミッタを無限に生存させるか</param>
+	Emitter& SetIsInfinite(const bool isInfinite);
 
 	/// <summary>
 	/// 粒子が消えるまで待つかどうかの設定
@@ -138,11 +168,6 @@ public: // アクセッサ等
 private: // プライベートなメンバ関数
 
 	/// <summary>
-	/// 粒子生成関数
-	/// </summary>
-	void Emit();
-
-	/// <summary>
 	/// 平面生成時の処理関数
 	/// </summary>
 	void EmitSurface();
@@ -152,7 +177,7 @@ private: // プライベートなメンバ関数
 	/// </summary>
 	void EmitModel();
 
-public: // パブリックなメンバ関数
+public: // パブリックなメンバ変数
 
 	// エミッタ自体のワールドトランスフォーム
 	LWP::Object::TransformQuat transform_;
@@ -174,6 +199,8 @@ private: // メンバ変数
 	LWP::Utility::DeltaTimer aliveTimer_{};
 	// 終了時間
 	float aliveTime_ = 5.0f;
+	// 無限生存
+	bool isInfinite_ = false;
 	// 終了フラグ
 	bool isEnd_ = false;
 
@@ -183,6 +210,8 @@ private: // メンバ変数
 	float emitTime_ = 0.1f;
 	// 粒子の生成時間振れ幅
 	LWP::Effect::RandomData<float> emitTimeAmp_{};
+	// 粒子の自動生成フラグ
+	bool isAutoEmit_ = true;
 	// 粒子の生成フラグ
 	bool isEmit_ = false;
 

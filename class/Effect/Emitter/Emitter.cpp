@@ -113,9 +113,18 @@ void Emitter::Update(const float deltaTime, const float playSpeed)
 		if (!isEmit_) { isEmit_ = true; }
 	}
 
+	
 	// 各種タイマーの更新
-	aliveTimer_.Update();
-	emitTimer_.Update();
+	if(!isInfinite_){ aliveTimer_.Update(); }
+	if(isAutoEmit_){ emitTimer_.Update(); }
+}
+
+Emitter& Emitter::SetIsInfinite(const bool isInfinite)
+{
+	// 無限状態
+	isInfinite_ = isInfinite;
+
+	return *this;
 }
 
 Emitter& Emitter::SetIsWaitDeleteAllParticles(const bool isWait)

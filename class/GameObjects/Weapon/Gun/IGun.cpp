@@ -176,6 +176,9 @@ void IGun::Reload() {
 }
 
 void IGun::Destroy() {
+	// エミッタに対して破棄するよう指示
+	attackEffectEmitter_->Finish();
+
 	// カメラ揺れ
 	CameraEffectHandler::GetInstance()->StartShake(Vector3{ 0.002f, 0.002f ,0.002f }, 0.1f);
 }
@@ -229,6 +232,11 @@ void IGun::AttackCommond() {
 		// 弾生成
 		pBulletManager_->CreateAttack(data_.bulletType, target_, body_.GetJointWorldPosition("Muzzle"), bulletHitFragBit_, bulletBelongFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
 		
+		// エミッタが存在する場合射撃エフェクトを生成
+		if (attackEffectEmitter_ != nullptr) {
+			attackEffectEmitter_->Emit();
+		}
+
 		// 所持者が自機なら演出開始
 		if (actor_->GetName() == "Player") {
 			// カメラ揺れ
@@ -269,4 +277,10 @@ void IGun::BurstMode() {
 void IGun::FullAutoMode() {
 	shotType_ = ShotType::kFullAuto;
 	attackFrame_ = data_.shotIntervalTime * 60.0f;
+}
+
+void IGun::PlayAttackEffect()
+{
+	// エフェクトの生成処理を呼び出す
+	attackEffectEmitter_->Emit();
 }

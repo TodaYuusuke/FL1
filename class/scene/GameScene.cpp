@@ -58,6 +58,14 @@ GameScene::~GameScene() {
 void GameScene::Initialize() {
 	// 効果音プレイヤー生成
 	SEPlayer::Create();
+	// エフェクト関連のインスタンス生成
+	EffectManager::Create();
+	EffectEditor::Create();
+
+	// エフェクト関連初期化
+	EffectManager::GetInstance()->Init();
+	EffectEditor::GetInstance()->SetEffectManager(EffectManager::GetInstance());
+	EffectEditor::GetInstance()->Init();
 
 	// カメラ演出
 	CameraEffectHandler::Create();
@@ -76,9 +84,6 @@ void GameScene::Initialize() {
 
 	// 押し出し
 	PenetrationResolver::Create();
-	// インスタンス生成
-	EffectManager::Create();
-	EffectEditor::Create();
 	// ウェーブ
 	WaveManager::Create();
 
@@ -123,11 +128,6 @@ void GameScene::Initialize() {
 
 	// 演出対象のカメラ
 	CameraEffectHandler::GetInstance()->SetEffectTarget(followCamera_.get());
-
-	// エフェクト関連初期化
-	EffectManager::GetInstance()->Init();
-	EffectEditor::GetInstance()->SetEffectManager(EffectManager::GetInstance());
-	EffectEditor::GetInstance()->Init();
 
 	//スコアを0に
 	ScoreCounter::GetInstance()->Reset();

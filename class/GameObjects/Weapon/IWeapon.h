@@ -5,6 +5,7 @@
 #include "../../Componets/HitStopController.h"
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../Attack/AttackManager.h"
+#include "../../Effect/EffectManager.h"
 #include <Adapter.h>
 #include <string>
 
@@ -226,6 +227,13 @@ public:// アクセサ
 	//void SetIsDestroy(bool isActive) { isDestroy_ = isActive; }
 #pragma endregion
 
+public: // 演出用関数群
+
+	/// <summary>
+	///  攻撃エフェクトの再生関数
+	/// </summary>
+	virtual void PlayAttackEffect() {};
+
 protected:
 	// ヒットストップ
 	HitStopController* stopController_;
@@ -246,6 +254,9 @@ protected:
 
 	// 光の柱
 	LWP::Primitive::NormalBillboard2D lightPillar_;
+
+	// 攻撃エフェクト
+	Emitter* attackEffectEmitter_ = nullptr;
 
 	// 名前
 	std::string name_;

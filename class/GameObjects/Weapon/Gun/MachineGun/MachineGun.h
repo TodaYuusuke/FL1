@@ -27,4 +27,7 @@ public:// アクセサ
 #pragma endregion
 
 private:
+
+	LWP::Primitive::NormalSurface test;
+
 };
