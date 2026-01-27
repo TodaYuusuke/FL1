@@ -347,7 +347,7 @@ void Player::PlayShotAnim(int weaponSide)
 
 	// 射撃アニメーション再生
 	animManager_->PlayDirect(animName, weaponSide + 2)
-		.AddEvent("PlaySE", 1, [this, weaponSide]() { PlayShotSound(weaponSide); });
+		.AddEvent("PlaySE", 1, [this, weaponSide]() { SEPlayer::GetInstance()->PlaySE(weaponController_->GetWeaponSlot(static_cast<WeaponSide>(weaponSide))->GetFrontWeapon()->GetWeaponData().attackSEFileName, 1.0f, LWP::AudioConfig::Player); });
 
 	// 待機アニメーションをキューに入れる
 	animManager_->PlayQue("Idle", weaponSide + 2);
@@ -361,11 +361,6 @@ void Player::PlayPickUpAnim(const int weaponSide)
 
 	// 待機アニメーションをキューに入れる
 	animManager_->PlayQue("Idle", weaponSide + 2);
-}
-
-void Player::PlayShotSound(int weaponSide)
-{
-	SEPlayer::GetInstance()->PlaySE(weaponController_->GetWeaponSlot(static_cast<WeaponSide>(weaponSide))->GetFrontWeapon()->GetWeaponData().attackSEFileName, 1.0f, LWP::AudioConfig::Player);
 }
 
 void Player::AdjustRotate() {

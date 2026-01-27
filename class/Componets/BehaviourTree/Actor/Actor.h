@@ -71,12 +71,6 @@ public: // アニメーション用関数群
 	/// <param name="weaponSide">取得した部位</param>
 	virtual void PlayPickUpAnim(const int weaponSide = 0) { weaponSide; }
 
-	/// <summary>
-	/// 射撃音再生関数
-	/// </summary>
-	/// <param name="weaponSide">武器の場所</param>
-	virtual void PlayShotSound(const int weaponSide = 0) { weaponSide; }
-
 protected:
 	/// <summary>
 	/// 衝突応答

@@ -51,12 +51,6 @@ public: // アニメーション用関数群
 	/// <param name="weaponSide">取得した部位</param>
 	void PlayPickUpAnim(const int weaponSide = 0) override;
 
-	/// <summary>
-	/// 射撃音再生関数
-	/// </summary>
-	/// <param name="weaponSide">武器の場所</param>
-	void PlayShotSound(const int weaponSide = 0) override;
-
 private:// プライベートな関数
 	void AdjustRotate();
 
