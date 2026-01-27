@@ -50,6 +50,7 @@ struct WeaponData {
 	std::string animName="";						// 武器モデルのアニメーション名
 	std::string jsonFileName="";					// jsonファイル名
 	std::string attackSEFileName="";				// 効果音ファイル名
+	std::string attackEffectName="";				// 攻撃時の演出名
 	float shotIntervalTime;							// 射撃間隔[秒]
 	float burstIntervalTime;						// バースト間隔[秒](バースト銃の場合に数値を入れる)
 	float storeTime;								// 溜め時間[秒](溜める銃の場合に数値を入れる)

@@ -1,4 +1,7 @@
 {
+    "animName": "",
+    "attackEffectName": "a",
+    "attackSEFileName": "",
     "attackSkillGain": 10.0,
     "bulletNum": 30,
     "bulletType": 1,
@@ -9,9 +12,6 @@
     "diffusingBulletRange_y": 0.0,
     "diffusingBulletRange_z": 0.0,
     "jsonFileName": "MachineGun_R_C.json",
-    "attackSEFileName": "",
-    "texName": "",
-    "animName": "",
     "modelName": "resources/model/Weapon/Gun/MachineGun/MachineGun.gltf",
     "name": "MachineGun",
     "rarity": 0,
@@ -19,5 +19,6 @@
     "sameBulletNum": 0,
     "shotIntervalTime": 0.23000000417232513,
     "storeTime": 0.0,
+    "texName": "",
     "type": 0
 }

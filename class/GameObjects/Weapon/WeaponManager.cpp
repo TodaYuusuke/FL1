@@ -622,6 +622,7 @@ void WeaponManager::WeaponDataGui(WeaponData& data) {
 	ImGui::InputText("Weapon Texture Name", &data.texName);
 	ImGui::InputText("Weapon Animation Name", &data.animName);
 	ImGui::InputText("Weapon Attack-SE Name", &data.attackSEFileName);
+	ImGui::InputText("Weapon Attack-Effect Name", &data.attackEffectName);
 
 	// 発射間隔
 	if (ImGui::TreeNode("Interval")) {
@@ -689,6 +690,7 @@ void WeaponManager::LoadWeaponDataUpdate(int weaponType, const std::string& file
 	data.modelName = j["modelName"].get<std::string>();
 	data.jsonFileName = j["jsonFileName"].get<std::string>();
 	data.attackSEFileName = j["attackSEFileName"].get<std::string>();
+	data.attackEffectName = j["attackEffectName"].get<std::string>();
 	data.animName = j["animName"].get<std::string>();
 	data.texName = j["texName"].get<std::string>();
 
@@ -761,6 +763,7 @@ void WeaponManager::ExportWeaponDataUpdate(int weaponType, const std::string& we
 	node_json["texName"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].texName;
 	node_json["animName"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].animName;
 	node_json["attackSEFileName"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].attackSEFileName;
+	node_json["attackEffectName"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].attackEffectName;
 
 	node_json["shotIntervalTime"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].shotIntervalTime;
 	node_json["burstIntervalTime"] = sampleWeaponData_[(WeaponType)weaponType][weaponName].burstIntervalTime;

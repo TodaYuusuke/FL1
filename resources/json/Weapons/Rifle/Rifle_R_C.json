@@ -10,6 +10,7 @@
     "diffusingBulletRange_z": 0.0,
     "jsonFileName": "Rifle_R_C.json",
     "attackSEFileName": "",
+    "attackEffectName": "",
     "texName": "",
     "animName": "",
     "modelName": "resources/model/Weapon/Gun/Rifle/Rifle.gltf",
