@@ -342,8 +342,13 @@ void Player::OnCollision(LWP::Object::Collision* hitTarget) {
 
 void Player::PlayShotAnim(int weaponSide)
 {
+	// 武器の情報取得
+	if (weaponController_->GetWeaponSlot(static_cast<WeaponSide>(weaponSide)) == nullptr) { return; }
+
 	// アニメーション名と効果音名の取得
 	std::string animName = weaponController_->GetWeaponSlot(static_cast<WeaponSide>(weaponSide))->GetFrontWeapon()->GetWeaponData().animName;
+	// アニメーション名がない場合
+	if (animName == "") { return; }
 
 	// 射撃アニメーション再生
 	animManager_->PlayDirect(animName, weaponSide + 2)

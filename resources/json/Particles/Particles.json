@@ -16,19 +16,19 @@
             -0.25
         ],
         "Vector3 :PEasingS-Start": [
-            1.25,
-            1.25,
-            1.25
+            1.0,
+            1.0,
+            1.0
         ],
         "Vector3 :PEasingS-StartAmp-Max": [
-            0.15000000596046448,
-            0.15000000596046448,
-            0.15000000596046448
+            0.25,
+            0.25,
+            0.25
         ],
         "Vector3 :PEasingS-StartAmp-Min": [
-            -0.15000000596046448,
-            -0.15000000596046448,
-            -0.15000000596046448
+            -0.25,
+            -0.25,
+            -0.25
         ],
         "Vector3 :PEasingT-End": [
             0.0,
@@ -91,17 +91,17 @@
             -0.0
         ],
         "Vector3 :PVelocityR-Velocity": [
-            0.0,
-            0.0,
-            0.0
-        ],
-        "Vector3 :PVelocityR-VelocityAmp-Max": [
             90.0,
             0.0,
             0.0
         ],
+        "Vector3 :PVelocityR-VelocityAmp-Max": [
+            0.0,
+            0.0,
+            0.0
+        ],
         "Vector3 :PVelocityR-VelocityAmp-Min": [
-            -90.0,
+            -0.0,
             -0.0,
             -0.0
         ],
@@ -194,13 +194,13 @@
         "bool :PVelocityT-IsUsed": true,
         "bool :unificationRandomScale": true,
         "float :AliveTimeAmp-Max": 0.3499999940395355,
-        "float :AliveTimeAmp-Min": 0.15000000596046448,
+        "float :AliveTimeAmp-Min": 0.25,
         "float :EmitAliveTime": 5.0,
         "float :EmitTime": 0.10000000149011612,
         "float :EmitTimeAmp-Max": 0.0,
         "float :EmitTimeAmp-Min": -0.0,
-        "int32_t :EmitCount": 1,
-        "int32_t :MaxEmitCount": 100,
+        "int32_t :EmitCount": 3,
+        "int32_t :MaxEmitCount": 50,
         "int32_t :PEasingC-EasingType": 4,
         "int32_t :PEasingS-EasingType": 2,
         "int32_t :PEasingT-EasingType": 0,
@@ -498,7 +498,7 @@
         "Vector3 :PVelocityR-Start": [
             0.0,
             0.0,
-            0.0
+            90.0
         ],
         "Vector3 :PVelocityR-StartAmp-Max": [
             0.0,
