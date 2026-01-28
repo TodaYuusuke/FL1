@@ -35,14 +35,14 @@ IGun::IGun(WeaponData data) {
 	lightPillar_.worldTF.translation = body_.worldTF.translation;
 
 	// エフェクト名称が設定されている場合エミッタ生成
-	
-
-	// 射撃エフェクト生成
-	attackEffectEmitter_ = EffectManager::GetInstance()->CreateNewEmitter("MuzzleFlash", { 0.0f, 0.0f, 0.0f }, true);
-	// 射撃エフェクトを武器モデルのマズルに親子付け
-	attackEffectEmitter_->SetParent(&body_, "Muzzle");
-	// 粒子の自動生成OFF
-	attackEffectEmitter_->SetIsAutoEmit(false);
+	if (data.attackEffectName != "") {
+		// 射撃エフェクト生成
+		attackEffectEmitter_ = EffectManager::GetInstance()->CreateNewEmitter(data.attackEffectName, { 0.0f, 0.0f, 0.0f }, true);
+		// 射撃エフェクトを武器モデルのマズルに親子付け
+		attackEffectEmitter_->SetParent(&body_, "Muzzle");
+		// 粒子の自動生成OFF
+		attackEffectEmitter_->SetIsAutoEmit(false);
+	}
 
 	Init();
 }

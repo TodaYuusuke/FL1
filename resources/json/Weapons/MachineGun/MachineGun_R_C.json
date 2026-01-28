@@ -1,6 +1,7 @@
 {
     "animName": "Shot",
     "attackSEFileName": "Shot.mp3",
+    "attackEffectName": "",
     "attackSkillGain": 10.0,
     "bulletNum": 30,
     "bulletType": 1,

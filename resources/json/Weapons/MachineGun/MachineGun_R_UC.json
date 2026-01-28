@@ -10,6 +10,7 @@
     "diffusingBulletRange_z": 0.0,
     "jsonFileName": "MachineGun_R_UC.json",
     "attackSEFileName": "Shot.mp3",
+    "attackEffectName": "",
     "texName": "",
     "animName": "Shot",
     "modelName": "resources/model/Weapon/Gun/MachineGun/MachineGun.gltf",
