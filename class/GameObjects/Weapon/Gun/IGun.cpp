@@ -186,6 +186,8 @@ void IGun::Reload() {
 }
 
 void IGun::Destroy() {
+	// エミッタの親子付け解消
+	attackEffectEmitter_->SetParent(nullptr, "");
 	// エミッタに対して破棄するよう指示
 	attackEffectEmitter_->Finish();
 

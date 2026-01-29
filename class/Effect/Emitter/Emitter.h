@@ -100,8 +100,7 @@ public: // アクセッサ等
 	/// </summary>
 	/// <param name="model">対象モデル</param>
 	/// <param name="jointName">対象ジョイント名</param>
-	void SetParent(LWP::Resource::SkinningModel* model, const std::string& jointName) { transform_.Parent(model, jointName); }
-
+	void SetParent(LWP::Resource::SkinningModel* model, const std::string& jointName);
 	/// <summary>
 	/// 自動生成状態セッター
 	/// </summary>
@@ -183,6 +182,11 @@ public: // パブリックなメンバ変数
 	LWP::Object::TransformQuat transform_;
 
 private: // メンバ変数
+
+	// ボーンと親子付けした際、対象となるモデル
+	LWP::Resource::SkinningModel* parentModel_ = nullptr;
+	// 親子付けしたジョイント名
+	std::string parentJointName_ = "";
 
 	// 粒子のタイプ
 	int particleType_ = Emitter::ParticleType::Surface;

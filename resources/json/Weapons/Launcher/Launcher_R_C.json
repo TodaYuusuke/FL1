@@ -1,7 +1,7 @@
 {
     "animName": "PowerShot",
+    "attackEffectName": "ShotSmoke",
     "attackSEFileName": "PowerShot.mp3",
-    "attackEffectName": "",
     "attackSkillGain": 100.0,
     "bulletNum": 7,
     "bulletType": 3,

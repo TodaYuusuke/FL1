@@ -92,6 +92,16 @@ void Emitter::Update(const float deltaTime, const float playSpeed)
 		}
 	}
 
+	// 親子付け対象のモデルが存在する場合
+	if (parentModel_ != nullptr) {
+		LWP::Math::Matrix4x4 worldMat = parentModel_->worldTF.GetAffineMatrix();
+		LWP::Math::Vector3 bonePos = parentModel_->GetJoint(parentJointName_)->localTF.GetWorldPosition();
+
+		// エミッタの位置座標を無理やり合わせる
+		transform_.translation = bonePos * worldMat;
+
+	}
+
 	// 粒子生成のフラグが立っている場合
 	if (isEmit_) {
 		// 粒子を生成
@@ -112,11 +122,23 @@ void Emitter::Update(const float deltaTime, const float playSpeed)
 		// 粒子生成の開始
 		if (!isEmit_) { isEmit_ = true; }
 	}
-
 	
 	// 各種タイマーの更新
 	if(!isInfinite_){ aliveTimer_.Update(); }
 	if(isAutoEmit_){ emitTimer_.Update(); }
+}
+
+void Emitter::SetParent(LWP::Resource::SkinningModel* model, const std::string& jointName)
+{
+	if (particleType_ == ParticleType::Surface && surfaceType_ != SurfaceType::Normal) {
+		// 親子付けを行わず、親となるモデルとジョイント名称を受け取る
+		parentModel_ = model;
+		parentJointName_ = jointName;
+	}
+	else {
+		// 親子付け処理
+		transform_.Parent(model, jointName);
+	}
 }
 
 Emitter& Emitter::SetIsInfinite(const bool isInfinite)

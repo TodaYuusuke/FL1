@@ -8,7 +8,3 @@ using namespace LWP::Math;
 ShotGun::ShotGun(WeaponData gunData)
 	: IGun(gunData)
 {}
-
-void ShotGun::Destroy() {
-
-}

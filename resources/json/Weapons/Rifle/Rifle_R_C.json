@@ -1,7 +1,7 @@
 {
     "animName": "PowerShot",
+    "attackEffectName": "MuzzleFlash",
     "attackSEFileName": "PowerShot.mp3",
-    "attackEffectName": "",
     "attackSkillGain": 100.0,
     "bulletNum": 10,
     "bulletType": 0,
