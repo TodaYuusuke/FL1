@@ -136,8 +136,14 @@ void Emitter::SetParent(LWP::Resource::SkinningModel* model, const std::string& 
 		parentJointName_ = jointName;
 	}
 	else {
-		// 親子付け処理
-		transform_.Parent(model, jointName);
+		if (model != nullptr) {
+			// 親子付け処理
+			transform_.Parent(model, jointName);
+		}
+		else {
+			// 親子付け処理
+			transform_.ClearParent();
+		}
 	}
 }
 

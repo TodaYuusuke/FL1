@@ -350,9 +350,11 @@ void Player::PlayShotAnim(int weaponSide)
 	// アニメーション名がない場合
 	if (animName == "") { return; }
 
+	std::string seName = weaponController_->GetWeaponSlot(static_cast<WeaponSide>(weaponSide))->GetFrontWeapon()->GetWeaponData().attackSEFileName;
+
 	// 射撃アニメーション再生
 	animManager_->PlayDirect(animName, weaponSide + 2)
-		.AddEvent("PlaySE", 1, [this, weaponSide]() { SEPlayer::GetInstance()->PlaySE(weaponController_->GetWeaponSlot(static_cast<WeaponSide>(weaponSide))->GetFrontWeapon()->GetWeaponData().attackSEFileName, 1.0f, LWP::AudioConfig::Player); });
+		.AddEvent("PlaySE", 1, [this, weaponSide, seName]() { SEPlayer::GetInstance()->PlaySE(seName, 1.0f, LWP::AudioConfig::Player); });
 
 	// 待機アニメーションをキューに入れる
 	animManager_->PlayQue("Idle", weaponSide + 2);
