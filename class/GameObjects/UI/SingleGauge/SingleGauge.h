@@ -30,4 +30,6 @@ private:
 
 	float ratio_;
 	bool type_ = false;
+	float preRatio_;
+	float decay_ = 0.001f;
 };

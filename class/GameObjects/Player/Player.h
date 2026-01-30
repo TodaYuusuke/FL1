@@ -5,6 +5,7 @@
 #include "System/WeaponSkill/WeaponSkill.h"
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../Camera/FollowCamera/FollowCamera.h"
+#include "../UI/SingleGauge/SingleGauge.h"
 #include "PlayerConfig.h"
 #include <Adapter.h>
 #include "Anim/RobotAnimManager.h"
@@ -162,6 +163,10 @@ private:
 	float maxHp_ = 100.0f;
 	float maxSpeed_ = 1.0f;
 
+private: //HP表示関係の調整項目
+	LWP::Math::Vector3 hpGaugePosition_;
+	LWP::Math::Vector3 hpGaugeScale_;
+
 private:
 	LWP::Utility::JsonIO json_;
 
@@ -181,4 +186,7 @@ private:
 	LWP::Math::Quaternion lockOnOmega_;
 	LWP::Math::Quaternion preLockOnOmega_;
 	bool isTriggerLockOn_ = false;
+
+	//UI
+	std::unique_ptr<SingleGauge> hpGauge_;
 };

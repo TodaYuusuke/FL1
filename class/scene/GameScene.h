@@ -53,5 +53,4 @@ private:
 	int animationLength_ = 36;
 	bool isEndStartAnimation_;
 
-	std::unique_ptr<SingleGauge> hpGauge_;
 };
