@@ -50,7 +50,9 @@ private:
 	void AttackAssist();
 
 private:// 調整項目
-	float assistOffset = 100.0f;
+	float assistOffset = 5.0f;
+	// アシスト適用範囲
+	float assistRange = 40.0f;
 
 public:// アクセサ
 #pragma region Getter
