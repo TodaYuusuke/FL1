@@ -7,8 +7,8 @@
       "type": "MESH",
       "transform": {
         "translation": [
-          -300.0,
-          300.0,
+          -600.0,
+          600.0,
           0.0
         ],
         "rotation": [
@@ -18,9 +18,9 @@
           1.0
         ],
         "scaling": [
-          1.0,
-          1.0,
-          1.0
+          2.0,
+          2.0,
+          2.0
         ]
       },
       "file_name": "Map/map.obj"
@@ -31,7 +31,7 @@
       "transform": {
         "translation": [
           0.0,
-          300.0,
+          600.0,
           0.0
         ],
         "rotation": [
@@ -41,9 +41,9 @@
           1.0
         ],
         "scaling": [
-          1.0,
-          1.0,
-          1.0
+          2.0,
+          2.0,
+          2.0
         ]
       },
       "file_name": "Map/map.obj"
@@ -53,8 +53,8 @@
       "type": "MESH",
       "transform": {
         "translation": [
-          300.0,
-          300.0,
+          600.0,
+          600.0,
           0.0
         ],
         "rotation": [
@@ -64,9 +64,9 @@
           1.0
         ],
         "scaling": [
-          1.0,
-          1.0,
-          1.0
+          2.0,
+          2.0,
+          2.0
         ]
       },
       "file_name": "Map/map.obj"
@@ -77,7 +77,7 @@
       "type": "MESH",
       "transform": {
         "translation": [
-          -300.0,
+          -600.0,
           0.0,
           0.0
         ],
@@ -88,9 +88,9 @@
           1.0
         ],
         "scaling": [
-          1.0,
-          1.0,
-          1.0
+          2.0,
+          2.0,
+          2.0
         ]
       },
       "file_name": "Map/map.obj"
@@ -111,9 +111,9 @@
           1.0
         ],
         "scaling": [
-          1.0,
-          1.0,
-          1.0
+          2.0,
+          2.0,
+          2.0
         ]
       },
       "file_name": "Map/map.obj"
@@ -123,7 +123,7 @@
       "type": "MESH",
       "transform": {
         "translation": [
-          300.0,
+          600.0,
           0.0,
           0.0
         ],
@@ -134,9 +134,9 @@
           1.0
         ],
         "scaling": [
-          1.0,
-          1.0,
-          1.0
+          2.0,
+          2.0,
+          2.0
         ]
       },
       "file_name": "Map/map.obj"
@@ -147,8 +147,8 @@
       "type": "MESH",
       "transform": {
         "translation": [
-          -300.0,
-          -300.0,
+          -600.0,
+          -600.0,
           0.0
         ],
         "rotation": [
@@ -158,9 +158,9 @@
           1.0
         ],
         "scaling": [
-          1.0,
-          1.0,
-          1.0
+          2.0,
+          2.0,
+          2.0
         ]
       },
       "file_name": "Map/map.obj"
@@ -171,7 +171,7 @@
       "transform": {
         "translation": [
           0.0,
-          -300.0,
+          -600.0,
           0.0
         ],
         "rotation": [
@@ -181,9 +181,9 @@
           1.0
         ],
         "scaling": [
-          1.0,
-          1.0,
-          1.0
+          2.0,
+          2.0,
+          2.0
         ]
       },
       "file_name": "Map/map.obj"
@@ -193,8 +193,8 @@
       "type": "MESH",
       "transform": {
         "translation": [
-          300.0,
-          -300.0,
+          600.0,
+          -600.0,
           0.0
         ],
         "rotation": [
@@ -204,14 +204,12 @@
           1.0
         ],
         "scaling": [
-          1.0,
-          1.0,
-          1.0
+          2.0,
+          2.0,
+          2.0
         ]
       },
       "file_name": "Map/map.obj"
     }
-
-
   ]
 }
