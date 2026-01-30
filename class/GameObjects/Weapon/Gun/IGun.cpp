@@ -18,7 +18,11 @@ IGun::IGun(WeaponData data) {
 
 	// モデル生成
 	body_.LoadFullPath(data_.modelName);
-	//body_.worldTF.scale = { 0.5f,0.5f,0.5f };
+
+	// モデル生成時、テクスチャ名が指定されている場合指定されたテクスチャをロードする
+	if (data_.texName != "") {
+		body_.materials["GunMaterial"].texture = LWP::Resource::LoadTexture(data.texName);
+	}
 
 	// マガジン作成
 	magazine_ = std::make_unique<Magazine>(data_.bulletNum);
