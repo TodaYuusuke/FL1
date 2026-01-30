@@ -142,6 +142,10 @@ void GameScene::Initialize() {
 	sceneChangeAnimation_->SetParent(player_->GetWorldTF());
 	isChangeScene_ = false;
 	isEndStartAnimation_=false;
+
+	//HPゲージ
+	hpGauge_ = std::make_unique<SingleGauge>();
+	hpGauge_->Initialize(true);
 }
 
 void GameScene::Update() {
@@ -187,6 +191,9 @@ void GameScene::Update() {
 		sceneChangeAnimation_->Start(0);
 	}
 	sceneChangeAnimation_->Update();
+
+	hpGauge_->SetRatio(player_->GetHP()->GetHealth() / player_->GetHP()->GetMaxHealth());
+	hpGauge_->Update();
 
 	// エフェクト関連初期化
 	EffectManager::GetInstance()->Update();

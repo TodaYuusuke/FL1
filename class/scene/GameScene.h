@@ -6,6 +6,7 @@
 #include "../GameObjects/Camera/FollowCamera/FollowCamera.h"
 #include "../GameObjects/UI/ScoreUI/ScoreUI.h"
 #include "../GameObjects/UI/Radar/Radar.h"
+#include "../GameObjects/UI/SingleGauge/SingleGauge.h"
 #include "SceneChangeAnimation/SceneChangeAnimation.h"
 #include "SceneChangeAnimation/SceneChangeAnimationForPlane.h"
 
@@ -50,4 +51,6 @@ private:
 
 	int animationLength_ = 36;
 	bool isEndStartAnimation_;
+
+	std::unique_ptr<SingleGauge> hpGauge_;
 };
