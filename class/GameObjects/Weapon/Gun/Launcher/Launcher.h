@@ -12,11 +12,6 @@ public:
 	// デストラクタ
 	~Launcher() override = default;
 
-	/// <summary>
-	/// 破壊処理
-	/// </summary>
-	void Destroy() override;
-
 	void SetWeaponSide(int weaponSide = -1) override;
 
 public:// アクセサ

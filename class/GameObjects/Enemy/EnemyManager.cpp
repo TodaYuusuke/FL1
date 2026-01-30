@@ -427,7 +427,7 @@ void EnemyManager::GiveWeapon(Actor* actor, const EnemyData& data) {
 		WeaponManager::GetInstance()->PickUpWeapon(weapon, actor, i);
 
 		// 武器の装着位置設定
-		SetWeaponPos(actor, weapon, i);
+		//SetWeaponPos(actor, weapon, i);
 	}
 }
 
@@ -1080,28 +1080,28 @@ void EnemyManager::SetWeaponPos(Actor* actor, IWeapon* weapon, int weaponSide) {
 	Vector3 weaponPos{};
 	// 単一武器の場合
 	if (actor->GetEnemyData().type == (int)EnemyType::kDrone) {
-		weaponPos = actor->GetModel().GetJointWorldPosition("WeaponAnchor");
+		weaponPos = actor->GetModel()->GetJointWorldPosition("WeaponAnchor");
 		weapon->SetTranslation(weaponPos);
 		return;
 	}
 	// 左手
 	else if ((int)WeaponSide::kLeft == weaponSide) {
-		weaponPos = actor->GetModel().GetJointWorldPosition("WeaponAnchor.L");
+		weaponPos = actor->GetModel()->GetJointWorldPosition("WeaponAnchor.L");
 		weapon->SetTranslation(weaponPos);
 	}
 	// 右手
 	else if ((int)WeaponSide::kRight == weaponSide) {
-		weaponPos = actor->GetModel().GetJointWorldPosition("WeaponAnchor.R");
+		weaponPos = actor->GetModel()->GetJointWorldPosition("WeaponAnchor.R");
 		weapon->SetTranslation(weaponPos);
 	}
 	// 左肩
 	else if ((int)WeaponSide::kLeftShoulder == weaponSide) {
-		weaponPos = actor->GetModel().GetJointWorldPosition("ShoulderWeaponAnchor.L");
+		weaponPos = actor->GetModel()->GetJointWorldPosition("ShoulderWeaponAnchor.L");
 		weapon->SetTranslation(weaponPos);
 	}
 	// 右肩
 	else if ((int)WeaponSide::kRightShoulder == weaponSide) {
-		weaponPos = actor->GetModel().GetJointWorldPosition("ShoulderWeaponAnchor.R");
+		weaponPos = actor->GetModel()->GetJointWorldPosition("ShoulderWeaponAnchor.R");
 		weapon->SetTranslation(weaponPos);
 	}
 }

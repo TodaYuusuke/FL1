@@ -7,6 +7,7 @@
 #include "../INode.h"
 #include "../../HitStopController.h"
 #include "../../../GameObjects/Enemy/EnemyConfig.h"
+#include "../../../Audio/SEPlayer.h"
 
 class IWorld;
 class BlackBoard;
@@ -44,6 +45,31 @@ public:
 	/// 攻撃する
 	/// </summary>
 	virtual void Attack();
+
+public: // アニメーション用関数群
+
+	/// <summary>
+	/// アニメーションマネージャーの更新関数
+	/// </summary>
+	virtual void AnimManagerUpdate() {};
+
+	/// <summary>
+	/// 射撃アニメーション再生関数
+	/// </summary>
+	/// <param name="weaponSide">武器の場所</param>
+	virtual void PlayShotAnim(const int weaponSide = 0) { weaponSide; };
+
+	/// <summary>
+	/// 近接攻撃アニメーション再生関数
+	/// </summary>
+	/// <param name="weaponSide">武器の場所</param>
+	virtual void PlayMelleAnim(const int weaponSide = 0) { weaponSide; };
+
+	/// <summary>
+	/// 取得アニメーション再生関数
+	/// </summary>
+	/// <param name="weaponSide">取得した部位</param>
+	virtual void PlayPickUpAnim(const int weaponSide = 0) { weaponSide; }
 
 protected:
 	/// <summary>
@@ -113,7 +139,7 @@ public:// アクセサ
 	/// 現在位置を取得
 	/// </summary>
 	/// <returns></returns>
-	LWP::Resource::SkinningModel GetModel() { return model_; }
+	LWP::Resource::SkinningModel* GetModel() { return &model_; }
 	/// <summary>
 	/// ワールドトランスフォームを取得
 	/// </summary>

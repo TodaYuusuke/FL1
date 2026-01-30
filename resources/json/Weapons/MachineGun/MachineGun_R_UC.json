@@ -1,4 +1,7 @@
 {
+    "animName": "Shot",
+    "attackEffectName": "MuzzleFlash",
+    "attackSEFileName": "Shot.mp3",
     "attackSkillGain": 10.0,
     "bulletNum": 60,
     "bulletType": 1,
@@ -9,12 +12,13 @@
     "diffusingBulletRange_y": 0.0,
     "diffusingBulletRange_z": 0.0,
     "jsonFileName": "MachineGun_R_UC.json",
-    "modelName": "resources/model/Weapon/Gun/MachineGun\\MachineGun.gltf",
+    "modelName": "resources/model/Weapon/Gun/MachineGun/MachineGun.gltf",
     "name": "MachineGunGun",
     "rarity": 1,
     "reloadTime": 0.0,
     "sameBulletNum": 0,
     "shotIntervalTime": 0.20000000298023224,
     "storeTime": 0.0,
+    "texName": "",
     "type": 0
 }

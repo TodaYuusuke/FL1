@@ -10,7 +10,7 @@ class LeadingSystem;
 class WeaponSlot {
 public:
     // コンス虎歌
-    WeaponSlot(LeadingSystem* leadingSystem, WeaponSkill* weaponSkill, int weaponSide);
+    WeaponSlot(LeadingSystem* leadingSystem, WeaponSkill* weaponSkill, Actor* target, int weaponSide);
     // デストラクタ
     ~WeaponSlot();
 
@@ -103,6 +103,9 @@ private:// 外部から受け取る変数
     LeadingSystem* pLeadingSystem_;
     // 武器練度
     WeaponSkill* pWeaponSkill_;
+
+    // 所有対象
+    Actor* target_ = nullptr;
 
 private:// 調整項目
     // 最大1個まで保持

@@ -59,6 +59,17 @@ MeleeAttacker::MeleeAttacker(IWorld* world, int ID, const EnemyData& data) {
 	bodyCollision_.stayLambda = [this](LWP::Object::Collision* hitTarget) {
 		OnCollision(hitTarget);
 		};
+
+	// アニメーションマネージャー作成
+	animManager_ = std::make_unique<RobotAnimManager>("resources/model/Player/Player.gltf", &model_, GetVelocity(), &model_.worldTF.rotation);
+	animManager_->Init();
+
+	// 各アニメーション再生
+	animManager_->PlayQue("Other_Idle", RobotAnimManager::PlayType::Other, 0.0f, true);
+	animManager_->PlayQue("Idle", RobotAnimManager::PlayType::LeftArm, 0.0f, true);
+	animManager_->PlayQue("Idle", RobotAnimManager::PlayType::RightArm, 0.0f, true);
+	animManager_->PlayQue("Idle", RobotAnimManager::PlayType::LeftShoulder, 0.0f, true);
+	animManager_->PlayQue("Idle", RobotAnimManager::PlayType::RightShoulder, 0.0f, true);
 }
 
 MeleeAttacker::~MeleeAttacker() {
@@ -90,4 +101,9 @@ void MeleeAttacker::Move() {
 	}
 
 	model_.worldTF.translation += velocity_;
+}
+
+void MeleeAttacker::AnimManagerUpdate()
+{
+	animManager_->Update();
 }

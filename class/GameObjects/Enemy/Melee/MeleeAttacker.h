@@ -2,6 +2,7 @@
 #include "../../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../../Weapon/WeaponSlot.h"
 #include "../EnemyConfig.h"
+#include "../../Player/Anim/RobotAnimManager.h"
 #include <Adapter.h>
 
 class IWorld;
@@ -31,10 +32,19 @@ public:
 private:
 	void Move();
 
+	/// <summary>
+	/// アニメーションマネージャーの更新関数
+	/// </summary>
+	void AnimManagerUpdate() override;
+
 private:
 	// 武器リスト
 	std::map<int, IWeapon*> weapons_;
 
 	// 識別番号
 	int ID_;
+
+	// アニメーションマネージャー
+	std::unique_ptr<RobotAnimManager> animManager_;
+
 };

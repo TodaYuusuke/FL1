@@ -9,6 +9,7 @@ TestScene::TestScene()
 	// インスタンス生成
 	EffectManager::Create();
 	EffectEditor::Create();
+	SEPlayer::Create();
 }
 
 TestScene::~TestScene()
@@ -16,6 +17,8 @@ TestScene::~TestScene()
 	// インスタンス生成
 	EffectManager::Destroy();
 	EffectEditor::Destroy();
+	SEPlayer::Destroy();
+
 }
 
 // 初期化
@@ -25,18 +28,17 @@ void TestScene::Initialize() {
 	EffectEditor::GetInstance()->SetEffectManager(EffectManager::GetInstance());
 	EffectEditor::GetInstance()->Init();
 
-	testModel_.LoadCube();				// 立方体と球はデフォルトで用意してある
+	
+
+	testModel_.LoadShortPath("Cockpit/Cockpit.gltf");				// 立方体と球はデフォルトで用意してある
 }
 
 // 更新
 void TestScene::Update() {
-	// エフェクト関連初期化
+	// エフェクト関連更新
 	EffectManager::GetInstance()->Update();
 	EffectEditor::GetInstance()->Update();
 
-	ImGui::Begin("Test");
-	if (ImGui::Button("Emit")) {
-		EffectManager::GetInstance()->CreateNewEmitter("Spark", { 0.0f, 0.0f, 0.0f });
-	}
-	ImGui::End();
+	testModel_.DebugGUI();
 }
+

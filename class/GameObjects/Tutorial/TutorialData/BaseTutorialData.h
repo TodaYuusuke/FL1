@@ -1,6 +1,7 @@
 #pragma once
 #include <Adapter.h>
 #include "../../../Componets/EaseMachine.h"
+#include "../../../Componets/SerialAnimation.h"
 
 class Player;
 class EnemyManager;
@@ -54,6 +55,9 @@ protected:// 外部から受け取る変数
 protected:
 	LWP::Primitive::NormalSprite introFont_;
 	LWP::Primitive::NormalSprite successFont_;
+
+	// 連番アニメーション
+	std::unique_ptr<SerialAnimation> serialAnim_;
 
 	EaseMachine flashingEffect_;
 	int flashAlpha_;

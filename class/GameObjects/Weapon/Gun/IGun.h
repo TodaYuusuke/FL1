@@ -70,6 +70,13 @@ public:// アクセサ
 	void SetWeaponSide(int weaponSide = -1) override { weaponSide; }
 #pragma endregion
 
+public: // 演出用関数群
+
+	/// <summary>
+	///  攻撃エフェクトの再生関数
+	/// </summary>
+	void PlayAttackEffect() override;
+
 protected:
 	Actor* target_;
 

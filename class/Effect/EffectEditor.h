@@ -93,7 +93,8 @@ private: // プライベートなメンバ関数
 	/// </summary>
 	/// <param name="id">ImGui表示名</param>
 	/// <param name="color">編集対象</param>
-	void EditColorGUI(const std::string& id, LWP::Math::Vector4& color);
+	/// <param name="isEnableAlpha">透明度を有効にするか</param>
+	void EditColorGUI(const std::string& id, LWP::Math::Vector4& color, const bool isEnableAlpha);
 
 	/// <summary>
 	/// VelocityData用編集GUI
@@ -179,6 +180,11 @@ private: // メンバ変数
 
 	// ポップアップのモード
 	int popupMode_ = EffectEditor::PopUpMode::None;
+
+	// ロード用GUI表示フラグ
+	bool isLoadGUI_ = false;
+	// ロードするエフェクト名称
+	std::string loadEffectName_ = "";
 
 	// 作成するエフェクト名
 	std::string createEffectName_{};

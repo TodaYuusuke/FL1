@@ -17,6 +17,7 @@ LeadingSystem::LeadingSystem(LWP::Object::Camera* camera, BlackBoard* blackBoard
 
 	json_.Init(kJsonFileDirectoryPath + "LeadingSystem.json")
 		.AddValue<float>("LeadingScreenRange", &leadingScreenRange_)
+		.AddValue<float>("LimitLeadingFrame", &limitLeadingFrame)
 		.CheckJsonFile();
 
 	reticle_.LoadTexture("lockOnReticle.png");
@@ -50,6 +51,10 @@ void LeadingSystem::Update() {
 	if (leadingTarget_ && !leadingTarget_->GetIsAlive() || pEnemyManager_->GetEnemyList().empty()) {
 		leadingTarget_ = nullptr;
 	}
+	// エリア外
+	if (leadingTarget_ && leadingTarget_->GetIsLimitMoveArea()) {
+		leadingTarget_ = nullptr;
+	}
 	// 偏差対象解除
 	ClearLeadingTarget();
 
@@ -60,7 +65,7 @@ void LeadingSystem::Update() {
 	}
 	else {
 		CalFutureTargetPos(bulletSpeed_);
-		leadingTargetPos_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor");
+		leadingTargetPos_ = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor");
 	}
 
 	reticle_.worldTF.translation = {
@@ -96,7 +101,7 @@ void LeadingSystem::SelectLeadingTarget() {
 
 	for (Actor* actor : pEnemyManager_->GetEnemyList()) {
 		// 敵がレティクルの一定範囲にいるならロックオン(判定はスクリーン座標で行う)
-		Vector2 screenPos = ConvertWorldToScreen(actor->GetModel().GetJointWorldPosition("LockOnAnchor"), pCamera_->GetViewProjection());
+		Vector2 screenPos = ConvertWorldToScreen(actor->GetModel()->GetJointWorldPosition("LockOnAnchor"), pCamera_->GetViewProjection());
 		// 画面外に敵がいるなら終了
 		if (screenPos.x < 0.0f && screenPos.x > LWP::Info::GetWindowWidthF() &&
 			screenPos.y < 0.0f && screenPos.y > LWP::Info::GetWindowHeightF()) {
@@ -111,7 +116,7 @@ void LeadingSystem::SelectLeadingTarget() {
 		if (leadingScreenRange_ < Vector2::Distance(screenCenterPos, screenPos)) { continue; }
 
 		// カメラの後ろ側なら終了
-		if (!IsObjectInFront(actor->GetModel().GetJointWorldPosition("LockOnAnchor"), pCamera_->worldTF.GetWorldPosition(), pCamera_->worldTF.rotation)) {
+		if (!IsObjectInFront(actor->GetModel()->GetJointWorldPosition("LockOnAnchor"), pCamera_->worldTF.GetWorldPosition(), pCamera_->worldTF.rotation)) {
 			continue;
 		}
 
@@ -127,7 +132,7 @@ void LeadingSystem::ClearLeadingTarget() {
 	if (pEnemyManager_->GetEnemyList().empty()) { return; }
 
 	// 画面中心から一定以内の距離に敵がいないなら偏差対象解除(スクリーン座標で計算を行う)
-	Vector2 screenPos = ConvertWorldToScreen(leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor"), pCamera_->GetViewProjection());
+	Vector2 screenPos = ConvertWorldToScreen(leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor"), pCamera_->GetViewProjection());
 	Vector2 screenCenterPos = {
 		LWP::Info::GetWindowWidthF() / 2.0f,
 		LWP::Info::GetWindowHeightF() / 2.0f
@@ -175,9 +180,9 @@ void LeadingSystem::CalFutureTargetPos(float bulletSpeed) {
 	}
 
 	//目標の1フレームの移動速度
-	Vector3 v3_Mv = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") - leadingTarget_->GetPreTranslation();
+	Vector3 v3_Mv = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor") - leadingTarget_->GetPreTranslation();
 	//射撃する位置から見た目標位置
-	Vector3 v3_Pos = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") - shooterPos_;
+	Vector3 v3_Pos = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor") - shooterPos_;
 
 	//ピタゴラスの定理から２つのベクトルの長さが等しい場合の式を作り
 	//二次方程式の解の公式を使って弾が当たる予測時間を計算する
@@ -188,11 +193,11 @@ void LeadingSystem::CalFutureTargetPos(float bulletSpeed) {
 	//0割り禁止処理
 	if (A == 0) {
 		if (B == 0) {
-			targetFuture_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor");
+			targetFuture_ = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor");
 			return;
 		}
 		else {
-			targetFuture_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") + v3_Mv * (-C / B);
+			targetFuture_ = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor") + v3_Mv * (-C / B);
 			return;
 		}
 	}
@@ -216,8 +221,8 @@ void LeadingSystem::CalFutureTargetPos(float bulletSpeed) {
 	}
 
 	// 的の未来位置
-	targetFuture_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") + v3_Mv * flame1;
-	leadingTargetPos_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor");
+	targetFuture_ = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor") + v3_Mv * flame1;
+	leadingTargetPos_ = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor");
 }
 
 void LeadingSystem::CalFutureTargetPos(const Vector3& shooterPos, float bulletSpeed) {
@@ -227,9 +232,9 @@ void LeadingSystem::CalFutureTargetPos(const Vector3& shooterPos, float bulletSp
 	}
 
 	//目標の1フレームの移動速度
-	Vector3 v3_Mv = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") - leadingTarget_->GetPreTranslation();
+	Vector3 v3_Mv = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor") - leadingTarget_->GetPreTranslation();
 	//射撃する位置から見た目標位置
-	Vector3 v3_Pos = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") - shooterPos;
+	Vector3 v3_Pos = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor") - shooterPos;
 
 	//ピタゴラスの定理から２つのベクトルの長さが等しい場合の式を作り
 	//二次方程式の解の公式を使って弾が当たる予測時間を計算する
@@ -240,11 +245,11 @@ void LeadingSystem::CalFutureTargetPos(const Vector3& shooterPos, float bulletSp
 	//0割り禁止処理
 	if (A == 0) {
 		if (B == 0) {
-			targetFuture_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor");
+			targetFuture_ = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor");
 			return;
 		}
 		else {
-			leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") + v3_Mv * (-C / B);
+			leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor") + v3_Mv * (-C / B);
 			return;
 		}
 	}
@@ -268,8 +273,8 @@ void LeadingSystem::CalFutureTargetPos(const Vector3& shooterPos, float bulletSp
 	}
 
 	// 的の未来位置
-	targetFuture_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") + (v3_Mv * flame1);
-	leadingTargetPos_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor");
+	targetFuture_ = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor") + (v3_Mv * flame1);
+	leadingTargetPos_ = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor");
 }
 
 Vector3 LeadingSystem::GetLeadingShotAngle(const Vector3& shooterPos, float bulletSpeed) {
@@ -278,9 +283,9 @@ Vector3 LeadingSystem::GetLeadingShotAngle(const Vector3& shooterPos, float bull
 	if (!leadingTarget_) { return Vector3{ 0,0,0 }; }
 
 	//目標の1フレームの移動速度
-	Vector3 v3_Mv = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") - leadingTarget_->GetPreTranslation();
+	Vector3 v3_Mv = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor") - leadingTarget_->GetPreTranslation();
 	//射撃する位置から見た目標位置
-	Vector3 v3_Pos = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") - shooterPos;
+	Vector3 v3_Pos = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor") - shooterPos;
 
 	//ピタゴラスの定理から２つのベクトルの長さが等しい場合の式を作り
 	//二次方程式の解の公式を使って弾が当たる予測時間を計算する
@@ -291,10 +296,10 @@ Vector3 LeadingSystem::GetLeadingShotAngle(const Vector3& shooterPos, float bull
 	//0割り禁止処理
 	if (A == 0) {
 		if (B == 0) {
-			return leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor");
+			return leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor");
 		}
 		else {
-			return leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") + (v3_Mv * (-C / B));
+			return leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor") + (v3_Mv * (-C / B));
 		}
 	}
 
@@ -317,11 +322,11 @@ Vector3 LeadingSystem::GetLeadingShotAngle(const Vector3& shooterPos, float bull
 	}
 
 	// 的の未来位置
-	targetFuture_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") + (v3_Mv * flame1);
-	leadingTargetPos_ = leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor");
+	targetFuture_ = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor") + (v3_Mv * flame1);
+	leadingTargetPos_ = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor");
 
 	// 方向ベクトル
-	Vector3 result = (leadingTarget_->GetModel().GetJointWorldPosition("LockOnAnchor") + (v3_Mv * flame1)) - shooterPos;
+	Vector3 result = (leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor") + (v3_Mv * flame1)) - shooterPos;
 
 	return result.Normalize();
 }

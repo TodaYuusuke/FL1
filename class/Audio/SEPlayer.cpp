@@ -1,0 +1,72 @@
+#include "SEPlayer.h"
+
+SEPlayer::SEPlayer()
+{
+	// マップに対してチャンネル追加
+	for (int i = 0; i < LWP::AudioConfig::SEChannels::Count; i++) {
+		seMap_.try_emplace(i);
+	}
+}
+
+SEPlayer::~SEPlayer()
+{
+	// 全ての効果音の停止
+	for (auto& [channel, players] : seMap_) {
+		for (auto& player : players) {
+			player.Stop();
+		}
+	}
+
+	// 配列クリア
+	seMap_.clear();
+}
+
+void SEPlayer::Update() {
+
+	// イテレータ用意
+	std::map<int, std::vector<AudioPlayer>>::iterator mapIt;
+	// 配列内の効果音が停止している場合配列から除外する
+	for (mapIt = seMap_.begin(); mapIt != seMap_.end(); mapIt++) {
+		// オーディオプレイヤー取得
+		std::vector<AudioPlayer>& players = mapIt->second;
+
+		// 再生が終わったプレイヤーの除外
+		players.erase(
+			std::remove_if(
+				players.begin(),
+				players.end(),
+				[](AudioPlayer& player) {
+					return !player.GetIsPlaying();
+				}
+			),
+			players.end()
+		);
+	}
+
+}
+
+void SEPlayer::PlaySE(const std::string& filePath, float volume, int channelID)
+{
+	// 最終的なパスを求める
+	std::string path = "SE/" + filePath;
+
+	// 新規オーディオプレイヤーの生成と再生
+	AudioPlayer audioPlayer(path, volume, false, &masterVolume_);
+	audioPlayer.Play();
+	// 指定されたチャンネルIDに追加
+	seMap_[channelID].push_back(audioPlayer);
+}
+
+void SEPlayer::SetVolume(const float volume, const int channelID)
+{
+	// 効果音配列取得
+	std::vector<AudioPlayer>& players = seMap_[channelID];
+
+	// 取得した配列内に何も入っていなかったら早期リターン
+	if (players.empty()) { return; }
+
+	// 配列内の全ての効果音の音量を調節
+	for (int i = 0; i < players.size(); i++) {
+		players[i].SetVolume(volume);
+	}
+}

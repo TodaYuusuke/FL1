@@ -141,11 +141,11 @@ namespace EnemyConfig {
 		// モデル名
 		// 順番はEnemyType準拠
 		inline std::array<std::string, (int)EnemyType::kCount> modelName = {
-			"resources/model/Enemy/Melee/Player.gltf",			// 近距離
-			"resources/model/Enemy/Gunner/Player.gltf",			// 遠距離
+			"resources/model/Enemy/Robot/Enemy.gltf",			// 近距離
+			"resources/model/Enemy/Robot/Enemy.gltf",			// 遠距離
 			"resources/model/Enemy/Drone/Drone.gltf",			// ドローン
 			"resources/model/Enemy/Cargo/HoverTank.gltf",		// 輸送機
-			"resources/model/Enemy/Melee/Player.gltf"			// テスト敵
+			"resources/model/Enemy/Robot/Enemy.gltf"			// テスト敵
 		};
 	}
 

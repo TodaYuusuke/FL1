@@ -28,6 +28,9 @@ GameScene::GameScene() {
 }
 
 GameScene::~GameScene() {
+	// 効果音プレイヤー生成
+	SEPlayer::Destroy();
+
 	// ウェーブ
 	WaveManager::Destroy();
 	// 
@@ -53,6 +56,17 @@ GameScene::~GameScene() {
 }
 
 void GameScene::Initialize() {
+	// 効果音プレイヤー生成
+	SEPlayer::Create();
+	// エフェクト関連のインスタンス生成
+	EffectManager::Create();
+	EffectEditor::Create();
+
+	// エフェクト関連初期化
+	EffectManager::GetInstance()->Init();
+	EffectEditor::GetInstance()->SetEffectManager(EffectManager::GetInstance());
+	EffectEditor::GetInstance()->Init();
+
 	// カメラ演出
 	CameraEffectHandler::Create();
 	//ポート再オープン
@@ -70,9 +84,6 @@ void GameScene::Initialize() {
 
 	// 押し出し
 	PenetrationResolver::Create();
-	// インスタンス生成
-	EffectManager::Create();
-	EffectEditor::Create();
 	// ウェーブ
 	WaveManager::Create();
 
@@ -118,11 +129,6 @@ void GameScene::Initialize() {
 	// 演出対象のカメラ
 	CameraEffectHandler::GetInstance()->SetEffectTarget(followCamera_.get());
 
-	// エフェクト関連初期化
-	EffectManager::GetInstance()->Init();
-	EffectEditor::GetInstance()->SetEffectManager(EffectManager::GetInstance());
-	EffectEditor::GetInstance()->Init();
-
 	//スコアを0に
 	ScoreCounter::GetInstance()->Reset();
 
@@ -130,7 +136,6 @@ void GameScene::Initialize() {
 	Radar::GetInstance()->Initialize();
 	Radar::GetInstance()->SetPlayerTransform(player_->GetWorldTF());
 	Radar::GetInstance()->SetParent(player_->GetWeaponController()->GetCockpit());
-	//std::function<void(LWP::Math::Vector3)> func = std::bind(&Radar::AppendTargetEnemy,radar_.get());
 	enemyManager_->SetMiniMapFunc(Radar::AppendTargetEnemy);
 	WeaponManager::GetInstance()->SetMiniMapFunc(Radar::AppendTargetWeapon);
 
@@ -149,6 +154,9 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+	// 効果音プレイヤー生成
+	SEPlayer::GetInstance()->Update();
+
 	// 敵を一定数倒したら終了
 	if (!player_->GetIsAlive()) {
 		ChangeResultScene();

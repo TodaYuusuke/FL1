@@ -68,20 +68,34 @@ void EffectManager::DebugGUI()
 	
 }
 
-void EffectManager::CreateNewEmitter(std::string effectName, const Vector3& pos, LWP::Object::TransformQuat* parent)
+Emitter* EffectManager::CreateNewEmitter(std::string effectName, const LWP::Math::Vector3& pos, bool isInfinite, LWP::Object::TransformQuat* parent)
 {
 	// 新規に生成しようとしている対象が配列内に存在しない場合
 	if (!effectDatas_.contains(effectName)) {
 		// 早期リターン
-		return;
+		return nullptr;
 	}
 
 	// データの値を取得
 	LWP::Effect::EffectSaveData data = *effectDatas_[effectName];
 
-	// 新規エミッタ生成
-	Emitter* newEmitter = new Emitter(LWP::Resource::LoadTexture("Particle/" + data.TexPath), data.SurfaceType, pos);
+	//空のエミッタ生成
+	Emitter* newEmitter = nullptr;
+
+	// 生成される粒子の種類によって処理を分岐
+	switch (data.ParticleType)
+	{
+	case Emitter::Surface: // 平面
+		newEmitter = new Emitter(LWP::Resource::LoadTexture("Particle/" + data.TexPath), data.SurfaceType, pos);
+		break;
+	case Emitter::Model3D: // 3Dモデル
+		newEmitter = new Emitter(data.ModelPath, pos);
+		break;
+	}
+
+	// エミッタ初期化
 	newEmitter->Init(data.EmitAliveTime, data.EmitTime, data.EmitCount, data.MaxEmitCount)
+		.SetIsInfinite(isInfinite)
 		.SetIsWaitDeleteAllParticles(data.IsWaitDeleteAllParticles)
 		.SetParticleAliveTimeAmp(data.AliveTimeAmp.min, data.AliveTimeAmp.max)
 		.SetRotateVelocity(data.PVelocityRotate)
@@ -103,6 +117,9 @@ void EffectManager::CreateNewEmitter(std::string effectName, const Vector3& pos,
 
 	// 生成したエミッタを配列に追加
 	emitters_.push_back(newEmitter);
+
+	// 生成したエミッタを返す
+	return emitters_.back();
 }
 
 LWP::Effect::EffectSaveData* EffectManager::CreateNewData(const std::string& dataName)

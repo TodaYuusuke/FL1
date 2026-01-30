@@ -42,6 +42,9 @@ void Actor::Update() {
 
 	model_.worldTF.translation += (velocity_ + weaponVel_) * data_.speedMultiply;
 
+	// アニメーションマネージャーの更新
+	AnimManagerUpdate();
+
 	// 速度を初期化
 	velocity_ = { 0.0f, 0.0f, 0.0f };
 	weaponVel_ = { 0.0f, 0.0f, 0.0f };
@@ -66,7 +69,7 @@ void Actor::Attack() {
 
 				// 攻撃中なら適したアニメーションを再生
 				if (weapons_[i]->GetIsAttacking()) {
-
+					PlayMelleAnim(i);
 				}
 				continue;
 			}
@@ -78,7 +81,7 @@ void Actor::Attack() {
 
 				// 攻撃中なら適したアニメーションを再生
 				if (weapons_[i]->GetIsAttacking()) {
-
+					PlayShotAnim(i);
 				}
 				continue;
 			}
@@ -116,6 +119,30 @@ void Actor::ChangeState(StateBase* nextState) {
 }
 
 void Actor::SetWeapon(IWeapon* weapon, int weaponSide) {
-	weapon->SetParent(this);
+	// アクターにウェポンアンカーが存在する場合
+	if (model_.FindJoint("WeaponAnchor")) {
+		weapon->SetParent(this, "WeaponAnchor");
+	}
+	else {
+		// 装着箇所をキャストで求める
+		WeaponSide side = static_cast<WeaponSide>(weaponSide);
+		// 装着箇所によって処理分岐
+		switch (side)
+		{
+		case WeaponSide::kLeft:
+			weapon->SetTranslation({ 0.0f, 0.0f, 0.0f });
+			weapon->SetParent(this, "WeaponAnchor.L");
+			break;
+		case WeaponSide::kRight:
+			weapon->SetParent(this, "WeaponAnchor.R");
+			break;
+		case WeaponSide::kLeftShoulder:
+			weapon->SetParent(this, "ShoulderWeaponAnchor.L");
+			break;
+		case WeaponSide::kRightShoulder:
+			weapon->SetParent(this, "ShoulderWeaponAnchor.R");
+			break;
+		}
+	}
 	weapons_[weaponSide] = weapon;
 }

@@ -8,4 +8,4 @@ enum class CameraEffectType {
 };
 
 // 初期FOV
-inline const float kDefaultFov = 90.0f;
+inline const float kDefaultFov = 180.0f;

@@ -19,10 +19,10 @@ WeaponController::WeaponController(LeadingSystem* leadingSystem, Actor* target) 
 	weaponSkills_ = std::make_unique<WeaponSkill>();
 
 	enableChangeState_ = Weapon::MainAction::reloading | Weapon::MainAction::attack;
-	weapons_[WeaponSide::kLeft] = std::make_unique<WeaponSlot>(pLeadingSystem_, weaponSkills_.get(), static_cast<int>(WeaponSide::kLeft));
-	weapons_[WeaponSide::kRight] = std::make_unique<WeaponSlot>(pLeadingSystem_, weaponSkills_.get(), static_cast<int>(WeaponSide::kRight));
-	weapons_[WeaponSide::kLeftShoulder] = std::make_unique<WeaponSlot>(pLeadingSystem_, weaponSkills_.get(), static_cast<int>(WeaponSide::kLeftShoulder));
-	weapons_[WeaponSide::kRightShoulder] = std::make_unique<WeaponSlot>(pLeadingSystem_, weaponSkills_.get(), static_cast<int>(WeaponSide::kRightShoulder));
+	weapons_[WeaponSide::kLeft] = std::make_unique<WeaponSlot>(pLeadingSystem_, weaponSkills_.get(), target_, static_cast<int>(WeaponSide::kLeft));
+	weapons_[WeaponSide::kRight] = std::make_unique<WeaponSlot>(pLeadingSystem_, weaponSkills_.get(), target_, static_cast<int>(WeaponSide::kRight));
+	weapons_[WeaponSide::kLeftShoulder] = std::make_unique<WeaponSlot>(pLeadingSystem_, weaponSkills_.get(), target_, static_cast<int>(WeaponSide::kLeftShoulder));
+	weapons_[WeaponSide::kRightShoulder] = std::make_unique<WeaponSlot>(pLeadingSystem_, weaponSkills_.get(), target_, static_cast<int>(WeaponSide::kRightShoulder));
 
 	Init();
 }
@@ -347,15 +347,23 @@ void WeaponController::SetWeapon(IWeapon* weapon) {
 	switch (collectSide_) {
 	case WeaponSide::kLeft:
 		SetLeftWeapon(weapon);
+		// プレイヤーに対して取得アニメーション再生を要求
+		debugOwner_->PlayPickUpAnim(static_cast<int>(collectSide_));
 		break;
 	case WeaponSide::kLeftShoulder:
 		SetLeftShoulderWeapon(weapon);
+		// プレイヤーに対して取得アニメーション再生を要求
+		debugOwner_->PlayPickUpAnim(static_cast<int>(collectSide_));
 		break;
 	case WeaponSide::kRight:
 		SetRightWeapon(weapon);
+		// プレイヤーに対して取得アニメーション再生を要求
+		debugOwner_->PlayPickUpAnim(static_cast<int>(collectSide_));
 		break;
 	case WeaponSide::kRightShoulder:
 		SetRightShoulderWeapon(weapon);
+		// プレイヤーに対して取得アニメーション再生を要求
+		debugOwner_->PlayPickUpAnim(static_cast<int>(collectSide_));
 		break;
 	}
 }

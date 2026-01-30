@@ -40,6 +40,10 @@ AttackTutorial::AttackTutorial(Player* player, EnemyManager* enemyManager) {
 	for (auto& [key, sprite] : guideFont_) {
 		echoFont_[key] = sprite;
 	}
+
+	// 連番画像
+	serialAnim_ = std::make_unique<SerialAnimation>("UI/Tutorial/manual/armShot_manual.png", Vector2{ 700.0f,256.0f });
+	serialAnim_->SetPos({ LWP::Info::GetWindowWidthF() / 2.0f, 350.0f, 0.0f });
 }
 
 void AttackTutorial::Init() {
@@ -73,6 +77,7 @@ void AttackTutorial::Update() {
 		if (NextGuide(0.0f)) {
 			sequence_ = AttackTutorial::AttackGuideSequence::kHandAttack;
 			isNextGuide_ = false;
+			serialAnim_->Start(10.0f, 30.0f, true);
 		}
 
 		break;
@@ -83,6 +88,7 @@ void AttackTutorial::Update() {
 		if ((weapon[WeaponSide::kLeft] && weapon[WeaponSide::kLeft]->GetIsAttacking()) ||
 			(weapon[WeaponSide::kRight] && weapon[WeaponSide::kRight]->GetIsAttacking())) {
 			isNextGuide_ = true;
+			serialAnim_->Init();
 		}
 
 		// 成功演出
@@ -106,6 +112,8 @@ void AttackTutorial::Update() {
 		if (NextGuide(60.0f)) {
 			sequence_ = AttackTutorial::AttackGuideSequence::kShoulderAttack;
 			isNextGuide_ = false;
+			serialAnim_->ChangeSprite("UI/Tutorial/manual/shoulderShot_manual.png", Vector2{ 700.0f,256.0f });
+			serialAnim_->Start(10.0f, 30.0f, true);
 		}
 
 		break;
@@ -116,6 +124,7 @@ void AttackTutorial::Update() {
 		if ((weapon[WeaponSide::kLeftShoulder] && weapon[WeaponSide::kLeftShoulder]->GetIsAttacking()) ||
 			(weapon[WeaponSide::kRightShoulder] && weapon[WeaponSide::kRightShoulder]->GetIsAttacking())) {
 			isNextGuide_ = true;
+			serialAnim_->Init();
 		}
 
 		// 成功演出
@@ -148,6 +157,7 @@ void AttackTutorial::Update() {
 		// 敵を倒したか
 		if (enemyManager_->GetEnemyList().empty()) {
 			isNextGuide_ = true;
+			serialAnim_->Init();
 		}
 		// 成功演出
 		if (isNextGuide_) { SuccessEffect(AttackTutorial::AttackGuideSequence::kKill); }
@@ -181,6 +191,8 @@ void AttackTutorial::Update() {
 
 		break;
 	}
+
+	serialAnim_->Update();
 }
 
 void AttackTutorial::DropWeapons(std::vector<WeaponSide> checkSide) {

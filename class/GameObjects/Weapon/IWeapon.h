@@ -5,6 +5,7 @@
 #include "../../Componets/HitStopController.h"
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../Attack/AttackManager.h"
+#include "../../Effect/EffectManager.h"
 #include <Adapter.h>
 #include <string>
 
@@ -156,19 +157,28 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="weaponSide"></param>
 	virtual void SetWeaponSide(int weaponSide = -1) { weaponSide; }
+
 	/// <summary>
-	/// 親子付けの設定
+	/// 親子付け設定
 	/// </summary>
-	/// <param name="parent"></param>
-	void SetParent(Actor* character) {
-		actor_ = character;
+	/// <param name="charactor">所有者</param>
+	/// <param name="jointName">親子付けするジョイント名称</param>
+	void SetParent(Actor* charactor, const std::string& jointName) {
+		// 所有者を渡す
+		actor_ = charactor;
+
 		if (!actor_) {
 			body_.worldTF.ClearParent();
 		}
 		else {
-			body_.worldTF.Parent(character->GetWorldTF());
+			// 武器位置、スケールを元に戻す
+			SetScale({ 1.0f, 1.0f, 1.0f });
+			SetTranslation({ 0.0f, 0.0f, 0.0f });
+
+			body_.worldTF.Parent(charactor->GetModel(), jointName);
 		}
 	}
+
 	/// <summary>
 	/// 弾発射時の方向ベクトルを設定
 	/// </summary>
@@ -217,6 +227,13 @@ public:// アクセサ
 	//void SetIsDestroy(bool isActive) { isDestroy_ = isActive; }
 #pragma endregion
 
+public: // 演出用関数群
+
+	/// <summary>
+	///  攻撃エフェクトの再生関数
+	/// </summary>
+	virtual void PlayAttackEffect() {};
+
 protected:
 	// ヒットストップ
 	HitStopController* stopController_;
@@ -237,6 +254,9 @@ protected:
 
 	// 光の柱
 	LWP::Primitive::NormalBillboard2D lightPillar_;
+
+	// 攻撃エフェクト
+	Emitter* attackEffectEmitter_ = nullptr;
 
 	// 名前
 	std::string name_;

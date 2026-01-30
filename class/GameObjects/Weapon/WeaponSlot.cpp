@@ -7,9 +7,11 @@
 using namespace LWP::Math;
 using namespace FLMath;
 
-WeaponSlot::WeaponSlot(LeadingSystem* leadingSystem, WeaponSkill* weaponSkill, int weaponSide) {
+WeaponSlot::WeaponSlot(LeadingSystem* leadingSystem, WeaponSkill* weaponSkill, Actor* target, int weaponSide)
+{
 	pLeadingSystem_ = leadingSystem;
 	pWeaponSkill_ = weaponSkill;
+	target_ = target;
 	weaponSide_ = weaponSide;
 }
 
@@ -71,7 +73,7 @@ void WeaponSlot::Attack() {
 				weapons_.front()->SetShotDirVelocity(shotVel);
 			}
 			else {
-				weapons_.front()->SetShotDirVelocity(GetDirVector({ 0,0,1 }, weapons_.front()->GetActor()->GetModel().worldTF.rotation));
+				weapons_.front()->SetShotDirVelocity(GetDirVector({ 0,0,1 }, weapons_.front()->GetActor()->GetModel()->worldTF.rotation));
 			}
 
 			// 相手がだれかを指定するために更新処理一回呼ぶ
@@ -85,7 +87,7 @@ void WeaponSlot::Attack() {
 
 	// 攻撃中なら適したアニメーションを再生
 	if(weapons_.front()->GetIsAttacking()) {
-
+		target_->PlayShotAnim(weaponSide_);
 	}
 }
 

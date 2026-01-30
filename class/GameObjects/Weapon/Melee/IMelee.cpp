@@ -20,7 +20,7 @@ IMelee::IMelee(WeaponData data) {
 
 	// モデル生成
 	body_.LoadFullPath(data_.modelName);
-	body_.worldTF.scale = { 0.5f,0.5f,0.5f };
+	//body_.worldTF.scale = { 0.5f,0.5f,0.5f };
 
 	// マガジン作成
 	magazine_ = std::make_unique<Magazine>(data_.bulletNum);
@@ -45,7 +45,7 @@ IMelee::~IMelee() {
 void IMelee::Init() {
 	body_.worldTF.translation = { 0.0f,0.0f,0.0f };
 	body_.worldTF.rotation = { 0.0f,0.0f,0.0f,1.0f };
-	body_.worldTF.scale = { 0.5f,0.5f,0.5f };
+	//body_.worldTF.scale = { 0.5f,0.5f,0.5f };
 
 	assistPos_ = { 0.0f,0.0f,0.0f };
 
@@ -165,7 +165,7 @@ void IMelee::Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attack
 		}
 		else length = 0.0f;
 
-		if (length >= 20.0f) {
+		if (length > assistRange) {
 			// アシスト後の座標
 			assistPos_ += Vector3{ 0.0f,0.0f,2.0f } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(actor_->GetWorldTF()->rotation);
 		}

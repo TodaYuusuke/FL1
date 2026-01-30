@@ -7,10 +7,6 @@ Launcher::Launcher(WeaponData gunData)
 {
 }
 
-void Launcher::Destroy() {
-
-}
-
 void Launcher::SetWeaponSide(int weaponSide) {
 	// 向きのある武器の名前を決める
 	std::string side{};

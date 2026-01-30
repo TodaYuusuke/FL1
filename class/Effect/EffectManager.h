@@ -39,12 +39,14 @@ public: // メンバ関数
 public: // アクセッサ等
 
 	/// <summary>
-	/// 新規エミッタの生成
+	/// 新規平面エミッタの生成
 	/// </summary>
 	/// <param name="effectName">生成するエフェクト名称</param>
 	/// <param name="pos">エミッタの初期座標</param>
+	/// <param name="isInfinite"></param>
 	/// <param name="parent">(任意)親となるエミッタ座標</param>
-	void CreateNewEmitter(std::string effectName, const LWP::Math::Vector3& pos, LWP::Object::TransformQuat* parent = nullptr);
+	/// <returns>生成したエミッタ</returns>
+	Emitter* CreateNewEmitter(std::string effectName, const LWP::Math::Vector3& pos, bool isInfinite = false, LWP::Object::TransformQuat* parent = nullptr);
 
 	/// <summary>
 	/// (呼び出し禁止)(エディタ用) 新規保存用データ生成
@@ -54,7 +56,7 @@ public: // アクセッサ等
 	LWP::Effect::EffectSaveData* CreateNewData(const std::string& dataName);
 
 	/// <summary>
-	/// (呼び出し禁止)(エディタ用) 新規保存用データ生成
+	/// (呼び出し禁止)(エディタ用) 保存データ取得用関数
 	/// </summary>
 	/// <returns>データ配列内に存在する全てのパーティクルの名称を取得する</returns>
 	std::vector<std::string> GetDatas();
