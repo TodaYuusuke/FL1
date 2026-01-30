@@ -165,7 +165,7 @@ void IMelee::Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attack
 		}
 		else length = 0.0f;
 
-		if (length >= 20.0f) {
+		if (length > assistRange) {
 			// アシスト後の座標
 			assistPos_ += Vector3{ 0.0f,0.0f,2.0f } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(actor_->GetWorldTF()->rotation);
 		}
