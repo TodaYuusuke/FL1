@@ -34,6 +34,16 @@ IGun::IGun(WeaponData data) {
 	lightPillar_.worldTF.scale = { 1.0f, 50.0f, 1.0f };
 	lightPillar_.worldTF.translation = body_.worldTF.translation;
 
+	// エフェクト名称が設定されている場合エミッタ生成
+	if (data.attackEffectName != "") {
+		// 射撃エフェクト生成
+		attackEffectEmitter_ = EffectManager::GetInstance()->CreateNewEmitter(data.attackEffectName, { 0.0f, 0.0f, 0.0f }, true);
+		// 射撃エフェクトを武器モデルのマズルに親子付け
+		attackEffectEmitter_->SetParent(&body_, "Muzzle");
+		// 粒子の自動生成OFF
+		attackEffectEmitter_->SetIsAutoEmit(false);
+	}
+
 	Init();
 }
 
@@ -176,6 +186,11 @@ void IGun::Reload() {
 }
 
 void IGun::Destroy() {
+	// エミッタの親子付け解消
+	attackEffectEmitter_->SetParent(nullptr, "");
+	// エミッタに対して破棄するよう指示
+	attackEffectEmitter_->Finish();
+
 	// カメラ揺れ
 	CameraEffectHandler::GetInstance()->StartShake(Vector3{ 0.002f, 0.002f ,0.002f }, 0.1f);
 }
@@ -229,6 +244,11 @@ void IGun::AttackCommond() {
 		// 弾生成
 		pBulletManager_->CreateAttack(data_.bulletType, target_, body_.GetJointWorldPosition("Muzzle"), bulletHitFragBit_, bulletBelongFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
 		
+		// エミッタが存在する場合射撃エフェクトを生成
+		if (attackEffectEmitter_ != nullptr) {
+			attackEffectEmitter_->Emit();
+		}
+
 		// 所持者が自機なら演出開始
 		if (actor_->GetName() == "Player") {
 			// カメラ揺れ
@@ -269,4 +289,10 @@ void IGun::BurstMode() {
 void IGun::FullAutoMode() {
 	shotType_ = ShotType::kFullAuto;
 	attackFrame_ = data_.shotIntervalTime * 60.0f;
+}
+
+void IGun::PlayAttackEffect()
+{
+	// エフェクトの生成処理を呼び出す
+	attackEffectEmitter_->Emit();
 }

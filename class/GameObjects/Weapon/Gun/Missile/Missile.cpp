@@ -7,8 +7,7 @@ using namespace LWP::Math;
 
 Missile::Missile(WeaponData gunData)
 	: IGun(gunData)
-{
-}
+{}
 
 void Missile::Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attackTarget) {
 	// 弾がない状態なら撃てない

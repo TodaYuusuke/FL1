@@ -1,4 +1,7 @@
 {
+    "animName": "Shot",
+    "attackSEFileName": "Shot.mp3",
+    "attackEffectName": "",
     "attackSkillGain": 100.0,
     "bulletNum": 10,
     "bulletType": 4,
@@ -9,10 +12,6 @@
     "diffusingBulletRange_y": 0.0,
     "diffusingBulletRange_z": 0.0,
     "jsonFileName": "PileBunker_R_C.json",
-    "attackSEFileName": "",
-    "attackEffectName": "",
-    "texName": "",
-    "animName": "",
     "modelName": "resources/model/Weapon/Melee/PileBunker.gltf",
     "name": "PileBunker",
     "rarity": 0,
@@ -20,5 +19,6 @@
     "sameBulletNum": 0,
     "shotIntervalTime": 1.0,
     "storeTime": 0.0,
+    "texName": "",
     "type": 5
 }

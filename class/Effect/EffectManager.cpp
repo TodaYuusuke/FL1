@@ -68,12 +68,12 @@ void EffectManager::DebugGUI()
 	
 }
 
-void EffectManager::CreateNewEmitter(std::string effectName, const Vector3& pos, LWP::Object::TransformQuat* parent)
+Emitter* EffectManager::CreateNewEmitter(std::string effectName, const LWP::Math::Vector3& pos, bool isInfinite, LWP::Object::TransformQuat* parent)
 {
 	// 新規に生成しようとしている対象が配列内に存在しない場合
 	if (!effectDatas_.contains(effectName)) {
 		// 早期リターン
-		return;
+		return nullptr;
 	}
 
 	// データの値を取得
@@ -95,6 +95,7 @@ void EffectManager::CreateNewEmitter(std::string effectName, const Vector3& pos,
 
 	// エミッタ初期化
 	newEmitter->Init(data.EmitAliveTime, data.EmitTime, data.EmitCount, data.MaxEmitCount)
+		.SetIsInfinite(isInfinite)
 		.SetIsWaitDeleteAllParticles(data.IsWaitDeleteAllParticles)
 		.SetParticleAliveTimeAmp(data.AliveTimeAmp.min, data.AliveTimeAmp.max)
 		.SetRotateVelocity(data.PVelocityRotate)
@@ -116,6 +117,9 @@ void EffectManager::CreateNewEmitter(std::string effectName, const Vector3& pos,
 
 	// 生成したエミッタを配列に追加
 	emitters_.push_back(newEmitter);
+
+	// 生成したエミッタを返す
+	return emitters_.back();
 }
 
 LWP::Effect::EffectSaveData* EffectManager::CreateNewData(const std::string& dataName)

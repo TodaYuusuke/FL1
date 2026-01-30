@@ -5,9 +5,4 @@ using namespace FLMath;
 
 MachineGun::MachineGun(WeaponData gunData)
 	: IGun(gunData)
-{
-}
-
-void MachineGun::Destroy() {
-	
-}
+{}

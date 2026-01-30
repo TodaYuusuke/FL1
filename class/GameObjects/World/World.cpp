@@ -76,6 +76,15 @@ void World::Clear() {
 }
 
 void World::LimitMoveArea(LWP::Math::Vector3& translation) {
+	if (translation.x == 0.0f) {
+		translation.x = 1.0f;
+	}
+	if (translation.y == 0.0f) {
+		translation.y = 1.0f;
+	}
+	if (translation.z == 0.0f) {
+		translation.z = 1.0f;
+	}
 	translation.x = std::clamp<float>(translation.x, -moveArea.x + 20.0f, moveArea.x - 20.0f);
 	translation.y = std::clamp<float>(translation.y, -moveArea.y + 20.0f, moveArea.y - 20.0f);
 	translation.z = std::clamp<float>(translation.z, -moveArea.z + 20.0f, moveArea.z - 20.0f);

@@ -1,4 +1,7 @@
 {
+    "animName": "Shot",
+    "attackEffectName": "ShotSmoke",
+    "attackSEFileName": "Shot.mp3",
     "attackSkillGain": 100.0,
     "bulletNum": 20,
     "bulletType": 4,
@@ -9,10 +12,6 @@
     "diffusingBulletRange_y": 0.0,
     "diffusingBulletRange_z": 0.0,
     "jsonFileName": "Missile_R_C.json",
-    "attackSEFileName": "",
-    "attackEffectName": "",
-    "texName": "",
-    "animName": "",
     "modelName": "resources/model/Weapon/Gun/Missle/MissilePod.gltf",
     "name": "Misisle",
     "rarity": 0,
@@ -20,5 +19,6 @@
     "sameBulletNum": 0,
     "shotIntervalTime": 0.0,
     "storeTime": 0.0,
+    "texName": "",
     "type": 4
 }

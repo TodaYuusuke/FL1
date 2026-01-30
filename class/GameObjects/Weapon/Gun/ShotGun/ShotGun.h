@@ -12,11 +12,6 @@ public:
 	// デストラクタ
 	~ShotGun() override = default;
 
-	/// <summary>
-	/// 破壊処理
-	/// </summary>
-	void Destroy() override;
-
 public:// アクセサ
 #pragma region Getter
 

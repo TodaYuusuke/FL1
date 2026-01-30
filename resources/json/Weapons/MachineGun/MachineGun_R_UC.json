@@ -1,7 +1,7 @@
 {
-    "animName": "",
-    "attackEffectName": "a",
-    "attackSEFileName": "",
+    "animName": "Shot",
+    "attackEffectName": "MuzzleFlash",
+    "attackSEFileName": "Shot.mp3",
     "attackSkillGain": 10.0,
     "bulletNum": 40,
     "bulletType": 1,

@@ -43,9 +43,10 @@ public: // アクセッサ等
 	/// </summary>
 	/// <param name="effectName">生成するエフェクト名称</param>
 	/// <param name="pos">エミッタの初期座標</param>
+	/// <param name="isInfinite"></param>
 	/// <param name="parent">(任意)親となるエミッタ座標</param>
-	/// <param name="texPath">(任意)テクスチャ変更する際はパスを入力</param>
-	void CreateNewEmitter(std::string effectName, const LWP::Math::Vector3& pos, LWP::Object::TransformQuat* parent = nullptr);
+	/// <returns>生成したエミッタ</returns>
+	Emitter* CreateNewEmitter(std::string effectName, const LWP::Math::Vector3& pos, bool isInfinite = false, LWP::Object::TransformQuat* parent = nullptr);
 
 	/// <summary>
 	/// (呼び出し禁止)(エディタ用) 新規保存用データ生成

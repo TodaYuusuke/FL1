@@ -1,4 +1,7 @@
 {
+    "animName": "PowerShot",
+    "attackEffectName": "MuzzleFlash",
+    "attackSEFileName": "PowerShot.mp3",
     "attackSkillGain": 100.0,
     "bulletNum": 10,
     "bulletType": 0,
@@ -9,10 +12,6 @@
     "diffusingBulletRange_y": 0.0,
     "diffusingBulletRange_z": 0.0,
     "jsonFileName": "Rifle_R_C.json",
-    "attackSEFileName": "",
-    "attackEffectName": "",
-    "texName": "",
-    "animName": "",
     "modelName": "resources/model/Weapon/Gun/Rifle/Rifle.gltf",
     "name": "Rifle",
     "rarity": 0,
@@ -20,5 +19,6 @@
     "sameBulletNum": 0,
     "shotIntervalTime": 1.0,
     "storeTime": 0.0,
+    "texName": "",
     "type": 2
 }
