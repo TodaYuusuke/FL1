@@ -89,7 +89,7 @@ private:// 調整項目
 	//float leadingAccuracy_ = 1.0f;
 
 	// 先読みの上限時間
-	float limitLeadingFrame = 30.0f;
+	float limitLeadingFrame = 10.0f;
 
 	LWP::Utility::JsonIO json_;
 
