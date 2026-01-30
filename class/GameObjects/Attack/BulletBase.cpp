@@ -39,9 +39,6 @@ BulletBase::BulletBase(const AttackData& data, Actor* target, const LWP::Math::V
 	// 体の判定生成
 	bodyCapsule_.localOffset = dirVel.Normalize() * data.attackSize.z;
 	bodyCapsule_.radius = data.attackSize.x;
-	//Vector3 size = data.attackSize / 2.0f;
-	//bodyAABB_.min = size * -1.0f;
-	//bodyAABB_.max = size;
 	bodyCollision_.SetFollow(&body_.worldTF);
 	bodyCollision_.isActive = true;
 	// 自機の所属しているマスクを設定
