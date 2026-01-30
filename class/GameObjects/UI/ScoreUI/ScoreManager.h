@@ -11,11 +11,13 @@ public:
 		return &instance;
 	}
 
-	void Reset() { sumScore_ = 0; };
+	void Update();
+
+	void Reset() { sumScore_ = 0; drawScore_ = 0; };
 
 	void AddScore(int32_t score) { sumScore_ += score; };
 	int32_t GetScore() { return sumScore_; };
-
+	int32_t GetDrawScore() { return drawScore_; };
 private:
 	ScoreCounter() {};
 	~ScoreCounter() {};
@@ -24,6 +26,6 @@ private:
 
 
 	int32_t sumScore_=0;
-
-
+	int32_t drawScore_=0;
+	int32_t incrementFrame_ = 1;
 };
