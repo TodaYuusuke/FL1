@@ -16,7 +16,7 @@ void SingleGauge::Initialize(bool type) {
 
 void SingleGauge::Update() {
 	backSprite_.worldTF.translation = anchor_;
-	
+	backSprite_.worldTF.rotation = LWP::Math::Quaternion::CreateFromAxisAngle(LWP::Math::Vector3{ 0, 0, 1 }, LWP::Utility::DegreeToRadian(rotate_));
 	backSprite_.worldTF.scale = size_;
 	gaugeSprite_.worldTF.scale.x =  ratio_;
 	

@@ -58,7 +58,7 @@ private:
 	float viewBorder_;
 
 	//プレイヤーの位置(これを基準に計算する)
-	LWP::Primitive::Cube player_;
+	LWP::Resource::RigidModel player_;
 	const static size_t kMaxModels_ = 30;
 	std::array<LWP::Primitive::Cube, kMaxModels_> unitModels_;
 	std::vector<UnitData> unitDatas_;

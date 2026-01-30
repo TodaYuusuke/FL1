@@ -166,6 +166,7 @@ private:
 private: //HP表示関係の調整項目
 	LWP::Math::Vector3 hpGaugePosition_;
 	LWP::Math::Vector3 hpGaugeScale_;
+	float hpGaugeRotate_;
 
 private:
 	LWP::Utility::JsonIO json_;

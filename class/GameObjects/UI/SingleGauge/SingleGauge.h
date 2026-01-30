@@ -17,6 +17,7 @@ public:
 
 	void SetAnchor(LWP::Math::Vector3 anchor) { anchor_ = anchor; };
 	void SetSize(LWP::Math::Vector3 size) { size_ = size; };
+	void SetRotate(float rotate) { rotate_ = rotate; };
 
 	void SetRatio(float ratio) { ratio_ = ratio; };
 
@@ -27,6 +28,8 @@ private:
 
 	LWP::Math::Vector3 size_ = {0.5f,0.5f,1.0f};
 	LWP::Math::Vector3 anchor_ = { 0,0,0 };
+
+	float rotate_;
 
 	float ratio_;
 	bool type_ = false;

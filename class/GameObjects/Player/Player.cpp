@@ -79,6 +79,7 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 		.BeginGroup("HP")
 		.AddValue<LWP::Math::Vector3>("Position", &hpGaugePosition_)
 		.AddValue<LWP::Math::Vector3>("Scale", &hpGaugeScale_)
+		.AddValue<float>("Rotate", &hpGaugeRotate_)
 		.EndGroup()
 		.CheckJsonFile();
 
@@ -145,6 +146,7 @@ void Player::Update() {
 	hpGauge_->SetRatio(GetHP()->GetHealth() / GetHP()->GetMaxHealth());
 	hpGauge_->SetAnchor(hpGaugePosition_);
 	hpGauge_->SetSize(hpGaugeScale_);
+	hpGauge_->SetRotate(hpGaugeRotate_);
 	hpGauge_->Update();
 
 	if (hp_->GetIsDead()) {
@@ -283,6 +285,7 @@ void Player::DrawGui() {
 			ImGui::DragFloat("Value", &maxHp_, 0.01f);
 			ImGui::DragFloat3("Position", &hpGaugePosition_.x, 1.0f);
 			ImGui::DragFloat3("Scale", &hpGaugeScale_.x, 0.01f);
+			ImGui::DragFloat("Rotate", &hpGaugeRotate_, 0.01f);
 			ImGui::TreePop();
 		}
 		// 当たり判定
