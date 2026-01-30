@@ -142,7 +142,6 @@ void Player::Init() {
 
 void Player::Update() {
 	//HP表示
-	weaponController_->CalcHP(GetHP());
 	hpGauge_->SetRatio(GetHP()->GetHealth() / GetHP()->GetMaxHealth());
 	hpGauge_->SetAnchor(hpGaugePosition_);
 	hpGauge_->SetSize(hpGaugeScale_);

@@ -2,9 +2,7 @@
 
 void SingleGauge::Initialize(bool type) {
 	type_ = type;
-	//backSprite_.LoadTexture("../system/texture/white.png");
 	backSprite_.material.color = {0.1f,0.1f,0.1f,1.0f};
-	//gaugeSprite_.LoadTexture("../system/texture/white.png");
 	gaugeSprite_.material.color = { 166,238,175,255 };
 	differenceSprite_.material.color = {0.8f,0.1f,0.1f,1.0f};
 	backSprite_.anchorPoint = { 0.0f,0.0f };
