@@ -169,6 +169,8 @@ private:
 		return str.find(target) != std::string::npos;
 	}
 
+	void PickUpAnimation();
+
 private:// jsonファイルの保存で使用する関数
 	/// <summary>
 	/// 武器調整のためのGui表示
@@ -366,5 +368,12 @@ private:
 	std::vector<std::string> weaponTypePreview_;
 	// 作成できる武器のレアリティ一覧
 	std::vector<std::string> weaponRarityPreview_;
+
+	//ピックアップアニメーション
+	//float pickUpT_=0;
+	int pickUpAnimationFrame_=0;
+	int pickUpAnimationLength_=15;
+	bool isPickUp_;
+	std::array<bool, (int)WeaponType::kCount> isDrawPickUpWeaponSprite_;
 };
 
