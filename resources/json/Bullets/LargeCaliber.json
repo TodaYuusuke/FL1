@@ -8,9 +8,9 @@
         1.0,
         1.0
     ],
-    "float :AttackPower": 50.0,
+    "float :AttackPower": 10.0,
     "float :ElapsedTime": 5.0,
-    "float :Speed": 0.5,
+    "float :Speed": 8.0,
     "int32_t :ImpactType": 0,
     "int32_t :MovementType": 0
 }
