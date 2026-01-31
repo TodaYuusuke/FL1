@@ -252,6 +252,7 @@
     <ClCompile Include="class\Effect\EffectEditor.cpp" />
     <ClCompile Include="class\Componets\EasingEditor.cpp" />
     <ClCompile Include="class\Componets\EaseMachine.cpp" />
+    <ClCompile Include="class\Effect\Bullet\Child\ExplosiveBulletEffect.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\StateBase.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\WaitState.cpp" />
@@ -426,6 +427,7 @@
     <ClInclude Include="class\Componets\SerialAnimation.h" />
     <ClInclude Include="class\GameObjects\Player\Anim\RobotAnimManager.h" />
     <ClInclude Include="class\Audio\SEPlayer.h" />
+    <ClInclude Include="class\Effect\Bullet\Child\ExplosiveBulletEffect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

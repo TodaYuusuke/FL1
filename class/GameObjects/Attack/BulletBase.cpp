@@ -10,7 +10,7 @@ using namespace FLMath;
 using namespace LWP;
 using namespace LWP::Math;
 
-BulletBase::BulletBase(const AttackData& data, Actor* target, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dirVel)
+BulletBase::BulletBase(const AttackData& data, Actor* target, IWeapon* weapon, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dirVel)
 	: AttackBase(hitFragBit),
 	bodyCapsule_(bodyCollision_.SetBroadShape<LWP::Object::Collider::Capsule>())
 {
@@ -64,6 +64,9 @@ BulletBase::BulletBase(const AttackData& data, Actor* target, const LWP::Math::V
 	else if (data_.movementType == (int)MovementType::kHoming) {
 		movement_ = std::make_unique<HomingMove>(target_);
 	}
+
+	// 警告回避
+	weapon;
 }
 
 BulletBase::~BulletBase() {

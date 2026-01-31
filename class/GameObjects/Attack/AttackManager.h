@@ -5,9 +5,9 @@
 #include "Melee/MeleeAttack.h"
 #include "AttackConfig.h"
 
-using BulletCreator = std::function<BulletBase* (const AttackData&, Actor*, const LWP::Math::Vector3&, int, const LWP::Math::Vector3&)>;
+using BulletCreator = std::function<BulletBase* (const AttackData&, Actor*, IWeapon*, const LWP::Math::Vector3&, int, const LWP::Math::Vector3&)>;
 using ImpactCreator = std::function<AttackBase* (const ImpactData&, const LWP::Math::Vector3&, int)>;
-using MeleeCreator = std::function<BulletBase* (const AttackData&, LWP::Object::TransformQuat*, int)>;
+using MeleeCreator = std::function<BulletBase* (const AttackData&, LWP::Object::TransformQuat*, IWeapon*, int)>;
 /// <summary>
 /// 弾管理クラス
 /// </summary>
@@ -89,14 +89,14 @@ public:// アクセサ
 
 	template<class T>
 	void BulletRegister(int type) {
-		bulletCreators_[type] = [](const AttackData& data, Actor* target, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dir = { 0,0,0 }) {
-			return new T(data, target, pos, hitFragBit, dir);  // ← 派生クラスを new
+		bulletCreators_[type] = [](const AttackData& data, Actor* target, IWeapon* weapon, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dir = { 0,0,0 }) {
+			return new T(data, target, weapon, pos, hitFragBit, dir);  // ← 派生クラスを new
 			};
 	}
 	template<class U>
 	void MeleeRegister(int type) {
-		meleeCreators_[type] = [](const AttackData& data, LWP::Object::TransformQuat* target, int hitFragBit) {
-			return new U(data, target, hitFragBit);  // ← 派生クラスを new
+		meleeCreators_[type] = [](const AttackData& data, LWP::Object::TransformQuat* target, IWeapon* weapon, int hitFragBit) {
+			return new U(data, target, weapon, hitFragBit);  // ← 派生クラスを new
 			};
 	}
 	template<class V>
@@ -113,9 +113,9 @@ public:// アクセサ
 	/// <param name="pos">生成座標</param>
 	/// <param name="hitFragBit">当たり判定をとる対象のマスク</param>
 	/// <param name="dir">方向ベクトル</param>
-	void CreateAttack(int type, Actor* target, const LWP::Math::Vector3& pos, int hitFragBit, int belongFragBit, const LWP::Math::Vector3& dir = { 0,0,0 }, float attackMultiply = 1.0f) {
+	void CreateAttack(int type, Actor* target, IWeapon* weapon, const LWP::Math::Vector3& pos, int hitFragBit, int belongFragBit, const LWP::Math::Vector3& dir = { 0,0,0 }, float attackMultiply = 1.0f) {
 		if (bulletCreators_.contains(type)) {
-			AddBullet(bulletCreators_[type](sampleBulletDatas_[type], target, pos, hitFragBit, dir), attackMultiply, belongFragBit);
+			AddBullet(bulletCreators_[type](sampleBulletDatas_[type], target, weapon, pos, hitFragBit, dir), attackMultiply, belongFragBit);
 		}
 	}
 	/// <summary>
@@ -124,9 +124,9 @@ public:// アクセサ
 	/// <param name="type">種類(BulletType参照)</param>
 	/// <param name="target">攻撃対象</param>
 	/// <param name="hitFragBit">当たり判定をとる対象のマスク</param>
-	void CreateAttack(int type, LWP::Object::TransformQuat* target, int hitFragBit, int belongFragBit, float attackMultiply = 1.0f) {
+	void CreateAttack(int type, LWP::Object::TransformQuat* target, IWeapon* weapon, int hitFragBit, int belongFragBit, float attackMultiply = 1.0f) {
 		if (meleeCreators_.contains(type)) {
-			AddBullet(meleeCreators_[type](sampleBulletDatas_[type], target, hitFragBit), attackMultiply, belongFragBit);
+			AddBullet(meleeCreators_[type](sampleBulletDatas_[type], target, weapon, hitFragBit), attackMultiply, belongFragBit);
 		}
 	}
 	/// <summary>

@@ -40,6 +40,16 @@ public: // メンバ関数
 	/// <returns>生成した弾道エフェクト</returns>
 	IBulletEffect* CreateBulletLineEffect(const LWP::Math::Vector3& scale, LWP::Object::TransformQuat* transform, const LWP::Math::Vector3* vec);
 
+	/// <summary>
+	/// 弾道エフェクト生成
+	/// </summary>
+	/// <param name="scale">拡縮</param>
+	/// <param name="transform">座標</param>
+	/// <param name="vec">弾のベクトル</param>
+	/// <returns>生成した弾道エフェクト</returns>
+	IBulletEffect* CreateExplosiveBulletEffect(const LWP::Math::Vector3& scale, LWP::Object::TransformQuat* transform);
+
+
 private: // メンバ変数
 
 	// 使用中カメラ
@@ -47,5 +57,4 @@ private: // メンバ変数
 
 	// 射撃エフェクト配列
 	std::list<IBulletEffect*> effects_;
-
 };

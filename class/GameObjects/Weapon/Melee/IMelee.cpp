@@ -145,7 +145,7 @@ void IMelee::Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attack
 	if (!GetIsEnableAttack()) { return; }
 
 	// 攻撃判定生成
-	pBulletManager_->CreateAttack(data_.bulletType, &body_.worldTF, bulletHitFragBit, bulletBelongFragBit, attackMultiply_);
+	pBulletManager_->CreateAttack(data_.bulletType, &body_.worldTF, this, bulletHitFragBit, bulletBelongFragBit, attackMultiply_);
 
 	// 弾数を減らす
 	magazine_->BulletDecrement();

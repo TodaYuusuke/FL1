@@ -9,13 +9,14 @@
 #include <Adapter.h>
 
 class Actor;
+class IWeapon;
 /// <summary>
 /// 弾の基底クラス
 /// </summary>
 class BulletBase : public AttackBase {
 public:
 	// コンストラクタ
-	BulletBase(const AttackData& data, Actor* target, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dirVel = { 0,0,0 });
+	BulletBase(const AttackData& data, Actor* target, IWeapon* weapon, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dirVel = { 0,0,0 });
 	// デストラクタ
 	~BulletBase() override;
 
@@ -52,6 +53,7 @@ public:// アクセサ
 #pragma endregion
 
 protected:
+
 	// 着弾時の処理
 	std::unique_ptr<IImpact> impact_;
 	// 移動方式
