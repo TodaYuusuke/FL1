@@ -5,6 +5,7 @@
 #include "AttackBase.h"
 #include "Strategy/Impact/IImpact.h"
 #include "Strategy/Movement/IMovement.h"
+#include "../../Effect/Bullet/BulletEffector.h"
 #include <Adapter.h>
 
 class Actor;
@@ -62,4 +63,7 @@ protected:
 
 	// 調整情報
 	AttackData data_;
+
+	// 弾エフェクト
+	IBulletEffect* bulletEffect_ = nullptr;
 };
