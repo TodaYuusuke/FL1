@@ -193,8 +193,8 @@
         "bool :PVelocityR-IsUsed": false,
         "bool :PVelocityT-IsUsed": true,
         "bool :unificationRandomScale": true,
-        "float :AliveTimeAmp-Max": 0.3499999940395355,
-        "float :AliveTimeAmp-Min": 0.25,
+        "float :AliveTimeAmp-Max": 0.15000000596046448,
+        "float :AliveTimeAmp-Min": 0.10000000149011612,
         "float :EmitAliveTime": 5.0,
         "float :EmitTime": 0.10000000149011612,
         "float :EmitTimeAmp-Max": 0.0,
@@ -202,7 +202,7 @@
         "int32_t :EmitCount": 3,
         "int32_t :MaxEmitCount": 50,
         "int32_t :PEasingC-EasingType": 4,
-        "int32_t :PEasingS-EasingType": 2,
+        "int32_t :PEasingS-EasingType": 23,
         "int32_t :PEasingT-EasingType": 0,
         "int32_t :ParticleType": 0,
         "int32_t :SurfaceType": 0,
@@ -317,7 +317,7 @@
         ],
         "Vector3 :PVelocityT-Acceleration": [
             0.0,
-            0.0,
+            0.014999999664723873,
             0.0
         ],
         "Vector3 :PVelocityT-AccelerationAmp-Max": [

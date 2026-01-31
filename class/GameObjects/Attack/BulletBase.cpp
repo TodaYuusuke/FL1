@@ -28,7 +28,7 @@ BulletBase::BulletBase(const AttackData& data, Actor* target, const LWP::Math::V
 	target_ = target;
 
 	// モデルの読み込み
-	body_.LoadCube();
+	//body_.LoadCube();
 	// 座標
 	body_.worldTF.translation = pos;
 	// 大きさ
@@ -63,7 +63,12 @@ BulletBase::BulletBase(const AttackData& data, Actor* target, const LWP::Math::V
 	}
 }
 
-BulletBase::~BulletBase() {}
+BulletBase::~BulletBase() {
+	// 弾エフェクトが生成されている場合終了処理を出す
+	if (bulletEffect_ != nullptr) {
+		bulletEffect_->Finish();
+	}
+}
 
 void BulletBase::Init() {
 	// 速度ベクトル
