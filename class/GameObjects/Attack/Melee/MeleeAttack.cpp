@@ -1,5 +1,6 @@
 #include "MeleeAttack.h"
 #include "../../Collision/CollisionMask.h"
+#include "../../../Componets/BehaviourTree/Actor/Actor.h"
 
 using namespace FLMath;
 using namespace LWP;
@@ -10,16 +11,9 @@ MeleeAttack::MeleeAttack(const AttackData& data, LWP::Object::TransformQuat* tar
 {
 	targetTF_ = target;
 
-	bodyCollision_.SetFollow(targetTF_);
+	bodyCapsule_.localOffset = Vector3{0,0,1} * target->GetRotateMatrix() * data.attackSize.z;
+	bodyCapsule_.radius = data.attackSize.x;
 	bodyCollision_.worldTF.translation = { 0.0f,0.0f,1.0f };
-	bodyCollision_.isActive = true;
-	// 所属しているマスクを設定
-	bodyCollision_.mask.SetBelongFrag(GameMask::attack);
-	// 当たり判定をとる対象のマスクを設定
-	bodyCollision_.mask.SetHitFrag(hitFragBit);
-	bodyCollision_.stayLambda = [this](LWP::Object::Collision* hitTarget) {
-		OnCollision(hitTarget);
-		};
 }
 
 void MeleeAttack::Init() {
@@ -30,8 +24,16 @@ void MeleeAttack::Update() {
 	// 座標変更
 	body_.worldTF.translation += vel_ * moveSpeed_ * stopController_->GetDeltaTime();
 
+	bodyCapsule_.localOffset = Vector3{ 0,0,1 } * targetTF_->GetRotateMatrix() * data_.attackSize.z;
+
 	// 攻撃している人がいないならペアレントを消す
-	if (!targetTF_) bodyCollision_.SetFollow(nullptr);
+	if (!targetTF_) {
+		bodyCollision_.SetFollow(nullptr);
+	}
+	else {
+		body_.worldTF.translation = targetTF_->GetWorldPosition();
+		//bodyCollision_.worldTF.translation = targetTF_->GetWorldPosition();
+	}
 
 	// 線損時間を過ぎているなら消す
 	if (currentFrame_ <= 0.0f) {

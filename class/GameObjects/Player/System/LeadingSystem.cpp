@@ -17,6 +17,7 @@ LeadingSystem::LeadingSystem(LWP::Object::Camera* camera, BlackBoard* blackBoard
 
 	json_.Init(kJsonFileDirectoryPath + "LeadingSystem.json")
 		.AddValue<float>("LeadingScreenRange", &leadingScreenRange_)
+		.AddValue<float>("LimitLeadingFrame", &limitLeadingFrame)
 		.CheckJsonFile();
 
 	reticle_.LoadTexture("lockOnReticle.png");

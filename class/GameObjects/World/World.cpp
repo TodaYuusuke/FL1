@@ -60,6 +60,16 @@ void World::Update() {
 void World::DebugGui() {
 	if (ImGui::BeginTabItem("World")) {
 		json_.DebugGUI();
+		if (std::fabsf(moveArea.x) <= 10.0f) {
+			moveArea.x = 10.0f;
+		}
+		if (std::fabsf(moveArea.y) <= 10.0f) {
+			moveArea.y = 10.0f;
+		}
+		if (std::fabsf(moveArea.z) <= 10.0f) {
+			moveArea.z = 10.0f;
+		}
+
 		//GUIの描画
 		actorManager.DrawGui();
 		if (ImGui::TreeNode("Skydome")) {
