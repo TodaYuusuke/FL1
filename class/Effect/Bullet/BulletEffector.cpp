@@ -48,3 +48,15 @@ IBulletEffect* BulletEffector::CreateBulletLineEffect(const LWP::Math::Vector3& 
 	// 生成したエフェクトを返す
 	return effects_.back();
 }
+
+IBulletEffect* BulletEffector::CreateExplosiveBulletEffect(const LWP::Math::Vector3& scale, LWP::Object::TransformQuat* transform)
+{
+	// エフェクト生成
+	IBulletEffect* effect = new ExplosiveBulletEffect(scale, transform);
+
+	// エフェクト配列に追加
+	effects_.push_back(effect);
+
+	// 生成したエフェクトを返す
+	return effects_.back();
+}

@@ -60,7 +60,7 @@ void Missile::AttackCommond() {
 				(Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, randomVec.Normalize()) * Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, shotDirVel_));
 		}
 		// 弾生成
-		pBulletManager_->CreateAttack(data_.bulletType, target_, body_.GetJointWorldPosition("Muzzle_0"), bulletHitFragBit_, bulletBelongFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
+		pBulletManager_->CreateAttack(data_.bulletType, target_, this, body_.GetJointWorldPosition("Muzzle_0"), bulletHitFragBit_, bulletBelongFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
 
 		// 所持者が自機なら演出開始
 		if (actor_->GetName() == "Player") {
