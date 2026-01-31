@@ -11,7 +11,7 @@ MeleeAttack::MeleeAttack(const AttackData& data, LWP::Object::TransformQuat* tar
 {
 	targetTF_ = target;
 
-	bodyCapsule_.localOffset = Vector3{0,0,1} * target->GetRotateMatrix() * data.attackSize.z;
+	bodyCapsule_.localOffset = Vector3{0,0,1} * target->GetWorldRotateMatrix() * data.attackSize.z;
 	bodyCapsule_.radius = data.attackSize.x;
 	bodyCollision_.worldTF.translation = { 0.0f,0.0f,1.0f };
 }
@@ -24,7 +24,7 @@ void MeleeAttack::Update() {
 	// 座標変更
 	body_.worldTF.translation += vel_ * moveSpeed_ * stopController_->GetDeltaTime();
 
-	bodyCapsule_.localOffset = Vector3{ 0,0,1 } * targetTF_->GetRotateMatrix() * data_.attackSize.z;
+	bodyCapsule_.localOffset = Vector3{ 0,0,1 } * targetTF_->GetWorldRotateMatrix() * data_.attackSize.z;
 
 	// 攻撃している人がいないならペアレントを消す
 	if (!targetTF_) {
