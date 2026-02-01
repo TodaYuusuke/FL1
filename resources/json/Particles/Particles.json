@@ -1,5 +1,9 @@
 {
     "Group :MuzzleFlash": {
+        "Vector2 :SplitSize": [
+            0.0,
+            0.0
+        ],
         "Vector3 :PEasingS-End": [
             1.5,
             1.5,
@@ -186,6 +190,7 @@
             1.0,
             1.0
         ],
+        "bool :IsAnimLoop": false,
         "bool :IsWaitDeleteAllParticles": false,
         "bool :PEasingC-IsUsed": false,
         "bool :PEasingS-IsUsed": false,
@@ -195,6 +200,7 @@
         "bool :unificationRandomScale": true,
         "float :AliveTimeAmp-Max": 0.15000000596046448,
         "float :AliveTimeAmp-Min": 0.10000000149011612,
+        "float :AnimTime": 0.0,
         "float :EmitAliveTime": 5.0,
         "float :EmitTime": 0.10000000149011612,
         "float :EmitTimeAmp-Max": 0.0,
@@ -210,6 +216,10 @@
         "string :TexPath": "MuzzleFlash.png"
     },
     "Group :ShotSmoke": {
+        "Vector2 :SplitSize": [
+            0.0,
+            0.0
+        ],
         "Vector3 :PEasingS-End": [
             0.3499999940395355,
             0.3499999940395355,
@@ -396,6 +406,7 @@
             0.5,
             1.0
         ],
+        "bool :IsAnimLoop": false,
         "bool :IsWaitDeleteAllParticles": true,
         "bool :PEasingC-IsUsed": false,
         "bool :PEasingS-IsUsed": false,
@@ -405,6 +416,7 @@
         "bool :unificationRandomScale": true,
         "float :AliveTimeAmp-Max": 0.5,
         "float :AliveTimeAmp-Min": 0.25,
+        "float :AnimTime": 0.0,
         "float :EmitAliveTime": 0.25,
         "float :EmitTime": 0.009999999776482582,
         "float :EmitTimeAmp-Max": 0.0,
@@ -420,6 +432,10 @@
         "string :TexPath": "circle.png"
     },
     "Group :SmokeTrail": {
+        "Vector2 :SplitSize": [
+            0.0,
+            0.0
+        ],
         "Vector3 :PEasingS-End": [
             0.5,
             0.5,
@@ -606,6 +622,7 @@
             0.5,
             0.5
         ],
+        "bool :IsAnimLoop": false,
         "bool :IsWaitDeleteAllParticles": false,
         "bool :PEasingC-IsUsed": false,
         "bool :PEasingS-IsUsed": false,
@@ -615,6 +632,7 @@
         "bool :unificationRandomScale": true,
         "float :AliveTimeAmp-Max": 1.0,
         "float :AliveTimeAmp-Min": 0.800000011920929,
+        "float :AnimTime": 0.0,
         "float :EmitAliveTime": 5.0,
         "float :EmitTime": 0.10000000149011612,
         "float :EmitTimeAmp-Max": 0.0,
@@ -630,6 +648,10 @@
         "string :TexPath": "Smoke.png"
     },
     "Group :Spark": {
+        "Vector2 :SplitSize": [
+            0.0,
+            0.0
+        ],
         "Vector3 :PEasingS-End": [
             0.0,
             0.0,
@@ -816,6 +838,7 @@
             1.0,
             1.0
         ],
+        "bool :IsAnimLoop": false,
         "bool :IsWaitDeleteAllParticles": true,
         "bool :PEasingC-IsUsed": false,
         "bool :PEasingS-IsUsed": false,
@@ -825,6 +848,7 @@
         "bool :unificationRandomScale": true,
         "float :AliveTimeAmp-Max": 1.0,
         "float :AliveTimeAmp-Min": 1.0,
+        "float :AnimTime": 0.0,
         "float :EmitAliveTime": 0.10000000149011612,
         "float :EmitTime": 0.0,
         "float :EmitTimeAmp-Max": 0.0,
@@ -840,25 +864,29 @@
         "string :TexPath": "Spark.png"
     },
     "Group :Test Particle": {
+        "Vector2 :SplitSize": [
+            64.0,
+            64.0
+        ],
         "Vector3 :PEasingS-End": [
-            1.0,
-            1.0,
-            1.0
+            7.5,
+            7.5,
+            7.5
         ],
         "Vector3 :PEasingS-EndAmp-Max": [
-            0.0,
-            0.0,
-            0.0
-        ],
-        "Vector3 :PEasingS-EndAmp-Min": [
-            -0.0,
-            -0.0,
-            -0.0
-        ],
-        "Vector3 :PEasingS-Start": [
             1.0,
             1.0,
             1.0
+        ],
+        "Vector3 :PEasingS-EndAmp-Min": [
+            -1.0,
+            -1.0,
+            -1.0
+        ],
+        "Vector3 :PEasingS-Start": [
+            5.0,
+            5.0,
+            5.0
         ],
         "Vector3 :PEasingS-StartAmp-Max": [
             1.0,
@@ -923,12 +951,12 @@
         "Vector3 :PVelocityR-StartAmp-Max": [
             0.0,
             0.0,
-            0.0
+            90.0
         ],
         "Vector3 :PVelocityR-StartAmp-Min": [
             -0.0,
             -0.0,
-            -0.0
+            -90.0
         ],
         "Vector3 :PVelocityR-Velocity": [
             0.0,
@@ -966,14 +994,14 @@
             0.0
         ],
         "Vector3 :PVelocityT-StartAmp-Max": [
-            10.0,
-            0.0,
-            0.0
+            5.0,
+            5.0,
+            5.0
         ],
         "Vector3 :PVelocityT-StartAmp-Min": [
-            -10.0,
-            -0.0,
-            -0.0
+            -5.0,
+            -5.0,
+            -5.0
         ],
         "Vector3 :PVelocityT-Velocity": [
             0.0,
@@ -1000,13 +1028,13 @@
             1.0,
             1.0,
             1.0,
-            0.0
+            1.0
         ],
         "Vector4 :PEasingC-EndAmp-Min": [
-            0.0,
-            0.0,
-            0.0,
-            0.0
+            1.0,
+            1.0,
+            1.0,
+            1.0
         ],
         "Vector4 :PEasingC-Start": [
             0.0,
@@ -1021,20 +1049,22 @@
             1.0
         ],
         "Vector4 :PEasingC-StartAmp-Min": [
-            0.0,
-            0.0,
-            0.0,
+            1.0,
+            1.0,
+            1.0,
             1.0
         ],
+        "bool :IsAnimLoop": false,
         "bool :IsWaitDeleteAllParticles": true,
         "bool :PEasingC-IsUsed": false,
         "bool :PEasingS-IsUsed": false,
-        "bool :PEasingT-IsUsed": true,
+        "bool :PEasingT-IsUsed": false,
         "bool :PVelocityR-IsUsed": false,
-        "bool :PVelocityT-IsUsed": false,
+        "bool :PVelocityT-IsUsed": true,
         "bool :unificationRandomScale": true,
         "float :AliveTimeAmp-Max": 1.0,
         "float :AliveTimeAmp-Min": 1.0,
+        "float :AnimTime": 0.5,
         "float :EmitAliveTime": 5.0,
         "float :EmitTime": 0.10000000149011612,
         "float :EmitTimeAmp-Max": 0.0,
@@ -1042,11 +1072,11 @@
         "int32_t :EmitCount": 3,
         "int32_t :MaxEmitCount": 100,
         "int32_t :PEasingC-EasingType": 0,
-        "int32_t :PEasingS-EasingType": 2,
+        "int32_t :PEasingS-EasingType": 10,
         "int32_t :PEasingT-EasingType": 13,
-        "int32_t :ParticleType": 0,
+        "int32_t :ParticleType": 1,
         "int32_t :SurfaceType": 1,
         "string :ModelPath": "cube.obj",
-        "string :TexPath": "circle.png"
+        "string :TexPath": "explosion.png"
     }
 }
