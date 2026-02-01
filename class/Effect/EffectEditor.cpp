@@ -8,6 +8,7 @@ using namespace LWP::Effect;
 
 const std::array<std::string, size_t(Emitter::ParticleType::PTypeCount)> EffectEditor::kParticleTypeMap_ = {
 	"Surface",
+	"Sequence",
 	"model3D"
 };
 
@@ -514,6 +515,36 @@ void EffectEditor::CommonTab()
 		// 平面タイプの選択
 		EditSurfaceTypeGUI(editData_->SurfaceType);
 		break;
+
+	case Emitter::ParticleType::Sequence:
+		// テクスチャパスを入力
+		ImGuiManager::InputText("Tex Path", editData_->TexPath);
+		ImGui::NewLine();
+		// 平面タイプの選択
+		EditSurfaceTypeGUI(editData_->SurfaceType);
+		ImGui::NewLine();
+
+		// 連番一枚のサイズ設定
+		ImGui::DragFloat2("SplitSize", &editData_->SplitSize.x);
+
+		// アニメーション秒数の自動計算を行うか
+		ImGui::Checkbox("IsAutoCalcAnimTime", &isAutoCalcAnimTime_);
+		if (!isAutoCalcAnimTime_) { // 自動計算しない場合ImGui表示
+			ImGui::DragFloat("AnimTime", &editData_->AnimTime, 0.01f);
+
+			// クランプ処理
+			if (editData_->AnimTime < 0.0f) { editData_->AnimTime = 0.0f; }
+		}
+		else {
+			// 自動計算しない場合は0を入れとく
+			if (editData_ != nullptr) { editData_->AnimTime = 0.0f; }
+		}
+		ImGui::NewLine();
+
+		// アニメーションのループ状態
+		ImGui::Checkbox("Is Anim Loop", &editData_->IsAnimLoop);
+
+		break;
 	case Emitter::ParticleType::Model3D:
 		// モデルパスを入力
 		ImGuiManager::InputText("Model Path", editData_->ModelPath);
@@ -535,8 +566,10 @@ void EffectEditor::CommonTab()
 	editData_->EmitTimeAmp.min = -editData_->EmitTimeAmp.max;
 	ImGui::Separator();
 
-	ImGui::DragFloat("Particle Alive Time Min", &editData_->AliveTimeAmp.min, 0.01f, 0.0f);
-	ImGui::DragFloat("Particle Alive Time Max", &editData_->AliveTimeAmp.max, 0.01f, 0.0f);
+	if (editData_->ParticleType != Emitter::Sequence || editData_->IsAnimLoop) {
+		ImGui::DragFloat("Particle Alive Time Min", &editData_->AliveTimeAmp.min, 0.01f, 0.0f);
+		ImGui::DragFloat("Particle Alive Time Max", &editData_->AliveTimeAmp.max, 0.01f, 0.0f);
+	}
 }
 
 void EffectEditor::MoveTab()

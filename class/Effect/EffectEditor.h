@@ -178,6 +178,9 @@ private: // メンバ変数
 	// 補間選択用マップ
 	static const std::array<std::string, size_t(LWP::Utility::Easing::Type::EasingCount)> kEaseingTypeMap_;
 
+	// 連番時、アニメーション秒数を自動で求めるか
+	bool isAutoCalcAnimTime_ = false;
+
 	// ポップアップのモード
 	int popupMode_ = EffectEditor::PopUpMode::None;
 

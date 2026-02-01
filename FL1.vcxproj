@@ -272,6 +272,7 @@
     <ClCompile Include="class\Componets\SerialAnimation.cpp" />
     <ClCompile Include="class\GameObjects\Player\Anim\RobotAnimManager.cpp" />
     <ClCompile Include="class\Audio\SEPlayer.cpp" />
+    <ClCompile Include="class\Effect\Particle\Child\SequenceParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="class\Effect\Bullet\BulletEffectIncluder.h" />
@@ -428,6 +429,7 @@
     <ClInclude Include="class\GameObjects\Player\Anim\RobotAnimManager.h" />
     <ClInclude Include="class\Audio\SEPlayer.h" />
     <ClInclude Include="class\Effect\Bullet\Child\ExplosiveBulletEffect.h" />
+    <ClInclude Include="class\Effect\Particle\Child\SequenceParticle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

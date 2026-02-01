@@ -112,6 +112,9 @@ namespace LWP::Effect {
 		std::string ModelPath = "cube.obj";
 		int SurfaceType = 0;
 		std::string TexPath = "circle.png";
+		LWP::Math::Vector2 SplitSize{};
+		float AnimTime = 0.0f;
+		bool IsAnimLoop = false;
 		float EmitAliveTime = 5.0f;
 		bool IsWaitDeleteAllParticles = false;
 		int EmitCount = 3;
@@ -133,6 +136,9 @@ namespace LWP::Effect {
 				.AddValue("ModelPath", &ModelPath)
 				.AddValue("SurfaceType", &SurfaceType)
 				.AddValue("TexPath", &TexPath)
+				.AddValue("SplitSize", &SplitSize)
+				.AddValue("AnimTime", &AnimTime)
+				.AddValue("IsAnimLoop", &IsAnimLoop)
 				.AddValue("EmitAliveTime", &EmitAliveTime)
 				.AddValue("IsWaitDeleteAllParticles", &IsWaitDeleteAllParticles)
 				.AddValue("EmitCount", &EmitCount)
