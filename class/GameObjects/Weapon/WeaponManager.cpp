@@ -63,7 +63,7 @@ void WeaponManager::Init() {
 
 void WeaponManager::Update() {
 	for (IWeapon* weapon : weapons_) {
-		weapon->Update();
+		if(!weapon->GetIsDestroy()) weapon->Update();
 		if(!weapon->GetActor()) appendMiniMap_(weapon->GetWorldTF()->GetWorldPosition());
 	}
 
@@ -152,6 +152,8 @@ void WeaponManager::CheckPlayerToWeaponDistance() {
 		if (weapon->GetActor()) { continue; }
 		// 武器が可視化されていないなら終了
 		if (!weapon->GetModel().isActive) { continue; }
+		// 武器の破壊指示があるなら終了
+		if (weapon->GetIsDestroy()) { continue; }
 		// 一定距離内にいるなら回収
 		Vector2 playerPos = {
 			player_->GetWorldTF()->GetWorldPosition().x,
