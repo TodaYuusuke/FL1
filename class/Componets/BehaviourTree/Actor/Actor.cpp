@@ -103,8 +103,10 @@ void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
 	// ダメージを受ける
 	hp_->Damage(world_->FindAttackPower(hitTarget->name), hitTarget->name);
 
+	// 被弾音を鳴らす
+	SEPlayer::GetInstance()->PlayRandomSE("HitSound.mp3", 4, 1.0f, AudioConfig::Enviroment);
 	// 被弾エフェクト
-	//EffectManager::GetInstance()->CreateNewEmitter("Spark", model_.GetJointWorldPosition("LockOnAnchor"));
+	EffectManager::GetInstance()->CreateNewEmitter("Spark", model_.GetJointWorldPosition("LockOnAnchor"));
 }
 
 void Actor::ChangeState(StateBase* nextState) {

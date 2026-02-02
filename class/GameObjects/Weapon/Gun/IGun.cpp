@@ -294,9 +294,3 @@ void IGun::FullAutoMode() {
 	shotType_ = ShotType::kFullAuto;
 	attackFrame_ = data_.shotIntervalTime * 60.0f;
 }
-
-void IGun::PlayAttackEffect()
-{
-	// エフェクトの生成処理を呼び出す
-	attackEffectEmitter_->Emit();
-}

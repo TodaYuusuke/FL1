@@ -259,6 +259,6 @@ void SequenceParticle::SequenceUpdate()
 		}
 	}
 
-
+	// 連番インデックスの更新
 	*sequeceIndex_ = static_cast<int>(splitNum_ * animTimer_.GetProgress());
 }
