@@ -10,7 +10,7 @@ using namespace FLMath;
 using namespace LWP;
 using namespace LWP::Math;
 
-BulletBase::BulletBase(const AttackData& data, Actor* target, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dirVel)
+BulletBase::BulletBase(const AttackData& data, Actor* target, IWeapon* weapon, const LWP::Math::Vector3& pos, int hitFragBit, const LWP::Math::Vector3& dirVel)
 	: AttackBase(hitFragBit),
 	bodyCapsule_(bodyCollision_.SetBroadShape<LWP::Object::Collider::Capsule>())
 {
@@ -28,7 +28,7 @@ BulletBase::BulletBase(const AttackData& data, Actor* target, const LWP::Math::V
 	target_ = target;
 
 	// モデルの読み込み
-	body_.LoadCube();
+	//body_.LoadCube();
 	// 座標
 	body_.worldTF.translation = pos;
 	// 大きさ
@@ -39,9 +39,6 @@ BulletBase::BulletBase(const AttackData& data, Actor* target, const LWP::Math::V
 	// 体の判定生成
 	bodyCapsule_.localOffset = dirVel.Normalize() * data.attackSize.z;
 	bodyCapsule_.radius = data.attackSize.x;
-	//Vector3 size = data.attackSize / 2.0f;
-	//bodyAABB_.min = size * -1.0f;
-	//bodyAABB_.max = size;
 	bodyCollision_.SetFollow(&body_.worldTF);
 	bodyCollision_.isActive = true;
 	// 自機の所属しているマスクを設定
@@ -64,9 +61,17 @@ BulletBase::BulletBase(const AttackData& data, Actor* target, const LWP::Math::V
 	else if (data_.movementType == (int)MovementType::kHoming) {
 		movement_ = std::make_unique<HomingMove>(target_);
 	}
+
+	// 警告回避
+	weapon;
 }
 
-BulletBase::~BulletBase() {}
+BulletBase::~BulletBase() {
+	// 弾エフェクトが生成されている場合終了処理を出す
+	if (bulletEffect_ != nullptr) {
+		bulletEffect_->Finish();
+	}
+}
 
 void BulletBase::Init() {
 	// 速度ベクトル

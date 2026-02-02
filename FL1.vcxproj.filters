@@ -372,6 +372,15 @@
     <ClCompile Include="class\Audio\SEPlayer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="class\Effect\Bullet\BulletEffector.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\Effect\Bullet\Child\BulletLineEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\Effect\Bullet\Child\ExplosiveBulletEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="class\GameObjects\UI\SingleGauge\SingleGauge.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -822,6 +831,21 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\Audio\AudioConfig.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\Effect\Bullet\BulletEffector.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\Effect\Bullet\Child\BulletLineEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\Effect\Bullet\IBulletEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\Effect\Bullet\BulletEffectIncluder.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\Effect\Bullet\Child\ExplosiveBulletEffect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\GameObjects\UI\SingleGauge\SingleGauge.h">

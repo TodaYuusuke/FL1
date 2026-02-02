@@ -324,7 +324,7 @@ private:
 	std::vector<IWeapon*> weapons_;
 
 	// 拾える武器を表す線
-	std::vector<LWP::Resource::RigidModel> pickUpWeaponLines_;
+	std::vector<LWP::Primitive::NormalSurface> pickUpWeaponLines_;
 
 	// 拾える武器を画像で出す
 	std::array<LWP::Primitive::NormalSprite, (int)WeaponType::kCount> pickUpWeaponSprite_;

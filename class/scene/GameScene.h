@@ -9,7 +9,6 @@
 #include "../GameObjects/UI/SingleGauge/SingleGauge.h"
 #include "SceneChangeAnimation/SceneChangeAnimation.h"
 #include "SceneChangeAnimation/SceneChangeAnimationForPlane.h"
-
 #include "../Audio/SEPlayer.h"
 #include "Adapter.h"
 

@@ -14,6 +14,7 @@
 #include "../Componets/InputMyController/ControllerReceiver.h"
 #include "../Effect/EffectManager.h"
 #include "../Effect/EffectEditor.h"
+#include "../Effect/Bullet/BulletEffector.h"
 
 using namespace LWP;
 using namespace LWP::Resource;
@@ -33,9 +34,10 @@ GameScene::~GameScene() {
 
 	// ウェーブ
 	WaveManager::Destroy();
-	// 
+	// エフェクト
 	EffectEditor::Destroy();
 	EffectManager::Destroy();
+	BulletEffector::Destroy();
 	// 押し出し
 	PenetrationResolver::Destroy();
 	// 武器管理クラス
@@ -61,6 +63,7 @@ void GameScene::Initialize() {
 	// エフェクト関連のインスタンス生成
 	EffectManager::Create();
 	EffectEditor::Create();
+	BulletEffector::Create();
 
 	// エフェクト関連初期化
 	EffectManager::GetInstance()->Init();
@@ -92,6 +95,9 @@ void GameScene::Initialize() {
 
 	// 追従カメラ
 	followCamera_ = std::make_unique<FollowCamera>(&mainCamera);
+
+	// 弾エフェクター用にカメラを設定
+	BulletEffector::GetInstance()->Init(followCamera_->GetCamera());
 
 	// 世界
 	world_ = std::make_unique<World>();
@@ -198,8 +204,9 @@ void GameScene::Update() {
 	}
 	sceneChangeAnimation_->Update();
 
-	// エフェクト関連初期化
+	// エフェクト関連更新
 	EffectManager::GetInstance()->Update();
+	BulletEffector::GetInstance()->Update();
 
 	// カメラ演出
 	CameraEffectHandler::GetInstance()->Update();

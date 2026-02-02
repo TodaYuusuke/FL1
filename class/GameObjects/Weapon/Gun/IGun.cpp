@@ -18,7 +18,11 @@ IGun::IGun(WeaponData data) {
 
 	// モデル生成
 	body_.LoadFullPath(data_.modelName);
-	//body_.worldTF.scale = { 0.5f,0.5f,0.5f };
+
+	// モデル生成時、テクスチャ名が指定されている場合指定されたテクスチャをロードする
+	if (data_.texName != "") {
+		body_.materials["GunMaterial"].texture = LWP::Resource::LoadTexture(data.texName);
+	}
 
 	// マガジン作成
 	magazine_ = std::make_unique<Magazine>(data_.bulletNum);
@@ -242,7 +246,7 @@ void IGun::AttackCommond() {
 				(Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, randomVec.Normalize()) * Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, shotDirVel_));
 		}
 		// 弾生成
-		pBulletManager_->CreateAttack(data_.bulletType, target_, body_.GetJointWorldPosition("Muzzle"), bulletHitFragBit_, bulletBelongFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
+		pBulletManager_->CreateAttack(data_.bulletType, target_, this, body_.GetJointWorldPosition("Muzzle"), bulletHitFragBit_, bulletBelongFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
 		
 		// エミッタが存在する場合射撃エフェクトを生成
 		if (attackEffectEmitter_ != nullptr) {
