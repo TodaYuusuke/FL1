@@ -227,13 +227,6 @@ public:// アクセサ
 	//void SetIsDestroy(bool isActive) { isDestroy_ = isActive; }
 #pragma endregion
 
-public: // 演出用関数群
-
-	/// <summary>
-	///  攻撃エフェクトの再生関数
-	/// </summary>
-	virtual void PlayAttackEffect() {};
-
 protected:
 	// ヒットストップ
 	HitStopController* stopController_;

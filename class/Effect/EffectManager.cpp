@@ -88,6 +88,9 @@ Emitter* EffectManager::CreateNewEmitter(std::string effectName, const LWP::Math
 	case Emitter::Surface: // 平面
 		newEmitter = new Emitter(LWP::Resource::LoadTexture("Particle/" + data.TexPath), data.SurfaceType, pos);
 		break;
+	case Emitter::Sequence: // 連番
+		newEmitter = new Emitter(LWP::Resource::LoadTexture("Particle/" + data.TexPath), data.SurfaceType, pos, data.SplitSize, data.AnimTime, data.IsAnimLoop);
+		break;
 	case Emitter::Model3D: // 3Dモデル
 		newEmitter = new Emitter(data.ModelPath, pos);
 		break;

@@ -20,7 +20,6 @@ public: // コンストラクタ等
 	/// </summary>
 	~SEPlayer();
 
-
 public: // メンバ関数
 
 	/// <summary>
@@ -35,6 +34,15 @@ public: // メンバ関数
 	/// <param name="volume">音量</param>
 	/// <param name="channelID">再生するチャンネルID</param>
 	void PlaySE(const std::string& filePath, float volume, int channelID);
+
+	/// <summary>
+	/// 引数で指定された数からランダムな数を求め、末尾に追加したパスで再生する関数
+	/// </summary>
+	/// <param name="filePath">オーディオまでのファイルパス</param>
+	/// <param name="maxRandomCount">ランダム最大数</param>
+	/// <param name="volume">音量</param>
+	/// <param name="channelID">再生するチャンネルID</param>
+	void PlayRandomSE(const std::string& filePath, int maxRandomCount, float volume, int channelID);
 
 public: // アクセッサ等
 

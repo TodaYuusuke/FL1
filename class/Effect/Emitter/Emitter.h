@@ -14,6 +14,7 @@ public: // サブクラス
 	/// </summary>
 	enum ParticleType {
 		Surface,	// 平面
+		Sequence,	// 連番
 		Model3D,	// 3Dモデル
 		PTypeCount,	 // カウント用
 	};
@@ -49,6 +50,17 @@ public: // コンストラクタ等
 	/// <param name="path">モデルまでのファイルパス</param>
 	/// <param name="pos">初期座標</param>
 	Emitter(const std::string& path, const LWP::Math::Vector3& pos);
+
+	/// <summary>
+	/// コンストラクタ(連番パーティクル)
+	/// </summary>
+	/// <param name="texID">テクスチャID</param>
+	/// <param name="surfaceType">平面タイプ</param>
+	/// <param name="pos">初期座標</param>
+	/// <param name="splitSize">連番一枚ごとの分割数</param>
+	/// <param name="animTime">アニメーション秒数</param>
+	/// <param name="isAnimLoop">アニメーションがループするか</param>
+	Emitter(LWP::Resource::Texture texID, int surfaceType, const LWP::Math::Vector3& pos, const LWP::Math::Vector2& splitSize, float animTime, bool isAnimLoop);
 
 	/// <summary>
 	/// デストラクタ
@@ -172,6 +184,11 @@ private: // プライベートなメンバ関数
 	void EmitSurface();
 
 	/// <summary>
+	/// 連番粒子生成時の処理関数
+	/// </summary>
+	void EmitSequence();
+
+	/// <summary>
 	/// モデル生成時の処理関数
 	/// </summary>
 	void EmitModel();
@@ -198,6 +215,13 @@ private: // メンバ変数
 	int surfaceType_ = Emitter::SurfaceType::Normal;
 	// 平面描画の際に使用するテクスチャID
 	LWP::Resource::Texture tex_;
+
+	// 連番時の分割サイズ
+	LWP::Math::Vector2 splitSize_{};
+	// アニメーション秒数
+	float animTime_ = 0.0f;
+	// アニメーションのループフラグ
+	bool isAnimLoop_ = false;
 
 	// 終了時間タイマー
 	LWP::Utility::DeltaTimer aliveTimer_{};
