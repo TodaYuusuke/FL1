@@ -1,5 +1,7 @@
 #include "Explosion.h"
 #include "../../Collision/CollisionMask.h"
+#include "../../../Effect/EffectManager.h"
+#include "../../../Audio/SEPlayer.h"
 
 using namespace FLMath;
 using namespace LWP;
@@ -19,11 +21,16 @@ Explosion::Explosion(const ImpactData& data, const Vector3& pos, int hitFragBit)
 	currentFrame_ = data.elapsedTime * 60.0f;
 
 	// モデルの読み込み
-	body_.LoadFullPath("resources/model/Attack/Impact/explosion.obj");
+	// body_.LoadFullPath("resources/model/Attack/Impact/explosion.obj");
 	// 座標
 	body_.worldTF.translation = pos;
 	// 大きさ
 	body_.worldTF.scale = { 10.0f, 10.0f, 10.0f };
+
+	// 爆発エフェクト再生
+	EffectManager::GetInstance()->CreateNewEmitter("Explosion", pos);
+	// 爆発音再生
+	SEPlayer::GetInstance()->PlaySE("Explosion.mp3", 1.0f, AudioConfig::Enviroment);
 
 	// 体の判定生成
 	bodySphere_.radius = 10.0f;

@@ -57,6 +57,21 @@ void SEPlayer::PlaySE(const std::string& filePath, float volume, int channelID)
 	seMap_[channelID].push_back(audioPlayer);
 }
 
+void SEPlayer::PlayRandomSE(const std::string& filePath, int maxRandomCount, float volume, int channelID)
+{
+	// 名前を' | 'で分割する
+	std::vector<std::string> splitName = LWP::Utility::Split(filePath, '.');
+
+	// 最終的なパスを求める
+	std::string path = "SE/" + splitName[0] + std::to_string(LWP::Utility::Random::GenerateInt(1, maxRandomCount)) + "." + splitName[1];
+
+	// 新規オーディオプレイヤーの生成と再生
+	AudioPlayer audioPlayer(path, volume, false, &masterVolume_);
+	audioPlayer.Play();
+	// 指定されたチャンネルIDに追加
+	seMap_[channelID].push_back(audioPlayer);
+}
+
 void SEPlayer::SetVolume(const float volume, const int channelID)
 {
 	// 効果音配列取得
