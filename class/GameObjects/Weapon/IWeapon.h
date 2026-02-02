@@ -246,7 +246,7 @@ protected:
 	Actor* actor_;
 
 	// 光の柱
-	LWP::Primitive::NormalBillboard2D lightPillar_;
+	LWP::Primitive::NormalHorizontalBillboard lightPillar_;
 
 	// 攻撃エフェクト
 	Emitter* attackEffectEmitter_ = nullptr;
