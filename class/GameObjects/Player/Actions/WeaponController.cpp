@@ -202,10 +202,6 @@ void WeaponController::Update() {
 		bulletNums_[(WeaponSide)side]->SetParent(&(sampleWeaponSurface_[(WeaponSide)side].worldTF));
 		bulletNums_[(WeaponSide)side]->Update();
 	}
-	//hpCircleSurface_.DebugGUI();
-	//CalcHP();
-	//hpPlane_->SetCenter(transformHpPlane_.translation);
-	//hpPlane_->SetScale(transformHpPlane_.scale);
 }
 
 void WeaponController::CalcHP(Health* health) {
@@ -214,8 +210,6 @@ void WeaponController::CalcHP(Health* health) {
 	float ratio = now / max;
 	hpCircleSurface_.anchorPoint.y = 1.0f - ratio;
 	hpCircleSurface_.clipRect.min.y = (1.0f - ratio) * circleTextureSize_.y;
-	//hpPlane_->SetNum(int32_t(ratio * 100.0f));
-	//hpPlane_->Update();
 }
 
 void WeaponController::CalcGauge(LWP::Primitive::ClipSurface* gauge, float value) {

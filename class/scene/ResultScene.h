@@ -25,6 +25,11 @@ public: // ** 純粋仮想関数の実体宣言 ** //
 
 	void ChangeTitleScene();
 
+private: //ステート関数
+	void Phase1KnockOut();
+	void Phase2Score();
+	void Phase3ToTitle();
+
 private: // ** これより先に必要な処理や変数を記述 ** //
 
 	// キー入力を促すスプライト
@@ -40,4 +45,6 @@ private: // ** これより先に必要な処理や変数を記述 ** //
 	bool isChangeScene_ = false;
 
 	int animationLength_ = 24;
+
+	std::function<void()> state_;
 };
