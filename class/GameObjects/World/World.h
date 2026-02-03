@@ -2,6 +2,7 @@
 #include "IWorld.h"
 #include "../../Componets/BehaviourTree/Actor/ActorManager.h"
 #include <Adapter.h>
+#include "Field/Field.h"
 
 /// <summary>
 /// ワールドクラス
@@ -26,6 +27,11 @@ public:
 	/// 消去
 	/// </summary>
 	void Clear();
+
+	/// <summary>
+	/// 最終処理
+	/// </summary>
+	void EndFrame();
 
 public:
 	/// <summary>
@@ -87,6 +93,9 @@ private:
 private:
 	//アクターマネージャー
 	ActorManager actorManager;
+
+	// フィールドクラス
+	Field* filed_ = nullptr;
 
 	//天球
 	LWP::Resource::RigidModel skydome_;

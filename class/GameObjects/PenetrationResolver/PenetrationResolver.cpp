@@ -60,10 +60,10 @@ void PenetrationResolver::CheckPushOutObject() {
 			// 相手との距離
 			Vector3 dist = (*itrB).target->GetWorldTF()->GetWorldPosition() - (*itrA).target->GetWorldTF()->GetWorldPosition();
 			// 押し出し範囲以上なら終了
-			if (dist.Length() > (*itrA).range) { continue; }
+			if (dist.Length() > (*itrA).range + (*itrB).range) { continue; }
 
 			// 押し出し量決定
-			float value = dist.Length() - (*itrA).range;
+			float value = dist.Length() - ((*itrA).range + (*itrB).range);
 			(*itrA).offset = (dist.Normalize() * value);
 			(*itrA).target->SetTranslation((*itrA).target->GetWorldTF()->GetWorldPosition() + (*itrA).offset);
 		}

@@ -307,6 +307,7 @@ void GameScene::Update() {
 	// 更新処理終了時に呼ぶ処理
 	enemyManager_->EndFrame();
 	AttackManager::GetInstance()->EndFrame();
+	world_->EndFrame();
 
 	// コントローラー
 	VirtualController::GetInstance()->Update();

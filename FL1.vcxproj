@@ -209,6 +209,7 @@
     <ClCompile Include="class\GameObjects\Weapon\IWeapon.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Melee\IMelee.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Melee\Melee.cpp" />
+    <ClCompile Include="class\GameObjects\World\Field\Prop.cpp" />
     <ClCompile Include="class\scene\TutorialScene.cpp" />
     <ClCompile Include="class\scene\GameScene.cpp" />
     <ClCompile Include="class\scene\ResultScene.cpp" />
@@ -238,7 +239,7 @@
     <ClCompile Include="class\Componets\BehaviourTree\LeafNode\WaitLeaf.cpp" />
     <ClCompile Include="class\GameObjects\Player\Player.cpp" />
     <ClCompile Include="class\GameObjects\Skydome\Skydome.cpp" />
-    <ClCompile Include="class\GameObjects\World\Field.cpp" />
+    <ClCompile Include="class\GameObjects\World\Field\Field.cpp" />
     <ClCompile Include="class\GameObjects\World\World.cpp" />
     <ClCompile Include="class\GameObjects\Camera\FollowCamera\FollowCamera.cpp" />
     <ClCompile Include="class\GameObjects\Enemy\State\EscapeState.cpp" />
@@ -354,6 +355,8 @@
     <ClInclude Include="class\GameObjects\Weapon\Melee\IMelee.h" />
     <ClInclude Include="class\GameObjects\Weapon\Melee\Melee.h" />
     <ClInclude Include="class\GameObjects\Weapon\WeaponConfig.h" />
+    <ClInclude Include="class\GameObjects\World\Field\Prop.h" />
+    <ClInclude Include="class\GameObjects\World\Field\PropStructs.h" />
     <ClInclude Include="class\scene\TutorialScene.h" />
     <ClInclude Include="class\scene\GameScene.h" />
     <ClInclude Include="class\scene\ResultScene.h" />
@@ -390,7 +393,7 @@
     <ClInclude Include="class\Componets\BehaviourTree\NodeResult.h" />
     <ClInclude Include="class\GameObjects\Player\Player.h" />
     <ClInclude Include="class\GameObjects\Skydome\Skydome.h" />
-    <ClInclude Include="class\GameObjects\World\Field.h" />
+    <ClInclude Include="class\GameObjects\World\Field\Field.h" />
     <ClInclude Include="class\GameObjects\World\IWorld.h" />
     <ClInclude Include="class\GameObjects\World\World.h" />
     <ClInclude Include="class\GameObjects\Camera\FollowCamera\FollowCamera.h" />
