@@ -63,7 +63,7 @@ void ResultScene::Initialize() {
 	sceneChangeAnimation_ = std::make_unique<DefaultSceneChangeAnimation>();
 	sceneChangeAnimation_->Initialize();
 	sceneChangeAnimation_->SetAnimationLength(animationLength_);
-	sceneChangeAnimation_->Start(0);
+	//sceneChangeAnimation_->Start(0);
 	isChangeScene_ = false;
 
 	state_ = std::bind(&ResultScene::Phase1KnockOut,this);
