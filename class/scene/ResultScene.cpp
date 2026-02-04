@@ -50,14 +50,14 @@ void ResultScene::Initialize() {
 	ScoreCounter::GetInstance()->ClearDrawScore();
 	
 	//仮値
-	ScoreCounter::GetInstance()->AddScore(12345);
+	//ScoreCounter::GetInstance()->AddScore(12345);
 
 	knockOut_ = std::make_unique<ScoreUI>();
 	knockOut_->Initialize(3);
 	knockOut_->SetIsScoreDisplay(false);
 
 	//撃破数を取ってくる
-	killCount_ = 999;
+	killCount_ = ScoreCounter::GetInstance()->GetKillCount();
 	drawKillCount_ = 0;
 
 	sceneChangeAnimation_ = std::make_unique<DefaultSceneChangeAnimation>();
