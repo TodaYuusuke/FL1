@@ -36,6 +36,15 @@ public: // メンバ関数
 	void PlaySE(const std::string& filePath, float volume, int channelID);
 
 	/// <summary>
+	/// 再生関数
+	/// </summary>
+	/// <param name="filePath">オーディオまでのファイルパス</param>
+	/// <param name="volume">音量</param>
+	/// <param name="channelID">再生するチャンネルID</param>
+	/// <param name="pos">音の発生座標</param>
+	AudioPlayer& PlaySE(const std::string& filePath, float volume, int channelID, const LWP::Math::Vector3& pos);
+
+	/// <summary>
 	/// 引数で指定された数からランダムな数を求め、末尾に追加したパスで再生する関数
 	/// </summary>
 	/// <param name="filePath">オーディオまでのファイルパス</param>
@@ -44,7 +53,23 @@ public: // メンバ関数
 	/// <param name="channelID">再生するチャンネルID</param>
 	void PlayRandomSE(const std::string& filePath, int maxRandomCount, float volume, int channelID);
 
+	/// <summary>
+	/// 再生関数
+	/// </summary>
+	/// <param name="filePath">オーディオまでのファイルパス</param>
+	/// <param name="volume">音量</param>
+	/// <param name="maxRandomCount">ランダム最大数</param>
+	/// <param name="channelID">再生するチャンネルID</param>
+	/// <param name="pos">音の発生座標</param>
+	AudioPlayer& PlayRandomSE(const std::string& filePath, int maxRandomCount, float volume, int channelID, const LWP::Math::Vector3& pos);
+
 public: // アクセッサ等
+
+	/// <summary>
+	/// リスナーセッター
+	/// </summary>
+	/// <param name="listener">リスナー</param>
+	void SetListener(const LWP::Object::TransformQuat* listener) { listener_ = listener; }
 
 	/// <summary>
 	/// 指定されたチャンネルの音量を調節する
@@ -63,6 +88,9 @@ private: // メンバ変数
 
 	// 効果音全体の音量
 	float masterVolume_ = 1.0f;
+
+	// リスナー座標
+	const LWP::Object::TransformQuat* listener_ = nullptr;
 
 	// 効果音マップ
 	std::map<int, std::vector<AudioPlayer>> seMap_{};

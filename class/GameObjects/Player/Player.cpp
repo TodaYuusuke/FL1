@@ -340,7 +340,7 @@ void Player::OnCollision(LWP::Object::Collision* hitTarget) {
 	hp_->Damage(world_->FindAttackPower(hitTarget->name), hitTarget->name);
 }
 
-void Player::PlayShotAnim(int weaponSide)
+void Player::PlayAttackAnim(int weaponSide)
 {
 	// 武器の情報取得
 	if (weaponController_->GetWeaponSlot(static_cast<WeaponSide>(weaponSide)) == nullptr) { return; }

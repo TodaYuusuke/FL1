@@ -42,6 +42,14 @@ public:
 	void SetFloatHeight(float height) { model_.worldTF.translation.y = height; }
 #pragma endregion
 
+public: // 演出用関数群
+
+	/// <summary>
+	/// 射撃アニメーション再生関数
+	/// </summary>
+	/// <param name="weaponSide">武器の場所</param>
+	void PlayAttackAnim(const int weaponSide = 0) override;
+
 private:
 	/// <summary>
 	/// 移動処理

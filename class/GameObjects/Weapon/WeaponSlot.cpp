@@ -87,7 +87,7 @@ void WeaponSlot::Attack() {
 
 	// 攻撃中なら適したアニメーションを再生
 	if(weapons_.front()->GetIsAttacking()) {
-		target_->PlayShotAnim(weaponSide_);
+		target_->PlayAttackAnim(weaponSide_);
 	}
 }
 

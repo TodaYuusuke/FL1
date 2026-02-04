@@ -69,7 +69,7 @@ void Actor::Attack() {
 
 				// 攻撃中なら適したアニメーションを再生
 				if (weapons_[i]->GetIsAttacking()) {
-					PlayMelleAnim(i);
+					PlayAttackAnim(i);
 				}
 				continue;
 			}
@@ -81,7 +81,7 @@ void Actor::Attack() {
 
 				// 攻撃中なら適したアニメーションを再生
 				if (weapons_[i]->GetIsAttacking()) {
-					PlayShotAnim(i);
+					PlayAttackAnim(i);
 				}
 				continue;
 			}
@@ -104,9 +104,9 @@ void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
 	hp_->Damage(world_->FindAttackPower(hitTarget->name), hitTarget->name);
 
 	// 被弾音を鳴らす
-	SEPlayer::GetInstance()->PlayRandomSE("HitSound.mp3", 4, 1.0f, AudioConfig::Enviroment);
+	SEPlayer::GetInstance()->PlayRandomSE("HitSound.mp3", 4, 1.0f, AudioConfig::Enviroment, model_.GetJointWorldPosition("LockOnAnchor"));
 	// 被弾エフェクト
-	EffectManager::GetInstance()->CreateNewEmitter("Spark", model_.GetJointWorldPosition("LockOnAnchor"));
+	EffectManager::GetInstance()->CreateNewEmitter("Spark", hitTarget->GetWorldPosition());
 }
 
 void Actor::ChangeState(StateBase* nextState) {
