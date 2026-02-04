@@ -103,8 +103,19 @@ void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
 	// ダメージを受ける
 	hp_->Damage(world_->FindAttackPower(hitTarget->name), hitTarget->name);
 
+	// 死亡時は爆発エフェクトと効果音も出す
+	if (hp_->GetIsDead()) {
+		// 死亡地点に爆発エフェクト、音を再生
+		EffectManager::GetInstance()->CreateNewEmitter("SerialExplosion", model_.GetJointWorldPosition("LockOnAnchor"));
+		SEPlayer::GetInstance()->PlaySE("SerialExplosion.mp3", 1.0f, LWP::AudioConfig::Enemy, model_.GetJointWorldPosition("LockOnAnchor"))
+			.SetMinDistance(50.0f)
+			.SetMaxDistance(300.0f)
+			.SetMinVolumeMultiply(0.25f);
+	}
+
 	// 被弾音を鳴らす
-	SEPlayer::GetInstance()->PlayRandomSE("HitSound.mp3", 4, 1.0f, AudioConfig::Enviroment, model_.GetJointWorldPosition("LockOnAnchor"));
+	SEPlayer::GetInstance()->PlayRandomSE("HitSound.mp3", 4, 1.0f, AudioConfig::Enviroment, model_.GetJointWorldPosition("LockOnAnchor"))
+		.SetMinVolumeMultiply(0.5f);
 	// 被弾エフェクト
 	EffectManager::GetInstance()->CreateNewEmitter("Spark", hitTarget->GetWorldPosition());
 }
