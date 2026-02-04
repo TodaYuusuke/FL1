@@ -74,6 +74,13 @@ private: // 継承先メンバ変数
 	// 当たり判定半径
 	float radius_ = 1.0f;
 
+	// 弾用コライダー
+	LWP::Object::Collider::Capsule& bodyCapsule_;
+	// 弾用コライダー半径
+	float capsuleRadius_ = 1.0f;
+	// 弾用コライダー高さ
+	float capsuleHeight_ = 1.0f;
+
 #pragma region デバッグ用変数
 
 	// コライダー用球

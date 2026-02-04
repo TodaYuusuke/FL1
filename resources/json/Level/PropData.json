@@ -1,4 +1,28 @@
 {
+    "Group :Building2-0": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7008529305458069,
+            0.0,
+            -0.7133052349090576
+        ],
+        "Vector3 :Pos": [
+            -50.0,
+            0.0,
+            100.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 1.0,
+        "float :ColliderHeight": 1.0,
+        "float :Radius": 5.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Building2/Building2.gltf",
+        "string :Name": "Building2"
+    },
     "Group :Prop-0": {
         "Quaternion :Rotate": [
             0.0,
@@ -9,14 +33,16 @@
         "Vector3 :Pos": [
             150.0,
             0.0,
-            0.0
+            150.0
         ],
         "Vector3 :Scale": [
             1.0,
             1.0,
             1.0
         ],
-        "float :Radius": 30.0,
+        "float :CapsuleRadius": 15.0,
+        "float :ColliderHeight": 30.0,
+        "float :Radius": 10.0,
         "int32_t :Priority": 2,
         "string :ModelPath": "Building1/Building1.gltf",
         "string :Name": "Prop"
@@ -24,23 +50,73 @@
     "Group :Prop-1": {
         "Quaternion :Rotate": [
             0.0,
-            0.7008529305458069,
             0.0,
-            -0.7133052349090576
+            0.0,
+            1.0
         ],
         "Vector3 :Pos": [
+            -150.0,
             0.0,
-            0.0,
-            0.0
+            150.0
         ],
         "Vector3 :Scale": [
-            0.10000000149011612,
-            0.10000000149011612,
-            0.10000000149011612
+            1.0,
+            1.0,
+            1.0
         ],
-        "float :Radius": 1.0,
+        "float :CapsuleRadius": 1.0,
+        "float :ColliderHeight": 1.0,
+        "float :Radius": 20.0,
         "int32_t :Priority": 2,
-        "string :ModelPath": "Building2/Building2.gltf",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-2": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            150.0,
+            0.0,
+            -150.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 1.0,
+        "float :ColliderHeight": 1.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-3": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            -150.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 1.0,
+        "float :ColliderHeight": 1.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Building1/Building1.gltf",
         "string :Name": "Prop"
     }
 }

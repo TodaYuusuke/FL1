@@ -1,10 +1,12 @@
 #include "Prop.h"
+#include "../../Collision/CollisionMask.h"
 
 using namespace LWP::Math;
 using namespace LWP::Utility;
 using namespace LWP::Base;
 
 Prop::Prop(const std::string& name, const std::string& filePath, const float radius, const int priority)
+	 : bodyCapsule_(bodyCollision_.SetBroadShape<LWP::Object::Collider::Capsule>())
 {
 	// 名称取得
 	name_ = name;
@@ -26,11 +28,33 @@ Prop::Prop(const std::string& name, const std::string& filePath, const float rad
 	priority_ = priority;
 	radius_ = radius;
 
+	// 判定生成
+	Vector3 dirVec = Vector3(0.0f, 1.0f, 0.0f) * Matrix4x4::CreateRotateXYZMatrix(model_.worldTF.rotation);
+	bodyCapsule_.localOffset = dirVec.Normalize() * data_.CapsuleHeight;
+	bodyCapsule_.radius = data_.CapsuleRadius;
+	bodyCollision_.SetFollow(&model_.worldTF);
+	bodyCollision_.isActive = true;
+	// 自機の所属しているマスクを設定
+	bodyCollision_.mask.SetBelongFrag(GameMask::player);
+	// 当たり判定をとる対象のマスクを設定
+	bodyCollision_.mask.SetHitFrag(GameMask::attack);
+	bodyCollision_.stayLambda = [this](LWP::Object::Collision* hitTarget) {
+		OnCollision(hitTarget);
+		};
+
+#ifdef _DEBUG
+
 	colliderSphere_.LoadSphere();
 	colliderSphere_.worldTF.Parent(&model_.worldTF);
+	colliderSphere_.ChangeFillMode();
+	colliderSphere_.worldTF.scale = { radius_, radius_, radius_ };
+
+#endif // _DEBUG
+
 }
 
 Prop::Prop(const LWP::Prop::PropSaveData& data)
+	: bodyCapsule_(bodyCollision_.SetBroadShape<LWP::Object::Collider::Capsule>())
 {
 	// データ受け取り
 	data_ = data;
@@ -44,11 +68,33 @@ Prop::Prop(const LWP::Prop::PropSaveData& data)
 	model_.worldTF.rotation		= data_.Rotate;
 	model_.worldTF.scale		= data_.Scale;
 	// 優先度取得
-	priority_	= data_.Priority;
-	radius_		= data_.Radius;
+	priority_		= data_.Priority;
+	radius_			= data_.Radius;
+	capsuleRadius_	= data_.CapsuleRadius;
+	capsuleHeight_	= data_.CapsuleHeight;
+
+	// 判定生成
+	Vector3 dirVec = Vector3(0.0f, 1.0f, 0.0f) * Matrix4x4::CreateRotateXYZMatrix(model_.worldTF.rotation);
+	bodyCapsule_.localOffset = dirVec.Normalize() * data_.CapsuleHeight;
+	bodyCapsule_.radius = data_.CapsuleRadius;
+	bodyCollision_.SetFollow(&model_.worldTF);
+	bodyCollision_.isActive = true;
+	// 自機の所属しているマスクを設定
+	bodyCollision_.mask.SetBelongFrag(GameMask::player);
+	// 当たり判定をとる対象のマスクを設定
+	bodyCollision_.mask.SetHitFrag(GameMask::attack);
+	bodyCollision_.stayLambda = [this](LWP::Object::Collision* hitTarget) {
+		OnCollision(hitTarget);
+	};
+
+#ifdef _DEBUG
 
 	colliderSphere_.LoadSphere();
 	colliderSphere_.worldTF.Parent(&model_.worldTF);
+	colliderSphere_.ChangeFillMode();
+	colliderSphere_.worldTF.scale = { radius_, radius_, radius_ };
+
+#endif // _DEBUG
 }
 
 void Prop::DrawGui()
@@ -81,7 +127,18 @@ void Prop::DrawGui()
 	ImGui::DragFloat("ColliderRadius", &radius_, 0.01f);
 	ImGui::NewLine();
 
+	// 半径設定
+	ImGui::DragFloat("BulletColliderHeight", &capsuleHeight_, 0.01f);
+	ImGui::DragFloat("BulletColliderRadius", &capsuleRadius_, 0.01f);
+	ImGui::NewLine();
+
+	// スケールを合わせる
 	colliderSphere_.worldTF.scale = { radius_, radius_, radius_ };
+
+	// 高さを元にコライダー調整
+	Vector3 dirVec = Vector3(0.0f, 1.0f, 0.0f) * Matrix4x4::CreateRotateXYZMatrix(model_.worldTF.rotation);
+	bodyCapsule_.localOffset = dirVec.Normalize() * capsuleHeight_;
+	bodyCapsule_.radius = capsuleRadius_;
 
 	// ボタンを押したら削除
 	ImGui::NewLine();
@@ -120,12 +177,14 @@ void Prop::ImGuiRadioButton(int& id, int& buttonID, Prop*& targetProp)
 LWP::Prop::PropSaveData* Prop::GetData()
 {
 	// 各種情報の入力
-	data_.Name			= name_;
-	data_.Pos			= model_.worldTF.translation;
-	data_.Rotate		= model_.worldTF.rotation;
-	data_.Scale			= model_.worldTF.scale;
-	data_.Priority		= priority_;
-	data_.Radius		= radius_;
+	data_.Name				= name_;
+	data_.Pos				= model_.worldTF.translation;
+	data_.Rotate			= model_.worldTF.rotation;
+	data_.Scale				= model_.worldTF.scale;
+	data_.Priority			= priority_;
+	data_.Radius			= radius_;
+	data_.CapsuleRadius		= capsuleRadius_;
+	data_.CapsuleHeight		= capsuleHeight_;
 
 	// 返還
 	return &data_;

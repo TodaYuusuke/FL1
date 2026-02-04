@@ -65,7 +65,9 @@ void PenetrationResolver::CheckPushOutObject() {
 			// 押し出し量決定
 			float value = dist.Length() - ((*itrA).range + (*itrB).range);
 			(*itrA).offset = (dist.Normalize() * value);
-			(*itrA).target->SetTranslation((*itrA).target->GetWorldTF()->GetWorldPosition() + (*itrA).offset);
+			LWP::Math::Vector3 newTranslation = (*itrA).target->GetWorldTF()->GetWorldPosition() + (*itrA).offset;
+			newTranslation.y = 0.0f;
+			(*itrA).target->SetTranslation(newTranslation);
 		}
 	}
 }

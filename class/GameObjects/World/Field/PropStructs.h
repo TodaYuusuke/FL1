@@ -17,6 +17,8 @@ namespace LWP::Prop {
 		LWP::Math::Vector3 Scale{};
 		int Priority = 2;
 		float Radius = 1.0f;
+		float CapsuleRadius = 1.0f;
+		float CapsuleHeight = 1.0f;
 
 		void AddValue(const std::string& id, LWP::Utility::JsonIO& jsonIO) {
 			// ID名でグループ開始
@@ -27,7 +29,9 @@ namespace LWP::Prop {
 				.AddValue("Rotate", &Rotate)
 				.AddValue("Scale", &Scale)
 				.AddValue("Priority", &Priority)
-				.AddValue("Radius", &Radius);
+				.AddValue("Radius", &Radius)
+				.AddValue("CapsuleRadius", &CapsuleRadius)
+				.AddValue("ColliderHeight", &CapsuleHeight);
 			jsonIO.EndGroup();
 		}
 	};
