@@ -227,13 +227,6 @@ public:// アクセサ
 	//void SetIsDestroy(bool isActive) { isDestroy_ = isActive; }
 #pragma endregion
 
-public: // 演出用関数群
-
-	/// <summary>
-	///  攻撃エフェクトの再生関数
-	/// </summary>
-	virtual void PlayAttackEffect() {};
-
 protected:
 	// ヒットストップ
 	HitStopController* stopController_;
@@ -253,7 +246,8 @@ protected:
 	Actor* actor_;
 
 	// 光の柱
-	LWP::Primitive::NormalBillboard2D lightPillar_;
+	//LWP::Primitive::NormalHorizontalBillboard lightPillar_;
+	LWP::Primitive::NormalSurface lightPillar_;
 
 	// 攻撃エフェクト
 	Emitter* attackEffectEmitter_ = nullptr;

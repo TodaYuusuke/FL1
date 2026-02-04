@@ -28,6 +28,24 @@ Emitter::Emitter(const std::string& path, const LWP::Math::Vector3& pos)
 	transform_.translation = pos;
 }
 
+Emitter::Emitter(LWP::Resource::Texture texID, int surfaceType, const LWP::Math::Vector3& pos, const LWP::Math::Vector2& splitSize, float animTime, bool isAnimLoop)
+{
+	// テクスチャIDの取得
+	tex_ = texID;
+	// タイプ指定
+	particleType_ = Sequence;
+	// 平面タイプの取得
+	surfaceType_ = surfaceType;
+
+	// エミッタ座標の初期設定
+	transform_.translation = pos;
+
+	// 各種変数の値受け取り
+	splitSize_ = splitSize;
+	animTime_ = animTime;
+	isAnimLoop_ = isAnimLoop;
+}
+
 Emitter::~Emitter()
 {
 	// 全ての粒子要素の解放
@@ -230,6 +248,9 @@ void Emitter::Emit()
 		case Emitter::Surface: // 平面
 			EmitSurface();
 			break;
+		case Emitter::Sequence: // 連番
+			EmitSequence();
+			break;
 		case Emitter::Model3D: // 3Dモデル
 			EmitModel();
 			break;
@@ -270,6 +291,84 @@ void Emitter::EmitSurface()
 
 	// パーティクルインスタンス生成
 	PlaneParticle* newParticle = new PlaneParticle(std::move(generatePlane), surfaceType_ == StretchBillboard);
+	// 初期化、データの受け渡し
+	newParticle->Init()
+		.SetParent(&transform_)
+		.SetAliveTime(pAliveTime_.Random())
+		.SetRotateVelocity(pVelocityRotate_.Convert())
+		.SetScaleEasing(pEasingScale_.Convert(), unificationRandomScale_)
+		.SetColorEasing(pEasingColor_.Convert());
+
+	// 個別設定
+	if (pVelocityPos_.isUsed) {
+		newParticle->SetVelocity(pVelocityPos_.Convert());
+	}
+	else {
+		newParticle->SetEasing(pEasingPos_.Convert());
+	}
+
+	// パーティクルを配列に追加
+	particles_.push_back(newParticle);
+}
+
+void Emitter::EmitSequence()
+{
+	// 空の平面を用意
+	std::unique_ptr<IPlane> generatePlane = nullptr;
+	int* index = nullptr;
+
+	// 生成する平面のタイプによって処理を分岐
+	switch (surfaceType_)
+	{
+	case Emitter::Normal: // 通常平面
+	{
+		std::unique_ptr<LWP::Primitive::SequenceSurface> ss = std::make_unique<LWP::Primitive::SequenceSurface>();
+		ss->SetSplitSize(splitSize_);
+		index = &ss->index;
+		generatePlane = std::move(ss);
+		break;
+	}
+	case Emitter::Billboard: // ビルボード平面
+	{
+		std::unique_ptr<LWP::Primitive::SequenceBillboard2D> sb2D = std::make_unique<LWP::Primitive::SequenceBillboard2D>();
+		sb2D->SetSplitSize(splitSize_);
+		index = &sb2D->index;
+		generatePlane = std::move(sb2D);
+		break;
+	}
+	case Emitter::HorizontalBillboard: // 縦軸固定ビルボード
+	{
+		std::unique_ptr<LWP::Primitive::SequenceHorizontalBillboard> shb = std::make_unique<LWP::Primitive::SequenceHorizontalBillboard>();
+		shb->SetSplitSize(splitSize_);
+		index = &shb->index;
+		generatePlane = std::move(shb);
+		break;
+	}
+	case Emitter::VerticalBillboard: // 横軸固定ビルボード
+	{
+		std::unique_ptr<LWP::Primitive::SequenceVerticalBillboard> svb = std::make_unique<LWP::Primitive::SequenceVerticalBillboard>();
+		svb->SetSplitSize(splitSize_);
+		index = &svb->index;
+		generatePlane = std::move(svb);
+		break;
+	}
+		
+	case Emitter::StretchBillboard:	// ストレッチビルボード
+	{
+		// ストレッチビルボードの生成
+		std::unique_ptr<LWP::Primitive::SequenceStretchedBillboard> ssb = std::make_unique<LWP::Primitive::SequenceStretchedBillboard>();
+		ssb->SetSplitSize(splitSize_);
+		index = &ssb->index;
+		generatePlane = std::move(ssb);
+		break;
+	}		
+	}
+
+	// 平面テクスチャの変更
+	generatePlane->material.texture = tex_;
+
+	// パーティクルインスタンス生成
+	SequenceParticle* newParticle = new SequenceParticle(std::move(generatePlane), index, splitSize_, animTime_, isAnimLoop_, surfaceType_ == StretchBillboard);
 	// 初期化、データの受け渡し
 	newParticle->Init()
 		.SetParent(&transform_)

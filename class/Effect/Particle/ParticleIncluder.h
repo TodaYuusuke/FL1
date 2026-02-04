@@ -4,3 +4,4 @@
 #include "IParticle.h"
 #include "Child/PlaneParticle.h"
 #include "Child/ModelParticle.h"
+#include "Child/SequenceParticle.h"

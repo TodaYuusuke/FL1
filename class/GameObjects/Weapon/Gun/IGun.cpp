@@ -28,9 +28,8 @@ IGun::IGun(WeaponData data) {
 	magazine_ = std::make_unique<Magazine>(data_.bulletNum);
 
 	// 光柱
-	lightPillar_.Init();
-	lightPillar_.isActive = true;
 	lightPillar_.LoadTexture("Weapon/pillar_triangle.png");
+	lightPillar_.isActive = true;
 	unsigned int color = WeaponConfig::TextureName::LightPillar::Color::Weapon::color[data_.type];
 	lightPillar_.material.color = LWP::Utility::Color(color);
 	lightPillar_.material.color.A = 100;
@@ -100,9 +99,13 @@ void IGun::Update() {
 	AttackCommond();
 
 	// 武器の光柱表示
-	if (actor_) lightPillar_.isActive = false;
-	else lightPillar_.isActive = true;
-	lightPillar_.worldTF.translation = body_.worldTF.GetWorldPosition();
+	if (actor_) {
+		lightPillar_.isActive = false;
+	}
+	else {
+		lightPillar_.isActive = true;
+		lightPillar_.worldTF.translation = body_.worldTF.GetWorldPosition();
+	}
 
 	attackFrame_ -= stopController_->GetDeltaTime();
 	coolFrame_ -= stopController_->GetDeltaTime();
@@ -247,7 +250,7 @@ void IGun::AttackCommond() {
 		}
 		// 弾生成
 		pBulletManager_->CreateAttack(data_.bulletType, target_, this, body_.GetJointWorldPosition("Muzzle"), bulletHitFragBit_, bulletBelongFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
-		
+
 		// エミッタが存在する場合射撃エフェクトを生成
 		if (attackEffectEmitter_ != nullptr) {
 			attackEffectEmitter_->Emit();
@@ -293,10 +296,4 @@ void IGun::BurstMode() {
 void IGun::FullAutoMode() {
 	shotType_ = ShotType::kFullAuto;
 	attackFrame_ = data_.shotIntervalTime * 60.0f;
-}
-
-void IGun::PlayAttackEffect()
-{
-	// エフェクトの生成処理を呼び出す
-	attackEffectEmitter_->Emit();
 }
