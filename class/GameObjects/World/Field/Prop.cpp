@@ -1,5 +1,7 @@
 #include "Prop.h"
 #include "../../Collision/CollisionMask.h"
+#include "../../../Audio/SEPlayer.h"
+#include "../../../Effect/EffectManager.h"
 
 using namespace LWP::Math;
 using namespace LWP::Utility;
@@ -28,6 +30,9 @@ Prop::Prop(const std::string& name, const std::string& filePath, const float rad
 	priority_ = priority;
 	radius_ = radius;
 
+	// HP
+	hp_ = std::make_unique<Health>(99999999999);
+
 	// 判定生成
 	Vector3 dirVec = Vector3(0.0f, 1.0f, 0.0f) * Matrix4x4::CreateRotateXYZMatrix(model_.worldTF.rotation);
 	bodyCapsule_.localOffset = dirVec.Normalize() * data_.CapsuleHeight;
@@ -35,7 +40,7 @@ Prop::Prop(const std::string& name, const std::string& filePath, const float rad
 	bodyCollision_.SetFollow(&model_.worldTF);
 	bodyCollision_.isActive = true;
 	// 自機の所属しているマスクを設定
-	bodyCollision_.mask.SetBelongFrag(GameMask::player);
+	bodyCollision_.mask.SetBelongFrag(GameMask::enemy);
 	// 当たり判定をとる対象のマスクを設定
 	bodyCollision_.mask.SetHitFrag(GameMask::attack);
 	bodyCollision_.stayLambda = [this](LWP::Object::Collision* hitTarget) {
@@ -73,6 +78,9 @@ Prop::Prop(const LWP::Prop::PropSaveData& data)
 	capsuleRadius_	= data_.CapsuleRadius;
 	capsuleHeight_	= data_.CapsuleHeight;
 
+	// HP
+	hp_ = std::make_unique<Health>(99999999999);
+
 	// 判定生成
 	Vector3 dirVec = Vector3(0.0f, 1.0f, 0.0f) * Matrix4x4::CreateRotateXYZMatrix(model_.worldTF.rotation);
 	bodyCapsule_.localOffset = dirVec.Normalize() * data_.CapsuleHeight;
@@ -80,7 +88,7 @@ Prop::Prop(const LWP::Prop::PropSaveData& data)
 	bodyCollision_.SetFollow(&model_.worldTF);
 	bodyCollision_.isActive = true;
 	// 自機の所属しているマスクを設定
-	bodyCollision_.mask.SetBelongFrag(GameMask::player);
+	bodyCollision_.mask.SetBelongFrag(GameMask::enemy);
 	// 当たり判定をとる対象のマスクを設定
 	bodyCollision_.mask.SetHitFrag(GameMask::attack);
 	bodyCollision_.stayLambda = [this](LWP::Object::Collision* hitTarget) {
@@ -188,5 +196,28 @@ LWP::Prop::PropSaveData* Prop::GetData()
 
 	// 返還
 	return &data_;
+}
+
+void Prop::OnCollision(LWP::Object::Collision* hitTarget)
+{
+	if (hitTarget->mask.GetHitFrag() != bodyCollision_.mask.GetBelongFrag()) { return; }
+	hp_->SetIsHit(true);
+	// 多重被弾回避
+	std::vector<std::string> name = hp_->GetDamageAttackerName();
+	if (!name.empty()) {
+		auto result = std::find(name.begin(), name.end(), hitTarget->name);
+		if (result != name.end()) {
+			return;
+		}
+	}
+
+	// ダメージを受ける
+	hp_->Damage(0.0f, hitTarget->name);
+
+	// 被弾音を鳴らす
+	SEPlayer::GetInstance()->PlayRandomSE("PropHitSound.mp3", 3, 1.0f, LWP::AudioConfig::Enviroment);
+	// 被弾エフェクト
+	EffectManager::GetInstance()->CreateNewEmitter("Spark", hitTarget->GetWorldPosition());
+	EffectManager::GetInstance()->CreateNewEmitter("RockParticle", hitTarget->GetWorldPosition());
 }
 

@@ -67,6 +67,13 @@ public: // アクセッサ等
 	/// <returns>半径</returns>
 	float GetRadius() { return radius_; }
 
+private: // プライベートなメンバ関数
+
+	/// <summary>
+	/// 衝突応答
+	/// </summary>
+	void OnCollision(LWP::Object::Collision* hitTarget) override;
+
 private: // 継承先メンバ変数
 
 	// 当たり判定優先度

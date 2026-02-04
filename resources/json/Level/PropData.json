@@ -16,8 +16,8 @@
             1.0,
             1.0
         ],
-        "float :CapsuleRadius": 1.0,
-        "float :ColliderHeight": 1.0,
+        "float :CapsuleRadius": 3.119999885559082,
+        "float :ColliderHeight": 9.25,
         "float :Radius": 5.0,
         "int32_t :Priority": 2,
         "string :ModelPath": "Building2/Building2.gltf",
@@ -40,9 +40,9 @@
             1.0,
             1.0
         ],
-        "float :CapsuleRadius": 15.0,
-        "float :ColliderHeight": 30.0,
-        "float :Radius": 10.0,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
         "int32_t :Priority": 2,
         "string :ModelPath": "Building1/Building1.gltf",
         "string :Name": "Prop"
@@ -64,8 +64,8 @@
             1.0,
             1.0
         ],
-        "float :CapsuleRadius": 1.0,
-        "float :ColliderHeight": 1.0,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
         "float :Radius": 20.0,
         "int32_t :Priority": 2,
         "string :ModelPath": "Building1/Building1.gltf",
@@ -88,8 +88,8 @@
             1.0,
             1.0
         ],
-        "float :CapsuleRadius": 1.0,
-        "float :ColliderHeight": 1.0,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
         "float :Radius": 20.0,
         "int32_t :Priority": 2,
         "string :ModelPath": "Building1/Building1.gltf",
@@ -112,8 +112,8 @@
             1.0,
             1.0
         ],
-        "float :CapsuleRadius": 1.0,
-        "float :ColliderHeight": 1.0,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
         "float :Radius": 20.0,
         "int32_t :Priority": 2,
         "string :ModelPath": "Building1/Building1.gltf",
