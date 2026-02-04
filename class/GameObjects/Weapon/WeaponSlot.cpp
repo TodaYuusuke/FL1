@@ -83,7 +83,7 @@ void WeaponSlot::Attack() {
 	}
 
 	// 攻撃
-	weapons_.front()->Attack(GameMask::enemy, GameMask::attack | GameMask::player, actor);
+	weapons_.front()->Attack(GameMask::enemy | GameMask::prop, GameMask::attack | GameMask::player, actor);
 
 	// 攻撃中なら適したアニメーションを再生
 	if(weapons_.front()->GetIsAttacking()) {

@@ -326,7 +326,7 @@ void Player::DrawGui() {
 }
 
 void Player::OnCollision(LWP::Object::Collision* hitTarget) {
-	if (hitTarget->mask.GetHitFrag() != bodyCollision_.mask.GetBelongFrag()) { return; }
+	//if (hitTarget->mask.GetHitFrag() != bodyCollision_.mask.GetBelongFrag()) { return; }
 	hp_->SetIsHit(true);
 	// 多重被弾回避
 	std::vector<std::string> name = hp_->GetDamageAttackerName();
@@ -336,6 +336,10 @@ void Player::OnCollision(LWP::Object::Collision* hitTarget) {
 			return;
 		}
 	}
+
+	// 被弾音を鳴らす
+	SEPlayer::GetInstance()->PlayRandomSE("HitSound.mp3", 4, 1.0f, AudioConfig::Enviroment);
+
 	// ダメージを受ける
 	hp_->Damage(world_->FindAttackPower(hitTarget->name), hitTarget->name);
 }

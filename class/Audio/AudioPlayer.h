@@ -121,13 +121,13 @@ private: // メンバ変数
 	// 音量倍率
 	float volumeMultipler_ = 1.0f;
 	// 最小音量倍率
-	float minVolumeMultiply_ = 0.35f;
+	float minVolumeMultiply_ = 0.1f;
 	// 最大音量倍率
 	float maxVolumeMultiply_ = 1.0f;
 
 	// 距離減衰
-	float minDistance_ = 30.0f;		// 最小距離
-	float maxDistance_ = 200.0f;	// 最大距離
+	float minDistance_ = 20.0f;		// 最小距離
+	float maxDistance_ = 150.0f;	// 最大距離
 
 	// ループフラグ
 	bool isLoop_ = false;

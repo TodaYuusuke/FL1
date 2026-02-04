@@ -40,7 +40,7 @@ Prop::Prop(const std::string& name, const std::string& filePath, const float rad
 	bodyCollision_.SetFollow(&model_.worldTF);
 	bodyCollision_.isActive = true;
 	// 自機の所属しているマスクを設定
-	bodyCollision_.mask.SetBelongFrag(GameMask::enemy);
+	bodyCollision_.mask.SetBelongFrag(GameMask::prop);
 	// 当たり判定をとる対象のマスクを設定
 	bodyCollision_.mask.SetHitFrag(GameMask::attack);
 	bodyCollision_.stayLambda = [this](LWP::Object::Collision* hitTarget) {
@@ -95,7 +95,7 @@ Prop::Prop(const LWP::Prop::PropSaveData& data)
 		bodyCollision_.isActive = true;
 	}
 	// 自機の所属しているマスクを設定
-	bodyCollision_.mask.SetBelongFrag(GameMask::enemy);
+	bodyCollision_.mask.SetBelongFrag(GameMask::prop);
 	// 当たり判定をとる対象のマスクを設定
 	bodyCollision_.mask.SetHitFrag(GameMask::attack);
 	bodyCollision_.stayLambda = [this](LWP::Object::Collision* hitTarget) {
@@ -207,7 +207,7 @@ LWP::Prop::PropSaveData* Prop::GetData()
 
 void Prop::OnCollision(LWP::Object::Collision* hitTarget)
 {
-	if (hitTarget->mask.GetHitFrag() != bodyCollision_.mask.GetBelongFrag()) { return; }
+	//if (hitTarget->mask.GetHitFrag() != bodyCollision_.mask.GetBelongFrag()) { return; }
 	hp_->SetIsHit(true);
 	// 多重被弾回避
 	std::vector<std::string> name = hp_->GetDamageAttackerName();

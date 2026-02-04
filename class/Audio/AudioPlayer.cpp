@@ -84,5 +84,11 @@ void AudioPlayer::CheckDistanceUpdate()
 	float V = 1.0f - t;
 
 	// 二乗したもので音量設定
-	SetVolumeMultiply(V * V);
+	if (V * V <= minVolumeMultiply_) {
+		SetVolumeMultiply(minVolumeMultiply_);
+	}
+	else {
+		SetVolumeMultiply(V * V);
+	}
+	
 }

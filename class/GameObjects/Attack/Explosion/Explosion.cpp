@@ -33,7 +33,7 @@ Explosion::Explosion(const ImpactData& data, const Vector3& pos, int hitFragBit)
 	SEPlayer::GetInstance()->PlaySE("Explosion.mp3", 1.0f, AudioConfig::Enviroment, body_.worldTF.GetWorldPosition())
 		.SetMinDistance(50.0f)
 		.SetMaxDistance(300.0f)
-		.SetMinVolumeMultiply(0.35f);
+		.SetMinVolumeMultiply(0.25f);
 
 	// 体の判定生成
 	bodySphere_.radius = 10.0f;

@@ -53,7 +53,7 @@ public: // 演出用関数群
 
 private:
 	// 武器リスト
-	std::map<int, IWeapon*> weapons_;
+	//std::map<int, IWeapon*> weapons_;
 
 	// 識別番号
 	int ID_;

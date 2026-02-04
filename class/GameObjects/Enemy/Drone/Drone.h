@@ -57,8 +57,6 @@ private:
 	void Move();
 
 private:
-	// 武器リスト
-	std::map<int, IWeapon*> weapons_;
 
 	// 識別番号
 	int ID_;
