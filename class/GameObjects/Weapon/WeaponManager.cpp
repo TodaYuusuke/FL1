@@ -39,13 +39,15 @@ WeaponManager::WeaponManager() {
 	}
 	samplePickUpWeaponSprite_.isActive = false;
 	samplePickUpWeaponSprite_.anchorPoint = { 0.5f, 0.5f };
-	samplePickUpWeaponSprite_.worldTF.translation = { 400.0f, 200.0f,0.0f };
+	samplePickUpWeaponSprite_.worldTF.translation = { 330.0f, 200.0f,0.0f };
 	samplePickUpWeaponSprite_.worldTF.scale = { 1.5f, 1.5f,1.0f };
 
 	//ボタン表記
 	for (int i = 0; i < pickUpUISprite_.size(); i++) {
 		pickUpUISprite_[i].LoadTexture(controllerUIName[i]);
 	}
+
+	pickUpAnimationFrame_ = 0;
 }
 
 WeaponManager::~WeaponManager() {
@@ -74,10 +76,13 @@ void WeaponManager::Update() {
 	dropedWeaponNum_ = dropedWeaponNum;
 
 	for (int i = 0; i < pickUpWeaponSprite_.size(); i++) {
-		pickUpWeaponSprite_[i].isActive = false;
+		if (!isDrawPickUpWeaponSprite_[i]) {
+			pickUpWeaponSprite_[i].isActive = false;
+		}
 		pickUpWeaponSprite_[i].worldTF.translation = samplePickUpWeaponSprite_.worldTF.translation;
 		pickUpWeaponSprite_[i].worldTF.scale = samplePickUpWeaponSprite_.worldTF.scale;
 		pickUpWeaponSprite_[i].anchorPoint = samplePickUpWeaponSprite_.anchorPoint;
+	
 	}
 
 	for (int i = 0; i < pickUpUISprite_.size(); i++) {
@@ -98,7 +103,32 @@ void WeaponManager::Update() {
 	ClearLimitOverWeapon();
 
 	// 自機が近いなら武器を渡す
+	isPickUp_ = false;
 	CheckPlayerToWeaponDistance();
+
+	if (isPickUp_)pickUpAnimationFrame_++;
+	else pickUpAnimationFrame_--;
+	pickUpAnimationFrame_ = std::clamp(pickUpAnimationFrame_, 0, pickUpAnimationLength_);
+	PickUpAnimation();
+
+	for (int i = 0; i < pickUpWeaponLines_.size(); i++) {
+		//pickUpWeaponLines_[i].worldTF.rotation = FLMath::LookRotationZLock((pWorld_->FindActor("Player")->GetModel().GetJointWorldPosition("LockOnAnchor") - weapon->GetWorldTF()->GetWorldPosition()).Normalize());
+	}
+}
+
+void WeaponManager::PickUpAnimation() {
+	float easedT;
+	float t = float(pickUpAnimationFrame_) / float(pickUpAnimationLength_);
+	
+	float c1 = 1.70158f;
+	float c3 = c1 + 1.0f;
+
+	easedT = 1.0f + c3 * std::powf(t - 1.0f, 3) + c1 * std::powf(t - 1.0f, 2);
+
+	easedT = t;
+
+	samplePickUpWeaponSprite_.worldTF.scale.x = 1.5f * easedT;
+	samplePickUpWeaponSprite_.worldTF.scale.y = 1.5f * easedT;
 }
 
 void WeaponManager::DebugGui() {
@@ -215,9 +245,14 @@ void WeaponManager::CheckPlayerToWeaponDistance() {
 
 	// ***** 回収可能武器がないなら終了 ***** //
 	if (que.empty()) { return; }
+	for (int i = 0; i < pickUpWeaponSprite_.size(); i++) {
+		isDrawPickUpWeaponSprite_[i]=false;
+	}
 	// 拾える武器表示
 	pickUpWeaponSprite_[que.top()->GetWeaponData().type].isActive = true;
 	pickUpUISprite_[(int)controllerType_].isActive = true;
+	isDrawPickUpWeaponSprite_[que.top()->GetWeaponData().type] = true;
+	isPickUp_ = true;
 	if (!VirtualController::GetInstance()->GetPress(BindActionType::kCollect)) { return; }//お試し
 	// 武器を拾う
 	PickUpWeapon(que.top(), pWorld_->FindActor("Player"));

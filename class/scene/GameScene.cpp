@@ -156,6 +156,7 @@ void GameScene::Initialize() {
 	sceneChangeAnimation_->SetParent(player_->GetWorldTF());
 	isChangeScene_ = false;
 	isEndStartAnimation_=false;
+
 }
 
 void GameScene::Update() {
@@ -189,7 +190,8 @@ void GameScene::Update() {
 	followCamera_->Update();
 
 	//スコア表示(テスト)
-	score_->SetScore(ScoreCounter::GetInstance()->GetScore());
+	ScoreCounter::GetInstance()->Update();
+	score_->SetScore(ScoreCounter::GetInstance()->GetDrawScore());
 	score_->Update();
 
 	//ミニマップ

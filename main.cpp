@@ -3,6 +3,7 @@
 #include "class/scene/TestScene.h"
 #include "class/scene/GameScene.h"
 #include "class/scene/TutorialScene.h"
+#include "class/scene/ResultScene.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {

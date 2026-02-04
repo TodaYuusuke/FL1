@@ -25,12 +25,18 @@ public: // ** 純粋仮想関数の実体宣言 ** //
 
 	void ChangeTitleScene();
 
+private: //ステート関数
+	void Phase1KnockOut();
+	void Phase2Score();
+	void Phase3ToTitle();
+
 private: // ** これより先に必要な処理や変数を記述 ** //
 
 	// キー入力を促すスプライト
 	LWP::Primitive::NormalSprite anyKeySprite_{};
 
 	std::unique_ptr<ScoreUI> score_;
+	std::unique_ptr<ScoreUI> knockOut_;
 
 	//背景
 	std::unique_ptr<BackGround> backGround_;
@@ -40,4 +46,18 @@ private: // ** これより先に必要な処理や変数を記述 ** //
 	bool isChangeScene_ = false;
 
 	int animationLength_ = 24;
+
+	std::function<void()> state_;
+
+	const std::string kJsonDirectoryPath = "Result/";
+	LWP::Utility::JsonIO json_;
+
+	LWP::Primitive::NormalSprite killCountSprite_;
+	LWP::Object::TransformEuler killCountTransform_;
+
+	LWP::Primitive::NormalSprite scoreSprite_;
+	LWP::Object::TransformEuler scoreTransform_;
+
+	int killCount_=0;
+	int drawKillCount_=0;
 };

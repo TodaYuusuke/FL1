@@ -122,7 +122,8 @@ void EnemyManager::EndFrame() {
 						WeaponManager::GetInstance()->DropWeapon(actor->GetWeapon(i));
 					}
 					//スコアの増加
-					ScoreCounter::GetInstance()->AddScore(actor->GetScore());
+					ScoreCounter::GetInstance()->AddScore(actor->GetEnemyData().score);
+					ScoreCounter::GetInstance()->AddKillCount();
 
 					// 敵の解放
 					delete actor;

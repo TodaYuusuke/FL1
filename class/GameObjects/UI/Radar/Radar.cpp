@@ -8,7 +8,7 @@ void Radar::Initialize() {
 	//void (Radar::*p_func)(LWP::Math::Vector3);
 	//p_func =Radar::AppendTargetEnemy;
 
-	player_.LoadCube();
+	player_.LoadShortPath("Player/miniPlayer.gltf");
 	player_.worldTF.Parent(&centerTransform_);
 	for (auto& material : player_.materials) {
 		material.second.color = colorSample_[PLAYER];

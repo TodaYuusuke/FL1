@@ -1,0 +1,54 @@
+{
+    "Group :KillCount": {
+        "Group :Num": {
+            "Vector3 :Scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Vector3 :Transform": [
+                960.0,
+                300.0,
+                0.0
+            ]
+        },
+        "Group :Text": {
+            "Vector3 :Scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Vector3 :Transform": [
+                700.0,
+                200.0,
+                0.0
+            ]
+        }
+    },
+    "Group :Score": {
+        "Group :Num": {
+            "Vector3 :Scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Vector3 :Transform": [
+                960.0,
+                650.0,
+                0.0
+            ]
+        },
+        "Group :Text": {
+            "Vector3 :Scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Vector3 :Transform": [
+                700.0,
+                500.0,
+                0.0
+            ]
+        }
+    }
+}

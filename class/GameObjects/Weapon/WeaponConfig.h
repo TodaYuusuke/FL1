@@ -117,7 +117,7 @@ namespace WeaponConfig {
 			inline std::array<std::string, (int)WeaponType::kCount> uiName = {
 				"Weapon/machingun_UI.png",	// マシンガン
 				"Weapon/shotgun_UI.png",		// ショットガン
-				"Weapon/machingun_UI.png",	// ライフル
+				"Weapon/rifle_UI.png",	// ライフル
 				"Weapon/launcher_UI.png",		// ランチャー
 				"Weapon/missile_UI.png",	// ミサイル
 				"Weapon/pilebunker_UI.png"		// 近接
@@ -128,7 +128,7 @@ namespace WeaponConfig {
 			inline std::array<std::string, (int)WeaponType::kCount> uiName = {
 				"Weapon/machingun_Gauge_UI.png",	// マシンガン
 				"Weapon/shotgun_Gauge_UI.png",		// ショットガン
-				"Weapon/machingun_Gauge_UI.png",	// ライフル
+				"Weapon/rifle_Gauge_UI.png",	// ライフル
 				"Weapon/launcher_Gauge_UI.png",		// ランチャー
 				"Weapon/missile_Gauge_UI.png",	// ミサイル
 				"Weapon/pilebunker_Gauge_UI.png"		// 近接

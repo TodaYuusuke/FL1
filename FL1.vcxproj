@@ -199,6 +199,7 @@
     <ClCompile Include="class\GameObjects\UI\Radar\Radar.cpp" />
     <ClCompile Include="class\GameObjects\UI\ScoreUI\ScoreManager.cpp" />
     <ClCompile Include="class\GameObjects\UI\ScoreUI\ScoreUI.cpp" />
+    <ClCompile Include="class\GameObjects\UI\SingleGauge\SingleGauge.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Components\Magazine.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Gun\IGun.cpp" />
     <ClCompile Include="class\GameObjects\Weapon\Gun\Launcher\Launcher.cpp" />
@@ -344,6 +345,7 @@
     <ClInclude Include="class\GameObjects\UI\Radar\Radar.h" />
     <ClInclude Include="class\GameObjects\UI\ScoreUI\ScoreManager.h" />
     <ClInclude Include="class\GameObjects\UI\ScoreUI\ScoreUI.h" />
+    <ClInclude Include="class\GameObjects\UI\SingleGauge\SingleGauge.h" />
     <ClInclude Include="class\GameObjects\Weapon\Components\Magazine.h" />
     <ClInclude Include="class\GameObjects\Weapon\Gun\IGun.h" />
     <ClInclude Include="class\GameObjects\Weapon\Gun\Launcher\Launcher.h" />

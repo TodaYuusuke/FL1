@@ -3,6 +3,19 @@
         "float :Max": 3.0,
         "float :Min": -3.0
     },
+    "Group :HP": {
+        "Vector3 :Position": [
+            587.0,
+            554.0,
+            0.0
+        ],
+        "Vector3 :Scale": [
+            4.5,
+            0.30000001192092896,
+            0.0
+        ],
+        "float :Rotate": -90.0
+    },
     "Group :Weapon": {
         "Group :Hand": {
             "Group :Left": {
