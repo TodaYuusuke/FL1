@@ -129,6 +129,7 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	std::map<int, IWeapon*> GetWeapon() { return weapons_; }
+	IWeapon* GetWeapon(int weaponSide) { return weapons_[weaponSide]; }
 	/// <summary>
 	/// 現在位置を取得
 	/// </summary>

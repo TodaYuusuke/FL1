@@ -172,9 +172,6 @@ void GameScene::Update() {
 	// ヒットストップ
 	HitStopController::GetInstance()->Update();
 
-	// 押し出し
-	PenetrationResolver::GetInstance()->Update();
-
 	Radar::GetInstance()->ClearVector();
 
 	// 敵管理
@@ -212,11 +209,14 @@ void GameScene::Update() {
 	// カメラ演出
 	CameraEffectHandler::GetInstance()->Update();
 
+	// 押し出し
+	PenetrationResolver::GetInstance()->Update();
+
 #ifdef _DEBUG
 
 	// 次のシーンへ以降
 	if (Input::Keyboard::GetTrigger(DIK_F)) {
-		//nextSceneFunction = []() { return new ResultScene(); };
+		nextSceneFunction = []() { return new ResultScene(); };
 	}
 
 	//マイコンの再接続

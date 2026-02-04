@@ -13,8 +13,6 @@ void PenetrationResolver::Init() {
 }
 
 void PenetrationResolver::Update() {
-	CheckPushOutObject();
-
 	// 対象が死んでいるなら削除
 	pushObjcts_.erase(
 		std::remove_if(pushObjcts_.begin(), pushObjcts_.end(),
@@ -26,6 +24,9 @@ void PenetrationResolver::Update() {
 			}),
 		pushObjcts_.end()
 	);
+
+	// 押し出し処理
+	CheckPushOutObject();
 }
 
 void PenetrationResolver::CheckPushOutObject() {

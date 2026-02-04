@@ -45,6 +45,11 @@ public:
 
 private:
 	/// <summary>
+	/// 武器の数が上限を超えたら古いものから削除(持ち主がいない武器限定)
+	/// </summary>
+	void ClearLimitOverWeapon();
+
+	/// <summary>
 	/// 自機と武器との距離を確認
 	/// </summary>
 	void CheckPlayerToWeaponDistance();
@@ -309,6 +314,8 @@ private:
 	float pickUpWeaponAngle = 0.2f;
 	// 武器回収ラインのUVTransformのscale
 	float pickUpWeaponLineUvScale = 10.0f;
+	// 地面に落ちていられる武器の数
+	int maxPickUpWeapon = 10;
 
 	LWP::Math::Vector3 maxPillarScale = { 1.5f,50.0f,1.0f };
 
@@ -345,6 +352,9 @@ private:
 
 	// 武器を生成する座標
 	LWP::Math::Vector3 createPos_ = { 0.0f,10.0f,0.0f };
+
+	// 地面に落ちている武器数
+	int dropedWeaponNum_;
 
 	int selectWeapon_;
 
