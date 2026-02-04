@@ -44,7 +44,7 @@ public: // アニメーション用関数群
 	/// 射撃アニメーション再生関数
 	/// </summary>
 	/// <param name="weaponSide">武器の場所</param>
-	void PlayShotAnim(const int weaponSide = 0) override;
+	void PlayAttackAnim(const int weaponSide = 0) override;
 
 	/// <summary>
 	/// 取得アニメーション再生関数

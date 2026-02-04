@@ -202,13 +202,17 @@ void WeaponManager::CheckPlayerToWeaponDistance() {
 		int size = (int)pickUpWeaponLines_.size();
 		pickUpWeaponLines_.resize(size + 1);
 		pickUpWeaponLines_[size].LoadTexture("Weapon/pickUp_line.png");
-		pickUpWeaponLines_[size].anchorPoint = { 0.5f,0.5f };
+		pickUpWeaponLines_[size].anchorPoint = { 0.5f,1.0f };
 		pickUpWeaponLines_[size].isActive = true;
-		//pickUpWeaponLines_[size].material.color.A = 200;
+		// srtの設定
 		pickUpWeaponLines_[size].worldTF.translation = weapon->GetWorldTF()->GetWorldPosition();
 		Vector3 dist = (pWorld_->FindActor("Player")->GetModel()->GetJointWorldPosition("LockOnAnchor") + Vector3{ 0.0f,-0.5f,0.0f }) - weapon->GetWorldTF()->GetWorldPosition();
-		pickUpWeaponLines_[size].worldTF.scale = { 1.0f,dist.Length() / 2.0f,1.0f };
+		pickUpWeaponLines_[size].worldTF.scale = { 1.0f,dist.Length(),1.0f };
 		pickUpWeaponLines_[size].worldTF.rotation = FLMath::LookRotationZLock(dist.Normalize()) * LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{1.0f, 0.0f, 0.0f}, (float)-std::numbers::pi / 2.0f);
+		// マテリアル
+		pickUpWeaponLines_[size].material.color.A = 200;
+		float uvScale = dist.Length() / (pickUpWeaponRange * 2.0f) * pickUpWeaponLineUvScale;
+		pickUpWeaponLines_[size].material.uvTransform.scale = { 1.0f,uvScale, 0.1f };
 		// 回収可能
 		que.push(weapon);
 	}

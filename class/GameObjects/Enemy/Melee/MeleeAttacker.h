@@ -37,9 +37,18 @@ private:
 	/// </summary>
 	void AnimManagerUpdate() override;
 
+public: // 演出用関数群
+
+	/// <summary>
+	/// 射撃アニメーション再生関数
+	/// </summary>
+	/// <param name="weaponSide">武器の場所</param>
+	void PlayAttackAnim(const int weaponSide = 0) override;
+
+
 private:
 	// 武器リスト
-	std::map<int, IWeapon*> weapons_;
+	//std::map<int, IWeapon*> weapons_;
 
 	// 識別番号
 	int ID_;

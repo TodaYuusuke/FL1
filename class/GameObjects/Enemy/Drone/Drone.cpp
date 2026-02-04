@@ -85,6 +85,14 @@ const int Drone::GetBTRunningNodeID() const {
 	return bt_->GetRunningNodeID();
 }
 
+void Drone::PlayAttackAnim(const int weaponSide)
+{
+	// SEのみを再生
+	std::string seName = weapons_[weaponSide]->GetWeaponData().attackSEFileName;
+
+	SEPlayer::GetInstance()->PlaySE(seName, 1.0f, LWP::AudioConfig::Enemy, model_.worldTF.GetWorldPosition());
+}
+
 void Drone::Move() {
 	if (state_) {
 		velocity_ = state_->GetVel();
