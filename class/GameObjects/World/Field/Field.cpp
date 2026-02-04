@@ -16,8 +16,11 @@ Field::Field() {
 
 	// 全ての配置物を貫通防止クラスに登録
 	for (Prop* p : props_) {
-		// 貫通防止クラスに登録
-		resolver_->RegisterObject(p, p->GetPriority(), p->GetRadius());
+		// 半径が0以上の物のみ登録する
+		if (p->GetData()->Radius > 0.0f) {
+			// 貫通防止クラスに登録
+			resolver_->RegisterObject(p, p->GetPriority(), p->GetRadius());
+		}
 	}
 }
 
@@ -40,6 +43,14 @@ void Field::DebugGUI()
 	ImGuiManager::InputText("Add ModelPath", addModelpath_);
 	if (ImGui::Button("Add Prop")) {
 		CreateNewProp(addPropName_, addModelpath_);
+	}
+	if (selectingProp_ != nullptr) {
+		if (ImGui::Button("Copy Selected Prop")) {
+			// データを元に配置物作成
+			Prop* prop = new Prop(*selectingProp_->GetData());
+			// 配置物配列に追加
+			props_.push_back(prop);
+		}
 	}
 
 	// 配列内の配置物を表示
@@ -96,6 +107,9 @@ void Field::EndFrame()
 	props_.remove_if([&](Prop* p) {
 		// 粒子の終了フラグがTrueのとき
 		if (!p->GetIsAlive()) {
+			// 選択中配置物を一応nullptrにしておく
+			selectingProp_ = nullptr;
+
 			// ポインタ解放
 			delete p;
 			return true;

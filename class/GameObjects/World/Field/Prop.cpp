@@ -86,7 +86,14 @@ Prop::Prop(const LWP::Prop::PropSaveData& data)
 	bodyCapsule_.localOffset = dirVec.Normalize() * data_.CapsuleHeight;
 	bodyCapsule_.radius = data_.CapsuleRadius;
 	bodyCollision_.SetFollow(&model_.worldTF);
-	bodyCollision_.isActive = true;
+
+	// カプセルの高さによってコライダーのONOFFを決める
+	if (capsuleRadius_ <= 0.0f || capsuleHeight_ <= 0.0f) {
+		bodyCollision_.isActive = false;
+	}
+	else {
+		bodyCollision_.isActive = true;
+	}
 	// 自機の所属しているマスクを設定
 	bodyCollision_.mask.SetBelongFrag(GameMask::enemy);
 	// 当たり判定をとる対象のマスクを設定
