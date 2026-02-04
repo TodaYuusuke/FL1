@@ -1,0 +1,28 @@
+{
+    "Group :KillCount": {
+        "Group :Num": {
+            "Vector3 :Scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Vector3 :Transform": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "Group :Text": {
+            "Vector3 :Scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Vector3 :Transform": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        }
+    }
+}

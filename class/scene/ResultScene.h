@@ -36,6 +36,7 @@ private: // ** これより先に必要な処理や変数を記述 ** //
 	LWP::Primitive::NormalSprite anyKeySprite_{};
 
 	std::unique_ptr<ScoreUI> score_;
+	std::unique_ptr<ScoreUI> knockOut_;
 
 	//背景
 	std::unique_ptr<BackGround> backGround_;
@@ -47,4 +48,16 @@ private: // ** これより先に必要な処理や変数を記述 ** //
 	int animationLength_ = 24;
 
 	std::function<void()> state_;
+
+	const std::string kJsonDirectoryPath = "Result/";
+	LWP::Utility::JsonIO json_;
+
+	LWP::Primitive::NormalSprite killCountSprite_;
+	LWP::Object::TransformEuler killCountTransform_;
+
+	LWP::Primitive::NormalSprite scoreSprite_;
+	LWP::Object::TransformEuler scoreTransform_;
+
+	int killCount_=0;
+	int drawKillCount_=0;
 };

@@ -14,6 +14,8 @@ public:
 	void Update();
 
 	void Reset() { sumScore_ = 0; drawScore_ = 0; };
+	void ClearDrawScore() { drawScore_ = 0; };
+	void SetMaxDrawScore() { drawScore_ = sumScore_; };
 
 	void AddScore(int32_t score) { sumScore_ += score; };
 	int32_t GetScore() { return sumScore_; };

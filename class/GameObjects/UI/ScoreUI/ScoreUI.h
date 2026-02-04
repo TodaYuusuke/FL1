@@ -20,7 +20,7 @@ public:
 			sprites_[i].isActive = isActive;
 		}
 	}
-	void SetCenter(LWP::Math::Vector2 center) { center_ = center; };
+	void SetCenter(const LWP::Math::Vector2& center) { center_ = center; };
 	void SetScore(int32_t num) { score_ = num; };
 	void SetAlhpa(size_t num, unsigned char value) { sprites_[num].material.color.A = value; }
 
