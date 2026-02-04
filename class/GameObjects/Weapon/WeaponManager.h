@@ -307,6 +307,8 @@ private:
 	float pickUpWeaponRange = 10.0f;
 	// 武器回収角度
 	float pickUpWeaponAngle = 0.2f;
+	// 武器回収ラインのUVTransformのscale
+	float pickUpWeaponLineUvScale = 10.0f;
 
 	LWP::Math::Vector3 maxPillarScale = { 1.5f,50.0f,1.0f };
 
