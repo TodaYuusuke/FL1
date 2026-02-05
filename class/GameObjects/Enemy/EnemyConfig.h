@@ -93,7 +93,6 @@ struct EnemySpawnData {
 struct SpawnEffectData {
 	float currentFrame;
 	LWP::Math::Vector3 pos;
-	std::array<LWP::Resource::RigidModel, 2> spawnEffectModels;
 };
 
 namespace EnemyConfig {
