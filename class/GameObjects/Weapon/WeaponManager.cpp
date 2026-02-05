@@ -1026,6 +1026,14 @@ void WeaponManager::DeleteWeapon(IWeapon* weapon) {
 	auto result = std::find(weapons_.begin(), weapons_.end(), weapon);
 	// 存在しているなら削除
 	if (result != weapons_.end()) {
+		// 削除時爆発エフェクトと音再生
+		// 爆発音再生
+		uint32_t id = SEPlayer::GetInstance()->PlaySE("weaponBreak_SE.mp3", 1.0f, LWP::AudioConfig::Enviroment, weapon->GetModel().GetJointWorldPosition("Muzzle"));
+		AudioPlayer* p = SEPlayer::GetInstance()->GetAudioPlayer(id);
+		p->SetMinVolumeMultiply(0.5f);
+		// 武器破壊エフェクト
+		EffectManager::GetInstance()->CreateNewEmitter("WeaponBreak", weapon->GetModel().GetJointWorldPosition("Muzzle"));
+
 		// 武器による速度
 		if (weapon->GetActor()) weapon->GetActor()->SetWeaponVelocity(Vector3{ 0.0f,0.0f,0.0f });
 		delete weapon;
