@@ -12,7 +12,7 @@
   "diffusingBulletRange_y": 0.0,
   "diffusingBulletRange_z": 0.0,
   "jsonFileName": "handGun_R_UC.json",
-  "modelName": "C:/Final/resources/model/Weapon/Gun/Rifle/Pistol.gltf",
+  "modelName": "resources/model/Weapon/Gun/Rifle/Pistol.gltf",
   "name": "handGun_R_UC",
   "rarity": 1,
   "reloadTime": 0.0,
