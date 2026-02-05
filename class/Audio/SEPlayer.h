@@ -1,6 +1,7 @@
 #pragma once
 #include "AudioPlayer.h"
 #include "AudioConfig.h"
+#include <deque>
 
 /// <summary>
 /// 効果音再生管理クラス
@@ -33,7 +34,8 @@ public: // メンバ関数
 	/// <param name="filePath">オーディオまでのファイルパス</param>
 	/// <param name="volume">音量</param>
 	/// <param name="channelID">再生するチャンネルID</param>
-	void PlaySE(const std::string& filePath, float volume, int channelID);
+	/// <param name="isLoop">(任意) ループを行うか</param>
+	int32_t PlaySE(const std::string& filePath, float volume, int channelID, const bool isLoop = false);
 
 	/// <summary>
 	/// 再生関数
@@ -42,7 +44,8 @@ public: // メンバ関数
 	/// <param name="volume">音量</param>
 	/// <param name="channelID">再生するチャンネルID</param>
 	/// <param name="pos">音の発生座標</param>
-	AudioPlayer& PlaySE(const std::string& filePath, float volume, int channelID, const LWP::Math::Vector3& pos);
+	/// <param name="isLoop">ループを行うか</param>
+	int32_t PlaySE(const std::string& filePath, float volume, int channelID, const LWP::Math::Vector3& pos, const bool isLoop = false);
 
 	/// <summary>
 	/// 引数で指定された数からランダムな数を求め、末尾に追加したパスで再生する関数
@@ -51,7 +54,7 @@ public: // メンバ関数
 	/// <param name="maxRandomCount">ランダム最大数</param>
 	/// <param name="volume">音量</param>
 	/// <param name="channelID">再生するチャンネルID</param>
-	void PlayRandomSE(const std::string& filePath, int maxRandomCount, float volume, int channelID);
+	int32_t PlayRandomSE(const std::string& filePath, int maxRandomCount, float volume, int channelID);
 
 	/// <summary>
 	/// 再生関数
@@ -61,7 +64,7 @@ public: // メンバ関数
 	/// <param name="maxRandomCount">ランダム最大数</param>
 	/// <param name="channelID">再生するチャンネルID</param>
 	/// <param name="pos">音の発生座標</param>
-	AudioPlayer& PlayRandomSE(const std::string& filePath, int maxRandomCount, float volume, int channelID, const LWP::Math::Vector3& pos);
+	int32_t PlayRandomSE(const std::string& filePath, int maxRandomCount, float volume, int channelID, const LWP::Math::Vector3& pos);
 
 public: // アクセッサ等
 
@@ -72,11 +75,18 @@ public: // アクセッサ等
 	void SetListener(const LWP::Object::TransformQuat* listener) { listener_ = listener; }
 
 	/// <summary>
+	/// オーディオプレイヤーのゲッター
+	/// </summary>
+	/// <param name="id">生成時に渡される固有ID</param>
+	/// <returns>実体</returns>
+	AudioPlayer* GetAudioPlayer(const uint32_t id);
+
+	/// <summary>
 	/// 指定されたチャンネルの音量を調節する
 	/// </summary>
 	/// <param name="volume">音量</param>
 	/// <param name="channelID">チャンネル番号</param>
-	void SetVolume(const float volume, const int channelID);
+	void SetChannelVolume(const float volume, const int channelID);
 
 	/// <summary>
 	/// 効果音全体の音量を調節する
@@ -93,7 +103,11 @@ private: // メンバ変数
 	const LWP::Object::TransformQuat* listener_ = nullptr;
 
 	// 効果音マップ
-	std::map<int, std::vector<AudioPlayer>> seMap_{};
+	std::map<int, std::deque<std::unique_ptr<AudioPlayer>>> seMap_{};
 
+	// 固有ID配列
+	std::unordered_map<uint32_t, AudioPlayer*> idMap_{};
+	// 次のID
+	uint32_t nextID_ = 1;
 };
 

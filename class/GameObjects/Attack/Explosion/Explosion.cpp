@@ -30,8 +30,9 @@ Explosion::Explosion(const ImpactData& data, const Vector3& pos, int hitFragBit)
 	// 爆発エフェクト再生
 	EffectManager::GetInstance()->CreateNewEmitter("Explosion", pos);
 	// 爆発音再生
-	SEPlayer::GetInstance()->PlaySE("Explosion.mp3", 1.0f, AudioConfig::Enviroment, body_.worldTF.GetWorldPosition())
-		.SetMinDistance(50.0f)
+	uint32_t id = SEPlayer::GetInstance()->PlaySE("Explosion.mp3", 1.0f, AudioConfig::Enviroment, body_.worldTF.GetWorldPosition());
+	AudioPlayer* p = SEPlayer::GetInstance()->GetAudioPlayer(id);
+	p->SetMinDistance(50.0f)
 		.SetMaxDistance(300.0f)
 		.SetMinVolumeMultiply(0.25f);
 

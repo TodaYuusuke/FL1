@@ -29,9 +29,6 @@ GameScene::GameScene() {
 }
 
 GameScene::~GameScene() {
-	// 効果音プレイヤー生成
-	SEPlayer::Destroy();
-
 	// ウェーブ
 	WaveManager::Destroy();
 	// エフェクト
@@ -55,6 +52,9 @@ GameScene::~GameScene() {
 	ControllerReceiver::GetInstance()->ClosePort();
 	// カメラ演出
 	CameraEffectHandler::Destroy();
+
+	// 効果音プレイヤー生成
+	SEPlayer::Destroy();
 }
 
 void GameScene::Initialize() {

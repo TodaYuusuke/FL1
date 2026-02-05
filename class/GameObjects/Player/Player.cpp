@@ -353,6 +353,9 @@ void Player::OnCollision(LWP::Object::Collision* hitTarget) {
 		}
 	}
 
+	// カメラ振動
+	CameraEffectHandler::GetInstance()->StartShake({ 0.05f, 0.05f, 0.0f }, 0.5f);
+
 	// 被弾音を鳴らす
 	SEPlayer::GetInstance()->PlayRandomSE("HitSound.mp3", 4, 1.0f, AudioConfig::Enviroment);
 
