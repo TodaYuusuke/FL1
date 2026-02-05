@@ -1,5 +1,6 @@
 #pragma once
 #include <Adapter.h>
+#include "../Effect/Utility/DeltaTimer.h"
 
 /// <summary>
 /// １つの音の再生、音量、ループを管理するクラス
@@ -41,6 +42,12 @@ public: // メンバ関数
 	/// </summary>
 	void Stop();
 
+	/// <summary>
+	/// 停止
+	/// </summary>
+	/// <param name="fadeTime">止まるまでにかかる時間</param>
+	void Stop(const float fadeTime);
+
 public: // アクセッサ等
 
 	/// <summary>
@@ -66,6 +73,17 @@ public: // アクセッサ等
 	/// </summary>
 	/// <param name="pos">発生座標</param>
 	void SetEmitPos(const LWP::Math::Vector3& pos) { emitPos_ = pos; }
+
+	/// <summary>
+	/// 固有IDのゲッター
+	/// </summary>
+	/// <returns>固有ID</returns>
+	uint32_t GetInstanceID() { return instanceID_; }
+	/// <summary>
+	/// 固有IDのセッター
+	/// </summary>
+	/// <param name="id">固有ID</param>
+	void SetInstanceID(const uint32_t id) { instanceID_ = id; }
 
 	/// <summary>
 	/// 最小音量倍率セッター
@@ -108,6 +126,9 @@ private: // メンバ変数
 	// 音リソース本体
 	LWP::Resource::Audio audio_;
 
+	// 固有ID
+	uint32_t instanceID_ = 0;
+
 	// 大元の音量
 	const float* masterVolume = nullptr;
 
@@ -131,6 +152,9 @@ private: // メンバ変数
 
 	// ループフラグ
 	bool isLoop_ = false;
+
+	// フェード演出用タイマー
+	LWP::Utility::DeltaTimer fadeTimer_{};
 
 };
 
