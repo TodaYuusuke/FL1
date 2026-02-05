@@ -64,10 +64,17 @@ void WeaponManager::Init() {
 }
 
 void WeaponManager::Update() {
+	int dropedWeaponNum = 0;
 	for (IWeapon* weapon : weapons_) {
 		if(!weapon->GetIsDestroy()) weapon->Update();
-		if(!weapon->GetActor()) appendMiniMap_(weapon->GetWorldTF()->GetWorldPosition());
+		if (!weapon->GetActor()) {
+			appendMiniMap_(weapon->GetWorldTF()->GetWorldPosition());
+			// 地面に落ちている武器数更新
+			dropedWeaponNum++;
+		}
 	}
+	dropedWeaponNum_ = dropedWeaponNum;
+
 	for (int i = 0; i < pickUpWeaponSprite_.size(); i++) {
 		if (!isDrawPickUpWeaponSprite_[i]) {
 			pickUpWeaponSprite_[i].isActive = false;
@@ -89,7 +96,12 @@ void WeaponManager::Update() {
 	if (ControllerReceiver::GetInstance()->IsOpen()) {
 		controllerType_ = kLever;
 	}
+
 	pickUpWeaponLines_.clear();
+
+	// 上限を超えているなら古い武器から消していく
+	ClearLimitOverWeapon();
+
 	// 自機が近いなら武器を渡す
 	isPickUp_ = false;
 	CheckPlayerToWeaponDistance();
@@ -143,6 +155,20 @@ void WeaponManager::DebugGui() {
 		}
 
 		ImGui::EndTabItem();
+	}
+}
+
+void WeaponManager::ClearLimitOverWeapon() {
+	int dropedWeaponNum = dropedWeaponNum_;
+	for (int i = 0;i < weapons_.size(); i++) {
+		// 地面にある武器の数が上限を超えているか
+		if (dropedWeaponNum <= maxPickUpWeapon) { break; }
+		// 所持者がいるならスキップ
+		if (weapons_[i]->GetActor()) { continue; }
+
+		// 解放
+		DeleteWeapon(weapons_[i]);
+		dropedWeaponNum--;
 	}
 }
 
