@@ -75,8 +75,6 @@ void WeaponManager::Update() {
 	}
 	dropedWeaponNum_ = dropedWeaponNum;
 
-		if(!weapon->GetActor()) appendMiniMap_(weapon->GetWorldTF()->GetWorldPosition());
-	}
 	for (int i = 0; i < pickUpWeaponSprite_.size(); i++) {
 		if (!isDrawPickUpWeaponSprite_[i]) {
 			pickUpWeaponSprite_[i].isActive = false;
