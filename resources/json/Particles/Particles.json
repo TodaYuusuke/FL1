@@ -439,7 +439,7 @@
         "Vector3 :PEasingS-End": [
             0.0,
             0.0,
-            1.0
+            0.05000000074505806
         ],
         "Vector3 :PEasingS-EndAmp-Max": [
             0.0,
@@ -452,8 +452,8 @@
             -0.0
         ],
         "Vector3 :PEasingS-Start": [
-            0.25,
-            0.25,
+            0.02500000037252903,
+            0.02500000037252903,
             0.0
         ],
         "Vector3 :PEasingS-StartAmp-Max": [
@@ -562,18 +562,18 @@
             0.0
         ],
         "Vector3 :PVelocityT-StartAmp-Max": [
-            0.5,
-            0.5,
-            0.5
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612
         ],
         "Vector3 :PVelocityT-StartAmp-Min": [
-            -0.5,
-            -0.5,
-            -0.5
+            -0.10000000149011612,
+            -0.10000000149011612,
+            -0.10000000149011612
         ],
         "Vector3 :PVelocityT-Velocity": [
             0.0,
-            0.02500000037252903,
+            0.0024999999441206455,
             0.0
         ],
         "Vector3 :PVelocityT-VelocityAmp-Max": [
@@ -594,13 +594,13 @@
         ],
         "Vector4 :PEasingC-EndAmp-Max": [
             1.0,
-            0.0,
+            0.10000000149011612,
             0.0,
             1.0
         ],
         "Vector4 :PEasingC-EndAmp-Min": [
             1.0,
-            0.0,
+            0.10000000149011612,
             0.0,
             1.0
         ],
@@ -612,13 +612,13 @@
         ],
         "Vector4 :PEasingC-StartAmp-Max": [
             1.0,
-            0.5,
+            0.25,
             0.0,
             1.0
         ],
         "Vector4 :PEasingC-StartAmp-Min": [
             1.0,
-            0.5,
+            0.25,
             0.0,
             1.0
         ],
@@ -637,7 +637,7 @@
         "float :EmitTime": 0.05000000074505806,
         "float :EmitTimeAmp-Max": 0.0,
         "float :EmitTimeAmp-Min": -0.0,
-        "int32_t :EmitCount": 5,
+        "int32_t :EmitCount": 3,
         "int32_t :MaxEmitCount": 100,
         "int32_t :PEasingC-EasingType": 0,
         "int32_t :PEasingS-EasingType": 10,
@@ -869,9 +869,9 @@
             100.0
         ],
         "Vector3 :PEasingS-End": [
-            15.0,
-            15.0,
-            15.0
+            10.0,
+            10.0,
+            10.0
         ],
         "Vector3 :PEasingS-EndAmp-Max": [
             0.0,
@@ -884,9 +884,9 @@
             -0.0
         ],
         "Vector3 :PEasingS-Start": [
-            10.0,
-            10.0,
-            10.0
+            5.0,
+            5.0,
+            5.0
         ],
         "Vector3 :PEasingS-StartAmp-Max": [
             0.0,
@@ -991,17 +991,17 @@
         "Vector3 :PVelocityT-Start": [
             0.0,
             0.0,
-            0.0
+            -0.5
         ],
         "Vector3 :PVelocityT-StartAmp-Max": [
-            5.0,
-            5.0,
-            5.0
+            1.0,
+            1.0,
+            0.5
         ],
         "Vector3 :PVelocityT-StartAmp-Min": [
-            -5.0,
-            -5.0,
-            -5.0
+            -1.0,
+            -1.0,
+            -0.5
         ],
         "Vector3 :PVelocityT-Velocity": [
             0.0,
@@ -1949,9 +1949,9 @@
             100.0
         ],
         "Vector3 :PEasingS-End": [
-            2.0,
-            2.0,
-            2.0
+            3.0,
+            3.0,
+            3.0
         ],
         "Vector3 :PEasingS-EndAmp-Max": [
             1.0,
@@ -1964,9 +1964,9 @@
             -1.0
         ],
         "Vector3 :PEasingS-Start": [
-            1.0,
-            1.0,
-            1.0
+            2.0,
+            2.0,
+            2.0
         ],
         "Vector3 :PEasingS-StartAmp-Max": [
             1.0,
@@ -2070,18 +2070,18 @@
         ],
         "Vector3 :PVelocityT-Start": [
             0.0,
-            0.0,
-            0.0
+            0.5,
+            3.0
         ],
         "Vector3 :PVelocityT-StartAmp-Max": [
             0.5,
             0.5,
-            10.0
+            3.0
         ],
         "Vector3 :PVelocityT-StartAmp-Min": [
             -0.5,
             -0.5,
-            -10.0
+            -3.0
         ],
         "Vector3 :PVelocityT-Velocity": [
             0.0,
@@ -2108,13 +2108,13 @@
             1.0,
             1.0,
             1.0,
-            1.0
+            0.0
         ],
         "Vector4 :PEasingC-EndAmp-Min": [
             1.0,
             1.0,
             1.0,
-            1.0
+            0.0
         ],
         "Vector4 :PEasingC-Start": [
             0.0,
@@ -2151,12 +2151,12 @@
         "float :EmitTimeAmp-Min": -0.0,
         "int32_t :EmitCount": 3,
         "int32_t :MaxEmitCount": 100,
-        "int32_t :PEasingC-EasingType": 0,
+        "int32_t :PEasingC-EasingType": 19,
         "int32_t :PEasingS-EasingType": 0,
         "int32_t :PEasingT-EasingType": 0,
         "int32_t :ParticleType": 1,
         "int32_t :SurfaceType": 1,
         "string :ModelPath": "cube.obj",
-        "string :TexPath": "Explosion.png"
+        "string :TexPath": "Weapon_Explosion.png"
     }
 }

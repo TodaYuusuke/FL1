@@ -55,7 +55,7 @@ public:// アクセサ
 	/// 追従対象の設定
 	/// </summary>
 	/// <param name="character"></param>
-	void SetTarget(Actor* actor) { target_ = actor; }
+	void SetTarget(Actor* actor);
 	/// <summary>
 	/// カメラの角度を設定
 	/// </summary>

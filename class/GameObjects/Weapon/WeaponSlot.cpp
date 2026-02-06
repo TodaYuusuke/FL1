@@ -28,6 +28,19 @@ void WeaponSlot::Update() {
 		std::remove_if(weapons_.begin(), weapons_.end(),
 			[&](IWeapon* w) {
 				if (w->GetIsDestroy()) {
+
+					// 削除時爆発エフェクトと音再生
+					// 爆発音再生
+					uint32_t id = SEPlayer::GetInstance()->PlaySE("weaponBreak_SE.mp3", 1.0f, LWP::AudioConfig::Enviroment, w->GetModel().GetJointWorldPosition("Muzzle"));
+
+					// 武器破壊エフェクト
+					LWP::Math::Vector3 weaponPos = w->GetModel().GetJointWorldPosition("Grip");
+					LWP::Math::Vector3 weaponFront = LWP::Math::Vector3(0.0f, 0.0f, 1.0f) * w->GetModel().worldTF.GetWorldRotateMatrix();
+					LWP::Math::Quaternion rotation = LWP::Math::Quaternion::LookRotation(weaponFront);
+
+					EffectManager::GetInstance()->CreateNewEmitter("WeaponBreak", weaponPos)
+						->SetRotation(rotation);
+
 					w->Destroy();
 					// 武器管理クラスに該当武器の解放依頼
 					WeaponManager::GetInstance()->DeleteWeapon(w);
@@ -114,6 +127,7 @@ void WeaponSlot::DeleteWeapons() {
 	weapons_.erase(
 		std::remove_if(weapons_.begin(), weapons_.end(),
 			[&](IWeapon* w) {
+
 				// 武器管理クラスに該当武器の解放依頼
 				WeaponManager::GetInstance()->DeleteWeapon(w);
 				return true; // vectorから削除対象

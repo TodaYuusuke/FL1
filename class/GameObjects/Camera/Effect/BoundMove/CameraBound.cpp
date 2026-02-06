@@ -32,7 +32,7 @@ void CameraBound::Update() {
 	vel_ = boundValue_ * Matrix4x4::CreateRotateXYZMatrix(pCamera_->GetCamera()->worldTF.rotation);
 
 	// 座標に適用
-	pCamera_->SetTranslation(pCamera_->GetCamera()->worldTF.GetWorldPosition() + vel_);
+	pCamera_->SetTranslation(pCamera_->GetCamera()->worldTF.translation + vel_);
 
 	currentFrame_ += HitStopController::GetInstance()->GetDeltaTime();
 }

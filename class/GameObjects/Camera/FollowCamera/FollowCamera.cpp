@@ -27,16 +27,8 @@ void FollowCamera::Init() {
 }
 
 void FollowCamera::Update() {
-	// 追従対象がいなければ処理しない
-	if (!target_) { return; }
-
-	// 追従対象の角度を取得
-	camera_->worldTF.rotation = target_->GetWorldTF()->rotation;
-
-	// カメラの後追い
-	//interTarget_ = LWP::Utility::Interpolation::Lerp(interTarget_, target_->GetWorldTF()->GetWorldPosition(), interTargetRate);
 	// カメラの座標を決定
-	camera_->worldTF.translation = target_->GetWorldTF()->GetWorldPosition() + (kTargetDist * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(camera_->worldTF.rotation));
+	camera_->worldTF.translation = kTargetDist;
 }
 
 void FollowCamera::DebugGUI() {
@@ -52,4 +44,9 @@ void FollowCamera::DebugGUI() {
 	ImGui::DragFloat4("Quaternion", &camera_->worldTF.rotation.x, 0.1f, -1000, 1000);
 	ImGui::DragFloat3("Distance", &kTargetDist.x, 0.1f, -100, 100);
 	ImGui::DragFloat("FOV", &camera_->fov, 0.1f);
+}
+
+void FollowCamera::SetTarget(Actor* actor) {
+	target_ = actor;
+	camera_->worldTF.Parent(target_->GetWorldTF());
 }
