@@ -141,14 +141,16 @@ namespace WeaponConfig {
 			namespace Color {
 				// (中間プレイ会専用)
 				namespace Weapon {
-					inline std::array<unsigned int, (int)WeaponType::kCount> color = {
-						LWP::Utility::WHITE,		// マシンガン
-						LWP::Utility::GREEN,		// ショットガン
-						LWP::Utility::BLUE,			// ライフル
-						LWP::Utility::CYAN,			// ランチャー
-						LWP::Utility::MAGENTA,		// ミサイル
-						LWP::Utility::RED			// 近接
-					};
+					namespace Rarity {
+						inline std::array<unsigned int, (int)RarityType::kCount> color = {
+							LWP::Utility::WHITE,		// Common
+							LWP::Utility::GREEN,		// UnCommon
+							LWP::Utility::BLUE,			// Rare
+							LWP::Utility::CYAN,			// SuperRare
+							LWP::Utility::MAGENTA,		// Legendary
+							LWP::Utility::RED			// Over
+						};
+					}
 				}
 			}
 		}

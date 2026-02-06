@@ -179,7 +179,7 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 
 	// 差動モデル計算
 	Vector2 v = (vR + vL) * 0.5f;
-
+			
 	// 角度代入
 	Quaternion q = LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, -(target_vR.y - target_vL.y) / treadWidth * maxOmega * deltaTime);
 	rot_ = q;

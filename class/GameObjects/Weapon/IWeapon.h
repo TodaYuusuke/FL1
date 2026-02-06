@@ -247,7 +247,7 @@ protected:
 
 	// 光の柱
 	//LWP::Primitive::NormalHorizontalBillboard lightPillar_;
-	LWP::Primitive::NormalSurface lightPillar_;
+	LWP::Primitive::NormalHorizontalBillboard lightPillar_;
 
 	// 攻撃エフェクト
 	Emitter* attackEffectEmitter_ = nullptr;

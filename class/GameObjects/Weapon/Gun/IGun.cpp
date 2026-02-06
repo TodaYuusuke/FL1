@@ -30,7 +30,7 @@ IGun::IGun(WeaponData data) {
 	// 光柱
 	lightPillar_.LoadTexture("Weapon/pillar_triangle.png");
 	lightPillar_.isActive = true;
-	unsigned int color = WeaponConfig::TextureName::LightPillar::Color::Weapon::color[data_.type];
+	unsigned int color = WeaponConfig::TextureName::LightPillar::Color::Weapon::Rarity::color[data_.rarity];
 	lightPillar_.material.color = LWP::Utility::Color(color);
 	lightPillar_.material.color.A = 100;
 	lightPillar_.anchorPoint = { 0.5f, 0.5f };
@@ -60,6 +60,15 @@ void IGun::Init() {
 
 	attackMultiply_ = 1.0f;
 	speedMultiply_ = 1.0f;
+
+	// 弾発射時の方向ベクトル
+	shotDirVel_ = { 0.0f,0.0f,0.0f };
+	velocity_ = { 0.0f,0.0f,0.0f };
+
+	// 破壊するか
+	isDestroy_ = false;
+	// 攻撃するか
+	isAttack_ = false;
 
 	// 攻撃力
 	//currentAttackValue_ = data_.attackMultiply * attackMultiply_;
@@ -177,7 +186,7 @@ void IGun::Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attackTa
 }
 
 void IGun::Reload() {
-	// 所持者が自機なら演出開始
+	// 所持者が自機なら終了
 	if (actor_->GetName() == "Player") { return; }
 
 	reloadFrame_ -= stopController_->GetDeltaTime();

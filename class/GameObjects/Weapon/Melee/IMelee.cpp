@@ -29,7 +29,7 @@ IMelee::IMelee(WeaponData data) {
 	lightPillar_.Init();
 	lightPillar_.isActive = true;
 	lightPillar_.LoadTexture("Weapon/pillar_triangle.png");
-	unsigned int color = WeaponConfig::TextureName::LightPillar::Color::Weapon::color[data_.type];
+	unsigned int color = WeaponConfig::TextureName::LightPillar::Color::Weapon::Rarity::color[data_.rarity];
 	lightPillar_.material.color = LWP::Utility::Color(color);
 	lightPillar_.material.color.A = 100;
 	lightPillar_.anchorPoint = { 0.5f, 0.5f };
@@ -55,6 +55,15 @@ void IMelee::Init() {
 	attackMultiply_ = 1.0f;
 	speedMultiply_ = 1.0f;
 
+	// 弾発射時の方向ベクトル
+	shotDirVel_ = { 0.0f,0.0f,0.0f };
+	velocity_ = { 0.0f,0.0f,0.0f };
+
+	// 破壊するか
+	isDestroy_ = false;
+	// 攻撃するか
+	isAttack_ = false;
+
 	// 攻撃力
 	//currentAttackValue_ = data_.attackValue * attackMultiply_;
 
@@ -62,9 +71,6 @@ void IMelee::Init() {
 	attackFrame_ = data_.shotIntervalTime * 60.0f;
 	// リロードの経過時間
 	reloadFrame_ = data_.coolTime * 60.0f;
-
-	// 攻撃中か
-	isAttack_ = false;
 }
 
 void IMelee::Update() {

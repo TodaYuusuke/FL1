@@ -46,7 +46,7 @@ bool LeverDevice::GetPress(BindActionType code) const {
 
 	switch (code) {
 	case BindActionType::kCollect:
-		return Keyboard::GetTrigger(DIK_LSHIFT);
+		return Keyboard::GetPress(DIK_LSHIFT);
 		break;
 	case BindActionType::kLeftHand:
 		return result.stickLeft.button0;
@@ -61,7 +61,7 @@ bool LeverDevice::GetPress(BindActionType code) const {
 		return result.stickRight.button1;
 		break;
 	case BindActionType::kBoost:
-		return Keyboard::GetTrigger(InputConfig::Command::Key::boost);
+		return Keyboard::GetPress(InputConfig::Command::Key::boost);
 		break;
 	case BindActionType::kInteract:
 		return false;
@@ -118,7 +118,7 @@ bool LeverDevice::GetRelease(BindActionType code) const {
 
 	switch (code) {
 	case BindActionType::kCollect:
-		return Keyboard::GetPress(DIK_LSHIFT);
+		return Keyboard::GetRelease(DIK_LSHIFT);
 		break;
 	case BindActionType::kLeftHand:
 		return !result.stickLeft.button0 && preKeys_.stickLeft.button0;
@@ -133,7 +133,7 @@ bool LeverDevice::GetRelease(BindActionType code) const {
 		return !result.stickRight.button1 && preKeys_.stickRight.button1;
 		break;
 	case BindActionType::kBoost:
-		return Keyboard::GetPress(InputConfig::Command::Key::boost);
+		return Keyboard::GetRelease(InputConfig::Command::Key::boost);
 		break;
 	case BindActionType::kInteract:
 		return false;

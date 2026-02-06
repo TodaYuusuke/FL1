@@ -878,8 +878,8 @@ std::vector<std::string> WeaponManager::GetFileNames(const std::string& folderPa
 void WeaponManager::DropWeapon(IWeapon* weapon) {
 	if (!weapon) return;
 
-	// 攻撃倍率を初期化
-	weapon->SetAttackMultiply(1.0f);
+	// 武器の初期化
+	weapon->Init();
 
 	// 武器の所持者がいる場合
 	if (weapon->GetActor()) {
@@ -914,8 +914,8 @@ void WeaponManager::DropWeapon(IWeapon* weapon) {
 void WeaponManager::DropWeapon(IWeapon* weapon, const LWP::Math::Vector3& dropPos) {
 	if (!weapon) return;
 
-	// 攻撃倍率を初期化
-	weapon->SetAttackMultiply(1.0f);
+	// 武器の初期化
+	weapon->Init();
 
 	// 座標指定
 	weapon->SetTranslation(dropPos);
