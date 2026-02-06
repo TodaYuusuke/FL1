@@ -19,11 +19,11 @@
     "Group :Weapon": {
         "Group :Hand": {
             "Group :Left": {
-                "int32_t :Name": 4,
+                "int32_t :Name": 6,
                 "int32_t :Type": 2
             },
             "Group :Right": {
-                "int32_t :Name": 4,
+                "int32_t :Name": 6　　　,
                 "int32_t :Type": 2
             }
         },
