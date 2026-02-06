@@ -66,7 +66,7 @@ private:
 
 	//武器の練度ゲージ
 	void CalcGauge(LWP::Primitive::ClipSurface* gauge,float value);
-
+	void CalcCoolTime(LWP::Primitive::ClipSurface* gauge, float coolTime,float maxCoolTime);
 	//コックピットアニメーション
 	void CockpitAnimation();
 
@@ -186,6 +186,7 @@ private://UI表示
 	const std::string kJsonDirectoryPath = "WeaponUI/";
 	//所有武器用の平面
 	std::map<WeaponSide, std::array<LWP::Primitive::NormalSurface, (int)WeaponType::kCount>> weaponSurfaces_;
+	std::map<WeaponSide, std::array<LWP::Primitive::ClipSurface, (int)WeaponType::kCount>> weaponCoolTimeSurfaces_;
 	std::map<WeaponSide, std::array<LWP::Primitive::ClipSurface, (int)WeaponType::kCount>> weaponGaugeSurfaces_;
 	std::map<WeaponSide, LWP::Primitive::SequenceSurface> raritySurface_;
 	std::map<WeaponSide, LWP::Primitive::NormalSurface> sampleWeaponSurface_;

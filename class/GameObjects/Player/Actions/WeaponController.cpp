@@ -98,15 +98,18 @@ void WeaponController::Init() {
 			weaponSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
 			weaponGaugeSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UIGauge::uiName[i]);
 			weaponGaugeSurfaces_[(WeaponSide)side][i].clipRect.max = weaponTextureSize_;
+
+			weaponCoolTimeSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
+			weaponCoolTimeSurfaces_[(WeaponSide)side][i].clipRect.max = weaponTextureSize_;
 			
 		}
 		sampleWeaponSurface_[(WeaponSide)side].LoadTexture("Weapon/none_UI.png");
 		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
-		sampleWeaponSurface_[(WeaponSide)side].anchorPoint = {0.0f,0.5f};
+		sampleWeaponSurface_[(WeaponSide)side].anchorPoint = {0.0f,0.0f};
 		raritySurface_[(WeaponSide)side].LoadTexture("Weapon/rarity_UI.png");
 		raritySurface_[(WeaponSide)side].SetSplitSize(kRarityTextureSize_);
 		raritySurface_[(WeaponSide)side].isActive = false;
-		raritySurface_[(WeaponSide)side].anchorPoint = { 0.0f,0.5f };
+		raritySurface_[(WeaponSide)side].anchorPoint = { 0.0f,0.0f };
 		raritySurface_[(WeaponSide)side].worldTF.translation.z = -0.03f;
 		raritySurface_[(WeaponSide)side].worldTF.Parent(&sampleWeaponSurface_[(WeaponSide)side].worldTF);
 
@@ -156,16 +159,22 @@ void WeaponController::Update() {
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.translation = sampleWeaponSurface_[(WeaponSide)side].worldTF.translation;
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.rotation = sampleWeaponSurface_[(WeaponSide)side].worldTF.rotation;
 			weaponSurfaces_[(WeaponSide)side][i].worldTF.scale = sampleWeaponSurface_[(WeaponSide)side].worldTF.scale;
-			weaponSurfaces_[(WeaponSide)side][i].anchorPoint = {0.0f,0.5f};
+			weaponSurfaces_[(WeaponSide)side][i].anchorPoint = {0.0f,0.0f};
 			weaponSurfaces_[(WeaponSide)side][i].material.color = colorSample_[side];
 
 			weaponGaugeSurfaces_[(WeaponSide)side][i].worldTF.Parent(&sampleWeaponSurface_[(WeaponSide)side].worldTF);
 			weaponGaugeSurfaces_[(WeaponSide)side][i].worldTF.translation = {0.0f,0.0f,0.0f};
 			weaponGaugeSurfaces_[(WeaponSide)side][i].worldTF.translation.z = gaugeDistance_;
 			weaponGaugeSurfaces_[(WeaponSide)side][i].isActive = false;
-			weaponGaugeSurfaces_[(WeaponSide)side][i].anchorPoint = { 0.0f,0.5f };
+			weaponGaugeSurfaces_[(WeaponSide)side][i].anchorPoint = { 0.0f,0.0f };
 			weaponGaugeSurfaces_[(WeaponSide)side][i].material.color = colorSample_[side];
 
+			weaponCoolTimeSurfaces_[(WeaponSide)side][i].worldTF.Parent(&sampleWeaponSurface_[(WeaponSide)side].worldTF);
+			weaponCoolTimeSurfaces_[(WeaponSide)side][i].worldTF.translation = { 0.0f,0.0f,0.0f };
+			weaponCoolTimeSurfaces_[(WeaponSide)side][i].worldTF.translation.z = -0.008f;
+			weaponCoolTimeSurfaces_[(WeaponSide)side][i].isActive = false;
+			weaponCoolTimeSurfaces_[(WeaponSide)side][i].anchorPoint = { 0.0f,0.0f };
+			
 			raritySurface_[(WeaponSide)side].isActive = false;
 		}
 		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
@@ -182,6 +191,15 @@ void WeaponController::Update() {
 			weaponGaugeSurfaces_[(WeaponSide)side][type].isActive = true;
 			raritySurface_[(WeaponSide)side].isActive = true;
 			CalcGauge(&weaponGaugeSurfaces_[(WeaponSide)side][type], weaponSkills_->GetSkillData(type).value);
+			//クールタイムの表示
+			if (!weapons_[(WeaponSide)side]->GetFrontWeapon()->GetIsEnableAttack()) {
+				weaponCoolTimeSurfaces_[(WeaponSide)side][type].isActive = true;
+				weaponCoolTimeSurfaces_[(WeaponSide)side][type].material.color = colorSample_[weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().rarity];
+				weaponCoolTimeSurfaces_[(WeaponSide)side][type].material.color.R *= 0.4f;
+				weaponCoolTimeSurfaces_[(WeaponSide)side][type].material.color.G *= 0.4f;
+				weaponCoolTimeSurfaces_[(WeaponSide)side][type].material.color.B *= 0.4f;
+				CalcCoolTime(&weaponCoolTimeSurfaces_[(WeaponSide)side][type], weapons_[(WeaponSide)side]->GetFrontWeapon()->GetEnableAttack(), weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().shotIntervalTime);
+			}
 			bulletNums_[(WeaponSide)side]->SetIsActive(true);
 			bulletNums_[(WeaponSide)side]->SetNum(weapons_[(WeaponSide)side]->GetFrontWeapon()->GetBulletNum());
 			bulletNums_[(WeaponSide)side]->SetColor(colorSample_[weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().rarity]);
@@ -223,6 +241,19 @@ void WeaponController::CalcGauge(LWP::Primitive::ClipSurface* gauge, float value
 	gauge->anchorPoint.x =  0;
 	gauge->clipRect.min = {0.0f,0.0f};
 	gauge->clipRect.max.x = (ratio) * weaponTextureSize_.x;
+}
+
+void WeaponController::CalcCoolTime(LWP::Primitive::ClipSurface* gauge, float coolTime, float maxCoolTime) {
+	float now = coolTime;
+	float max = maxCoolTime*60.0f;
+	if (max < now) {
+		now = max;
+	}
+	float ratio = now / max;
+	ratio = 1.0f - ratio;
+	gauge->anchorPoint.y = 0;
+	gauge->clipRect.min = { 0.0f,(ratio)*weaponTextureSize_.y };
+	//gauge->clipRect.max.y = (ratio)*weaponTextureSize_.y;
 }
 
 void WeaponController::CockpitAnimation() {
