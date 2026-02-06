@@ -150,6 +150,9 @@ void Player::Update() {
 	hpGauge_->Update();
 
 	if (hp_->GetIsDead()) {
+		// 全てのループSEの再生停止
+		moveController_->StopAllLoopSE();
+
 		isAlive_ = false;
 		return;
 	}

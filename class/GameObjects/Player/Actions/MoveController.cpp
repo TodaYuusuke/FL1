@@ -21,7 +21,7 @@ MoveController::MoveController(BlackBoard* blackBoard) {
 }
 
 MoveController::~MoveController() {
-
+	
 }
 
 void MoveController::Init() {
@@ -148,4 +148,15 @@ bool MoveController::GetIsTurnBehind() {
 		}
 	}
 	return false;
+}
+
+void MoveController::StopAllLoopSE()
+{
+	// ループ音再生停止
+	if (AudioPlayer* p = SEPlayer::GetInstance()->GetAudioPlayer(boostSEID_)) {
+		p->Stop();
+	}
+	if (AudioPlayer* p = SEPlayer::GetInstance()->GetAudioPlayer(moveSEID_)) {
+		p->Stop();
+	}
 }

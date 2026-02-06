@@ -46,6 +46,11 @@ public:// アクセサ
 
 #pragma region Setter
 
+	/// <summary>
+	/// ループSEの停止関数
+	/// </summary>
+	void StopAllLoopSE();
+
 #pragma endregion
 
 private:// 調整項目
