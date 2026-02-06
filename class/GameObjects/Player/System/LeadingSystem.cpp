@@ -116,7 +116,7 @@ void LeadingSystem::SelectLeadingTarget() {
 		if (leadingScreenRange_ < Vector2::Distance(screenCenterPos, screenPos)) { continue; }
 
 		// カメラの後ろ側なら終了
-		if (!IsObjectInFront(actor->GetModel()->GetJointWorldPosition("LockOnAnchor"), pCamera_->worldTF.GetWorldPosition(), pCamera_->worldTF.rotation)) {
+		if (!IsObjectInFront(actor->GetModel()->GetJointWorldPosition("LockOnAnchor"), pCamera_->worldTF.GetWorldPosition(), blackBoard_->GetValue<Actor*>("Player")->GetWorldTF()->rotation * pCamera_->worldTF.rotation)) {
 			continue;
 		}
 
