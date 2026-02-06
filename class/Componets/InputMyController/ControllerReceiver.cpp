@@ -364,19 +364,17 @@ LWP::Math::Vector2 ControllerReceiver::CalcRotateFromJoyStick(RecvStickTest in,i
 	num = in.y - kInputStickCenter_;
 	rotate.y = float(num) / kInputStickRange_;
 	
-	rotate = rotate.Normalize();
-
 	//deadZone設定
-	if (rotate.x > borders_[index*2].x && rotate.x < borders_[index * 2 + 1].x) {
+	if (std::abs(rotate.x) < deadZone_) {
 		rotate.x = 0;
 	}
-	else if (rotate.x >0) {
+	else if (rotate.x > 0) {
 		rotate.x = 1.0f;
 	}
 	else {
 		rotate.x = -1.0f;
 	}
-	if (rotate.y > borders_[index * 2].y && rotate.y < borders_[index * 2 + 1].y) {
+	if (std::abs(rotate.y) < deadZone_) {
 		rotate.y = 0;
 	}
 	else if (rotate.y > 0) {
