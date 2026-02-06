@@ -148,6 +148,14 @@ void Emitter::SetParent(LWP::Resource::SkinningModel* model, const std::string& 
 	}
 }
 
+Emitter& Emitter::SetRotation(const LWP::Math::Quaternion& rotation)
+{
+	// 回転角を行列から求める
+	transform_.rotation = rotation;
+
+	return *this;
+}
+
 Emitter& Emitter::SetIsInfinite(const bool isInfinite)
 {
 	// 無限状態

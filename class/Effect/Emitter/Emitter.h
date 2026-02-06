@@ -120,6 +120,12 @@ public: // アクセッサ等
 	void SetIsAutoEmit(const bool isAuto) { isAutoEmit_ = isAuto; }
 
 	/// <summary>
+	/// 回転角セッター
+	/// </summary>
+	/// <param name="rotation">回転</param>
+	Emitter& SetRotation(const LWP::Math::Quaternion& rotation);
+
+	/// <summary>
 	/// 無限生成状態セッター
 	/// </summary>
 	/// <param name="isInfinite">エミッタを無限に生存させるか</param>

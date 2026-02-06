@@ -123,7 +123,7 @@ void WeaponController::Init() {
 		sampleBulletSurface_.isActive = false;
 
 		// 練度上昇パーティクルエミッタの登録
-		powerUPEffectEmitters_[(WeaponSide)side] = EffectManager::GetInstance()->CreateNewEmitter("PowerUP", LWP::Math::Vector3(), true);
+		powerUPEffectEmitters_[(WeaponSide)side] = EffectManager::GetInstance()->CreateNewEmitter("PowerUP", {0.0f, 0.0f, -0.1f}, true);
 		switch ((WeaponSide)side)
 		{
 		case WeaponSide::kLeft:
