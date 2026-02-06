@@ -171,7 +171,7 @@ void WeaponController::Update() {
 
 			weaponCoolTimeSurfaces_[(WeaponSide)side][i].worldTF.Parent(&sampleWeaponSurface_[(WeaponSide)side].worldTF);
 			weaponCoolTimeSurfaces_[(WeaponSide)side][i].worldTF.translation = { 0.0f,0.0f,0.0f };
-			weaponCoolTimeSurfaces_[(WeaponSide)side][i].worldTF.translation.z = -0.008f;
+			weaponCoolTimeSurfaces_[(WeaponSide)side][i].worldTF.translation.z = -0.01f;
 			weaponCoolTimeSurfaces_[(WeaponSide)side][i].isActive = false;
 			weaponCoolTimeSurfaces_[(WeaponSide)side][i].anchorPoint = { 0.0f,0.0f };
 			
