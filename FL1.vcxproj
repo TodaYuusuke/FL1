@@ -276,6 +276,7 @@
     <ClCompile Include="class\GameObjects\Player\Anim\RobotAnimManager.cpp" />
     <ClCompile Include="class\Audio\SEPlayer.cpp" />
     <ClCompile Include="class\Effect\Particle\Child\SequenceParticle.cpp" />
+    <ClCompile Include="class\GameObjects\Camera\Effect\Vignette\Vignette.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="class\GameObjects\Camera\Effect\Blur\Blur.h" />
@@ -437,6 +438,7 @@
     <ClInclude Include="class\Audio\SEPlayer.h" />
     <ClInclude Include="class\Effect\Bullet\Child\ExplosiveBulletEffect.h" />
     <ClInclude Include="class\Effect\Particle\Child\SequenceParticle.h" />
+    <ClInclude Include="class\GameObjects\Camera\Effect\Vignette\Vignette.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

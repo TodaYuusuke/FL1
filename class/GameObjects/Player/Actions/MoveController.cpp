@@ -62,16 +62,22 @@ void MoveController::Update() {
 		}
 	}
 
-	// ブースト時のブラー強さを設定する
-	float speed = actions_[ActionType::kMain]->GetMoveSpeed() + actions_[ActionType::kSub]->GetMoveSpeed();
-	float maxSpeed = 4.0f;
-	if (speed <= maxSpeed) {
-		CameraEffectHandler::GetInstance()->GetBlurEffector()->SetMaxStrength(LWP::Utility::Interp::LerpF(0.0f, 0.005f, LWP::Utility::Easing::CallFunction(LWP::Utility::Easing::Type::Liner, std::clamp(speed / maxSpeed, 0.f, 1.f))));
-	}
-	else {
-		// ブラーエフェクト終了
-		cameraEffector_->GetBlurEffector()->SetMaxStrength(0.0f);
-		cameraEffector_->GetBlurEffector()->Finish(0.5f);
+	// ブースト時のエフェクトのかかり具合を設定する
+	if (vCon_->GetPress(BindActionType::kBoost)) {
+		float speed = actions_[ActionType::kMain]->GetMoveSpeed() + actions_[ActionType::kSub]->GetMoveSpeed();
+		float maxSpeed = 4.0f;
+
+		// ビネットエフェクト
+		CameraEffectHandler::GetInstance()->GetVignetteEffector()->SetMaxStrength(LWP::Utility::Interp::LerpF(0.0f, 0.5f, LWP::Utility::Easing::CallFunction(LWP::Utility::Easing::Type::Liner, std::clamp(speed / maxSpeed, 0.f, 1.f))));
+		// ブラーエフェクト
+		if (speed <= maxSpeed) {
+			CameraEffectHandler::GetInstance()->GetBlurEffector()->SetMaxStrength(LWP::Utility::Interp::LerpF(0.0f, 0.005f, LWP::Utility::Easing::CallFunction(LWP::Utility::Easing::Type::Liner, std::clamp(speed / maxSpeed, 0.f, 1.f))));
+		}
+		else {
+			// ブラーエフェクト終了
+			cameraEffector_->GetBlurEffector()->SetMaxStrength(0.0f);
+			cameraEffector_->GetBlurEffector()->Finish(0.5f);
+		}
 	}
 }
 
@@ -103,6 +109,8 @@ void MoveController::InputHandle() {
 
 					// ブラーエフェクト開始
 					cameraEffector_->GetBlurEffector()->Start(0.5f);
+					// ビネットエフェクト開始
+					cameraEffector_->GetVignetteEffector()->Start(1.0f);
 
 					// ブースト音も再生開始
 					SEPlayer::GetInstance()->PlaySE("beginBoost_SE.mp3", 1.0f, LWP::AudioConfig::Player);
@@ -119,8 +127,10 @@ void MoveController::InputHandle() {
 			cameraEffector_->StartZoom(-boostCameraFov, boostCameraEffectTime * 2.0f);
 
 			// ブラーエフェクト終了
-			cameraEffector_->GetBlurEffector()->SetMaxStrength(0.0f);
 			cameraEffector_->GetBlurEffector()->Finish(0.5f);
+
+			// ビネットエフェクト終了
+			cameraEffector_->GetVignetteEffector()->Finish(1.0f);
 
 			// ループ音再生停止
 			if (AudioPlayer* p = SEPlayer::GetInstance()->GetAudioPlayer(boostSEID_)) {

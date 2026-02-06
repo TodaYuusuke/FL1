@@ -15,6 +15,7 @@ FollowCamera::FollowCamera(LWP::Object::Camera* camera) {
 	camera_->pp.use = true;
 	camera_->pp.bloom.use = true;
 	camera_->pp.radialBlur.use = true;
+	camera_->pp.vignetting.use = true;
 	//camera_->pp.rgbShift.use = true;
 	//camera_->pp.glitch.use = true;
 	camera_->pp.CreateShaderFile();

@@ -6,6 +6,7 @@
 #include "Zoom/CameraZoom.h"
 #include "BoundMove/CameraBound.h"
 #include "Blur/Blur.h"
+#include "Vignette/Vignette.h"
 #include "CameraEffect.h"
 
 /// <summary>
@@ -56,6 +57,12 @@ public:// アクセサ
 	/// <returns>ブラーエフェクト</returns>
 	Blur* GetBlurEffector() { return blurEffector_; }
 
+	/// <summary>
+	/// ビネットエフェクターゲッター
+	/// </summary>
+	/// <returns>ビネットエフェクター</returns>
+	Vignette* GetVignetteEffector() { return vignetteEffector_; }
+
 #pragma endregion
 
 #pragma region Setter
@@ -73,7 +80,9 @@ private:
 	// 演出処理
 	std::map<CameraEffectType, std::unique_ptr<CameraEffect>> cameraEffects_;
 
-	// ブラーのエフェクター
+	// ブラーのポストプロセス
 	Blur* blurEffector_ = nullptr;
+	// ビネットのポストプロセス
+	Vignette* vignetteEffector_ = nullptr;
 };
 
