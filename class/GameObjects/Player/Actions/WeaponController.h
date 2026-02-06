@@ -154,6 +154,14 @@ public:// アクセサ
 	void SetWeaponVelocity(const LWP::Math::Vector3& velocity) { weaponVel_ = velocity; }
 #pragma endregion
 
+public: // 演出用関数群
+
+	/// <summary>
+	/// 練度上昇パーティクルの再生関数
+	/// </summary>
+	/// <param name="side">上昇した部位</param>
+	void EmitPowerUPParticle(const WeaponSide side);
+
 private:
 	VirtualController* vCon_;
 	// 偏差射撃計算機能
@@ -197,7 +205,7 @@ private://UI表示
 	int kBulletNumDigit_ = 3;
 
 	//コックピット表示
-	LWP::Resource::RigidModel cockpit_;
+	LWP::Resource::SkinningModel cockpit_;
 	LWP::Utility::JsonIO json_;
 
 	//HP表示(中間用の仮のやつ)
@@ -208,6 +216,9 @@ private://UI表示
 
 	//レアリティ毎のカラーサンプル
 	std::array<LWP::Utility::Color, size_t(RarityType::kCount)> colorSample_;
+
+	// 練度上昇時のパーティクル
+	std::map<WeaponSide, Emitter*> powerUPEffectEmitters_{};
 
 	float gaugeDistance_;
 
