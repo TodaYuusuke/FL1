@@ -27,16 +27,8 @@ void FollowCamera::Init() {
 }
 
 void FollowCamera::Update() {
-	// 追従対象がいなければ処理しない
-	//if (!target_) { return; }
-
-	// 追従対象の角度を取得
-	//camera_->worldTF.rotation = target_->GetWorldTF()->rotation;
-
-	// カメラの後追い
-	//interTarget_ = LWP::Utility::Interpolation::Lerp(interTarget_, target_->GetWorldTF()->GetWorldPosition(), interTargetRate);
 	// カメラの座標を決定
-	camera_->worldTF.translation = /*target_->GetWorldTF()->GetWorldPosition() + */(kTargetDist);
+	camera_->worldTF.translation = kTargetDist;
 }
 
 void FollowCamera::DebugGUI() {
