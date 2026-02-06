@@ -147,6 +147,7 @@ void GameScene::Initialize() {
 	Radar::GetInstance()->SetParent(player_->GetWeaponController()->GetCockpit());
 	enemyManager_->SetMiniMapFunc(Radar::AppendTargetEnemy);
 	WeaponManager::GetInstance()->SetMiniMapFunc(Radar::AppendTargetWeapon);
+	world_->SetMiniMapFunc(Radar::AppendTargetProp);
 
 	//シーン遷移アニメーション
 	sceneChangeAnimation_ = std::make_unique<SceneChangeAnimationPlane>();

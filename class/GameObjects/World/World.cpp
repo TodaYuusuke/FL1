@@ -61,6 +61,8 @@ void World::Update() {
 		surface.material.uvTransform.translation.x += moveLimitSpeed_;
 		surface.worldTF.scale = scale_;
 	}
+
+	filed_->Update();
 }
 
 void World::DebugGui() {

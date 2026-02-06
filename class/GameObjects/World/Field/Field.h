@@ -28,6 +28,11 @@ public: // メンバ関数
 	void Init();
 
 	/// <summary>
+	/// 更新関数
+	/// </summary>
+	void Update();
+
+	/// <summary>
 	/// GUI表示関数
 	/// </summary>
 	void DebugGUI();
@@ -36,6 +41,12 @@ public: // メンバ関数
 	/// 最終処理
 	/// </summary>
 	void EndFrame();
+
+	/// <summary>
+	/// ミニマップ登録用関数を設定
+	/// </summary>
+	/// <param name="player"></param>
+	void SetMiniMapFunc(void (*func)(LWP::Math::Vector3)) { appendMiniMap_ = func; };
 
 private: // メンバ関数
 
@@ -68,6 +79,9 @@ private:
 	std::string filePath_ = "Level/PropData.json";
 	// 保存データ読み込み用
 	LWP::Utility::JsonIO jsonIO_{};
+
+	//ミニマップに追加する関数を格納
+	void (*appendMiniMap_)(LWP::Math::Vector3);
 
 #pragma region デバッグ用変数
 

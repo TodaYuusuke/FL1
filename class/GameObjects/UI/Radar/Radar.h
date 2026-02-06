@@ -11,6 +11,7 @@ public:
 		PLAYER,
 		ENEMY,
 		WEAPON,
+		PROP,
 		COUNT
 	};
 
@@ -46,6 +47,7 @@ public:
 	void AppendTarget(LWP::Math::Vector3 position, UnitType type) { unitDatas_.push_back({position,type}); };
 	static void AppendTargetWeapon(LWP::Math::Vector3 position) {GetInstance()->AppendTarget(position, WEAPON); };
 	static void AppendTargetEnemy(LWP::Math::Vector3 position) { GetInstance()->AppendTarget(position, ENEMY); };
+	static void AppendTargetProp(LWP::Math::Vector3 position) { GetInstance()->AppendTarget(position, PROP); };
 
 private:
 	Radar() {};
