@@ -158,6 +158,9 @@ std::wstring ControllerReceiver::GetUSBPort() {
 
 
 void ControllerReceiver::Initialize() {
+
+	InitializeJson();
+
 	isStartThread_ = false;
 	isEndThread_ = false;
 	//kalman_[0].reset(new kalman2Shaft);
@@ -204,6 +207,29 @@ void ControllerReceiver::Initialize() {
 	receiveThread_ = std::thread(std::bind(&ControllerReceiver::Loop, this));
 	isStartThread_ = true;
 
+}
+
+
+void ControllerReceiver::InitializeJson() {
+	// 管理クラスの調整項目
+	json_.Init(kJsonDirectoryPath + "LeverParamater.json")
+		.BeginGroup("Left")
+		.AddValue<LWP::Math::Vector2>("min", &borders_[0])
+		.AddValue<LWP::Math::Vector2>("max", &borders_[1])
+		.EndGroup()
+		.BeginGroup("Right")
+		.AddValue<LWP::Math::Vector2>("min", &borders_[2])
+		.AddValue<LWP::Math::Vector2>("max", &borders_[3])
+		.EndGroup()
+
+		.CheckJsonFile();
+}
+
+void ControllerReceiver::DebugGUI() {
+	if (ImGui::BeginTabItem("Lever")) {
+		json_.DebugGUI();
+		ImGui::EndTabItem();
+	}
 }
 
 void ControllerReceiver::ReOpenPort() {
@@ -292,7 +318,7 @@ void ControllerReceiver::Loop() {
 				rawData_.x = data.x;
 				rawData_.y = data.y;
 				//usedData_.rotate[i] =  CalcRotate(data, kalman_[i].get());
-				usedData_.stick.sticks[i].lever = CalcRotateFromJoyStick(data);
+				usedData_.stick.sticks[i].lever = CalcRotateFromJoyStick(data,i);
 				usedData_.stick.sticks[i].button0 = !data.button0;
 				usedData_.stick.sticks[i].button1 = !data.button1;
 
@@ -330,7 +356,7 @@ Vector3 ControllerReceiver::CalcRotate(RecvData in, kalman2Shaft* kalman) {
 	return rotate;
 }*/
 
-LWP::Math::Vector2 ControllerReceiver::CalcRotateFromJoyStick(RecvStickTest in) {
+LWP::Math::Vector2 ControllerReceiver::CalcRotateFromJoyStick(RecvStickTest in,int index) {
 	LWP::Math::Vector2 rotate;
 	rotate.y = 0;
 	int16_t num = in.x - kInputStickCenter_;
@@ -338,8 +364,10 @@ LWP::Math::Vector2 ControllerReceiver::CalcRotateFromJoyStick(RecvStickTest in) 
 	num = in.y - kInputStickCenter_;
 	rotate.y = float(num) / kInputStickRange_;
 	
+	rotate = rotate.Normalize();
+
 	//deadZone設定
-	if (std::abs(rotate.x) < deadZone_) {
+	if (rotate.x > borders_[index*2].x && rotate.x < borders_[index * 2 + 1].x) {
 		rotate.x = 0;
 	}
 	else if (rotate.x >0) {
@@ -348,7 +376,7 @@ LWP::Math::Vector2 ControllerReceiver::CalcRotateFromJoyStick(RecvStickTest in) 
 	else {
 		rotate.x = -1.0f;
 	}
-	if (std::abs(rotate.y) < deadZone_) {
+	if (rotate.y > borders_[index * 2].y && rotate.y < borders_[index * 2 + 1].y) {
 		rotate.y = 0;
 	}
 	else if (rotate.y > 0) {

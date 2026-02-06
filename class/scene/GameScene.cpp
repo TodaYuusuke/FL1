@@ -282,6 +282,8 @@ void GameScene::Update() {
 
 	Radar::GetInstance()->DebugGui();
 
+	ControllerReceiver::GetInstance()->DebugGUI();
+
 	static bool is;
 	// シーン遷移アニメーション
 	if (LWP::Input::Keyboard::GetTrigger(DIK_7)) {
