@@ -459,6 +459,10 @@ void EnemyManager::SpawnEnemy() {
 	// 敵が多すぎるなら出現させない
 	if ((int)enemies_.size() >= limitSpawnNum_) { return; }
 
+#ifdef NDEBUG
+	if (!WaveManager::GetInstance())return;
+#endif // DEBUG
+
 	// 次の敵を強制出現 or 敵がすべていない
 	switch (spawnType_) {
 	case EnemySpawnType::kRandom:

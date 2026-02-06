@@ -35,6 +35,7 @@ TutorialScene::~TutorialScene() {
 	// 
 	EffectEditor::Destroy();
 	EffectManager::Destroy();
+	BulletEffector::Destroy();
 	// 押し出し
 	PenetrationResolver::Destroy();
 	// 武器管理クラス
@@ -71,6 +72,7 @@ void TutorialScene::Initialize() {
 	// インスタンス生成
 	EffectManager::Create();
 	EffectEditor::Create();
+	BulletEffector::Create();
 
 	// エフェクト関連初期化
 	EffectManager::GetInstance()->Init();
@@ -93,6 +95,8 @@ void TutorialScene::Initialize() {
 	Player* player_ = new Player(followCamera_.get(), world_.get(), followCamera_->defaultTargetDist_);
 	// 自機をアクターとして追加
 	world_->AddActor(player_);
+	// 効果音プレイヤーに自機のトランスフォームを渡す
+	SEPlayer::GetInstance()->SetListener(player_->GetWorldTF());
 
 	// 敵管理クラス
 	enemyManager_ = std::make_unique<EnemyManager>(world_.get());
@@ -165,6 +169,7 @@ void TutorialScene::Update() {
 
 	// エフェクト関連初期化
 	EffectManager::GetInstance()->Update();
+	BulletEffector::GetInstance()->Update();
 
 	// カメラ演出
 	CameraEffectHandler::GetInstance()->Update();
