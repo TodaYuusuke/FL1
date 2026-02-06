@@ -55,7 +55,7 @@ void MoveController::Update() {
 		// 移動音再生
 		moveSEID_ = SEPlayer::GetInstance()->PlaySE("move_SE.mp3", 1.0f, LWP::AudioConfig::Player, true);
 	}
-	else if (std::abs(actions_[ActionType::kMain]->GetVel().Length()) <= 0.05f && SEPlayer::GetInstance()->GetAudioPlayer(moveSEID_) != nullptr) {
+	else if (std::abs(actions_[ActionType::kMain]->GetVel().Length()) <= 0.05f && HitStopController::GetInstance()->GetDeltaTime() != 0.0f && SEPlayer::GetInstance()->GetAudioPlayer(moveSEID_) != nullptr) {
 		// ループ音再生停止
 		if (AudioPlayer* p = SEPlayer::GetInstance()->GetAudioPlayer(moveSEID_)) {
 			p->Stop(0.5f);

@@ -35,6 +35,9 @@ void WeaponController::Init() {
 		if (it->second) it->second->Init();
 	}
 
+	//コックピット
+	cockpit_.LoadShortPath("Cockpit/Cockpit.gltf");
+
 	colorSample_[size_t(RarityType::kCommon)] = { 170, 170, 170, 255 };
 	colorSample_[size_t(RarityType::kUnCommon)] = { 56, 178, 65, 255 };
 	colorSample_[size_t(RarityType::kRare)] = { 56, 56, 180, 255 };
@@ -118,10 +121,27 @@ void WeaponController::Init() {
 		bulletNums_[(WeaponSide)side]->Initialize(kBulletNumDigit_);
 		bulletNums_[(WeaponSide)side]->SetParent(&sampleWeaponSurface_[(WeaponSide)side].worldTF);
 		sampleBulletSurface_.isActive = false;
-	}
 
-	//コックピット
-	cockpit_.LoadShortPath("Cockpit/Cockpit.gltf");
+		// 練度上昇パーティクルエミッタの登録
+		powerUPEffectEmitters_[(WeaponSide)side] = EffectManager::GetInstance()->CreateNewEmitter("PowerUP", LWP::Math::Vector3(), true);
+		switch ((WeaponSide)side)
+		{
+		case WeaponSide::kLeft:
+			powerUPEffectEmitters_[(WeaponSide)side]->SetParent(&cockpit_, "LowerMonitor.L");
+			break;
+		case WeaponSide::kRight:
+			powerUPEffectEmitters_[(WeaponSide)side]->SetParent(&cockpit_, "LowerMonitor.R");
+			break;
+		case WeaponSide::kLeftShoulder:
+			powerUPEffectEmitters_[(WeaponSide)side]->SetParent(&cockpit_, "UpperMonitor.L");
+			break;
+		case WeaponSide::kRightShoulder:
+			powerUPEffectEmitters_[(WeaponSide)side]->SetParent(&cockpit_, "UpperMonitor.R");
+			break;
+		}
+		
+		powerUPEffectEmitters_[(WeaponSide)side]->SetIsAutoEmit(false);
+	}
 
 	hpCircleSurface_.LoadTexture("HP_circle.png");
 	hpCircleSurface_.worldTF.Parent(&cockpit_.worldTF);
@@ -203,6 +223,11 @@ void WeaponController::Update() {
 			bulletNums_[(WeaponSide)side]->SetIsActive(true);
 			bulletNums_[(WeaponSide)side]->SetNum(weapons_[(WeaponSide)side]->GetFrontWeapon()->GetBulletNum());
 			bulletNums_[(WeaponSide)side]->SetColor(colorSample_[weapons_[(WeaponSide)side]->GetFrontWeapon()->GetWeaponData().rarity]);
+
+			// 練度上昇時パーティクル生成
+			if (weaponSkills_->GetSkillData(type).value > weaponSkills_->GetSkillData(type).preValue) {
+				powerUPEffectEmitters_[(WeaponSide)side]->Emit();
+			}
 		}
 		else {
 			sampleWeaponSurface_[(WeaponSide)side].worldTF.Parent(&cockpit_.worldTF);
@@ -220,6 +245,9 @@ void WeaponController::Update() {
 		bulletNums_[(WeaponSide)side]->SetParent(&(sampleWeaponSurface_[(WeaponSide)side].worldTF));
 		bulletNums_[(WeaponSide)side]->Update();
 	}
+
+	// 練度の最終処理
+	weaponSkills_->Finalize();
 }
 
 void WeaponController::CalcHP(Health* health) {
@@ -391,4 +419,10 @@ void WeaponController::SetWeapon(IWeapon* weapon) {
 		debugOwner_->PlayPickUpAnim(static_cast<int>(collectSide_));
 		break;
 	}
+}
+
+void WeaponController::EmitPowerUPParticle(const WeaponSide side)
+{
+	// パーティクル生成
+	powerUPEffectEmitters_[side]->Emit();
 }

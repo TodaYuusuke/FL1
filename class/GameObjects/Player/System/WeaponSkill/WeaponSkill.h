@@ -14,7 +14,9 @@ public:
 		int level;					// 練度
 		float attackMultiply = 1.0f;// 攻撃倍率
 		int weaponType;
+		float preValue;
 	};
+
 	// Guiのタブ情報
 	struct TabData {
 		std::string name;
@@ -43,6 +45,10 @@ public:
 	/// </summary>
 	void Update();
 	/// <summary>
+	/// 最終処理
+	/// </summary>
+	void Finalize();
+	/// <summary>
 	/// 調整項目
 	/// </summary>
 	void DebugGui();
@@ -59,13 +65,7 @@ public:// アクセサ
 	void SkillUp(int weaponType, float value) {
 		int type = GetSkillData(weaponType).weaponType;
 		ApplyRadarEffect(radar_, type, value);
-		//radar_[type].value += value;
 	}
-	//void SkillUp(const std::string& weaponName, float value) { 
-	//	int type = GetSkillData(weaponName).weaponType;
-	//	ApplyRadarEffect(radar_, type, value);
-	//	//radar_[type].value += value;
-	//}
 
 #pragma region Getter
 	/// <summary>
