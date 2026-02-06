@@ -29,9 +29,6 @@ GameScene::GameScene() {
 }
 
 GameScene::~GameScene() {
-	// 効果音プレイヤー生成
-	SEPlayer::Destroy();
-
 	// ウェーブ
 	WaveManager::Destroy();
 	// エフェクト
@@ -55,6 +52,9 @@ GameScene::~GameScene() {
 	ControllerReceiver::GetInstance()->ClosePort();
 	// カメラ演出
 	CameraEffectHandler::Destroy();
+
+	// 効果音プレイヤー生成
+	SEPlayer::Destroy();
 }
 
 void GameScene::Initialize() {
@@ -106,6 +106,9 @@ void GameScene::Initialize() {
 	player_ = new Player(followCamera_.get(), world_.get(), followCamera_->defaultTargetDist_);
 	// 自機をアクターとして追加
 	world_->AddActor(player_);
+
+	// 効果音プレイヤーに自機のトランスフォームを渡す
+	SEPlayer::GetInstance()->SetListener(player_->GetWorldTF());
 
 	// 敵管理クラス
 	enemyManager_ = std::make_unique<EnemyManager>(world_.get());
@@ -170,9 +173,6 @@ void GameScene::Update() {
 	// ヒットストップ
 	HitStopController::GetInstance()->Update();
 
-	// 押し出し
-	PenetrationResolver::GetInstance()->Update();
-
 	Radar::GetInstance()->ClearVector();
 
 	// 敵管理
@@ -211,11 +211,14 @@ void GameScene::Update() {
 	// カメラ演出
 	CameraEffectHandler::GetInstance()->Update();
 
+	// 押し出し
+	PenetrationResolver::GetInstance()->Update();
+
 #ifdef _DEBUG
 
 	// 次のシーンへ以降
 	if (Input::Keyboard::GetTrigger(DIK_F)) {
-		//nextSceneFunction = []() { return new ResultScene(); };
+		nextSceneFunction = []() { return new ResultScene(); };
 	}
 
 	//マイコンの再接続
@@ -309,6 +312,7 @@ void GameScene::Update() {
 	// 更新処理終了時に呼ぶ処理
 	enemyManager_->EndFrame();
 	AttackManager::GetInstance()->EndFrame();
+	world_->EndFrame();
 
 	// コントローラー
 	VirtualController::GetInstance()->Update();

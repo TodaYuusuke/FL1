@@ -57,13 +57,7 @@ public: // アニメーション用関数群
 	/// 射撃アニメーション再生関数
 	/// </summary>
 	/// <param name="weaponSide">武器の場所</param>
-	virtual void PlayShotAnim(const int weaponSide = 0) { weaponSide; };
-
-	/// <summary>
-	/// 近接攻撃アニメーション再生関数
-	/// </summary>
-	/// <param name="weaponSide">武器の場所</param>
-	virtual void PlayMelleAnim(const int weaponSide = 0) { weaponSide; };
+	virtual void PlayAttackAnim(const int weaponSide = 0) { weaponSide; };
 
 	/// <summary>
 	/// 取得アニメーション再生関数
@@ -135,6 +129,7 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	std::map<int, IWeapon*> GetWeapon() { return weapons_; }
+	IWeapon* GetWeapon(int weaponSide) { return weapons_[weaponSide]; }
 	/// <summary>
 	/// 現在位置を取得
 	/// </summary>

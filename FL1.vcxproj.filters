@@ -24,7 +24,7 @@
     <ClCompile Include="class\scene\Title.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="class\GameObjects\World\Field.cpp">
+    <ClCompile Include="class\GameObjects\World\Field\Field.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="class\GameObjects\World\World.cpp">
@@ -381,6 +381,12 @@
     <ClCompile Include="class\Effect\Bullet\Child\ExplosiveBulletEffect.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="class\Effect\Particle\Child\SequenceParticle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="class\GameObjects\World\Field\Prop.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="class\GameObjects\UI\SingleGauge\SingleGauge.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -392,7 +398,7 @@
     <ClInclude Include="class\scene\Title.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="class\GameObjects\World\Field.h">
+    <ClInclude Include="class\GameObjects\World\Field\Field.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\GameObjects\World\IWorld.h">
@@ -846,6 +852,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\Effect\Bullet\Child\ExplosiveBulletEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\Effect\Particle\Child\SequenceParticle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\World\Field\Prop.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class\GameObjects\World\Field\PropStructs.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="class\GameObjects\UI\SingleGauge\SingleGauge.h">

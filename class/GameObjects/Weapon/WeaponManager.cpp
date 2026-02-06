@@ -64,10 +64,17 @@ void WeaponManager::Init() {
 }
 
 void WeaponManager::Update() {
+	int dropedWeaponNum = 0;
 	for (IWeapon* weapon : weapons_) {
 		if(!weapon->GetIsDestroy()) weapon->Update();
-		if(!weapon->GetActor()) appendMiniMap_(weapon->GetWorldTF()->GetWorldPosition());
+		if (!weapon->GetActor()) {
+			appendMiniMap_(weapon->GetWorldTF()->GetWorldPosition());
+			// 地面に落ちている武器数更新
+			dropedWeaponNum++;
+		}
 	}
+	dropedWeaponNum_ = dropedWeaponNum;
+
 	for (int i = 0; i < pickUpWeaponSprite_.size(); i++) {
 		if (!isDrawPickUpWeaponSprite_[i]) {
 			pickUpWeaponSprite_[i].isActive = false;
@@ -89,7 +96,12 @@ void WeaponManager::Update() {
 	if (ControllerReceiver::GetInstance()->IsOpen()) {
 		controllerType_ = kLever;
 	}
+
 	pickUpWeaponLines_.clear();
+
+	// 上限を超えているなら古い武器から消していく
+	ClearLimitOverWeapon();
+
 	// 自機が近いなら武器を渡す
 	isPickUp_ = false;
 	CheckPlayerToWeaponDistance();
@@ -143,6 +155,20 @@ void WeaponManager::DebugGui() {
 		}
 
 		ImGui::EndTabItem();
+	}
+}
+
+void WeaponManager::ClearLimitOverWeapon() {
+	int dropedWeaponNum = dropedWeaponNum_;
+	for (int i = 0;i < weapons_.size(); i++) {
+		// 地面にある武器の数が上限を超えているか
+		if (dropedWeaponNum <= maxPickUpWeapon) { break; }
+		// 所持者がいるならスキップ
+		if (weapons_[i]->GetActor()) { continue; }
+
+		// 解放
+		DeleteWeapon(weapons_[i]);
+		dropedWeaponNum--;
 	}
 }
 
@@ -202,13 +228,17 @@ void WeaponManager::CheckPlayerToWeaponDistance() {
 		int size = (int)pickUpWeaponLines_.size();
 		pickUpWeaponLines_.resize(size + 1);
 		pickUpWeaponLines_[size].LoadTexture("Weapon/pickUp_line.png");
-		pickUpWeaponLines_[size].anchorPoint = { 0.5f,0.5f };
+		pickUpWeaponLines_[size].anchorPoint = { 0.5f,1.0f };
 		pickUpWeaponLines_[size].isActive = true;
-		//pickUpWeaponLines_[size].material.color.A = 200;
+		// srtの設定
 		pickUpWeaponLines_[size].worldTF.translation = weapon->GetWorldTF()->GetWorldPosition();
 		Vector3 dist = (pWorld_->FindActor("Player")->GetModel()->GetJointWorldPosition("LockOnAnchor") + Vector3{ 0.0f,-0.5f,0.0f }) - weapon->GetWorldTF()->GetWorldPosition();
-		pickUpWeaponLines_[size].worldTF.scale = { 1.0f,dist.Length() / 2.0f,1.0f };
+		pickUpWeaponLines_[size].worldTF.scale = { 1.0f,dist.Length(),1.0f };
 		pickUpWeaponLines_[size].worldTF.rotation = FLMath::LookRotationZLock(dist.Normalize()) * LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{1.0f, 0.0f, 0.0f}, (float)-std::numbers::pi / 2.0f);
+		// マテリアル
+		pickUpWeaponLines_[size].material.color.A = 200;
+		float uvScale = dist.Length() / (pickUpWeaponRange * 2.0f) * pickUpWeaponLineUvScale;
+		pickUpWeaponLines_[size].material.uvTransform.scale = { 1.0f,uvScale, 0.1f };
 		// 回収可能
 		que.push(weapon);
 	}

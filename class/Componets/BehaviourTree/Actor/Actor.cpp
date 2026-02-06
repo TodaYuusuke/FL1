@@ -65,11 +65,11 @@ void Actor::Attack() {
 			// 近接武器なら自機を指定
 			if (weapons_[i]->GetWeaponData().name == WeaponConfig::Name::name[(int)WeaponType::kMelee]) {
 				// 攻撃
-				weapons_[i]->Attack(GameMask::player, GameMask::attack | GameMask::enemy, blackBoard_->GetValue<Actor*>("Player"));
+				weapons_[i]->Attack(GameMask::player | GameMask::prop, GameMask::attack | GameMask::enemy, blackBoard_->GetValue<Actor*>("Player"));
 
 				// 攻撃中なら適したアニメーションを再生
 				if (weapons_[i]->GetIsAttacking()) {
-					PlayMelleAnim(i);
+					this->PlayAttackAnim(i);
 				}
 				continue;
 			}
@@ -77,11 +77,11 @@ void Actor::Attack() {
 				// 射撃方向
 				weapons_[i]->SetShotDirVelocity(Vector3{ 0,0,1 } * (model_.worldTF.rotation * weapons_[i]->GetWorldTF()->rotation));
 				// 攻撃
-				weapons_[i]->Attack(GameMask::player, GameMask::attack | GameMask::enemy);
+				weapons_[i]->Attack(GameMask::player | GameMask::prop, GameMask::attack | GameMask::enemy);
 
 				// 攻撃中なら適したアニメーションを再生
 				if (weapons_[i]->GetIsAttacking()) {
-					PlayShotAnim(i);
+					this->PlayAttackAnim(i);
 				}
 				continue;
 			}
@@ -90,7 +90,7 @@ void Actor::Attack() {
 }
 
 void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
-	if (hitTarget->mask.GetHitFrag() != bodyCollision_.mask.GetBelongFrag()) { return; }
+	//if (hitTarget->mask.GetHitFrag() != bodyCollision_.mask.GetBelongFrag()) { return; }
 	hp_->SetIsHit(true);
 	// 多重被弾回避
 	std::vector<std::string> name = hp_->GetDamageAttackerName();
@@ -103,10 +103,24 @@ void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
 	// ダメージを受ける
 	hp_->Damage(world_->FindAttackPower(hitTarget->name), hitTarget->name);
 
-	// 被弾音を鳴らす
-	SEPlayer::GetInstance()->PlayRandomSE("HitSound.mp3", 4, 1.0f, AudioConfig::Enviroment);
+	// 死亡時は爆発エフェクトと効果音も出す
+	if (hp_->GetIsDead()) {
+		// 死亡地点に爆発エフェクト、音を再生
+		EffectManager::GetInstance()->CreateNewEmitter("SerialExplosion", model_.GetJointWorldPosition("LockOnAnchor"));
+		// 爆発音再生
+		uint32_t id = SEPlayer::GetInstance()->PlaySE("SerialExplosion.mp3", 1.0f, AudioConfig::Enviroment, model_.GetJointWorldPosition("LockOnAnchor"));
+		AudioPlayer* p = SEPlayer::GetInstance()->GetAudioPlayer(id);
+		p->SetMinDistance(50.0f)
+			.SetMaxDistance(300.0f)
+			.SetMinVolumeMultiply(0.25f);
+	}
+
+	// 爆発音再生
+	uint32_t id = SEPlayer::GetInstance()->PlayRandomSE("HitSound.mp3", 4, 1.0f, AudioConfig::Enviroment, model_.GetJointWorldPosition("LockOnAnchor"));
+	AudioPlayer* p = SEPlayer::GetInstance()->GetAudioPlayer(id);
+	p->SetMinVolumeMultiply(0.5f);
 	// 被弾エフェクト
-	EffectManager::GetInstance()->CreateNewEmitter("Spark", model_.GetJointWorldPosition("LockOnAnchor"));
+	EffectManager::GetInstance()->CreateNewEmitter("Spark", hitTarget->GetWorldPosition());
 }
 
 void Actor::ChangeState(StateBase* nextState) {

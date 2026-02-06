@@ -13,8 +13,6 @@ void PenetrationResolver::Init() {
 }
 
 void PenetrationResolver::Update() {
-	CheckPushOutObject();
-
 	// 対象が死んでいるなら削除
 	pushObjcts_.erase(
 		std::remove_if(pushObjcts_.begin(), pushObjcts_.end(),
@@ -26,6 +24,9 @@ void PenetrationResolver::Update() {
 			}),
 		pushObjcts_.end()
 	);
+
+	// 押し出し処理
+	CheckPushOutObject();
 }
 
 void PenetrationResolver::CheckPushOutObject() {
@@ -60,12 +61,15 @@ void PenetrationResolver::CheckPushOutObject() {
 			// 相手との距離
 			Vector3 dist = (*itrB).target->GetWorldTF()->GetWorldPosition() - (*itrA).target->GetWorldTF()->GetWorldPosition();
 			// 押し出し範囲以上なら終了
-			if (dist.Length() > (*itrA).range) { continue; }
+			if (dist.Length() > (*itrA).range + (*itrB).range) { continue; }
 
 			// 押し出し量決定
-			float value = dist.Length() - (*itrA).range;
+			float value = dist.Length() - ((*itrA).range + (*itrB).range);
 			(*itrA).offset = (dist.Normalize() * value);
-			(*itrA).target->SetTranslation((*itrA).target->GetWorldTF()->GetWorldPosition() + (*itrA).offset);
+			LWP::Math::Vector3 newTranslation = (*itrA).target->GetWorldTF()->GetWorldPosition() + (*itrA).offset;
+			// Y座標は維持
+			newTranslation.y = (*itrA).target->GetWorldTF()->GetWorldPosition().y;
+			(*itrA).target->SetTranslation(newTranslation);
 		}
 	}
 }

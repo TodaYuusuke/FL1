@@ -11,6 +11,9 @@ using namespace LWP::Primitive;
 
 World::~World() {
 	Clear();
+
+	// フィールド削除
+	delete filed_;
 }
 
 World::World() {
@@ -43,6 +46,9 @@ World::World() {
 		surface.anchorPoint = { 0.5f, 0.5f };
 		surface.worldTF.scale = scale_;
 	}
+
+	// フィールド生成
+	filed_ = new Field();
 }
 
 void World::Update() {
@@ -78,11 +84,20 @@ void World::DebugGui() {
 		}
 		ImGui::EndTabItem();
 	}
+	if (ImGui::BeginTabItem("Prop")) {
+		filed_->DebugGUI();
+		ImGui::EndTabItem();
+	}
 }
 
 void World::Clear() {
 	//アクターの消去
 	actorManager.Clear();
+}
+
+void World::EndFrame()
+{
+	filed_->EndFrame();
 }
 
 void World::LimitMoveArea(LWP::Math::Vector3& translation) {

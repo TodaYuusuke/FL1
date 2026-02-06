@@ -107,3 +107,20 @@ void MeleeAttacker::AnimManagerUpdate()
 {
 	animManager_->Update();
 }
+
+void MeleeAttacker::PlayAttackAnim(const int weaponSide)
+{
+	// アニメーション名と効果音名の取得
+	std::string animName = weapons_[weaponSide]->GetWeaponData().animName;
+	// アニメーション名がない場合
+	if (animName == "") { return; }
+
+	std::string seName = weapons_[weaponSide]->GetWeaponData().attackSEFileName;
+
+	// 射撃アニメーション再生
+	animManager_->PlayDirect(animName, weaponSide + 2)
+		.AddEvent("PlaySE", 1, [this, weaponSide, seName]() { SEPlayer::GetInstance()->PlaySE(seName, 1.0f, LWP::AudioConfig::Enemy, model_.worldTF.GetWorldPosition()); });
+
+	// 待機アニメーションをキューに入れる
+	animManager_->PlayQue("Idle", weaponSide + 2);
+}

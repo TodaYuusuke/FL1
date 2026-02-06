@@ -49,6 +49,18 @@ void MoveController::Update() {
 
 	vel_ = vel;
 	rot_ = actions_[ActionType::kMain]->GetRot();
+
+	// 移動ベクトルの長さが一定値以上かつブースト中以外なら
+	if (std::abs(actions_[ActionType::kMain]->GetVel().Length()) > 0.05f && SEPlayer::GetInstance()->GetAudioPlayer(moveSEID_) == nullptr && actions_[ActionType::kSub]->GetStateName() != "Boost") {
+		// 移動音再生
+		moveSEID_ = SEPlayer::GetInstance()->PlaySE("move_SE.mp3", 1.0f, LWP::AudioConfig::Player, true);
+	}
+	else if (std::abs(actions_[ActionType::kMain]->GetVel().Length()) <= 0.05f && SEPlayer::GetInstance()->GetAudioPlayer(moveSEID_) != nullptr) {
+		// ループ音再生停止
+		if (AudioPlayer* p = SEPlayer::GetInstance()->GetAudioPlayer(moveSEID_)) {
+			p->Stop(0.5f);
+		}
+	}
 }
 
 void MoveController::DebugGui() {
@@ -71,6 +83,15 @@ void MoveController::InputHandle() {
 					cameraEffector_->StartZoom(boostCameraFov, boostCameraEffectTime);
 					cameraEffector_->StartShake(boostCameraShake, boostCameraEffectTime);
 					cameraEffector_->StartBound(boostCameraBound, boostCameraBoundTime);
+
+					// ループ音再生停止
+					if (AudioPlayer* p = SEPlayer::GetInstance()->GetAudioPlayer(moveSEID_)) {
+						p->Stop();
+					}
+
+					// ブースト音も再生開始
+					SEPlayer::GetInstance()->PlaySE("beginBoost_SE.mp3", 1.0f, LWP::AudioConfig::Player);
+					boostSEID_ = SEPlayer::GetInstance()->PlaySE("boost_SE.mp3", 1.0f, LWP::AudioConfig::Player, true);
 				}
 			}
 		}
@@ -81,6 +102,11 @@ void MoveController::InputHandle() {
 		// カメラ演出終了
 		if (vCon_->GetRelease(BindActionType::kBoost)) {
 			cameraEffector_->StartZoom(-boostCameraFov, boostCameraEffectTime * 2.0f);
+
+			// ループ音再生停止
+			if (AudioPlayer* p = SEPlayer::GetInstance()->GetAudioPlayer(boostSEID_)) {
+				p->Stop(0.5f);
+			}
 		}
 	}
 }

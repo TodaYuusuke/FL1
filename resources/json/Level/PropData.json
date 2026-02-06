@@ -1,0 +1,818 @@
+{
+    "Group :Prop-0": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            150.0,
+            0.0,
+            150.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-1": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            150.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-10": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            75.0,
+            0.0,
+            75.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-11": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -75.0,
+            0.0,
+            75.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-2": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -75.0,
+            0.0,
+            -75.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-3": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            75.0,
+            0.0,
+            -75.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-4": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            150.0,
+            0.0,
+            -150.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-5": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            -150.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-6": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            0.0,
+            0.0,
+            150.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-7": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            0.0,
+            0.0,
+            -150.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-8": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            150.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-9": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Road-0": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            37.5,
+            0.05000000074505806,
+            75.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-1": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            37.5,
+            0.05000000074505806,
+            -75.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-10": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -225.0,
+            0.05000000074505806,
+            -225.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-11": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -225.0,
+            0.05000000074505806,
+            225.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-12": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            225.0,
+            0.05000000074505806,
+            75.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-13": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            225.0,
+            0.05000000074505806,
+            -75.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-14": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            225.0,
+            0.05000000074505806,
+            -225.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-15": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            225.00022888183594,
+            0.05000000074505806,
+            225.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-16": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            0.0,
+            0.009999999776482582,
+            112.5
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-17": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            -150.0,
+            0.009999999776482582,
+            112.5
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-18": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            150.0,
+            0.009999999776482582,
+            112.5
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-19": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            0.0,
+            0.009999999776482582,
+            -112.5
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-2": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            37.5,
+            0.05000000074505806,
+            -225.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-20": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            -150.0,
+            0.009999999776482582,
+            -112.5
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-21": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            150.0,
+            0.009999999776482582,
+            -112.5
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-3": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            37.5,
+            0.05000000074505806,
+            225.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-4": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -37.5,
+            0.05000000074505806,
+            75.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-5": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -37.5,
+            0.05000000074505806,
+            -75.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-6": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -37.5,
+            0.05000000074505806,
+            -225.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-7": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -37.5,
+            0.05000000074505806,
+            225.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-8": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -225.0,
+            0.05000000074505806,
+            75.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-9": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -225.0,
+            0.05000000074505806,
+            -75.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    }
+}

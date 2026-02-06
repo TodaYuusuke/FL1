@@ -66,6 +66,14 @@ EnemyManager::~EnemyManager() {
 	}
 	enemies_.clear();
 	sampleEnemies_.clear();
+	spawnDatas_.clear();
+	// jsonファイル作成
+	jsonDatas_.clear();
+	// 調整されたレベルのオリジナル
+	sampleLevels_.clear();
+	// レベルjsonファイル作成
+	levelJsonDatas_.clear();
+	spawnEffects_.clear();
 }
 
 void EnemyManager::Init() {
@@ -96,7 +104,7 @@ void EnemyManager::EndFrame() {
 				if (actor->GetIsLimitMoveArea()) {
 					// 武器を落とす
 					for (int i = 0; i < actor->GetWeapon().size(); i++) {
-						WeaponManager::GetInstance()->DeleteWeapon(actor->GetWeapon()[i]);
+						WeaponManager::GetInstance()->DeleteWeapon(actor->GetWeapon(i));
 					}
 					// 敵の解放
 					delete actor;
@@ -111,7 +119,7 @@ void EnemyManager::EndFrame() {
 
 					// 武器を落とす
 					for (int i = 0; i < actor->GetWeapon().size(); i++) {
-						WeaponManager::GetInstance()->DropWeapon(actor->GetWeapon()[i]);
+						WeaponManager::GetInstance()->DropWeapon(actor->GetWeapon(i));
 					}
 					//スコアの増加
 					ScoreCounter::GetInstance()->AddScore(actor->GetEnemyData().score);
