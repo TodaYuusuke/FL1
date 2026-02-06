@@ -61,6 +61,11 @@ public:// アクセサ
 	/// <returns></returns>
 	LWP::Math::Vector3 GetVel() { return vel_; }
 	/// <summary>
+	/// 補正前の速度取得
+	/// </summary>
+	/// <returns>補正前の速度</returns>
+	LWP::Math::Vector3 GetRawVel() { return rawVel_; }
+	/// <summary>
 	/// 角度を取得
 	/// </summary>
 	/// <returns></returns>
@@ -91,6 +96,8 @@ protected:
 
 	// 移動速度
 	LWP::Math::Vector3 vel_;
+	// 補正前移動速度
+	LWP::Math::Vector3 rawVel_;
 	// 角度
 	LWP::Math::Quaternion rot_;
 

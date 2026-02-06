@@ -150,6 +150,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="class\GameObjects\Camera\Effect\Blur\Blur.cpp" />
     <ClCompile Include="class\Effect\Bullet\Child\BulletLineEffect.cpp" />
     <ClCompile Include="class\Effect\Bullet\BulletEffector.cpp" />
     <ClCompile Include="class\Audio\AudioPlayer.cpp" />
@@ -277,6 +278,7 @@
     <ClCompile Include="class\Effect\Particle\Child\SequenceParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="class\GameObjects\Camera\Effect\Blur\Blur.h" />
     <ClInclude Include="class\Effect\Bullet\BulletEffectIncluder.h" />
     <ClInclude Include="class\Effect\Bullet\Child\BulletLineEffect.h" />
     <ClInclude Include="class\Effect\Bullet\BulletEffector.h" />

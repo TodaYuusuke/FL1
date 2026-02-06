@@ -5,6 +5,7 @@
 #include "Shake/CameraShake.h"
 #include "Zoom/CameraZoom.h"
 #include "BoundMove/CameraBound.h"
+#include "Blur/Blur.h"
 #include "CameraEffect.h"
 
 /// <summary>
@@ -49,6 +50,12 @@ public:// アクセサ
 
 #pragma region Getter
 
+	/// <summary>
+	/// ブラーエフェクターゲッター
+	/// </summary>
+	/// <returns>ブラーエフェクト</returns>
+	Blur* GetBlurEffector() { return blurEffector_; }
+
 #pragma endregion
 
 #pragma region Setter
@@ -61,9 +68,12 @@ public:// アクセサ
 
 private:
 	// 演出対象
-	FollowCamera* effectTarget_;
+	FollowCamera* effectTarget_ = nullptr;
 
 	// 演出処理
 	std::map<CameraEffectType, std::unique_ptr<CameraEffect>> cameraEffects_;
+
+	// ブラーのエフェクター
+	Blur* blurEffector_ = nullptr;
 };
 
