@@ -30,6 +30,8 @@ struct LevelParameter {
 	int value = 1;
 	// 攻撃倍率
 	float attackMultiply = 1.0f;
+	// 体力倍率
+	float hpMultiply = 1.0f;
 	// 移動速度倍率
 	float speedMultiply = 1.0f;
 };

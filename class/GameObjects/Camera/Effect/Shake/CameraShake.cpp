@@ -29,10 +29,10 @@ void CameraShake::Update() {
 	shake_.SetRange(shakeRange_);
 
 	// カメラの向きに応じて揺れる方向を変動
-	vel_ = shakeValue_ * Matrix4x4::CreateRotateXYZMatrix(pCamera_->GetCamera()->worldTF.rotation);
+	vel_ = shakeValue_/* * pCamera_->GetCamera()->worldTF.GetWorldRotateMatrix()*/;
 
 	// 座標に適用
-	pCamera_->SetTranslation(pCamera_->GetCamera()->worldTF.GetWorldPosition() + vel_);
+	pCamera_->SetTranslation(pCamera_->GetCamera()->worldTF.translation + vel_);
 }
 
 void CameraShake::Start(LWP::Math::Vector3 range, float endTime) {

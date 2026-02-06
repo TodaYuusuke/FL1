@@ -290,6 +290,7 @@ void EnemyManager::DebugGui() {
 Actor* EnemyManager::CreateMeleeEnemy() {
 	// 調整情報
 	EnemyData data = sampleEnemies_[(int)EnemyType::kMelee];
+	data.hp = sampleEnemies_[(int)EnemyType::kMelee].hp * sampleLevels_[selectLevel_].hpMultiply;
 	data.attackMultiply = sampleLevels_[selectLevel_].attackMultiply;
 	data.speedMultiply = sampleLevels_[selectLevel_].speedMultiply;
 	data.level = sampleLevels_[selectLevel_].value;
@@ -312,6 +313,7 @@ Actor* EnemyManager::CreateMeleeEnemy() {
 Actor* EnemyManager::CreateGunnerEnemy() {
 	// 調整情報
 	EnemyData data = sampleEnemies_[(int)EnemyType::kGunner];
+	data.hp = sampleEnemies_[(int)EnemyType::kGunner].hp * sampleLevels_[selectLevel_].hpMultiply;
 	data.attackMultiply = sampleLevels_[selectLevel_].attackMultiply;
 	data.speedMultiply = sampleLevels_[selectLevel_].speedMultiply;
 	data.level = sampleLevels_[selectLevel_].value;
@@ -334,6 +336,7 @@ Actor* EnemyManager::CreateGunnerEnemy() {
 Actor* EnemyManager::CreateDroneEnemy() {
 	// 調整情報
 	EnemyData data = sampleEnemies_[(int)EnemyType::kDrone];
+	data.hp = sampleEnemies_[(int)EnemyType::kDrone].hp * sampleLevels_[selectLevel_].hpMultiply;
 	data.attackMultiply = sampleLevels_[selectLevel_].attackMultiply;
 	data.speedMultiply = sampleLevels_[selectLevel_].speedMultiply;
 	data.level = sampleLevels_[selectLevel_].value;
@@ -357,6 +360,7 @@ Actor* EnemyManager::CreateDroneEnemy() {
 Actor* EnemyManager::CreateCargoEnemy() {
 	// 調整情報
 	EnemyData data = sampleEnemies_[(int)EnemyType::kCargo];
+	data.hp = sampleEnemies_[(int)EnemyType::kCargo].hp * sampleLevels_[selectLevel_].hpMultiply;
 	data.attackMultiply = sampleLevels_[selectLevel_].attackMultiply;
 	data.speedMultiply = sampleLevels_[selectLevel_].speedMultiply;
 	data.level = sampleLevels_[selectLevel_].value;
@@ -453,6 +457,19 @@ void EnemyManager::SpawnEnemy() {
 		if (spawnInterval_ <= 0.0f || enemies_.empty()) {
 			spawnInterval_ = spawnData_.nextSpawnTime * 60.0f;
 			spawnData_.spawnNum = LWP::Utility::Random::GenerateInt(minSameSpawnNum_, maxSameSpawnNum_);
+
+			int size = (int)sampleLevels_.size();
+			int waveNum = WaveManager::GetInstance()->GetCurrentWave();
+			// ウェーブ数によってパラメータ倍率の変更
+			for (int i = 0; i < size; i++) {
+				int startWave = parameterUpWaveInterval * i;
+				int endWave = startWave + parameterUpWaveInterval;
+				if (waveNum >= startWave && waveNum < endWave) {
+					selectLevel_ = (endWave / 10) - 1;
+					break;
+				}
+			}
+
 			// 生成開始
 			for (int i = 0; i < spawnData_.spawnNum; i++) {
 				selectCreateEnemyType_ = LWP::Utility::Random::GenerateInt(0, (int)EnemyType::kCount - 2);
@@ -478,6 +495,18 @@ void EnemyManager::SpawnEnemy() {
 			LoadSpawnJsonButton((GetExeDir() / "resources/json/SpawnEnemy/").string() + spawnJsonName[index]);
 
 			spawnInterval_ = spawnDatas_.back().spawnTime * 60.0f;
+
+			int size = (int)sampleLevels_.size();
+			int waveNum = WaveManager::GetInstance()->GetCurrentWave();
+			// ウェーブ数によってパラメータ倍率の変更
+			for (int i = 0; i < size; i++) {
+				int startWave = parameterUpWaveInterval * i;
+				int endWave = startWave + parameterUpWaveInterval;
+				if (waveNum >= startWave && waveNum < endWave) {
+					selectLevel_ = (endWave / 10) - 1;
+					break;
+				}
+			}
 		}
 		else {
 			break;
@@ -681,6 +710,8 @@ void EnemyManager::CreateLevelJsonData(LWP::Utility::JsonIO& json, LevelParamete
 	json.Init(fileName)
 		// 係数
 		.AddValue<float>("AttackMultiply", &data.attackMultiply)
+		// HP倍率
+		.AddValue<float>("HPMultiply", &data.hpMultiply)
 		// 速度倍率
 		.AddValue<float>("SpeedMultiply", &data.speedMultiply)
 		// レベル
@@ -803,6 +834,8 @@ void EnemyManager::SelectLevelGui(LWP::Utility::JsonIO& json, LevelParameter& da
 
 		// 攻撃倍率
 		ImGui::DragFloat("AttackMultiply", &data.attackMultiply, 0.1f, 0.0f);
+		// HP倍率
+		ImGui::DragFloat("HPMultiply", &data.hpMultiply, 0.1f, 0.0f);
 		// 速度倍率
 		ImGui::DragFloat("SpeedMultiply", &data.speedMultiply, 0.01f, 0.0f);
 
@@ -1060,6 +1093,7 @@ void EnemyManager::TutorialSpawn() {
 	// 調整情報
 	EnemyData data = sampleEnemies_[(int)EnemyType::kMelee];
 	data.BTFileName = "resources/json/BT/BT_Tutorial.json";
+	data.hp = sampleEnemies_[(int)EnemyType::kMelee].hp * sampleLevels_[0].hpMultiply;
 	data.attackMultiply = sampleLevels_[0].attackMultiply;
 	data.speedMultiply = sampleLevels_[0].speedMultiply;
 	data.level = sampleLevels_[0].value;

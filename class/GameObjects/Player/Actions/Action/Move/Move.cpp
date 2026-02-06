@@ -185,10 +185,10 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 	rot_ = q;
 
 	// 速度を算出
-	vel_ = Vector3{ 0,0,1 } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation) * v.y;
+	vel_ = Vector3{ 0,0,1 } *(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->GetWorldRotateMatrix()) * v.y;
 
 	if (rightStick.x * leftStick.x > 0.0f) {
-		vel_ += Vector3{ 1,0,0 } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->rotation) * v.x;
+		vel_ += Vector3{ 1,0,0 } * (pBB_->GetValue<Actor*>("Player")->GetWorldTF()->GetWorldRotateMatrix()) * v.x;
 	}
 }
 
