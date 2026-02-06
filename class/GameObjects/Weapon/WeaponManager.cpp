@@ -888,6 +888,8 @@ void WeaponManager::DropWeapon(IWeapon* weapon, const LWP::Math::Vector3& dropPo
 		weapon->SetParent(nullptr, "");
 	}
 
+	weapon->SetTranslation(dropPos);
+
 	// 武器を四散させる
 	Vector3 min = weaponDropVel * -1;
 	min.y = 0.0f;
