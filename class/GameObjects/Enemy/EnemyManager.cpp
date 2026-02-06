@@ -91,6 +91,14 @@ void EnemyManager::Update() {
 	// 更新
 	for (Actor* actor : enemies_) {
 		actor->Update();
+
+		// エリア外に出た場合の処理(カーゴ以外)
+		if (actor->GetEnemyData().type != (int)EnemyType::kCargo) {
+			Vector3 pos = actor->GetWorldTF()->GetWorldPosition();
+			pWorld_->LimitMoveArea(pos);
+			actor->SetTranslation(pos);
+		}
+
 		appendMiniMap_(actor->GetWorldTF()->GetWorldPosition());
 	}
 }
