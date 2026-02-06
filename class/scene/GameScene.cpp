@@ -137,6 +137,7 @@ void GameScene::Initialize() {
 
 	// 演出対象のカメラ
 	CameraEffectHandler::GetInstance()->SetEffectTarget(followCamera_.get());
+	CameraEffectHandler::GetInstance()->Init();
 
 	//スコアを0に
 	ScoreCounter::GetInstance()->Reset();

@@ -7,22 +7,37 @@ using namespace LWP::Utility;
 using namespace FLMath;
 
 CameraEffectHandler::CameraEffectHandler() {
-
+	
 }
 
 CameraEffectHandler::~CameraEffectHandler() {
-
+	delete blurEffector_;
+	delete vignetteEffector_;
 }
 
 void CameraEffectHandler::Init() {
 	for (auto& effect : cameraEffects_) {
 		effect.second->Init();
 	}
+
+	// 各種ポストプロセス生成
+	blurEffector_ = new Blur(effectTarget_, 0.0f);
+	vignetteEffector_ = new Vignette(effectTarget_, 0.0f);
 }
 
 void CameraEffectHandler::Update() {
 	for (auto& effect : cameraEffects_) {
 		effect.second->Update();
+	}
+
+	// ブラーポストプロセス更新
+	if (blurEffector_ != nullptr) {
+		blurEffector_->Update();
+	}
+
+	// ビネットポストプロセス更新
+	if (vignetteEffector_ != nullptr) {
+		vignetteEffector_->Update();
 	}
 }
 

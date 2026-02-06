@@ -51,6 +51,7 @@ void Move::Update() {
 	turnTime_.Update();
 
 	// タイムスケール適用
+	rawVel_ = vel_; // 補正前移動ベクトルを取得
 	vel_ *= stopController_->GetDeltaTime();
 
 	// 移動開始時にカメラを揺らす

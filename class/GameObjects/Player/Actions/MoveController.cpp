@@ -51,14 +51,32 @@ void MoveController::Update() {
 	rot_ = actions_[ActionType::kMain]->GetRot();
 
 	// 移動ベクトルの長さが一定値以上かつブースト中以外なら
-	if (std::abs(actions_[ActionType::kMain]->GetVel().Length()) > 0.05f && SEPlayer::GetInstance()->GetAudioPlayer(moveSEID_) == nullptr && actions_[ActionType::kSub]->GetStateName() != "Boost") {
+	if (std::abs(actions_[ActionType::kMain]->GetRawVel().Length()) > 0.05f && SEPlayer::GetInstance()->GetAudioPlayer(moveSEID_) == nullptr && actions_[ActionType::kSub]->GetStateName() != "Boost") {
 		// 移動音再生
 		moveSEID_ = SEPlayer::GetInstance()->PlaySE("move_SE.mp3", 1.0f, LWP::AudioConfig::Player, true);
 	}
-	else if (std::abs(actions_[ActionType::kMain]->GetVel().Length()) <= 0.05f && HitStopController::GetInstance()->GetDeltaTime() != 0.0f && SEPlayer::GetInstance()->GetAudioPlayer(moveSEID_) != nullptr) {
+	else if (std::abs(actions_[ActionType::kMain]->GetRawVel().Length()) <= 0.05f && SEPlayer::GetInstance()->GetAudioPlayer(moveSEID_) != nullptr) {
 		// ループ音再生停止
 		if (AudioPlayer* p = SEPlayer::GetInstance()->GetAudioPlayer(moveSEID_)) {
 			p->Stop(0.5f);
+		}
+	}
+
+	// ブースト時のエフェクトのかかり具合を設定する
+	if (vCon_->GetPress(BindActionType::kBoost)) {
+		float speed = actions_[ActionType::kMain]->GetMoveSpeed() + actions_[ActionType::kSub]->GetMoveSpeed();
+		float maxSpeed = 4.0f;
+
+		// ビネットエフェクト
+		CameraEffectHandler::GetInstance()->GetVignetteEffector()->SetMaxStrength(LWP::Utility::Interp::LerpF(0.0f, 0.5f, LWP::Utility::Easing::CallFunction(LWP::Utility::Easing::Type::Liner, std::clamp(speed / maxSpeed, 0.f, 1.f))));
+		// ブラーエフェクト
+		if (speed <= maxSpeed) {
+			CameraEffectHandler::GetInstance()->GetBlurEffector()->SetMaxStrength(LWP::Utility::Interp::LerpF(0.0f, 0.005f, LWP::Utility::Easing::CallFunction(LWP::Utility::Easing::Type::Liner, std::clamp(speed / maxSpeed, 0.f, 1.f))));
+		}
+		else {
+			// ブラーエフェクト終了
+			cameraEffector_->GetBlurEffector()->SetMaxStrength(0.0f);
+			cameraEffector_->GetBlurEffector()->Finish(0.5f);
 		}
 	}
 }
@@ -89,6 +107,11 @@ void MoveController::InputHandle() {
 						p->Stop();
 					}
 
+					// ブラーエフェクト開始
+					cameraEffector_->GetBlurEffector()->Start(0.5f);
+					// ビネットエフェクト開始
+					cameraEffector_->GetVignetteEffector()->Start(1.0f);
+
 					// ブースト音も再生開始
 					SEPlayer::GetInstance()->PlaySE("beginBoost_SE.mp3", 1.0f, LWP::AudioConfig::Player);
 					boostSEID_ = SEPlayer::GetInstance()->PlaySE("boost_SE.mp3", 1.0f, LWP::AudioConfig::Player, true);
@@ -102,6 +125,12 @@ void MoveController::InputHandle() {
 		// カメラ演出終了
 		if (vCon_->GetRelease(BindActionType::kBoost)) {
 			cameraEffector_->StartZoom(-boostCameraFov, boostCameraEffectTime * 2.0f);
+
+			// ブラーエフェクト終了
+			cameraEffector_->GetBlurEffector()->Finish(0.5f);
+
+			// ビネットエフェクト終了
+			cameraEffector_->GetVignetteEffector()->Finish(1.0f);
 
 			// ループ音再生停止
 			if (AudioPlayer* p = SEPlayer::GetInstance()->GetAudioPlayer(boostSEID_)) {
