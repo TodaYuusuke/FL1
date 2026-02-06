@@ -78,6 +78,12 @@ public:// アクセサ
 	/// <returns></returns>
 	float FindAttackPower(const std::string& name) override;
 
+	/// <summary>
+	/// ミニマップ登録用関数を設定
+	/// </summary>
+	/// <param name="player"></param>
+	void SetMiniMapFunc(void (*func)(LWP::Math::Vector3)) { filed_->SetMiniMapFunc(func); };
+
 public:
 	//コピー禁止
 	World(const World& other) = delete;

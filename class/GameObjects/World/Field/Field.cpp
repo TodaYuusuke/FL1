@@ -101,6 +101,13 @@ void Field::DebugGUI()
 	ImGui::NewLine();
 }
 
+void Field::Update() 
+{
+	for (Prop* a : props_) {
+		if(a->GetName() == "Prop")appendMiniMap_(a->GetWorldTF()->GetWorldPosition());
+	}
+}
+
 void Field::EndFrame()
 {
 	// 削除フラグがたった配置物を削除
