@@ -8,7 +8,7 @@
         0.30000001192092896,
         0.30000001192092896
     ],
-    "float :AttackPower": 5.0,
+    "float :AttackPower": 10.0,
     "float :ElapsedTime": 0.5,
     "float :Speed": 3.0,
     "int32_t :ImpactType": 0,

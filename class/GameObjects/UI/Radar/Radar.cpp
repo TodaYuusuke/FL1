@@ -4,6 +4,7 @@ void Radar::Initialize() {
 	colorSample_[PLAYER] = { 0,0,255,255 };
 	colorSample_[ENEMY] = { 255,0,0,255 };
 	colorSample_[WEAPON] = { 0,255,0,255 };
+	colorSample_[PROP] = { 128,128,128,255 };
 
 	//void (Radar::*p_func)(LWP::Math::Vector3);
 	//p_func =Radar::AppendTargetEnemy;

@@ -95,6 +95,11 @@ public:// アクセサ
 	/// <returns></returns>
 	bool GetIsCoolTime() { return coolFrame_ > 0.0f; }
 	/// <summary>
+	/// 攻撃不可時間を取得
+	/// </summary>
+	/// <returns></returns>
+	float GetCoolTime() { return coolFrame_; }
+	/// <summary>
 	/// リロード中かを取得
 	/// </summary>
 	/// <returns></returns>
@@ -109,6 +114,10 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	bool GetIsEnableAttack() { return attackFrame_ <= 0.0f; }
+	/// 射撃間隔を取得
+	/// </summary>
+	/// <returns></returns>
+	float GetEnableAttack() { return attackFrame_; }
 	/// <summary>
 	/// 攻撃中かを取得
 	/// </summary>
@@ -174,6 +183,7 @@ public:// アクセサ
 			// 武器位置、スケールを元に戻す
 			SetScale({ 1.0f, 1.0f, 1.0f });
 			SetTranslation({ 0.0f, 0.0f, 0.0f });
+			SetRotation(LWP::Math::Quaternion());
 
 			body_.worldTF.Parent(charactor->GetModel(), jointName);
 		}

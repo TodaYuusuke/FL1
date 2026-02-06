@@ -62,6 +62,8 @@ public:
 
 	void Initialize();
 
+	void InitializeJson();
+
 	//終了時処理
 	void EndPort();
 
@@ -84,6 +86,8 @@ public:
 	void SetDeadZone(float deadZone) { deadZone_ = deadZone; };
 	float GetDeadZone() { return deadZone_; };
 
+	void DebugGUI();
+
 private:
 	ControllerReceiver() { Initialize(); };
 	~ControllerReceiver() {};
@@ -100,7 +104,7 @@ private:
 	///Vector3 CalcRotate(RecvData in,kalman2Shaft* kalman);
 
 	//ジョイスティックから受け取った生データを0~1に変換する
-	LWP::Math::Vector2 CalcRotateFromJoyStick(RecvStickTest in);
+	LWP::Math::Vector2 CalcRotateFromJoyStick(RecvStickTest in,int index);
 
 	//ポートが閉まった際の処理
 	bool CheckEndPort(char cord);
@@ -130,4 +134,12 @@ private:
 	static const float kInputStickRange_;
 
 	float deadZone_ = 0.50f;
+
+
+	//調整項目
+	LWP::Math::Vector2 borders_[4];
+
+	// jsonファイルのディレクトリパス
+	const std::string kJsonDirectoryPath = "Lever/";
+	LWP::Utility::JsonIO json_;
 };

@@ -66,7 +66,7 @@ private:
 
 	//武器の練度ゲージ
 	void CalcGauge(LWP::Primitive::ClipSurface* gauge,float value);
-
+	void CalcCoolTime(LWP::Primitive::ClipSurface* gauge, float coolTime,float maxCoolTime);
 	//コックピットアニメーション
 	void CockpitAnimation();
 
@@ -154,6 +154,14 @@ public:// アクセサ
 	void SetWeaponVelocity(const LWP::Math::Vector3& velocity) { weaponVel_ = velocity; }
 #pragma endregion
 
+public: // 演出用関数群
+
+	/// <summary>
+	/// 練度上昇パーティクルの再生関数
+	/// </summary>
+	/// <param name="side">上昇した部位</param>
+	void EmitPowerUPParticle(const WeaponSide side);
+
 private:
 	VirtualController* vCon_;
 	// 偏差射撃計算機能
@@ -186,6 +194,7 @@ private://UI表示
 	const std::string kJsonDirectoryPath = "WeaponUI/";
 	//所有武器用の平面
 	std::map<WeaponSide, std::array<LWP::Primitive::NormalSurface, (int)WeaponType::kCount>> weaponSurfaces_;
+	std::map<WeaponSide, std::array<LWP::Primitive::ClipSurface, (int)WeaponType::kCount>> weaponCoolTimeSurfaces_;
 	std::map<WeaponSide, std::array<LWP::Primitive::ClipSurface, (int)WeaponType::kCount>> weaponGaugeSurfaces_;
 	std::map<WeaponSide, LWP::Primitive::SequenceSurface> raritySurface_;
 	std::map<WeaponSide, LWP::Primitive::NormalSurface> sampleWeaponSurface_;
@@ -197,7 +206,7 @@ private://UI表示
 	int kBulletNumDigit_ = 3;
 
 	//コックピット表示
-	LWP::Resource::RigidModel cockpit_;
+	LWP::Resource::SkinningModel cockpit_;
 	LWP::Utility::JsonIO json_;
 
 	//HP表示(中間用の仮のやつ)
@@ -208,6 +217,9 @@ private://UI表示
 
 	//レアリティ毎のカラーサンプル
 	std::array<LWP::Utility::Color, size_t(RarityType::kCount)> colorSample_;
+
+	// 練度上昇時のパーティクル
+	std::map<WeaponSide, Emitter*> powerUPEffectEmitters_{};
 
 	float gaugeDistance_;
 

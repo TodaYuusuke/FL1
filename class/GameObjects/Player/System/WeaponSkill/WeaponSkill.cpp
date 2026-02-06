@@ -55,6 +55,14 @@ void WeaponSkill::Update() {
 	}
 }
 
+void WeaponSkill::Finalize()
+{
+	// preValueの更新
+	for (int i = 0; i < (int)WeaponType::kCount; i++) {
+		radar_[i].preValue = radar_[i].value;
+	}
+}
+
 void WeaponSkill::DebugGui() {
 	if (ImGui::TreeNode("Json")) {
 		if (ImGui::Button("Save")) {

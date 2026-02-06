@@ -3,7 +3,8 @@
 AudioPlayer::AudioPlayer(const std::string& filePath, float volume, bool isLoop, const float* masterV)
 {
 	// 音のロード
-	audio_.LoadShortPath(filePath);
+	std::string path = "SE/" + filePath;
+	audio_.LoadShortPath(path);
 
 	// 各種値の取得
 	volume_ = volume;
@@ -34,13 +35,37 @@ void AudioPlayer::Play()
 }
 
 void AudioPlayer::Update() {
+	
 	// 減衰に関する更新
 	CheckDistanceUpdate();
+
+	// タイマーアクティブ時、音を徐々に小さくする
+	if (fadeTimer_.GetIsActive()) {
+		fadeTimer_.Update();
+
+		if (fadeTimer_.GetIsFinish()) {
+			audio_.Stop();
+		}
+		else {
+			SetVolume(1.0f - fadeTimer_.GetProgress());
+		}
+
+	}
 }
 
 void AudioPlayer::Stop() {
-	// 音の停止
-	audio_.Stop();
+	if (!fadeTimer_.GetIsActive()) {
+		// 音の停止
+		audio_.Stop();
+	}
+}
+
+void AudioPlayer::Stop(const float fadeTime)
+{
+	// タイマーが開始されていない場合タイマーを開始する
+	if (!fadeTimer_.GetIsActive()) {
+		fadeTimer_.Start(fadeTime);
+	}
 }
 
 void AudioPlayer::SetVolume(float volume)

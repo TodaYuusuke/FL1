@@ -120,17 +120,13 @@ void TutorialScene::Initialize() {
 	// 演出対象のカメラ
 	CameraEffectHandler::GetInstance()->SetEffectTarget(followCamera_.get());
 
-	//// エフェクト関連初期化
-	//EffectManager::GetInstance()->Init();
-	//EffectEditor::GetInstance()->SetEffectManager(EffectManager::GetInstance());
-	//EffectEditor::GetInstance()->Init();
-
 	Radar::GetInstance()->Initialize();
 	Radar::GetInstance()->SetPlayerTransform(player_->GetWorldTF());
 	Radar::GetInstance()->SetParent(player_->GetWeaponController()->GetCockpit());
 	//std::function<void(LWP::Math::Vector3)> func = std::bind(&Radar::AppendTargetEnemy,radar_.get());
 	enemyManager_->SetMiniMapFunc(Radar::AppendTargetEnemy);
 	WeaponManager::GetInstance()->SetMiniMapFunc(Radar::AppendTargetWeapon);
+	world_->SetMiniMapFunc(Radar::AppendTargetProp);
 
 	// チュートリアル
 	tutorial_ = std::make_unique<Tutorial>(player_, enemyManager_.get());
@@ -201,6 +197,7 @@ void TutorialScene::Update() {
 	// 更新処理終了時に呼ぶ処理
 	enemyManager_->EndFrame();
 	AttackManager::GetInstance()->EndFrame();
+	world_->EndFrame();
 
 	// コントローラー
 	VirtualController::GetInstance()->Update();

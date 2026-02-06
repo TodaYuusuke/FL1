@@ -29,9 +29,6 @@ GameScene::GameScene() {
 }
 
 GameScene::~GameScene() {
-	// 効果音プレイヤー生成
-	SEPlayer::Destroy();
-
 	// ウェーブ
 	WaveManager::Destroy();
 	// エフェクト
@@ -55,6 +52,9 @@ GameScene::~GameScene() {
 	ControllerReceiver::GetInstance()->ClosePort();
 	// カメラ演出
 	CameraEffectHandler::Destroy();
+
+	// 効果音プレイヤー生成
+	SEPlayer::Destroy();
 }
 
 void GameScene::Initialize() {
@@ -147,6 +147,7 @@ void GameScene::Initialize() {
 	Radar::GetInstance()->SetParent(player_->GetWeaponController()->GetCockpit());
 	enemyManager_->SetMiniMapFunc(Radar::AppendTargetEnemy);
 	WeaponManager::GetInstance()->SetMiniMapFunc(Radar::AppendTargetWeapon);
+	world_->SetMiniMapFunc(Radar::AppendTargetProp);
 
 	//シーン遷移アニメーション
 	sceneChangeAnimation_ = std::make_unique<SceneChangeAnimationPlane>();
@@ -280,6 +281,8 @@ void GameScene::Update() {
 	HitStopController::GetInstance()->DebugGui();
 
 	Radar::GetInstance()->DebugGui();
+
+	ControllerReceiver::GetInstance()->DebugGUI();
 
 	static bool is;
 	// シーン遷移アニメーション
