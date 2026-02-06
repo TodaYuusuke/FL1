@@ -127,7 +127,10 @@ void EnemyManager::EndFrame() {
 
 					// 武器を落とす
 					for (int i = 0; i < actor->GetWeapon().size(); i++) {
-						WeaponManager::GetInstance()->DropWeapon(actor->GetWeapon(i));
+						Vector3 dropPos = actor->GetWorldTF()->GetWorldPosition();
+						dropPos.y = 10.0f;
+
+						WeaponManager::GetInstance()->DropWeapon(actor->GetWeapon(i), dropPos);
 					}
 					//スコアの増加
 					ScoreCounter::GetInstance()->AddScore(actor->GetEnemyData().score);
