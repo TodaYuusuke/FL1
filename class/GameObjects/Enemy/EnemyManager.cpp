@@ -86,7 +86,7 @@ void EnemyManager::Update() {
 	isTriggerDelete_ = false;
 
 	// 敵を生成
-	SpawnEnemy();
+	if (!isTutorial_) { SpawnEnemy(); }
 
 	// 更新
 	for (Actor* actor : enemies_) {
@@ -1098,6 +1098,8 @@ std::vector<std::string> EnemyManager::GetFileNames(const std::string& folderPat
 }
 
 void EnemyManager::TutorialSpawn() {
+	isTutorial_ = true;
+
 	// 調整情報
 	EnemyData data = sampleEnemies_[(int)EnemyType::kMelee];
 	data.BTFileName = "resources/json/BT/BT_Tutorial.json";

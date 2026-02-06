@@ -32,6 +32,7 @@ TutorialScene::TutorialScene() {
 TutorialScene::~TutorialScene() {
 	// 効果音プレイヤー生成
 	SEPlayer::Destroy();
+	BulletEffector::Destroy();
 	// 
 	EffectEditor::Destroy();
 	EffectManager::Destroy();
@@ -71,6 +72,13 @@ void TutorialScene::Initialize() {
 	// インスタンス生成
 	EffectManager::Create();
 	EffectEditor::Create();
+	BulletEffector::Create();
+
+	// エフェクト関連初期化
+	EffectManager::GetInstance()->Init();
+	EffectEditor::GetInstance()->SetEffectManager(EffectManager::GetInstance());
+	EffectEditor::GetInstance()->Init();
+
 	// 効果音プレイヤー生成
 	SEPlayer::Create();
 
@@ -80,6 +88,9 @@ void TutorialScene::Initialize() {
 	// 追従カメラ
 	followCamera_ = std::make_unique<FollowCamera>(&mainCamera);
 
+	// 弾エフェクター用にカメラを設定
+	BulletEffector::GetInstance()->Init(followCamera_->GetCamera());
+
 	// 世界
 	world_ = std::make_unique<World>();
 
@@ -87,12 +98,15 @@ void TutorialScene::Initialize() {
 	Player* player_ = new Player(followCamera_.get(), world_.get(), followCamera_->defaultTargetDist_);
 	// 自機をアクターとして追加
 	world_->AddActor(player_);
+	// 効果音プレイヤーに自機のトランスフォームを渡す
+	SEPlayer::GetInstance()->SetListener(player_->GetWorldTF());
 
 	// 敵管理クラス
 	enemyManager_ = std::make_unique<EnemyManager>(world_.get());
-
+	enemyManager_->SetIsTutorial(true);
 	// 敵管理リストを設定
 	player_->SetEnemyManager(enemyManager_.get());
+
 	// 追従カメラを自機対象に設定
 	followCamera_->SetTarget(player_);
 
@@ -106,10 +120,10 @@ void TutorialScene::Initialize() {
 	// 演出対象のカメラ
 	CameraEffectHandler::GetInstance()->SetEffectTarget(followCamera_.get());
 
-	// エフェクト関連初期化
-	EffectManager::GetInstance()->Init();
-	EffectEditor::GetInstance()->SetEffectManager(EffectManager::GetInstance());
-	EffectEditor::GetInstance()->Init();
+	//// エフェクト関連初期化
+	//EffectManager::GetInstance()->Init();
+	//EffectEditor::GetInstance()->SetEffectManager(EffectManager::GetInstance());
+	//EffectEditor::GetInstance()->Init();
 
 	Radar::GetInstance()->Initialize();
 	Radar::GetInstance()->SetPlayerTransform(player_->GetWorldTF());
@@ -161,8 +175,9 @@ void TutorialScene::Update() {
 	// 追従カメラ
 	followCamera_->Update();
 
-	// エフェクト関連初期化
+	// エフェクト関連更新
 	EffectManager::GetInstance()->Update();
+	BulletEffector::GetInstance()->Update();
 
 	// カメラ演出
 	CameraEffectHandler::GetInstance()->Update();

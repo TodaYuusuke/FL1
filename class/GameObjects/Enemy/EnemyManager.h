@@ -2,8 +2,9 @@
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../Weapon/WeaponConfig.h"
 #include "EnemyConfig.h"
-#include <Adapter.h>
 #include "../UI/Radar/Radar.h"
+#include "../WaveManager.h"
+#include <Adapter.h>
 #include <filesystem>
 
 class IWorld;
@@ -232,6 +233,11 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="player"></param>
 	void SetMiniMapFunc(void (* func)(LWP::Math::Vector3)) { appendMiniMap_ = func; }
+	/// <summary>
+	/// チュートリアルかを設定
+	/// </summary>
+	/// <param name="isActive"></param>
+	void SetIsTutorial(bool isActive) { isTutorial_ = isActive; }
 #pragma endregion
 
 private:// 定数
@@ -282,6 +288,7 @@ private:// デバッグ用変数
 
 private:// 外部から受け取る変数
 	IWorld* pWorld_;
+	WaveManager* waveManager_;
 
 private:// 調整項目
 	// ドローンの浮遊標高
@@ -327,6 +334,8 @@ private:
 
 	// 敵を解放した瞬間
 	bool isTriggerDelete_;
+	// チュートリアルか
+	bool isTutorial_ = false;
 
 	//ミニマップに追加する関数を格納
 	//std::function<void(LWP::Math::Vector3)> appendMiniMap_;
