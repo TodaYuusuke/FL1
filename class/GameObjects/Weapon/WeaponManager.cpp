@@ -66,7 +66,7 @@ void WeaponManager::Init() {
 void WeaponManager::Update() {
 	int dropedWeaponNum = 0;
 	for (IWeapon* weapon : weapons_) {
-		if(!weapon->GetIsDestroy()) weapon->Update();
+		weapon->Update();
 		if (!weapon->GetActor()) {
 			appendMiniMap_(weapon->GetWorldTF()->GetWorldPosition());
 			// 地面に落ちている武器数更新
