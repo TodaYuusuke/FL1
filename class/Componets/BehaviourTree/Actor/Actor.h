@@ -319,4 +319,7 @@ protected:
 
 	//スコア(仮値全オブジェクト100)
 	int32_t score_ = 12345;
+
+	// 死亡時効果音のID
+	uint32_t deadSEID_{};
 };
