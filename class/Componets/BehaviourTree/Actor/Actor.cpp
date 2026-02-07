@@ -117,10 +117,6 @@ void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
 				.SetMaxDistance(300.0f)
 				.SetMinVolumeMultiply(0.25f);
 		}
-		else {
-			int a = 10;
-			a++;
-		}
 	}
 
 	// 爆発音再生
