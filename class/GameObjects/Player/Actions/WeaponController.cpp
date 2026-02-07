@@ -37,6 +37,7 @@ void WeaponController::Init() {
 
 	//コックピット
 	cockpit_.LoadShortPath("Cockpit/Cockpit.gltf");
+	cockpit_.materials["MapEmissionMaterial"].enableLighting = false;
 
 	colorSample_[size_t(RarityType::kCommon)] = { 170, 170, 170, 255 };
 	colorSample_[size_t(RarityType::kUnCommon)] = { 56, 178, 65, 255 };
@@ -101,20 +102,24 @@ void WeaponController::Init() {
 			weaponSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
 			weaponGaugeSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UIGauge::uiName[i]);
 			weaponGaugeSurfaces_[(WeaponSide)side][i].clipRect.max = weaponTextureSize_;
+			weaponGaugeSurfaces_[(WeaponSide)side][i].material.enableLighting = false;
 
 			weaponCoolTimeSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
 			weaponCoolTimeSurfaces_[(WeaponSide)side][i].clipRect.max = weaponTextureSize_;
+			weaponCoolTimeSurfaces_[(WeaponSide)side][i].material.enableLighting = false;
 			
 		}
 		sampleWeaponSurface_[(WeaponSide)side].LoadTexture("Weapon/none_UI.png");
 		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
 		sampleWeaponSurface_[(WeaponSide)side].anchorPoint = {0.0f,0.0f};
+		sampleWeaponSurface_[(WeaponSide)side].material.enableLighting = false;
 		raritySurface_[(WeaponSide)side].LoadTexture("Weapon/rarity_UI.png");
 		raritySurface_[(WeaponSide)side].SetSplitSize(kRarityTextureSize_);
 		raritySurface_[(WeaponSide)side].isActive = false;
 		raritySurface_[(WeaponSide)side].anchorPoint = { 0.0f,0.0f };
 		raritySurface_[(WeaponSide)side].worldTF.translation.z = -0.03f;
 		raritySurface_[(WeaponSide)side].worldTF.Parent(&sampleWeaponSurface_[(WeaponSide)side].worldTF);
+		raritySurface_[(WeaponSide)side].material.enableLighting = false;
 
 		//弾数表示
 		bulletNums_[(WeaponSide)side].reset(new NumPlane);
@@ -148,6 +153,7 @@ void WeaponController::Init() {
 	hpCircleSurface_.anchorPoint = { 0.5f,0.0f };
 	hpCircleSurface_.clipRect.max = circleTextureSize_;
 	hpCircleSurface_.material.color = { 56, 178, 65, 255 };
+	hpCircleSurface_.material.enableLighting = false;
 	//hpPlane_ = std::make_unique<NumPlane>();
 	//hpPlane_->Initialize(3);
 	//hpPlane_->SetParent(&cockpit_.worldTF);
@@ -296,6 +302,25 @@ void WeaponController::CockpitAnimation() {
 		cockpitAnimationT_ = cockpitAnimationLength_;
 		isEndAnimation_=true;
 	}
+
+	// アニメーションが終了していない場合早期リターン
+	if (!isEndAnimation_) { return; }
+
+	// マップユニットの光物の色を現在のHPを元に調整する
+	float colorT = std::clamp<float>(debugOwner_->GetHP()->GetHealth() / debugOwner_->GetHP()->GetMaxHealth(), 0.f, 1.f);
+	LWP::Math::Vector3 colorRGB{};
+
+	if (colorT > 0.5f) {
+		float u = (colorT - 0.5f) * 2.0f;
+		colorRGB = LWP::Utility::Interp::Lerp({ 1.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 1.0f }, u);
+	}
+	else {
+		float u = colorT * 2.0f;
+		colorRGB = LWP::Utility::Interp::Lerp({ 1.0f, 0.05f, 0.05f }, { 1.0f, 1.0f, 0.0f }, u);
+	}
+
+	cockpit_.materials["MapEmissionMaterial"].color = { colorRGB.x, colorRGB.y, colorRGB.z, 1.0f };
+
 }
 
 void WeaponController::DebugGui() {
