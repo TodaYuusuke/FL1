@@ -637,7 +637,7 @@
         "float :EmitTime": 0.05000000074505806,
         "float :EmitTimeAmp-Max": 0.0,
         "float :EmitTimeAmp-Min": -0.0,
-        "int32_t :EmitCount": 3,
+        "int32_t :EmitCount": 1,
         "int32_t :MaxEmitCount": 100,
         "int32_t :PEasingC-EasingType": 0,
         "int32_t :PEasingS-EasingType": 10,
