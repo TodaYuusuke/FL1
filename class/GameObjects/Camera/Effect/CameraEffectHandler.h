@@ -7,6 +7,7 @@
 #include "BoundMove/CameraBound.h"
 #include "Blur/Blur.h"
 #include "Vignette/Vignette.h"
+#include "RGBShift/RGBShift.h"
 #include "CameraEffect.h"
 
 /// <summary>
@@ -63,6 +64,12 @@ public:// アクセサ
 	/// <returns>ビネットエフェクター</returns>
 	Vignette* GetVignetteEffector() { return vignetteEffector_; }
 
+	/// <summary>
+	/// RGBずらしエフェクターゲッター
+	/// </summary>
+	/// <returns>RGBずらしエフェクター</returns>
+	RGBShift* GetRGBShiftEffector() { return rgbShiftEffector_; }
+
 #pragma endregion
 
 #pragma region Setter
@@ -84,5 +91,7 @@ private:
 	Blur* blurEffector_ = nullptr;
 	// ビネットのポストプロセス
 	Vignette* vignetteEffector_ = nullptr;
+	// RGBずらしのポストプロセス
+	RGBShift* rgbShiftEffector_ = nullptr;
 };
 

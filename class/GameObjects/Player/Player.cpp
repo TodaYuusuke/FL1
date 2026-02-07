@@ -149,6 +149,12 @@ void Player::Update() {
 	hpGauge_->SetRotate(hpGaugeRotate_);
 	hpGauge_->Update();
 
+	// RGBずらしが有効、かつ演出中でなければ
+	RGBShift* shiftEffector = CameraEffectHandler::GetInstance()->GetRGBShiftEffector();
+	if (shiftEffector->GetIsState() != 1 && !shiftEffector->GetIsStaging()) {
+		shiftEffector->Finish(0.5f);
+	}
+
 	if (hp_->GetIsDead()) {
 		// 全てのループSEの再生停止
 		moveController_->StopAllLoopSE();
@@ -356,14 +362,29 @@ void Player::OnCollision(LWP::Object::Collision* hitTarget) {
 		}
 	}
 
+	// ダメージ値取得
+	float damageValue = world_->FindAttackPower(hitTarget->name);
+	// 最大ダメージを元に補間用Tを求める
+	float damageT = damageValue / 50.0f;
+
+	// 振動強度を求める
+	float shakeStrength = LWP::Utility::Interp::LerpF(0.025f, 0.07f, damageT);
 	// カメラ振動
-	CameraEffectHandler::GetInstance()->StartShake({ 0.05f, 0.05f, 0.0f }, 0.5f);
+	CameraEffectHandler::GetInstance()->StartShake({ shakeStrength, shakeStrength, 0.0f }, 0.5f);
+	// ずらし強度の最大値を求める
+	float rgbshiftStrength = LWP::Utility::Interp::LerpF(0.025f, 0.1f, damageT);
+	// ずらし強度をランダムに求める
+	LWP::Math::Vector3 randomRGB = LWP::Utility::Random::GenerateVector3(LWP::Math::Vector3(-rgbshiftStrength, -rgbshiftStrength, -rgbshiftStrength), LWP::Math::Vector3(rgbshiftStrength, rgbshiftStrength, rgbshiftStrength));
+	// ずらし強度設定
+	CameraEffectHandler::GetInstance()->GetRGBShiftEffector()->SetMaxStrength(randomRGB);
+	// ずらしエフェクト開始
+	CameraEffectHandler::GetInstance()->GetRGBShiftEffector()->Start(0.1f);
 
 	// 被弾音を鳴らす
 	SEPlayer::GetInstance()->PlayRandomSE("HitSound.mp3", 4, 1.0f, AudioConfig::Enviroment);
 
 	// ダメージを受ける
-	hp_->Damage(world_->FindAttackPower(hitTarget->name), hitTarget->name);
+	hp_->Damage(damageValue, hitTarget->name);
 }
 
 void Player::PlayAttackAnim(int weaponSide)
