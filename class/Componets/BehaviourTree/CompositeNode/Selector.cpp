@@ -11,6 +11,8 @@ Selector::~Selector() {
 }
 
 void Selector::Tick() {
+	preRunningNodeIndex = runningNodeIndex;
+
 	childNodes[runningNodeIndex]->Tick();
 	auto result = childNodes[runningNodeIndex]->GetNodeResult();
 

@@ -15,6 +15,8 @@ RandomSelector::~RandomSelector() {
 }
 
 void RandomSelector::Tick() {
+	preRunningNodeIndex = runningNodeIndex;
+
 	// 行動をランダムで決める
 	runningNodeIndex = Random::GenerateInt(0, (int)childNodes.size() - 1);
 

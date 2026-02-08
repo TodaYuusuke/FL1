@@ -77,6 +77,18 @@ void IMelee::Update() {
 	// 持ち主がいないときのみ落下
 	FallingUpdate();
 
+	// 攻撃のアシスト
+	AttackAssist();
+
+	float frame = (data_.shotIntervalTime * 60.0f - attackFrame_) / (data_.shotIntervalTime * 60.0f);
+	if (frame >= 1.0f) {
+		isAttack_ = false;
+		// 弾切れなら破壊
+		if (magazine_->GetEmpty()) {
+			isDestroy_ = true;
+		}
+	}
+
 	// 弾がなくなれば強制リロードor破壊(クールタイム)
 	if (magazine_->GetEmpty()) {
 		if (GetIsEnableAttack()) {
@@ -84,20 +96,14 @@ void IMelee::Update() {
 			Reload();
 		}
 	}
-	// 攻撃可能状態
-	if (GetIsEnableAttack()) {
-		assistPos_ = { 0.0f,0.0f,0.0f };
-		isAttack_ = false;
-	}
-
-	// 攻撃のアシスト
-	AttackAssist();
-
 	if (actor_) lightPillar_.isActive = false;
 	else lightPillar_.isActive = true;
 	lightPillar_.worldTF.translation = body_.worldTF.GetWorldPosition();
 
-	attackFrame_ -= stopController_->GetDeltaTime();
+	// 所持者がいる場合
+	if (actor_) {
+		attackFrame_ -= stopController_->GetDeltaTime();
+	}
 
 	attackFrame_ = std::max<float>(attackFrame_, 0.0f);
 	reloadFrame_ = std::max<float>(reloadFrame_, 0.0f);
@@ -143,10 +149,7 @@ void IMelee::DebugGui() {
 
 void IMelee::Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attackTarget) {
 	// 弾がない状態なら撃てない
-	if (magazine_->GetEmpty()) {
-		isDestroy_ = true;
-		return;
-	}
+	if (magazine_->GetEmpty()) { return; }
 	// 射撃できる状態か
 	if (!GetIsEnableAttack()) { return; }
 
@@ -158,7 +161,7 @@ void IMelee::Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attack
 	// 射撃間隔を初期化
 	attackFrame_ = data_.shotIntervalTime * 60.0f;
 	// 攻撃中
-	isAttack_ = true;
+	//isAttack_ = true;
 
 	assistPos_ = actor_->GetWorldTF()->GetWorldPosition();
 	// 攻撃対象あり
@@ -183,11 +186,14 @@ void IMelee::Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attack
 	// 攻撃対象なし
 	else {
 		// アシスト後の座標
-		assistPos_ += Vector3{ 0.0f,0.0f,2.0f } * LWP::Math::Matrix4x4::CreateRotateXYZMatrix(actor_->GetWorldTF()->rotation);
+		assistPos_ += Vector3{ 0.0f,0.0f,2.0f } *LWP::Math::Matrix4x4::CreateRotateXYZMatrix(actor_->GetWorldTF()->rotation);
 	}
 }
 
 void IMelee::Reload() {
+	// 自機ならリロードできないようにする
+	if (actor_->GetName() == "Player") { return; }
+
 	reloadFrame_ -= stopController_->GetDeltaTime();
 	isAttack_ = false;
 	isDestroy_ = false;
@@ -222,8 +228,11 @@ void IMelee::FallingUpdate() {
 }
 
 void IMelee::AttackAssist() {
-	if (!GetIsAttack()) { return; }
+	// 射撃できる状態か
+	if (GetIsEnableAttack()) { return; }
 	if (!actor_) { return; }
+
+	isAttack_ = true;
 
 	// 速度
 	Vector3 vel{};

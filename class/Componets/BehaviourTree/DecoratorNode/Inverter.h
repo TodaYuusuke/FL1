@@ -1,5 +1,4 @@
 #pragma once
-
 #include "DecoratorNodeBase.h"
 
 class Inverter : public DecoratorNodeBase {

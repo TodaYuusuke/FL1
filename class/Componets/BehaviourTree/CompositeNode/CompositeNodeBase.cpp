@@ -10,6 +10,7 @@ CompositeNodeBase::~CompositeNodeBase() {
 void CompositeNodeBase::Init() {
 	NodeBase::Init();
 	runningNodeIndex = 0;
+	preRunningNodeIndex = 0;
 
 	// 最初のノードを初期化
 	if (childNodes.size() > 0) {

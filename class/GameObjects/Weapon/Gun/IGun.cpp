@@ -116,8 +116,10 @@ void IGun::Update() {
 		lightPillar_.worldTF.translation = body_.worldTF.GetWorldPosition();
 	}
 
-	attackFrame_ -= stopController_->GetDeltaTime();
-	coolFrame_ -= stopController_->GetDeltaTime();
+	if (actor_) {
+		attackFrame_ -= stopController_->GetDeltaTime();
+		coolFrame_ -= stopController_->GetDeltaTime();
+	}
 
 	attackFrame_ = std::max<float>(attackFrame_, 0.0f);
 	coolFrame_ = std::max<float>(coolFrame_, 0.0f);

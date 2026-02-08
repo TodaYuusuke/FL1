@@ -50,5 +50,6 @@ protected:
 	// 子ノード群
 	std::vector<INode*> childNodes;
 	// 現在動かしているノードのインデックス
-	int runningNodeIndex{ 0 };
+	int runningNodeIndex = 0;
+	int preRunningNodeIndex = 0;
 };

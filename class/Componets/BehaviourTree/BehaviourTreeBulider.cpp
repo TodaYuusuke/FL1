@@ -6,6 +6,7 @@
 #include "CompositeNode/Sequence.h"
 #include "DecoratorNode/Inverter.h"
 #include "DecoratorNode/RunOnce.h"
+#include "BranchNode/TimeLimit.h"
 #include "BranchNode/CheckNearPlayer.h"
 #include "BranchNode/CheckFarPlayer.h"
 #include "LeafNode/WaitLeaf.h"
@@ -102,6 +103,12 @@ INode* BehaviourTreeBuilder::BuildAttackerTree(std::string file_path, BlackBoard
 				int falseChildId = nodeJson["false_child"].get<int>();
 				float limitDistance = nodeJson["limit_distance"].get<float>();
 				node = new CheckFarPlayer(blackboard, buildNode(trueChildId), buildNode(falseChildId), limitDistance);
+			}
+			else if (name == "TimeLimit") {
+				int trueChildId = nodeJson["true_child"].get<int>();
+				int falseChildId = nodeJson["false_child"].get<int>();
+				float limitTime = nodeJson["limitTime"].get<float>();
+				node = new TimeLimit(blackboard, buildNode(trueChildId), buildNode(falseChildId), limitTime);
 			}
 
 			// --- Leafノード ---

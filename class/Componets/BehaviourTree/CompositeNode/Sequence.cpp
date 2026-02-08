@@ -11,6 +11,8 @@ Sequence::~Sequence() {
 }
 
 void Sequence::Tick() {
+	preRunningNodeIndex = runningNodeIndex;
+
 	childNodes[runningNodeIndex]->Tick();
 	auto result = childNodes[runningNodeIndex]->GetNodeResult();
 
