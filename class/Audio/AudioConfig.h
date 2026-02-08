@@ -6,9 +6,9 @@
 namespace LWP::AudioConfig {
 
 	/// <summary>
-	/// 効果音チャンネルの列挙子
+	/// 音チャンネルの列挙子
 	/// </summary>
-	enum SEChannels
+	enum AudioChannels
 	{
 		Player,		// プレイヤー
 		Enemy,		// 敵
@@ -18,4 +18,14 @@ namespace LWP::AudioConfig {
 		Count		// カウント用
 	};
 
+	/// <summary>
+	/// 音読み込み時のデフォルトパス
+	/// </summary>
+	inline std::array<std::string, AudioChannels::Count> AudioPath = {
+				"SE/",
+				"SE/",
+				"SE/",
+				"SE/",
+				"BGM/"
+	};
 }

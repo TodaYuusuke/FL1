@@ -3,7 +3,7 @@
 AudioPlayer::AudioPlayer()
 {
 	// マップに対してチャンネル追加
-	for (int i = 0; i < LWP::AudioConfig::SEChannels::Count; i++) {
+	for (int i = 0; i < LWP::AudioConfig::AudioChannels::Count; i++) {
 		audioMap_.try_emplace(i);
 	}
 }
@@ -54,7 +54,7 @@ void AudioPlayer::Update() {
 int32_t AudioPlayer::PlayAudio(const std::string& filePath, float volume, int channelID, const bool isLoop)
 {
 	// 新規オーディオプレイヤーの生成
-	std::unique_ptr<Sound> audioPlayer = std::make_unique<Sound>(filePath, volume, isLoop, &masterVolume_);
+	std::unique_ptr<Sound> audioPlayer = std::make_unique<Sound>(filePath, channelID, volume, isLoop, &masterVolume_);
 	// プレイヤーのID作成
 	uint32_t id = nextID_++;
 	audioPlayer->SetInstanceID(id);
@@ -75,7 +75,7 @@ int32_t AudioPlayer::PlayAudio(const std::string& filePath, float volume, int ch
 	if (listener_ == nullptr) { return PlayAudio(filePath, volume, channelID); }
 
 	// 新規オーディオプレイヤーの生成
-	std::unique_ptr<Sound> audioPlayer = std::make_unique<Sound>(filePath, volume, isLoop, &masterVolume_);
+	std::unique_ptr<Sound> audioPlayer = std::make_unique<Sound>(filePath, channelID, volume, isLoop, &masterVolume_);
 	// プレイヤーのID作成
 	uint32_t id = nextID_++;
 	audioPlayer->SetInstanceID(id);

@@ -1,9 +1,9 @@
 #include "Sound.h"
 
-Sound::Sound(const std::string& filePath, float volume, bool isLoop, const float* masterV)
+Sound::Sound(const std::string& filePath, int channelID, float volume, bool isLoop, const float* masterV)
 {
 	// 音のロード
-	std::string path = "SE/" + filePath;
+	std::string path = LWP::AudioConfig::AudioPath[channelID] + filePath;
 	audio_.LoadShortPath(path);
 
 	// 各種値の取得

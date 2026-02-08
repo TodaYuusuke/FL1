@@ -1,6 +1,7 @@
 #pragma once
 #include <Adapter.h>
 #include "../Effect/Utility/DeltaTimer.h"
+#include "AudioConfig.h"
 
 /// <summary>
 /// １つの音の再生、音量、ループを管理するクラス
@@ -16,9 +17,11 @@ public: // コンストラクタ
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="filePath">オーディオまでのファイルパス</param>
+	/// <param name="channelID"></param>
 	/// <param name="volume">音量</param>
 	/// <param name="isLoop">ループするか否か</param>
-	Sound(const std::string& filePath, float volume, bool isLoop, const float* masterV);
+	/// <param name="masterV">マスターボリュームのID</param>
+	Sound(const std::string& filePath, int channelID, float volume, bool isLoop, const float* masterV);
 
 	/// <summary>
 	/// デストラクタ
