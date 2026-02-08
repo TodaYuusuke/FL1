@@ -8,133 +8,28 @@
 		{
 			"name":"Scene",
 			"nodes":[
-				13
+				6
 			]
 		}
 	],
 	"nodes":[
 		{
-			"name":"Muzzle_0",
+			"name":"Muzzle",
 			"rotation":[
 				0.7071067690849304,
-				-1.1520231879558196e-07,
-				-1.1520231879558196e-07,
+				-3.6808341974392533e-07,
+				-3.6808341974392533e-07,
 				0.7071067690849304
 			],
 			"translation":[
-				0.8999959826469421,
-				0.740460991859436,
-				2.071280002593994
-			]
-		},
-		{
-			"name":"Muzzle_7",
-			"rotation":[
-				0.7071067690849304,
-				-1.9949601437474485e-07,
-				-1.9949601437474485e-07,
-				0.7071067690849304
-			],
-			"translation":[
-				0.8999959826469421,
-				-0.590330958366394,
-				2.071280002593994
-			]
-		},
-		{
-			"name":"Muzzle_2",
-			"rotation":[
-				0.7071067690849304,
-				-1.9949601437474485e-07,
-				-1.9949601437474485e-07,
-				0.7071067690849304
-			],
-			"translation":[
-				1.0703999996185303,
-				0.4338020086288452,
-				2.071280002593994
-			]
-		},
-		{
-			"name":"Muzzle_4.001",
-			"rotation":[
-				0.7071067690849304,
-				-2.837897170593351e-07,
-				-2.837897170593351e-07,
-				0.7071067690849304
-			],
-			"translation":[
-				1.0703999996185303,
+				0.8999997973442078,
 				0.07630503177642822,
-				2.071280002593994
-			]
-		},
-		{
-			"name":"Muzzle_6",
-			"rotation":[
-				0.7071067690849304,
-				-3.6808341974392533e-07,
-				-3.6808341974392533e-07,
-				0.7071067690849304
-			],
-			"translation":[
-				1.0703999996185303,
-				-0.28120195865631104,
-				2.071280002593994
-			]
-		},
-		{
-			"name":"Muzzle_1",
-			"rotation":[
-				0.7071067690849304,
-				-2.837897170593351e-07,
-				-2.837897170593351e-07,
-				0.7071067690849304
-			],
-			"translation":[
-				0.7391409277915955,
-				0.4338020086288452,
-				2.071280002593994
-			]
-		},
-		{
-			"name":"Muzzle_3.001",
-			"rotation":[
-				0.7071067690849304,
-				-3.6808341974392533e-07,
-				-3.6808341974392533e-07,
-				0.7071067690849304
-			],
-			"translation":[
-				0.7391409277915955,
-				0.07630503177642822,
-				2.071280002593994
-			]
-		},
-		{
-			"name":"Muzzle_5",
-			"rotation":[
-				0.7071067690849304,
-				-4.5237709400680615e-07,
-				-4.5237709400680615e-07,
-				0.7071067690849304
-			],
-			"translation":[
-				0.7395960092544556,
-				-0.28120195865631104,
 				2.071280002593994
 			]
 		},
 		{
 			"children":[
-				0,
-				1,
-				2,
-				3,
-				4,
-				5,
-				6,
-				7
+				0
 			],
 			"name":"Grip"
 		},
@@ -160,11 +55,11 @@
 		},
 		{
 			"children":[
-				9,
-				10,
-				11,
-				12,
-				8
+				2,
+				3,
+				4,
+				5,
+				1
 			],
 			"name":"MissilePod"
 		}
@@ -265,15 +160,8 @@
 		{
 			"inverseBindMatrices":6,
 			"joints":[
-				8,
-				0,
 				1,
-				2,
-				3,
-				4,
-				5,
-				6,
-				7
+				0
 			],
 			"name":"MissilePod"
 		}
@@ -328,7 +216,7 @@
 		{
 			"bufferView":6,
 			"componentType":5126,
-			"count":9,
+			"count":2,
 			"type":"MAT4"
 		},
 		{
@@ -509,115 +397,115 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":576,
+			"byteLength":128,
 			"byteOffset":8456
 		},
 		{
 			"buffer":0,
 			"byteLength":21456,
-			"byteOffset":9032,
+			"byteOffset":8584,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":21456,
-			"byteOffset":30488,
+			"byteOffset":30040,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":14304,
-			"byteOffset":51944,
+			"byteOffset":51496,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":7152,
-			"byteOffset":66248,
+			"byteOffset":65800,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":28608,
-			"byteOffset":73400,
+			"byteOffset":72952,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":6144,
-			"byteOffset":102008,
+			"byteOffset":101560,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":3744,
-			"byteOffset":108152,
+			"byteOffset":107704,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":3744,
-			"byteOffset":111896,
+			"byteOffset":111448,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":2496,
-			"byteOffset":115640,
+			"byteOffset":115192,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":1248,
-			"byteOffset":118136,
+			"byteOffset":117688,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":4992,
-			"byteOffset":119384,
+			"byteOffset":118936,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":1296,
-			"byteOffset":124376,
+			"byteOffset":123928,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":40320,
-			"byteOffset":125672,
+			"byteOffset":125224,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":40320,
-			"byteOffset":165992,
+			"byteOffset":165544,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":26880,
-			"byteOffset":206312,
+			"byteOffset":205864,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":13440,
-			"byteOffset":233192,
+			"byteOffset":232744,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":53760,
-			"byteOffset":246632,
+			"byteOffset":246184,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":14016,
-			"byteOffset":300392,
+			"byteOffset":299944,
 			"target":34963
 		}
 	],
@@ -629,7 +517,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":314408,
+			"byteLength":313960,
 			"uri":"MissilePod_L.bin"
 		}
 	]

@@ -60,7 +60,7 @@ void Missile::AttackCommond() {
 				(Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, randomVec.Normalize()) * Matrix4x4::DirectionToDirection(Vector3{ 0,0,1 }, shotDirVel_));
 		}
 		// 弾生成
-		pBulletManager_->CreateAttack(data_.bulletType, target_, this, body_.GetJointWorldPosition("Muzzle_0"), bulletHitFragBit_, bulletBelongFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
+		pBulletManager_->CreateAttack(data_.bulletType, target_, this, body_.GetJointWorldPosition("Muzzle"), bulletHitFragBit_, bulletBelongFragBit_, randomVec.Normalize() * 1.0f, attackMultiply_);
 
 		// 所持者が自機なら演出開始
 		if (actor_->GetName() == "Player") {
@@ -98,7 +98,7 @@ void Missile::FallingUpdate() {
 	// 持ち主がいるなら処理しない
 	if (actor_) { return; }
 	// 地面に到達したら処理しない
-	if (body_.GetJointWorldPosition("Muzzle_0").y <= 0.0f) { return; }
+	if (body_.GetJointWorldPosition("Muzzle").y <= 0.0f) { return; }
 
 	// 重力
 	velocity_.y -= 0.008f;

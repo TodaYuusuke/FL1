@@ -63,7 +63,8 @@ public: // アニメーション用関数群
 	/// 取得アニメーション再生関数
 	/// </summary>
 	/// <param name="weaponSide">取得した部位</param>
-	virtual void PlayPickUpAnim(const int weaponSide = 0) { weaponSide; }
+	/// <param name="data">取得した武器のデータ</param>
+	virtual void PlayPickUpAnim(const int weaponSide = 0, const WeaponData& data = {}) { weaponSide; data; }
 
 protected:
 	/// <summary>
