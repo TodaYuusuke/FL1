@@ -119,6 +119,7 @@ void TutorialScene::Initialize() {
 
 	// 演出対象のカメラ
 	CameraEffectHandler::GetInstance()->SetEffectTarget(followCamera_.get());
+	CameraEffectHandler::GetInstance()->Init();
 
 	Radar::GetInstance()->Initialize();
 	Radar::GetInstance()->SetPlayerTransform(player_->GetWorldTF());
