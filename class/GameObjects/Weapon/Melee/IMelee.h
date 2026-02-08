@@ -73,4 +73,6 @@ private:
 
 	int bulletHitFragBit_;
 	int bulletBelongFragBit_;
+
+	int preBulletNum_;
 };
