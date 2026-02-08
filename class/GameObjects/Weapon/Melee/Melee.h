@@ -13,6 +13,11 @@ public:
 	~Melee() override = default;
 
 	/// <summary>
+	/// 攻撃
+	/// </summary>
+	void Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attackTarget = nullptr) override;
+
+	/// <summary>
 	/// 破壊処理
 	/// </summary>
 	void Destroy() override;
@@ -33,4 +38,8 @@ public:// アクセサ
 #pragma endregion
 
 private:
+
+	//アニメーション
+	LWP::Resource::Animation anim_{};
+
 };
