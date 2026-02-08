@@ -58,6 +58,9 @@ private:
 
 private:
 
+	// アニメーション
+	LWP::Resource::Animation anim_{};
+
 	// 識別番号
 	int ID_;
 };

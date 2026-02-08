@@ -29,6 +29,10 @@ Drone::Drone(IWorld* world, int ID, const EnemyData& data) {
 	// モデル生成
 	model_.LoadFullPath(data.modelName);
 	model_.Update();
+	model_.materials["EmissionMaterial"].enableLighting = false;
+	anim_.LoadFullPath(data.modelName, &model_);
+	anim_.Play("Idle");
+	anim_.Loop(true);
 	for (auto key : model_.skeleton.jointMap) {
 		if (!key.first.empty()) jointName_.push_back(key.first);
 	}
