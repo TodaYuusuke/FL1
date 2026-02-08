@@ -153,7 +153,7 @@
     <ClCompile Include="class\GameObjects\Camera\Effect\Blur\Blur.cpp" />
     <ClCompile Include="class\Effect\Bullet\Child\BulletLineEffect.cpp" />
     <ClCompile Include="class\Effect\Bullet\BulletEffector.cpp" />
-    <ClCompile Include="class\Audio\AudioPlayer.cpp" />
+    <ClCompile Include="class\Audio\Sound.cpp" />
     <ClCompile Include="class\Componets\Animation\Anim.cpp" />
     <ClCompile Include="class\Componets\Animation\AnimationManager.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\TutorialData\AttackTutorial.cpp" />
@@ -274,7 +274,7 @@
     <ClCompile Include="class\GameObjects\Tutorial\Tutorial.cpp" />
     <ClCompile Include="class\Componets\SerialAnimation.cpp" />
     <ClCompile Include="class\GameObjects\Player\Anim\RobotAnimManager.cpp" />
-    <ClCompile Include="class\Audio\SEPlayer.cpp" />
+    <ClCompile Include="class\Audio\AudioPlayer.cpp" />
     <ClCompile Include="class\Effect\Particle\Child\SequenceParticle.cpp" />
     <ClCompile Include="class\GameObjects\Camera\Effect\Vignette\Vignette.cpp" />
     <ClCompile Include="class\Componets\BehaviourTree\BranchNode\TimeLimit.cpp" />
@@ -286,7 +286,7 @@
     <ClInclude Include="class\Effect\Bullet\Child\BulletLineEffect.h" />
     <ClInclude Include="class\Effect\Bullet\BulletEffector.h" />
     <ClInclude Include="class\Audio\AudioConfig.h" />
-    <ClInclude Include="class\Audio\AudioPlayer.h" />
+    <ClInclude Include="class\Audio\Sound.h" />
     <ClInclude Include="class\Componets\Animation\Anim.h" />
     <ClInclude Include="class\Componets\Animation\AnimationManager.h" />
     <ClInclude Include="class\Componets\Animation\AnimationStructs.h" />
@@ -437,7 +437,7 @@
     <ClInclude Include="class\Componets\EaseMachine.h" />
     <ClInclude Include="class\Componets\SerialAnimation.h" />
     <ClInclude Include="class\GameObjects\Player\Anim\RobotAnimManager.h" />
-    <ClInclude Include="class\Audio\SEPlayer.h" />
+    <ClInclude Include="class\Audio\AudioPlayer.h" />
     <ClInclude Include="class\Effect\Bullet\Child\ExplosiveBulletEffect.h" />
     <ClInclude Include="class\Effect\Particle\Child\SequenceParticle.h" />
     <ClInclude Include="class\GameObjects\Camera\Effect\Vignette\Vignette.h" />

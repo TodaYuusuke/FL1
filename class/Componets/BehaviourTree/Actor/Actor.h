@@ -7,7 +7,7 @@
 #include "../INode.h"
 #include "../../HitStopController.h"
 #include "../../../GameObjects/Enemy/EnemyConfig.h"
-#include "../../../Audio/SEPlayer.h"
+#include "../../../Audio/AudioPlayer.h"
 
 class IWorld;
 class BlackBoard;

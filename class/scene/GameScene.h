@@ -9,7 +9,7 @@
 #include "../GameObjects/UI/SingleGauge/SingleGauge.h"
 #include "SceneChangeAnimation/SceneChangeAnimation.h"
 #include "SceneChangeAnimation/SceneChangeAnimationForPlane.h"
-#include "../Audio/SEPlayer.h"
+#include "../Audio/AudioPlayer.h"
 #include "Adapter.h"
 
 
@@ -51,5 +51,8 @@ private:
 
 	int animationLength_ = 36;
 	bool isEndStartAnimation_;
+
+	// BGMの固有ID
+	uint32_t bgmID_{};
 
 };

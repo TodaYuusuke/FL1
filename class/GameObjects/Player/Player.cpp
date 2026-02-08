@@ -382,7 +382,7 @@ void Player::OnCollision(LWP::Object::Collision* hitTarget) {
 	CameraEffectHandler::GetInstance()->GetRGBShiftEffector()->Start(0.1f);
 
 	// 被弾音を鳴らす
-	SEPlayer::GetInstance()->PlayRandomSE("HitSound.mp3", 4, 1.0f, AudioConfig::Enviroment);
+	AudioPlayer::GetInstance()->PlayRandomAudio("HitSound.mp3", 4, 1.0f, AudioConfig::Enviroment);
 
 	// ダメージを受ける
 	hp_->Damage(damageValue, hitTarget->name);
@@ -409,7 +409,7 @@ void Player::PlayAttackAnim(int weaponSide)
 
 	// 射撃アニメーション再生
 	animManager_->PlayDirect(animName, weaponSide + 2)
-		.AddEvent("PlaySE", 1, [this, weaponSide, seName]() { SEPlayer::GetInstance()->PlaySE(seName, 1.0f, LWP::AudioConfig::Player); });
+		.AddEvent("PlaySE", 1, [this, weaponSide, seName]() { AudioPlayer::GetInstance()->PlayAudio(seName, 1.0f, LWP::AudioConfig::Player); });
 
 	// ミサイルか近接武器の場合待機アニメーションを変更する
 	if (data.type == static_cast<int>(WeaponType::kMissile) || data.type == static_cast<int>(WeaponType::kMelee)) {
@@ -426,7 +426,7 @@ void Player::PlayPickUpAnim(const int weaponSide, const WeaponData& data)
 {
 	// 取得アニメーション再生
 	animManager_->PlayDirect("PickUp", weaponSide + 2)
-		.AddEvent("PlaySE", 1, [&]() { SEPlayer::GetInstance()->PlaySE("WeaponPickUp.mp3", 1.0f, LWP::AudioConfig::Player); });
+		.AddEvent("PlaySE", 1, [&]() { AudioPlayer::GetInstance()->PlayAudio("WeaponPickUp.mp3", 1.0f, LWP::AudioConfig::Player); });
 
 	// ミサイルか近接武器の場合待機アニメーションを変更する
 	if (data.type == static_cast<int>(WeaponType::kMissile) || data.type == static_cast<int>(WeaponType::kMelee)) {

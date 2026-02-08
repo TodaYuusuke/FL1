@@ -14,6 +14,7 @@ namespace LWP::AudioConfig {
 		Enemy,		// 敵
 		Enviroment,	// 環境
 		Other,		// その他
+		BGM,		// BGM
 		Count		// カウント用
 	};
 

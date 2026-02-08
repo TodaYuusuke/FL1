@@ -129,7 +129,7 @@ void MeleeAttacker::PlayAttackAnim(const int weaponSide)
 
 	// 射撃アニメーション再生
 	animManager_->PlayDirect(animName, weaponSide + 2)
-		.AddEvent("PlaySE", 1, [this, weaponSide, seName]() { SEPlayer::GetInstance()->PlaySE(seName, 1.0f, LWP::AudioConfig::Player); });
+		.AddEvent("PlaySE", 1, [this, weaponSide, seName]() { AudioPlayer::GetInstance()->PlayAudio(seName, 1.0f, LWP::AudioConfig::Enemy, weapons_[weaponSide]->GetWorldTF()->GetWorldPosition()); });
 
 	// ミサイルか近接武器の場合待機アニメーションを変更する
 	if (data.type == static_cast<int>(WeaponType::kMissile) || data.type == static_cast<int>(WeaponType::kMelee)) {

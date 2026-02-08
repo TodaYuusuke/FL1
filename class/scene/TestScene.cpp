@@ -9,7 +9,7 @@ TestScene::TestScene()
 	// インスタンス生成
 	EffectManager::Create();
 	EffectEditor::Create();
-	SEPlayer::Create();
+	AudioPlayer::Create();
 }
 
 TestScene::~TestScene()
@@ -17,7 +17,7 @@ TestScene::~TestScene()
 	// インスタンス生成
 	EffectManager::Destroy();
 	EffectEditor::Destroy();
-	SEPlayer::Destroy();
+	AudioPlayer::Destroy();
 
 }
 

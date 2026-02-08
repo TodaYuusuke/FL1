@@ -15,7 +15,7 @@
 #include "../Componets/InputMyController/ControllerReceiver.h"
 #include "../Effect/EffectManager.h"
 #include "../Effect/EffectEditor.h"
-#include "../Audio/SEPlayer.h"
+#include "../Audio/AudioPlayer.h"
 
 using namespace LWP;
 using namespace LWP::Resource;
@@ -31,7 +31,7 @@ TutorialScene::TutorialScene() {
 
 TutorialScene::~TutorialScene() {
 	// 効果音プレイヤー生成
-	SEPlayer::Destroy();
+	AudioPlayer::Destroy();
 	BulletEffector::Destroy();
 	// 
 	EffectEditor::Destroy();
@@ -80,7 +80,7 @@ void TutorialScene::Initialize() {
 	EffectEditor::GetInstance()->Init();
 
 	// 効果音プレイヤー生成
-	SEPlayer::Create();
+	AudioPlayer::Create();
 
 	// 地形情報読み込み
 	levelData.LoadShortPath("gameScene.json");
@@ -99,7 +99,7 @@ void TutorialScene::Initialize() {
 	// 自機をアクターとして追加
 	world_->AddActor(player_);
 	// 効果音プレイヤーに自機のトランスフォームを渡す
-	SEPlayer::GetInstance()->SetListener(player_->GetWorldTF());
+	AudioPlayer::GetInstance()->SetListener(player_->GetWorldTF());
 
 	// 敵管理クラス
 	enemyManager_ = std::make_unique<EnemyManager>(world_.get());
@@ -141,7 +141,7 @@ void TutorialScene::Update() {
 	}
 
 	// 効果音プレイヤー生成
-	SEPlayer::GetInstance()->Update();
+	AudioPlayer::GetInstance()->Update();
 
 	// ヒットストップ
 	HitStopController::GetInstance()->Update();

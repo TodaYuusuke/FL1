@@ -31,7 +31,7 @@ void WeaponSlot::Update() {
 
 					// 削除時爆発エフェクトと音再生
 					// 爆発音再生
-					uint32_t id = SEPlayer::GetInstance()->PlaySE("weaponBreak_SE.mp3", 1.0f, LWP::AudioConfig::Enviroment, w->GetModel().GetJointWorldPosition("Muzzle"));
+					uint32_t id = AudioPlayer::GetInstance()->PlayAudio("weaponBreak_SE.mp3", 1.0f, LWP::AudioConfig::Enviroment, w->GetModel().GetJointWorldPosition("Muzzle"));
 
 					// 武器破壊エフェクト
 					LWP::Math::Vector3 weaponPos = w->GetModel().GetJointWorldPosition("Grip");

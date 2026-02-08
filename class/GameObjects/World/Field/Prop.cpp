@@ -1,6 +1,6 @@
 #include "Prop.h"
 #include "../../Collision/CollisionMask.h"
-#include "../../../Audio/SEPlayer.h"
+#include "../../../Audio/AudioPlayer.h"
 #include "../../../Effect/EffectManager.h"
 
 using namespace LWP::Math;
@@ -222,7 +222,7 @@ void Prop::OnCollision(LWP::Object::Collision* hitTarget)
 	hp_->Damage(0.0f, hitTarget->name);
 
 	// 被弾音を鳴らす
-	SEPlayer::GetInstance()->PlayRandomSE("PropHitSound.mp3", 3, 1.0f, LWP::AudioConfig::Enviroment, hitTarget->GetWorldPosition());
+	AudioPlayer::GetInstance()->PlayRandomAudio("PropHitSound.mp3", 3, 1.0f, LWP::AudioConfig::Enviroment, hitTarget->GetWorldPosition());
 	// 被弾エフェクト
 	EffectManager::GetInstance()->CreateNewEmitter("Spark", hitTarget->GetWorldPosition());
 	EffectManager::GetInstance()->CreateNewEmitter("RockParticle", hitTarget->GetWorldPosition());

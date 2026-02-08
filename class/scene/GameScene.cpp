@@ -54,12 +54,12 @@ GameScene::~GameScene() {
 	CameraEffectHandler::Destroy();
 
 	// 効果音プレイヤー生成
-	SEPlayer::Destroy();
+	AudioPlayer::Destroy();
 }
 
 void GameScene::Initialize() {
 	// 効果音プレイヤー生成
-	SEPlayer::Create();
+	AudioPlayer::Create();
 	// エフェクト関連のインスタンス生成
 	EffectManager::Create();
 	EffectEditor::Create();
@@ -108,7 +108,7 @@ void GameScene::Initialize() {
 	world_->AddActor(player_);
 
 	// 効果音プレイヤーに自機のトランスフォームを渡す
-	SEPlayer::GetInstance()->SetListener(player_->GetWorldTF());
+	AudioPlayer::GetInstance()->SetListener(player_->GetWorldTF());
 
 	// 敵管理クラス
 	enemyManager_ = std::make_unique<EnemyManager>(world_.get());
@@ -163,7 +163,7 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 	// 効果音プレイヤー生成
-	SEPlayer::GetInstance()->Update();
+	AudioPlayer::GetInstance()->Update();
 
 	// 敵を一定数倒したら終了
 	if (!player_->GetIsAlive()) {
