@@ -77,6 +77,15 @@ void IMelee::Update() {
 	// 持ち主がいないときのみ落下
 	FallingUpdate();
 
+	// 射撃できる状態か
+	if (GetIsEnableAttack() && preBulletNum_ != magazine_->GetBulletNum()) {
+		if (actor_) {
+			// 射撃間隔を初期化
+			attackFrame_ = data_.shotIntervalTime * 60.0f;
+			isAttack_ = true;
+		}
+	}
+
 	// 攻撃のアシスト
 	AttackAssist();
 
@@ -107,6 +116,8 @@ void IMelee::Update() {
 
 	attackFrame_ = std::max<float>(attackFrame_, 0.0f);
 	reloadFrame_ = std::max<float>(reloadFrame_, 0.0f);
+
+	preBulletNum_ = magazine_->GetBulletNum();
 }
 
 void IMelee::DebugGui() {
@@ -155,13 +166,10 @@ void IMelee::Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attack
 
 	// 攻撃判定生成
 	pBulletManager_->CreateAttack(data_.bulletType, &body_.worldTF, this, bulletHitFragBit, bulletBelongFragBit, attackMultiply_);
-
 	// 弾数を減らす
 	magazine_->BulletDecrement();
-	// 射撃間隔を初期化
-	attackFrame_ = data_.shotIntervalTime * 60.0f;
 	// 攻撃中
-	//isAttack_ = true;
+	isAttack_ = true;
 
 	assistPos_ = actor_->GetWorldTF()->GetWorldPosition();
 	// 攻撃対象あり
@@ -228,11 +236,8 @@ void IMelee::FallingUpdate() {
 }
 
 void IMelee::AttackAssist() {
-	// 射撃できる状態か
-	if (GetIsEnableAttack()) { return; }
+	if (!GetIsAttack()) { return; }
 	if (!actor_) { return; }
-
-	isAttack_ = true;
 
 	// 速度
 	Vector3 vel{};

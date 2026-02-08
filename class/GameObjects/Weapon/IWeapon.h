@@ -130,7 +130,7 @@ public:// アクセサ
 		// 溜め時間中なら撃てない
 		if (GetIsStoreTime()) { return false; }
 		// 弾がない状態なら撃てない
-		if (magazine_->GetEmpty()) { return false; }
+		//if (magazine_->GetEmpty()) { return false; }
 		// 射撃不可時間なら終了
 		if (GetIsCoolTime()) { return false; }
 
