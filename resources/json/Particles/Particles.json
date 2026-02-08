@@ -431,6 +431,222 @@
         "string :ModelPath": "cube.obj",
         "string :TexPath": "MuzzleFlash.png"
     },
+    "Group :PileSting": {
+        "Vector2 :SplitSize": [
+            100.0,
+            100.0
+        ],
+        "Vector3 :PEasingS-End": [
+            5.0,
+            5.0,
+            5.0
+        ],
+        "Vector3 :PEasingS-EndAmp-Max": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :PEasingS-EndAmp-Min": [
+            -0.0,
+            -0.0,
+            -0.0
+        ],
+        "Vector3 :PEasingS-Start": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "Vector3 :PEasingS-StartAmp-Max": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :PEasingS-StartAmp-Min": [
+            -0.0,
+            -0.0,
+            -0.0
+        ],
+        "Vector3 :PEasingT-End": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :PEasingT-EndAmp-Max": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :PEasingT-EndAmp-Min": [
+            -0.0,
+            -0.0,
+            -0.0
+        ],
+        "Vector3 :PEasingT-Start": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :PEasingT-StartAmp-Max": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :PEasingT-StartAmp-Min": [
+            -0.0,
+            -0.0,
+            -0.0
+        ],
+        "Vector3 :PVelocityR-Acceleration": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :PVelocityR-AccelerationAmp-Max": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :PVelocityR-AccelerationAmp-Min": [
+            -0.0,
+            -0.0,
+            -0.0
+        ],
+        "Vector3 :PVelocityR-Start": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :PVelocityR-StartAmp-Max": [
+            0.0,
+            360.0,
+            0.0
+        ],
+        "Vector3 :PVelocityR-StartAmp-Min": [
+            -0.0,
+            -360.0,
+            -0.0
+        ],
+        "Vector3 :PVelocityR-Velocity": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :PVelocityR-VelocityAmp-Max": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :PVelocityR-VelocityAmp-Min": [
+            -0.0,
+            -0.0,
+            -0.0
+        ],
+        "Vector3 :PVelocityT-Acceleration": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :PVelocityT-AccelerationAmp-Max": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :PVelocityT-AccelerationAmp-Min": [
+            -0.0,
+            -0.0,
+            -0.0
+        ],
+        "Vector3 :PVelocityT-Start": [
+            0.0,
+            3.0,
+            0.0
+        ],
+        "Vector3 :PVelocityT-StartAmp-Max": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :PVelocityT-StartAmp-Min": [
+            -0.0,
+            -0.0,
+            -0.0
+        ],
+        "Vector3 :PVelocityT-Velocity": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :PVelocityT-VelocityAmp-Max": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :PVelocityT-VelocityAmp-Min": [
+            -0.0,
+            -0.0,
+            -0.0
+        ],
+        "Vector4 :PEasingC-End": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector4 :PEasingC-EndAmp-Max": [
+            1.0,
+            1.0,
+            1.0,
+            0.0
+        ],
+        "Vector4 :PEasingC-EndAmp-Min": [
+            1.0,
+            1.0,
+            1.0,
+            0.0
+        ],
+        "Vector4 :PEasingC-Start": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Vector4 :PEasingC-StartAmp-Max": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "Vector4 :PEasingC-StartAmp-Min": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :IsAnimLoop": true,
+        "bool :IsWaitDeleteAllParticles": true,
+        "bool :PEasingC-IsUsed": false,
+        "bool :PEasingS-IsUsed": false,
+        "bool :PEasingT-IsUsed": false,
+        "bool :PVelocityR-IsUsed": false,
+        "bool :PVelocityT-IsUsed": true,
+        "bool :unificationRandomScale": true,
+        "float :AliveTimeAmp-Max": 0.5,
+        "float :AliveTimeAmp-Min": 0.5,
+        "float :AnimTime": 0.10000000149011612,
+        "float :EmitAliveTime": 0.20000000298023224,
+        "float :EmitTime": 0.15000000596046448,
+        "float :EmitTimeAmp-Max": 0.0,
+        "float :EmitTimeAmp-Min": -0.0,
+        "int32_t :EmitCount": 3,
+        "int32_t :MaxEmitCount": 100,
+        "int32_t :PEasingC-EasingType": 1,
+        "int32_t :PEasingS-EasingType": 11,
+        "int32_t :PEasingT-EasingType": 0,
+        "int32_t :ParticleType": 1,
+        "int32_t :SurfaceType": 0,
+        "string :ModelPath": "cube.obj",
+        "string :TexPath": "pile_effect.png"
+    },
     "Group :PowerUP": {
         "Vector2 :SplitSize": [
             0.0,

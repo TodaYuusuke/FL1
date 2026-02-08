@@ -32,6 +32,11 @@ void Melee::Attack(int bulletHitFragBit, int bulletBelongFragBit, Actor* attackT
 	// アニメーション再生
 	anim_.Play("Attack");
 
+	// エミッタが存在する場合射撃エフェクトを生成
+	if (attackEffectEmitter_ != nullptr) {
+		attackEffectEmitter_->Emit();
+	}
+
 	assistPos_ = actor_->GetWorldTF()->GetWorldPosition();
 	// 攻撃対象あり
 	if (attackTarget) {
