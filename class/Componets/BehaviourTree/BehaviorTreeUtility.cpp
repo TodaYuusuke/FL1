@@ -170,7 +170,7 @@ void BehaviorTreeGraph::AddLink(int start_attr, int end_attr) {
 	// リンクできる状態かを確認
 	if (IsLinkAddable(mNodes[parent_id], mNodes[child_id], is_true_branch)) {
 		// branchノードの場合
-		if (mNodes[parent_id].type == NodeType::Branch) {
+		if (mNodes[parent_id].type == NodeType::Branch || mNodes[parent_id].name == NodeName::TimeLimit) {
 			// trueピンに子ノードを設定
 			if (is_true_branch) {
 				mNodes[parent_id].true_child = child_id;
@@ -304,7 +304,7 @@ bool BehaviorTreeGraph::IsRelatedNodes(const int node_id, const std::pair<const 
 	if (node_type == NodeType::Leaf) return false;
 
 	// ブランチノードの場合
-	if (node_type == NodeType::Branch) {
+	if (node_type == NodeType::Branch || node.second.name == NodeName::TimeLimit) {
 		// true, falseどちらもnode_idと一致しなければfalse
 		if (!(node.second.true_child == node_id || node.second.false_child == node_id)) {
 			return false;
@@ -335,7 +335,7 @@ bool BehaviorTreeGraph::IsLinkAddable(BTNode& parent_node, BTNode& child_node, b
 		// もしすでに子ノードを持っていたら追加できない
 		if (parent_node.children.size() > 0) { return false; }
 	}
-	else if (parent_node.type == NodeType::Branch) {
+	else if (parent_node.type == NodeType::Branch || parent_node.name == NodeName::TimeLimit) {
 		// Branchは持てる子ノードはTrue,Falseでそれぞれ一つだけ
 		// もし既に子ノードを持っていたら追加できない
 		if (is_true_branch) {
@@ -356,7 +356,7 @@ void BehaviorTreeGraph::RemoveNodesLink(int parent_id, int child_id) {
 	auto& child_node = mNodes[child_id];
 
 	// branchノードの場合
-	if (parent_node.type == NodeType::Branch) {
+	if (parent_node.type == NodeType::Branch || parent_node.name == NodeName::TimeLimit) {
 		// trueピンからリンクを外す
 		if (parent_node.true_child == child_id) {
 			parent_node.true_child = -1;
@@ -414,7 +414,7 @@ void BehaviorTreeGraph::ExportJson(const std::string& file_name) {
 		node_json["name"] = NAMEOF_ENUM(node.name);
 		node_json["parent"] = node.parent;
 
-		if (node.type == NodeType::Branch) {
+		if (node.type == NodeType::Branch || node.name == NodeName::TimeLimit) {
 			node_json["true_child"] = node.true_child;
 			node_json["false_child"] = node.false_child;
 		}
@@ -431,6 +431,9 @@ void BehaviorTreeGraph::ExportJson(const std::string& file_name) {
 		}
 
 		// ノード固有の値
+		if (node.limitTime != -1.f) {
+			node_json["limitTime"] = node.limitTime;
+		}
 		if (node.wait_time != -1.f) {
 			node_json["wait_time"] = node.wait_time;
 		}
@@ -485,12 +488,15 @@ void BehaviorTreeGraph::ImportJson(const std::string& file_name) {
 		NodeName name = GetMatchingNodeName(node_json["name"].get<std::string>());
 		int parent = node_json["parent"];
 		BTNode node{ id, type, name, {}, parent };
-		if (type == NodeType::Branch) {
+		if (type == NodeType::Branch || name == NodeName::TimeLimit) {
 			node.true_child = node_json["true_child"];
 			node.false_child = node_json["false_child"];
 		}
 		else {
 			node.children = node_json["children"].get<std::vector<int>>();
+		}
+		if (node_json.contains("limitTime")) {
+			node.limitTime = node_json["limitTime"];
 		}
 		if (node_json.contains("wait_time")) {
 			node.wait_time = node_json["wait_time"];
@@ -766,7 +772,7 @@ void BehaviorTreeGraph::DrawInputPin(const BTNode& node) {
 
 void BehaviorTreeGraph::DrawOutputPin(const BTNode& node, bool is_selected) {
 	// ノードの種類がbranchの場合
-	if (node.type == NodeType::Branch) {
+	if (node.type == NodeType::Branch || node.name == NodeName::TimeLimit) {
 		// trueピンの作成
 		ImNodes::BeginOutputAttribute(node.id << cInputBit | cTruePinBit);
 		// ノードが選択されているときは文字を表示
@@ -799,8 +805,24 @@ void BehaviorTreeGraph::DrawOutputPin(const BTNode& node, bool is_selected) {
 }
 
 void BehaviorTreeGraph::DrawParameter(const BTNode& node, int node_id, bool is_selected) {
+	// LimitTimeノードの場合
+	if (node.name == NodeName::TimeLimit) {
+		// 選択されているとき
+		if (is_selected && mIsEditMode) {
+			// 待機時間表示
+			ImGui::Text(("LimitTime[frame]"));
+			ImGui::SetNextItemWidth(200);
+
+			float limitTime = node.limitTime;
+			ImGui::InputFloat("", &limitTime);
+			SetLimitTime(node_id, limitTime);
+		}
+		else {
+			ImGui::Text("LimitTime: %.1f", node.limitTime);
+		}
+	}
 	// 待機ノードの場合
-	if (node.name == NodeName::WaitLeaf) {
+	else if (node.name == NodeName::WaitLeaf) {
 		// 選択されているとき
 		if (is_selected && mIsEditMode) {
 			// 待機時間表示
@@ -926,6 +948,10 @@ void BehaviorTreeGraph::DrawLinks() {
 
 		ImNodes::PopColorStyle();
 	}
+}
+
+void BehaviorTreeGraph::SetLimitTime(int id, float limitTime) {
+	mNodes.at(id).limitTime = limitTime;
 }
 
 void BehaviorTreeGraph::SetLimitDistance(int id, float limit_distance) {

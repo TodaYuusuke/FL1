@@ -45,6 +45,10 @@ public:
 
 private:
 	/// <summary>
+	/// 攻撃指示
+	/// </summary>
+	void AttackCommond();
+	/// <summary>
 	/// 位置アシスト
 	/// </summary>
 	void AttackAssist();
@@ -66,4 +70,7 @@ public:// アクセサ
 private:
 	// 攻撃時のアシスト座標
 	LWP::Math::Vector3 assistPos_;
+
+	int bulletHitFragBit_;
+	int bulletBelongFragBit_;
 };

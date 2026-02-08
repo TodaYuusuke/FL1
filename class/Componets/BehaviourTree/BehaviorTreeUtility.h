@@ -28,6 +28,7 @@ enum class NodeName {
 	RandomSelector,
 	Inverter,
 	RunOnce,
+	TimeLimit,
 	CheckFarPlayer,
 	CheckNearPlayer,
 	ChasePlayerLeaf,
@@ -49,6 +50,7 @@ static std::map<NodeName, NodeType> NODE_MAP = {
 	{NodeName::RandomSelector, NodeType::Composite},
 	{NodeName::Inverter, NodeType::Decorator},
 	{NodeName::RunOnce, NodeType::Decorator},
+	{NodeName::TimeLimit, NodeType::Branch},
 	{NodeName::CheckFarPlayer, NodeType::Branch},
 	{NodeName::CheckNearPlayer, NodeType::Branch},
 	{NodeName::ChasePlayerLeaf, NodeType::Leaf},
@@ -69,6 +71,9 @@ struct BTNode {
 	NodeName name = NodeName::WaitLeaf;     // ノードの名前
 	std::vector<int> children;              // 子ノードID
 	int parent = -1;                        // 親ノードID
+
+	// LimitTime用の変数
+	float limitTime = 0.0f;
 
 	// Branch用の変数
 	int true_child = -1;
@@ -298,6 +303,8 @@ private:
 	// IDからノードを検索
 	BTNode& GetNode(int id);
 
+	// LimitTimeノードのlimitTimeを設定
+	void SetLimitTime(int id, float limitTime);
 	// ノードのlimit_distanceを設定
 	void SetLimitDistance(int id, float limit_distance);
 	// ノードのwait_timeを設定
