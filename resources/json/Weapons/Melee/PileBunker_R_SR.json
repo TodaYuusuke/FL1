@@ -1,7 +1,7 @@
 {
     "animName": "MelleAttack",
     "attackEffectName": "",
-    "attackSEFileName": "Shot.mp3",
+    "attackSEFileName": "pilebanker_SE.mp3",
     "attackSkillGain": 300.0,
     "bulletNum": 3,
     "bulletType": 5,
