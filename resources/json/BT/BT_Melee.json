@@ -2,7 +2,8 @@
     {
         "false_child": 11,
         "id": 6,
-        "limit_distance": 10.0,
+        "limitTime": 0.0,
+        "limit_distance": 40.0,
         "name": "CheckNearPlayer",
         "parent": 13,
         "pos_x": 421.0,
@@ -14,6 +15,7 @@
     {
         "children": [],
         "id": 7,
+        "limitTime": 0.0,
         "name": "CircleAttackLeaf",
         "parent": 10,
         "pos_x": 789.0,
@@ -24,6 +26,7 @@
     {
         "children": [],
         "id": 11,
+        "limitTime": 0.0,
         "name": "ChasePlayerLeaf",
         "parent": 6,
         "pos_x": 798.0,
@@ -37,6 +40,7 @@
             6
         ],
         "id": 13,
+        "limitTime": 0.0,
         "name": "Sequence",
         "parent": -1,
         "pos_x": 132.99998474121094,
@@ -49,6 +53,7 @@
             8
         ],
         "id": 5,
+        "limitTime": 0.0,
         "name": "RunOnce",
         "parent": 13,
         "pos_x": 426.0,
@@ -59,6 +64,7 @@
     {
         "children": [],
         "id": 8,
+        "limitTime": 0.0,
         "name": "WaitLeaf",
         "parent": 5,
         "pos_x": 581.0,
@@ -70,6 +76,7 @@
     {
         "children": [],
         "id": 9,
+        "limitTime": 0.0,
         "name": "WaitLeaf",
         "parent": 10,
         "pos_x": 775.525390625,
@@ -86,6 +93,7 @@
             12
         ],
         "id": 10,
+        "limitTime": 0.0,
         "name": "Sequence",
         "parent": 6,
         "pos_x": 619.525390625,
@@ -96,19 +104,21 @@
     {
         "children": [],
         "id": 12,
+        "limitTime": 0.0,
         "name": "ReadyToAttackLeaf",
         "parent": 10,
         "pos_x": 789.8599853515625,
         "pos_y": 250.55474853515625,
-        "readyToAttackMoveSpeed": 0.5,
-        "readyToAttackTime": 120.0,
-        "readyToAttackTurnTime": 30.0,
+        "readyToAttackMoveSpeed": 1.0,
+        "readyToAttackTime": 1.0,
+        "readyToAttackTurnTime": -1.0,
         "speed": 0.0,
         "type": 3
     },
     {
         "children": [],
         "id": 14,
+        "limitTime": 0.0,
         "name": "EscapeFromPlayerLeaf",
         "parent": 10,
         "pos_x": 794.0,
