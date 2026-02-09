@@ -3,35 +3,35 @@
     "createPos_x": 220.0,
     "createPos_y": 0.0,
     "createPos_z": 0.0,
-    "spawnTime": 0.5,
+    "spawnTime": 0.0,
     "type": 3
   },
   {
     "createPos_x": -220.0,
     "createPos_y": 0.0,
     "createPos_z": 0.0,
-    "spawnTime": 0.5,
+    "spawnTime": 0.0,
     "type": 3
   },
   {
     "createPos_x": -75.0,
     "createPos_y": 0.0,
     "createPos_z": 0.0,
-    "spawnTime": 0.5,
+    "spawnTime": 0.0,
     "type": 0
   },
   {
     "createPos_x": -75.0,
     "createPos_y": 0.0,
     "createPos_z": 0.0,
-    "spawnTime": 0.5,
+    "spawnTime": 0.0,
     "type": 0
   },
   {
     "createPos_x": -75.0,
     "createPos_y": 0.0,
     "createPos_z": 100.0,
-    "spawnTime": 0.5,
+    "spawnTime": 0.0,
     "type": 0
   }
 ]
