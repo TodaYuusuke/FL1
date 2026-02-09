@@ -19,13 +19,13 @@
             },
             "Group :Right": {
                 "int32_t :Name": 0,
-                "int32_t :Type": 1
+                "int32_t :Type": 5
             }
         },
         "Group :Shoulder": {
             "Group :Left": {
                 "int32_t :Name": 0,
-                "int32_t :Type": 5
+                "int32_t :Type": 6
             },
             "Group :Right": {
                 "int32_t :Name": 0,
