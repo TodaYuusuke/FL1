@@ -61,4 +61,7 @@ private: // ** これより先に必要な処理や変数を記述 ** //
 
 	int killCount_=0;
 	int drawKillCount_=0;
+
+	float scoreAnimationFrame_=0;
+	float scoreAnimationLength_ = 0;
 };

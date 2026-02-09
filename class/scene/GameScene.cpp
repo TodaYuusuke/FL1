@@ -128,12 +128,13 @@ void GameScene::Initialize() {
 	// 調整項目
 	json_.Init("Game.json")
 		.AddValue<int>("ClearKillCount", &clearKillCount)
+		.AddValue<LWP::Math::Vector2>("ScorePosition", &scorePosition_)
 		.CheckJsonFile();
 
 	//スコア表示テスト
 	score_ = std::make_unique<ScoreUI>();
 	score_->Initialize(7);
-	score_->SetCenter({1280.0f,100.0f});
+	score_->SetCenter({1160.0f,100.0f});
 
 	// 演出対象のカメラ
 	CameraEffectHandler::GetInstance()->SetEffectTarget(followCamera_.get());
@@ -193,6 +194,7 @@ void GameScene::Update() {
 
 	//スコア表示(テスト)
 	ScoreCounter::GetInstance()->Update();
+	score_->SetCenter(scorePosition_);
 	score_->SetScore(ScoreCounter::GetInstance()->GetDrawScore());
 	score_->Update();
 

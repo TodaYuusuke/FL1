@@ -13,6 +13,7 @@ void Radar::Initialize() {
 	player_.worldTF.Parent(&centerTransform_);
 	for (auto& material : player_.materials) {
 		material.second.color = colorSample_[PLAYER];
+		material.second.enableLighting = false;
 	}
 	for (size_t i = 0; i < kMaxModels_; i++) {
 		unitModels_[i].LoadCube();
@@ -50,6 +51,11 @@ void Radar::Update() {
 
 		LWP::Math::Vector3 newVec = LWP::Math::Matrix4x4::TransformCoord(unitDatas_[index].position, mat.Inverse());
 		newVec.y = 0;
+		//敵を優先表示
+		if (unitDatas_[index].type == ENEMY) {
+			newVec.y = 0.1f;
+		}
+		
 		newVec *= mapScale_;
 		if (newVec.Length() > viewBorder_) {
 			index++;

@@ -56,7 +56,7 @@ void ResultScene::Initialize() {
 	ScoreCounter::GetInstance()->ClearDrawScore();
 	
 	//仮値
-	//ScoreCounter::GetInstance()->AddScore(12345);
+	//ｊScoreCounter::GetInstance()->AddScore(12345);
 
 	knockOut_ = std::make_unique<ScoreUI>();
 	knockOut_->Initialize(3);
@@ -80,6 +80,8 @@ void ResultScene::Initialize() {
 	scoreSprite_.LoadTexture("Result/score_UI.png");
 	scoreSprite_.isActive = false;
 
+	scoreAnimationFrame_ = 0;
+
 	// 管理クラスの調整項目
 	json_.Init(kJsonDirectoryPath + "Result.json")
 		.BeginGroup("KillCount")
@@ -101,6 +103,7 @@ void ResultScene::Initialize() {
 		.AddValue<LWP::Math::Vector3>("Transform", &scoreTransform_.translation)
 		.AddValue<LWP::Math::Vector3>("Scale", &scoreTransform_.scale)
 		.EndGroup()
+		.AddValue<float>("AnimationLength", &scoreAnimationLength_)
 		.EndGroup()
 		.CheckJsonFile();
 }
@@ -165,9 +168,18 @@ void ResultScene::Phase2Score() {
 	score_->SetIsScoreDisplay(true);
 	scoreSprite_.isActive = true;
 
-	ScoreCounter::GetInstance()->Update();
+	float t = scoreAnimationFrame_ / scoreAnimationLength_;
+	scoreAnimationFrame_++;
+
+	if (scoreAnimationFrame_ > scoreAnimationLength_) {
+		scoreAnimationFrame_ = scoreAnimationLength_;
+	}
+
+	//ScoreCounter::GetInstance()->Update();
+	ScoreCounter::GetInstance()->SetDrawScore(ScoreCounter::GetInstance()->GetScore() * t);
 	if (VirtualController::GetInstance()->TriggerAnyKey()) {
 		ScoreCounter::GetInstance()->SetMaxDrawScore();
+		scoreAnimationFrame_ = scoreAnimationLength_;
 	}
 	score_->SetScore(ScoreCounter::GetInstance()->GetDrawScore());
 	if (ScoreCounter::GetInstance()->GetDrawScore() == ScoreCounter::GetInstance()->GetScore()) {

@@ -51,4 +51,6 @@ private:
 
 	int animationLength_ = 36;
 	bool isEndStartAnimation_{};
+
+	LWP::Math::Vector2 scorePosition_{};
 };
