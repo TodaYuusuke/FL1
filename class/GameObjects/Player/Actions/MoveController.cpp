@@ -28,6 +28,9 @@ void MoveController::Init() {
 	for (auto it = actions_.begin(); it != actions_.end(); ++it) {
 		if(it->second) it->second->Init();
 	}
+
+	// 前フレーム角度取得
+	preRot_ = rot_;
 }
 
 void MoveController::Update() {
@@ -51,11 +54,15 @@ void MoveController::Update() {
 	rot_ = actions_[ActionType::kMain]->GetRot();
 
 	// 移動ベクトルの長さが一定値以上かつブースト中以外なら
-	if (std::abs(actions_[ActionType::kMain]->GetRawVel().Length()) > 0.05f && AudioPlayer::GetInstance()->GetAudioPlayer(moveSEID_) == nullptr && actions_[ActionType::kSub]->GetStateName() != "Boost") {
+	bool isPlayMoveSE =
+		(std::abs(actions_[ActionType::kMain]->GetRawVel().Length()) > 0.05f && AudioPlayer::GetInstance()->GetAudioPlayer(moveSEID_) == nullptr && actions_[ActionType::kSub]->GetStateName() != "Boost");
+	bool isStopMoveSE =
+		(std::abs(actions_[ActionType::kMain]->GetRawVel().Length()) <= 0.05f && AudioPlayer::GetInstance()->GetAudioPlayer(moveSEID_) != nullptr);
+	if (isPlayMoveSE) {
 		// 移動音再生
 		moveSEID_ = AudioPlayer::GetInstance()->PlayAudio("move_SE.mp3", 1.0f, LWP::AudioConfig::Player, true);
 	}
-	else if (std::abs(actions_[ActionType::kMain]->GetRawVel().Length()) <= 0.05f && AudioPlayer::GetInstance()->GetAudioPlayer(moveSEID_) != nullptr) {
+	else if (isStopMoveSE) {
 		// ループ音再生停止
 		if (Sound* p = AudioPlayer::GetInstance()->GetAudioPlayer(moveSEID_)) {
 			p->Stop(0.5f);
@@ -79,6 +86,9 @@ void MoveController::Update() {
 			cameraEffector_->GetBlurEffector()->Finish(0.5f);
 		}
 	}
+
+	// 前フレーム角度リセット
+	preRot_ = rot_;
 }
 
 void MoveController::DebugGui() {

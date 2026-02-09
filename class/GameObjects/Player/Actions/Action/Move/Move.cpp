@@ -119,6 +119,9 @@ void Move::TurnBehind() {
 			turnTime_.Start(turnTime);
 			turnTime_.GetIsActive();
 		}
+
+		// 旋回音再生
+		AudioPlayer::GetInstance()->PlayAudio("QuickTurn_SE.mp3", 1.0f, LWP::AudioConfig::Player, false);
 	}
 
 	if (!turnTime_.GetIsActive()) { return; }
