@@ -1,8 +1,8 @@
 {
     "Group :Decay": {
-        "float :Far": 0.4000000059604645,
-        "float :Middle": 0.20000000298023224,
-        "float :Near": 0.10000000149011612
+        "float :Far": 0.8000000059604645,
+        "float :Middle": 0.40000000298023224,
+        "float :Near": 0.20000000149011612
     },
     "float :MaxAttackMultiply": 2.0,
     "float :MaxWeaponSkill": 1000.0

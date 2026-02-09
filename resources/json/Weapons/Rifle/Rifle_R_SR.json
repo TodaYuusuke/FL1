@@ -3,7 +3,7 @@
     "attackEffectName": "MuzzleFlash",
     "attackSEFileName": "RifleShotSound.mp3",
     "attackSkillGain": 100.0,
-    "bulletNum": 30,
+    "bulletNum": 25,
     "bulletType": 0,
     "burstIntervalTime": 0.0,
     "burstNum": 0,
