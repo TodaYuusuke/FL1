@@ -16,6 +16,7 @@ public:
 	void Reset() { sumScore_ = 0; drawScore_ = 0; killCount_ = 0; };
 	void ClearDrawScore() { drawScore_ = 0; };
 	void SetMaxDrawScore() { drawScore_ = sumScore_; };
+	void SetDrawScore(int32_t score) { drawScore_ = score; };
 
 	void AddScore(int32_t score) { sumScore_ += score; };
 	void AddKillCount() { killCount_++; };

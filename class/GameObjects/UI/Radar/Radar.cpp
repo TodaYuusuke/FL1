@@ -13,6 +13,7 @@ void Radar::Initialize() {
 	player_.worldTF.Parent(&centerTransform_);
 	for (auto& material : player_.materials) {
 		material.second.color = colorSample_[PLAYER];
+		material.second.enableLighting = false;
 	}
 	for (size_t i = 0; i < kMaxModels_; i++) {
 		unitModels_[i].LoadCube();
