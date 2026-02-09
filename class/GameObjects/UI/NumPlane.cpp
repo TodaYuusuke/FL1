@@ -9,7 +9,6 @@ void NumPlane::Initialize(size_t num) {
 		surfaces_[i].anchorPoint = { 0.5f,0.5f };
 		//surfaces_[i].worldTF.translation = { -1000.0f,-1000.0f,0.0f };
 		surfaces_[i].isActive = false;
-		surfaces_[i].material.enableLighting = false;
 	}
 
 	for (size_t i = 0; i < digit_; i++) {
