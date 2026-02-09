@@ -6,7 +6,7 @@
     "Vector3 :ColliderSize": [
         1.0,
         1.0,
-        1.0
+        2.0
     ],
     "float :AttackPower": 10.0,
     "float :ElapsedTime": 5.0,

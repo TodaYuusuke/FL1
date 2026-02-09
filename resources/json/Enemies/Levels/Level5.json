@@ -1,5 +1,5 @@
 {
-    "float :AttackMultiply": 1.8,
+    "float :AttackMultiply": 1.4,
     "float :SpeedMultiply": 1.4,
     "int32_t :Level": 1
 }
