@@ -447,6 +447,9 @@ void EnemyManager::GiveWeapon(Actor* actor, const EnemyData& data) {
 		// 所持者の攻撃倍率を武器に反映
 		weapon->SetAttackMultiply(actor->GetEnemyData().attackMultiply);
 
+		// 武器の向きを反映
+		weapon->SetWeaponSide(i);
+
 		// 武器の付与
 		WeaponManager::GetInstance()->PickUpWeapon(weapon, actor, i);
 
