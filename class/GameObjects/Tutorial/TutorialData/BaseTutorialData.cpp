@@ -1,4 +1,5 @@
 #include "BaseTutorialData.h"
+#include "../../../Audio/AudioPlayer.h"
 
 using namespace LWP;
 using namespace LWP::Math;
@@ -22,7 +23,10 @@ BaseTutorialData::BaseTutorialData() {
 void BaseTutorialData::StartEffect() {
 	if (!introFont_.isActive) {
 		flashingEffect_.ResetData();		
-		flashingEffect_.SetIsStart(true); 
+		flashingEffect_.SetIsStart(true);
+
+		// チュートリアル開始時音を鳴らす
+		AudioPlayer::GetInstance()->PlayAudio("PopUp_SE.mp3", 1.0f, LWP::AudioConfig::Other);
 	}
 
 	introFont_.isActive = true;

@@ -69,8 +69,12 @@ private:
 	// 行動処理をまとめたリスト
 	std::map<ActionType, std::unique_ptr<IAction>> actions_;
 
+	// 前フレーム角度
+	LWP::Math::Quaternion preRot_ = { 0.0f,0.0f,0.0f,1.0 };
+
 	// 移動時やブースト時のループ効果音のID格納用
 	uint32_t moveSEID_{};
 	uint32_t boostSEID_{};
+	uint32_t quickTurnSEID_{};
 };
 

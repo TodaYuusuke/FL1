@@ -283,6 +283,9 @@ void MoveTutorial::SuccessEffect(MoveGuideSequence target) {
 		return;
 	}
 
+	// チュートリアル成功時効果音を鳴らす
+	if (!echoFont_[target].isActive) { AudioPlayer::GetInstance()->PlayAudio("Success_SE.mp3", 1.0f, LWP::AudioConfig::Other); }
+
 	// 衝撃波
 	echoFont_[target].isActive = true;
 	echoFont_[target].worldTF.scale = LWP::Utility::Interp::Lerp(Vector3{ 1,1,1 }, Vector3{ 2,2,2 }, Easing::OutExpo(nextGuideInterval_ / endFrame));

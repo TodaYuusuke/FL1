@@ -35,6 +35,10 @@ private: // ** これより先に必要な処理や変数を記述 ** //
 
 	// キー入力を促すスプライト
 	LWP::Primitive::NormalSprite anyKeySprite_{};
+	// ボタンのa値
+	float keySpriteAlpha_ = 1.0f;
+	// ボタンの点滅切り替えフラグ
+	bool isSwitchFade_ = true;
 
 	std::unique_ptr<ScoreUI> score_;
 	std::unique_ptr<ScoreUI> knockOut_;

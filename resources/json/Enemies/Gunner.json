@@ -19,7 +19,7 @@
             },
             "Group :Right": {
                 "int32_t :Name": 0,
-                "int32_t :Type": 0
+                "int32_t :Type": 2
             }
         },
         "Group :Shoulder": {
@@ -34,7 +34,7 @@
         },
         "int32_t :MinRarity": 0
     },
-    "float :HP": 30.0,
-    "float :Score": 120.0,
+    "float :HP": 40.0,
+    "float :Score": 400.0,
     "string :BTFileName": "resources/json/BT/BT_Gunner.json"
 }

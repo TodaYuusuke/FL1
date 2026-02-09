@@ -107,24 +107,24 @@ void WeaponController::Init() {
 
 			weaponGaugeSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UIGauge::uiName[i]);
 			weaponGaugeSurfaces_[(WeaponSide)side][i].clipRect.max = weaponTextureSize_;
-			weaponGaugeSurfaces_[(WeaponSide)side][i].material.enableLighting = false;
+			//weaponGaugeSurfaces_[(WeaponSide)side][i].material.enableLighting = false;
 
 			weaponCoolTimeSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
 			weaponCoolTimeSurfaces_[(WeaponSide)side][i].clipRect.max = weaponTextureSize_;
-			weaponCoolTimeSurfaces_[(WeaponSide)side][i].material.enableLighting = false;
+			//weaponCoolTimeSurfaces_[(WeaponSide)side][i].material.enableLighting = false;
 			
 		}
 		sampleWeaponSurface_[(WeaponSide)side].LoadTexture("Weapon/none_UI.png");
 		sampleWeaponSurface_[(WeaponSide)side].isActive = false;
 		sampleWeaponSurface_[(WeaponSide)side].anchorPoint = {0.0f,0.0f};
-		sampleWeaponSurface_[(WeaponSide)side].material.enableLighting = false;
+		//sampleWeaponSurface_[(WeaponSide)side].material.enableLighting = false;
 		raritySurface_[(WeaponSide)side].LoadTexture("Weapon/rarity_UI.png");
 		raritySurface_[(WeaponSide)side].SetSplitSize(kRarityTextureSize_);
 		raritySurface_[(WeaponSide)side].isActive = false;
 		raritySurface_[(WeaponSide)side].anchorPoint = { 0.0f,0.0f };
 		raritySurface_[(WeaponSide)side].worldTF.translation.z = -0.03f;
 		raritySurface_[(WeaponSide)side].worldTF.Parent(&sampleWeaponSurface_[(WeaponSide)side].worldTF);
-		raritySurface_[(WeaponSide)side].material.enableLighting = false;
+		//raritySurface_[(WeaponSide)side].material.enableLighting = false;
 
 		//弾数表示
 		bulletNums_[(WeaponSide)side].reset(new NumPlane);
@@ -158,7 +158,7 @@ void WeaponController::Init() {
 	hpCircleSurface_.anchorPoint = { 0.5f,0.0f };
 	hpCircleSurface_.clipRect.max = circleTextureSize_;
 	hpCircleSurface_.material.color = { 56, 178, 65, 255 };
-	hpCircleSurface_.material.enableLighting = false;
+	//hpCircleSurface_.material.enableLighting = false;
 	//hpPlane_ = std::make_unique<NumPlane>();
 	//hpPlane_->Initialize(3);
 	//hpPlane_->SetParent(&cockpit_.worldTF);

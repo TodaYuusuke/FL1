@@ -2,7 +2,7 @@
     "animName": "PowerShot",
     "attackEffectName": "MuzzleFlash",
     "attackSEFileName": "RifleShotSound.mp3",
-    "attackSkillGain": 20.0,
+    "attackSkillGain": 30.0,
     "bulletNum": 25,
     "bulletType": 0,
     "burstIntervalTime": 0.0,

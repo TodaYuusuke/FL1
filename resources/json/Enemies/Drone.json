@@ -29,12 +29,12 @@
             },
             "Group :Right": {
                 "int32_t :Name": 4,
-                "int32_t :Type": 2
+                "int32_t :Type": 0
             }
         },
         "int32_t :MinRarity": 0
     },
     "float :HP": 10.0,
-    "float :Score": 10.0,
+    "float :Score": 100.0,
     "string :BTFileName": "resources/json/BT/BT_Drone.json"
 }
