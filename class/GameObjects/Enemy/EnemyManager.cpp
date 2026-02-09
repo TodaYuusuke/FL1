@@ -125,13 +125,34 @@ void EnemyManager::EndFrame() {
 					isTriggerDelete_ = true;
 					killCount_++;
 
-					// 武器を落とす
+					std::vector<WeightRate> weaponTable;
 					for (int i = 0; i < actor->GetWeapon().size(); i++) {
+						if (actor->GetWeapon(i)) { weaponTable.push_back(WeightRate{ i, 1 }); }
+					}
+					// 
+					for (int i = 0; i < 2; i++) {
+						if (weaponTable.empty()) { break; }
+
+						// どの武器を落とすか決める
+						int dropWeaponSide = RollDropWeapon(weaponTable);
+						weaponTable.erase(
+							std::remove_if(weaponTable.begin(), weaponTable.end(),
+								[&](const WeightRate& w) {
+									return w.value == dropWeaponSide;
+								}),
+							weaponTable.end()
+						);
+
+						// 武器を落とす
 						Vector3 dropPos = actor->GetWorldTF()->GetWorldPosition();
 						dropPos.y = 10.0f;
-
-						WeaponManager::GetInstance()->DropWeapon(actor->GetWeapon(i), dropPos);
+						WeaponManager::GetInstance()->DropWeapon(actor->GetWeapon(dropWeaponSide), dropPos);
 					}
+					// 選ばれなかった武器は解放
+					for (int i = 0; i < weaponTable.size(); i++) {
+						WeaponManager::GetInstance()->DeleteWeapon(actor->GetWeapon(weaponTable[i].value));
+					}
+
 					//スコアの増加
 					ScoreCounter::GetInstance()->AddScore(actor->GetEnemyData().score);
 					ScoreCounter::GetInstance()->AddKillCount();
@@ -526,24 +547,24 @@ void EnemyManager::SpawnEnemy() {
 			break;
 		}
 
-		// 生成開始
-		for (EnemySpawnData& data : spawnDatas_) {
-			if (data.isSpawn) { continue; }
-
-			float lastSpawnTime = spawnDatas_.back().spawnTime;
-			if (data.spawnTime <= (lastSpawnTime * 60.0f) - spawnInterval_) {
-				data.isSpawn = true;
-				selectCreateEnemyType_ = data.type;
-				createPos_ = data.pos;
-				enemies_.push_back(CreateEnemy());
-			}
-		}
 
 		break;
 	default:
 		break;
 	}
 
+	// 生成開始
+	for (EnemySpawnData& data : spawnDatas_) {
+		if (data.isSpawn) { continue; }
+
+		float lastSpawnTime = spawnDatas_.back().spawnTime;
+		if (data.spawnTime * 60.0f <= (lastSpawnTime * 60.0f) - spawnInterval_) {
+			data.isSpawn = true;
+			selectCreateEnemyType_ = data.type;
+			createPos_ = data.pos;
+			enemies_.push_back(CreateEnemy());
+		}
+	}
 }
 
 void EnemyManager::CreateRandomSpawnPos() {

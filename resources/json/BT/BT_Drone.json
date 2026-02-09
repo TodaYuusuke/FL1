@@ -73,7 +73,7 @@
         "pos_y": 197.02972412109375,
         "speed": 0.0,
         "type": 3,
-        "wait_time": 120.0
+        "wait_time": 60.0
     },
     {
         "children": [
@@ -273,7 +273,7 @@
         "pos_y": -202.0,
         "speed": 0.0,
         "type": 3,
-        "wait_time": 120.0
+        "wait_time": 90.0
     },
     {
         "children": [],
@@ -285,7 +285,7 @@
         "pos_y": -105.0,
         "readyToAttackMoveSpeed": 1.0,
         "readyToAttackTime": 120.0,
-        "readyToAttackTurnTime": 40.0,
+        "readyToAttackTurnTime": 120.0,
         "speed": 0.0,
         "type": 3
     }
