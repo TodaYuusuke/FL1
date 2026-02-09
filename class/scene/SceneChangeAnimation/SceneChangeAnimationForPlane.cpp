@@ -1,4 +1,5 @@
 #include "SceneChangeAnimationForPlane.h"
+#include "../../GameObjects/Camera/Effect/CameraEffectHandler.h"
 
 void SceneChangeAnimationPlane::Initialize(const std::string& bgmPath)
 {
@@ -87,9 +88,28 @@ void SceneChangeAnimationPlane::Update() {
 				sprites_[i].isActive = false;
 			}
 		}
-		
+
+		if (type_) {
+			CameraEffectHandler::GetInstance()->GetTarget()->camera_->pp.fog.fogNear = 735.0f;
+		}
+		else {
+			CameraEffectHandler::GetInstance()->GetTarget()->camera_->pp.fog.fogNear = 150.0f;
+		}
+
 		return;
 	}
+
+	// フォグエフェクトのNearを求める
+	if (type_) {
+		CameraEffectHandler::GetInstance()->GetTarget()->camera_->pp.fog.fogNear =
+			LWP::Utility::Interp::LerpF(150.0f, 735.0f, (float)frame_ / (float)animationLength_);
+	}
+	else {
+		CameraEffectHandler::GetInstance()->GetTarget()->camera_->pp.fog.fogNear =
+			LWP::Utility::Interp::LerpF(735.0f, 150.0f, (float)frame_ / (float)animationLength_);
+	}
+	
+
 	sprites_[0].index = int(float(kSpritFrame_) * (float(frame_) / float(animationLength_)));
 	if (type_) sprites_[0].index = kSpritFrame_ - sprites_[0].index - 1;
 	sprites_[1].index = kSpritFrame_ - sprites_[0].index;

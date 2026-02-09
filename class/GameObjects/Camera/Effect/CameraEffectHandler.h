@@ -53,6 +53,12 @@ public:// アクセサ
 #pragma region Getter
 
 	/// <summary>
+	/// 演出対象カメラゲッター
+	/// </summary>
+	/// <returns>演出対象カメラ</returns>
+	FollowCamera* GetTarget() { return effectTarget_; }
+
+	/// <summary>
 	/// ブラーエフェクターゲッター
 	/// </summary>
 	/// <returns>ブラーエフェクト</returns>
