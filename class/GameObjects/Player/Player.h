@@ -191,4 +191,5 @@ private:
 
 	//UI
 	std::unique_ptr<SingleGauge> hpGauge_;
+	LWP::Math::Vector4 hpGaugeColor_;
 };

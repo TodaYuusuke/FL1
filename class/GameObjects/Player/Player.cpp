@@ -78,6 +78,7 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 		// HP
 		.AddValue<float>("Value", &maxHp_)
 		.BeginGroup("HP")
+		.AddValue<LWP::Math::Vector4>("Color", &hpGaugeColor_)
 		.AddValue<LWP::Math::Vector3>("Position", &hpGaugePosition_)
 		.AddValue<LWP::Math::Vector3>("Scale", &hpGaugeScale_)
 		.AddValue<float>("Rotate", &hpGaugeRotate_)
@@ -148,6 +149,7 @@ void Player::Update() {
 	hpGauge_->SetAnchor(hpGaugePosition_);
 	hpGauge_->SetSize(hpGaugeScale_);
 	hpGauge_->SetRotate(hpGaugeRotate_);
+	hpGauge_->SetColor(hpGaugeColor_);
 	hpGauge_->Update();
 
 	// RGBずらしが有効、かつ演出中でなければ
@@ -296,6 +298,7 @@ void Player::DrawGui() {
 			ImGui::DragFloat3("Position", &hpGaugePosition_.x, 1.0f);
 			ImGui::DragFloat3("Scale", &hpGaugeScale_.x, 0.01f);
 			ImGui::DragFloat("Rotate", &hpGaugeRotate_, 0.01f);
+			ImGui::ColorEdit4("Color",&hpGaugeColor_.x,0);
 			ImGui::TreePop();
 		}
 		// 当たり判定
