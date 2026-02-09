@@ -434,7 +434,7 @@ void Player::PlayPickUpAnim(const int weaponSide, const WeaponData& data)
 	// ミサイルか近接武器の場合待機アニメーションを変更する
 	if (data.type == static_cast<int>(WeaponType::kMissile) || data.type == static_cast<int>(WeaponType::kMelee)) {
 		// 待機アニメーションをキューに入れる
-		animManager_->PlayQue("TiltIdle", weaponSide + 2, 0.1f);
+		animManager_->PlayQue("TiltIdle", weaponSide + 2);
 	}
 	else {
 		// 待機アニメーションをキューに入れる
