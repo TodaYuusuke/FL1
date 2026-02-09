@@ -104,6 +104,7 @@ void Cargo::Update() {
 
 	if (world_->GetIsLimitMoveArea(model_.worldTF.GetWorldPosition())) {
 		isLimitMoveArea_ = true;
+		isAlive_ = false;
 	}
 	else {
 		isLimitMoveArea_ = false;
