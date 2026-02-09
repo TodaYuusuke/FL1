@@ -116,6 +116,25 @@ void ResultScene::Update() {
 		//ChangeTitleScene();
 	}
 
+	// ボタンを点滅させる
+	if (isSwitchFade_) {
+		if (keySpriteAlpha_ <= 51.0f) {
+			isSwitchFade_ = false;
+		}
+		// 補間で透明度調整
+		keySpriteAlpha_ = LWP::Utility::Interp::LerpF(keySpriteAlpha_, 50.0f, 0.1f);
+
+	}
+	else {
+		if (keySpriteAlpha_ >= 254.0f) {
+			isSwitchFade_ = true;
+		}
+
+		// 補間で透明度調整
+		keySpriteAlpha_ = LWP::Utility::Interp::LerpF(keySpriteAlpha_, 255.0f, 0.1f);
+	}
+	anyKeySprite_.material.color.A = keySpriteAlpha_;
+
 	knockOut_->SetCenter({ killCountTransform_.translation.x,killCountTransform_.translation.y });
 	knockOut_->Update();
 

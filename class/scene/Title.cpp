@@ -5,6 +5,7 @@
 #include "TutorialScene.h"
 
 Title::Title() {
+
 }
 
 Title::~Title() {
@@ -18,6 +19,13 @@ Title::~Title() {
 
 // 初期化
 void Title::Initialize() {	
+
+#ifndef _DEBUG
+
+	// フルスクリーンに変更
+	LWP::Window::ChangeFullScreenMode();
+
+#endif // !_DEBUG
 
 	//マイコン入力開始
 	ControllerReceiver::GetInstance()->ReOpenPort();
@@ -58,6 +66,25 @@ void Title::Update() {
 		ChangeTutorialScene();
 	}
 
+	// ボタンを点滅させる
+	if (isSwitchFade_) {
+		if (keySpriteAlpha_ <= 51.0f) {
+			isSwitchFade_ = false;
+		}
+		// 補間で透明度調整
+		keySpriteAlpha_ = LWP::Utility::Interp::LerpF(keySpriteAlpha_, 50.0f, 0.1f);
+		
+	}
+	else {
+		if (keySpriteAlpha_ >= 254.0f) {
+			isSwitchFade_ = true;
+		}
+
+		// 補間で透明度調整
+		keySpriteAlpha_ = LWP::Utility::Interp::LerpF(keySpriteAlpha_, 255.0f, 0.1f);
+	}
+	anyKeySprite_.material.color.A = keySpriteAlpha_;
+
 	// コントローラー
 	VirtualController::GetInstance()->Update();
 
@@ -81,7 +108,11 @@ void Title::Update() {
 
 
 void Title::ChangeTutorialScene() {
-	if (!isChangeScene_) sceneChangeAnimation_->Start(1);
+	if (!isChangeScene_) {
+		sceneChangeAnimation_->Start(1);
+		// 決定音を鳴らす
+		AudioPlayer::GetInstance()->PlayAudio("Execute_SE.mp3", 1.0f, LWP::AudioConfig::Other);
+	}
 	if(!sceneChangeAnimation_->GetIsPlay()) nextSceneFunction = []() { return new TutorialScene(); };
 	isChangeScene_ = true;
 }
