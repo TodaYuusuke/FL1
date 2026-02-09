@@ -10,7 +10,4 @@ public:
 
 private:
 
-	// 弾道演出用平面
-	LWP::Primitive::NormalStretchedBillboard trajectoryPlane_;
-
 };
