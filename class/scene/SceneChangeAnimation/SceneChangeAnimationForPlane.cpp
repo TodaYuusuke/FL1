@@ -1,6 +1,7 @@
 #include "SceneChangeAnimationForPlane.h"
 
-void SceneChangeAnimationPlane::Initialize() {
+void SceneChangeAnimationPlane::Initialize(const std::string& bgmPath)
+{
 	for (size_t i = 0; i < kSpriteNum_; i++) {
 		sprites_[i].LoadTexture("sceneChanger.png");
 		//sprites_[i].anchorPoint = { 0.0f,0.0f };
@@ -52,6 +53,9 @@ void SceneChangeAnimationPlane::Initialize() {
 
 
 		.CheckJsonFile();
+
+	// BGM再生する
+	bgmID_ = AudioPlayer::GetInstance()->PlayAudio(bgmPath, 0.35f, LWP::AudioConfig::BGM, true);
 }
 
 void SceneChangeAnimationPlane::Start(int type) {
@@ -64,10 +68,14 @@ void SceneChangeAnimationPlane::Start(int type) {
 	for (size_t i = 0; i < kSpriteNum_; i++) {
 		sprites_[i].isActive = true;
 	}
-}
 
-void SceneChangeAnimationPlane::Start(int type, std::function<IScene* ()> func) {
-	Start(type);
+	// 終了時BGMの再生を停止
+	if (type_ == 1) {
+		// BGMの再生停止を指示
+		if (Sound* sound = AudioPlayer::GetInstance()->GetAudioPlayer(bgmID_)) {
+			sound->Stop(0.1f);
+		}
+	}
 }
 
 void SceneChangeAnimationPlane::Update() {

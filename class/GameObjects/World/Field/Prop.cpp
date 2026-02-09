@@ -49,7 +49,8 @@ Prop::Prop(const std::string& name, const std::string& filePath, const float rad
 
 #ifdef _DEBUG
 
-	colliderSphere_.LoadSphere();
+	// デバッグ時に当たり判定のコライダー表示
+	colliderSphere_.isActive = true;
 	colliderSphere_.worldTF.Parent(&model_.worldTF);
 	colliderSphere_.ChangeFillMode();
 	colliderSphere_.worldTF.scale = { radius_, radius_, radius_ };
@@ -102,9 +103,12 @@ Prop::Prop(const LWP::Prop::PropSaveData& data)
 		OnCollision(hitTarget);
 	};
 
+	// デフォルト非表示
+	colliderSphere_.LoadSphere();
+	colliderSphere_.isActive = false;
+
 #ifdef _DEBUG
 
-	colliderSphere_.LoadSphere();
 	colliderSphere_.worldTF.Parent(&model_.worldTF);
 	colliderSphere_.ChangeFillMode();
 	colliderSphere_.worldTF.scale = { radius_, radius_, radius_ };

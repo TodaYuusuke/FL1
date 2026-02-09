@@ -15,7 +15,7 @@ public:
 	// 更新
 	void Update() override;
 
-	void ChangeGameScene();
+	void ChangeTutorialScene();
 
 private: //*** これより先に必要な処理や変数を記述 ***//
 

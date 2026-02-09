@@ -152,15 +152,12 @@ void GameScene::Initialize() {
 
 	//シーン遷移アニメーション
 	sceneChangeAnimation_ = std::make_unique<SceneChangeAnimationPlane>();
-	sceneChangeAnimation_->Initialize();
+	sceneChangeAnimation_->Initialize("BGM_game.mp3");
 	sceneChangeAnimation_->SetAnimationLength(animationLength_);
 	//sceneChangeAnimation_->Start(0);
 	sceneChangeAnimation_->SetParent(player_->GetWorldTF());
 	isChangeScene_ = false;
 	isEndStartAnimation_=false;
-
-	// BGM再生開始
-	bgmID_ = AudioPlayer::GetInstance()->PlayAudio("BGM_game.mp3", 0.35f, LWP::AudioConfig::BGM, true);
 
 }
 
@@ -328,11 +325,6 @@ void GameScene::Update() {
 void GameScene::ChangeResultScene() {
 	if (!isChangeScene_) {
 		sceneChangeAnimation_->Start(1);
-
-		// BGMの再生停止を指示
-		if (Sound* sound = AudioPlayer::GetInstance()->GetAudioPlayer(bgmID_)) {
-			sound->Stop(0.1f);
-		}
 	}
 	if (!sceneChangeAnimation_->GetIsPlay()) nextSceneFunction = []() { return new ResultScene(); };
 	isChangeScene_ = true;

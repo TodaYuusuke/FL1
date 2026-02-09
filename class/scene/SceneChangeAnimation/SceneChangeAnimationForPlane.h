@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Adapter.h"
+#include "../../Audio/AudioPlayer.h"
 
 class SceneChangeAnimationPlane
 {
@@ -8,15 +9,17 @@ public:
 	SceneChangeAnimationPlane() {};
 	~SceneChangeAnimationPlane() {};
 
-	void Initialize();
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="bgmPath">bgmパス</param>
+	void Initialize(const std::string& bgmPath);
 
 	/// <summary>
 	/// アニメーション開始
 	/// </summary>
 	/// <param name="type">0:in 1:out</param>
 	void Start(int type);
-
-	void Start(int type, std::function<IScene* ()> func);
 
 	void Update();
 
@@ -33,14 +36,17 @@ private:
 	static const size_t kSpritFrame_ = 7;//アニメーション分割数
 	static const size_t kSpriteNum_ = 4;
 	std::array<LWP::Primitive::SequenceSurface, kSpriteNum_> sprites_;
-	int frame_;
-	int rect_;//再生向き
-	bool isPlay_;
-	int animationLength_;//アニメーション再生時間(フレーム)
-	int type_;
+	int frame_{};
+	int rect_{};//再生向き
+	bool isPlay_{};
+	int animationLength_{};//アニメーション再生時間(フレーム)
+	int type_{};
 
 
 	// jsonファイルのディレクトリパス
 	const std::string kJsonDirectoryPath = "SceneChange/";
 	LWP::Utility::JsonIO json_;
+
+	// BGM固有ID
+	uint32_t bgmID_{};
 };
