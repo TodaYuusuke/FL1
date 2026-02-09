@@ -1,4 +1,8 @@
 {
+    "Group :BreakAnimation": {
+        "float :Length": 60.0,
+        "int32_t :Switch": 7
+    },
     "Group :Cockpit": {
         "Quaternion :Rotate": [
             0.0,

@@ -91,7 +91,10 @@ void WeaponController::Init() {
 		.AddValue<LWP::Math::Quaternion>("Rotate", &transformHpPlane_.rotation)
 		.AddValue<LWP::Math::Vector3>("Translate", &transformHpPlane_.translation)
 		.EndGroup()
-
+		.BeginGroup("BreakAnimation")
+		.AddValue<float>("Length", &breakAnimationLength_)
+		.AddValue<int>("Switch", &breakAnimationSwitch_)
+		.EndGroup()
 
 		.CheckJsonFile();
 
@@ -100,6 +103,8 @@ void WeaponController::Init() {
 	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount; side++) {
 		for (int i = 0; i < (int)WeaponType::kCount; i++) {
 			weaponSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UI::uiName[i]);
+			weaponSurfaces_[(WeaponSide)side][i].material.enableLighting = false;
+
 			weaponGaugeSurfaces_[(WeaponSide)side][i].LoadTexture(WeaponConfig::TextureName::UIGauge::uiName[i]);
 			weaponGaugeSurfaces_[(WeaponSide)side][i].clipRect.max = weaponTextureSize_;
 			weaponGaugeSurfaces_[(WeaponSide)side][i].material.enableLighting = false;
@@ -160,6 +165,36 @@ void WeaponController::Init() {
 
 	cockpitAnimationT_ = 0;
 	isEndAnimation_=false;
+
+	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount; side++) {
+		breakAnimationFrame_[side]=0;
+	}
+}
+
+void WeaponController::BreakUIAnimation() {
+	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount; side++) {
+		//Default
+		sampleWeaponSurface_[(WeaponSide)side].material.color = { 1.0f,1.0f,1.0f,1.0f };
+
+		//EffectUpdate
+		if (breakAnimationFrame_[side]>0) {
+			if (!(int(breakAnimationFrame_[side]) % breakAnimationSwitch_)) {
+				isBreakAnimation_[side] = !isBreakAnimation_[side];
+			}
+			breakAnimationFrame_[side]--;
+
+			//Apply
+			sampleWeaponSurface_[(WeaponSide)side].material.color = { 1.0f,1.0f,1.0f,1.0f };
+			float t = float(int(breakAnimationFrame_[side]) % breakAnimationSwitch_) / float(breakAnimationSwitch_);
+			if (isBreakAnimation_[side]) {
+				t = 1.0f - t;
+			}
+
+			LWP::Utility::Color distColor = { 1.0f,0.4f * t + (1.0f-t),0.4f * t + (1.0f - t),1.0f};
+			sampleWeaponSurface_[(WeaponSide)side].material.color = distColor ;
+		}
+		
+	}
 }
 
 void WeaponController::Update() {
@@ -168,6 +203,15 @@ void WeaponController::Update() {
 	CockpitAnimation();
 	// 入力
 	InputHandle();
+
+	//武器破壊時の演出用フラグ
+	for (int side = (int)WeaponSide::kLeft; side < (int)WeaponSide::kCount; side++) {
+		if (weapons_[(WeaponSide)side]->GetIsFullWeapon() && weapons_[(WeaponSide)side]->GetFrontWeapon()->GetIsDestroy()) {
+			breakAnimationFrame_[side] = breakAnimationLength_;
+		}
+	}
+	BreakUIAnimation();
+
 
 	// 武器スロット
 	for (auto it = weapons_.begin(); it != weapons_.end(); it++) {

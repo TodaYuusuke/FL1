@@ -65,10 +65,13 @@ private:
 	}
 
 	//武器の練度ゲージ
-	void CalcGauge(LWP::Primitive::ClipSurface* gauge,float value);
-	void CalcCoolTime(LWP::Primitive::ClipSurface* gauge, float coolTime,float maxCoolTime);
+	void CalcGauge(LWP::Primitive::ClipSurface* gauge, float value);
+	void CalcCoolTime(LWP::Primitive::ClipSurface* gauge, float coolTime, float maxCoolTime);
 	//コックピットアニメーション
 	void CockpitAnimation();
+
+	//武器破壊時のUIアニメーション
+	void BreakUIAnimation();
 
 public:// アクセサ
 	/// <summary>
@@ -211,7 +214,7 @@ private://UI表示
 
 	//HP表示(中間用の仮のやつ)
 	LWP::Primitive::ClipSurface hpCircleSurface_;
-	LWP::Math::Vector2 circleTextureSize_ = {255.0f,255.0f};
+	LWP::Math::Vector2 circleTextureSize_ = { 255.0f,255.0f };
 	std::unique_ptr<NumPlane> hpPlane_;
 	LWP::Object::TransformQuat transformHpPlane_;
 
@@ -223,15 +226,21 @@ private://UI表示
 
 	float gaugeDistance_;
 
-	const LWP::Math::Vector2 kRarityTextureSize_ = {330.0f,180.0f};
+	const LWP::Math::Vector2 kRarityTextureSize_ = { 330.0f,180.0f };
 
 	LWP::Math::Vector3 cockpitTarget_{};//コックピットの移動目標
 	float cockpitOrigin_ = 8.6f;
-	int cockpitAnimationT_=0;
+	int cockpitAnimationT_ = 0;
 	static const int cockpitAnimationLength_ = 48;
 	bool isEndAnimation_;
 
 	// 武器を拾ったか
 	bool isPickUpWeapon_;
+
+	//武器破壊アニメーション
+	std::array<float, size_t(WeaponSide::kCount)> breakAnimationFrame_{};
+	std::array<bool, size_t(WeaponSide::kCount)> isBreakAnimation_{};
+	float breakAnimationLength_=60;
+	int breakAnimationSwitch_=3;
 };
 
