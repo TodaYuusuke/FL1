@@ -6343,64 +6343,64 @@
 			"name":"ShoulderR_TiltIdle",
 			"samplers":[
 				{
-					"input":512,
+					"input":189,
+					"interpolation":"STEP",
+					"output":512
+				},
+				{
+					"input":189,
 					"interpolation":"STEP",
 					"output":513
 				},
 				{
-					"input":512,
+					"input":189,
 					"interpolation":"STEP",
 					"output":514
 				},
 				{
-					"input":512,
+					"input":189,
 					"interpolation":"STEP",
 					"output":515
 				},
 				{
-					"input":512,
+					"input":189,
 					"interpolation":"STEP",
 					"output":516
 				},
 				{
-					"input":512,
+					"input":189,
 					"interpolation":"STEP",
 					"output":517
 				},
 				{
-					"input":512,
+					"input":189,
 					"interpolation":"STEP",
 					"output":518
 				},
 				{
-					"input":512,
+					"input":189,
 					"interpolation":"STEP",
 					"output":519
 				},
 				{
-					"input":512,
+					"input":189,
 					"interpolation":"STEP",
 					"output":520
 				},
 				{
-					"input":512,
+					"input":189,
 					"interpolation":"STEP",
 					"output":521
 				},
 				{
-					"input":512,
+					"input":189,
 					"interpolation":"STEP",
 					"output":522
 				},
 				{
-					"input":512,
+					"input":189,
 					"interpolation":"STEP",
 					"output":523
-				},
-				{
-					"input":512,
-					"interpolation":"STEP",
-					"output":524
 				}
 			]
 		}
@@ -9901,25 +9901,19 @@
 			"bufferView":512,
 			"componentType":5126,
 			"count":2,
-			"max":[
-				0.5
-			],
-			"min":[
-				0.016666666666666666
-			],
-			"type":"SCALAR"
+			"type":"VEC3"
 		},
 		{
 			"bufferView":513,
 			"componentType":5126,
 			"count":2,
-			"type":"VEC3"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":514,
 			"componentType":5126,
 			"count":2,
-			"type":"VEC4"
+			"type":"VEC3"
 		},
 		{
 			"bufferView":515,
@@ -9931,13 +9925,13 @@
 			"bufferView":516,
 			"componentType":5126,
 			"count":2,
-			"type":"VEC3"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":517,
 			"componentType":5126,
 			"count":2,
-			"type":"VEC4"
+			"type":"VEC3"
 		},
 		{
 			"bufferView":518,
@@ -9949,13 +9943,13 @@
 			"bufferView":519,
 			"componentType":5126,
 			"count":2,
-			"type":"VEC3"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":520,
 			"componentType":5126,
 			"count":2,
-			"type":"VEC4"
+			"type":"VEC3"
 		},
 		{
 			"bufferView":521,
@@ -9967,16 +9961,10 @@
 			"bufferView":522,
 			"componentType":5126,
 			"count":2,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":523,
-			"componentType":5126,
-			"count":2,
 			"type":"VEC4"
 		},
 		{
-			"bufferView":524,
+			"bufferView":523,
 			"componentType":5126,
 			"count":2,
 			"type":"VEC3"
@@ -12603,68 +12591,63 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":8,
+			"byteLength":24,
 			"byteOffset":1493364
 		},
 		{
 			"buffer":0,
+			"byteLength":32,
+			"byteOffset":1493388
+		},
+		{
+			"buffer":0,
 			"byteLength":24,
-			"byteOffset":1493372
+			"byteOffset":1493420
+		},
+		{
+			"buffer":0,
+			"byteLength":24,
+			"byteOffset":1493444
 		},
 		{
 			"buffer":0,
 			"byteLength":32,
-			"byteOffset":1493396
+			"byteOffset":1493468
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
-			"byteOffset":1493428
+			"byteOffset":1493500
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
-			"byteOffset":1493452
+			"byteOffset":1493524
 		},
 		{
 			"buffer":0,
 			"byteLength":32,
-			"byteOffset":1493476
+			"byteOffset":1493548
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
-			"byteOffset":1493508
+			"byteOffset":1493580
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
-			"byteOffset":1493532
+			"byteOffset":1493604
 		},
 		{
 			"buffer":0,
 			"byteLength":32,
-			"byteOffset":1493556
+			"byteOffset":1493628
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
-			"byteOffset":1493588
-		},
-		{
-			"buffer":0,
-			"byteLength":24,
-			"byteOffset":1493612
-		},
-		{
-			"buffer":0,
-			"byteLength":32,
-			"byteOffset":1493636
-		},
-		{
-			"buffer":0,
-			"byteLength":24,
-			"byteOffset":1493668
+			"byteOffset":1493660
 		}
 	],
 	"samplers":[
@@ -12675,7 +12658,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":1493692,
+			"byteLength":1493684,
 			"uri":"Player.bin"
 		}
 	]
