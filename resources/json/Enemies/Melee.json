@@ -35,6 +35,6 @@
         "int32_t :MinRarity": 0
     },
     "float :HP": 30.0,
-    "float :Score": 300.0,
+    "float :Score": 3000.0,
     "string :BTFileName": "resources/json/BT/BT_Melee.json"
 }

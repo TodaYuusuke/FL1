@@ -14,7 +14,7 @@
     "Group :Weapon": {
         "Group :Hand": {
             "Group :Left": {
-                "int32_t :Name": 0,
+                "int32_t :Name": 1,
                 "int32_t :Type": 0
             },
             "Group :Right": {
@@ -35,6 +35,6 @@
         "int32_t :MinRarity": 0
     },
     "float :HP": 40.0,
-    "float :Score": 400.0,
+    "float :Score": 4000.0,
     "string :BTFileName": "resources/json/BT/BT_Gunner.json"
 }

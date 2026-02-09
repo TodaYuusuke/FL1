@@ -35,6 +35,6 @@
         "int32_t :MinRarity": 0
     },
     "float :HP": 5.0,
-    "float :Score": 100.0,
+    "float :Score": 1500.0,
     "string :BTFileName": "resources/json/BT/BT_Cargo.json"
 }

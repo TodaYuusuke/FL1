@@ -15,39 +15,39 @@
     },
     "Group :DropPercents": {
         "Group :Wave110": {
-            "int32_t :Common": 75,
-            "int32_t :Legendary": 0,
-            "int32_t :Rare": 5,
-            "int32_t :SuperRare": 0,
-            "int32_t :UnCommon": 10
-        },
-        "Group :Wave1120": {
             "int32_t :Common": 50,
             "int32_t :Legendary": 0,
+            "int32_t :Rare": 10,
+            "int32_t :SuperRare": 0,
+            "int32_t :UnCommon": 40
+        },
+        "Group :Wave1120": {
+            "int32_t :Common": 20,
+            "int32_t :Legendary": 0,
             "int32_t :Rare": 15,
-            "int32_t :SuperRare": 5,
-            "int32_t :UnCommon": 30
+            "int32_t :SuperRare": 25,
+            "int32_t :UnCommon": 40
         },
         "Group :Wave2130": {
-            "int32_t :Common": 20,
+            "int32_t :Common": 10,
             "int32_t :Legendary": 5,
-            "int32_t :Rare": 20,
+            "int32_t :Rare": 30,
             "int32_t :SuperRare": 10,
             "int32_t :UnCommon": 45
         },
         "Group :Wave3140": {
-            "int32_t :Common": 10,
+            "int32_t :Common": 5,
             "int32_t :Legendary": 10,
             "int32_t :Rare": 40,
-            "int32_t :SuperRare": 20,
+            "int32_t :SuperRare": 25,
             "int32_t :UnCommon": 20
         },
         "Group :Wave41": {
-            "int32_t :Common": 5,
-            "int32_t :Legendary": 15,
+            "int32_t :Common": 0,
+            "int32_t :Legendary": 30,
             "int32_t :Rare": 30,
             "int32_t :SuperRare": 40,
-            "int32_t :UnCommon": 10
+            "int32_t :UnCommon": 5
         }
     }
 }

@@ -35,6 +35,6 @@
         "int32_t :MinRarity": 0
     },
     "float :HP": 60.0,
-    "float :Score": 120.0,
+    "float :Score": 5000.0,
     "string :BTFileName": "resources/json/BT/BT_Bomber.json"
 }
