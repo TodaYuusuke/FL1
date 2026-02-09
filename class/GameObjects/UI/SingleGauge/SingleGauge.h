@@ -20,6 +20,7 @@ public:
 	void SetRotate(float rotate) { rotate_ = rotate; };
 
 	void SetRatio(float ratio) { ratio_ = ratio; };
+	void SetColor(const LWP::Utility::Color& color) { gaugeSprite_.material.color = color; };
 
 private:
 	LWP::Primitive::NormalSprite backSprite_;

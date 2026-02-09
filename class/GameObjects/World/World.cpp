@@ -3,6 +3,7 @@
 #include "../../GameObjects/Attack/AttackManager.h"
 #include "../../GameObjects/Weapon/WeaponManager.h"
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
+#include "../../GameObjects/UI/Radar/Radar.h"
 #include <numbers>
 
 using namespace LWP;
@@ -49,6 +50,9 @@ World::World() {
 
 	// フィールド生成
 	filed_ = new Field();
+
+	//
+	Radar::GetInstance()->SetOutArea(moveArea);
 }
 
 void World::Update() {
