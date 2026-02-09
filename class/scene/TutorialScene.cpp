@@ -95,7 +95,7 @@ void TutorialScene::Initialize() {
 	world_ = std::make_unique<World>();
 
 	// 自機
-	Player* player_ = new Player(followCamera_.get(), world_.get(), followCamera_->defaultTargetDist_);
+	player_ = new Player(followCamera_.get(), world_.get(), followCamera_->defaultTargetDist_);
 	// 自機をアクターとして追加
 	world_->AddActor(player_);
 	// 効果音プレイヤーに自機のトランスフォームを渡す
@@ -133,16 +133,26 @@ void TutorialScene::Initialize() {
 	tutorial_ = std::make_unique<Tutorial>(player_, enemyManager_.get());
 
 	easingEditor_ = std::make_unique<EasingEditor>();
+
+	//シーン遷移アニメーション
+	sceneChangeAnimation_ = std::make_unique<SceneChangeAnimationPlane>();
+	sceneChangeAnimation_->Initialize("BGM_tutorial.mp3");
+	sceneChangeAnimation_->SetAnimationLength(animationLength_);
+	//sceneChangeAnimation_->Start(0);
+	sceneChangeAnimation_->SetParent(player_->GetWorldTF());
+	isChangeScene_ = false;
+	isEndStartAnimation_ = false;
 }
 
 void TutorialScene::Update() {
-	// 敵を一定数倒したら終了
-	if (tutorial_->GetIsFinish()) {
-		nextSceneFunction = []() { return new GameScene(); };
-	}
 
 	// 効果音プレイヤー生成
 	AudioPlayer::GetInstance()->Update();
+
+	// 敵を一定数倒したら終了
+	if (tutorial_->GetIsFinish()) {
+		ChangeGameScene();
+	}
 
 	// ヒットストップ
 	HitStopController::GetInstance()->Update();
@@ -160,6 +170,13 @@ void TutorialScene::Update() {
 
 	//ミニマップ
 	Radar::GetInstance()->Update();
+
+	//シーン遷移アニメーション
+	if (player_->GetWeaponController()->GetIsEndAnimation() && !isEndStartAnimation_) {
+		isEndStartAnimation_ = true;
+		sceneChangeAnimation_->Start(0);
+	}
+	sceneChangeAnimation_->Update();
 
 	// チュートリアル
 	tutorial_->Update();
@@ -202,4 +219,12 @@ void TutorialScene::Update() {
 
 	// コントローラー
 	VirtualController::GetInstance()->Update();
+}
+
+void TutorialScene::ChangeGameScene() {
+	if (!isChangeScene_) {
+		sceneChangeAnimation_->Start(1);
+	}
+	if (!sceneChangeAnimation_->GetIsPlay()) nextSceneFunction = []() { return new GameScene(); };
+	isChangeScene_ = true;
 }

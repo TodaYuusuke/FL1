@@ -1,35 +1,35 @@
 {
     "Group :Collider": {
         "Vector3 :Max": [
-            3.0,
+            5.0,
             9.5,
-            3.0
+            5.0
         ],
         "Vector3 :Min": [
-            -3.0,
+            -5.0,
             -0.5,
-            -3.0
+            -5.0
         ]
     },
     "Group :Weapon": {
         "Group :Hand": {
             "Group :Left": {
-                "int32_t :Type": 0,
-                "int32_t :Name": 0
+                "int32_t :Name": 0,
+                "int32_t :Type": 0
             },
             "Group :Right": {
-                "int32_t :Type": 0,
-                "int32_t :Name": 0
+                "int32_t :Name": 0,
+                "int32_t :Type": 0
             }
         },
         "Group :Shoulder": {
             "Group :Left": {
-                "int32_t :Type": 6,
-                "int32_t :Name": 0
+                "int32_t :Name": 0,
+                "int32_t :Type": 6
             },
             "Group :Right": {
-                "int32_t :Type": 6,
-                "int32_t :Name": 0
+                "int32_t :Name": 0,
+                "int32_t :Type": 6
             }
         },
         "int32_t :MinRarity": 0

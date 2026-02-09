@@ -410,9 +410,9 @@
 		{
 			"bufferView":23,
 			"componentType":5126,
-			"count":61,
+			"count":46,
 			"max":[
-				1
+				0.75
 			],
 			"min":[
 				0
@@ -422,7 +422,7 @@
 		{
 			"bufferView":24,
 			"componentType":5126,
-			"count":61,
+			"count":46,
 			"type":"VEC3"
 		},
 		{
@@ -430,7 +430,7 @@
 			"componentType":5126,
 			"count":2,
 			"max":[
-				1
+				0.75
 			],
 			"min":[
 				0
@@ -586,28 +586,28 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":244,
+			"byteLength":184,
 			"byteOffset":151840
 		},
 		{
 			"buffer":0,
-			"byteLength":732,
-			"byteOffset":152084
+			"byteLength":552,
+			"byteOffset":152024
 		},
 		{
 			"buffer":0,
 			"byteLength":8,
-			"byteOffset":152816
+			"byteOffset":152576
 		},
 		{
 			"buffer":0,
 			"byteLength":32,
-			"byteOffset":152824
+			"byteOffset":152584
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
-			"byteOffset":152856
+			"byteOffset":152616
 		}
 	],
 	"samplers":[
@@ -618,7 +618,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":152880,
+			"byteLength":152640,
 			"uri":"PileBunker_R.bin"
 		}
 	]

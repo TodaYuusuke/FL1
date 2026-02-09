@@ -36,6 +36,20 @@
     },
     {
         "children": [
+            9,
+            21
+        ],
+        "id": 13,
+        "limitTime": 0.0,
+        "name": "Sequence",
+        "parent": -1,
+        "pos_x": -5.999969482421875,
+        "pos_y": -118.0,
+        "speed": 0.0,
+        "type": 0
+    },
+    {
+        "children": [
             7,
             8,
             12
@@ -50,20 +64,6 @@
         "type": 0
     },
     {
-        "children": [
-            9,
-            21
-        ],
-        "id": 13,
-        "limitTime": 0.0,
-        "name": "Sequence",
-        "parent": -1,
-        "pos_x": -5.999969482421875,
-        "pos_y": -118.0,
-        "speed": 0.0,
-        "type": 0
-    },
-    {
         "children": [],
         "id": 8,
         "limitTime": 0.0,
@@ -73,7 +73,7 @@
         "pos_y": -151.5438232421875,
         "speed": 0.0,
         "type": 3,
-        "wait_time": 60.0
+        "wait_time": 30.0
     },
     {
         "children": [
@@ -109,8 +109,8 @@
         "pos_x": 1125.806640625,
         "pos_y": -53.46405029296875,
         "readyToAttackMoveSpeed": 1.0,
-        "readyToAttackTime": 1.0,
-        "readyToAttackTurnTime": -1.0,
+        "readyToAttackTime": 180.0,
+        "readyToAttackTurnTime": 180.0,
         "speed": 0.0,
         "type": 3
     },
@@ -273,7 +273,7 @@
         "pos_y": 264.68157958984375,
         "speed": 0.0,
         "type": 3,
-        "wait_time": 60.0
+        "wait_time": 30.0
     },
     {
         "children": [],
@@ -284,8 +284,8 @@
         "pos_x": 1127.4581298828125,
         "pos_y": 366.68157958984375,
         "readyToAttackMoveSpeed": 1.0,
-        "readyToAttackTime": 1.0,
-        "readyToAttackTurnTime": -1.0,
+        "readyToAttackTime": 60.0,
+        "readyToAttackTurnTime": 30.0,
         "speed": 0.0,
         "type": 3
     },
