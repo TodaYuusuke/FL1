@@ -168,23 +168,23 @@ void WaveManager::StartNextWave() {
 	transitionSprite_.isActive = true;
 	flashingEffect_.SetIsStart(true);
 
-	if (currentWaveNum_ >= 0 && currentWaveNum_ <= 10) {
+	if (currentWaveNum_ >= 0 && currentWaveNum_ <= 3) {
 		currentWeaponRarityPercent_.clear();
 		currentWeaponRarityPercent_ = weaponRarityPercent_[0];
 	}
-	else if (currentWaveNum_ >= 11 && currentWaveNum_ <= 20) {
+	else if (currentWaveNum_ >= 4 && currentWaveNum_ <= 7) {
 		currentWeaponRarityPercent_.clear();
 		currentWeaponRarityPercent_ = weaponRarityPercent_[1];
 	}
-	else if (currentWaveNum_ >= 21 && currentWaveNum_ <= 30) {
+	else if (currentWaveNum_ >= 8 && currentWaveNum_ <= 11) {
 		currentWeaponRarityPercent_.clear();
 		currentWeaponRarityPercent_ = weaponRarityPercent_[2];
 	}
-	else if (currentWaveNum_ >= 31 && currentWaveNum_ <= 40) {
+	else if (currentWaveNum_ >= 12 && currentWaveNum_ <= 15) {
 		currentWeaponRarityPercent_.clear();
 		currentWeaponRarityPercent_ = weaponRarityPercent_[3];
 	}
-	else if (currentWaveNum_ >= 41) {
+	else if (currentWaveNum_ >= 16) {
 		currentWeaponRarityPercent_.clear();
 		currentWeaponRarityPercent_ = weaponRarityPercent_[4];
 	}
