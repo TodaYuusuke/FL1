@@ -49,17 +49,17 @@ void Radar::Initialize() {
 
 void Radar::AddOutArea() {
 
-	areaSides_[0][0] = { -300.0f,0.0f,-300.0f };
-	areaSides_[0][1] = { -300.0f,0.0f,+300.0f };
+	areaSides_[0][0] = { -outArea_.x,0.0f,-outArea_.z };
+	areaSides_[0][1] = { -outArea_.x,0.0f,+outArea_.z };
 
-	areaSides_[1][0] = { +300.0f,0.0f,-300.0f };
-	areaSides_[1][1] = { +300.0f,0.0f,+300.0f };
+	areaSides_[1][0] = { +outArea_.x,0.0f,-outArea_.z };
+	areaSides_[1][1] = { +outArea_.x,0.0f,+outArea_.z };
 
-	areaSides_[2][0] = { -300.0f,0.0f,-300.0f };
-	areaSides_[2][1] = { +300.0f,0.0f,-300.0f };
+	areaSides_[2][0] = { -outArea_.x,0.0f,-outArea_.z };
+	areaSides_[2][1] = { +outArea_.x,0.0f,-outArea_.z };
 
-	areaSides_[3][0] = { -300.0f,0.0f,+300.0f };
-	areaSides_[3][1] = { +300.0f,0.0f,+300.0f };
+	areaSides_[3][0] = { -outArea_.x,0.0f,+outArea_.z };
+	areaSides_[3][1] = { +outArea_.x,0.0f,+outArea_.z };
 
 	for (size_t i = 0; i < 4;i++) {
 		for (size_t j = 0; j < kDivArea_;j++) {
