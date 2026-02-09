@@ -576,7 +576,6 @@ void EnemyManager::SpawnEnemy() {
 			break;
 		}
 
-
 		break;
 	default:
 		break;
@@ -587,7 +586,7 @@ void EnemyManager::SpawnEnemy() {
 		if (data.isSpawn) { continue; }
 
 		float lastSpawnTime = spawnDatas_.back().spawnTime;
-		if (data.spawnTime * 60.0f <= (lastSpawnTime * 60.0f) - spawnInterval_) {
+		if ((data.spawnTime * 60.0f) - 1.0f <= (lastSpawnTime * 60.0f) - spawnInterval_) {
 			data.isSpawn = true;
 			selectCreateEnemyType_ = data.type;
 			createPos_ = data.pos;
