@@ -8,6 +8,7 @@ enum class EnemyType {
 	kGunner,
 	kDrone,
 	kCargo,
+	kBomber,
 	kTest,
 	kCount
 };
@@ -106,6 +107,7 @@ namespace EnemyConfig {
 			"Gunner",
 			"Drone",
 			"Cargo",
+			"Bomber",
 			"Test"
 		};
 	}
@@ -118,7 +120,8 @@ namespace EnemyConfig {
 			"resources/json/BT/BT_Melee.json",
 			"resources/json/BT/BT_Gunner.json",
 			"resources/json/BT/BT_Drone.json",
-			"resources/json/BT/BT_Cargo.json"
+			"resources/json/BT/BT_Cargo.json",
+			"resources/json/BT/BT_Bomber.json"
 		};
 
 		/// <summary>
@@ -146,6 +149,7 @@ namespace EnemyConfig {
 			"resources/model/Enemy/Robot/Enemy.gltf",			// 遠距離
 			"resources/model/Enemy/Drone/Drone.gltf",			// ドローン
 			"resources/model/Enemy/Cargo/HoverTank.gltf",		// 輸送機
+			"resources/model/Enemy/Robot/Enemy.gltf",			// ランチャー
 			"resources/model/Enemy/Robot/Enemy.gltf"			// テスト敵
 		};
 	}

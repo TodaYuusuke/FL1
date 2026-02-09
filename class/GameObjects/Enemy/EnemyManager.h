@@ -66,6 +66,10 @@ private:// 敵の生成関数
 	/// <returns></returns>
 	Actor* CreateCargoEnemy();
 	/// <summary>
+	/// ランチャー敵生成
+	/// </summary>
+	Actor* CreateBomberEnemy();
+	/// <summary>
 	/// 選ばれた敵を作成(デバッグ用)
 	/// </summary>
 	Actor* CreateEnemy();

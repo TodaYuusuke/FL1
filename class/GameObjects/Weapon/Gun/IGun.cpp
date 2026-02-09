@@ -30,9 +30,12 @@ IGun::IGun(WeaponData data) {
 	// 光柱
 	lightPillar_.LoadTexture("Weapon/pillar_triangle.png");
 	lightPillar_.isActive = true;
-	//unsigned int color = WeaponConfig::TextureName::LightPillar::Color::Weapon::Rarity::color[data_.rarity];
-	lightPillar_.material.color = WeaponConfig::TextureName::LightPillar::Color::Weapon::Rarity::color[data_.rarity];
-	lightPillar_.material.color.A = 100;
+	Vector4 color = WeaponConfig::TextureName::LightPillar::Color::Weapon::Rarity::color[data_.rarity];
+	color.x /= 255;
+	color.y /= 255;
+	color.z /= 255;
+	color.w /= 255;
+	lightPillar_.material.color = color;
 	lightPillar_.anchorPoint = { 0.5f, 0.5f };
 	lightPillar_.worldTF.scale = { 1.0f, 50.0f, 1.0f };
 	lightPillar_.worldTF.translation = body_.worldTF.translation;

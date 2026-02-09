@@ -2,7 +2,7 @@
     "animName": "PowerShot",
     "attackEffectName": "MuzzleFlash",
     "attackSEFileName": "HandGunShotSound.mp3",
-    "attackSkillGain": 60.0,
+    "attackSkillGain": 30.0,
     "bulletNum": 18,
     "bulletType": 0,
     "burstIntervalTime": 0.0,
