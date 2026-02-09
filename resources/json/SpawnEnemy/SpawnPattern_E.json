@@ -1,15 +1,15 @@
 [
   {
-    "createPos_x": 220.0,
+    "createPos_x": 180.0,
     "createPos_y": 0.0,
-    "createPos_z": 0.0,
+    "createPos_z": -50.0,
     "spawnTime": 1.0,
     "type": 3
   },
   {
-    "createPos_x": -220.0,
+    "createPos_x": -180.0,
     "createPos_y": 0.0,
-    "createPos_z": 0.0,
+    "createPos_z": -50.0,
     "spawnTime": 1.0,
     "type": 3
   },
