@@ -1,6 +1,7 @@
 #include "SceneChangeAnimation.h"
 
-void DefaultSceneChangeAnimation::Initialize() {
+void DefaultSceneChangeAnimation::Initialize(const std::string& bgmPath)
+{
 	for (size_t i = 0; i < kSpriteNum_; i++) {
 		sprites_[i].LoadTexture("sceneChanger.png");
 		sprites_[i].anchorPoint = { 0.0f,0.0f };
@@ -23,7 +24,9 @@ void DefaultSceneChangeAnimation::Initialize() {
 
 	animationLength_ = kSpritFrame_;
 	type_ = 0;
-	isHaveFunc_ = false;
+
+	// BGM再生する
+	bgmID_ = AudioPlayer::GetInstance()->PlayAudio(bgmPath, 0.35f, LWP::AudioConfig::BGM, true);
 }
 
 void DefaultSceneChangeAnimation::Start(int type) {
@@ -36,12 +39,14 @@ void DefaultSceneChangeAnimation::Start(int type) {
 	for (size_t i = 0; i < kSpriteNum_; i++) {
 		sprites_[i].isActive = true;
 	}
-}
 
-void DefaultSceneChangeAnimation::Start(int type, std::function<IScene*()> func) {
-	Start(type);
-	endPlayFunc_ = func;
-	isHaveFunc_ = true;
+	// 終了時BGMの再生を停止
+	if (type_ == 1) {
+		// BGMの再生停止を指示
+		if (Sound* sound = AudioPlayer::GetInstance()->GetAudioPlayer(bgmID_)) {
+			sound->Stop(0.1f);
+		}
+	}
 }
 
 void DefaultSceneChangeAnimation::Update() {
@@ -52,10 +57,6 @@ void DefaultSceneChangeAnimation::Update() {
 			for (size_t i = 0; i < kSpriteNum_; i++) {
 				sprites_[i].isActive = false;
 			}
-		}
-		if (isHaveFunc_) {
-			endPlayFunc_();
-			isHaveFunc_ = false;
 		}
 		return;
 	}

@@ -9,6 +9,7 @@
 #include "../GameObjects/UI/BackGround.h"
 
 #include "SceneChangeAnimation/SceneChangeAnimation.h"
+#include "../Audio/AudioPlayer.h"
 
 #include "Adapter.h"
 

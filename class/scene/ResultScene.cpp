@@ -25,6 +25,9 @@ ResultScene::~ResultScene() {
 	VirtualController::Destroy();
 	//マイコン入力の停止
 	ControllerReceiver::GetInstance()->ClosePort();
+
+	// 音プレイヤー
+	AudioPlayer::Destroy();
 }
 
 void ResultScene::Initialize() {
@@ -32,6 +35,9 @@ void ResultScene::Initialize() {
 	ControllerReceiver::GetInstance()->ReOpenPort();
 	// ゲームコントローラ
 	VirtualController::Create();
+
+	// 音プレイヤー
+	AudioPlayer::Create();
 
 	// スプライトの設定
 	anyKeySprite_.LoadTexture("UI/start_UI.png");
@@ -61,7 +67,7 @@ void ResultScene::Initialize() {
 	drawKillCount_ = 0;
 
 	sceneChangeAnimation_ = std::make_unique<DefaultSceneChangeAnimation>();
-	sceneChangeAnimation_->Initialize();
+	sceneChangeAnimation_->Initialize("BGM_result.mp3");
 	sceneChangeAnimation_->SetAnimationLength(animationLength_);
 	//sceneChangeAnimation_->Start(0);
 	isChangeScene_ = false;
@@ -103,8 +109,11 @@ void ResultScene::Initialize() {
 }
 
 void ResultScene::Update() {
+	// 効果音プレイヤー生成
+	AudioPlayer::GetInstance()->Update();
+
 	if (VirtualController::GetInstance()->TriggerAnyKey() || isChangeScene_) {
-	//	ChangeTitleScene();
+		//ChangeTitleScene();
 	}
 
 	knockOut_->SetCenter({ killCountTransform_.translation.x,killCountTransform_.translation.y });

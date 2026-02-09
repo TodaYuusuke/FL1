@@ -38,7 +38,7 @@ private:
 	// 敵管理クラス
 	std::unique_ptr<EnemyManager> enemyManager_;
 
-	Player* player_;
+	Player* player_ = nullptr;
 
 	// ワールド
 	std::unique_ptr<World> world_;
@@ -50,9 +50,5 @@ private:
 	bool isChangeScene_ = false;
 
 	int animationLength_ = 36;
-	bool isEndStartAnimation_;
-
-	// BGMの固有ID
-	uint32_t bgmID_{};
-
+	bool isEndStartAnimation_{};
 };
