@@ -337,7 +337,7 @@ private:// 調整項目
 	float spawnEffectTime = 2.0f;
 
 	// 敵のパラメータ上昇が行われるウェーブ間隔
-	int parameterUpWaveInterval = 10;
+	int parameterUpWaveInterval = 5;
 
 	LWP::Utility::JsonIO json_;
 

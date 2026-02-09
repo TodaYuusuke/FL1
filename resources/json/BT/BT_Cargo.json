@@ -14,6 +14,19 @@
         "type": 0
     },
     {
+        "false_child": 14,
+        "id": 19,
+        "limitTime": 0.0,
+        "limit_distance": 200.0,
+        "name": "CheckNearPlayer",
+        "parent": 11,
+        "pos_x": 313.0,
+        "pos_y": 6.000030517578125,
+        "speed": 0.0,
+        "true_child": 20,
+        "type": 2
+    },
+    {
         "children": [
             19
         ],
@@ -28,7 +41,6 @@
     },
     {
         "children": [
-            21,
             22
         ],
         "id": 14,
@@ -63,20 +75,7 @@
         "pos_y": -228.99996948242188,
         "speed": 0.0,
         "type": 3,
-        "wait_time": 60.0
-    },
-    {
-        "false_child": 14,
-        "id": 19,
-        "limitTime": 0.0,
-        "limit_distance": 200.0,
-        "name": "CheckNearPlayer",
-        "parent": 11,
-        "pos_x": 313.0,
-        "pos_y": 6.000030517578125,
-        "speed": 0.0,
-        "true_child": 20,
-        "type": 2
+        "wait_time": 30.0
     },
     {
         "children": [],
@@ -85,21 +84,9 @@
         "name": "EscapeFromPlayerLeaf",
         "parent": 19,
         "pos_x": 553.0,
-        "pos_y": -108.99996948242188,
-        "speed": 2.0,
+        "pos_y": -109.0,
+        "speed": 1.5,
         "type": 3
-    },
-    {
-        "children": [],
-        "id": 21,
-        "limitTime": 0.0,
-        "name": "WaitLeaf",
-        "parent": 14,
-        "pos_x": 768.0,
-        "pos_y": -12.999969482421875,
-        "speed": 0.0,
-        "type": 3,
-        "wait_time": 60.0
     },
     {
         "children": [],
@@ -108,10 +95,10 @@
         "name": "ReadyToAttackLeaf",
         "parent": 14,
         "pos_x": 772.0,
-        "pos_y": 136.00003051757813,
+        "pos_y": 136.0,
         "readyToAttackMoveSpeed": 1.0,
         "readyToAttackTime": 120.0,
-        "readyToAttackTurnTime": 60.0,
+        "readyToAttackTurnTime": 40.0,
         "speed": 0.0,
         "type": 3
     }
