@@ -10,6 +10,12 @@ AudioPlayer::AudioPlayer()
 
 AudioPlayer::~AudioPlayer()
 {
+	for (auto& vector : audioMap_) {
+		for (auto& audio : vector.second) {
+			audio->Stop();
+		}
+	}
+
 	// 配列クリア
 	audioMap_.clear();
 }
