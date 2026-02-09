@@ -22,7 +22,7 @@ FollowCamera::FollowCamera(LWP::Object::Camera* camera) {
 
 	camera_->pp.fog.fogNear = 735.0f;
 	camera_->pp.fog.fogFar = 735.0f;
-	camera_->pp.fog.color = Utility::Color(0x573923FF);
+	camera_->pp.fog.color = Utility::Color(0x573923A0);
 
 	camera->farClip = 600.0f;
 
