@@ -51,6 +51,11 @@ void Radar::Update() {
 
 		LWP::Math::Vector3 newVec = LWP::Math::Matrix4x4::TransformCoord(unitDatas_[index].position, mat.Inverse());
 		newVec.y = 0;
+		//敵を優先表示
+		if (unitDatas_[index].type == ENEMY) {
+			newVec.y = 0.1f;
+		}
+		
 		newVec *= mapScale_;
 		if (newVec.Length() > viewBorder_) {
 			index++;
