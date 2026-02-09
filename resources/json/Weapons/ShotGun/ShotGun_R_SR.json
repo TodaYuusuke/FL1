@@ -1,7 +1,7 @@
 {
     "animName": "PowerShot",
     "attackEffectName": "MuzzleFlash",
-    "attackSEFileName": "PowerShot.mp3",
+    "attackSEFileName": "ShotgunShot.mp3",
     "attackSkillGain": 80.0,
     "bulletNum": 13,
     "bulletType": 2,
@@ -11,7 +11,7 @@
     "diffusingBulletRange_x": 0.05999999865889549,
     "diffusingBulletRange_y": 0.05999999865889549,
     "diffusingBulletRange_z": 0.0,
-    "jsonFileName": "ShotGun_R_C.json",
+    "jsonFileName": "ShotGun_R_SR.json",
     "modelName": "resources/model/Weapon/Gun/ShotGun/ShotGun.gltf",
     "name": "ShotGun",
     "rarity": 3,

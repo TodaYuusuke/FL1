@@ -24,6 +24,7 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 	// モデル生成
 	model_.LoadShortPath("Player/Player.gltf");
 	model_.Update();
+	model_.materials["EmissionMaterial"].enableLighting = false;
 	for (auto key : model_.skeleton.jointMap) {
 		if (!key.first.empty()) jointName_.push_back(key.first);
 	}
@@ -148,6 +149,12 @@ void Player::Update() {
 	hpGauge_->SetSize(hpGaugeScale_);
 	hpGauge_->SetRotate(hpGaugeRotate_);
 	hpGauge_->Update();
+
+	// RGBずらしが有効、かつ演出中でなければ
+	RGBShift* shiftEffector = CameraEffectHandler::GetInstance()->GetRGBShiftEffector();
+	if (shiftEffector->GetIsState() != 1 && !shiftEffector->GetIsStaging()) {
+		shiftEffector->Finish(0.5f);
+	}
 
 	if (hp_->GetIsDead()) {
 		// 全てのループSEの再生停止
@@ -356,44 +363,80 @@ void Player::OnCollision(LWP::Object::Collision* hitTarget) {
 		}
 	}
 
+	// ダメージ値取得
+	float damageValue = world_->FindAttackPower(hitTarget->name);
+	// 最大ダメージを元に補間用Tを求める
+	float damageT = damageValue / 50.0f;
+
+	// 振動強度を求める
+	float shakeStrength = LWP::Utility::Interp::LerpF(0.025f, 0.07f, damageT);
 	// カメラ振動
-	CameraEffectHandler::GetInstance()->StartShake({ 0.05f, 0.05f, 0.0f }, 0.5f);
+	CameraEffectHandler::GetInstance()->StartShake({ shakeStrength, shakeStrength, 0.0f }, 0.5f);
+	// ずらし強度の最大値を求める
+	float rgbshiftStrength = LWP::Utility::Interp::LerpF(0.025f, 0.1f, damageT);
+	// ずらし強度をランダムに求める
+	LWP::Math::Vector3 randomRGB = LWP::Utility::Random::GenerateVector3(LWP::Math::Vector3(-rgbshiftStrength, -rgbshiftStrength, -rgbshiftStrength), LWP::Math::Vector3(rgbshiftStrength, rgbshiftStrength, rgbshiftStrength));
+	// ずらし強度設定
+	CameraEffectHandler::GetInstance()->GetRGBShiftEffector()->SetMaxStrength(randomRGB);
+	// ずらしエフェクト開始
+	CameraEffectHandler::GetInstance()->GetRGBShiftEffector()->Start(0.1f);
 
 	// 被弾音を鳴らす
-	SEPlayer::GetInstance()->PlayRandomSE("HitSound.mp3", 4, 1.0f, AudioConfig::Enviroment);
+	AudioPlayer::GetInstance()->PlayRandomAudio("HitSound.mp3", 4, 1.0f, AudioConfig::Enviroment);
 
 	// ダメージを受ける
-	hp_->Damage(world_->FindAttackPower(hitTarget->name), hitTarget->name);
+	hp_->Damage(damageValue, hitTarget->name);
 }
 
 void Player::PlayAttackAnim(int weaponSide)
 {
 	// 武器の情報取得
 	if (weaponController_->GetWeaponSlot(static_cast<WeaponSide>(weaponSide)) == nullptr) { return; }
+	WeaponData data = weaponController_->GetWeaponSlot(static_cast<WeaponSide>(weaponSide))->GetFrontWeapon()->GetWeaponData();
 
 	// アニメーション名と効果音名の取得
-	std::string animName = weaponController_->GetWeaponSlot(static_cast<WeaponSide>(weaponSide))->GetFrontWeapon()->GetWeaponData().animName;
+	std::string animName = data.animName;
 	// アニメーション名がない場合
 	if (animName == "") { return; }
 
-	std::string seName = weaponController_->GetWeaponSlot(static_cast<WeaponSide>(weaponSide))->GetFrontWeapon()->GetWeaponData().attackSEFileName;
+	// 武器タイプがミサイルか近接武器の場合アニメーション名変更
+	// ミサイルか近接武器の場合待機アニメーションを変更する
+	if (data.type == static_cast<int>(WeaponType::kMissile)) {
+		animName = "Tilt" + animName;
+	}
+
+	std::string seName = data.attackSEFileName;
 
 	// 射撃アニメーション再生
 	animManager_->PlayDirect(animName, weaponSide + 2)
-		.AddEvent("PlaySE", 1, [this, weaponSide, seName]() { SEPlayer::GetInstance()->PlaySE(seName, 1.0f, LWP::AudioConfig::Player); });
+		.AddEvent("PlaySE", 1, [this, weaponSide, seName]() { AudioPlayer::GetInstance()->PlayAudio(seName, 1.0f, LWP::AudioConfig::Player); });
 
-	// 待機アニメーションをキューに入れる
-	animManager_->PlayQue("Idle", weaponSide + 2);
+	// ミサイルか近接武器の場合待機アニメーションを変更する
+	if (data.type == static_cast<int>(WeaponType::kMissile) || data.type == static_cast<int>(WeaponType::kMelee)) {
+		// 待機アニメーションをキューに入れる
+		animManager_->PlayQue("TiltIdle", weaponSide + 2);
+	}
+	else {
+		// 待機アニメーションをキューに入れる
+		animManager_->PlayQue("Idle", weaponSide + 2);
+	}
 }
 
-void Player::PlayPickUpAnim(const int weaponSide)
+void Player::PlayPickUpAnim(const int weaponSide, const WeaponData& data)
 {
 	// 取得アニメーション再生
 	animManager_->PlayDirect("PickUp", weaponSide + 2)
-		.AddEvent("PlaySE", 1, [&]() { SEPlayer::GetInstance()->PlaySE("WeaponPickUp.mp3", 1.0f, LWP::AudioConfig::Player); });
+		.AddEvent("PlaySE", 1, [&]() { AudioPlayer::GetInstance()->PlayAudio("WeaponPickUp.mp3", 1.0f, LWP::AudioConfig::Player); });
 
-	// 待機アニメーションをキューに入れる
-	animManager_->PlayQue("Idle", weaponSide + 2);
+	// ミサイルか近接武器の場合待機アニメーションを変更する
+	if (data.type == static_cast<int>(WeaponType::kMissile) || data.type == static_cast<int>(WeaponType::kMelee)) {
+		// 待機アニメーションをキューに入れる
+		animManager_->PlayQue("TiltIdle", weaponSide + 2, 0.1f);
+	}
+	else {
+		// 待機アニメーションをキューに入れる
+		animManager_->PlayQue("Idle", weaponSide + 2);
+	}
 }
 
 void Player::AdjustRotate() {

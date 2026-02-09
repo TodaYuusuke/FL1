@@ -1,66 +1,71 @@
 #pragma once
-#include <Adapter.h>
-#include "../Effect/Utility/DeltaTimer.h"
+#include "Sound.h"
+#include <deque>
 
 /// <summary>
-/// １つの音の再生、音量、ループを管理するクラス
+/// 音再生管理クラス
 /// </summary>
-class AudioPlayer
-{
-public: // コンストラクタ
+class AudioPlayer final : public LWP::Utility::ISingleton<AudioPlayer> {
+	friend class LWP::Utility::ISingleton<AudioPlayer>;
 
-	// デフォルトコンストラクタ削除
-	AudioPlayer() = delete;
+public: // コンストラクタ等
 
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	/// <param name="filePath">オーディオまでのファイルパス</param>
-	/// <param name="volume">音量</param>
-	/// <param name="isLoop">ループするか否か</param>
-	AudioPlayer(const std::string& filePath, float volume, bool isLoop, const float* masterV);
+	AudioPlayer();
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~AudioPlayer() = default;
+	~AudioPlayer();
 
 public: // メンバ関数
 
 	/// <summary>
-	/// 再生
-	/// </summary>
-	void Play();
-
-	/// <summary>
-	/// 更新処理
+	/// 更新関数
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// 停止
+	/// 再生関数
 	/// </summary>
-	void Stop();
+	/// <param name="filePath">オーディオまでのファイルパス</param>
+	/// <param name="volume">音量</param>
+	/// <param name="channelID">再生するチャンネルID</param>
+	/// <param name="isLoop">(任意) ループを行うか</param>
+	int32_t PlayAudio(const std::string& filePath, float volume, int channelID, const bool isLoop = false);
 
 	/// <summary>
-	/// 停止
+	/// 再生関数
 	/// </summary>
-	/// <param name="fadeTime">止まるまでにかかる時間</param>
-	void Stop(const float fadeTime);
+	/// <param name="filePath">オーディオまでのファイルパス</param>
+	/// <param name="volume">音量</param>
+	/// <param name="channelID">再生するチャンネルID</param>
+	/// <param name="pos">音の発生座標</param>
+	/// <param name="isLoop">ループを行うか</param>
+	int32_t PlayAudio(const std::string& filePath, float volume, int channelID, const LWP::Math::Vector3& pos, const bool isLoop = false);
+
+	/// <summary>
+	/// 引数で指定された数からランダムな数を求め、末尾に追加したパスで再生する関数
+	/// </summary>
+	/// <param name="filePath">オーディオまでのファイルパス</param>
+	/// <param name="maxRandomCount">ランダム最大数</param>
+	/// <param name="volume">音量</param>
+	/// <param name="channelID">再生するチャンネルID</param>
+	int32_t PlayRandomAudio(const std::string& filePath, int maxRandomCount, float volume, int channelID);
+
+	/// <summary>
+	/// 再生関数
+	/// </summary>
+	/// <param name="filePath">オーディオまでのファイルパス</param>
+	/// <param name="volume">音量</param>
+	/// <param name="maxRandomCount">ランダム最大数</param>
+	/// <param name="channelID">再生するチャンネルID</param>
+	/// <param name="pos">音の発生座標</param>
+	int32_t PlayRandomAudio(const std::string& filePath, int maxRandomCount, float volume, int channelID, const LWP::Math::Vector3& pos);
 
 public: // アクセッサ等
-
-	/// <summary>
-	/// 音量セッター
-	/// </summary>
-	/// <param name="volume">音量</param>
-	void SetVolume(float volume);
-
-	/// <summary>
-	/// 音量倍率セッター
-	/// </summary>
-	/// <param name="multipler">音量倍率</param>
-	void SetVolumeMultiply(float multipler);
 
 	/// <summary>
 	/// リスナーセッター
@@ -69,92 +74,39 @@ public: // アクセッサ等
 	void SetListener(const LWP::Object::TransformQuat* listener) { listener_ = listener; }
 
 	/// <summary>
-	/// 音の発生座標セッター
+	/// オーディオプレイヤーのゲッター
 	/// </summary>
-	/// <param name="pos">発生座標</param>
-	void SetEmitPos(const LWP::Math::Vector3& pos) { emitPos_ = pos; }
+	/// <param name="id">生成時に渡される固有ID</param>
+	/// <returns>実体</returns>
+	Sound* GetAudioPlayer(const uint32_t id);
 
 	/// <summary>
-	/// 固有IDのゲッター
+	/// 指定されたチャンネルの音量を調節する
 	/// </summary>
-	/// <returns>固有ID</returns>
-	uint32_t GetInstanceID() { return instanceID_; }
-	/// <summary>
-	/// 固有IDのセッター
-	/// </summary>
-	/// <param name="id">固有ID</param>
-	void SetInstanceID(const uint32_t id) { instanceID_ = id; }
+	/// <param name="volume">音量</param>
+	/// <param name="channelID">チャンネル番号</param>
+	void SetChannelVolume(const float volume, const int channelID);
 
 	/// <summary>
-	/// 最小音量倍率セッター
+	/// 音全体の音量を調節する
 	/// </summary>
-	/// <param name="minVolumeMulti">最小音量倍率</param>
-	AudioPlayer& SetMinVolumeMultiply(const float minVolumeMulti) { minVolumeMultiply_ = minVolumeMulti; return *this; }
-	/// <summary>
-	/// 最大音量倍率セッター
-	/// </summary>
-	/// <param name="maxVolumeMulti">最大音量倍率</param>
-	AudioPlayer& SetMaxVolumeMultiply(const float maxVolumeMulti) { maxVolumeMultiply_ = maxVolumeMulti; return *this; }
-
-	/// <summary>
-	/// 最小減衰距離セッター
-	/// </summary>
-	/// <param name="min">最小減衰距離</param>
-	AudioPlayer& SetMinDistance(const float min) { minDistance_ = min; return *this; }
-
-	/// <summary>
-	/// 最大減衰距離セッター
-	/// </summary>
-	/// <param name="min">最大減衰距離</param>
-	AudioPlayer& SetMaxDistance(const float max) { maxDistance_ = max; return *this; }
-
-	/// <summary>
-	/// 再生状態ゲッター
-	/// </summary>
-	/// <returns>再生されているかどうか</returns>
-	bool GetIsPlaying() { return audio_.GetIsPlaying(); }
-
-private: // 機能関数群
-
-	/// <summary>
-	/// 音量減衰チェック
-	/// </summary>
-	void CheckDistanceUpdate();
+	/// <param name="masterVolume">効果音全体の音量</param>
+	void SetMasterVlume(const float masterVolume) { masterVolume_ = masterVolume; }
 
 private: // メンバ変数
 
-	// 音リソース本体
-	LWP::Resource::Audio audio_;
-
-	// 固有ID
-	uint32_t instanceID_ = 0;
-
-	// 大元の音量
-	const float* masterVolume = nullptr;
+	// 効果音全体の音量
+	float masterVolume_ = 1.0f;
 
 	// リスナー座標
 	const LWP::Object::TransformQuat* listener_ = nullptr;
-	// 音の発生座標
-	LWP::Math::Vector3 emitPos_{};
 
-	// 音量
-	float volume_ = 1.0f;
-	// 音量倍率
-	float volumeMultipler_ = 1.0f;
-	// 最小音量倍率
-	float minVolumeMultiply_ = 0.1f;
-	// 最大音量倍率
-	float maxVolumeMultiply_ = 1.0f;
+	// 効果音マップ
+	std::map<int, std::deque<std::unique_ptr<Sound>>> audioMap_{};
 
-	// 距離減衰
-	float minDistance_ = 20.0f;		// 最小距離
-	float maxDistance_ = 150.0f;	// 最大距離
-
-	// ループフラグ
-	bool isLoop_ = false;
-
-	// フェード演出用タイマー
-	LWP::Utility::DeltaTimer fadeTimer_{};
-
+	// 固有ID配列
+	std::unordered_map<uint32_t, Sound*> idMap_{};
+	// 次のID
+	uint32_t nextID_ = 1;
 };
 

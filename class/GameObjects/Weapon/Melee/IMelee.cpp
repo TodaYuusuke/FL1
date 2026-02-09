@@ -36,6 +36,16 @@ IMelee::IMelee(WeaponData data) {
 	lightPillar_.worldTF.scale = { 1.5f, 50.0f, 1.0f };
 	lightPillar_.worldTF.translation = body_.worldTF.translation;
 
+	// エフェクト名称が設定されている場合エミッタ生成
+	if (data.attackEffectName != "") {
+		// 射撃エフェクト生成
+		attackEffectEmitter_ = EffectManager::GetInstance()->CreateNewEmitter(data.attackEffectName, { 0.0f, 0.0f, 0.0f }, true);
+		// 射撃エフェクトを武器モデルのマズルに親子付け
+		attackEffectEmitter_->SetParent(&body_, "Muzzle");
+		// 粒子の自動生成OFF
+		attackEffectEmitter_->SetIsAutoEmit(false);
+	}
+
 	Init();
 }
 
@@ -71,6 +81,7 @@ void IMelee::Init() {
 	attackFrame_ = data_.shotIntervalTime * 60.0f;
 	// リロードの経過時間
 	reloadFrame_ = data_.coolTime * 60.0f;
+
 }
 
 void IMelee::Update() {
@@ -216,6 +227,11 @@ void IMelee::Reload() {
 }
 
 void IMelee::Destroy() {
+	// エミッタの親子付け解消
+	attackEffectEmitter_->SetParent(nullptr, "");
+	// エミッタに対して破棄するよう指示
+	attackEffectEmitter_->Finish();
+
 	// カメラ揺れ
 	CameraEffectHandler::GetInstance()->StartShake(Vector3{ 0.002f, 0.002f ,0.002f }, 0.1f);
 }

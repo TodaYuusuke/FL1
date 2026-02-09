@@ -47,6 +47,9 @@ private:
 	// 武器リスト
 	std::map<int, IWeapon*> weapons_;
 
+	// アニメーション
+	LWP::Resource::Animation anim_{};
+
 	// 識別番号
 	int ID_;
 };

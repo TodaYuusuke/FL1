@@ -34,7 +34,7 @@ void AnimationManager::Update() {
 	if (isStop_) { return;  }
 	
 	// アニメーション更新
-	animation_.Update();
+	//animation_.Update();
 
 	//キュー内のデータが無ければ早期リターン
 	if (animQue_.empty()) { return; }

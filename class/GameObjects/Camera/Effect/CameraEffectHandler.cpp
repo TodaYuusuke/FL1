@@ -23,6 +23,7 @@ void CameraEffectHandler::Init() {
 	// 各種ポストプロセス生成
 	blurEffector_ = new Blur(effectTarget_, 0.0f);
 	vignetteEffector_ = new Vignette(effectTarget_, 0.0f);
+	rgbShiftEffector_ = new RGBShift(effectTarget_, LWP::Math::Vector3());
 }
 
 void CameraEffectHandler::Update() {
@@ -38,6 +39,11 @@ void CameraEffectHandler::Update() {
 	// ビネットポストプロセス更新
 	if (vignetteEffector_ != nullptr) {
 		vignetteEffector_->Update();
+	}
+
+	// RGBずらしポストプロセス更新
+	if (rgbShiftEffector_ != nullptr) {
+		rgbShiftEffector_->Update();
 	}
 }
 

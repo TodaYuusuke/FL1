@@ -50,7 +50,8 @@ public: // アニメーション用関数群
 	/// 取得アニメーション再生関数
 	/// </summary>
 	/// <param name="weaponSide">取得した部位</param>
-	void PlayPickUpAnim(const int weaponSide = 0) override;
+	/// <param name="data">取得した武器のデータ</param>
+	void PlayPickUpAnim(const int weaponSide = 0, const WeaponData& data = {}) override;
 
 private:// プライベートな関数
 	void AdjustRotate();

@@ -53,7 +53,7 @@ private:
 	/// </summary>
 	void AttackAssist();
 
-private:// 調整項目
+protected:// 調整項目
 	float assistOffset = 5.0f;
 	// アシスト適用範囲
 	float assistRange = 40.0f;
@@ -67,7 +67,7 @@ public:// アクセサ
 
 #pragma endregion
 
-private:
+protected:
 	// 攻撃時のアシスト座標
 	LWP::Math::Vector3 assistPos_;
 

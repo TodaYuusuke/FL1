@@ -105,19 +105,23 @@ void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
 
 	// 死亡時は爆発エフェクトと効果音も出す
 	if (hp_->GetIsDead()) {
-		// 死亡地点に爆発エフェクト、音を再生
-		EffectManager::GetInstance()->CreateNewEmitter("SerialExplosion", model_.GetJointWorldPosition("LockOnAnchor"));
-		// 爆発音再生
-		uint32_t id = SEPlayer::GetInstance()->PlaySE("SerialExplosion.mp3", 1.0f, AudioConfig::Enviroment, model_.GetJointWorldPosition("LockOnAnchor"));
-		AudioPlayer* p = SEPlayer::GetInstance()->GetAudioPlayer(id);
-		p->SetMinDistance(50.0f)
-			.SetMaxDistance(300.0f)
-			.SetMinVolumeMultiply(0.25f);
+		// 死亡音が再生されていなければエフェクト、音を再生
+		Sound* check = AudioPlayer::GetInstance()->GetAudioPlayer(deadSEID_);
+		if (check == nullptr) {
+			// 死亡地点に爆発エフェクト、音を再生
+			EffectManager::GetInstance()->CreateNewEmitter("SerialExplosion", model_.GetJointWorldPosition("LockOnAnchor"));
+			// 爆発音再生
+			deadSEID_ = AudioPlayer::GetInstance()->PlayAudio("SerialExplosion.mp3", 1.0f, AudioConfig::Enviroment, model_.GetJointWorldPosition("LockOnAnchor"));
+			Sound* p = AudioPlayer::GetInstance()->GetAudioPlayer(deadSEID_);
+			p->SetMinDistance(50.0f)
+				.SetMaxDistance(300.0f)
+				.SetMinVolumeMultiply(0.25f);
+		}
 	}
 
 	// 爆発音再生
-	uint32_t id = SEPlayer::GetInstance()->PlayRandomSE("HitSound.mp3", 4, 1.0f, AudioConfig::Enviroment, model_.GetJointWorldPosition("LockOnAnchor"));
-	AudioPlayer* p = SEPlayer::GetInstance()->GetAudioPlayer(id);
+	uint32_t id = AudioPlayer::GetInstance()->PlayRandomAudio("HitSound.mp3", 4, 1.0f, AudioConfig::Enviroment, model_.GetJointWorldPosition("LockOnAnchor"));
+	Sound* p = AudioPlayer::GetInstance()->GetAudioPlayer(id);
 	p->SetMinVolumeMultiply(0.5f);
 	// 被弾エフェクト
 	EffectManager::GetInstance()->CreateNewEmitter("Spark", hitTarget->GetWorldPosition());

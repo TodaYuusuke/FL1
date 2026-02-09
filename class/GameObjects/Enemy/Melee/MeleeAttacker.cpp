@@ -27,6 +27,7 @@ MeleeAttacker::MeleeAttacker(IWorld* world, int ID, const EnemyData& data) {
 	// モデル生成
 	model_.LoadFullPath(data.modelName);
 	model_.Update();
+	model_.materials["EmissionMaterial"].enableLighting = false;
 	for (auto key : model_.skeleton.jointMap) {
 		if (!key.first.empty()) jointName_.push_back(key.first);
 	}
@@ -110,17 +111,33 @@ void MeleeAttacker::AnimManagerUpdate()
 
 void MeleeAttacker::PlayAttackAnim(const int weaponSide)
 {
+	// 武器の情報取得
+	WeaponData data = weapons_[weaponSide]->GetWeaponData();
+
 	// アニメーション名と効果音名の取得
-	std::string animName = weapons_[weaponSide]->GetWeaponData().animName;
+	std::string animName = data.animName;
 	// アニメーション名がない場合
 	if (animName == "") { return; }
 
-	std::string seName = weapons_[weaponSide]->GetWeaponData().attackSEFileName;
+	// 武器タイプがミサイルか近接武器の場合アニメーション名変更
+	// ミサイルか近接武器の場合待機アニメーションを変更する
+	if (data.type == static_cast<int>(WeaponType::kMissile)) {
+		animName = "Tilt" + animName;
+	}
+
+	std::string seName = data.attackSEFileName;
 
 	// 射撃アニメーション再生
 	animManager_->PlayDirect(animName, weaponSide + 2)
-		.AddEvent("PlaySE", 1, [this, weaponSide, seName]() { SEPlayer::GetInstance()->PlaySE(seName, 1.0f, LWP::AudioConfig::Enemy, model_.worldTF.GetWorldPosition()); });
+		.AddEvent("PlaySE", 1, [this, weaponSide, seName]() { AudioPlayer::GetInstance()->PlayAudio(seName, 1.0f, LWP::AudioConfig::Enemy, weapons_[weaponSide]->GetWorldTF()->GetWorldPosition()); });
 
-	// 待機アニメーションをキューに入れる
-	animManager_->PlayQue("Idle", weaponSide + 2);
+	// ミサイルか近接武器の場合待機アニメーションを変更する
+	if (data.type == static_cast<int>(WeaponType::kMissile) || data.type == static_cast<int>(WeaponType::kMelee)) {
+		// 待機アニメーションをキューに入れる
+		animManager_->PlayQue("TiltIdle", weaponSide + 2);
+	}
+	else {
+		// 待機アニメーションをキューに入れる
+		animManager_->PlayQue("Idle", weaponSide + 2);
+	}
 }

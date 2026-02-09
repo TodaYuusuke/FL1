@@ -2,7 +2,7 @@
 #include "scene/IScene.h"
 #include "../Effect/EffectManager.h"
 #include "../Effect/EffectEditor.h"
-#include "../Audio/SEPlayer.h"
+#include "../Audio/AudioPlayer.h"
 #include "../Componets/Animation/AnimationManager.h"
 
 class TestScene final

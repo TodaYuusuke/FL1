@@ -64,7 +64,7 @@ void RobotAnimManager::Update()
 	if (isStop_) { return; }
 
 	// アニメーション更新
-	animation_.Update();
+	//animation_.Update();
 
 	// 腕以外のキューを更新
 	AnimQueUpdate(animQue_);

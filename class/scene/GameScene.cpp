@@ -54,12 +54,12 @@ GameScene::~GameScene() {
 	CameraEffectHandler::Destroy();
 
 	// 効果音プレイヤー生成
-	SEPlayer::Destroy();
+	AudioPlayer::Destroy();
 }
 
 void GameScene::Initialize() {
 	// 効果音プレイヤー生成
-	SEPlayer::Create();
+	AudioPlayer::Create();
 	// エフェクト関連のインスタンス生成
 	EffectManager::Create();
 	EffectEditor::Create();
@@ -108,7 +108,7 @@ void GameScene::Initialize() {
 	world_->AddActor(player_);
 
 	// 効果音プレイヤーに自機のトランスフォームを渡す
-	SEPlayer::GetInstance()->SetListener(player_->GetWorldTF());
+	AudioPlayer::GetInstance()->SetListener(player_->GetWorldTF());
 
 	// 敵管理クラス
 	enemyManager_ = std::make_unique<EnemyManager>(world_.get());
@@ -159,11 +159,14 @@ void GameScene::Initialize() {
 	isChangeScene_ = false;
 	isEndStartAnimation_=false;
 
+	// BGM再生開始
+	bgmID_ = AudioPlayer::GetInstance()->PlayAudio("BGM_game.mp3", 0.35f, LWP::AudioConfig::BGM, true);
+
 }
 
 void GameScene::Update() {
 	// 効果音プレイヤー生成
-	SEPlayer::GetInstance()->Update();
+	AudioPlayer::GetInstance()->Update();
 
 	// 敵を一定数倒したら終了
 	if (!player_->GetIsAlive()) {
@@ -323,7 +326,14 @@ void GameScene::Update() {
 }
 
 void GameScene::ChangeResultScene() {
-	if (!isChangeScene_) sceneChangeAnimation_->Start(1);
+	if (!isChangeScene_) {
+		sceneChangeAnimation_->Start(1);
+
+		// BGMの再生停止を指示
+		if (Sound* sound = AudioPlayer::GetInstance()->GetAudioPlayer(bgmID_)) {
+			sound->Stop(0.1f);
+		}
+	}
 	if (!sceneChangeAnimation_->GetIsPlay()) nextSceneFunction = []() { return new ResultScene(); };
 	isChangeScene_ = true;
 }
