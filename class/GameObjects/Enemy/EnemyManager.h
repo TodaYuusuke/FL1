@@ -19,6 +19,11 @@ public:
 		float nextSpawnTime = 6.0f;	// 次の敵が強制的に出るまでの時間
 	};
 
+	struct WeightRate {
+		int value;
+		int weight;
+	};
+
 public:
 	// コンストラクタ
 	EnemyManager(IWorld* world);
@@ -178,6 +183,27 @@ private:// 配置エディタで使用する関数
 	/// <param name="folderPath"></param>
 	/// <returns></returns>
 	std::vector<std::string> GetFileNames(const std::string& folderPath);
+
+	int RollDropWeapon(const std::vector<WeightRate>& weaponTable) {
+		int totalWeight = 0;
+		for (const auto& r : weaponTable) {
+			totalWeight += r.weight;
+		}
+
+		if (totalWeight == 0) { return weaponTable.back().value; }
+
+		int randValue = rand() % totalWeight;
+
+		int current = 0;
+		for (const auto& r : weaponTable) {
+			current += r.weight;
+			if (randValue < current) {
+				return r.value;
+			}
+		}
+
+		return weaponTable.back().value; // 保険
+	}
 
 	bool Contains(const std::string& str, const std::string& target) {
 		return str.find(target) != std::string::npos;

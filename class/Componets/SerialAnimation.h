@@ -69,5 +69,6 @@ private:
 	bool isStart_;
 	// 終了
 	bool isEnd_;
+	bool isWaiting_;
 };
 
