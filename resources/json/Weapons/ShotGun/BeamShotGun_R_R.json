@@ -3,7 +3,7 @@
     "attackEffectName": "MuzzleFlash",
     "attackSEFileName": "ShotgunShot.mp3",
     "attackSkillGain": 50.0,
-    "bulletNum": 10,
+    "bulletNum": 8,
     "bulletType": 2,
     "burstIntervalTime": 0.0,
     "burstNum": 0,
