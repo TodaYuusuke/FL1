@@ -44,13 +44,13 @@ enum class ShotType {
 /// 武器の調整項目
 /// </summary>
 struct WeaponData {
-	std::string name="";							// 武器の名前
-	std::string modelName="";						// 武器モデルのファイル名
-	std::string texName="";							// 武器モデルのテクスチャ名
-	std::string animName="";						// 武器モデルのアニメーション名
-	std::string jsonFileName="";					// jsonファイル名
-	std::string attackSEFileName="";				// 効果音ファイル名
-	std::string attackEffectName="";				// 攻撃時の演出名
+	std::string name = "";							// 武器の名前
+	std::string modelName = "";						// 武器モデルのファイル名
+	std::string texName = "";							// 武器モデルのテクスチャ名
+	std::string animName = "";						// 武器モデルのアニメーション名
+	std::string jsonFileName = "";					// jsonファイル名
+	std::string attackSEFileName = "";				// 効果音ファイル名
+	std::string attackEffectName = "";				// 攻撃時の演出名
 	float shotIntervalTime;							// 射撃間隔[秒]
 	float burstIntervalTime;						// バースト間隔[秒](バースト銃の場合に数値を入れる)
 	float storeTime;								// 溜め時間[秒](溜める銃の場合に数値を入れる)
@@ -99,15 +99,15 @@ namespace WeaponConfig {
 		// 順番はWeaponType準拠
 		// Gun系→	resources/model/Gun/からのパス含めた名前
 		// Melee系→resources/model/Melee/からのパス含めた名前
-		inline std::array<std::array<std::string, (int)WeaponType::kCount>, (int)RarityType::kCount> modelName = {{
-				  // Common							UnCommon						Rare							SuperRare						Legendary						Over
-/* マシンガン	*/{  "MachineGun/MachineGun.gltf"	, "MachineGun/MachineGun.gltf"	, "MachineGun/MachineGun.gltf"	,"MachineGun/MachineGun.gltf"	,"MachineGun/MachineGun.gltf"	,"MachineGun/MachineGun.gltf"	},
-/* ショットガン	*/{  "ShotGun/ShotGun.gltf"			, "ShotGun/ShotGun.gltf"		, "ShotGun/ShotGun.gltf"		,"ShotGun/ShotGun.gltf"			,"ShotGun/ShotGun.gltf"			,"ShotGun/ShotGun.gltf"			},
-/* ライフル		*/{  "Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				},
-/* ランチャー	*/{  "Launcher/Launcher.gltf"		, "Launcher/Launcher.gltf"		, "Launcher/Launcher.gltf"		,"Launcher/Launcher.gltf"		,"Launcher/Launcher.gltf"		,"Launcher/Launcher.gltf"		},
-/* ミサイル		*/{  "Missle/MisslePod.obj"			, "Missle/MisslePod.obj"		, "Missle/MisslePod.obj"		,"Missle/MisslePod.obj"			,"Missle/MisslePod.obj"			,"Missle/MisslePod.obj"			},
-/* 近接			*/{  "PileBunker.gltf"				, "PileBunker.gltf"				, "PileBunker.gltf"				,"PileBunker.gltf"				,"PileBunker.gltf"				,"PileBunker.gltf"				}	
-		}};
+		inline std::array<std::array<std::string, (int)WeaponType::kCount>, (int)RarityType::kCount> modelName = { {
+				// Common							UnCommon						Rare							SuperRare						Legendary						Over
+				/* マシンガン	*/{  "MachineGun/MachineGun.gltf"	, "MachineGun/MachineGun.gltf"	, "MachineGun/MachineGun.gltf"	,"MachineGun/MachineGun.gltf"	,"MachineGun/MachineGun.gltf"	,"MachineGun/MachineGun.gltf"	},
+				/* ショットガン	*/{  "ShotGun/ShotGun.gltf"			, "ShotGun/ShotGun.gltf"		, "ShotGun/ShotGun.gltf"		,"ShotGun/ShotGun.gltf"			,"ShotGun/ShotGun.gltf"			,"ShotGun/ShotGun.gltf"			},
+				/* ライフル		*/{  "Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				, "Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				,"Rifle/Rifle.obj"				},
+				/* ランチャー	*/{  "Launcher/Launcher.gltf"		, "Launcher/Launcher.gltf"		, "Launcher/Launcher.gltf"		,"Launcher/Launcher.gltf"		,"Launcher/Launcher.gltf"		,"Launcher/Launcher.gltf"		},
+				/* ミサイル		*/{  "Missle/MisslePod.obj"			, "Missle/MisslePod.obj"		, "Missle/MisslePod.obj"		,"Missle/MisslePod.obj"			,"Missle/MisslePod.obj"			,"Missle/MisslePod.obj"			},
+				/* 近接			*/{  "PileBunker.gltf"				, "PileBunker.gltf"				, "PileBunker.gltf"				,"PileBunker.gltf"				,"PileBunker.gltf"				,"PileBunker.gltf"				}
+						} };
 	}
 	// テクスチャ名
 	namespace TextureName {
@@ -142,13 +142,13 @@ namespace WeaponConfig {
 				// (中間プレイ会専用)
 				namespace Weapon {
 					namespace Rarity {
-						inline std::array<unsigned int, (int)RarityType::kCount> color = {
-							LWP::Utility::WHITE,		// Common
-							LWP::Utility::GREEN,		// UnCommon
-							LWP::Utility::BLUE,			// Rare
-							LWP::Utility::CYAN,			// SuperRare
-							LWP::Utility::MAGENTA,		// Legendary
-							LWP::Utility::RED			// Over
+						inline std::array<LWP::Utility::Color, (int)RarityType::kCount> color = {
+							LWP::Utility::Color(LWP::Math::Vector4{170,170,170,255}),	// Common
+							LWP::Utility::Color(LWP::Math::Vector4{56,178,65,255}),	// UnCommon
+							LWP::Utility::Color(LWP::Math::Vector4{56,56,180,255}),	// Rare
+							LWP::Utility::Color(LWP::Math::Vector4{178,56,178,255}),	// SuperRare
+							LWP::Utility::Color(LWP::Math::Vector4{178,178,20,255}),	// Legendary
+							LWP::Utility::Color(LWP::Math::Vector4{178,20,20,255})	// Over
 						};
 					}
 				}

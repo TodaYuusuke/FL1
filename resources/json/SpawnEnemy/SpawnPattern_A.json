@@ -10,7 +10,7 @@
         "createPos_x": 80.0,
         "createPos_y": 0.0,
         "createPos_z": 80.0,
-        "spawnTime": 0.0,
+        "spawnTime": 1.0,
         "type": 1
     },
     {
@@ -24,7 +24,7 @@
         "createPos_x": 80.0,
         "createPos_y": 0.0,
         "createPos_z": -80.0,
-        "spawnTime": 0.0,
+        "spawnTime": 3.0,
         "type": 1
     },
     {

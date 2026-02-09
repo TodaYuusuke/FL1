@@ -7,12 +7,14 @@ SerialAnimation::SerialAnimation(const std::string& spriteName, const LWP::Math:
 	sprite_.isActive = false;
 
 	splitNum_ = sprite_.material.texture.t.GetSize().x / splitSize.x;
+	splitNum_--;
 }
 
 void SerialAnimation::Init() {
 	currentFrame_ = 0.0f;
 	isStart_ = false;
 	isEnd_ = false;
+	isWaiting_ = false;
 	sprite_.isActive = false;
 }
 
@@ -21,10 +23,13 @@ void SerialAnimation::Update() {
 
 	if (!isEnd_ && nextAnimInterval_ <= currentFrame_) {
 		// 最後の連番画像まで再生した
-		if (sprite_.index++ >= splitNum_) {
+		if (sprite_.index >= splitNum_) {
 			isEnd_ = true;
 		}
-		currentFrame_ = 0.0f;
+		else {
+			sprite_.index++;
+			currentFrame_ = 0.0f;
+		}
 	}
 
 	// 待機時間終了後の処理
@@ -33,15 +38,15 @@ void SerialAnimation::Update() {
 		if (isLoop_) {
 			isEnd_ = false;
 			currentFrame_ = 0.0f;
+			sprite_.index = 0;
 		}
 		// 終了
 		else {
 			isStart_ = false;
 			sprite_.isActive = false;
 		}
-		sprite_.index = 0;
+		isWaiting_ = true;
 	}
-
 	currentFrame_++;
 }
 
@@ -58,6 +63,7 @@ void SerialAnimation::Start(float nextAnimInterval, float waitFrame, bool isLoop
 	waitFrame_ = waitFrame;
 	currentFrame_ = 0.0f;
 	isStart_ = true;
+	isWaiting_ = false;
 	sprite_.isActive = true;
 }
 
