@@ -20,6 +20,17 @@ void Radar::Initialize() {
 		unitModels_[i].worldTF.Parent(&player_.worldTF);
 		unitModels_[i].SetAllMaterialLighting(false);
 	}
+	for (size_t i = 0; i < 4; i++) {
+		for (size_t j = 0; j < kDivArea_; j++) {
+			outAreas_[i][j].LoadSphere();
+			outAreas_[i][j].worldTF.Parent(&player_.worldTF);
+			outAreas_[i][j].SetAllMaterialLighting(false);
+			outAreas_[i][j].worldTF.scale = {0.5f,0.5f,0.5f};
+			for (auto& material : outAreas_[i][j].materials) {
+				material.second.color = {0.7f,0.1f,0.1f,1.0f};
+			}
+		}
+	}
 
 	// 管理クラスの調整項目
 	json_.Init(kJsonDirectoryPath + "MiniMap.json")
@@ -34,6 +45,50 @@ void Radar::Initialize() {
 		.EndGroup()
 
 		.CheckJsonFile();
+}
+
+void Radar::AddOutArea() {
+
+	areaSides_[0][0] = { -300.0f,0.0f,-300.0f };
+	areaSides_[0][1] = { -300.0f,0.0f,+300.0f };
+
+	areaSides_[1][0] = { +300.0f,0.0f,-300.0f };
+	areaSides_[1][1] = { +300.0f,0.0f,+300.0f };
+
+	areaSides_[2][0] = { -300.0f,0.0f,-300.0f };
+	areaSides_[2][1] = { +300.0f,0.0f,-300.0f };
+
+	areaSides_[3][0] = { -300.0f,0.0f,+300.0f };
+	areaSides_[3][1] = { +300.0f,0.0f,+300.0f };
+
+	for (size_t i = 0; i < 4;i++) {
+		for (size_t j = 0; j < kDivArea_;j++) {
+			outAreas_[i][j].isActive = false;
+		}
+	}
+
+
+	for (size_t i = 0; i < 4; i++) {
+		for (size_t j = 0; j < kDivArea_; j++) {
+			float t = float(j) / float(kDivArea_);
+			LWP::Math::Matrix4x4 mat = playerTransform_->GetAffineMatrix();
+
+			LWP::Math::Vector3 pos = areaSides_[i][0] * (1.0f - t) + areaSides_[i][1] * t;
+
+			//interpolation
+
+			LWP::Math::Vector3 newVec = LWP::Math::Matrix4x4::TransformCoord(pos, mat.Inverse());
+			newVec.y = -0.01f;
+		
+			newVec *= mapScale_;
+			if (newVec.Length() > viewBorder_) {
+				continue;
+			}
+			outAreas_[i][j].isActive = true;
+			outAreas_[i][j].worldTF.translation = newVec;
+			outAreas_[i][j].worldTF.Parent(&centerTransform_);
+		}
+	}
 }
 
 void Radar::Update() {
@@ -66,6 +121,8 @@ void Radar::Update() {
 		unitModels_[index].worldTF.Parent(&centerTransform_);
 		index++;
 	}
+
+	AddOutArea();
 }
 
 void Radar::DebugGui() {
