@@ -56,15 +56,15 @@ private:
 	// jsonファイルのディレクトリパス
 	const std::string kJsonDirectoryPath = "MiniMap/";
 	LWP::Utility::JsonIO json_;
-	float mapScale_;
-	float viewBorder_;
+	float mapScale_=0;
+	float viewBorder_=0;
 
 	//プレイヤーの位置(これを基準に計算する)
 	LWP::Resource::RigidModel player_;
 	const static size_t kMaxModels_ = 30;
-	std::array<LWP::Primitive::Cube, kMaxModels_> unitModels_;
+	std::array<LWP::Primitive::Cube, kMaxModels_> unitModels_{};
 	std::vector<UnitData> unitDatas_;
-	std::array<LWP::Utility::Color, UnitType::COUNT> colorSample_;
+	std::array<LWP::Utility::Color, UnitType::COUNT> colorSample_{};
 	//プレイヤーの座標
 	LWP::Object::TransformQuat* playerTransform_;
 	LWP::Object::TransformQuat centerTransform_;
