@@ -1,5 +1,6 @@
 #include "WaveManager.h"
 #include "../Componets/HitStopController.h"
+#include "../Audio/AudioPlayer.h"
 
 using namespace LWP;
 using namespace LWP::Math;
@@ -187,4 +188,7 @@ void WaveManager::StartNextWave() {
 		currentWeaponRarityPercent_.clear();
 		currentWeaponRarityPercent_ = weaponRarityPercent_[4];
 	}
+
+	// 次のウェーブの効果音を鳴らす
+	AudioPlayer::GetInstance()->PlayAudio("wave_SE.mp3", 1.0f, LWP::AudioConfig::Other);
 }
