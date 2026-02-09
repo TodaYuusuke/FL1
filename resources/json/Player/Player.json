@@ -5,16 +5,16 @@
     },
     "Group :HP": {
         "Vector3 :Position": [
-            587.0,
-            554.0,
+            690.0,
+            50.0,
             0.0
         ],
         "Vector3 :Scale": [
-            4.5,
+            5.0,
             0.30000001192092896,
             0.0
         ],
-        "float :Rotate": -90.0
+        "float :Rotate": 0.0
     },
     "Group :Weapon": {
         "Group :Hand": {
