@@ -142,13 +142,13 @@ namespace WeaponConfig {
 				// (中間プレイ会専用)
 				namespace Weapon {
 					namespace Rarity {
-						inline std::array<LWP::Utility::Color, (int)RarityType::kCount> color = {
-							LWP::Utility::Color(LWP::Math::Vector4{170,170,170,255}),	// Common
-							LWP::Utility::Color(LWP::Math::Vector4{56,178,65,255}),	// UnCommon
-							LWP::Utility::Color(LWP::Math::Vector4{56,56,180,255}),	// Rare
-							LWP::Utility::Color(LWP::Math::Vector4{178,56,178,255}),	// SuperRare
-							LWP::Utility::Color(LWP::Math::Vector4{178,178,20,255}),	// Legendary
-							LWP::Utility::Color(LWP::Math::Vector4{178,20,20,255})	// Over
+						inline std::array<LWP::Math::Vector4, (int)RarityType::kCount> color = {
+							LWP::Math::Vector4{170,170,170,255},	// Common
+							LWP::Math::Vector4{56,178,65,255},		// UnCommon
+							LWP::Math::Vector4{56,56,180,255},		// Rare
+							LWP::Math::Vector4{178,56,178,255},		// SuperRare
+							LWP::Math::Vector4{178,178,20,255},		// Legendary
+							LWP::Math::Vector4{178,20,20,255}		// Over
 						};
 					}
 				}

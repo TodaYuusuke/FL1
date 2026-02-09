@@ -156,6 +156,7 @@
     <ClCompile Include="class\Audio\Sound.cpp" />
     <ClCompile Include="class\Componets\Animation\Anim.cpp" />
     <ClCompile Include="class\Componets\Animation\AnimationManager.cpp" />
+    <ClCompile Include="class\GameObjects\Enemy\Bomber\Bomber.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\TutorialData\AttackTutorial.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\TutorialData\CollectTutorial.cpp" />
     <ClCompile Include="class\GameObjects\Tutorial\TutorialData\MoveTutorial.cpp" />
@@ -291,6 +292,7 @@
     <ClInclude Include="class\Componets\Animation\AnimationManager.h" />
     <ClInclude Include="class\Componets\Animation\AnimationStructs.h" />
     <ClInclude Include="class\Effect\Bullet\IBulletEffect.h" />
+    <ClInclude Include="class\GameObjects\Enemy\Bomber\Bomber.h" />
     <ClInclude Include="class\GameObjects\Tutorial\TutorialData\AttackTutorial.h" />
     <ClInclude Include="class\GameObjects\Tutorial\TutorialData\CollectTutorial.h" />
     <ClInclude Include="class\GameObjects\Tutorial\TutorialData\MoveTutorial.h" />

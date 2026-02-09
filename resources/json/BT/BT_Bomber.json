@@ -1,0 +1,305 @@
+[
+    {
+        "false_child": 27,
+        "id": 6,
+        "limitTime": 0.0,
+        "limit_distance": 200.0,
+        "name": "CheckNearPlayer",
+        "parent": 22,
+        "pos_x": 637.30322265625,
+        "pos_y": -172.95477294921875,
+        "speed": 0.0,
+        "true_child": 5,
+        "type": 2
+    },
+    {
+        "children": [],
+        "id": 7,
+        "limitTime": 0.0,
+        "name": "CircleAttackLeaf",
+        "parent": 5,
+        "pos_x": 1127.30322265625,
+        "pos_y": -236.95477294921875,
+        "speed": 0.0,
+        "type": 3
+    },
+    {
+        "children": [],
+        "id": 11,
+        "limitTime": 0.0,
+        "name": "ChasePlayerLeaf",
+        "parent": 21,
+        "pos_x": 331.59991455078125,
+        "pos_y": 507.5733642578125,
+        "speed": 0.30000001192092896,
+        "type": 3
+    },
+    {
+        "children": [
+            9,
+            21
+        ],
+        "id": 13,
+        "limitTime": 0.0,
+        "name": "Sequence",
+        "parent": -1,
+        "pos_x": -5.999969482421875,
+        "pos_y": -118.0,
+        "speed": 0.0,
+        "type": 0
+    },
+    {
+        "children": [
+            7,
+            8,
+            12
+        ],
+        "id": 5,
+        "limitTime": 0.0,
+        "name": "Sequence",
+        "parent": 6,
+        "pos_x": 1010.30322265625,
+        "pos_y": -151.95477294921875,
+        "speed": 0.0,
+        "type": 0
+    },
+    {
+        "children": [],
+        "id": 8,
+        "limitTime": 0.0,
+        "name": "WaitLeaf",
+        "parent": 5,
+        "pos_x": 1125.753173828125,
+        "pos_y": -151.5438232421875,
+        "speed": 0.0,
+        "type": 3,
+        "wait_time": 30.0
+    },
+    {
+        "children": [
+            10
+        ],
+        "id": 9,
+        "limitTime": 0.0,
+        "name": "RunOnce",
+        "parent": 13,
+        "pos_x": 165.97610473632813,
+        "pos_y": -448.2942199707031,
+        "speed": 0.0,
+        "type": 1
+    },
+    {
+        "children": [],
+        "id": 10,
+        "limitTime": 0.0,
+        "name": "WaitLeaf",
+        "parent": 9,
+        "pos_x": 258.97613525390625,
+        "pos_y": -447.2942199707031,
+        "speed": 0.0,
+        "type": 3,
+        "wait_time": 60.0
+    },
+    {
+        "children": [],
+        "id": 12,
+        "limitTime": 0.0,
+        "name": "ReadyToAttackLeaf",
+        "parent": 5,
+        "pos_x": 1125.806640625,
+        "pos_y": -53.46405029296875,
+        "readyToAttackMoveSpeed": 1.0,
+        "readyToAttackTime": 180.0,
+        "readyToAttackTurnTime": 180.0,
+        "speed": 0.0,
+        "type": 3
+    },
+    {
+        "children": [],
+        "id": 17,
+        "limitTime": 0.0,
+        "name": "EscapeFromPlayerLeaf",
+        "parent": 19,
+        "pos_x": 897.0587158203125,
+        "pos_y": 130.60626220703125,
+        "speed": 1.0,
+        "type": 3
+    },
+    {
+        "children": [
+            23
+        ],
+        "id": 18,
+        "limitTime": 0.0,
+        "name": "Sequence",
+        "parent": 21,
+        "pos_x": 336.4580993652344,
+        "pos_y": 251.68161010742188,
+        "speed": 0.0,
+        "type": 0
+    },
+    {
+        "children": [
+            22
+        ],
+        "id": 20,
+        "limitTime": 0.0,
+        "name": "Sequence",
+        "parent": 21,
+        "pos_x": 331.6178283691406,
+        "pos_y": -123.77105712890625,
+        "speed": 0.0,
+        "type": 0
+    },
+    {
+        "children": [
+            20,
+            18,
+            11
+        ],
+        "id": 21,
+        "limitTime": 0.0,
+        "name": "Selector",
+        "parent": 13,
+        "pos_x": 147.0,
+        "pos_y": 254.00006103515625,
+        "speed": 0.0,
+        "type": 0
+    },
+    {
+        "false_child": 28,
+        "id": 22,
+        "limitTime": 0.0,
+        "limit_distance": 150.0,
+        "name": "CheckFarPlayer",
+        "parent": 20,
+        "pos_x": 432.8198547363281,
+        "pos_y": -124.57354736328125,
+        "speed": 0.0,
+        "true_child": 6,
+        "type": 2
+    },
+    {
+        "false_child": 26,
+        "id": 23,
+        "limitTime": 0.0,
+        "limit_distance": 150.0,
+        "name": "CheckNearPlayer",
+        "parent": 18,
+        "pos_x": 445.4580993652344,
+        "pos_y": 250.68161010742188,
+        "speed": 0.0,
+        "true_child": 19,
+        "type": 2
+    },
+    {
+        "children": [],
+        "id": 26,
+        "limitTime": 0.0,
+        "name": "AlwaysFailLeaf",
+        "parent": 23,
+        "pos_x": 673.4580688476563,
+        "pos_y": 351.6816101074219,
+        "speed": 0.0,
+        "type": 3
+    },
+    {
+        "children": [],
+        "id": 27,
+        "limitTime": 0.0,
+        "name": "AlwaysFailLeaf",
+        "parent": 6,
+        "pos_x": 928.9180908203125,
+        "pos_y": -13.08453369140625,
+        "speed": 0.0,
+        "type": 3
+    },
+    {
+        "children": [],
+        "id": 28,
+        "limitTime": 0.0,
+        "name": "AlwaysFailLeaf",
+        "parent": 22,
+        "pos_x": 635.81982421875,
+        "pos_y": -9.57354736328125,
+        "speed": 0.0,
+        "type": 3
+    },
+    {
+        "false_child": 24,
+        "id": 19,
+        "limitTime": 60.0,
+        "name": "TimeLimit",
+        "parent": 23,
+        "pos_x": 673.4581298828125,
+        "pos_y": 183.68157958984375,
+        "speed": 0.0,
+        "true_child": 17,
+        "type": 2
+    },
+    {
+        "children": [
+            25,
+            29,
+            31
+        ],
+        "id": 24,
+        "limitTime": 0.0,
+        "name": "Sequence",
+        "parent": 19,
+        "pos_x": 901.4581298828125,
+        "pos_y": 268.68157958984375,
+        "speed": 0.0,
+        "type": 0
+    },
+    {
+        "children": [],
+        "id": 25,
+        "limitTime": 0.0,
+        "name": "CircleAttackLeaf",
+        "parent": 24,
+        "pos_x": 1128.4581298828125,
+        "pos_y": 177.68157958984375,
+        "speed": 0.0,
+        "type": 3
+    },
+    {
+        "children": [],
+        "id": 29,
+        "limitTime": 0.0,
+        "name": "WaitLeaf",
+        "parent": 24,
+        "pos_x": 1124.4581298828125,
+        "pos_y": 264.68157958984375,
+        "speed": 0.0,
+        "type": 3,
+        "wait_time": 30.0
+    },
+    {
+        "children": [],
+        "id": 30,
+        "limitTime": 0.0,
+        "name": "ReadyToAttackLeaf",
+        "parent": 31,
+        "pos_x": 1127.4581298828125,
+        "pos_y": 366.68157958984375,
+        "readyToAttackMoveSpeed": 1.0,
+        "readyToAttackTime": 60.0,
+        "readyToAttackTurnTime": 30.0,
+        "speed": 0.0,
+        "type": 3
+    },
+    {
+        "children": [
+            30
+        ],
+        "id": 31,
+        "limitTime": 0.0,
+        "name": "Inverter",
+        "parent": 24,
+        "pos_x": 1014.7183837890625,
+        "pos_y": 367.447509765625,
+        "speed": 0.0,
+        "type": 1
+    }
+]
