@@ -3,6 +3,7 @@
 #include "Gunner/Gunner.h"
 #include "Drone/Drone.h"
 #include "Cargo/Cargo.h"
+#include "Bomber/Bomber.h"
 #include "Test/TestEnemy.h"
 #include "../UI/ScoreUI/ScoreManager.h"
 #include "../PenetrationResolver/PenetrationResolver.h"
@@ -412,6 +413,29 @@ Actor* EnemyManager::CreateCargoEnemy() {
 	return actor;
 }
 
+Actor* EnemyManager::CreateBomberEnemy() {
+	// 調整情報
+	EnemyData data = sampleEnemies_[(int)EnemyType::kBomber];
+	data.hp = sampleEnemies_[(int)EnemyType::kBomber].hp * sampleLevels_[selectLevel_].hpMultiply;
+	data.attackMultiply = sampleLevels_[selectLevel_].attackMultiply;
+	data.speedMultiply = sampleLevels_[selectLevel_].speedMultiply;
+	data.level = sampleLevels_[selectLevel_].value;
+	data.type = (int)EnemyType::kBomber;
+
+	// ランチャー敵
+	Bomber* actor = new Bomber(pWorld_, createID_, data);
+
+	// 武器を付与
+	GiveWeapon(actor, sampleEnemies_[(int)EnemyType::kBomber]);
+
+	// 座標を指定
+	actor->SetTranslation(createPos_);
+
+	createID_++;
+
+	return actor;
+}
+
 Actor* EnemyManager::CreateEnemy() {
 	Actor* enemy = nullptr;
 	switch (selectCreateEnemyType_) {
@@ -434,6 +458,11 @@ Actor* EnemyManager::CreateEnemy() {
 		break;
 	case (int)EnemyType::kCargo:
 		enemy = CreateCargoEnemy();
+		PenetrationResolver::GetInstance()->RegisterObject(enemy);
+		return enemy;
+		break;
+	case (int)EnemyType::kBomber:
+		enemy = CreateBomberEnemy();
 		PenetrationResolver::GetInstance()->RegisterObject(enemy);
 		return enemy;
 		break;

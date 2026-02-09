@@ -1,0 +1,64 @@
+#pragma once
+#include "../../../Componets/BehaviourTree/Actor/Health.h"
+#include "../../../Componets/BehaviourTree/BehaviorTreeUtility.h"
+#include "../../../Componets/BehaviourTree/Actor/Actor.h"
+#include "../../../Componets/BehaviourTree/INode.h"
+#include "../../Weapon/WeaponSlot.h"
+#include "../EnemyConfig.h"
+#include "../../Player/Anim/RobotAnimManager.h"
+#include <Adapter.h>
+
+class IWorld;
+class Bomber : public Actor {
+public:
+	//コンストラクタ
+	Bomber(IWorld* world, int ID, const EnemyData& data);
+	//デストラクタ
+	~Bomber() override;
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void Init() override;
+	/// <summary>
+	/// 更新
+	/// </summary>
+	//void Update() override;
+	/// <summary>
+	/// 調整項目
+	/// </summary>
+	void DrawGui() override;
+
+	// BehaviorTreeの中で現在動いているノードのIDを取得
+	const int GetBTRunningNodeID() const;
+
+private:
+	/// <summary>
+	/// 移動処理
+	/// </summary>
+	void Move();
+
+	/// <summary>
+	/// アニメーションマネージャーの更新関数
+	/// </summary>
+	void AnimManagerUpdate() override;
+
+public: // 演出用関数群
+
+	/// <summary>
+	/// 射撃アニメーション再生関数
+	/// </summary>
+	/// <param name="weaponSide">武器の場所</param>
+	void PlayAttackAnim(const int weaponSide = 0) override;
+
+private:
+	// 武器リスト
+	//std::map<int, IWeapon*> weapons_;
+
+	// 識別番号
+	int ID_;
+
+	// アニメーションマネージャー
+	std::unique_ptr<RobotAnimManager> animManager_;
+
+};
