@@ -17,7 +17,14 @@ FollowCamera::FollowCamera(LWP::Object::Camera* camera) {
 	camera_->pp.radialBlur.use = true;
 	camera_->pp.rgbShift.use = true;
 	camera_->pp.vignetting.use = true;
+	camera_->pp.fog.use = true;
 	camera_->pp.CreateShaderFile();
+
+	camera_->pp.fog.fogNear = 150.0f;
+	camera_->pp.fog.fogFar = 735.0f;
+	camera_->pp.fog.color = Utility::Color(0x573923FF);
+
+	camera->farClip = 600.0f;
 
 	Init();
 }
