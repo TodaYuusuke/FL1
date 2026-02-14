@@ -7,6 +7,6 @@
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-	LWP::System::Run<Title>(L"4206_多腕戦機バンディット");
+	LWP::System::Run<TutorialScene>(L"4206_多腕戦機バンディット");
 	return 0;
 }

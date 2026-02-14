@@ -3,6 +3,8 @@
         0.800000011920929,
         0.009999999776482582
     ],
+    "float :MaxBoostSpeed": 6.0,
+    "float :MaxBoostTime": 0.5,
     "float :MaxOmega": 9.999999974752427e-07,
     "float :MaxSpeed": 0.800000011920929,
     "float :RotThreshold": 0.699999988079071,

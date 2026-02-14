@@ -35,16 +35,13 @@ public:
 
 private:
 	/// <summary>
-	/// コントローラの入力補正
-	/// </summary>
-	/// <param name="stick"></param>
-	/// <returns></returns>
-	LWP::Math::Vector2 AdjustmentStick(LWP::Math::Vector2 stick);
-
-	/// <summary>
 	/// 180度旋回
 	/// </summary>
 	void TurnBehind();
+	/// <summary>
+	/// 加速処理
+	/// </summary>
+	void BoostUpdate();
 
 	/// <summary>
 	/// 戦車のような移動処理
@@ -61,6 +58,27 @@ private:
 	/// 移動方式の確認
 	/// </summary>
 	void CheckMoveType();
+
+public:
+	/// <summary>
+	/// コントローラの入力補正
+	/// </summary>
+	/// <param name="stick"></param>
+	/// <returns></returns>
+	LWP::Math::Vector2 AdjustmentStick(LWP::Math::Vector2 stick);
+
+	/// <summary>
+	/// 移動入力が成立しているかの確認
+	/// </summary>
+	bool CheckIsMove(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 rightStick);
+	bool CheckIsSideMove(float leftStickX, float rightStickX);
+	bool CheckIsVerticalMove(float leftStickY, float rightStickY);
+
+private:
+	/// <summary>
+	/// 移動に伴って自機の体を傾ける
+	/// </summary>
+	void BodyInclination();
 
 public:
 #pragma region Getter
@@ -91,12 +109,22 @@ private:// 調整項目
 	// 180度旋回にかかる時間
 	float turnTime = 0.8f;
 
+	float maxBoostTime = 0.5f;
+	float easeRate = 0.8f;
+
 	LWP::Utility::JsonIO json_;
 
 private:
 	// 操作タイプ
 	MoveType moveType_;
 
+	LWP::Utility::DeltaTimer easeTimer_;
+
+	float boostSpeed_ = 1.0f;
+	float start_ = 1.0f;
+	float end_ = 2.0f;
+
+	LWP::Math::Matrix4x4 moveRotMatrix_{ 0.0f,0.0f,0.0f,1.0f };
 	LWP::Math::Vector3 preVel_;
 
 	LWP::Math::Vector3 turnRadian_;

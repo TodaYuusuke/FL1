@@ -114,6 +114,11 @@ public:// アクセサ
 	/// <returns></returns>
 	WeaponController* GetWeaponController() { return weaponController_.get(); }
 	/// <summary>
+	/// カメラの追従点を取得
+	/// </summary>
+	/// <returns></returns>
+	LWP::Object::TransformQuat* GetCameraPoint() { return &cameraPoint_; }
+	/// <summary>
 	/// ワールド座標を取得
 	/// </summary>
 	/// <returns></returns>
@@ -187,6 +192,10 @@ private:
 	LWP::Math::Quaternion preMoveRot_;
 	LWP::Math::Quaternion lockOnOmega_;
 	LWP::Math::Quaternion preLockOnOmega_;
+
+	// カメラの追従点
+	LWP::Object::TransformQuat cameraPoint_;
+
 	bool isTriggerLockOn_ = false;
 
 	//UI

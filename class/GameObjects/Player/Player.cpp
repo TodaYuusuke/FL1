@@ -29,6 +29,9 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 		if (!key.first.empty()) jointName_.push_back(key.first);
 	}
 
+	// カメラの追従点
+	cameraPoint_ = model_.worldTF;
+
 	// 体の判定生成
 	bodyCollision_.SetFollow(&model_.worldTF);
 	bodyCollision_.isActive = true;
@@ -186,15 +189,19 @@ void Player::Update() {
 	
 	// 速度適用
 	velocity_ = moveController_->GetVel() + weaponVel_;
-
 	// 座標
 	model_.worldTF.translation += velocity_;
-
 	// 移動制限
 	world_->LimitMoveArea(model_.worldTF.translation);
 
+	// 演出用の角度
+	effectRot_ = moveController_->GetEffectRot();
+
 	// 体の向きを決める
 	AdjustRotate();
+
+	cameraPoint_.translation = model_.worldTF.translation;
+	cameraPoint_.rotation = model_.worldTF.rotation * effectRot_;
 
 	weaponVel_ = { 0.0f,0.0f,0.0f };
 
@@ -478,6 +485,7 @@ void Player::AdjustRotate() {
 	}
 
 	result = Interp::SlerpQuaternion(qCurr, qNext, t);
+	quat_ = result;
 	model_.worldTF.rotation = result;
 
 	preMoveRot_ = moveRot_;

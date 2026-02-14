@@ -42,8 +42,11 @@ Prop::Prop(const std::string& name, const std::string& filePath, const float rad
 	// 自機の所属しているマスクを設定
 	bodyCollision_.mask.SetBelongFrag(GameMask::prop);
 	// 当たり判定をとる対象のマスクを設定
-	bodyCollision_.mask.SetHitFrag(GameMask::attack);
+	bodyCollision_.mask.SetHitFrag(GameMask::attack | GameMask::check);
 	bodyCollision_.stayLambda = [this](LWP::Object::Collision* hitTarget) {
+		// 確認用判定なら終了
+		if (hitTarget->mask.GetBelongFrag() == GameMask::check) { return; }
+		// 衝突応答
 		OnCollision(hitTarget);
 		};
 
@@ -98,10 +101,13 @@ Prop::Prop(const LWP::Prop::PropSaveData& data)
 	// 自機の所属しているマスクを設定
 	bodyCollision_.mask.SetBelongFrag(GameMask::prop);
 	// 当たり判定をとる対象のマスクを設定
-	bodyCollision_.mask.SetHitFrag(GameMask::attack);
+	bodyCollision_.mask.SetHitFrag(GameMask::attack | GameMask::check);
 	bodyCollision_.stayLambda = [this](LWP::Object::Collision* hitTarget) {
+		// 確認用判定なら終了
+		if (hitTarget->mask.GetBelongFrag() == GameMask::check) { return; }
+		// 衝突応答
 		OnCollision(hitTarget);
-	};
+		};
 
 	// デフォルト非表示
 	colliderSphere_.LoadSphere();

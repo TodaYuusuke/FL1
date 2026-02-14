@@ -32,6 +32,8 @@ Move::Move(BlackBoard* blackBoard) {
 		.AddValue<float>("TurnTime", &turnTime)
 		// 入力を検出する範囲
 		.AddValue<Vector2>("InputDetectionRange", &inputDetectionRange)
+		.AddValue<float>("MaxBoostTime", &maxBoostTime)
+		.AddValue<float>("MaxBoostSpeed", &end_)
 		.CheckJsonFile();
 }
 
@@ -46,13 +48,20 @@ void Move::Update() {
 	// 移動方式選択
 	CheckMoveType();
 
+	// ブースト
+	BoostUpdate();
+
 	// 180度回転入力があった時の処理
 	TurnBehind();
 	turnTime_.Update();
 
+	// 速度ベクトルから体の傾き算出
+	BodyInclination();
+
+	// 補正前移動ベクトルを取得
+	rawVel_ = vel_;
 	// タイムスケール適用
-	rawVel_ = vel_; // 補正前移動ベクトルを取得
-	vel_ *= stopController_->GetDeltaTime();
+	vel_ *= stopController_->GetDeltaTime() * boostSpeed_;
 
 	// 移動開始時にカメラを揺らす
 	Vector2 v = (vR + vL) * 0.5f;
@@ -89,25 +98,13 @@ void Move::DebugGui() {
 		if (ImGui::TreeNode("Current")) {
 			ImGui::DragFloat("Omega", &omega);
 			ImGui::DragFloat("Angle", &angle);
+			ImGui::DragFloat("MoveSpeed", &moveSpeed_);
+			ImGui::DragFloat("BoostSpeed", &boostSpeed_);
+			ImGui::DragFloat3("Velocity", &vel_.x);
 			ImGui::TreePop();
 		}
 		ImGui::TreePop();
 	}
-}
-
-LWP::Math::Vector2 Move::AdjustmentStick(LWP::Math::Vector2 stick) {
-	Vector2 result = { 0.0f,0.0f };
-	if (std::fabsf(stick.x) >= inputDetectionRange.x) {
-		if (std::signbit(stick.x)) { result.x = -1.0f; }
-		else { result.x = 1.0f; }
-	}
-	result.x = stick.x;
-	if (std::fabsf(stick.y) >= inputDetectionRange.y) {
-		if (std::signbit(stick.y)) { result.y = -1.0f; }
-		else { result.y = 1.0f; }
-	}
-
-	return result;
 }
 
 void Move::TurnBehind() {
@@ -133,6 +130,29 @@ void Move::TurnBehind() {
 	rot_ *= Quaternion::CreateFromAxisAngle({ 0.0f,1.0f,0.0f }, radian.x);
 }
 
+void Move::BoostUpdate() {
+	// 押した瞬間
+	if (VirtualController::GetInstance()->GetTrigger(BindActionType::kBoost)) {
+		easeTimer_.Start(maxBoostTime);
+	}
+	// 押している間
+	else if (VirtualController::GetInstance()->GetPress(BindActionType::kBoost)) {
+		boostSpeed_ = LWP::Utility::Interp::LerpF(start_, end_, LWP::Utility::Easing::OutBack(easeTimer_.GetProgress()));
+	}
+	// 離した瞬間
+	else if (VirtualController::GetInstance()->GetRelease(BindActionType::kBoost)) {
+		easeTimer_.Stop();
+	}
+
+	// 加速中ではないなら徐々に速度を落とす
+	if (!easeTimer_.GetIsActive()) {
+		boostSpeed_ = Exponential(boostSpeed_, 1.0f, easeRate);
+	}
+
+	// タイマー更新
+	easeTimer_.Update();
+}
+
 void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 rightStick, float deltaTime) {
 	// 履帯の目標速度（入力を反転したい場合は符号調整）
 	Vector2 target_vL = leftStick * maxSpeed;
@@ -142,7 +162,8 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 	Vector2 lStick = VirtualController::GetInstance()->GetLAxis();
 	Vector2 rStick = VirtualController::GetInstance()->GetRAxis();
 	float sqrtStick = (lStick.x - rStick.x);
-	// 片方の入力が無かったら0にする
+
+	// 片方の入力が無かったら0にする[Y軸方向]
 	if (target_vL.y == 0.0f) {
 		target_vR.y = 0.0f;
 	}
@@ -158,15 +179,23 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 			isTurnBehind_ = true;
 		}
 	}
-	// 同じ方向に左右のスティックを入力したか
-	if (target_vL.x * target_vR.x < 0.0f) {
-		target_vL.x = 0.0f;
+
+	// 片方の入力が無かったら0にする[X軸方向]
+	if (target_vL.x == 0.0f) {
 		target_vR.x = 0.0f;
+	}
+	if (target_vR.x == 0.0f) {
+		target_vL.x = 0.0f;
 	}
 
 	// 補間（スムーズな操作）
-	vL += (target_vL - vL) * 0.08f;
-	vR += (target_vR - vR) * 0.08f;
+	float rate = 0.02f;
+	if (CheckIsMove(leftStick, rightStick)) {
+		rate = 0.08f;
+		moveRotMatrix_ = pBB_->GetValue<Actor*>("Player")->GetWorldTF()->GetWorldRotateMatrix();
+	}
+	vL += (target_vL - vL) * rate;
+	vR += (target_vR - vR) * rate;
 	const float EPS = 1e-6f;
 	if (std::fabs(vR.x) < EPS) {
 		vR.x = 0.0f;
@@ -183,17 +212,18 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 
 	// 差動モデル計算
 	Vector2 v = (vR + vL) * 0.5f;
-			
+
 	// 角度代入
 	Quaternion q = LWP::Math::Quaternion::CreateFromAxisAngle(Vector3{ 0,1,0 }, -(target_vR.y - target_vL.y) / treadWidth * maxOmega * deltaTime);
 	rot_ = q;
 
 	// 速度を算出
-	vel_ = Vector3{ 0,0,1 } *(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->GetWorldRotateMatrix()) * v.y;
-
+	vel_ = Vector3{ 0,0,1 } * moveRotMatrix_ * v.y;
+	vel_ += Vector3{ 1,0,0 } * moveRotMatrix_ * v.x;
 	if (rightStick.x * leftStick.x > 0.0f) {
-		vel_ += Vector3{ 1,0,0 } * (pBB_->GetValue<Actor*>("Player")->GetWorldTF()->GetWorldRotateMatrix()) * v.x;
+		
 	}
+	//vel_ += Vector3{ 1,0,0 } *(pBB_->GetValue<Actor*>("Player")->GetWorldTF()->GetWorldRotateMatrix()) * v.x;
 }
 
 void Move::FPSTypeMove() {
@@ -223,6 +253,7 @@ void Move::CheckMoveType() {
 		// スティック入力の補正
 		Vector2 lStick = AdjustmentStick(VirtualController::GetInstance()->GetLAxis());
 		Vector2 rStick = AdjustmentStick(VirtualController::GetInstance()->GetRAxis());
+
 		// 戦車挙動
 		DifferentialUpdate(lStick, rStick, stopController_->GetDeltaTime());
 		break;
@@ -230,4 +261,69 @@ void Move::CheckMoveType() {
 		FPSTypeMove();
 		break;
 	}
+}
+
+LWP::Math::Vector2 Move::AdjustmentStick(LWP::Math::Vector2 stick) {
+	Vector2 result = { 0.0f,0.0f };
+	if (std::fabsf(stick.x) >= inputDetectionRange.x) {
+		if (std::signbit(stick.x)) { result.x = -1.0f; }
+		else { result.x = 1.0f; }
+	}
+	if (std::fabsf(stick.y) >= inputDetectionRange.y) {
+		if (std::signbit(stick.y)) { result.y = -1.0f; }
+		else { result.y = 1.0f; }
+	}
+
+	return result;
+}
+
+bool Move::CheckIsMove(Vector2 leftStick, Vector2 rightStick) {
+	// 横移動が成立しているか
+	if (CheckIsSideMove(leftStick.x, rightStick.x)) { return true; }
+	// 前後の移動が成立しているか
+	if (CheckIsVerticalMove(leftStick.y, rightStick.y)) { return true; }
+
+	return false;
+}
+
+bool Move::CheckIsSideMove(float leftStickX, float rightStickX) {
+	if (leftStickX * rightStickX >= 1.0f) { return true; }
+	return false;
+}
+
+bool Move::CheckIsVerticalMove(float leftStickY, float rightStickY) {
+	if (leftStickY * rightStickY >= 1.0f) { return true; }
+	return false;
+}
+
+void Move::BodyInclination() {
+	// スティック入力の補正
+	Vector2 lStick = AdjustmentStick(VirtualController::GetInstance()->GetLAxis());
+	Vector2 rStick = AdjustmentStick(VirtualController::GetInstance()->GetRAxis());
+	if (!CheckIsSideMove(lStick.x, rStick.x)) {
+		effectRot_ = Utility::Interp::SlerpQuaternion(effectRot_, Quaternion::CreateFromAxisAngle(Vector3{ 0,0,1 }, 0.0f), 0.1f);
+		return;
+	}
+
+	// 体の最大傾き[Degree]
+	const float maxInclination = 10.0f;
+
+	Matrix4x4 playerRotMatrix = pBB_->GetValue<Actor*>("Player")->GetWorldTF()->GetWorldRotateMatrix();
+	// 自機の方向ベクトル
+	Vector3 playerDir = Vector3{ 0,0,1 } * playerRotMatrix;
+	playerDir.y = 0.0f;
+	Vector3 moveDir = Vector3{ lStick.x,0,0 } * playerRotMatrix;
+
+	// 現在の速度ベクトルとの角度算出
+	float dot = Vector3::Dot(playerDir.Normalize(), moveDir.Normalize());
+	dot = 1.0f - dot;
+	dot = std::clamp<float>(dot, -1.0f, 1.0f);
+
+	Vector3 cross = Vector3::Cross(playerDir, moveDir);
+	float sinTheta = -cross.y; // Y軸回転だけ見る
+	sinTheta = std::clamp(sinTheta, -1.0f, 1.0f);
+
+	// ラジアン算出 [-maxInclination ~ maxInclination]
+	float radian = sinTheta * dot * Utility::DegreeToRadian(maxInclination);
+	effectRot_ = Utility::Interp::SlerpQuaternion(effectRot_, Quaternion::CreateFromAxisAngle(Vector3{ 0,0,1 }, radian), 0.01f);
 }

@@ -93,14 +93,14 @@ void GameScene::Initialize() {
 	// 地形情報読み込み
 	levelData.LoadShortPath("gameScene.json");
 
+	// 世界
+	world_ = std::make_unique<World>();
+
 	// 追従カメラ
-	followCamera_ = std::make_unique<FollowCamera>(&mainCamera);
+	followCamera_ = std::make_unique<FollowCamera>(&mainCamera, world_.get());
 
 	// 弾エフェクター用にカメラを設定
 	BulletEffector::GetInstance()->Init(followCamera_->GetCamera());
-
-	// 世界
-	world_ = std::make_unique<World>();
 
 	// 自機
 	player_ = new Player(followCamera_.get(), world_.get(), followCamera_->defaultTargetDist_);
@@ -116,7 +116,7 @@ void GameScene::Initialize() {
 	// 敵管理リストを設定
 	player_->SetEnemyManager(enemyManager_.get());
 	// 追従カメラを自機対象に設定
-	followCamera_->SetTarget(player_);
+	followCamera_->SetTarget(player_->GetCameraPoint());
 
 	// 武器管理クラスに自機のアドレスを登録
 	WeaponManager::GetInstance()->SetPlayer(player_);

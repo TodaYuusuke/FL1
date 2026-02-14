@@ -1,4 +1,6 @@
 #include "FollowCamera.h"
+#include "../../Player/Player.h"
+#include "../../World/IWorld.h"
 #include "../../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../../../Componets/Input/VirtualController.h"
 #include "../CameraConfig.h"
@@ -7,9 +9,10 @@ using namespace LWP;
 using namespace LWP::Math;
 using namespace LWP::Utility::Interpolation;
 
-FollowCamera::FollowCamera(LWP::Object::Camera* camera) {
+FollowCamera::FollowCamera(LWP::Object::Camera* camera, IWorld* world) {
 	camera_ = camera;
 	debugCamera_ = camera;
+	world_ = world;
 
 	// ポストプロセス有効
 	camera_->pp.use = true;
@@ -61,7 +64,43 @@ void FollowCamera::DebugGUI() {
 	ImGui::DragFloat("FOV", &camera_->fov, 0.1f);
 }
 
+void FollowCamera::BodyInclination() {
+	Player* player = world_->FindPlayer("Player");
+	// スティック入力の補正
+	Vector2 lStick = player->GetMoveController()->GetMove()->AdjustmentStick(VirtualController::GetInstance()->GetLAxis());
+	Vector2 rStick = player->GetMoveController()->GetMove()->AdjustmentStick(VirtualController::GetInstance()->GetRAxis());
+	if (!player->GetMoveController()->GetMove()->CheckIsSideMove(lStick.x, rStick.x)) {
+		camera_->worldTF.rotation = SlerpQuaternion(camera_->worldTF.rotation, Quaternion::CreateFromAxisAngle(Vector3{ 0,0,1 }, 0.0f), 0.1f);
+		return;
+	}
+
+	// 体の最大傾き[Degree]
+	const float maxInclination = 10.0f;
+
+	// 自機の方向ベクトル
+	Vector3 playerDir = Vector3{ 0,0,1 } *player->GetWorldTF()->GetWorldRotateMatrix();
+	playerDir.y = 0.0f;
+	Vector3 moveDir = Vector3{ lStick.x,0,0 } *player->GetWorldTF()->GetWorldRotateMatrix();
+
+	// 現在の速度ベクトルとの角度算出
+	float dot = Vector3::Dot(playerDir.Normalize(), moveDir.Normalize());
+	dot = 1.0f - dot;
+	dot = std::clamp<float>(dot, -1.0f, 1.0f);
+
+	Vector3 cross = Vector3::Cross(playerDir, moveDir);
+	float sinTheta = -cross.y; // Y軸回転だけ見る
+	sinTheta = std::clamp(sinTheta, -1.0f, 1.0f);
+
+	// ラジアン算出 [-maxInclination ~ maxInclination]
+	float radian = sinTheta * dot * Utility::DegreeToRadian(maxInclination);
+	camera_->worldTF.rotation = SlerpQuaternion(camera_->worldTF.rotation, Quaternion::CreateFromAxisAngle(Vector3{ 0,0,1 }, radian), 0.01f);
+}
+
 void FollowCamera::SetTarget(Actor* actor) {
 	target_ = actor;
 	camera_->worldTF.Parent(target_->GetWorldTF());
+}
+
+void FollowCamera::SetTarget(LWP::Object::TransformQuat* wtf) {
+	camera_->worldTF.Parent(wtf);
 }
