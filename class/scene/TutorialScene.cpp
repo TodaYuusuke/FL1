@@ -108,7 +108,7 @@ void TutorialScene::Initialize() {
 	player_->SetEnemyManager(enemyManager_.get());
 
 	// 追従カメラを自機対象に設定
-	followCamera_->SetTarget(player_->GetCameraPoint());
+	followCamera_->SetTarget(player_);
 
 	// 武器管理クラスに自機のアドレスを登録
 	WeaponManager::GetInstance()->SetPlayer(player_);

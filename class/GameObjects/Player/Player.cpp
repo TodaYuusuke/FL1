@@ -29,9 +29,6 @@ Player::Player(FollowCamera* camera, IWorld* world, const LWP::Math::Vector3& ce
 		if (!key.first.empty()) jointName_.push_back(key.first);
 	}
 
-	// カメラの追従点
-	cameraPoint_ = model_.worldTF;
-
 	// 体の判定生成
 	bodyCollision_.SetFollow(&model_.worldTF);
 	bodyCollision_.isActive = true;
@@ -200,8 +197,7 @@ void Player::Update() {
 	// 体の向きを決める
 	AdjustRotate();
 
-	cameraPoint_.translation = model_.worldTF.translation;
-	cameraPoint_.rotation = model_.worldTF.rotation * effectRot_;
+	model_.worldTF.rotation = model_.worldTF.rotation * effectRot_;
 
 	weaponVel_ = { 0.0f,0.0f,0.0f };
 

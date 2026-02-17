@@ -15,6 +15,15 @@ namespace FLMath {
 	/// <param name="dirVec"></param>
 	/// <returns></returns>
 	LWP::Math::Quaternion LookRotationZLock(const LWP::Math::Vector3& dirVec);
+	/// <summary>
+	/// 指定した軸の回転とそれ以外の回転を分離して算出
+	/// </summary>
+	/// <param name="q">分離対象のクォータニオン</param>
+	/// <param name="axis">outTwistと抽出する対象の軸</param>
+	/// <param name="outSwing">axisで指定してない回転の抽出</param>
+	/// <param name="outTwist">axisで指定した回転の抽出</param>
+	/// <returns></returns>
+	void DecomposeSwingTwist(const LWP::Math::Quaternion& q, const LWP::Math::Vector3& axis, LWP::Math::Quaternion& outSwing, LWP::Math::Quaternion& outTwist);
 
 	float Exponential(float current, float target, float damping);
 

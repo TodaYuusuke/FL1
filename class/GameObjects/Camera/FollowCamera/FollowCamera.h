@@ -27,9 +27,6 @@ public:
 	/// </summary>
 	void DebugGUI();
 
-private:
-	void BodyInclination();
-
 public:// アクセサ
 	/// <summary>
 	/// 追従終了
@@ -60,7 +57,6 @@ public:// アクセサ
 	/// </summary>
 	/// <param name="character"></param>
 	void SetTarget(Actor* actor);
-	void SetTarget(LWP::Object::TransformQuat* wtf);
 	/// <summary>
 	/// カメラの角度を設定
 	/// </summary>

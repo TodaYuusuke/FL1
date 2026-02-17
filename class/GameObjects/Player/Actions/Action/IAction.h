@@ -109,6 +109,7 @@ protected:
 	LWP::Math::Quaternion rot_;
 	// 演出用の角度
 	LWP::Math::Quaternion effectRot_;
+	LWP::Math::Quaternion preEffectRot_;
 
 	float moveSpeed_ = 1.0f;
 
