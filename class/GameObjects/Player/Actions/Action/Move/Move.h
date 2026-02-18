@@ -108,7 +108,7 @@ private:// 調整項目
 	float turnThreshold = 0.85f;
 	// 180度旋回にかかる時間
 	float turnTime = 0.8f;
-	// 体の最大傾き[Degree]
+	// 体の最大傾き
 	float maxInclination = 3.14f / 8.0f;
 
 	float maxBoostTime = 0.5f;
