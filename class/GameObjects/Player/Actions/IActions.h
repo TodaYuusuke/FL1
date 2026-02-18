@@ -81,6 +81,11 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	LWP::Math::Quaternion GetRot() { return rot_; }
+	/// <summary>
+	/// 演出用の角度を取得
+	/// </summary>
+	/// <returns></returns>
+	LWP::Math::Quaternion GetEffectRot() { return effectRot_; }
 #pragma endregion
 
 #pragma region Setter
@@ -101,4 +106,6 @@ protected:
 	LWP::Math::Vector3 vel_;
 	// 角度
 	LWP::Math::Quaternion rot_ = { 0.0f,0.0f,0.0f,1.0 };
+	// 演出用の角度
+	LWP::Math::Quaternion effectRot_ = { 0.0f,0.0f,0.0f,1.0 };
 };

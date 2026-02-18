@@ -27,6 +27,7 @@ void Boost::Init() {
 
 void Boost::Update() {
 	moveSpeed_ = LWP::Utility::Interp::LerpF(start_, end_, LWP::Utility::Easing::OutBack(easeTimer_.GetProgress()));
+	vel_ = LWP::Utility::Interp::Exponential(vel_, boostDir_.Normalize(), easeRate);
 	easeTimer_.Update();
 }
 

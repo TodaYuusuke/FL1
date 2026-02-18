@@ -4,7 +4,7 @@
 class NoneAction : public IAction {
 public:
 	// コンストラクタ
-	NoneAction();
+	NoneAction(const LWP::Math::Vector3& vel = {0.0f,0.0f,0.0f}, float speed = 0.0f);
 	// デストラクタ
 	~NoneAction() override = default;
 
@@ -20,6 +20,10 @@ public:
 	/// 調整項目
 	/// </summary>
 	void DebugGui() override;
+
+private:
+	// イージングのレート
+	float easeRate = 0.01f;
 
 private:
 };

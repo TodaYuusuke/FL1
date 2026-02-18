@@ -1,4 +1,6 @@
 #include "FollowCamera.h"
+#include "../../Player/Player.h"
+#include "../../World/IWorld.h"
 #include "../../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../../../Componets/Input/VirtualController.h"
 #include "../CameraConfig.h"
@@ -7,9 +9,10 @@ using namespace LWP;
 using namespace LWP::Math;
 using namespace LWP::Utility::Interpolation;
 
-FollowCamera::FollowCamera(LWP::Object::Camera* camera) {
+FollowCamera::FollowCamera(LWP::Object::Camera* camera, IWorld* world) {
 	camera_ = camera;
 	debugCamera_ = camera;
+	world_ = world;
 
 	// ポストプロセス有効
 	camera_->pp.use = true;

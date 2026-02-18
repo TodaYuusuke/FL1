@@ -2,6 +2,7 @@
 #include <Adapter.h>
 #include <numbers>
 
+class IWorld;
 class Actor;
 /// <summary>
 /// 自機に追従するカメラ
@@ -9,7 +10,7 @@ class Actor;
 class FollowCamera {
 public:
 	// コンストラクタ
-	FollowCamera(LWP::Object::Camera* camera);
+	FollowCamera(LWP::Object::Camera* camera, IWorld* world);
 	// デストラクタ
 	~FollowCamera() = default;
 
@@ -102,6 +103,7 @@ public:// jsonで保存する値
 public:// 外部からポインタをもらう変数
 	// カメラ
 	LWP::Object::Camera* camera_;
+	IWorld* world_;
 
 private:
 	// 追従対象

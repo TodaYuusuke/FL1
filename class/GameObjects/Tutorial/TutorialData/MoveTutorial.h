@@ -42,8 +42,6 @@ private:
 	/// <param name="echoSprite"></param>
 	void SuccessEffect(MoveGuideSequence target);
 
-	LWP::Math::Vector2 AdjustmentStick(LWP::Math::Vector2 stick);
-
 private:
 	VirtualController* vCon_;
 

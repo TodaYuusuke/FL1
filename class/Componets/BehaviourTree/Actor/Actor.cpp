@@ -128,7 +128,7 @@ void Actor::OnCollision(LWP::Object::Collision* hitTarget) {
 }
 
 void Actor::ChangeState(StateBase* nextState) {
-	// 同じ方なら終了
+	// 同じ型なら終了
 	if (state_ && typeid(*nextState) == typeid(*state_)) {
 		delete nextState;
 		return;

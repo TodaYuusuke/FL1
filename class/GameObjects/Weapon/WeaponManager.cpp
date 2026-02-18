@@ -175,6 +175,13 @@ void WeaponManager::ClearLimitOverWeapon() {
 void WeaponManager::CheckPlayerToWeaponDistance() {
 	// 武器が存在してないなら終了
 	if (weapons_.empty()) { return; }
+	// 全ての箇所に武器を所持しているなら終了
+	if (pWorld_->FindPlayer("Player")->GetWeaponController()->GetIsFullWeapons()) { 
+		// 落ちている武器のUIを非表示
+		for (int i = 0; i < pickUpWeaponSprite_.size(); i++) {
+			isDrawPickUpWeaponSprite_[i] = false;
+		}
+		return; }
 
 	// 最も近い武器を探す比較関数
 	auto compare = [&](IWeapon* w, IWeapon* nextW) {

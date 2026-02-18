@@ -2,6 +2,7 @@
 #include "Scene/IScene.h"
 #include "../../GameObjects/Attack/AttackManager.h"
 #include "../../GameObjects/Weapon/WeaponManager.h"
+#include "../../GameObjects/Player/Player.h"
 #include "../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../../GameObjects/UI/Radar/Radar.h"
 #include <numbers>
@@ -101,8 +102,8 @@ void World::Clear() {
 	actorManager.Clear();
 }
 
-void World::EndFrame()
-{
+void World::EndFrame() {
+	// 障害物
 	filed_->EndFrame();
 }
 
@@ -128,6 +129,11 @@ void World::AddActor(Actor* actor) {
 
 Actor* World::FindActor(const std::string& name) const {
 	return actorManager.Find(name);
+}
+
+Player* World::FindPlayer(const std::string& name) const {
+	Player* result = dynamic_cast<Player*>(actorManager.Find(name));
+	return result;
 }
 
 std::vector<Actor*> World::FindActorWithTag(const std::string& tag) const {
