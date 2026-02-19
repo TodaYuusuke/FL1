@@ -103,7 +103,9 @@ void Field::DebugGUI()
 
 void Field::Update() 
 {
+	// 配置物更新
 	for (Prop* a : props_) {
+		a->Update();
 		if(a->GetName() == "Prop")appendMiniMap_(a->GetWorldTF()->GetWorldPosition());
 	}
 }
@@ -113,7 +115,7 @@ void Field::EndFrame()
 	// 削除フラグがたった配置物を削除
 	props_.remove_if([&](Prop* p) {
 		// 粒子の終了フラグがTrueのとき
-		if (!p->GetIsAlive()) {
+		if (p->GetIsDelete()) {
 			// 選択中配置物を一応nullptrにしておく
 			selectingProp_ = nullptr;
 

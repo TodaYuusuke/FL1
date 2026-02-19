@@ -35,6 +35,11 @@ public: // コンストラクタ等
 public: // メンバ関数
 
 	/// <summary>
+	/// 更新関数
+	/// </summary>
+	void Update() override;
+
+	/// <summary>
 	/// デバッグGUI
 	/// </summary>
 	void DrawGui() override;
@@ -47,6 +52,12 @@ public: // メンバ関数
 	/// <param name="targetProp">ImGuiに表示する接地物</param>
 	void ImGuiRadioButton(int& id, int& buttonID, Prop*& targetProp);
 
+	/// <summary>
+	/// 押し出し時呼び出される処理
+	/// </summary>
+	/// <param name="targetName">衝突対象名称</param>
+	void ResolvedCollision(const std::string& targetName) override;
+
 public: // アクセッサ等
 
 	/// <summary>
@@ -54,6 +65,12 @@ public: // アクセッサ等
 	/// </summary>
 	/// <returns>保存用データ</returns>
 	LWP::Prop::PropSaveData* GetData();
+
+	/// <summary>
+	/// 削除フラグゲッター
+	/// </summary>
+	/// <returns>削除フラグ状態</returns>
+	bool GetIsDelete() { return isDelete_; }
 
 	/// <summary>
 	/// 優先度取得
@@ -88,6 +105,9 @@ private: // 継承先メンバ変数
 	// 弾用コライダー高さ
 	float capsuleHeight_ = 1.0f;
 
+	// 破壊可能フラグ
+	bool canDestruct_ = false;
+
 #pragma region デバッグ用変数
 
 	// コライダー用球
@@ -98,6 +118,9 @@ private: // 継承先メンバ変数
 
 	// GUI上で選択されているか
 	bool isSelected_ = false;
+
+	// 削除するよう命令されたか
+	bool isDelete_ = false;
 
 #pragma endregion
 

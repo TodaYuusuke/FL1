@@ -19,6 +19,9 @@ namespace LWP::Prop {
 		float Radius = 1.0f;
 		float CapsuleRadius = 1.0f;
 		float CapsuleHeight = 1.0f;
+		bool CanDestruct = false;
+		std::string DestructEffectName = "";
+		std::string DestructSoundName = "";
 
 		void AddValue(const std::string& id, LWP::Utility::JsonIO& jsonIO) {
 			// ID名でグループ開始
@@ -31,7 +34,10 @@ namespace LWP::Prop {
 				.AddValue("Priority", &Priority)
 				.AddValue("Radius", &Radius)
 				.AddValue("CapsuleRadius", &CapsuleRadius)
-				.AddValue("ColliderHeight", &CapsuleHeight);
+				.AddValue("ColliderHeight", &CapsuleHeight)
+				.AddValue("CanDestruct", &CanDestruct)
+				.AddValue("DestructEffectName", &DestructEffectName)
+				.AddValue("DestructSoundName", &DestructSoundName);
 			jsonIO.EndGroup();
 		}
 	};

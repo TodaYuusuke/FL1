@@ -70,6 +70,9 @@ void PenetrationResolver::CheckPushOutObject() {
 			// Y座標は維持
 			newTranslation.y = (*itrA).target->GetWorldTF()->GetWorldPosition().y;
 			(*itrA).target->SetTranslation(newTranslation);
+
+			// 押し出し時の処理を呼び出す
+			(*itrA).target->ResolvedCollision(itrB->target->GetName());
 		}
 	}
 }
