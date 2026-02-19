@@ -23,6 +23,7 @@ public:
 	int32_t GetScore() { return sumScore_; };
 	int32_t GetDrawScore() { return drawScore_; };
 	int32_t GetKillCount() { return killCount_; };
+	void SetScoreAnimationLength(float length) { scoreAnimationLength_ = length; };
 private:
 	ScoreCounter() {};
 	~ScoreCounter() {};
@@ -34,4 +35,7 @@ private:
 	int32_t drawScore_=0;
 	int32_t incrementFrame_ = 1;
 	int32_t killCount_=0;
+
+	float scoreAnimationFrame_ = 0;
+	float scoreAnimationLength_ = 60;
 };
