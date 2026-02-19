@@ -18,12 +18,12 @@
 		},
 		{
 			"mesh":0,
-			"name":"BuildingBase",
+			"name":"Container.001",
 			"skin":0
 		},
 		{
 			"mesh":1,
-			"name":"BuildingTop",
+			"name":"DrumCans.001",
 			"skin":0
 		},
 		{
@@ -32,16 +32,27 @@
 				2,
 				0
 			],
-			"name":"Armature"
+			"name":"DrumTower_Destruct"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"BuildingMaterial",
+			"name":"PropMaterial.003",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
+				},
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"PropMaterial.002",
+			"pbrMetallicRoughness":{
+				"baseColorTexture":{
+					"index":1
 				},
 				"metallicFactor":0,
 				"roughnessFactor":0.5
@@ -50,7 +61,7 @@
 	],
 	"meshes":[
 		{
-			"name":"Cube.002",
+			"name":"Plane.001",
 			"primitives":[
 				{
 					"attributes":{
@@ -66,7 +77,7 @@
 			]
 		},
 		{
-			"name":"Cube.003",
+			"name":"DrumCan.002",
 			"primitives":[
 				{
 					"attributes":{
@@ -77,7 +88,7 @@
 						"WEIGHTS_0":11
 					},
 					"indices":12,
-					"material":0
+					"material":1
 				}
 			]
 		}
@@ -86,13 +97,17 @@
 		{
 			"sampler":0,
 			"source":0
+		},
+		{
+			"sampler":0,
+			"source":0
 		}
 	],
 	"images":[
 		{
 			"mimeType":"image/png",
-			"name":"BuildingTex",
-			"uri":"BuildingTex.png"
+			"name":"PropTex.png",
+			"uri":"PropTex_png.png"
 		}
 	],
 	"skins":[
@@ -101,54 +116,54 @@
 			"joints":[
 				0
 			],
-			"name":"Armature"
+			"name":"DrumTower_Destruct"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":10911,
+			"count":96,
 			"max":[
-				14.999999046325684,
-				150.00003051757812,
-				15
+				0.8808215856552124,
+				1.669075608253479,
+				0.803310751914978
 			],
 			"min":[
-				-14.999999046325684,
-				-4.470348358154297e-07,
-				-15
+				-0.8418022394180298,
+				0.1799182891845703,
+				-0.7698924541473389
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":10911,
+			"count":96,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":10911,
+			"count":96,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5121,
-			"count":10911,
+			"count":96,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":4,
 			"componentType":5126,
-			"count":10911,
+			"count":96,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":5,
 			"componentType":5123,
-			"count":18189,
+			"count":168,
 			"type":"SCALAR"
 		},
 		{
@@ -160,126 +175,126 @@
 		{
 			"bufferView":7,
 			"componentType":5126,
-			"count":368,
+			"count":5682,
 			"max":[
-				14.999999046325684,
-				154.50003051757812,
-				15
+				0.8249104022979736,
+				1.3701443672180176,
+				1.24138343334198
 			],
 			"min":[
-				-14.999999046325684,
-				150.00003051757812,
-				-15
+				-0.9618885517120361,
+				-0.14120526611804962,
+				-0.9075061082839966
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":8,
 			"componentType":5126,
-			"count":368,
+			"count":5682,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":9,
 			"componentType":5126,
-			"count":368,
+			"count":5682,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":10,
 			"componentType":5121,
-			"count":368,
+			"count":5682,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":11,
 			"componentType":5126,
-			"count":368,
+			"count":5682,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":12,
 			"componentType":5123,
-			"count":666,
+			"count":20628,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":130932,
+			"byteLength":1152,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":130932,
-			"byteOffset":130932,
+			"byteLength":1152,
+			"byteOffset":1152,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":87288,
-			"byteOffset":261864,
+			"byteLength":768,
+			"byteOffset":2304,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":43644,
-			"byteOffset":349152,
+			"byteLength":384,
+			"byteOffset":3072,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":174576,
-			"byteOffset":392796,
+			"byteLength":1536,
+			"byteOffset":3456,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":36378,
-			"byteOffset":567372,
+			"byteLength":336,
+			"byteOffset":4992,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":64,
-			"byteOffset":603752
+			"byteOffset":5328
 		},
 		{
 			"buffer":0,
-			"byteLength":4416,
-			"byteOffset":603816,
+			"byteLength":68184,
+			"byteOffset":5392,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":4416,
-			"byteOffset":608232,
+			"byteLength":68184,
+			"byteOffset":73576,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":2944,
-			"byteOffset":612648,
+			"byteLength":45456,
+			"byteOffset":141760,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1472,
-			"byteOffset":615592,
+			"byteLength":22728,
+			"byteOffset":187216,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":5888,
-			"byteOffset":617064,
+			"byteLength":90912,
+			"byteOffset":209944,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1332,
-			"byteOffset":622952,
+			"byteLength":41256,
+			"byteOffset":300856,
 			"target":34963
 		}
 	],
@@ -291,8 +306,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":624284,
-			"uri":"Building1.bin"
+			"byteLength":342112,
+			"uri":"DrumTower_Destruct.bin"
 		}
 	]
 }

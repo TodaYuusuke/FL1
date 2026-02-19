@@ -26,6 +26,11 @@ Prop::Prop(const std::string& name, const std::string& filePath, const float rad
 		model_.LoadShortPath("level/TempCube/TempCube.gltf");
 	}
 
+	// モデルに発光マテリアルがあればその部分のライティングをオフにする
+	if (model_.materials.contains("EmissionMaterial")) {
+		model_.materials["EmissionMaterial"].enableLighting = false;
+	}
+
 	// 各種値の受け取り
 	priority_ = priority;
 	radius_ = radius;
@@ -98,6 +103,12 @@ Prop::Prop(const LWP::Prop::PropSaveData& data)
 	else {
 		bodyCollision_.isActive = true;
 	}
+
+	// モデルに発光マテリアルがあればその部分のライティングをオフにする
+	if (model_.materials.contains("EmissionMaterial")) {
+		model_.materials["EmissionMaterial"].enableLighting = false;
+	}
+
 	// 自機の所属しているマスクを設定
 	bodyCollision_.mask.SetBelongFrag(GameMask::prop);
 	// 当たり判定をとる対象のマスクを設定

@@ -18,7 +18,7 @@
 		},
 		{
 			"mesh":0,
-			"name":"Building3",
+			"name":"Barricades",
 			"skin":0
 		},
 		{
@@ -26,13 +26,13 @@
 				1,
 				0
 			],
-			"name":"Building3_Armature"
+			"name":"Barricade"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"BuildingMaterial",
+			"name":"BarricadeMaterial",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -69,8 +69,8 @@
 	"images":[
 		{
 			"mimeType":"image/png",
-			"name":"BuildingTex",
-			"uri":"BuildingTex.png"
+			"name":"PropTex",
+			"uri":"PropTex.png"
 		}
 	],
 	"skins":[
@@ -79,54 +79,54 @@
 			"joints":[
 				0
 			],
-			"name":"Building3_Armature"
+			"name":"Barricade"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":775,
+			"count":792,
 			"max":[
-				61.25,
-				20,
-				10.75
+				3.093902349472046,
+				3,
+				0.4000000059604645
 			],
 			"min":[
-				-61.25,
-				-5.960464477539063e-08,
-				-10.75
+				-3.0085365772247314,
+				0,
+				-0.4000000059604645
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":775,
+			"count":792,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":775,
+			"count":792,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5121,
-			"count":775,
+			"count":792,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":4,
 			"componentType":5126,
-			"count":775,
+			"count":792,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":5,
 			"componentType":5123,
-			"count":1572,
+			"count":1224,
 			"type":"SCALAR"
 		},
 		{
@@ -139,44 +139,44 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":9300,
+			"byteLength":9504,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":9300,
-			"byteOffset":9300,
+			"byteLength":9504,
+			"byteOffset":9504,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":6200,
-			"byteOffset":18600,
+			"byteLength":6336,
+			"byteOffset":19008,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":3100,
-			"byteOffset":24800,
+			"byteLength":3168,
+			"byteOffset":25344,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":12400,
-			"byteOffset":27900,
+			"byteLength":12672,
+			"byteOffset":28512,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":3144,
-			"byteOffset":40300,
+			"byteLength":2448,
+			"byteOffset":41184,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":64,
-			"byteOffset":43444
+			"byteOffset":43632
 		}
 	],
 	"samplers":[
@@ -187,8 +187,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":43508,
-			"uri":"Building3.bin"
+			"byteLength":43696,
+			"uri":"Barricades.bin"
 		}
 	]
 }
