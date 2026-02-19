@@ -14,17 +14,11 @@
 	],
 	"nodes":[
 		{
-			"name":"Bone",
-			"rotation":[
-				-8.557136332854043e-09,
-				1.7114272665708086e-08,
-				-2.928983286277023e-16,
-				1
-			]
+			"name":"Bone"
 		},
 		{
 			"mesh":0,
-			"name":"M_StraightRoad",
+			"name":"M_StraightRoad_75",
 			"skin":0
 		},
 		{
@@ -32,7 +26,7 @@
 				1,
 				0
 			],
-			"name":"StraightRoad"
+			"name":"StraightRoad_75"
 		}
 	],
 	"materials":[
@@ -85,54 +79,54 @@
 			"joints":[
 				0
 			],
-			"name":"StraightRoad"
+			"name":"StraightRoad_75"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":80,
+			"count":40,
 			"max":[
 				8,
 				0,
-				100
+				37.500003814697266
 			],
 			"min":[
 				-8,
 				0,
-				-100
+				-37.500003814697266
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":80,
+			"count":40,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":80,
+			"count":40,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5121,
-			"count":80,
+			"count":40,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":4,
 			"componentType":5126,
-			"count":80,
+			"count":40,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":5,
 			"componentType":5123,
-			"count":360,
+			"count":168,
 			"type":"SCALAR"
 		},
 		{
@@ -145,44 +139,44 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":960,
+			"byteLength":480,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":960,
-			"byteOffset":960,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":640,
-			"byteOffset":1920,
+			"byteLength":480,
+			"byteOffset":480,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":320,
-			"byteOffset":2560,
+			"byteOffset":960,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1280,
-			"byteOffset":2880,
+			"byteLength":160,
+			"byteOffset":1280,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":720,
-			"byteOffset":4160,
+			"byteLength":640,
+			"byteOffset":1440,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":336,
+			"byteOffset":2080,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":64,
-			"byteOffset":4880
+			"byteOffset":2416
 		}
 	],
 	"samplers":[
@@ -193,8 +187,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":4944,
-			"uri":"Road.bin"
+			"byteLength":2480,
+			"uri":"Road_75m.bin"
 		}
 	]
 }

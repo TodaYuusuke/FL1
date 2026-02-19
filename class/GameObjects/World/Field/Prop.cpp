@@ -88,7 +88,7 @@ Prop::Prop(const LWP::Prop::PropSaveData& data)
 	capsuleHeight_	= data_.CapsuleHeight;
 
 	// HP
-	hp_ = std::make_unique<Health>(99999999999);
+	hp_ = std::make_unique<Health>(1);
 
 	// 判定生成
 	Vector3 dirVec = Vector3(0.0f, 1.0f, 0.0f) * Matrix4x4::CreateRotateXYZMatrix(model_.worldTF.rotation);

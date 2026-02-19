@@ -18,7 +18,7 @@
 		},
 		{
 			"mesh":0,
-			"name":"M_CurveRoad",
+			"name":"M_CrossRoad",
 			"skin":0
 		},
 		{
@@ -26,7 +26,7 @@
 				1,
 				0
 			],
-			"name":"CurveRoad"
+			"name":"CrossRoad"
 		}
 	],
 	"materials":[
@@ -44,7 +44,7 @@
 	],
 	"meshes":[
 		{
-			"name":"Plane.001",
+			"name":"Plane",
 			"primitives":[
 				{
 					"attributes":{
@@ -79,54 +79,54 @@
 			"joints":[
 				0
 			],
-			"name":"CurveRoad"
+			"name":"CrossRoad"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":88,
+			"count":169,
 			"max":[
-				24,
-				2.0000014305114746,
-				0
+				15.000001907348633,
+				0,
+				15.000001907348633
 			],
 			"min":[
-				-4,
-				-3.8146965835039737e-06,
-				-28
+				-15.000001907348633,
+				0,
+				-15.000001907348633
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":88,
+			"count":169,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":88,
+			"count":169,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5121,
-			"count":88,
+			"count":169,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":4,
 			"componentType":5126,
-			"count":88,
+			"count":169,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":5,
 			"componentType":5123,
-			"count":204,
+			"count":720,
 			"type":"SCALAR"
 		},
 		{
@@ -139,44 +139,44 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":1056,
+			"byteLength":2028,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1056,
-			"byteOffset":1056,
+			"byteLength":2028,
+			"byteOffset":2028,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":704,
-			"byteOffset":2112,
+			"byteLength":1352,
+			"byteOffset":4056,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":352,
-			"byteOffset":2816,
+			"byteLength":676,
+			"byteOffset":5408,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1408,
-			"byteOffset":3168,
+			"byteLength":2704,
+			"byteOffset":6084,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":408,
-			"byteOffset":4576,
+			"byteLength":1440,
+			"byteOffset":8788,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":64,
-			"byteOffset":4984
+			"byteOffset":10228
 		}
 	],
 	"samplers":[
@@ -187,8 +187,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":5048,
-			"uri":"CurveRoad.bin"
+			"byteLength":10292,
+			"uri":"CrossRoad.bin"
 		}
 	]
 }
