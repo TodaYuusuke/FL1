@@ -186,15 +186,18 @@ void Player::Update() {
 	
 	// 速度適用
 	velocity_ = moveController_->GetVel() + weaponVel_;
-
 	// 座標
 	model_.worldTF.translation += velocity_;
-
 	// 移動制限
 	world_->LimitMoveArea(model_.worldTF.translation);
 
+	// 演出用の角度
+	effectRot_ = moveController_->GetEffectRot();
+
 	// 体の向きを決める
 	AdjustRotate();
+
+	model_.worldTF.rotation = model_.worldTF.rotation * effectRot_;
 
 	weaponVel_ = { 0.0f,0.0f,0.0f };
 
@@ -478,6 +481,7 @@ void Player::AdjustRotate() {
 	}
 
 	result = Interp::SlerpQuaternion(qCurr, qNext, t);
+	quat_ = result;
 	model_.worldTF.rotation = result;
 
 	preMoveRot_ = moveRot_;

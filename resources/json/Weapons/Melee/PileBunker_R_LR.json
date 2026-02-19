@@ -2,7 +2,7 @@
   "animName": "MelleAttack",
   "attackEffectName": "PileSting",
   "attackSEFileName": "pilebanker_SE.mp3",
-  "attackSkillGain": 300.0,
+  "attackSkillGain": 1000.0,
   "bulletNum": 5,
   "bulletType": 5,
   "burstIntervalTime": 0.0,

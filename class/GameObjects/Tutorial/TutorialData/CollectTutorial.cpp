@@ -87,7 +87,7 @@ void CollectTutorial::Update() {
 		// 武器を拾ったか
 		if (vCon_->GetPress(BindActionType::kCollect)) {
 			for (int i = 0; i < (int)WeaponSide::kCount; i++) {
-				if (!player_->GetWeaponController()->GetWeaponSlot((WeaponSide)i)->GetIsFullWeapon()) {
+				if (player_->GetWeaponController()->GetWeaponSlot((WeaponSide)i)->GetIsFullWeapon()) {
 					isNextGuide_ = true;
 					serialAnim_->Init();
 					break;

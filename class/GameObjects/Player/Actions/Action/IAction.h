@@ -59,7 +59,7 @@ public:// アクセサ
 	/// 速度を取得
 	/// </summary>
 	/// <returns></returns>
-	LWP::Math::Vector3 GetVel() { return vel_; }
+	virtual LWP::Math::Vector3 GetVel() { return vel_; }
 	/// <summary>
 	/// 補正前の速度取得
 	/// </summary>
@@ -71,6 +71,11 @@ public:// アクセサ
 	/// <returns></returns>
 	LWP::Math::Quaternion GetRot() { return rot_; }
 	/// <summary>
+	/// 演出用の角度を取得
+	/// </summary>
+	/// <returns></returns>
+	LWP::Math::Quaternion GetEffectRot() { return effectRot_; }
+	/// <summary>
 	/// 移動速度を取得
 	/// </summary>
 	/// <returns></returns>
@@ -78,7 +83,11 @@ public:// アクセサ
 #pragma endregion
 
 #pragma region Setter
-
+	/// <summary>
+	/// 速度の設定
+	/// </summary>
+	/// <param name="vel"></param>
+	virtual void SetVel(const LWP::Math::Vector3& vel) { vel_ = vel; }
 #pragma endregion
 
 protected:
@@ -87,8 +96,6 @@ protected:
 
 	// 変更可能な状態マスク
 	unsigned int enableChangeState_ = 0;
-	// 現在変更可能な状態マスク
-	//unsigned int currentEnableChangeState_;
 	// 並列可能な状態マスク
 	unsigned int inabilityParallelState_ = 0;
 
@@ -100,6 +107,9 @@ protected:
 	LWP::Math::Vector3 rawVel_;
 	// 角度
 	LWP::Math::Quaternion rot_;
+	// 演出用の角度
+	LWP::Math::Quaternion effectRot_;
+	LWP::Math::Quaternion preEffectRot_;
 
 	float moveSpeed_ = 1.0f;
 

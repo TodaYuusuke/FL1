@@ -42,6 +42,20 @@ namespace FLMath {
 		return result;
 	}
 
+	void DecomposeSwingTwist(const Quaternion& q, const Vector3& axis, Quaternion& outSwing, Quaternion& outTwist) {
+		Vector3 r(q.x, q.y, q.z);
+
+		// 軸へ射影
+		Vector3 proj = axis * Vector3::Dot(r, axis);
+
+		// Twist
+		outTwist = Quaternion(proj.x, proj.y, proj.z, q.w);
+		outTwist.Normalize();
+
+		// Swing
+		outSwing = q * outTwist.Inverse(); 
+	}
+
 	float Exponential(float current, float target, float damping) {
 		float factor = 1.0f - std::exp(-damping);
 		return current + (target - current) * factor;

@@ -2,6 +2,7 @@
 #include "../../Enemy/EnemyManager.h"
 #include "../../Weapon/IWeapon.h"
 #include "../../Player/PlayerConfig.h"
+#include "../../Collision/CollisionMask.h"
 #include "../../../Componets/BehaviourTree/Actor/Actor.h"
 #include "../../../Componets/Math.h"
 
@@ -11,7 +12,9 @@ using namespace LWP::Math;
 using namespace FLMath;
 using namespace LWP::Math;
 
-LeadingSystem::LeadingSystem(LWP::Object::Camera* camera, BlackBoard* blackBoard) {
+LeadingSystem::LeadingSystem(LWP::Object::Camera* camera, BlackBoard* blackBoard) 
+	: checkBulletLine_(bulletLine_.SetBroadShape<LWP::Object::Collider::Capsule>())
+{
 	pCamera_ = camera;
 	blackBoard_ = blackBoard;
 
@@ -20,6 +23,26 @@ LeadingSystem::LeadingSystem(LWP::Object::Camera* camera, BlackBoard* blackBoard
 		.AddValue<float>("LimitLeadingFrame", &limitLeadingFrame)
 		.CheckJsonFile();
 
+	// 弾道確認の半径
+	checkBulletLine_.radius = 0.1f;
+	// 自機に追従
+	bulletLine_.SetFollow(blackBoard->GetValue<Actor*>("Player")->GetWorldTF());
+	bulletLine_.worldTF.translation = blackBoard->GetValue<Actor*>("Player")->GetModel()->GetJointWorldPosition("LockOnAnchor");
+	// 所属しているマスクを設定
+	bulletLine_.mask.SetBelongFrag(GameMask::attack);
+	// 当たり判定をとる対象のマスクを設定
+	bulletLine_.mask.SetHitFrag(GameMask::prop);
+	// 当たった瞬間の処理
+	bulletLine_.enterLambda = [this](LWP::Object::Collision* hitTarget) {
+		// 建物と衝突したか
+		EnterProp(hitTarget);
+		};
+	// 外れた瞬間の処理
+	bulletLine_.exitLambda = [this](LWP::Object::Collision* hitTarget) {
+		ExitProp(hitTarget);
+		};
+
+	// レティクル画像読み込み
 	reticle_.LoadTexture("lockOnReticle.png");
 	reticle_.anchorPoint = { 0.5f,0.5f };
 
@@ -62,10 +85,20 @@ void LeadingSystem::Update() {
 	if (!leadingTarget_) {
 		targetFuture_ = centerWorldPos_;
 		leadingTargetPos_ = centerWorldPos_;
+		// 弾道確認を取らない
+		bulletLine_.isActive = false;
+		checkBulletLine_.isActive = false;
 	}
 	else {
 		CalFutureTargetPos(bulletSpeed_);
 		leadingTargetPos_ = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor");
+		// 弾道確認開始
+		bulletLine_.isActive = true;
+		checkBulletLine_.isActive = true;
+		// 弾道計算
+		// 方向ベクトル
+		Vector3 dir = leadingTarget_->GetWorldTF()->GetWorldPosition() - blackBoard_->GetValue<Actor*>("Player")->GetWorldTF()->GetWorldPosition();
+		checkBulletLine_.localOffset = dir;
 	}
 
 	reticle_.worldTF.translation = {
@@ -275,6 +308,16 @@ void LeadingSystem::CalFutureTargetPos(const Vector3& shooterPos, float bulletSp
 	// 的の未来位置
 	targetFuture_ = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor") + (v3_Mv * flame1);
 	leadingTargetPos_ = leadingTarget_->GetModel()->GetJointWorldPosition("LockOnAnchor");
+}
+
+void LeadingSystem::EnterProp(LWP::Object::Collision* hitTarget) {
+	reticle_.material.color.A = 100;
+	reticle_.worldTF.scale *= 1.5f;
+}
+
+void LeadingSystem::ExitProp(LWP::Object::Collision* hitTarget) {
+	reticle_.material.color.A = 255;
+	reticle_.worldTF.scale = { 1.0f,1.0f ,1.0f };
 }
 
 Vector3 LeadingSystem::GetLeadingShotAngle(const Vector3& shooterPos, float bulletSpeed) {

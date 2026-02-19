@@ -157,6 +157,11 @@ public:// アクセサ
 	/// <returns></returns>
 	LWP::Math::Quaternion GetRot() { return quat_; }
 	/// <summary>
+	/// 演出用の角度を取得
+	/// </summary>
+	/// <returns></returns>
+	LWP::Math::Quaternion GetEffectRot() { return effectRot_; }
+	/// <summary>
 	/// 中心座標を取得
 	/// </summary>
 	/// <returns></returns>
@@ -218,7 +223,7 @@ public:// アクセサ
 	/// 角度を設定
 	/// </summary>
 	/// <param name="q"></param>
-	void SetVelocity(const LWP::Math::Quaternion& q) { quat_ = q; }
+	void SetRot(const LWP::Math::Quaternion& q) { quat_ = q; }
 	/// <summary>
 	/// 親を設定
 	/// </summary>
@@ -299,12 +304,14 @@ protected:
 	// モデル
 	LWP::Resource::SkinningModel model_;
 	std::vector<std::string> jointName_;
+	// 角度
+	LWP::Math::Quaternion quat_{ 0.0f,0.0f,0.0f,1.0f };
+	// 演出用の角度
+	LWP::Math::Quaternion effectRot_ = { 0.0f,0.0f,0.0f,1.0 };
 	// 移動量
 	LWP::Math::Vector3 velocity_{ 0.0f,0.0f,0.0f };
 	// 武器由来の速度
 	LWP::Math::Vector3 weaponVel_{ 0.0f,0.0f,0.0f };
-	// 角度
-	LWP::Math::Quaternion quat_{ 0.0f,0.0f,0.0f,1.0f };
 	// 前回の座標
 	LWP::Math::Vector3 preTranslation_ = { 0.0f,0.0f,0.0f };
 

@@ -6,7 +6,7 @@
 #include <Adapter.h>
 
 class Actor;
-
+class Player;
 //ワールド抽象インターフェース
 class IWorld {
 public:
@@ -17,6 +17,11 @@ public:
 	virtual void AddActor(Actor* actor) = 0;
 	//アクターの検索
 	virtual Actor* FindActor(const std::string& name) const = 0;
+	// 自機の検索
+	virtual Player* FindPlayer(const std::string& name) const { 
+		name;
+		return nullptr;
+	}
 	//指定したタグ名を持つアクターの検索
 	virtual std::vector<Actor*> FindActorWithTag(const std::string& tag) const = 0;
 	//アクター数を返す

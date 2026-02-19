@@ -13,4 +13,6 @@ namespace GameMask {
 	inline int attack = ColMask2;
 	// 構造物
 	inline int prop = ColMask3;
+	// 確認用当たり判定
+	inline int check = ColMask4;
 };

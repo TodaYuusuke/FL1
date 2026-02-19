@@ -42,13 +42,14 @@ private:
 	void CalFutureTargetPos(float bulletSpeed);
 	void CalFutureTargetPos(const LWP::Math::Vector3& shooterPos, float bulletSpeed);
 
-public:// アクセサ
-	void Start(LWP::Math::Vector3 shooterPos, float bulletSpeed) {
-		shooterPos_ = shooterPos;
-		bulletSpeed_ = bulletSpeed;
-	}
+	/// <summary>
+	/// 障害物との衝突応答
+	/// </summary>
+	void EnterProp(LWP::Object::Collision* hitTarget);
+	void ExitProp(LWP::Object::Collision* hitTarget);
 
-#pragma region Getter
+public:// アクセサ
+	#pragma region Getter
 	/// <summary>
 	/// 偏差対象を取得
 	/// </summary>
@@ -89,11 +90,15 @@ private:// 調整項目
 	//float leadingAccuracy_ = 1.0f;
 
 	// 先読みの上限時間
-	float limitLeadingFrame = 10.0f;
+	float limitLeadingFrame = 20.0f;
 
 	LWP::Utility::JsonIO json_;
 
 private:
+	// 偏差対象までに障害物があるかを確認
+	LWP::Object::Collision bulletLine_;
+	LWP::Object::Collider::Capsule& checkBulletLine_;
+
 	// 偏差対象
 	Actor* leadingTarget_;
 	LWP::Math::Vector2 leadingTargetScreenPos_;

@@ -1,6 +1,7 @@
 #pragma once
 #include "IActions.h"
 #include "Action/IAction.h"
+#include "Action/Move/Move.h"
 #include "Action/Boost/Boost.h"
 #include "../../../Componets/BehaviourTree/Actor/BlackBoard.h"
 #include "../../../Componets/Input/VirtualController.h"
@@ -39,18 +40,35 @@ private:
 	/// </summary>
 	void InputHandle();
 
+private:// 演出制御
+	/// <summary>
+	/// ブースト時の音再生
+	/// </summary>
+	void PlayBoostAudio();
+	/// <summary>
+	/// ブースト時の演出開始
+	/// </summary>
+	void StartBoostEffect();
+	/// <summary>
+	/// ブースト時の演出終了
+	/// </summary>
+	void FinishBoostEffect();
+	/// <summary>
+	/// ブースト時の演出調整
+	/// </summary>
+	void AdjustBoostEffect();
+
 public:// アクセサ
 #pragma region Getter
+	Move* GetMove();
 	bool GetIsTurnBehind();
 #pragma endregion
 
 #pragma region Setter
-
 	/// <summary>
 	/// ループSEの停止関数
 	/// </summary>
 	void StopAllLoopSE();
-
 #pragma endregion
 
 private:// 調整項目
@@ -67,6 +85,7 @@ private:
 
 private:
 	// 行動処理をまとめたリスト
+	// [0]:ActionType::kMain → Moveクラスしか入れない
 	std::map<ActionType, std::unique_ptr<IAction>> actions_;
 
 	// 前フレーム角度

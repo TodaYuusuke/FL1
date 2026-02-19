@@ -1,27 +1,14 @@
 {
-    "name": "scene",
+  "name": "scene",
   "objects": [
 
     {
       "name": "Map0",
       "type": "MESH",
       "transform": {
-        "translation": [
-          -300.0,
-          300.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0,
-          1.0
-        ],
-        "scaling": [
-          1.0,
-          1.0,
-          1.0
-        ]
+        "translation": [ -600.0, 600.0, 0.0 ],
+        "rotation": [ 0.0, 0.0, 0.0, 1.0 ],
+        "scaling": [ 2.0, 2.0, 2.0 ]
       },
       "file_name": "Map/map.obj"
     },
@@ -29,22 +16,9 @@
       "name": "Map1",
       "type": "MESH",
       "transform": {
-        "translation": [
-          0.0,
-          300.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0,
-          1.0
-        ],
-        "scaling": [
-          1.0,
-          1.0,
-          1.0
-        ]
+        "translation": [ 0.0, 600.0, 0.0 ],
+        "rotation": [ 0.0, 0.0, 0.0, 1.0 ],
+        "scaling": [ 2.0, 2.0, 2.0 ]
       },
       "file_name": "Map/map.obj"
     },
@@ -52,22 +26,9 @@
       "name": "Map2",
       "type": "MESH",
       "transform": {
-        "translation": [
-          300.0,
-          300.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0,
-          1.0
-        ],
-        "scaling": [
-          1.0,
-          1.0,
-          1.0
-        ]
+        "translation": [ 600.0, 600.0, 0.0 ],
+        "rotation": [ 0.0, 0.0, 0.0, 1.0 ],
+        "scaling": [ 2.0, 2.0, 2.0 ]
       },
       "file_name": "Map/map.obj"
     },
@@ -76,22 +37,9 @@
       "name": "Map3",
       "type": "MESH",
       "transform": {
-        "translation": [
-          -300.0,
-          0.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0,
-          1.0
-        ],
-        "scaling": [
-          1.0,
-          1.0,
-          1.0
-        ]
+        "translation": [ -600.0, 0.0, 0.0 ],
+        "rotation": [ 0.0, 0.0, 0.0, 1.0 ],
+        "scaling": [ 2.0, 2.0, 2.0 ]
       },
       "file_name": "Map/map.obj"
     },
@@ -99,22 +47,9 @@
       "name": "Map4",
       "type": "MESH",
       "transform": {
-        "translation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0,
-          1.0
-        ],
-        "scaling": [
-          1.0,
-          1.0,
-          1.0
-        ]
+        "translation": [ 0.0, 0.0, 0.0 ],
+        "rotation": [ 0.0, 0.0, 0.0, 1.0 ],
+        "scaling": [ 2.0, 2.0, 2.0 ]
       },
       "file_name": "Map/map.obj"
     },
@@ -122,22 +57,9 @@
       "name": "Map5",
       "type": "MESH",
       "transform": {
-        "translation": [
-          300.0,
-          0.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0,
-          1.0
-        ],
-        "scaling": [
-          1.0,
-          1.0,
-          1.0
-        ]
+        "translation": [ 600.0, 0.0, 0.0 ],
+        "rotation": [ 0.0, 0.0, 0.0, 1.0 ],
+        "scaling": [ 2.0, 2.0, 2.0 ]
       },
       "file_name": "Map/map.obj"
     },
@@ -146,22 +68,9 @@
       "name": "Map6",
       "type": "MESH",
       "transform": {
-        "translation": [
-          -300.0,
-          -300.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0,
-          1.0
-        ],
-        "scaling": [
-          1.0,
-          1.0,
-          1.0
-        ]
+        "translation": [ -600.0, -600.0, 0.0 ],
+        "rotation": [ 0.0, 0.0, 0.0, 1.0 ],
+        "scaling": [ 2.0, 2.0, 2.0 ]
       },
       "file_name": "Map/map.obj"
     },
@@ -169,22 +78,9 @@
       "name": "Map7",
       "type": "MESH",
       "transform": {
-        "translation": [
-          0.0,
-          -300.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0,
-          1.0
-        ],
-        "scaling": [
-          1.0,
-          1.0,
-          1.0
-        ]
+        "translation": [ 0.0, -600.0, 0.0 ],
+        "rotation": [ 0.0, 0.0, 0.0, 1.0 ],
+        "scaling": [ 2.0, 2.0, 2.0 ]
       },
       "file_name": "Map/map.obj"
     },
@@ -192,26 +88,12 @@
       "name": "Map8",
       "type": "MESH",
       "transform": {
-        "translation": [
-          300.0,
-          -300.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0,
-          1.0
-        ],
-        "scaling": [
-          1.0,
-          1.0,
-          1.0
-        ]
+        "translation": [ 600.0, -600.0, 0.0 ],
+        "rotation": [ 0.0, 0.0, 0.0, 1.0 ],
+        "scaling": [ 2.0, 2.0, 2.0 ]
       },
       "file_name": "Map/map.obj"
     }
-
 
   ]
 }

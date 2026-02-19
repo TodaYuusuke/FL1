@@ -85,14 +85,14 @@ void TutorialScene::Initialize() {
 	// 地形情報読み込み
 	levelData.LoadShortPath("gameScene.json");
 
+	// 世界
+	world_ = std::make_unique<World>();
+
 	// 追従カメラ
-	followCamera_ = std::make_unique<FollowCamera>(&mainCamera);
+	followCamera_ = std::make_unique<FollowCamera>(&mainCamera, world_.get());
 
 	// 弾エフェクター用にカメラを設定
 	BulletEffector::GetInstance()->Init(followCamera_->GetCamera());
-
-	// 世界
-	world_ = std::make_unique<World>();
 
 	// 自機
 	player_ = new Player(followCamera_.get(), world_.get(), followCamera_->defaultTargetDist_);

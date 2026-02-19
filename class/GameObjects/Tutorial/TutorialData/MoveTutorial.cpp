@@ -106,8 +106,8 @@ void MoveTutorial::Update() {
 		break;
 	case MoveTutorial::MoveGuideSequence::kMoveF:
 		// スティック入力の補正
-		lStick = AdjustmentStick(vCon_->GetLAxis());
-		rStick = AdjustmentStick(vCon_->GetRAxis());
+		lStick = player_->GetMoveController()->GetMove()->AdjustmentStick(vCon_->GetLAxis());
+		rStick = player_->GetMoveController()->GetMove()->AdjustmentStick(vCon_->GetRAxis());
 		if (lStick.y + rStick.y >= 2.0f) {
 			isNextGuide_ = true;
 			serialAnim_->Init();
@@ -127,8 +127,8 @@ void MoveTutorial::Update() {
 		break;
 	case MoveTutorial::MoveGuideSequence::kMoveB:
 		// スティック入力の補正
-		lStick = AdjustmentStick(vCon_->GetLAxis());
-		rStick = AdjustmentStick(vCon_->GetRAxis());
+		lStick = player_->GetMoveController()->GetMove()->AdjustmentStick(vCon_->GetLAxis());
+		rStick = player_->GetMoveController()->GetMove()->AdjustmentStick(vCon_->GetRAxis());
 		if (lStick.y + rStick.y <= -2.0f) {
 			isNextGuide_ = true;
 			serialAnim_->Init();
@@ -148,8 +148,8 @@ void MoveTutorial::Update() {
 		break;
 	case MoveTutorial::MoveGuideSequence::kMoveL:
 		// スティック入力の補正
-		lStick = AdjustmentStick(vCon_->GetLAxis());
-		rStick = AdjustmentStick(vCon_->GetRAxis());
+		lStick = player_->GetMoveController()->GetMove()->AdjustmentStick(vCon_->GetLAxis());
+		rStick = player_->GetMoveController()->GetMove()->AdjustmentStick(vCon_->GetRAxis());
 		if (lStick.x + rStick.x <= -2.0f) {
 			isNextGuide_ = true;
 			serialAnim_->Init();
@@ -169,8 +169,8 @@ void MoveTutorial::Update() {
 		break;
 	case MoveTutorial::MoveGuideSequence::kMoveR:
 		// スティック入力の補正
-		lStick = AdjustmentStick(vCon_->GetLAxis());
-		rStick = AdjustmentStick(vCon_->GetRAxis());
+		lStick = player_->GetMoveController()->GetMove()->AdjustmentStick(vCon_->GetLAxis());
+		rStick = player_->GetMoveController()->GetMove()->AdjustmentStick(vCon_->GetRAxis());
 		if (lStick.x + rStick.x >= 2.0f) {
 			isNextGuide_ = true;
 			serialAnim_->Init();
@@ -190,8 +190,8 @@ void MoveTutorial::Update() {
 		break;
 	case MoveTutorial::MoveGuideSequence::kCameraL:
 		// スティック入力の補正
-		lStick = AdjustmentStick(vCon_->GetLAxis());
-		rStick = AdjustmentStick(vCon_->GetRAxis());
+		lStick = player_->GetMoveController()->GetMove()->AdjustmentStick(vCon_->GetLAxis());
+		rStick = player_->GetMoveController()->GetMove()->AdjustmentStick(vCon_->GetRAxis());
 		if (lStick.y <= -1.0f && rStick.y >= 1.0f) {
 			isNextGuide_ = true;
 			serialAnim_->Init();
@@ -211,8 +211,8 @@ void MoveTutorial::Update() {
 		break;
 	case MoveTutorial::MoveGuideSequence::kCameraR:
 		// スティック入力の補正
-		lStick = AdjustmentStick(vCon_->GetLAxis());
-		rStick = AdjustmentStick(vCon_->GetRAxis());
+		lStick = player_->GetMoveController()->GetMove()->AdjustmentStick(vCon_->GetLAxis());
+		rStick = player_->GetMoveController()->GetMove()->AdjustmentStick(vCon_->GetRAxis());
 		if (lStick.y >= 1.0f && rStick.y <= -1.0f) {
 			isNextGuide_ = true;
 			serialAnim_->Init();
@@ -290,19 +290,4 @@ void MoveTutorial::SuccessEffect(MoveGuideSequence target) {
 	echoFont_[target].isActive = true;
 	echoFont_[target].worldTF.scale = LWP::Utility::Interp::Lerp(Vector3{ 1,1,1 }, Vector3{ 2,2,2 }, Easing::OutExpo(nextGuideInterval_ / endFrame));
 	echoFont_[target].material.color.A = static_cast<int>(LWP::Utility::Interp::LerpF(200.0f, 0.0f, Easing::OutExpo(nextGuideInterval_ / endFrame)));
-}
-
-LWP::Math::Vector2 MoveTutorial::AdjustmentStick(LWP::Math::Vector2 stick) {
-	Vector2 result = { 0.0f,0.0f };
-	if (std::fabsf(stick.x) >= 0.8f) {
-		if (std::signbit(stick.x)) { result.x = -1.0f; }
-		else { result.x = 1.0f; }
-	}
-	result.x = stick.x;
-	if (std::fabsf(stick.y) >= 0.01f) {
-		if (std::signbit(stick.y)) { result.y = -1.0f; }
-		else { result.y = 1.0f; }
-	}
-
-	return result;
 }

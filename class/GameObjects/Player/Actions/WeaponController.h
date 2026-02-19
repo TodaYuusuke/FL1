@@ -95,6 +95,19 @@ public:// アクセサ
 	//コックピットのトランスフォーム取得
 	LWP::Object::TransformQuat* GetCockpit() { return &cockpit_.worldTF; }
 
+	/// <summary>
+	/// 全ての箇所に武器が装着されているか取得
+	/// </summary>
+	bool GetIsFullWeapons() {
+		for (int i = 0; i < weapons_.size(); i++) {
+			// 武器を所持していない箇所があるならfalse
+			if (weapons_[(WeaponSide)i]->GetIsEmptyWeapon()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	bool GetIsEndAnimation() { return isEndAnimation_; };
 
 	/// <summary>
@@ -240,7 +253,7 @@ private://UI表示
 	//武器破壊アニメーション
 	std::array<float, size_t(WeaponSide::kCount)> breakAnimationFrame_{};
 	std::array<bool, size_t(WeaponSide::kCount)> isBreakAnimation_{};
-	float breakAnimationLength_=60;
-	int breakAnimationSwitch_=3;
+	float breakAnimationLength_ = 60;
+	int breakAnimationSwitch_ = 3;
 };
 

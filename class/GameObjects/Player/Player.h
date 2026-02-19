@@ -183,10 +183,13 @@ private:
 	// アニメーションマネージャー
 	std::unique_ptr<RobotAnimManager> animManager_;
 
+	// 自機移動時の回転
 	LWP::Math::Quaternion moveRot_;
 	LWP::Math::Quaternion preMoveRot_;
+	// ロックオン時の自機の回転速度
 	LWP::Math::Quaternion lockOnOmega_;
 	LWP::Math::Quaternion preLockOnOmega_;
+
 	bool isTriggerLockOn_ = false;
 
 	//UI

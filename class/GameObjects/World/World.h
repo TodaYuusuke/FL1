@@ -4,6 +4,7 @@
 #include <Adapter.h>
 #include "Field/Field.h"
 
+class Player;
 /// <summary>
 /// ワールドクラス
 /// 今回は敵は別のManagerクラスで管理し、ここでは自機や地面等を登録して共通でほしくなるアクターを管理
@@ -53,6 +54,12 @@ public:// アクセサ
 	/// <param name="name"></param>
 	/// <returns></returns>
 	virtual Actor* FindActor(const std::string& name) const override;
+	/// <summary>
+	/// 自機の検索
+	/// </summary>
+	/// <param name="name"></param>
+	/// <returns></returns>
+	Player* FindPlayer(const std::string& name) const override;
 	/// <summary>
 	/// 指定したタグ名を持つアクターの検索
 	/// </summary>
