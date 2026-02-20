@@ -139,17 +139,19 @@ void Move::BoostUpdate() {
 	}
 	// 押している間
 	else if (VirtualController::GetInstance()->GetPress(BindActionType::kBoost)) {
-		if(!easeTimer_.GetIsActive()) { easeTimer_.Start(maxBoostTime); }
+		if (!easeTimer_.GetIsActive() && easeTimer_.GetProgress() == 0.0f) { easeTimer_.Start(maxBoostTime); }
 
-		boostSpeed_ = LWP::Utility::Interp::LerpF(start_, end_, LWP::Utility::Easing::OutBack(easeTimer_.GetProgress()));
 	}
 	// 離した瞬間
 	else if (VirtualController::GetInstance()->GetRelease(BindActionType::kBoost)) {
 		easeTimer_.Stop();
 	}
 
+	if (easeTimer_.GetIsActive()) {
+		boostSpeed_ = LWP::Utility::Interp::LerpF(start_, end_, LWP::Utility::Easing::OutExpo(easeTimer_.GetProgress()));
+	}
 	// 加速中ではないなら徐々に速度を落とす
-	if (!easeTimer_.GetIsActive()) {
+	else if (!VirtualController::GetInstance()->GetPress(BindActionType::kBoost)) {
 		boostSpeed_ = Exponential(boostSpeed_, 1.0f, easeRate);
 	}
 
@@ -338,11 +340,11 @@ void Move::BodyInclination() {
 	}
 
 	// Z軸の回転をなくした自機の角度
-	Quaternion moveRotZLock = {0,0,0,1};
-	Quaternion twist = {0,0,0,1};
+	Quaternion moveRotZLock = { 0,0,0,1 };
+	Quaternion twist = { 0,0,0,1 };
 	DecomposeSwingTwist(FLMath::LookRotationZLock(Vector3{ 0,0,1 } *moveRotMatrix_), Vector3{ 1,0,0 }, moveRotZLock, twist);
 	// 自機の方向ベクトル
-	Vector3 playerDir = Vector3{ 0,0,1 } * Matrix4x4::CreateRotateXYZMatrix(moveRotZLock);
+	Vector3 playerDir = Vector3{ 0,0,1 } *Matrix4x4::CreateRotateXYZMatrix(moveRotZLock);
 	playerDir.y = 0.0f;
 	Vector3 moveDir = Vector3{ lStick.x,0,0 } *Matrix4x4::CreateRotateXYZMatrix(moveRotZLock);
 

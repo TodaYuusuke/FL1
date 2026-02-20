@@ -3,7 +3,7 @@
         0.5,
         0.009999999776482582
     ],
-    "float :MaxBoostSpeed": 6.0,
+    "float :MaxBoostSpeed": 3.0,
     "float :MaxBoostTime": 0.5,
     "float :MaxInclination": 0.098125,
     "float :MaxOmega": 9.999999974752427e-07,

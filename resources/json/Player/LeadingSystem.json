@@ -1,3 +1,4 @@
 {
-    "float :LeadingScreenRange": 300.0
+    "float :LeadingScreenRange": 300.0,
+    "float :LimitLeadingFrame": 14.0
 }
