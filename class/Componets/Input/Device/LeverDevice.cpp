@@ -67,7 +67,7 @@ bool LeverDevice::GetPress(BindActionType code) const {
 		return false;
 		break;
 	case BindActionType::kCancel:
-		return false;
+		return Keyboard::GetPress(InputConfig::Command::Key::cancel);
 		break;
 	default:
 		return false;
@@ -103,7 +103,7 @@ bool LeverDevice::GetTrigger(BindActionType code) const {
 		return false;
 		break;
 	case BindActionType::kCancel:
-		return false;
+		return Keyboard::GetTrigger(InputConfig::Command::Key::cancel);
 		break;
 	default:
 		return false;
@@ -139,7 +139,7 @@ bool LeverDevice::GetRelease(BindActionType code) const {
 		return false;
 		break;
 	case BindActionType::kCancel:
-		return false;
+		return Keyboard::GetRelease(InputConfig::Command::Key::cancel);
 		break;
 	default:
 		return false;

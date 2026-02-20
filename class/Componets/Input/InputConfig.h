@@ -40,7 +40,7 @@ namespace InputConfig {
 			inline int boost			= DIK_SPACE;		// 加速
 			inline int turn				= DIK_LCONTROL;		// 180度回転
 			inline int interact			= DIK_F;			// 決定ボタン
-			inline int cancel			= DIK_C;			// キャンセルボタン
+			inline int cancel			= DIK_ESCAPE;		// キャンセルボタン
 		}
 
 		// ゲームパッド

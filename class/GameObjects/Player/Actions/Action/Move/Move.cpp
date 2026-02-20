@@ -180,10 +180,12 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 	// スティック入力が互いに反対(クイックターンの判定)
 	// 左右に入力しているか
 	if (target_vL.x * target_vR.x < 0.0f) {
-		if (std::abs(sqrtStick.x) >= turnThreshold * 2.0f) {
-			target_vL.x = 0.0f;
-			target_vR.x = 0.0f;
-			isTurnBehind_ = true;
+		if (target_vL.x < 0.0f && target_vR.x > 0.0f) {
+			if (std::abs(sqrtStick.x) >= turnThreshold * 2.0f) {
+				target_vL.x = 0.0f;
+				target_vR.x = 0.0f;
+				isTurnBehind_ = true;
+			}
 		}
 	}
 	// スティック入力が互いに反対(カメラ回転の判定)

@@ -13,10 +13,7 @@ Tutorial::Tutorial(Player* player, EnemyManager* enemyManager) {
 	sequence_ = GuideSequence::kMove;
 
 	// 終了コマンド
-	finishCommands_.push_back(BindActionType::kCollect);
-	//finishCommands_.push_back(BindActionType::kBoost);
-	finishCommands_.push_back(BindActionType::kLeftHand);
-	finishCommands_.push_back(BindActionType::kRightShoulder);
+	finishCommands_.push_back(BindActionType::kCancel);
 
 	finishFrame_ = pressFisnishCommandFrame;
 
