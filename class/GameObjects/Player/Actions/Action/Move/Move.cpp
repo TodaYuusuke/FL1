@@ -238,6 +238,7 @@ void Move::DifferentialUpdate(LWP::Math::Vector2 leftStick, LWP::Math::Vector2 r
 	// 速度を算出
 	vel_ = Vector3{ 0,0,1 } *Matrix4x4::CreateRotateXYZMatrix(moveRotZLock) * v.y;
 	vel_ += Vector3{ 1,0,0 } *Matrix4x4::CreateRotateXYZMatrix(moveRotZLock) * v.x;
+	vel_.y = 0.0f;
 }
 
 void Move::FPSTypeMove() {
@@ -324,7 +325,7 @@ void Move::BodyInclination() {
 	Vector2 lStick = AdjustmentStick(VirtualController::GetInstance()->GetLAxis());
 	Vector2 rStick = AdjustmentStick(VirtualController::GetInstance()->GetRAxis());
 	if (!CheckIsSideMove(lStick.x, rStick.x)) {
-		effectRot_ = Utility::Interp::SlerpQuaternion(effectRot_, Quaternion::CreateFromAxisAngle(Vector3{ 0,0,1 }, 0.0f), 0.1f);
+		effectRot_ = Quaternion::CreateFromAxisAngle(Vector3{ 0,0,1 }, 0.0f);
 		return;
 	}
 
@@ -349,5 +350,5 @@ void Move::BodyInclination() {
 	float inclination = std::abs((velX / maxSpeed) * maxInclination);
 	// ラジアン算出 [-maxInclination ~ maxInclination]
 	float radian = sinTheta * dot * (inclination);
-	effectRot_ = Utility::Interp::SlerpQuaternion(effectRot_, Quaternion::CreateFromAxisAngle(Vector3{ 0,0,1 }, radian), 0.3f);
+	effectRot_ = Quaternion::CreateFromAxisAngle(Vector3{ 0,0,1 }, radian);
 }
