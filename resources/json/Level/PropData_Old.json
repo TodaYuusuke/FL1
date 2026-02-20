@@ -1,0 +1,1784 @@
+{
+    "Group :Barricades-0": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -5.963408946990967,
+            0.0,
+            70.00823211669922
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSnoke",
+        "string :DestructSoundName": "SerialExplosion.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades"
+    },
+    "Group :Barricades-1": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            6.2666192054748535,
+            0.0,
+            69.96442413330078
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSnoke",
+        "string :DestructSoundName": "SerialExplosion.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades"
+    },
+    "Group :BgProp-0": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            0.0,
+            0.0,
+            720.0
+        ],
+        "Vector3 :Scale": [
+            4.199999809265137,
+            4.199999809265137,
+            4.199999809265137
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-1": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            180.0,
+            0.0,
+            560.0
+        ],
+        "Vector3 :Scale": [
+            2.0999999046325684,
+            2.0999999046325684,
+            2.0999999046325684
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-10": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -660.0,
+            0.0,
+            -360.0
+        ],
+        "Vector3 :Scale": [
+            2.700000047683716,
+            2.700000047683716,
+            2.700000047683716
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-11": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -720.0,
+            0.0,
+            -80.0
+        ],
+        "Vector3 :Scale": [
+            3.4000000953674316,
+            3.4000000953674316,
+            3.4000000953674316
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-12": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -620.0,
+            0.0,
+            260.0
+        ],
+        "Vector3 :Scale": [
+            4.099999904632568,
+            4.099999904632568,
+            4.099999904632568
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-13": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -360.0,
+            0.0,
+            640.0
+        ],
+        "Vector3 :Scale": [
+            2.299999952316284,
+            2.299999952316284,
+            2.299999952316284
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-14": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -120.0,
+            0.0,
+            500.0
+        ],
+        "Vector3 :Scale": [
+            3.0,
+            3.0,
+            3.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-2": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            360.0,
+            0.0,
+            660.0
+        ],
+        "Vector3 :Scale": [
+            4.800000190734863,
+            4.800000190734863,
+            4.800000190734863
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-3": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            560.0,
+            0.0,
+            360.0
+        ],
+        "Vector3 :Scale": [
+            2.5999999046325684,
+            2.5999999046325684,
+            2.5999999046325684
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-4": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            700.0,
+            0.0,
+            120.0
+        ],
+        "Vector3 :Scale": [
+            3.9000000953674316,
+            3.9000000953674316,
+            3.9000000953674316
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-5": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            620.0,
+            0.0,
+            -260.0
+        ],
+        "Vector3 :Scale": [
+            4.5,
+            4.5,
+            4.5
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-6": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            420.0,
+            0.0,
+            -620.0
+        ],
+        "Vector3 :Scale": [
+            3.0999999046325684,
+            3.0999999046325684,
+            3.0999999046325684
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-7": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            120.0,
+            0.0,
+            -720.0
+        ],
+        "Vector3 :Scale": [
+            2.0,
+            2.0,
+            2.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-8": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -160.0,
+            0.0,
+            -560.0
+        ],
+        "Vector3 :Scale": [
+            1.600000023841858,
+            1.600000023841858,
+            1.600000023841858
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-9": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -420.0,
+            0.0,
+            -700.0
+        ],
+        "Vector3 :Scale": [
+            4.900000095367432,
+            4.900000095367432,
+            4.900000095367432
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :DrumTower-0": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -5.999297618865967,
+            0.0,
+            59.36492919921875
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 1.25,
+        "float :ColliderHeight": 2.5,
+        "float :Radius": 1.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "SerialExplosion",
+        "string :DestructSoundName": "DrumTowerExplosion.mp3",
+        "string :ModelPath": "Props/DrumTower.gltf",
+        "string :Name": "DrumTower"
+    },
+    "Group :DrumTower-1": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -3.0,
+            0.0,
+            60.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 1.25,
+        "float :ColliderHeight": 2.5,
+        "float :Radius": 1.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "SerialExplosion",
+        "string :DestructSoundName": "DrumTowerExplosion.mp3",
+        "string :ModelPath": "Props/DrumTower.gltf",
+        "string :Name": "DrumTower"
+    },
+    "Group :DrumTower-2": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            0.0,
+            0.0,
+            60.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 1.25,
+        "float :ColliderHeight": 2.5,
+        "float :Radius": 1.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "SerialExplosion",
+        "string :DestructSoundName": "DrumTowerExplosion.mp3",
+        "string :ModelPath": "Props/DrumTower.gltf",
+        "string :Name": "DrumTower"
+    },
+    "Group :DrumTower-3": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            3.0,
+            0.0,
+            60.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 1.25,
+        "float :ColliderHeight": 2.5,
+        "float :Radius": 1.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "SerialExplosion",
+        "string :DestructSoundName": "DrumTowerExplosion.mp3",
+        "string :ModelPath": "Props/DrumTower.gltf",
+        "string :Name": "DrumTower"
+    },
+    "Group :DrumTower-4": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            6.0,
+            0.0,
+            60.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 1.25,
+        "float :ColliderHeight": 2.5,
+        "float :Radius": 1.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "SerialExplosion",
+        "string :DestructSoundName": "DrumTowerExplosion.mp3",
+        "string :ModelPath": "Props/DrumTower.gltf",
+        "string :Name": "DrumTower"
+    },
+    "Group :DrumTower-5": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            9.0,
+            0.0,
+            60.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 1.25,
+        "float :ColliderHeight": 2.5,
+        "float :Radius": 1.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "SerialExplosion",
+        "string :DestructSoundName": "DrumTowerExplosion.mp3",
+        "string :ModelPath": "Props/DrumTower.gltf",
+        "string :Name": "DrumTower"
+    },
+    "Group :Garage-0": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -100.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 24.5,
+        "float :ColliderHeight": 1.0,
+        "float :Radius": 25.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Garage/Garage1.gltf",
+        "string :Name": "Garage"
+    },
+    "Group :Prop-0": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            250.0,
+            0.0,
+            250.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-1": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -250.0,
+            0.0,
+            250.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-10": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            250.0,
+            0.0,
+            -250.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-11": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -250.0,
+            0.0,
+            -250.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-2": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            0.0,
+            0.0,
+            200.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-3": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            0.0,
+            0.0,
+            -200.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-4": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            200.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-5": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -200.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-6": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            75.0,
+            0.0,
+            75.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-7": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -75.0,
+            0.0,
+            75.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-8": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -75.0,
+            0.0,
+            -75.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-9": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            75.0,
+            0.0,
+            -75.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Road-0": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            37.5,
+            0.05000000074505806,
+            0.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-1": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            37.5,
+            0.05000000074505806,
+            230.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-10": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            265.0,
+            0.05000000074505806,
+            115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-11": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            265.0,
+            0.05000000074505806,
+            -115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-12": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            -265.0,
+            0.05000000074505806,
+            115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-13": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            -265.0,
+            0.05000000074505806,
+            -115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-14": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -150.0,
+            0.05000000074505806,
+            230.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-15": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -150.0,
+            0.05000000074505806,
+            -230.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-2": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            37.5,
+            0.05000000074505806,
+            -230.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-3": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            150.0,
+            0.05000000074505806,
+            0.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-4": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            150.00015258789063,
+            0.05000000074505806,
+            230.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-5": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            150.0,
+            0.05000000074505806,
+            -230.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-6": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -37.5,
+            0.05000000074505806,
+            0.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-7": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -37.5,
+            0.05000000074505806,
+            230.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-8": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -37.5,
+            0.05000000074505806,
+            -230.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-9": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -150.0,
+            0.05000000074505806,
+            0.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :RoadCross-0": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            37.5,
+            0.05000000074505806,
+            115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/CrossRoad.gltf",
+        "string :Name": "RoadCross"
+    },
+    "Group :RoadCross-1": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            37.5,
+            0.05000000074505806,
+            -115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/CrossRoad.gltf",
+        "string :Name": "RoadCross"
+    },
+    "Group :RoadCross-2": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -37.5,
+            0.05000000074505806,
+            115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/CrossRoad.gltf",
+        "string :Name": "RoadCross"
+    },
+    "Group :RoadCross-3": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -37.5,
+            0.05000000074505806,
+            -115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/CrossRoad.gltf",
+        "string :Name": "RoadCross"
+    },
+    "Group :RoadCross-4": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -150.0,
+            0.05000000074505806,
+            115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/CrossRoad.gltf",
+        "string :Name": "RoadCross"
+    },
+    "Group :RoadCross-5": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -150.0,
+            0.05000000074505806,
+            -115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/CrossRoad.gltf",
+        "string :Name": "RoadCross"
+    },
+    "Group :RoadCross-6": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            150.0,
+            0.05000000074505806,
+            115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/CrossRoad.gltf",
+        "string :Name": "RoadCross"
+    },
+    "Group :RoadCross-7": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            150.0,
+            0.05000000074505806,
+            -115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/CrossRoad.gltf",
+        "string :Name": "RoadCross"
+    },
+    "Group :Road_75-0": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            0.0,
+            0.05000000074505806,
+            115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            0.6000000238418579
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road_75m.gltf",
+        "string :Name": "Road_75"
+    },
+    "Group :Road_75-1": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            0.0,
+            0.05000000074505806,
+            -115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            0.6000000238418579
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road_75m.gltf",
+        "string :Name": "Road_75"
+    },
+    "Group :Road_75-2": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            95.0,
+            0.05000000074505806,
+            115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.149999976158142
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road_75m.gltf",
+        "string :Name": "Road_75"
+    },
+    "Group :Road_75-3": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            95.0,
+            0.05000000074505806,
+            -115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.149999976158142
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road_75m.gltf",
+        "string :Name": "Road_75"
+    },
+    "Group :Road_75-4": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            -95.0,
+            0.05000000074505806,
+            115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.149999976158142
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road_75m.gltf",
+        "string :Name": "Road_75"
+    },
+    "Group :Road_75-5": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            -95.0,
+            0.05000000074505806,
+            -115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.149999976158142
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road_75m.gltf",
+        "string :Name": "Road_75"
+    }
+}

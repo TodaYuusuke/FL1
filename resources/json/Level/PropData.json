@@ -1,58 +1,4 @@
 {
-    "Group :Barricades-0": {
-        "Quaternion :Rotate": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-        ],
-        "Vector3 :Pos": [
-            -5.963408946990967,
-            0.0,
-            70.00823211669922
-        ],
-        "Vector3 :Scale": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "bool :CanDestruct": true,
-        "float :CapsuleRadius": 3.2100000381469727,
-        "float :ColliderHeight": 2.259999990463257,
-        "float :Radius": 2.0,
-        "int32_t :Priority": -1,
-        "string :DestructEffectName": "SerialExplosion",
-        "string :DestructSoundName": "SerialExplosion.mp3",
-        "string :ModelPath": "Props/Barricades.gltf",
-        "string :Name": "Barricades"
-    },
-    "Group :Barricades-1": {
-        "Quaternion :Rotate": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-        ],
-        "Vector3 :Pos": [
-            6.2666192054748535,
-            0.0,
-            69.96442413330078
-        ],
-        "Vector3 :Scale": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "bool :CanDestruct": true,
-        "float :CapsuleRadius": 3.2100000381469727,
-        "float :ColliderHeight": 2.259999990463257,
-        "float :Radius": 2.0,
-        "int32_t :Priority": -1,
-        "string :DestructEffectName": "SerialExplosion",
-        "string :DestructSoundName": "SerialExplosion.mp3",
-        "string :ModelPath": "Props/Barricades.gltf",
-        "string :Name": "Barricades"
-    },
     "Group :BgProp-0": {
         "Quaternion :Rotate": [
             0.0,
@@ -115,141 +61,6 @@
             1.0
         ],
         "Vector3 :Pos": [
-            120.0,
-            0.0,
-            -720.0
-        ],
-        "Vector3 :Scale": [
-            2.0,
-            2.0,
-            2.0
-        ],
-        "bool :CanDestruct": false,
-        "float :CapsuleRadius": 0.0,
-        "float :ColliderHeight": 0.0,
-        "float :Radius": 0.0,
-        "int32_t :Priority": 1,
-        "string :DestructEffectName": "",
-        "string :DestructSoundName": "",
-        "string :ModelPath": "Building1/Building1.gltf",
-        "string :Name": "BgProp"
-    },
-    "Group :BgProp-11": {
-        "Quaternion :Rotate": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-        ],
-        "Vector3 :Pos": [
-            -160.0,
-            0.0,
-            -560.0
-        ],
-        "Vector3 :Scale": [
-            1.600000023841858,
-            1.600000023841858,
-            1.600000023841858
-        ],
-        "bool :CanDestruct": false,
-        "float :CapsuleRadius": 0.0,
-        "float :ColliderHeight": 0.0,
-        "float :Radius": 0.0,
-        "int32_t :Priority": 1,
-        "string :DestructEffectName": "",
-        "string :DestructSoundName": "",
-        "string :ModelPath": "Building1/Building1.gltf",
-        "string :Name": "BgProp"
-    },
-    "Group :BgProp-12": {
-        "Quaternion :Rotate": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-        ],
-        "Vector3 :Pos": [
-            -420.0,
-            0.0,
-            -700.0
-        ],
-        "Vector3 :Scale": [
-            4.900000095367432,
-            4.900000095367432,
-            4.900000095367432
-        ],
-        "bool :CanDestruct": false,
-        "float :CapsuleRadius": 0.0,
-        "float :ColliderHeight": 0.0,
-        "float :Radius": 0.0,
-        "int32_t :Priority": 1,
-        "string :DestructEffectName": "",
-        "string :DestructSoundName": "",
-        "string :ModelPath": "Building1/Building1.gltf",
-        "string :Name": "BgProp"
-    },
-    "Group :BgProp-13": {
-        "Quaternion :Rotate": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-        ],
-        "Vector3 :Pos": [
-            -660.0,
-            0.0,
-            -360.0
-        ],
-        "Vector3 :Scale": [
-            2.700000047683716,
-            2.700000047683716,
-            2.700000047683716
-        ],
-        "bool :CanDestruct": false,
-        "float :CapsuleRadius": 0.0,
-        "float :ColliderHeight": 0.0,
-        "float :Radius": 0.0,
-        "int32_t :Priority": 1,
-        "string :DestructEffectName": "",
-        "string :DestructSoundName": "",
-        "string :ModelPath": "Building1/Building1.gltf",
-        "string :Name": "BgProp"
-    },
-    "Group :BgProp-14": {
-        "Quaternion :Rotate": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-        ],
-        "Vector3 :Pos": [
-            -720.0,
-            0.0,
-            -80.0
-        ],
-        "Vector3 :Scale": [
-            3.4000000953674316,
-            3.4000000953674316,
-            3.4000000953674316
-        ],
-        "bool :CanDestruct": false,
-        "float :CapsuleRadius": 0.0,
-        "float :ColliderHeight": 0.0,
-        "float :Radius": 0.0,
-        "int32_t :Priority": 1,
-        "string :DestructEffectName": "",
-        "string :DestructSoundName": "",
-        "string :ModelPath": "Building1/Building1.gltf",
-        "string :Name": "BgProp"
-    },
-    "Group :BgProp-2": {
-        "Quaternion :Rotate": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-        ],
-        "Vector3 :Pos": [
             -620.0,
             0.0,
             260.0
@@ -269,7 +80,7 @@
         "string :ModelPath": "Building1/Building1.gltf",
         "string :Name": "BgProp"
     },
-    "Group :BgProp-3": {
+    "Group :BgProp-11": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -296,7 +107,7 @@
         "string :ModelPath": "Building1/Building1.gltf",
         "string :Name": "BgProp"
     },
-    "Group :BgProp-4": {
+    "Group :BgProp-12": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -323,7 +134,7 @@
         "string :ModelPath": "Building1/Building1.gltf",
         "string :Name": "BgProp"
     },
-    "Group :BgProp-5": {
+    "Group :BgProp-13": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -350,7 +161,7 @@
         "string :ModelPath": "Building1/Building1.gltf",
         "string :Name": "BgProp"
     },
-    "Group :BgProp-6": {
+    "Group :BgProp-14": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -377,7 +188,7 @@
         "string :ModelPath": "Building1/Building1.gltf",
         "string :Name": "BgProp"
     },
-    "Group :BgProp-7": {
+    "Group :BgProp-2": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -404,7 +215,7 @@
         "string :ModelPath": "Building1/Building1.gltf",
         "string :Name": "BgProp"
     },
-    "Group :BgProp-8": {
+    "Group :BgProp-3": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -431,7 +242,7 @@
         "string :ModelPath": "Building1/Building1.gltf",
         "string :Name": "BgProp"
     },
-    "Group :BgProp-9": {
+    "Group :BgProp-4": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -458,6 +269,141 @@
         "string :ModelPath": "Building1/Building1.gltf",
         "string :Name": "BgProp"
     },
+    "Group :BgProp-5": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            120.0,
+            0.0,
+            -720.0
+        ],
+        "Vector3 :Scale": [
+            2.0,
+            2.0,
+            2.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-6": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -160.0,
+            0.0,
+            -560.0
+        ],
+        "Vector3 :Scale": [
+            1.600000023841858,
+            1.600000023841858,
+            1.600000023841858
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-7": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -420.0,
+            0.0,
+            -700.0
+        ],
+        "Vector3 :Scale": [
+            4.900000095367432,
+            4.900000095367432,
+            4.900000095367432
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-8": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -660.0,
+            0.0,
+            -360.0
+        ],
+        "Vector3 :Scale": [
+            2.700000047683716,
+            2.700000047683716,
+            2.700000047683716
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
+    "Group :BgProp-9": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -720.0,
+            0.0,
+            -80.0
+        ],
+        "Vector3 :Scale": [
+            3.4000000953674316,
+            3.4000000953674316,
+            3.4000000953674316
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 1,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "BgProp"
+    },
     "Group :DrumTower-0": {
         "Quaternion :Rotate": [
             0.0,
@@ -466,9 +412,9 @@
             1.0
         ],
         "Vector3 :Pos": [
-            -5.999297618865967,
+            -6.0,
             0.0,
-            59.36492919921875
+            59.36500549316406
         ],
         "Vector3 :Scale": [
             1.0,
@@ -620,33 +566,6 @@
         "string :ModelPath": "Props/DrumTower.gltf",
         "string :Name": "DrumTower"
     },
-    "Group :Garage-0": {
-        "Quaternion :Rotate": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-        ],
-        "Vector3 :Pos": [
-            -100.0,
-            0.0,
-            0.0
-        ],
-        "Vector3 :Scale": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "bool :CanDestruct": false,
-        "float :CapsuleRadius": 24.5,
-        "float :ColliderHeight": 1.0,
-        "float :Radius": 25.0,
-        "int32_t :Priority": 2,
-        "string :DestructEffectName": "",
-        "string :DestructSoundName": "",
-        "string :ModelPath": "Garage/Garage1.gltf",
-        "string :Name": "Garage"
-    },
     "Group :Prop-0": {
         "Quaternion :Rotate": [
             0.0,
@@ -709,9 +628,9 @@
             1.0
         ],
         "Vector3 :Pos": [
-            200.0,
+            75.0,
             0.0,
-            0.0
+            75.0
         ],
         "Vector3 :Scale": [
             1.0,
@@ -736,9 +655,9 @@
             1.0
         ],
         "Vector3 :Pos": [
-            -200.0,
+            -75.0,
             0.0,
-            0.0
+            75.0
         ],
         "Vector3 :Scale": [
             1.0,
@@ -763,9 +682,9 @@
             1.0
         ],
         "Vector3 :Pos": [
-            75.0,
+            -75.0,
             0.0,
-            75.0
+            -75.0
         ],
         "Vector3 :Scale": [
             1.0,
@@ -790,60 +709,6 @@
             1.0
         ],
         "Vector3 :Pos": [
-            -75.0,
-            0.0,
-            75.0
-        ],
-        "Vector3 :Scale": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "bool :CanDestruct": false,
-        "float :CapsuleRadius": 16.5,
-        "float :ColliderHeight": 50.0,
-        "float :Radius": 20.0,
-        "int32_t :Priority": 2,
-        "string :DestructEffectName": "",
-        "string :DestructSoundName": "",
-        "string :ModelPath": "Building1/Building1.gltf",
-        "string :Name": "Prop"
-    },
-    "Group :Prop-4": {
-        "Quaternion :Rotate": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-        ],
-        "Vector3 :Pos": [
-            -75.0,
-            0.0,
-            -75.0
-        ],
-        "Vector3 :Scale": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "bool :CanDestruct": false,
-        "float :CapsuleRadius": 16.5,
-        "float :ColliderHeight": 50.0,
-        "float :Radius": 20.0,
-        "int32_t :Priority": 2,
-        "string :DestructEffectName": "",
-        "string :DestructSoundName": "",
-        "string :ModelPath": "Building1/Building1.gltf",
-        "string :Name": "Prop"
-    },
-    "Group :Prop-5": {
-        "Quaternion :Rotate": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-        ],
-        "Vector3 :Pos": [
             75.0,
             0.0,
             -75.0
@@ -863,7 +728,7 @@
         "string :ModelPath": "Building1/Building1.gltf",
         "string :Name": "Prop"
     },
-    "Group :Prop-6": {
+    "Group :Prop-4": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -890,7 +755,7 @@
         "string :ModelPath": "Building1/Building1.gltf",
         "string :Name": "Prop"
     },
-    "Group :Prop-7": {
+    "Group :Prop-5": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -917,7 +782,7 @@
         "string :ModelPath": "Building1/Building1.gltf",
         "string :Name": "Prop"
     },
-    "Group :Prop-8": {
+    "Group :Prop-6": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -944,7 +809,7 @@
         "string :ModelPath": "Building1/Building1.gltf",
         "string :Name": "Prop"
     },
-    "Group :Prop-9": {
+    "Group :Prop-7": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -955,6 +820,60 @@
             0.0,
             0.0,
             -200.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-8": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            200.0,
+            0.0,
+            0.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 16.5,
+        "float :ColliderHeight": 50.0,
+        "float :Radius": 20.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Building1/Building1.gltf",
+        "string :Name": "Prop"
+    },
+    "Group :Prop-9": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -200.0,
+            0.0,
+            0.0
         ],
         "Vector3 :Scale": [
             1.0,
@@ -1033,9 +952,9 @@
             1.0
         ],
         "Vector3 :Pos": [
-            -37.5,
+            -150.0,
             0.05000000074505806,
-            -230.0
+            230.0
         ],
         "Vector3 :Scale": [
             1.0,
@@ -1062,168 +981,6 @@
         "Vector3 :Pos": [
             -150.0,
             0.05000000074505806,
-            0.0
-        ],
-        "Vector3 :Scale": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "bool :CanDestruct": false,
-        "float :CapsuleRadius": 0.0,
-        "float :ColliderHeight": 0.0,
-        "float :Radius": 0.0,
-        "int32_t :Priority": 2,
-        "string :DestructEffectName": "",
-        "string :DestructSoundName": "",
-        "string :ModelPath": "Road/Road.gltf",
-        "string :Name": "Road"
-    },
-    "Group :Road-12": {
-        "Quaternion :Rotate": [
-            0.0,
-            0.7071067690849304,
-            0.0,
-            0.7071067690849304
-        ],
-        "Vector3 :Pos": [
-            265.0,
-            0.05000000074505806,
-            115.0
-        ],
-        "Vector3 :Scale": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "bool :CanDestruct": false,
-        "float :CapsuleRadius": 0.0,
-        "float :ColliderHeight": 0.0,
-        "float :Radius": 0.0,
-        "int32_t :Priority": 2,
-        "string :DestructEffectName": "",
-        "string :DestructSoundName": "",
-        "string :ModelPath": "Road/Road.gltf",
-        "string :Name": "Road"
-    },
-    "Group :Road-13": {
-        "Quaternion :Rotate": [
-            0.0,
-            0.7071067690849304,
-            0.0,
-            0.7071067690849304
-        ],
-        "Vector3 :Pos": [
-            265.0,
-            0.05000000074505806,
-            -115.0
-        ],
-        "Vector3 :Scale": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "bool :CanDestruct": false,
-        "float :CapsuleRadius": 0.0,
-        "float :ColliderHeight": 0.0,
-        "float :Radius": 0.0,
-        "int32_t :Priority": 2,
-        "string :DestructEffectName": "",
-        "string :DestructSoundName": "",
-        "string :ModelPath": "Road/Road.gltf",
-        "string :Name": "Road"
-    },
-    "Group :Road-14": {
-        "Quaternion :Rotate": [
-            0.0,
-            0.7071067690849304,
-            0.0,
-            0.7071067690849304
-        ],
-        "Vector3 :Pos": [
-            -265.0,
-            0.05000000074505806,
-            115.0
-        ],
-        "Vector3 :Scale": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "bool :CanDestruct": false,
-        "float :CapsuleRadius": 0.0,
-        "float :ColliderHeight": 0.0,
-        "float :Radius": 0.0,
-        "int32_t :Priority": 2,
-        "string :DestructEffectName": "",
-        "string :DestructSoundName": "",
-        "string :ModelPath": "Road/Road.gltf",
-        "string :Name": "Road"
-    },
-    "Group :Road-15": {
-        "Quaternion :Rotate": [
-            0.0,
-            0.7071067690849304,
-            0.0,
-            0.7071067690849304
-        ],
-        "Vector3 :Pos": [
-            -265.0,
-            0.05000000074505806,
-            -115.0
-        ],
-        "Vector3 :Scale": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "bool :CanDestruct": false,
-        "float :CapsuleRadius": 0.0,
-        "float :ColliderHeight": 0.0,
-        "float :Radius": 0.0,
-        "int32_t :Priority": 2,
-        "string :DestructEffectName": "",
-        "string :DestructSoundName": "",
-        "string :ModelPath": "Road/Road.gltf",
-        "string :Name": "Road"
-    },
-    "Group :Road-2": {
-        "Quaternion :Rotate": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-        ],
-        "Vector3 :Pos": [
-            -150.0,
-            0.05000000074505806,
-            230.0
-        ],
-        "Vector3 :Scale": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "bool :CanDestruct": false,
-        "float :CapsuleRadius": 0.0,
-        "float :ColliderHeight": 0.0,
-        "float :Radius": 0.0,
-        "int32_t :Priority": 2,
-        "string :DestructEffectName": "",
-        "string :DestructSoundName": "",
-        "string :ModelPath": "Road/Road.gltf",
-        "string :Name": "Road"
-    },
-    "Group :Road-3": {
-        "Quaternion :Rotate": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-        ],
-        "Vector3 :Pos": [
-            -150.0,
-            0.05000000074505806,
             -230.0
         ],
         "Vector3 :Scale": [
@@ -1241,7 +998,7 @@
         "string :ModelPath": "Road/Road.gltf",
         "string :Name": "Road"
     },
-    "Group :Road-4": {
+    "Group :Road-12": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -1268,7 +1025,7 @@
         "string :ModelPath": "Road/Road.gltf",
         "string :Name": "Road"
     },
-    "Group :Road-5": {
+    "Group :Road-13": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -1295,7 +1052,7 @@
         "string :ModelPath": "Road/Road.gltf",
         "string :Name": "Road"
     },
-    "Group :Road-6": {
+    "Group :Road-14": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -1303,7 +1060,7 @@
             1.0
         ],
         "Vector3 :Pos": [
-            150.00015258789063,
+            150.00015258789062,
             0.05000000074505806,
             230.0
         ],
@@ -1322,7 +1079,7 @@
         "string :ModelPath": "Road/Road.gltf",
         "string :Name": "Road"
     },
-    "Group :Road-7": {
+    "Group :Road-15": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -1349,7 +1106,7 @@
         "string :ModelPath": "Road/Road.gltf",
         "string :Name": "Road"
     },
-    "Group :Road-8": {
+    "Group :Road-2": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -1376,7 +1133,7 @@
         "string :ModelPath": "Road/Road.gltf",
         "string :Name": "Road"
     },
-    "Group :Road-9": {
+    "Group :Road-3": {
         "Quaternion :Rotate": [
             0.0,
             0.0,
@@ -1387,6 +1144,168 @@
             -37.5,
             0.05000000074505806,
             230.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-4": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -37.5,
+            0.05000000074505806,
+            -230.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-5": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Pos": [
+            -150.0,
+            0.05000000074505806,
+            0.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-6": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            265.0,
+            0.05000000074505806,
+            115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-7": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            265.0,
+            0.05000000074505806,
+            -115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-8": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            -265.0,
+            0.05000000074505806,
+            115.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": false,
+        "float :CapsuleRadius": 0.0,
+        "float :ColliderHeight": 0.0,
+        "float :Radius": 0.0,
+        "int32_t :Priority": 2,
+        "string :DestructEffectName": "",
+        "string :DestructSoundName": "",
+        "string :ModelPath": "Road/Road.gltf",
+        "string :Name": "Road"
+    },
+    "Group :Road-9": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.7071067690849304,
+            0.0,
+            0.7071067690849304
+        ],
+        "Vector3 :Pos": [
+            -265.0,
+            0.05000000074505806,
+            -115.0
         ],
         "Vector3 :Scale": [
             1.0,
@@ -1780,5 +1699,3245 @@
         "string :DestructSoundName": "",
         "string :ModelPath": "Road/Road_75m.gltf",
         "string :Name": "Road_75"
+    },
+    "Group :Barricades-0": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            -300.0
+        ]
+    },
+    "Group :Barricades-1": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            -270.0
+        ]
+    },
+    "Group :Barricades-2": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            -240.0
+        ]
+    },
+    "Group :Barricades-3": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            -210.0
+        ]
+    },
+    "Group :Barricades-4": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            -180.0
+        ]
+    },
+    "Group :Barricades-5": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            -150.0
+        ]
+    },
+    "Group :Barricades-6": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            -120.0
+        ]
+    },
+    "Group :Barricades-7": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            -90.0
+        ]
+    },
+    "Group :Barricades-8": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            -60.0
+        ]
+    },
+    "Group :Barricades-9": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            -30.0
+        ]
+    },
+    "Group :Barricades-10": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            0.0
+        ]
+    },
+    "Group :Barricades-11": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            30.0
+        ]
+    },
+    "Group :Barricades-12": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            60.0
+        ]
+    },
+    "Group :Barricades-13": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            90.0
+        ]
+    },
+    "Group :Barricades-14": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            120.0
+        ]
+    },
+    "Group :Barricades-15": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            150.0
+        ]
+    },
+    "Group :Barricades-16": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            180.0
+        ]
+    },
+    "Group :Barricades-17": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            210.0
+        ]
+    },
+    "Group :Barricades-18": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            240.0
+        ]
+    },
+    "Group :Barricades-19": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            270.0
+        ]
+    },
+    "Group :Barricades-20": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -300.0,
+            0.0,
+            300.0
+        ]
+    },
+    "Group :Barricades-21": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            -300.0
+        ]
+    },
+    "Group :Barricades-22": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            -270.0
+        ]
+    },
+    "Group :Barricades-23": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            -210.0
+        ]
+    },
+    "Group :Barricades-24": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            -180.0
+        ]
+    },
+    "Group :Barricades-25": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            -150.0
+        ]
+    },
+    "Group :Barricades-26": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            -90.0
+        ]
+    },
+    "Group :Barricades-27": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            -60.0
+        ]
+    },
+    "Group :Barricades-28": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            -30.0
+        ]
+    },
+    "Group :Barricades-29": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            0.0
+        ]
+    },
+    "Group :Barricades-30": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            30.0
+        ]
+    },
+    "Group :Barricades-31": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            60.0
+        ]
+    },
+    "Group :Barricades-32": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            90.0
+        ]
+    },
+    "Group :Barricades-33": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            150.0
+        ]
+    },
+    "Group :Barricades-34": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            180.0
+        ]
+    },
+    "Group :Barricades-35": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            210.0
+        ]
+    },
+    "Group :Barricades-36": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            270.0
+        ]
+    },
+    "Group :Barricades-37": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -270.0,
+            0.0,
+            300.0
+        ]
+    },
+    "Group :Barricades-38": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            -300.0
+        ]
+    },
+    "Group :Barricades-39": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            -210.0
+        ]
+    },
+    "Group :Barricades-40": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            -180.0
+        ]
+    },
+    "Group :Barricades-41": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            -150.0
+        ]
+    },
+    "Group :Barricades-42": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            -120.0
+        ]
+    },
+    "Group :Barricades-43": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            -90.0
+        ]
+    },
+    "Group :Barricades-44": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            -60.0
+        ]
+    },
+    "Group :Barricades-45": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            -30.0
+        ]
+    },
+    "Group :Barricades-46": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            0.0
+        ]
+    },
+    "Group :Barricades-47": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            30.0
+        ]
+    },
+    "Group :Barricades-48": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            60.0
+        ]
+    },
+    "Group :Barricades-49": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            90.0
+        ]
+    },
+    "Group :Barricades-50": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            120.0
+        ]
+    },
+    "Group :Barricades-51": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            150.0
+        ]
+    },
+    "Group :Barricades-52": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            180.0
+        ]
+    },
+    "Group :Barricades-53": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            210.0
+        ]
+    },
+    "Group :Barricades-54": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -240.0,
+            0.0,
+            300.0
+        ]
+    },
+    "Group :Barricades-55": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            -300.0
+        ]
+    },
+    "Group :Barricades-56": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            -270.0
+        ]
+    },
+    "Group :Barricades-57": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            -240.0
+        ]
+    },
+    "Group :Barricades-58": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            -210.0
+        ]
+    },
+    "Group :Barricades-59": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            -180.0
+        ]
+    },
+    "Group :Barricades-60": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            -150.0
+        ]
+    },
+    "Group :Barricades-61": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            -120.0
+        ]
+    },
+    "Group :Barricades-62": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            -90.0
+        ]
+    },
+    "Group :Barricades-63": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            -60.0
+        ]
+    },
+    "Group :Barricades-64": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            -30.0
+        ]
+    },
+    "Group :Barricades-65": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            30.0
+        ]
+    },
+    "Group :Barricades-66": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            60.0
+        ]
+    },
+    "Group :Barricades-67": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            90.0
+        ]
+    },
+    "Group :Barricades-68": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            120.0
+        ]
+    },
+    "Group :Barricades-69": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            150.0
+        ]
+    },
+    "Group :Barricades-70": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            180.0
+        ]
+    },
+    "Group :Barricades-71": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            210.0
+        ]
+    },
+    "Group :Barricades-72": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            240.0
+        ]
+    },
+    "Group :Barricades-73": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            270.0
+        ]
+    },
+    "Group :Barricades-74": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -210.0,
+            0.0,
+            300.0
+        ]
+    },
+    "Group :Barricades-75": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            -300.0
+        ]
+    },
+    "Group :Barricades-76": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            -270.0
+        ]
+    },
+    "Group :Barricades-77": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            -240.0
+        ]
+    },
+    "Group :Barricades-78": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            -210.0
+        ]
+    },
+    "Group :Barricades-79": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            -180.0
+        ]
+    },
+    "Group :Barricades-80": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            -150.0
+        ]
+    },
+    "Group :Barricades-81": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            -120.0
+        ]
+    },
+    "Group :Barricades-82": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            -90.0
+        ]
+    },
+    "Group :Barricades-83": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            -60.0
+        ]
+    },
+    "Group :Barricades-84": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            -30.0
+        ]
+    },
+    "Group :Barricades-85": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            30.0
+        ]
+    },
+    "Group :Barricades-86": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            60.0
+        ]
+    },
+    "Group :Barricades-87": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            90.0
+        ]
+    },
+    "Group :Barricades-88": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            120.0
+        ]
+    },
+    "Group :Barricades-89": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            150.0
+        ]
+    },
+    "Group :Barricades-90": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            180.0
+        ]
+    },
+    "Group :Barricades-91": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            210.0
+        ]
+    },
+    "Group :Barricades-92": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            240.0
+        ]
+    },
+    "Group :Barricades-93": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            270.0
+        ]
+    },
+    "Group :Barricades-94": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -180.0,
+            0.0,
+            300.0
+        ]
+    },
+    "Group :Barricades-95": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            -300.0
+        ]
+    },
+    "Group :Barricades-96": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            -270.0
+        ]
+    },
+    "Group :Barricades-97": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            -180.0
+        ]
+    },
+    "Group :Barricades-98": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            -150.0
+        ]
+    },
+    "Group :Barricades-99": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            -90.0
+        ]
+    },
+    "Group :Barricades-100": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            -60.0
+        ]
+    },
+    "Group :Barricades-101": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            -30.0
+        ]
+    },
+    "Group :Barricades-102": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            30.0
+        ]
+    },
+    "Group :Barricades-103": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            60.0
+        ]
+    },
+    "Group :Barricades-104": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            90.0
+        ]
+    },
+    "Group :Barricades-105": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            150.0
+        ]
+    },
+    "Group :Barricades-106": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            180.0
+        ]
+    },
+    "Group :Barricades-107": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            270.0
+        ]
+    },
+    "Group :Barricades-108": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -150.0,
+            0.0,
+            300.0
+        ]
+    },
+    "Group :Barricades-109": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -120.0,
+            0.0,
+            -300.0
+        ]
+    },
+    "Group :Barricades-110": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -120.0,
+            0.0,
+            -270.0
+        ]
+    },
+    "Group :Barricades-111": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -120.0,
+            0.0,
+            -240.0
+        ]
+    },
+    "Group :Barricades-112": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -120.0,
+            0.0,
+            -210.0
+        ]
+    },
+    "Group :Barricades-113": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -120.0,
+            0.0,
+            -180.0
+        ]
+    },
+    "Group :Barricades-114": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -120.0,
+            0.0,
+            -150.0
+        ]
+    },
+    "Group :Barricades-115": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -120.0,
+            0.0,
+            -120.0
+        ]
+    },
+    "Group :Barricades-116": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -120.0,
+            0.0,
+            -90.0
+        ]
+    },
+    "Group :Barricades-117": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -120.0,
+            0.0,
+            -60.0
+        ]
+    },
+    "Group :Barricades-118": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -120.0,
+            0.0,
+            -30.0
+        ]
+    },
+    "Group :Barricades-119": {
+        "Quaternion :Rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Vector3 :Scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "bool :CanDestruct": true,
+        "float :CapsuleRadius": 3.2100000381469727,
+        "float :ColliderHeight": 2.259999990463257,
+        "float :Radius": 2.0,
+        "int32_t :Priority": -1,
+        "string :DestructEffectName": "CollapseSmoke",
+        "string :DestructSoundName": "DestructBarricade.mp3",
+        "string :ModelPath": "Props/Barricades.gltf",
+        "string :Name": "Barricades",
+        "Vector3 :Pos": [
+            -120.0,
+            0.0,
+            0.0
+        ]
     }
 }
