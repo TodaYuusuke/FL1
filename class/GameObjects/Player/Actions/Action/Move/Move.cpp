@@ -58,7 +58,7 @@ void Move::Update() {
 	turnTime_.Update();
 
 	// 速度ベクトルから体の傾き算出
-	BodyInclination();
+	//BodyInclination();
 
 	// 角速度算出
 	//rot_ *= effectRot_ * preEffectRot_.Inverse();

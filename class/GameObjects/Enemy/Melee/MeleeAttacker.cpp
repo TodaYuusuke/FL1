@@ -62,7 +62,7 @@ MeleeAttacker::MeleeAttacker(IWorld* world, int ID, const EnemyData& data) {
 		};
 
 	// アニメーションマネージャー作成
-	animManager_ = std::make_unique<RobotAnimManager>("resources/model/Player/Player.gltf", &model_, GetVelocity(), &model_.worldTF.rotation);
+	animManager_ = std::make_unique<RobotAnimManager>("resources/model/Enemy/Robot/Enemy.gltf", &model_, GetVelocity(), &model_.worldTF.rotation);
 	animManager_->Init();
 
 	// 各アニメーション再生
