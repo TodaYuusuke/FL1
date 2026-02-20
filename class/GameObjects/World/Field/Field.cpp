@@ -116,6 +116,7 @@ void Field::EndFrame()
 	props_.remove_if([&](Prop* p) {
 		// 粒子の終了フラグがTrueのとき
 		if (p->GetIsDelete()) {
+			p->SetIsAlive(false);
 			// 選択中配置物を一応nullptrにしておく
 			selectingProp_ = nullptr;
 
