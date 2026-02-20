@@ -19,7 +19,8 @@ Tutorial::Tutorial(Player* player, EnemyManager* enemyManager) {
 
 	finishSprites_["shadow"].LoadTexture("UI/Tutorial/finish_tutorial.png");
 	finishSprites_["shadow"].anchorPoint = { 0.0f, 1.0f };
-	finishSprites_["shadow"].worldTF.translation = { 100.0f,200.0f,0.0f };
+	finishSprites_["shadow"].worldTF.translation = { 75.0f,175.0f,0.0f };
+	finishSprites_["shadow"].worldTF.scale = { 0.5f, 0.5f, 1.0f };
 	finishSprites_["shadow"].material.color.R = 0;
 	finishSprites_["shadow"].material.color.G = 0;
 	finishSprites_["shadow"].material.color.B = 255;
@@ -29,8 +30,9 @@ Tutorial::Tutorial(Player* player, EnemyManager* enemyManager) {
 
 	finishSprites_["body"].LoadTexture("UI/Tutorial/finish_tutorial.png");
 	finishSprites_["body"].anchorPoint = { 0.0f, 1.0f };
-	finishSprites_["body"].worldTF.translation = { 100.0f,200.0f,0.0f };
-	finishSprites_["body"].material.color.A = 100;
+	finishSprites_["body"].worldTF.translation = { 75.0f,175.0f,0.0f };
+	finishSprites_["body"].worldTF.scale = { 0.5f, 0.5f, 1.0f };
+	finishSprites_["body"].material.color.A = 150;
 	finishSprites_["body"].clipRect.max = finishSprites_["body"].material.texture.t.GetSize();
 
 	// 所持している武器をすべて破棄
