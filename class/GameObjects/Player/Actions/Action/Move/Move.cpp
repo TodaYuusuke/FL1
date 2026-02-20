@@ -58,7 +58,7 @@ void Move::Update() {
 	turnTime_.Update();
 
 	// 速度ベクトルから体の傾き算出
-	//BodyInclination();
+	BodyInclination();
 
 	// 補正前移動ベクトルを取得
 	rawVel_ = vel_;

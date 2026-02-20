@@ -42,6 +42,11 @@ void Actor::Update() {
 
 	model_.worldTF.translation += (velocity_ + weaponVel_) * data_.speedMultiply;
 
+	// 移動パーティクル生成時
+	if (velocity_.Length() >= 0.1f && moveParticle_ != nullptr) {
+		moveParticle_->Emit();
+	}
+
 	// アニメーションマネージャーの更新
 	AnimManagerUpdate();
 
