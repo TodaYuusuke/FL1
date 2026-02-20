@@ -58,10 +58,7 @@ void Move::Update() {
 	turnTime_.Update();
 
 	// 速度ベクトルから体の傾き算出
-	BodyInclination();
-
-	// 角速度算出
-	//rot_ *= effectRot_ * preEffectRot_.Inverse();
+	//BodyInclination();
 
 	// 補正前移動ベクトルを取得
 	rawVel_ = vel_;
@@ -142,6 +139,8 @@ void Move::BoostUpdate() {
 	}
 	// 押している間
 	else if (VirtualController::GetInstance()->GetPress(BindActionType::kBoost)) {
+		if(!easeTimer_.GetIsActive()) { easeTimer_.Start(maxBoostTime); }
+
 		boostSpeed_ = LWP::Utility::Interp::LerpF(start_, end_, LWP::Utility::Easing::OutBack(easeTimer_.GetProgress()));
 	}
 	// 離した瞬間
