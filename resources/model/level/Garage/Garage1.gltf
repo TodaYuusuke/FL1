@@ -8,7 +8,7 @@
 		{
 			"name":"Scene",
 			"nodes":[
-				3
+				4
 			]
 		}
 	],
@@ -18,27 +18,33 @@
 		},
 		{
 			"mesh":0,
-			"name":"BuildingBase",
+			"name":"Base",
 			"skin":0
 		},
 		{
 			"mesh":1,
-			"name":"BuildingTop",
+			"name":"Pillar",
+			"skin":0
+		},
+		{
+			"mesh":2,
+			"name":"Shatter",
 			"skin":0
 		},
 		{
 			"children":[
 				1,
 				2,
+				3,
 				0
 			],
-			"name":"Armature"
+			"name":"Garage1"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"BuildingMaterial",
+			"name":"GarageMaterial",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -50,7 +56,7 @@
 	],
 	"meshes":[
 		{
-			"name":"Cube.002",
+			"name":"Cube.001",
 			"primitives":[
 				{
 					"attributes":{
@@ -66,7 +72,7 @@
 			]
 		},
 		{
-			"name":"Cube.003",
+			"name":"Cube.002",
 			"primitives":[
 				{
 					"attributes":{
@@ -77,6 +83,22 @@
 						"WEIGHTS_0":11
 					},
 					"indices":12,
+					"material":0
+				}
+			]
+		},
+		{
+			"name":"Cube.003",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":13,
+						"NORMAL":14,
+						"TEXCOORD_0":15,
+						"JOINTS_0":16,
+						"WEIGHTS_0":17
+					},
+					"indices":18,
 					"material":0
 				}
 			]
@@ -91,8 +113,8 @@
 	"images":[
 		{
 			"mimeType":"image/png",
-			"name":"BuildingTex",
-			"uri":"BuildingTex.png"
+			"name":"GarageTex",
+			"uri":"GarageTex.png"
 		}
 	],
 	"skins":[
@@ -101,54 +123,54 @@
 			"joints":[
 				0
 			],
-			"name":"Armature"
+			"name":"Garage1"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":10911,
+			"count":282,
 			"max":[
-				14.999999046325684,
-				150.00003051757812,
-				15
+				16.313247680664062,
+				15.870712280273438,
+				20.641422271728516
 			],
 			"min":[
-				-14.999999046325684,
-				-4.470348358154297e-07,
-				-15
+				-16.313247680664062,
+				0,
+				-20.641422271728516
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":10911,
+			"count":282,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":10911,
+			"count":282,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5121,
-			"count":10911,
+			"count":282,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":4,
 			"componentType":5126,
-			"count":10911,
+			"count":282,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":5,
 			"componentType":5123,
-			"count":18189,
+			"count":612,
 			"type":"SCALAR"
 		},
 		{
@@ -160,126 +182,208 @@
 		{
 			"bufferView":7,
 			"componentType":5126,
-			"count":368,
+			"count":312,
 			"max":[
-				14.999999046325684,
-				154.50003051757812,
-				15
+				16.296777725219727,
+				9.75,
+				20.3267765045166
 			],
 			"min":[
-				-14.999999046325684,
-				150.00003051757812,
-				-15
+				-16.296777725219727,
+				0,
+				-20.3267765045166
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":8,
 			"componentType":5126,
-			"count":368,
+			"count":312,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":9,
 			"componentType":5126,
-			"count":368,
+			"count":312,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":10,
 			"componentType":5121,
-			"count":368,
+			"count":312,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":11,
 			"componentType":5126,
-			"count":368,
+			"count":312,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":12,
 			"componentType":5123,
-			"count":666,
+			"count":648,
+			"type":"SCALAR"
+		},
+		{
+			"bufferView":13,
+			"componentType":5126,
+			"count":1374,
+			"max":[
+				13.199999809265137,
+				9,
+				20.25
+			],
+			"min":[
+				-13.199999809265137,
+				0,
+				19.75
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":14,
+			"componentType":5126,
+			"count":1374,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":15,
+			"componentType":5126,
+			"count":1374,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":16,
+			"componentType":5121,
+			"count":1374,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":17,
+			"componentType":5126,
+			"count":1374,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":18,
+			"componentType":5123,
+			"count":4440,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":130932,
+			"byteLength":3384,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":130932,
-			"byteOffset":130932,
+			"byteLength":3384,
+			"byteOffset":3384,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":87288,
-			"byteOffset":261864,
+			"byteLength":2256,
+			"byteOffset":6768,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":43644,
-			"byteOffset":349152,
+			"byteLength":1128,
+			"byteOffset":9024,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":174576,
-			"byteOffset":392796,
+			"byteLength":4512,
+			"byteOffset":10152,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":36378,
-			"byteOffset":567372,
+			"byteLength":1224,
+			"byteOffset":14664,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":64,
-			"byteOffset":603752
+			"byteOffset":15888
 		},
 		{
 			"buffer":0,
-			"byteLength":4416,
-			"byteOffset":603816,
+			"byteLength":3744,
+			"byteOffset":15952,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":4416,
-			"byteOffset":608232,
+			"byteLength":3744,
+			"byteOffset":19696,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":2944,
-			"byteOffset":612648,
+			"byteLength":2496,
+			"byteOffset":23440,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1472,
-			"byteOffset":615592,
+			"byteLength":1248,
+			"byteOffset":25936,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":5888,
-			"byteOffset":617064,
+			"byteLength":4992,
+			"byteOffset":27184,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1332,
-			"byteOffset":622952,
+			"byteLength":1296,
+			"byteOffset":32176,
+			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":16488,
+			"byteOffset":33472,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":16488,
+			"byteOffset":49960,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":10992,
+			"byteOffset":66448,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":5496,
+			"byteOffset":77440,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":21984,
+			"byteOffset":82936,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":8880,
+			"byteOffset":104920,
 			"target":34963
 		}
 	],
@@ -291,8 +395,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":624284,
-			"uri":"Building1.bin"
+			"byteLength":113800,
+			"uri":"Garage1.bin"
 		}
 	]
 }

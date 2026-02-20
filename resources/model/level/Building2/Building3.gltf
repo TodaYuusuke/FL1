@@ -8,7 +8,7 @@
 		{
 			"name":"Scene",
 			"nodes":[
-				3
+				2
 			]
 		}
 	],
@@ -17,39 +17,26 @@
 			"name":"Bone"
 		},
 		{
-			"name":"neutral_bone",
-			"rotation":[
-				-0.7071067690849304,
-				0,
-				0,
-				0.7071067690849304
-			]
-		},
-		{
 			"mesh":0,
-			"name":"Building",
+			"name":"Building3",
 			"skin":0
 		},
 		{
 			"children":[
-				2,
-				0,
-				1
+				1,
+				0
 			],
-			"name":"Armature"
+			"name":"Building3_Armature"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"Material",
+			"name":"BuildingMaterial",
 			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					1
-				],
+				"baseColorTexture":{
+					"index":0
+				},
 				"metallicFactor":0,
 				"roughnessFactor":0.5
 			}
@@ -57,7 +44,7 @@
 	],
 	"meshes":[
 		{
-			"name":"\u7acb\u65b9\u4f53.006",
+			"name":"Cube",
 			"primitives":[
 				{
 					"attributes":{
@@ -73,117 +60,135 @@
 			]
 		}
 	],
+	"textures":[
+		{
+			"sampler":0,
+			"source":0
+		}
+	],
+	"images":[
+		{
+			"mimeType":"image/png",
+			"name":"BuildingTex",
+			"uri":"BuildingTex.png"
+		}
+	],
 	"skins":[
 		{
 			"inverseBindMatrices":6,
 			"joints":[
-				0,
-				1
+				0
 			],
-			"name":"Armature"
+			"name":"Building3_Armature"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":7299,
+			"count":775,
 			"max":[
-				1.878896951675415,
-				10.700002670288086,
-				2.0883889198303223
+				61.25,
+				20,
+				10.75
 			],
 			"min":[
-				-1.13190758228302,
-				0,
-				-2.0883889198303223
+				-61.25,
+				-5.960464477539063e-08,
+				-10.75
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":7299,
+			"count":775,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":7299,
+			"count":775,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5121,
-			"count":7299,
+			"count":775,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":4,
 			"componentType":5126,
-			"count":7299,
+			"count":775,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":5,
 			"componentType":5123,
-			"count":13296,
+			"count":1572,
 			"type":"SCALAR"
 		},
 		{
 			"bufferView":6,
 			"componentType":5126,
-			"count":2,
+			"count":1,
 			"type":"MAT4"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":87588,
+			"byteLength":9300,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":87588,
-			"byteOffset":87588,
+			"byteLength":9300,
+			"byteOffset":9300,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":58392,
-			"byteOffset":175176,
+			"byteLength":6200,
+			"byteOffset":18600,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":29196,
-			"byteOffset":233568,
+			"byteLength":3100,
+			"byteOffset":24800,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":116784,
-			"byteOffset":262764,
+			"byteLength":12400,
+			"byteOffset":27900,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":26592,
-			"byteOffset":379548,
+			"byteLength":3144,
+			"byteOffset":40300,
 			"target":34963
 		},
 		{
 			"buffer":0,
-			"byteLength":128,
-			"byteOffset":406140
+			"byteLength":64,
+			"byteOffset":43444
+		}
+	],
+	"samplers":[
+		{
+			"magFilter":9729,
+			"minFilter":9987
 		}
 	],
 	"buffers":[
 		{
-			"byteLength":406268,
-			"uri":"Building2.bin"
+			"byteLength":43508,
+			"uri":"Building3.bin"
 		}
 	]
 }

@@ -66,6 +66,12 @@ public: // アニメーション用関数群
 	/// <param name="data">取得した武器のデータ</param>
 	virtual void PlayPickUpAnim(const int weaponSide = 0, const WeaponData& data = {}) { weaponSide; data; }
 
+	/// <summary>
+	/// 押し出し時呼び出される処理
+	/// </summary>
+	/// <param name="targetName">衝突対象名称</param>
+	virtual void ResolvedCollision(const std::string& targetName) { targetName; };
+
 protected:
 	/// <summary>
 	/// 衝突応答

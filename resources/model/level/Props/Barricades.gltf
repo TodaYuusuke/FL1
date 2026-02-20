@@ -14,17 +14,11 @@
 	],
 	"nodes":[
 		{
-			"name":"Bone",
-			"rotation":[
-				-8.557136332854043e-09,
-				1.7114272665708086e-08,
-				-2.928983286277023e-16,
-				1
-			]
+			"name":"Bone"
 		},
 		{
 			"mesh":0,
-			"name":"M_StraightRoad",
+			"name":"Barricades",
 			"skin":0
 		},
 		{
@@ -32,13 +26,13 @@
 				1,
 				0
 			],
-			"name":"StraightRoad"
+			"name":"Barricade"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"RoadMaterial.001",
+			"name":"BarricadeMaterial",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -50,7 +44,7 @@
 	],
 	"meshes":[
 		{
-			"name":"Plane.001",
+			"name":"Cube",
 			"primitives":[
 				{
 					"attributes":{
@@ -75,8 +69,8 @@
 	"images":[
 		{
 			"mimeType":"image/png",
-			"name":"RoadTex",
-			"uri":"RoadTex.png"
+			"name":"PropTex",
+			"uri":"PropTex.png"
 		}
 	],
 	"skins":[
@@ -85,54 +79,54 @@
 			"joints":[
 				0
 			],
-			"name":"StraightRoad"
+			"name":"Barricade"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":80,
+			"count":792,
 			"max":[
-				8,
-				0,
-				100
+				3.093902349472046,
+				3,
+				0.4000000059604645
 			],
 			"min":[
-				-8,
+				-3.0085365772247314,
 				0,
-				-100
+				-0.4000000059604645
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":80,
+			"count":792,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":80,
+			"count":792,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5121,
-			"count":80,
+			"count":792,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":4,
 			"componentType":5126,
-			"count":80,
+			"count":792,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":5,
 			"componentType":5123,
-			"count":360,
+			"count":1224,
 			"type":"SCALAR"
 		},
 		{
@@ -145,44 +139,44 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":960,
+			"byteLength":9504,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":960,
-			"byteOffset":960,
+			"byteLength":9504,
+			"byteOffset":9504,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":640,
-			"byteOffset":1920,
+			"byteLength":6336,
+			"byteOffset":19008,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":320,
-			"byteOffset":2560,
+			"byteLength":3168,
+			"byteOffset":25344,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1280,
-			"byteOffset":2880,
+			"byteLength":12672,
+			"byteOffset":28512,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":720,
-			"byteOffset":4160,
+			"byteLength":2448,
+			"byteOffset":41184,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":64,
-			"byteOffset":4880
+			"byteOffset":43632
 		}
 	],
 	"samplers":[
@@ -193,8 +187,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":4944,
-			"uri":"Road.bin"
+			"byteLength":43696,
+			"uri":"Barricades.bin"
 		}
 	]
 }

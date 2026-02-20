@@ -26,12 +26,17 @@ Prop::Prop(const std::string& name, const std::string& filePath, const float rad
 		model_.LoadShortPath("level/TempCube/TempCube.gltf");
 	}
 
+	// モデルに発光マテリアルがあればその部分のライティングをオフにする
+	if (model_.materials.contains("EmissionMaterial")) {
+		model_.materials["EmissionMaterial"].enableLighting = false;
+	}
+
 	// 各種値の受け取り
 	priority_ = priority;
 	radius_ = radius;
 
 	// HP
-	hp_ = std::make_unique<Health>(99999999999);
+	hp_ = std::make_unique<Health>(1);
 
 	// 判定生成
 	Vector3 dirVec = Vector3(0.0f, 1.0f, 0.0f) * Matrix4x4::CreateRotateXYZMatrix(model_.worldTF.rotation);
@@ -81,9 +86,10 @@ Prop::Prop(const LWP::Prop::PropSaveData& data)
 	radius_			= data_.Radius;
 	capsuleRadius_	= data_.CapsuleRadius;
 	capsuleHeight_	= data_.CapsuleHeight;
+	canDestruct_	= data_.CanDestruct;
 
 	// HP
-	hp_ = std::make_unique<Health>(99999999999);
+	hp_ = std::make_unique<Health>(1);
 
 	// 判定生成
 	Vector3 dirVec = Vector3(0.0f, 1.0f, 0.0f) * Matrix4x4::CreateRotateXYZMatrix(model_.worldTF.rotation);
@@ -98,6 +104,12 @@ Prop::Prop(const LWP::Prop::PropSaveData& data)
 	else {
 		bodyCollision_.isActive = true;
 	}
+
+	// モデルに発光マテリアルがあればその部分のライティングをオフにする
+	if (model_.materials.contains("EmissionMaterial")) {
+		model_.materials["EmissionMaterial"].enableLighting = false;
+	}
+
 	// 自機の所属しているマスクを設定
 	bodyCollision_.mask.SetBelongFrag(GameMask::prop);
 	// 当たり判定をとる対象のマスクを設定
@@ -120,6 +132,12 @@ Prop::Prop(const LWP::Prop::PropSaveData& data)
 	colliderSphere_.worldTF.scale = { radius_, radius_, radius_ };
 
 #endif // _DEBUG
+}
+
+void Prop::Update()
+{
+	// 体力がなければ死亡
+	if (hp_->GetIsDead()) { isAlive_ = false; }
 }
 
 void Prop::DrawGui()
@@ -146,7 +164,7 @@ void Prop::DrawGui()
 	ImGui::NewLine();
 	// 優先度設定
 	ImGui::InputInt("Priority", &priority_);
-	if (priority_ < 0) { priority_ = 0; }
+	if (priority_ < -5) { priority_ = -5; }
 
 	// 半径設定
 	ImGui::DragFloat("ColliderRadius", &radius_, 0.01f);
@@ -165,9 +183,17 @@ void Prop::DrawGui()
 	bodyCapsule_.localOffset = dirVec.Normalize() * capsuleHeight_;
 	bodyCapsule_.radius = capsuleRadius_;
 
+	// 破壊可能調整
+	ImGui::Checkbox("CanDestruct", &canDestruct_);
+	if (canDestruct_) {
+		// 名称設定
+		ImGuiManager::InputText("DestructEffect Name", data_.DestructEffectName);
+		ImGuiManager::InputText("DestructSound Name", data_.DestructSoundName);
+	}
+
 	// ボタンを押したら削除
 	ImGui::NewLine();
-	if (ImGui::Button("Delete This")) { isAlive_ = false; }
+	if (ImGui::Button("Delete This")) { isDelete_ = true; }
 }
 
 void Prop::ImGuiRadioButton(int& id, int& buttonID, Prop*& targetProp)
@@ -199,6 +225,43 @@ void Prop::ImGuiRadioButton(int& id, int& buttonID, Prop*& targetProp)
 	buttonID++;
 }
 
+void Prop::ResolvedCollision(const std::string& targetName)
+{
+	// そもそも破壊可能でない場合処理自体を無視
+	if (!canDestruct_) { return; }
+
+	// 衝突時と同等の処理を呼び出す
+	hp_->SetIsHit(true);
+	// 多重被弾回避
+	std::vector<std::string> name = hp_->GetDamageAttackerName();
+	if (!name.empty()) {
+		auto result = std::find(name.begin(), name.end(), targetName);
+		if (result != name.end()) {
+			return;
+		}
+	}
+
+	// ダメージを受ける
+	hp_->Damage(100.0f, targetName);
+
+	// 破壊音を鳴らす
+	if (data_.DestructSoundName != "") {
+		AudioPlayer::GetInstance()->PlayAudio(data_.DestructSoundName, 1.0f, LWP::AudioConfig::Enviroment, model_.worldTF.GetWorldPosition());
+	}
+	// 破壊エフェクトを出す
+	if (data_.DestructEffectName != "") {
+		EffectManager::GetInstance()->CreateNewEmitter(data_.DestructEffectName, model_.worldTF.GetWorldPosition());
+	}
+
+	// 名前を' . 'で分割する
+	std::vector<std::string> splitName = LWP::Utility::Split(data_.ModelPath, '.');
+	// 最終的なパスを求める
+	std::string path = splitName[0] + "_Destruct" + "." + splitName[1];
+
+	// 破壊モデルへの切り替え
+	model_.LoadShortPath("level/" + path);
+}
+
 LWP::Prop::PropSaveData* Prop::GetData()
 {
 	// 各種情報の入力
@@ -210,6 +273,7 @@ LWP::Prop::PropSaveData* Prop::GetData()
 	data_.Radius			= radius_;
 	data_.CapsuleRadius		= capsuleRadius_;
 	data_.CapsuleHeight		= capsuleHeight_;
+	data_.CanDestruct		= canDestruct_;
 
 	// 返還
 	return &data_;
@@ -228,13 +292,37 @@ void Prop::OnCollision(LWP::Object::Collision* hitTarget)
 		}
 	}
 
-	// ダメージを受ける
-	hp_->Damage(0.0f, hitTarget->name);
+	// 破壊可能であれば
+	if (canDestruct_) {
+		// ダメージを受ける
+		hp_->Damage(100.0f, hitTarget->name);
 
-	// 被弾音を鳴らす
-	AudioPlayer::GetInstance()->PlayRandomAudio("PropHitSound.mp3", 3, 1.0f, LWP::AudioConfig::Enviroment, hitTarget->GetWorldPosition());
-	// 被弾エフェクト
-	EffectManager::GetInstance()->CreateNewEmitter("Spark", hitTarget->GetWorldPosition());
-	EffectManager::GetInstance()->CreateNewEmitter("RockParticle", hitTarget->GetWorldPosition());
+		// 破壊音を鳴らす
+		if (data_.DestructSoundName != "") {
+			AudioPlayer::GetInstance()->PlayAudio(data_.DestructSoundName, 1.0f, LWP::AudioConfig::Enviroment, hitTarget->GetWorldPosition());
+		}
+		// 破壊エフェクトを出す
+		if (data_.DestructEffectName != "") {
+			EffectManager::GetInstance()->CreateNewEmitter(data_.DestructEffectName, hitTarget->GetWorldPosition());
+		}
+
+		// 名前を' . 'で分割する
+		std::vector<std::string> splitName = LWP::Utility::Split(data_.ModelPath, '.');
+		// 最終的なパスを求める
+		std::string path = splitName[0] + "_Destruct" + "." + splitName[1];
+
+		// 破壊モデルへの切り替え
+		model_.LoadShortPath("level/" + path);
+	}
+	else {
+		// ダメージを受ける
+		hp_->Damage(0.0f, hitTarget->name);
+
+		// 被弾音を鳴らす
+		AudioPlayer::GetInstance()->PlayRandomAudio("PropHitSound.mp3", 3, 1.0f, LWP::AudioConfig::Enviroment, hitTarget->GetWorldPosition());
+		// 被弾エフェクト
+		EffectManager::GetInstance()->CreateNewEmitter("Spark", hitTarget->GetWorldPosition());
+		EffectManager::GetInstance()->CreateNewEmitter("RockParticle", hitTarget->GetWorldPosition());
+	}
 }
 
