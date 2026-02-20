@@ -81,9 +81,6 @@ Gunner::Gunner(IWorld* world, int ID, const EnemyData& data) {
 }
 
 Gunner::~Gunner() {
-	// 移動パーティクル強制終了
-	moveParticle_->Finish();
-
 	delete blackBoard_;
 	delete bt_;
 }

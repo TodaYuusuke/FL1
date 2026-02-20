@@ -79,9 +79,6 @@ MeleeAttacker::MeleeAttacker(IWorld* world, int ID, const EnemyData& data) {
 }
 
 MeleeAttacker::~MeleeAttacker() {
-	// 移動パーティクル強制終了
-	moveParticle_->Finish();
-
 	delete blackBoard_;
 	delete bt_;
 }

@@ -281,6 +281,9 @@ LWP::Prop::PropSaveData* Prop::GetData()
 
 void Prop::OnCollision(LWP::Object::Collision* hitTarget)
 {
+	// 破壊されて入れば早期リターン
+	if (!GetIsAlive()) { return; }
+
 	//if (hitTarget->mask.GetHitFrag() != bodyCollision_.mask.GetBelongFrag()) { return; }
 	hp_->SetIsHit(true);
 	// 多重被弾回避
@@ -299,11 +302,11 @@ void Prop::OnCollision(LWP::Object::Collision* hitTarget)
 
 		// 破壊音を鳴らす
 		if (data_.DestructSoundName != "") {
-			AudioPlayer::GetInstance()->PlayAudio(data_.DestructSoundName, 1.0f, LWP::AudioConfig::Enviroment, hitTarget->GetWorldPosition());
+			AudioPlayer::GetInstance()->PlayAudio(data_.DestructSoundName, 1.0f, LWP::AudioConfig::Enviroment, model_.worldTF.GetWorldPosition());
 		}
 		// 破壊エフェクトを出す
 		if (data_.DestructEffectName != "") {
-			EffectManager::GetInstance()->CreateNewEmitter(data_.DestructEffectName, hitTarget->GetWorldPosition());
+			EffectManager::GetInstance()->CreateNewEmitter(data_.DestructEffectName, model_.worldTF.GetWorldPosition());
 		}
 
 		// 名前を' . 'で分割する

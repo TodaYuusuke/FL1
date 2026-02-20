@@ -271,6 +271,11 @@ public:// アクセサ
 	/// </summary>
 	/// <returns></returns>
 	void SetIsAlive(const bool& isAlive) { isAlive_ = isAlive; }
+
+	/// <summary>
+	/// 移動パーティクルの終了関数
+	/// </summary>
+	void FinishMoveParticle() { if (moveParticle_ != nullptr) { moveParticle_->Finish(); } }
 #pragma endregion
 
 public:

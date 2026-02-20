@@ -111,6 +111,9 @@ void EnemyManager::EndFrame() {
 			[&](Actor* actor) {
 				// エリア外にいったら削除
 				if (actor->GetIsLimitMoveArea()) {
+					// 移動パーティクルの強制終了
+					actor->FinishMoveParticle();
+
 					// 武器を落とす
 					for (int i = 0; i < actor->GetWeapon().size(); i++) {
 						WeaponManager::GetInstance()->DeleteWeapon(actor->GetWeapon(i));
@@ -125,6 +128,9 @@ void EnemyManager::EndFrame() {
 				if (!actor->GetIsAlive()) {
 					isTriggerDelete_ = true;
 					killCount_++;
+
+					// 移動パーティクルの強制終了
+					actor->FinishMoveParticle();
 
 					std::vector<WeightRate> weaponTable;
 					for (int i = 0; i < actor->GetWeapon().size(); i++) {
