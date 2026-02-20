@@ -172,8 +172,6 @@ void Player::Update() {
 	// HP
 	hp_->Update();
 
-	//model_.worldTF.rotation = model_.worldTF.rotation * effectRot_.Inverse();
-
 	// 偏差射撃
 	leadingSystem_->Update();
 
@@ -199,7 +197,7 @@ void Player::Update() {
 	// 体の向きを決める
 	AdjustRotate();
 
-	//model_.worldTF.rotation = model_.worldTF.rotation * effectRot_;
+	model_.worldTF.rotation *= effectRot_;
 
 	weaponVel_ = { 0.0f,0.0f,0.0f };
 
