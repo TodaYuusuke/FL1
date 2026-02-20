@@ -20,6 +20,13 @@ public:
 			sprites_[i].isActive = isActive;
 		}
 	}
+
+	void SetColor(const LWP::Utility::Color& color) {
+		for (int i = 0; i < kMaxNum_; i++) {
+			sprites_[i].material.color = color;
+		}
+	}
+
 	void SetCenter(const LWP::Math::Vector2& center) { center_ = center; };
 	void SetScore(int32_t num) { score_ = num; };
 	void SetAlhpa(size_t num, unsigned char value) { sprites_[num].material.color.A = value; }

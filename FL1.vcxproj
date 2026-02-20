@@ -199,6 +199,7 @@
     <ClCompile Include="class\GameObjects\UI\BackGround.cpp" />
     <ClCompile Include="class\GameObjects\UI\NumPlane.cpp" />
     <ClCompile Include="class\GameObjects\UI\Radar\Radar.cpp" />
+    <ClCompile Include="class\GameObjects\UI\ScoreUI\RankingSystem.cpp" />
     <ClCompile Include="class\GameObjects\UI\ScoreUI\ScoreManager.cpp" />
     <ClCompile Include="class\GameObjects\UI\ScoreUI\ScoreUI.cpp" />
     <ClCompile Include="class\GameObjects\UI\SingleGauge\SingleGauge.cpp" />
@@ -350,6 +351,7 @@
     <ClInclude Include="class\GameObjects\UI\BackGround.h" />
     <ClInclude Include="class\GameObjects\UI\NumPlane.h" />
     <ClInclude Include="class\GameObjects\UI\Radar\Radar.h" />
+    <ClInclude Include="class\GameObjects\UI\ScoreUI\RankingSystem.h" />
     <ClInclude Include="class\GameObjects\UI\ScoreUI\ScoreManager.h" />
     <ClInclude Include="class\GameObjects\UI\ScoreUI\ScoreUI.h" />
     <ClInclude Include="class\GameObjects\UI\SingleGauge\SingleGauge.h" />

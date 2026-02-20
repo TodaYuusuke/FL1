@@ -1,0 +1,14 @@
+{
+    "Group :Ranking": {
+        "int32_t :Num0": 18000,
+        "int32_t :Num1": 12345,
+        "int32_t :Num2": 10000,
+        "int32_t :Num3": 10000,
+        "int32_t :Num4": 10000,
+        "int32_t :Num5": 10000,
+        "int32_t :Num6": 0,
+        "int32_t :Num7": 0,
+        "int32_t :Num8": 0,
+        "int32_t :Num9": 0
+    }
+}
