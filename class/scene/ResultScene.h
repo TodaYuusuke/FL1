@@ -7,6 +7,7 @@
 
 #include "../GameObjects/UI/ScoreUI/ScoreUI.h"
 #include "../GameObjects/UI/BackGround.h"
+#include "../GameObjects/UI/ScoreUI/RankingSystem.h"
 
 #include "SceneChangeAnimation/SceneChangeAnimation.h"
 #include "../Audio/AudioPlayer.h"
@@ -29,7 +30,9 @@ public: // ** 純粋仮想関数の実体宣言 ** //
 private: //ステート関数
 	void Phase1KnockOut();
 	void Phase2Score();
-	void Phase3ToTitle();
+	void Phase3NextPage();
+	void Phase4Ranking();
+	void Phase5ToTitle();
 
 private: // ** これより先に必要な処理や変数を記述 ** //
 
@@ -68,4 +71,6 @@ private: // ** これより先に必要な処理や変数を記述 ** //
 
 	float scoreAnimationFrame_=0;
 	float scoreAnimationLength_ = 0;
+
+	std::unique_ptr<RankingSystem> rankingSystem_;
 };

@@ -58,10 +58,10 @@ void Move::Update() {
 	turnTime_.Update();
 
 	// 速度ベクトルから体の傾き算出
-	//BodyInclination();
+	BodyInclination();
 
 	// 角速度算出
-	rot_ *= effectRot_ * preEffectRot_.Inverse();
+	//rot_ *= effectRot_ * preEffectRot_.Inverse();
 
 	// 補正前移動ベクトルを取得
 	rawVel_ = vel_;
@@ -82,7 +82,6 @@ void Move::Update() {
 
 	preVel_ = { v.x, 0.0f, v.y };
 	preEffectRot_ = effectRot_;
-
 	preTurnRadian_ = turnRadian_;
 	isPreMoveTypeChange_ = isMoveTypeChange_;
 	isPreTurnBehind_ = isTurnBehind_;
@@ -325,12 +324,24 @@ void Move::BodyInclination() {
 	Vector2 lStick = AdjustmentStick(VirtualController::GetInstance()->GetLAxis());
 	Vector2 rStick = AdjustmentStick(VirtualController::GetInstance()->GetRAxis());
 	if (!CheckIsSideMove(lStick.x, rStick.x)) {
-		effectRot_ = Quaternion::CreateFromAxisAngle(Vector3{ 0,0,1 }, 0.0f);
+		effectRot_ = Interpolation::SlerpQuaternion(effectRot_, Quaternion::CreateFromAxisAngle(Vector3{ 0,0,1 }, 0.0f), 0.1f);
+		const float EPS = 1e-6f;
+		if (std::fabs(effectRot_.x) < EPS) {
+			effectRot_.x = 0.0f;
+		}
+		if (std::fabs(effectRot_.y) < EPS) {
+			effectRot_.y = 0.0f;
+		}
+		if (std::fabs(effectRot_.z) < EPS) {
+			effectRot_.z = 0.0f;
+		}
 		return;
 	}
 
 	// Z軸の回転をなくした自機の角度
-	Quaternion moveRotZLock = FLMath::LookRotationZLock(Vector3{ 0,0,1 } *moveRotMatrix_);
+	Quaternion moveRotZLock = {0,0,0,1};
+	Quaternion twist = {0,0,0,1};
+	DecomposeSwingTwist(FLMath::LookRotationZLock(Vector3{ 0,0,1 } *moveRotMatrix_), Vector3{ 1,0,0 }, moveRotZLock, twist);
 	// 自機の方向ベクトル
 	Vector3 playerDir = Vector3{ 0,0,1 } * Matrix4x4::CreateRotateXYZMatrix(moveRotZLock);
 	playerDir.y = 0.0f;
@@ -346,9 +357,9 @@ void Move::BodyInclination() {
 	sinTheta = std::clamp(sinTheta, -1.0f, 1.0f);
 
 	// 差動モデルx方向の速度
-	float velX = (vR.x + vL.x) * 0.5f;
+	float velX = (rStick.x + lStick.x) * 0.5f * 0.5f;
 	float inclination = std::abs((velX / maxSpeed) * maxInclination);
 	// ラジアン算出 [-maxInclination ~ maxInclination]
 	float radian = sinTheta * dot * (inclination);
-	effectRot_ = Quaternion::CreateFromAxisAngle(Vector3{ 0,0,1 }, radian);
+	effectRot_ = Interpolation::SlerpQuaternion(effectRot_, Quaternion::CreateFromAxisAngle(Vector3{ 0,0,1 }, radian), 0.1f) * preEffectRot_.Inverse();
 }

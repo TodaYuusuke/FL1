@@ -46,7 +46,7 @@ void MoveController::Update() {
 	// 角度
 	rot_ = actions_[ActionType::kMain]->GetRot();
 	// 演出用の角度
-	//effectRot_ = actions_[ActionType::kMain]->GetEffectRot();
+	effectRot_ = actions_[ActionType::kMain]->GetEffectRot();
 
 	// ブースト時の音
 	PlayBoostAudio();

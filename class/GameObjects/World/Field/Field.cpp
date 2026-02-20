@@ -106,7 +106,7 @@ void Field::Update()
 	// 配置物更新
 	for (Prop* a : props_) {
 		a->Update();
-		if(a->GetName() == "Prop")appendMiniMap_(a->GetWorldTF()->GetWorldPosition());
+		if(a->GetName() == "Prop" || a->GetName() == "Garage")appendMiniMap_(a->GetWorldTF()->GetWorldPosition());
 	}
 }
 

@@ -13,6 +13,12 @@ VirtualController::VirtualController() {
 }
 
 void VirtualController::Update() {
+
+	//デバイスの再接続
+	if (Keyboard::GetTrigger(DIK_R)) {
+		ControllerReceiver::GetInstance()->ReOpenPort();
+	}
+
 	for (int i = 0; i < device_.size(); i++) {
 		device_[i]->Update();
 	}

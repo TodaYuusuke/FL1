@@ -56,7 +56,7 @@ void ResultScene::Initialize() {
 	ScoreCounter::GetInstance()->ClearDrawScore();
 	
 	//仮値
-	//ｊScoreCounter::GetInstance()->AddScore(12345);
+	//ScoreCounter::GetInstance()->AddScore(12345);
 
 	knockOut_ = std::make_unique<ScoreUI>();
 	knockOut_->Initialize(3);
@@ -106,6 +106,12 @@ void ResultScene::Initialize() {
 		.AddValue<float>("AnimationLength", &scoreAnimationLength_)
 		.EndGroup()
 		.CheckJsonFile();
+
+	rankingSystem_ = std::make_unique<RankingSystem>();
+	rankingSystem_->Initialize();
+	rankingSystem_->SetNewScore(ScoreCounter::GetInstance()->GetScore());
+	rankingSystem_->SetIsVisible(false);
+	rankingSystem_->CalcRanking();
 }
 
 void ResultScene::Update() {
@@ -153,7 +159,7 @@ void ResultScene::Update() {
 		json_.DebugGUI();
 		ImGui::EndTabItem();
 	}
-
+	rankingSystem_->DebugGUI();
 	ImGui::EndTabBar();
 	ImGui::End();
 #endif // DEBUG
@@ -203,11 +209,36 @@ void ResultScene::Phase2Score() {
 	score_->SetScore(ScoreCounter::GetInstance()->GetDrawScore());
 	if (ScoreCounter::GetInstance()->GetDrawScore() == ScoreCounter::GetInstance()->GetScore()) {
 		//次のフェーズへ
-		state_ = std::bind(&ResultScene::Phase3ToTitle, this);
+		state_ = std::bind(&ResultScene::Phase3NextPage, this);
 	}
 }
 
-void ResultScene::Phase3ToTitle() {
+void ResultScene::Phase3NextPage() {
+	anyKeySprite_.isActive = true;
+	if (VirtualController::GetInstance()->TriggerAnyKey()) {
+		//次のフェーズへ
+		state_ = std::bind(&ResultScene::Phase4Ranking, this);
+	}
+}
+
+void ResultScene::Phase4Ranking() {
+	knockOut_->SetIsScoreDisplay(false);
+	killCountSprite_.isActive = false;
+	score_->SetIsScoreDisplay(false);
+	scoreSprite_.isActive = false;
+
+	anyKeySprite_.isActive = false;
+
+	rankingSystem_->SetIsVisible(true);
+	rankingSystem_->Update();
+
+	if (VirtualController::GetInstance()->TriggerAnyKey()||1) {//アニメーション終わったらに差し替える
+		//次のフェーズへ
+		state_ = std::bind(&ResultScene::Phase5ToTitle, this);
+	}
+}
+
+void ResultScene::Phase5ToTitle() {
 	anyKeySprite_.isActive = true;
 	if (VirtualController::GetInstance()->TriggerAnyKey() || isChangeScene_) {
 		ChangeTitleScene();
