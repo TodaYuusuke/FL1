@@ -73,9 +73,17 @@ Gunner::Gunner(IWorld* world, int ID, const EnemyData& data) {
 	animManager_->PlayQue("Idle", RobotAnimManager::PlayType::RightArm, 0.0f, true);
 	animManager_->PlayQue("Idle", RobotAnimManager::PlayType::LeftShoulder, 0.0f, true);
 	animManager_->PlayQue("Idle", RobotAnimManager::PlayType::RightShoulder, 0.0f, true);
+
+	// 移動パーティクル生成
+	moveParticle_ = EffectManager::GetInstance()->CreateNewEmitter("MoveSmoke", { 0.0f, 0.0f, 0.0f }, true, &model_.worldTF);
+	moveParticle_->SetIsAutoEmit(false);
+	moveParticle_->SetParentParticle(false);
 }
 
 Gunner::~Gunner() {
+	// 移動パーティクル強制終了
+	moveParticle_->Finish();
+
 	delete blackBoard_;
 	delete bt_;
 }

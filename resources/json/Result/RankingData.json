@@ -1,14 +1,14 @@
 {
     "Group :Ranking": {
-        "int32_t :Num0": 28000,
-        "int32_t :Num1": 27000,
+        "int32_t :Num0": 61000,
+        "int32_t :Num1": 28000,
         "int32_t :Num2": 27000,
-        "int32_t :Num3": 26500,
-        "int32_t :Num4": 25000,
-        "int32_t :Num5": 18000,
-        "int32_t :Num6": 12345,
-        "int32_t :Num7": 10000,
-        "int32_t :Num8": 10000,
+        "int32_t :Num3": 27000,
+        "int32_t :Num4": 26500,
+        "int32_t :Num5": 25000,
+        "int32_t :Num6": 18000,
+        "int32_t :Num7": 16000,
+        "int32_t :Num8": 12345,
         "int32_t :Num9": 10000
     }
 }

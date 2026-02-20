@@ -114,6 +114,12 @@ public: // アクセッサ等
 	/// <param name="jointName">対象ジョイント名</param>
 	void SetParent(LWP::Resource::SkinningModel* model, const std::string& jointName);
 	/// <summary>
+	/// エミッタと粒子の親子付けを行うか
+	/// </summary>
+	/// <param name="isParent">親子付けを行うか</param>
+	void SetParentParticle(const bool isParent) { isParentParticle_ = isParent; }
+	
+	/// <summary>
 	/// 自動生成状態セッター
 	/// </summary>
 	/// <param name="isAuto">自動生成状態</param>
@@ -256,6 +262,9 @@ private: // メンバ変数
 
 	// 粒子の格納配列
 	std::list<IParticle*> particles_{};
+
+	// 粒子との親子付けを行うか
+	bool isParentParticle_ = true;
 
 	// 粒子の生成時間
 	LWP::Effect::RandomData<float> pAliveTime_{};

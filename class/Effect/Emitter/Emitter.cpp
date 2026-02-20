@@ -299,9 +299,15 @@ void Emitter::EmitSurface()
 
 	// パーティクルインスタンス生成
 	PlaneParticle* newParticle = new PlaneParticle(std::move(generatePlane), surfaceType_ == StretchBillboard);
+	// 粒子との親子付けを行う場合
+	if (isParentParticle_) {
+		newParticle->SetParent(&transform_);
+	}
+	else {
+		newParticle->SetTransform(LWP::Math::Vector3(), LWP::Math::Quaternion(), transform_.GetWorldPosition());
+	}
 	// 初期化、データの受け渡し
 	newParticle->Init()
-		.SetParent(&transform_)
 		.SetAliveTime(pAliveTime_.Random())
 		.SetRotateVelocity(pVelocityRotate_.Convert())
 		.SetScaleEasing(pEasingScale_.Convert(), unificationRandomScale_)
@@ -377,9 +383,15 @@ void Emitter::EmitSequence()
 
 	// パーティクルインスタンス生成
 	SequenceParticle* newParticle = new SequenceParticle(std::move(generatePlane), index, splitSize_, animTime_, isAnimLoop_, surfaceType_ == StretchBillboard);
+	// 粒子との親子付けを行う場合
+	if (isParentParticle_) {
+		newParticle->SetParent(&transform_);
+	}
+	else {
+		newParticle->SetTransform(LWP::Math::Vector3(), LWP::Math::Quaternion(), transform_.GetWorldPosition());
+	}
 	// 初期化、データの受け渡し
 	newParticle->Init()
-		.SetParent(&transform_)
 		.SetAliveTime(pAliveTime_.Random())
 		.SetRotateVelocity(pVelocityRotate_.Convert())
 		.SetScaleEasing(pEasingScale_.Convert(), unificationRandomScale_)

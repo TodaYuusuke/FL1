@@ -109,7 +109,7 @@ PlaneParticle& PlaneParticle::SetVelocity(const LWP::Effect::VelocityData<Vector
 	// 移動用コンポーネントが何も設定されていない場合
 	if (moveComponent_ == nullptr) {
 		// 初期座標の設定
-		plane_->worldTF.translation = data.startValue;
+		plane_->worldTF.translation = plane_->worldTF.translation + data.startValue;
 
 		// 新規生成
 		moveComponent_ = new VelocityComponent(&plane_->worldTF.translation, data.velocity, data.acceleration, stretchVector_);

@@ -8,6 +8,7 @@
 #include "../../HitStopController.h"
 #include "../../../GameObjects/Enemy/EnemyConfig.h"
 #include "../../../Audio/AudioPlayer.h"
+#include "../../../Effect/EffectManager.h"
 
 class IWorld;
 class BlackBoard;
@@ -336,4 +337,7 @@ protected:
 
 	// 死亡時効果音のID
 	uint32_t deadSEID_{};
+
+	// 移動パーティクル
+	Emitter* moveParticle_ = nullptr;
 };
