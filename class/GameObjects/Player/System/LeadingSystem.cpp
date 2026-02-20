@@ -88,6 +88,8 @@ void LeadingSystem::Update() {
 		// 弾道確認を取らない
 		bulletLine_.isActive = false;
 		checkBulletLine_.isActive = false;
+		reticle_.material.color.A = 255;
+		reticle_.worldTF.scale = { 1.0f,1.0f ,1.0f };
 	}
 	else {
 		CalFutureTargetPos(bulletSpeed_);
